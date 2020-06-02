@@ -1,0 +1,82 @@
+<template>
+    <div class="col-12" v-loading="loading">
+        <lang></lang> 
+        <admin-dashboards v-if="roleId == 1"></admin-dashboards>  
+        <instructor-dashboards v-if="roleId == 2"></instructor-dashboards>  
+        <student-dashboards v-if="roleId == 3"></student-dashboards>
+    </div> 
+</template>
+
+<script>
+import Vue from 'vue'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+import VueTheMask from 'vue-the-mask'
+import ElementUI from 'element-ui'
+import Lang from '@/components/helper/HelperLang.vue'
+import 'element-ui/lib/theme-chalk/index.css'
+import lang from 'element-ui/lib/locale/lang/en'
+import locale from 'element-ui/lib/locale'
+import {eventLang} from '@/components/helper/HelperLang'
+import domains from '@/mixins/domains'
+import alerts from '@/mixins/alerts'
+import AdminDashboards from '@/components/dashboards/roles/Admin'
+import InstructorDashboards from '@/components/dashboards/roles/Instructor'
+import StudentDashboards from '@/components/dashboards/roles/Student'
+
+
+locale.use(lang)
+Vue.use(VueTheMask)
+Vue.use(VueTheMask)
+Vue.use(VueAxios, axios)
+Vue.use(ElementUI)
+
+
+export default {
+    components: {
+        Lang,
+        AdminDashboards,
+        InstructorDashboards,
+        StudentDashboards
+    },
+    mixins: [domains,alerts],
+    data: () => {
+        return {
+            lang: {},
+            loading: false,
+            roleId: '',
+        }
+    },
+    mounted(){
+        eventLang.$on('lang', function(response){  
+            this.lang = response;
+        }.bind(this));
+
+        this.getProfile();
+
+    },
+    methods: {
+        getProfile: function (){
+            var formData = new FormData();
+            formData.set("testimonialId",this.testimonialId);
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("user", "getUserProfile");
+            axios.post(urlToBeUsedInTheRequest, formData).then((response) => {
+                this.roleId = response.data["myrole_id"];
+            },
+                /* Error callback */
+                function (){
+                   this.errorMessage();
+                }.bind(this)
+            );
+        },
+    }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang="scss" scoped>
+.chart {
+  width: 100%;
+  height: 300px;
+}
+</style>

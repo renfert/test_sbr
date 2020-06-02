@@ -1,0 +1,522 @@
+{   
+    "dashboard-nav" : "Dashboard",
+    "courses-nav": "Cursos",
+    "my-courses-nav": "Mis cursos",
+    "categories-nav": "Categorías",
+    "programs-nav": "Programas",
+    "certificates-nav": "Certificados",
+    "persons-nav" : "Personas",
+    "users-nav" : "Usuarios",
+    "groups-nav": "Grupos",
+    "leads-nav": "Leads",
+    "site-nav": "Website",
+    "performace-nav": "Rendimiento",
+    "assessments-nav": "Evaluaciones",
+    "students-nav": "Alumnos",
+    "corrections-nav": "Correcciones",
+    "settings-nav": "Configuraciones",
+    "general-settings-nav": "General",
+    "integrations-nav": "Integraciones",
+    "reports-nav": "Reportes",
+    "plans-nav": "Planes",
+    "help-center-nav": "Centro de Ayuda",
+
+
+    "view-topbar-title": "Ver como",
+    "admin-view-topbar": "Administrador",
+    "instructor-view-topbar": "Instructor",
+    "student-view-topbar": "Alumno",
+    "profile-topbar": "Perfil",
+
+
+    "create-category" : "Crear nueva categoría",
+    "list-category" : "Categorías creadas",
+    "category-already-exists": "Esta categoría ya existe",
+    "category-created-success" : "Categoría creada",
+    "question-delete-category": "Categoría borrada: ",
+    "category-edited-success": "Categoría editada",
+    "category-deleted-success": "Category deleted successfully",
+    "no-results-category-title": "No has creado ninguna categoría todavía",
+    "no-results-category-subtitle" : "Esto se ve como un",
+    "no-results-category-subtitle-highlight": "Desierto",
+
+    "question-delete-course": "Borrar curso: ",
+
+    "pending": "Pendiente",
+    "done": "Hecho",
+
+    "list-corrections": "Lista de Exámenes",
+    "correction-status-information": "Esta columna indica si hay si hay preguntas sin evaluar dentro de los exámenes.",
+
+    "pending-information": "Existen preguntas pendientes para corregir en este examen.",
+    "done-information": "No hay preguntas para corregir en este examen.",
+
+    "start-retest": "Comenzar el retest",
+
+    "not-passed": "No pasaste el examen :(",
+
+    "passed": "¡Felicitaciones! aprobaste",
+
+    "exam-in-progress": "Este examen está en progreso",
+
+    "write-your-question": "Escribe tu pregunta",
+    "question-weight": "Peso de la pregunta",
+    "question-edited-success": "Pregunta editada",
+    "question-delete-question": "¿Quieres borrar esta pregunta?",
+    "question-deleted-success": "Pregunta eliminada",
+    "question-type": "Tipo de pregunta",
+    "question-image": "Imagen de la pregunta",
+    "descriptive": "Descriptiva",
+    "multiple-choice": "Opción Múltiple",
+    "free": "Pregunta libre",
+    "question-created-success": "Pregunta creada",
+
+    "create-account-to-continue": "Para continuar necesitas crear tu cuenta.",
+
+    "invalid-confirm-password": "Las contraseñas son diferentes",
+
+    "question-finish-exam": "¿Quieres terminar el examen?",
+
+    "wanna-leave" : "¿Te gustaría irte?",
+
+    "free-course": "Free",
+
+    "create-account": "Crea tu cuenta",
+
+    "add-new-link": "Adicionar link",
+
+    "you-are-logged-in-now": "Estás conectado ahora",
+
+    "how-get-access-token": "¿Cómo obtengo mi token de acceso?",
+
+    "select-your-country": "Selecciona tu pais",
+
+    "new-link": "Nuevo Link",
+
+    "take-this-course": "Regístrate!",
+
+    "buy-this-course": "Compra este curso",
+
+    "account-successfully-created" : "Cuenta creada con éxito",
+
+    "proceed-to-payment": "Proceder al pago",
+
+    "already-have-account": "¿Ya tienes una cuenta?",
+
+    "not-a-member": "¿No es un miembro?",
+
+    "register": "Registrarse",
+
+
+    "unanswered-question": "Se requiere al menos una respuesta correcta",
+
+    "total-questions": "Total de preguntas",
+    "correct-questions": "Preguntas correctas",
+    "wrong-questions": "Preguntas incorrectas",
+    "above-average-questions": "Encima del promedio",
+    "below-average-questions": "Debajo del promedio",
+    "questions-waiting-evaluation" : "Preguntas a la espera de corrección",
+    "exam-status": "Estado del examen:",
+    "in-progress": "En progreso",
+    "Finished": "Finalizado",
+    "required-for-approval": "Requiere aprobación",
+    "your-current-score": "Puntaje actual",
+
+    "score": "Puntaje",
+
+    "download-answer": "Descargar respuesta",
+    "correct-alternatives": "Alternativa correcta",
+    "checked-alternatives": "Alternativa marcada",
+
+    "exam-duration": "Duración del examen",
+    "attempts": "Intentos",
+    "minutes": "Minutos",
+    "number-of-questions": "Numero de preguntas",
+    "start-exam": "Comenzar",
+    "your-time-is-over": "Tu tiempo se acabo",
+    "lesson-finished": "Lección finalizada",
+    "download": "Descargar",
+    "students": "Alumnos",
+    "instructors": "Instructores",
+    "programs": "Programas",
+    "add-new-course": "Agregar un curso a este grupo",
+
+    "exam-finished": "Examen finalizado",
+
+    "question-delete-lesson": "Lección eliminada: ",
+    "course-created": "Curso creado",
+    "course-edited": "Curso editado",
+    "program-created": "Programa creado",
+    "school-information": "Información de tu escuela",
+    "contact-information": "Información de contacto",
+    "general-settings": "Ajustes Generales",
+    "integrations": "Integraciones",
+
+    "finish-exam": "Terminar examen",
+    "confirm-password": "Confirmar nueva contraseña",
+    "change-password": "Cambiar contraseña",
+    "new-password": "Nueva contraseña",
+
+    "curriculum": "Currículo",
+
+    "see-exam-correction": "Ver corrección del examen",
+    "correction": "Corrección",
+    "overview": "Visión general",
+
+    "enter": "Enter",
+
+    "no-results-courses-in-group" : "No hay cursos asignados a este grupo",
+    "no-results-courses-in-user": "El usuario no está asignado a ningún curso.",
+    "this-looks-like-a-desert": "Al parecer es un desierto",
+    "add-course": "Agregar curso",
+    "add-student": "Agregar alumno",
+    "add-instructor": "Agregar instructor",
+    "add-program": "Agregar programa",
+
+    "this-email-doesnt-exist": "Este correo no existe",
+
+    "please-review-your-email": "Por favor revise su correo electrónico.",
+
+    "recover-password" : "Recuperar contraseña",
+  
+    "join-courses": "Unirse al curso",
+    "join-instructors": "Unirse a instructores",
+    "join-programs": "Unirse al programa",
+
+    "no-results-question-title": "No has creado ninguna pregunta todavía",
+    "answer" : "Respuesta",
+    "answer-created-success": "Respuesta creada",
+    "correct-answer-information": "Marque esta casilla para marcar la respuesta como correcta.",
+    "answer-edited-success": "Respuesta editada",
+    "question-delete-answer": "Eliminar respuesta: ",
+    "answer-deleted-success": "Respuesta eliminada",
+
+    "all-courses-already-added": "Todos los cursos ya están agregados.",
+    "all-students-already-added": "Todos los estudiantes ya están agregados.",
+    "all-instructors-already-added": "Todos los instructores ya están agregados.",
+    "all-programs-already-added": "Todos los programas ya están agregados.",
+    
+
+    "remove-course-question": "Borrar curso: ",
+    "remove-student-question": "Borrar alumno: ",
+    "remove-instructor-question": "Borrar instructor: ",
+    "remove-program-question": "Borrar program: ",
+
+    "no-results-students-in-group": "No hay ningún estudiante en este grupo",
+    "no-results-instructors-in-group": "No hay ningún instructor en este grupo",
+    "no-results-programs-in-group": "No hay ningún programa en este grupo",
+
+    "edit-exam": "Editar examen",
+
+    "edit-module": "Editar modulo",
+    "delete-module": "Borrar modulo",
+    "reposition-module" : "Mover modulo",
+
+    "edit-lesson": "Editar lección",
+    "delete-lesson": "Borrar lección",
+    "reposition-lesson": "Mover lección",
+
+    "wrong-password" : "Usuario o contraseñá incorrecta",
+    "congratulations": "¡Felicitaciones!",
+    "third-step-message": "El curso ya está creado correctamente",
+    "third-step-message-edit": "El curso fue editado con éxito",
+    "program-created-message": "El programa ya está creado correctamente",
+    "what-would-you-like-to-do": "¿Que te gustaría hacer ahora?",
+    "view-course": "Ver el curso",
+    "view-program": "Ver el programa",
+    "create-new-program" : "Crear un nuevo programa",
+    "share": "Compartir curso",
+    "join-students": "Inscribir alumnos en este curso",
+    "create-new-course": "Nuevo curso",
+    "select-role": "Rol de usuario",
+
+    "join-persons": "Agregar personas",
+
+    "course-created-successfully": "Curso creado con éxito",
+
+    "create-first-question": "Crear una nueva pregunta",
+    "create-new-question": "Crear pregunta",
+    "edit-question": "Editar pregunta",
+    "create-new-answer": "Create new answer",
+    "edit-answer": "Edit answer",
+    "question": "Pregunta",
+    "questions": "Preguntas",
+    "question-list": "Tus preguntas",
+    "basic-information" : "Información básica",
+    "back": "Anterior",
+    "automatic-feedback": "Feedback automático",
+    "add-new-answer": "Agregar una nueva respuesta",
+    "success": "Listo",
+    "error": "Error",
+    "delete": "Borrado",
+    "edit": "Editar",
+    "rate-question": "Puntaje",
+
+    "buy-course": "Compra este curso",
+
+    "search" : "Buscar...",
+
+    "export": "Exportar",
+
+    "no-results-lead-title": "Aún no tienes ninguno lead",
+
+    "answer-empty": "El alumno no respondió a esta pregunta.",
+
+    "tracking-id": "Id de rastreo",
+
+    "go-to-platform": "Entrar",
+
+    "no-results-corrections-title": "No tienes examen para evaluar.",
+
+    "select-category": "Seleccione una categoría",
+
+    "no-courses-found": "No se encontraron cursos",
+
+    "no-categories-found": "No se encontraron categorías",
+
+    "no-leads-found": "No se encontraron leads",
+
+    "no-programs-found": "No se encontraron programas",
+
+    "watch-course": "Mira el curso",
+
+    "all": "Todos",
+
+    "feedback": "Feedback",
+    "question-in-process-of-evaluation": "Pregunta en evaluación",
+    "no-feedbacks": "No hay feedbacks disponibles.",
+
+    "module-created-success" : "Modulo creado",
+    "no-results-module-title": "Puedes comenzar a crear tu curso agregando un modulo",
+    "no-results-module-subtitle" : "Los cursos están compuestos por módulos y los módulos están compuestos a su vez por contenidos (Videos, Pdf, Audios, Exámenes, etc), haz clic en el botón de abajo para crear un modulo",
+    "no-results-module-subtitle-highlight": "Modulo",
+    "module-deleted-success": "Modulo eliminado",
+    "question-delete-module" : "Borrar modulo:",
+    "module-edited-success": "Modulo editado",
+
+    "question-delete-program": "Borrar programa: ",
+
+
+    "create-certificate": "Crear certificado",
+    "list-certificate" : "Lista de certificados",
+    "certificate-teplate": "Template",
+    "certificate-already-exists": "Este certificado ya existe",
+    "certificate-created-success" : "Certificado creado",
+    "question-delete-certificate": "Borrar certificado: ",
+    "certificate-edited-success": "Certificado editado",
+    "certificate-deleted-success": "Certificado eliminado",
+    "no-results-certificate-title": "No has creado ningún certificado todavía",
+    "no-results-certificate-subtitle" : "Esto se parece a:",
+    "no-results-certificate-subtitle-highlight": "Desierto...",
+
+
+    "create-user": "Crear usuario",
+    "list-users" : "Lista de usuarios",
+    "user-already-exists": "Este usuario ya está registrado",
+    "massive-import": "Importación masiva",
+    "massive-import-success": "¡Importación exitosa!",
+    "question-delete-user": "Borrar usuario: ",
+    "user-deleted-success": "Usuario eliminado",
+    "user-created-success" : "Usuario creado",
+    "no-results-user-title": "No tienes ningún usuario creado",
+    "no-results-user-subtitle" : "Esto se parece a:",
+    "no-results-user-subtitle-highlight": "Desierto",
+
+    "required-name" : "El nombre es un campo obligatorio.",
+    "choose-your-content" : "Escoge el contenido",
+    "lessons":"Lecciones",
+    "url": "URL",
+    "target": "Objetivo",
+    "same-window": "Misma ventana",
+    "new-window": "Nueva ventana",
+    "link-created-success": "Link creado exitosamente",
+    "edit-link": "Editar Link",
+    "link-edited-success": "Link editado",
+    "link-deleted-success": "Link eliminado",
+    "add": "Adicionar",
+    "header": "Header",
+    "sub-header": "Sub header",
+    "header-color": "Header color",
+    "sub-header-color": "Subheader color",
+    "button": "Button",
+    "button-title": "Button title",
+    "button-url": "Button url",
+    "button-bg-color": "Button color",
+    "button-hover-color": "Button hover color", 
+    "button-target": "Button target",
+    "button-style": "Button style",
+    "disable-section-message": "Puede deshabilitar esta sección si no la usa.",
+    "section-deleted-success": "Sección eliminada",
+    "question-delete-section": "¿Desea borrar esta sección?",
+
+    "question-delete-person": "Borrar persona: ",
+    "occupation": "Ocupación",
+
+    "no-results-course-title": "No has creado un curso todavía",
+    "new-course-button" : "Crear curso",
+    "required-module" : "Modulo Obligatorio",
+    "courses-already-created": "Curso ya creado:",
+    "list-course": "Lista de cursos",
+
+    "no-results-program-title": "No has creado un programa todavía",
+    "new-program-button": "Crear un programa",
+    "programs-already-created": "El programa ya fue creado:",
+
+    "section-created-success" : "Sección creada",
+    "banner-edited-success": "Banner editado",
+    "select-an-element": "Selecciona un elemento",
+    "testimonial" : "Testimonios",
+    "persons": "Personas",
+
+
+    "create-group" : "Crea un nuevo grupo",
+    "list-group" : "Lista de grupos",
+    "group-already-exists": "Este grupo ya existe",
+    "group-created-success" : "Grupo creado",
+    "question-delete-group": "Borrar grupo: ",
+    "group-edited-success": "Grupo editado",
+    "group-deleted-success": "Grupo borrado",
+    "no-results-group-title": "No has creado ningún grupo todavía",
+    "no-results-group-subtitle" : "Esto se parece a:",
+    "no-results-group-subtitle-highlight": "Desierto...",
+
+    "email-account-created": "¡Tu cuenta fue creada exitosamente!",
+
+    "add-new-question": "Agregar pregunta",
+
+    "your-settings": "Configuraciones",
+    "price": "Precio",
+    "new-module": "Nuevo modulo",
+    "create-new-module" : "Crear nuevo modulo",
+
+    "create-new-exam": "Crear nuevo examenm",
+    "granted-to": "Este certificado acredita que",
+    "certify-completition": "ha realizado y superado con éxito el curso",
+
+    "print-certificate": "Imprimir certificado",
+
+    "school-records": "Historial académico",
+
+    "exams": "Exámenes",
+
+    "thanks-for-your-avaliation": "Gracias por tu validación",
+
+    "default-category": "Sin categoría",
+    "your-certificate": "Certificado",
+
+    "certificate-of-completition": "Certificado de reconocimiento",
+
+    "number-of-re-tests": "Numero de reintentos",
+    "re-rest-info" : "Dejar en 0 si el alumno solo tendrá 1 oportunidad para pasar el examen.",
+    "next-step-button": "Siguiente",
+
+    "create-new-lesson" : "Crear una nueva lección",
+    "lesson-created-success" : "Lección creada exitosamente",
+
+    "school-name" : "Nombre de la escuela",
+    "color" : "Color",
+    "phone": "Teléfono",
+    "photo": "Foto",
+    "language": "Lenguaje",
+    "marketplace": "Marketplace",
+    "logo": "Logo (150x150 px)",
+    "favicon": "Favicon (50x50 px)",
+
+    "advanced-settings" : "Configuraciones avanzadas",
+
+
+
+   
+    "empty-fields-warning": "Hay campos que deben de llenarse",
+    "update-plan-title": "Esta funcionalidad no está disponible en el plan contratado",
+    "update-plan-subtitle": "Puedes acceder a esta y otras funciones haciendo un upgrade de tu plano",
+    "update-plan-button": "UPGRADE YOUR PLAN NOW",
+    "download-template": "Descargar template",
+    "invalid-character": "Estas utilizando caracteres inválidos",
+    
+
+
+    "name": "Nombre",
+    "password": "Password",
+    "email": "Email",
+    "instructor": "Instructor",
+    "student": "Alumno",
+    "category": "Categoría",
+    "description": "Descripción",
+    "image": "Imagen",
+    "video-preview": "Video promocional",
+    "start-date": "Fecha de inicio",
+    "create-program": "Crear programa",
+    "end-date": "Fecha de finalización",
+    "validity-time": "Tiempo de validez",
+    "comments": "Comentarios",
+    "spotlight": "Resaltado",
+    "certificate": "Certificado",
+    "select-certificate": "Seleccionar certificado",
+    "upload-message": "Subir archivo",
+    "invalid-extension": "Extensión invalida",
+    "new-name"  : "Nuevo nombre",
+    "save-button": "Guardar",
+    "upgrade-now" : "Upgrade now",
+    "error-callback-message": "Oops, algo salio mal :(",
+    "success-callback-message": "Operación completada exitosamente",
+    "logout": "Logout",
+    "saving": "Guardando ...",
+    "loading": "Cargando ...",
+    "date": "Fecha",
+    "schedule": "Calendario",
+    "duration": "¿Cuántos minutos durara el examen?",
+    "approval" : "¿Cuál es el porcentaje mínimo de aprobación?",
+    "primary-color": "Color primario",
+    "secondary-color": "Color secundario",
+    "copyright": "Copyright",
+    "add-new-social": "Agregar social media",
+    "social-medias": "Social medias",
+    "social-media": "Social media",
+
+    "add-new-lesson": "Agregar nueva lección",
+
+    "person": "Persona",
+    "comment": "Comentario",
+
+    "number-of-courses-to-be-listed": "Número total de cursos que se incluirán en la lista",
+    "text-and-media": "Text and media",
+    "media" : "Media",
+    "media-align": "Media align",
+    "content": "Content",
+    "transparent-header": "Transparent header",
+
+    "courses": "Cursos",
+
+    "add-new-testimonial": "Agregar testimonio",
+
+    "banner" : "Banner",
+    "product-list": "Lista de cursos",
+
+    "under-construction-title": "Esta página esta en construcción",
+    "under-construction-subtitle": "En este momento, hay varias personas excepcionales con sus tazas de café trabajando en esa página, lo que significa que estará disponible muy pronto.",
+
+    "current-plan": "Plano contratado:",
+    "without-category": "Sin categoría",
+
+    "feature-plan-1": "Soporte vía ticket",
+    "feature-plan-2" : "Integración con Google analytics",
+    "feature-plan-3" : "Integración con Mercadopago",
+    "feature-plan-4" : "Compatibilidad con pdf",
+    "feature-plan-5" : "Compatibilidad con MP4,AVI AND MOV",
+    "feature-plan-6" : "Compatibilidad con MP3,WAV AND OGG",
+    "feature-plan-7" : "Cursos Ilimitados",
+    "feature-plan-8" : "Webinars y Videoconferencias",
+    "feature-plan-9" : "Certificados",
+    "feature-plan-10" : "Exámenes",
+    "feature-plan-11" : "Programas",
+    "feature-plan-12" : "Soporte prioritario",
+    "feature-plan-13" : "Gerente de cuentas",
+    "feature-plan-14" : "API",
+    "feature-plan-15" : "Importación Masiva",
+
+    "first-step-course":  "Paso 1 ",
+    "second-step-course": "Paso 2",
+    "third-step-course": "Paso 3"
+
+}

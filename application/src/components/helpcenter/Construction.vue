@@ -1,0 +1,49 @@
+<template>
+    <div class="card-box box-construction mt-5">
+        <div class="row">
+            <div class="col-1"></div>
+            <div class="col-5">
+                <div class="text-no-results">
+                    <h4>{{lang["under-construction-title"]}}</h4>
+                    <p>{{lang["under-construction-subtitle"]}}</p>
+                </div>
+            </div>
+            <div class="col-6">
+                <img class="image-no-results" src="@/assets/img/general/ux/no_documents.png" alt="">
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+import Vue from 'vue'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+import {eventLang} from '@/components/helper/HelperLang'
+
+
+Vue.use(VueAxios, axios)
+export default {
+  name: 'Create',
+  data: function() {
+    return {
+      name: '',
+      color: '',
+      lang: {},
+      invalidField: false
+    }
+  },
+  mounted(){
+    /* Get a language */
+    var ins = this;
+      eventLang.$on('lang', function(response){
+      ins.lang = response;
+    });
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang="scss" scoped>
+  .ead-md{margin-left: 0.8em;}
+</style>

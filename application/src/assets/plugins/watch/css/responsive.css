@@ -1,0 +1,28 @@
+@media screen and (max-width: 834px){
+	body.course > main {
+
+	    flex-flow: column-reverse;
+	    height: initial !important;
+
+	}
+
+	body.course > main aside {
+		max-width: none;
+		position: absolute;
+		right: 0;
+		top: 0;
+		z-index: 100;
+		/*display: none;*/
+	}
+	body.course > main aside header { position: fixed; z-index: 100; }
+	.lesson-content > section{
+		padding-bottom: 50px;
+		max-height: 500px;
+	}
+	body.course > main aside .lessons { padding-top: 50px; }
+
+	.iconbar:not(.iconbar-horizontal){
+		display: none;
+	}
+
+}
