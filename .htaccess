@@ -4,7 +4,7 @@
 # For more information, read our documentation (https://go.cpanel.net/EA4ModifyINI)
 <IfModule php5_module>
    php_flag asp_tags On
-   php_flag display_errors Off
+   php_flag display_errors On
    php_value max_execution_time 30
    php_value max_input_time 600
    php_value max_input_vars 1000
