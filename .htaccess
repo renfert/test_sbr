@@ -9,7 +9,7 @@
    php_value max_input_time 600
    php_value max_input_vars 1000
    php_value memory_limit 256M
-   php_value post_max_size 1000M
+   php_value post_max_size 2000M
    php_value session.gc_maxlifetime 1440
    php_value session.save_path "/var/cpanel/php/sessions/ea-php56"
    php_value upload_max_filesize 1000M
