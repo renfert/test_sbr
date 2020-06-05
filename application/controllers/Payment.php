@@ -6,6 +6,43 @@ class Payment extends CI_Controller {
     function __construct(){
         parent::__construct();
         $this->load->helper('url');
+        $this->load->model("Verify_Model");
+        $this->load->model("Payment_Model");
+        $this->load->model('Course_Model');
+    }
+
+    
+    public function process(){
+        if(count($_POST) > 1){
+            $preferenceId = $this->input->post("preference_id");
+            $courseId = $this->input->post("external_reference");
+            $paymentId = $this->input->post("payment_id");
+            $paymentStatus = $this->input->post("payment_status");
+            $preferenceValidity = $this->Verify_Model->checkPreferenceValidity($preferenceId);
+
+            if($preferenceValidity == true){
+                
+                if($paymentStatus == "approved"){
+                    $this->Payment_Model->savePurchaseRequisition($courseId,$paymentId,$paymentStatus);
+                    $this->Course_Model->enrollUserIntoCourse($courseId,getUserId());
+                    $this->load->view('purchasesuccess.html');
+                }
+
+                if($paymentStatus == "in_process" OR $paymentStatus == "pending"){
+                    $this->Payment_Model->savePurchaseRequisition($courseId,$paymentId,$paymentStatus);
+                    $this->load->view('purchaseinprocess.html');
+                }
+
+
+            }else{
+                // Redirect to 404 page
+            }
+        }else{
+            // Redirect to 404 page
+        }
+
+       
+        
     }
 
     /* 

@@ -112,4 +112,9 @@ class Pages extends CI_Controller {
     public function leads(){
         $this->load->view('leads.html');
     }
+
+    public function success(){
+        $data['title'] = 'Learndash';
+        $this->load->view('purchasesuccess.html');
+    }
 }

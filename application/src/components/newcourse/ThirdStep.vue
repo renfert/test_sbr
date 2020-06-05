@@ -305,5 +305,9 @@ export default {
     }
 }
 
+.container-fluid{
+    padding-left:0px !important;
+}
+
 
 </style>

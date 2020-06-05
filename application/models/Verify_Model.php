@@ -21,6 +21,20 @@ class Verify_Model extends CI_Model {
         }
     }
 
+    public function checkPreferenceValidity($preferenceId){
+        $this->db->select("*");
+        $this->db->from("integrations");
+        $query = $this->db->get();
+        $result = $query->result();
+        $preferenceIdInDataBase = $result[0]->preference_id;
+
+        if(md5($preferenceId) == $preferenceIdInDataBase){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     public function correctAnswerExist($questionId){
         $this->db->select("T0.id");
         $this->db->distinct();

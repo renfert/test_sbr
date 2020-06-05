@@ -140,7 +140,7 @@
     <el-menu
         v-if="roleId == 2"
         :collapse="collapse"
-        style="width:231px"
+        style="width:230px"
         background-color="#373A43"
         text-color="#fff"
         active-text-color="#00C0FD"
@@ -204,7 +204,7 @@
     <!--- Sidemenu student role -->
      <el-menu
         v-if="roleId == 3"
-        style="width:231px"
+        style="width:230px"
         :collapse="collapse"
         background-color="#373A43"
         text-color="#fff"

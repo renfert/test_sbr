@@ -57,5 +57,13 @@ class Program extends CI_Controller {
         $result  = $this->Program_Model->getPersonsOutsideTheProgram($programId);
         echo json_encode($result);
     }
+
+    public function enrollUsersIntoProgram(){
+        $users = $this->input->post("users");
+        $usersArray = explode (",", $users); 
+        $programId = $this->input->post("programId");
+        $result = $this->Program_Model->enrollUsersIntoProgram($programId,$usersArray);
+        echo json_encode($result);
+    }
 	
 }

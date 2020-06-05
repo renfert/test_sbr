@@ -1,4 +1,5 @@
 const path = require('path');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 module.exports = {
     configureWebpack: {
         resolve: {
@@ -7,6 +8,11 @@ module.exports = {
                 "assets": path.resolve(__dirname, '../assets/'),
             }     
         },
+    },
+    pluginOptions: {
+        webpackBundleAnalyzer: {
+          openAnalyzer: true
+        }
     },
     devServer: {
         watchOptions: {
@@ -156,6 +162,16 @@ module.exports = {
             entry: './src/pages/calendar/main.js',
             template: 'calendar.html',
             filename: 'calendar.html',
-        }
+        },
+        'purchasesuccess': {
+            entry: './src/pages/purchasesuccess/main.js',
+            template: 'purchasesuccess.html',
+            filename: 'purchasesuccess.html',
+        },
+        'purchaseinprocess': {
+            entry: './src/pages/purchaseinprocess/main.js',
+            template: 'purchaseinprocess.html',
+            filename: 'purchaseinprocess.html',
+        },
     }
 }

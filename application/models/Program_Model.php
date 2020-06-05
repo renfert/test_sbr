@@ -42,6 +42,13 @@ class Program_Model extends CI_Model {
         }
     }
 
+    public function enrollUsersIntoProgram($programId, $users){
+        foreach($users as $userId){
+            $this->enrollUserIntoProgram($programId, $userId);
+        }
+        return true;
+    }
+
     public function enrollUserIntoProgram($programId, $userId){
         $data = array(
             'myuser_id' => $userId,
@@ -174,6 +181,8 @@ class Program_Model extends CI_Model {
         }
 
     }
+
+
 
   
 

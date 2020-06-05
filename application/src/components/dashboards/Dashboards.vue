@@ -57,10 +57,8 @@ export default {
     },
     methods: {
         getProfile: function (){
-            var formData = new FormData();
-            formData.set("testimonialId",this.testimonialId);
             var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("user", "getUserProfile");
-            axios.post(urlToBeUsedInTheRequest, formData).then((response) => {
+            axios.get(urlToBeUsedInTheRequest).then((response) => {
                 this.roleId = response.data["myrole_id"];
             },
                 /* Error callback */

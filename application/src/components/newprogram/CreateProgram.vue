@@ -216,6 +216,26 @@ export default {
                 }.bind(this)
             );
         },
+        enrollUsers: function(){
+            this.loading = true;
+            var formData = new FormData();
+            formData.set("programId", this.programId);
+            formData.set("users", this.users);
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("program", "enrollUsersIntoProgram");
+            axios.post(urlToBeUsedInTheRequest, formData).then(() => {
+                // success callback
+                this.loading = false;
+                this.modal = false;
+                this.getPersonsOutsideTheProgram(this.programId);
+                this.users = [];
+                this.successMessage();
+            }, 
+                // Failure callback
+                function(){
+                    this.errorMessage();
+                }.bind(this)
+            );
+        },
         getPersonsOutsideTheProgram(programId){
             var formData = new FormData();
             formData.set("programId", programId);

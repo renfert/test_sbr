@@ -75,7 +75,7 @@
 
                             <!-- Unregistered user -->
                             <div v-else>
-                                <form action="/process" method="POST" v-if="preferenceId != null" >
+                                <form action="process" method="POST" v-if="preferenceId != null" >
                                     <script 
                                     src="https://www.mercadopago.com.br/integrations/v1/web-payment-checkout.js"
                                     :data-preference-id="preferenceId"
@@ -220,7 +220,7 @@
                     <div class="col-8 mt-3">
                         <h2 class="text-sabiorealm">{{lang["congratulations"]}}</h2>
                         <h3>{{lang["you-are-logged-in-now"]}}</h3>
-                        <form v-if="preferenceId != null" action="payment" method="POST">
+                        <form v-if="preferenceId != null" action="process" method="POST">
                             <script 
                             src="https://www.mercadopago.com.br/integrations/v1/web-payment-checkout.js"
                             :data-preference-id="preferenceId"
@@ -259,8 +259,6 @@ import LeadCreate from '@/components/leads/LeadCreate'
 
 
 const md5 = require('md5');
-const mercadopago = require ('mercadopago');
-
 
 
 Vue.use(VuePlyr, {
@@ -306,31 +304,93 @@ export default {
             createAnAccount: true,
             proceedToPayment: false,
             login: false,
-            wrongPasswordOrUser: false
+            wrongPasswordOrUser: false,
+            mpAccessToken: '333'
         }
     },
     created(){
-    
-        this.getMpAccessToken();
-
-        this.activeSession();
-
-        this.getUserProfile();
-
-        this.checkEnrolledUser();
-    },
-    mounted(){
-        eventLang.$on('lang', function(response){  
-            this.lang = response;
-        }.bind(this));
-
         var urlParameter = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
 
         this.courseId = urlParameter;
 
         this.getCourse(urlParameter);
     },
+    mounted(){
+        eventLang.$on('lang', function(response){  
+            this.lang = response;
+        }.bind(this));
+    
+        this.activeSession();
+
+        this.getUserProfile();
+
+        this.checkEnrolledUser();
+
+    },
     methods: {
+        createMpPreference:async function(courseTitle,coursePrice,courseId){
+            // Mercado pago SDK
+            const mercadopago = require ('mercadopago');
+
+            // Get credentials
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("integrations", "getIntegrations")
+            await axios.get(urlToBeUsedInTheRequest).then((response) => {
+               this.mpAccessToken = response.data["mp_access_token"]; 
+            }, 
+                /* Error callback */
+                function(){
+                    this.errorMessage();
+                }.bind(this)
+            );
+
+            const token = this.mpAccessToken;
+            
+    
+            //Set credentials
+            mercadopago.configure({
+                sandbox: true,
+                access_token: token
+            });
+
+            // Create a object with preference
+            let preference = {
+                items: [
+                    {
+                        title: courseTitle,
+                        unit_price: coursePrice,
+                        quantity: 1,
+                    }
+                ],
+                payment_methods: {
+                    installments: 1
+                },
+                external_reference: courseId,
+            };
+
+            // Create a preference
+            mercadopago.preferences.create(preference)
+            .then(function(res){
+                this.preferenceId = res.response.id;
+                this.savePreferenceId(md5(res.response.id));
+            }.bind(this)).catch(function(){
+               
+            });
+
+            localStorage.setItem('purchase_reference', courseId);
+        },
+        savePreferenceId: function(preferenceId){
+            var formData = new FormData();
+            formData.set("preferenceId", preferenceId);
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("integrations", "saveMpPreference")
+            axios.post(urlToBeUsedInTheRequest, formData).then(() => {
+               
+            }, 
+                /* Error callback */
+                function(){
+                    this.errorMessage();
+                }.bind(this)
+            );
+        },
         createNewAccount: function(){
             if(this.password == this.confirmPassword){
                 this.loading = true;
@@ -352,21 +412,6 @@ export default {
             }else{
                 this.diferentPasswords();
             }
-        },
-
-        getMpAccessToken: function(){
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("integrations", "getIntegrations")
-            axios.get(urlToBeUsedInTheRequest).then((response) => {
-                mercadopago.configure({
-                    sandbox: true,
-                    access_token: response.data["mp_access_token"]
-                });
-            }, 
-                /* Error callback */
-                function(){
-                    this.errorMessage();
-                }.bind(this)
-            );
         },
 
         doLoginFromCreateAccountModal: function(){
@@ -432,7 +477,7 @@ export default {
                 this.validity = response.data["validity"]; 
                 this.certificate = response.data["certificate"];
                 this.getModules();
-                this.setPaymentPreference(response.data["title"],parseInt(response.data["price"]),response.data["id"]);
+                this.createMpPreference(response.data["title"],parseInt(response.data["price"]),response.data["id"]);
             }, 
                 /* Error callback */
                 function(){
@@ -440,49 +485,7 @@ export default {
                 }.bind(this)
             );
         },
-        setPaymentPreference: function(courseTitle,coursePrice,courseId){
     
-            var preference = {
-                items: [
-                    {
-                        "title": courseTitle,
-                        "quantity": 1,
-                        "unit_price": coursePrice,
-                    }
-                ],
-                "back_urls" : {
-                    "success": "https://www.success.com",
-                    "failure": "http://www.failure.com",
-                    "pending": "http://www.pending.com"
-                },
-                payment_methods: {
-                    installments: 1
-                },
-                external_reference: courseId,
-            };
-
-           
-            mercadopago.preferences.create(preference).then(function(res){
-                this.preferenceId = res.response.id;
-                this.savePreferenceId(md5(res.response.id));
-            }.bind(this)).catch(function(){
-               
-            }.bind(this))
-        
-        },
-        savePreferenceId: function(preferenceId){
-            var formData = new FormData();
-            formData.set("preferenceId", preferenceId);
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("integrations", "saveMpPreference")
-            axios.post(urlToBeUsedInTheRequest, formData).then(() => {
-               
-            }, 
-                /* Error callback */
-                function(){
-                    this.errorMessage();
-                }.bind(this)
-            );
-        },
         seeCourse: function(){
             window.location.href=  this.getCurrentDomainName() + "pages/viewcourse/"+this.courseId+"";
         },

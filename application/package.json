@@ -48,7 +48,8 @@
     "vue-wysiwyg": "^1.7.2",
     "vue2-bootstrap-modal": "^0.1.15",
     "vuedraggable": "^2.23.2",
-    "vuex": "^3.4.0"
+    "vuex": "^3.4.0",
+    "webpack-bundle-analyzer": "^3.8.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.4.1",

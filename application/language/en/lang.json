@@ -213,6 +213,10 @@
     "create-new-course": "New course",
     "select-role": "User role",
 
+    "doubts": "For any questions please contact:",
+
+    "purchase-in-process": "Your purchase is currently in process, as soon as the receipt is confirmed, you will receive an email with your purchase details and your course will be released.",
+
     "watch-course": "Watch course",
 
     "buy-this-course": "Buy this coure",
@@ -277,6 +281,10 @@
     "no-results-user-title": "You haven't created any users yet",
     "no-results-user-subtitle" : "This is looking like a",
     "no-results-user-subtitle-highlight": "desert",
+
+    "users": "Users",
+
+    "storage": "Storage",
 
     "required-name" : "Name is a required field.",
     "choose-your-content" : "Choose your content",
@@ -383,6 +391,8 @@
     "how-get-access-token": "How do I get my access token?",
 
     "select-your-country": "Select your country",
+
+    "approved-purchase": "Your purchase has been approved and your course has been released.",
 
     "add-new-question": "Add new question",
 
