@@ -15,7 +15,9 @@ class Course_Model extends CI_Model {
 	public function create($dataReceiveFromPost){
         $this->db->insert("mycourse", $dataReceiveFromPost);
         $courseId =  $this->db->insert_id();
-
+        $this->Activity_Model->save("course-created", $courseId, 1, null, 1, null,null,null,null);
+     
+      
         /* Enroll adm in a course */
         $this->enrollUserIntoCourse($courseId, 1);
 
@@ -112,7 +114,7 @@ class Course_Model extends CI_Model {
             'myuser_id' => getUserId(),
             'mycourse_id' => $courseId,
             'course' => $courseTitle,
-            'date' => date('Y-m-d')
+            'date' => getCurrentDate("Y-m-d")
         );
         $this->db->insert("myuser_has_certificate", $data);
     }
@@ -212,6 +214,9 @@ class Course_Model extends CI_Model {
    
 
 	public function edit($dataReceiveFromPost){
+        $this->Activity_Model->save("course-edited", $dataReceiveFromPost["id"], 1, null, 1, null,null,null,null);
+    
+
         $data = array(
             'title' => $dataReceiveFromPost["title"],
             'description' => $dataReceiveFromPost["description"],
@@ -235,6 +240,9 @@ class Course_Model extends CI_Model {
     }
 
     public function delete($courseId){
+        $courseTitle = $this->get($courseId)->title;
+        $this->Activity_Model->save("course-deleted", 1, 1, null, 1, $courseTitle,null,null,null);
+
         /* Delete from program_has_mycourse */
         $this->db->where("mycourse_id", $courseId);
         if($this->db->delete("program_has_mycourse") == false){
@@ -244,6 +252,12 @@ class Course_Model extends CI_Model {
         /* Delete from lesson_status */
         $this->db->where("mycourse_id", $courseId);
         if($this->db->delete("lesson_status") == false){
+            return false;
+        }
+
+        /* Delete from activities */
+        $this->db->where("mycourse_id", $courseId);
+        if($this->db->delete("activities") == false){
             return false;
         }
         
@@ -258,8 +272,7 @@ class Course_Model extends CI_Model {
         if($this->db->delete("mycourse") == false){
             return false;
         }
-
-
+        
         return true;
     }
 

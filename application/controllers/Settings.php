@@ -25,7 +25,6 @@ class Settings extends CI_Controller {
     ============================================== 
     */
 	public function edit(){
-
         $params = array(
             'name' => $this->input->post("name"),
             'email' => $this->input->post("email"),
@@ -35,6 +34,7 @@ class Settings extends CI_Controller {
             'marketplace' => $this->input->post("marketplace"),
             'logo' => $this->input->post("logo"),
             'favicon' => $this->input->post("favicon"),
+            'zone' => $this->input->post("timezone")
         );
         $this->load->model('Settings_Model');
         $settings = $this->Settings_Model->edit($params);

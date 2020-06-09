@@ -29,6 +29,16 @@ class Authentication_Model extends CI_Model {
                 $userRole = $row->myrole_id;
             }
             $this->startSession($userName,$userId,$userEmail,$userRole);
+           
+            $info = array(
+                "last_login" => getCurrentDate("Y-m-d H:i"),
+                "status" => "on",
+            );
+            $this->db->where('id',$userId);
+            $this->db->update("myuser",$info);
+            $this->Activity_Model->save("login", 1, 1, null, 1, null,null,null,null);
+        
+       
             return true;
         }else{
             return false;

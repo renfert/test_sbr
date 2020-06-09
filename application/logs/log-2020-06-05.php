@@ -124,3 +124,10 @@ ERROR - 2020-06-05 18:55:09 --> Severity: error --> Exception: Call to a member 
 ERROR - 2020-06-05 19:49:10 --> Severity: Notice --> Undefined variable: result C:\xampp\htdocs\application\models\Chart_Model.php 20
 ERROR - 2020-06-05 19:53:49 --> Severity: Notice --> Undefined variable: result C:\xampp\htdocs\application\models\Chart_Model.php 20
 ERROR - 2020-06-05 19:54:26 --> Severity: Notice --> Undefined variable: result C:\xampp\htdocs\application\models\Chart_Model.php 20
+ERROR - 2020-06-05 23:33:06 --> Severity: Notice --> Undefined variable: result C:\xampp\htdocs\application\models\Chart_Model.php 20
+ERROR - 2020-06-05 23:34:07 --> Severity: Notice --> Undefined variable: result C:\xampp\htdocs\application\models\Chart_Model.php 20
+ERROR - 2020-06-05 23:34:35 --> Severity: Notice --> Undefined variable: result C:\xampp\htdocs\application\models\Chart_Model.php 20
+ERROR - 2020-06-05 23:36:49 --> Severity: Notice --> Undefined variable: result C:\xampp\htdocs\application\models\Chart_Model.php 20
+ERROR - 2020-06-05 23:37:05 --> Severity: Notice --> Undefined variable: result C:\xampp\htdocs\application\models\Chart_Model.php 20
+ERROR - 2020-06-05 23:37:13 --> Severity: Notice --> Undefined variable: result C:\xampp\htdocs\application\models\Chart_Model.php 20
+ERROR - 2020-06-05 23:49:16 --> Severity: Notice --> Undefined variable: result C:\xampp\htdocs\application\models\Chart_Model.php 20

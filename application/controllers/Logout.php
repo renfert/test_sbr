@@ -9,12 +9,13 @@ class Logout extends CI_Controller {
         parent::__construct();
         $this->load->database();
         $this->load->helper('url');
+        $this->load->model("Logout_Model");
+        $this->load->model('Activity_Model');
     }
 
     
 	public function doLogout(){
-        $this->session->sess_destroy();
-        $this->load->view('index.html');
+        $this->Logout_Model->doLogout();
     }
 }
 ?>

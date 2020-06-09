@@ -21,6 +21,15 @@
     "plans-nav": "plans",
     "help-center-nav": "Help center",
 
+    "activity-course-created": " created a new course: ",
+    "activity-course-deleted": " deleted a course: ",
+    "activity-about-time-minute": " About",
+    "activity-about-time-hour": " About ",
+    "activity-time-minute-ago": " minutes ago ",
+    "activity-time-hour-ago": " hours ago ",
+    "activity-few-minutes-ago": " A few minutes ago ",
+    "activity-in": "In ",
+
     
 
     "view-topbar-title": "View as",
@@ -45,6 +54,8 @@
 
     "pending": "Pending",
     "done": "Done",
+
+    
 
     "list-corrections": "Exams list",
     "correction-status-information": "The status column indicates whether there are questions without evaluations within the exam.",

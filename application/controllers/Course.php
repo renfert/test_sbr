@@ -12,7 +12,7 @@ class Course extends CI_Controller {
    
 	public function create(){
         $this->input->post("mycategory_id") == '' ? $category = 1 : $category =  $this->input->post("mycategory_id");
-        $dateCreate = date('Y-m-d');  /* Course creation date  */
+        $dateCreate = getCurrentDate("Y-m-d");
     
 
         $dataReceiveFromPost = array(

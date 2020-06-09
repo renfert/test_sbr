@@ -124,6 +124,7 @@
                                 v-loading="loadingButton"
                                 class="btn-sabiorealm"
                                 type="primary"  
+                                @click.prevent="editModule()"
                                 size="medium">
                                 {{lang["save-button"]}}
                             </el-button>

@@ -21,6 +21,15 @@
     "plans-nav": "Planes",
     "help-center-nav": "Centro de Ayuda",
 
+    "activity-course-created": " Creó un nuevo curso: ",
+    "activity-course-deleted": " borró un curso: ",
+    "activity-about-time-minute": " Hace unos ",
+    "activity-about-time-hour": " Hace aproximadamente ",
+    "activity-time-minute-ago": " minutos ",
+    "activity-time-hour-ago": " horas ",
+    "activity-few-minutes-ago": " Hace pocos minutos... ",
+    "activity-in": "En ",
+
 
     "view-topbar-title": "Ver como",
     "admin-view-topbar": "Administrador",

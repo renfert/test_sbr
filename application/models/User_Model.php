@@ -34,7 +34,7 @@ class User_Model extends CI_Model {
 				'status' => 'off',
 				'mode' => 'enable',
 				'avatar' => 'default.png',
-				'creation_date' => date('Y-m-d')
+				'creation_date' => getCurrentDate("Y-m-d")
 			);
 			sendEmail($dataReceiveFromPost);
 			$this->db->insert("myuser", $params);

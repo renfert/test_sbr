@@ -12,7 +12,7 @@ class Program extends CI_Controller {
    
 
 	public function create(){
-        $creationDate =  date('Y-m-d');
+        $creationDate = getCurrentDate("Y-m-d");
         $courses = $this->input->post("courses");
         $coursesArray = explode (",", $courses); 
         $dataReceiveFromPost = array(

@@ -208,6 +208,7 @@ class Lesson_Model extends CI_Model {
 
      
     public function finish($lessonId, $studentId){
+
         $data = array(
             "status" => "finished" 
         );
@@ -218,9 +219,11 @@ class Lesson_Model extends CI_Model {
 
         $courseId = $this->getCourseIdByLessonId($lessonId);
         $courseProgress = $this->Course_Model->progress($courseId);
-
+        $this->Activity_Model->save("lesson-finished", $courseId, $lessonId, null, 1, null,null,null,null);
+        
         if($courseProgress == 100){
             $this->Course_Model->generateCertificate($courseId);
+            $this->Activity_Model->save("course-finished", $courseId,1, null, 1, null,null,null,null);
         }
     }
 

@@ -2,8 +2,8 @@
     <div class="main"  v-loading="loading">
         <lang></lang> 
         <!-- Widgets -->
-        <div class="row mb-5">
-            <div class="col-12 col-md-4">
+        <div class="row">
+            <div class="col-12 col-md-4 mb-5">
                 <a href="courses">
                     <div class="card-widget">
                         <div class="title-widget text-center">
@@ -13,7 +13,7 @@
                     </div>
                 </a>
             </div>
-             <div class="col-12 col-md-4">
+             <div class="col-12 col-md-4 mb-5">
                 <a href="users">
                     <div class="card-widget">
                         <div class="title-widget text-center">
@@ -23,13 +23,13 @@
                     </div>
                 </a>
             </div>
-             <div class="col-12 col-md-4">
+             <div class="col-12 col-md-4 mb-5">
                 <a href="javascript:void(0)">
                     <div class="card-widget">
                         <div class="title-widget text-center">
                             <img src="@/assets/img/general/ux/storage.png" alt="">
                             <el-tooltip class="item" effect="dark" :content="totalStorageUsed + ' GB / ' + totalStorageAvaiable + ' GB' " placement="bottom">
-                                <h3 class="text-sabiorealm">{{lang["storage"]}} <b>10%</b></h3>
+                                <h3 class="text-sabiorealm">{{lang["storage"]}} <b>0,6%</b></h3>
                             </el-tooltip>
                         </div>
                     </div>
@@ -38,53 +38,72 @@
         </div><!-- End Widgets -->
 
 
-        <div class="row mb-5">
+        <div class="row">
+            <!-- Students -->
+            <div class="col-12 col-md-6 mb-5">
+                <div class="card-widget" style="height:350px;">
+                    <div class="chart">
+                        <line-chart :data="students" smooth  />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Students -->
             <div class="col-12 col-md-6">
-                <div class="card-widget" style="height:350px;overflow-y: scroll;border-radius:10px 0px 0px 10px !important;">
+                <div class="card-widget" style="height:350px;">
+                    <div class="chart">
+                        <line-chart :data="students" smooth  />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 col-md-12 mb-5">
+                <div class="card-widget" style="overflow-y: scroll; height:500px;border-radius:10px 0px 0px 10px !important;">
                     <div class="activities-title text-center mb-5">
                         <h3>Last activities</h3>
                     </div>
-                
-                    <!-- Activity -->
-                    <div class="activity-item mb-3">
-                        <div class="row">
-                            <div class="col-2">
-                                <img style="width:70px;margin-top:15%;"  :src="''+getCurrentDomainName()+'assets/uploads/avatar/20.png'" class="rounded-circle img-thumbnail img-responsive" alt="">
-                            </div>
-                            <div class="col-10 text-left">
-                                <div class="activity-info">
-                                    <h4><b class="text-sabiorealm">Tom lima </b> liked your work</h4>
-                                    <span>About 21 minutes ago</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div> <!-- End Activity -->
-
-                    <!-- Activity -->
-                    <div class="activity-item mb-3">
-                        <div class="row">
-                            <div class="col-2">
-                                <img style="width:70px;margin-top:15%;"  :src="''+getCurrentDomainName()+'assets/uploads/avatar/20.png'" class="rounded-circle img-thumbnail img-responsive" alt="">
-                            </div>
-                            <div class="col-10 text-left">
-                                <div class="activity-info">
-                                    <h4><b class="text-sabiorealm">Tom lima </b> liked your work</h4>
-                                    <span>About 21 minutes ago</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div> <!-- End Activity -->
-
+            
                      <!-- Activity -->
-                    <div class="activity-item">
+                    <div 
+                        class="activity-item mb-4"
+                        v-for="element in activities"
+                        :key="element.id"    
+                    >
                         <div class="row">
-                            <div class="col-2">
-                                <img style="width:70px;margin-top:15%;"  :src="''+getCurrentDomainName()+'assets/uploads/avatar/20.png'" class="rounded-circle img-thumbnail img-responsive" alt="">
+                            <div class="col-12 col-md-2">
+                                <img   :src="''+getCurrentDomainName()+'assets/uploads/avatar/'+element.avatar+''" class="rounded-circle img-thumbnail img-responsive user-avatar" alt="">
                             </div>
                             <div class="col-10 text-left">
-                                <div class="activity-info">
-                                    <h4><b class="text-sabiorealm">Tom lima </b> liked your work</h4>
-                                    <span>About 21 minutes ago</span>
+
+                                <!-- Course created -->
+                                <div class="activity-info" v-if="element.type == 'course-created' ">
+                                    <h4>
+                                        <a 
+                                            @click.prevent="viewUser(element.create_user)" href="javascript:void(0)">
+                                            <b class="text-sabiorealm">{{element.name}} </b>
+                                        </a> 
+                                        {{lang["activity-course-created"]}}
+                                        <a 
+                                            @click.prevent="viewCourse(element.mycourse_id)" href="javascript:void(0)">
+                                            <b class="text-sabiorealm">{{element.title}} </b>
+                                        </a> 
+                                     </h4>
+                                    <span>{{processDateTime(element.date)}}</span>
+                                </div>
+
+                                <!-- Course deleted -->
+                                <div class="activity-info" v-if="element.type == 'course-deleted' ">
+                                    <h4>
+                                        <a 
+                                            @click.prevent="viewUser(element.create_user)" href="javascript:void(0)">
+                                            <b class="text-sabiorealm">{{element.name}} </b>
+                                        </a> 
+                                        {{lang["activity-course-deleted"]}}
+                                        <b class="text-danger">{{element.course_title}} </b>
+                                     </h4>
+                                    <span>{{processDateTime(element.date)}}</span>
                                 </div>
                             </div>
                         </div>
@@ -92,16 +111,6 @@
 
                     <div class="text-center mt-3">
                         <a href="javascript:void(0)" class="text-sabiorealm">Load more...</a>
-                    </div>
-                </div>
-            </div>
-            
-
-            <!-- Students -->
-            <div class="col-12 col-md-6">
-                <div class="card-widget" style="height:350px;">
-                    <div class="chart">
-                        <line-chart :data="students" smooth  />
                     </div>
                 </div>
             </div>
@@ -122,7 +131,7 @@ import locale from 'element-ui/lib/locale'
 import {eventLang} from '@/components/helper/HelperLang'
 import domains from '@/mixins/domains'
 import alerts from '@/mixins/alerts'
-import DrVueEcharts from 'dr-vue-echarts';
+import DrVueEcharts from 'dr-vue-echarts/packages/line';
 Vue.use(DrVueEcharts)
 
 
@@ -147,67 +156,20 @@ export default {
             numberTotalOfUsers: '',
             numberTotalOfCourses: '',
             plan: '',
+            activities: [],
             totalStorageAvaiable: '',
             totalStorageUsed:'',    
             colors: ['#c3c3c3', '#c7c7c6'],
             students: [
                 {
                     name: "Students",
-                    data: [
-                        {
-                        label: "Jan",
-                        value: 78
-                        },
-                        {
-                        label: "Fev",
-                        value: 67
-                        },
-                        {
-                        label: "Mar",
-                        value: 87
-                        },
-                        {
-                        label: "Abr",
-                        value: 58
-                        }
-                    ]
+                    data: []
                 },
                 {
                     name: "Instructors",
-                    data: [
-                        {
-                        label: "Jan",
-                        value: 15
-                        },
-                        {
-                        label: "Fev",
-                        value: 8
-                        },
-                        {
-                        label: "Mar",
-                        value: 5
-                        },
-                        {
-                        label: "Abr",
-                        value: 3
-                        }
-                    ]
+                    data: []
                 },
 
-            ],
-            courses: [
-                {
-                    name: 'Not started',
-                    value: 3,
-                },
-                {
-                    name: 'In progress',
-                    value: 5,
-                },
-                {
-                    name: 'Finished',
-                    value: 15,
-                },
             ],
         }
     },
@@ -222,16 +184,26 @@ export default {
         this.getTotalNumberOfUsers();
         this.getTotalNumberOfCourses();
         this.getStorage();
-
-        this.getStudentsChart();
-        this.getSalesChart();
+        this.getRegisteredStuentsPerMonth();
+        this.getRegisteredInstructorsPerMonth();
+        this.listActivities();
     },
     methods: {
-        getStudentsChart: function(){
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("chart", "getStudentsChart");
+        getRegisteredStuentsPerMonth: function(){
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("chart", "getRegisteredStuentsPerMonth");
             axios.get(urlToBeUsedInTheRequest).then((response) => {
-                //this.students = response.data;
                 this.students[0].data = response.data;
+            },
+                /* Error callback */
+                function (){
+                   this.errorMessage();
+                }.bind(this)
+            );
+        },
+        getRegisteredInstructorsPerMonth: function(){
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("chart","getRegisteredInstructorsPerMonth");
+            axios.get(urlToBeUsedInTheRequest).then((response) => {
+                this.students[1].data = response.data;
             },
                 /* Error callback */
                 function (){
@@ -294,6 +266,55 @@ export default {
                    this.errorMessage();
                 }.bind(this)
             );
+        },
+        listActivities: function(){
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("activity", "listingAll");
+            axios.get(urlToBeUsedInTheRequest).then((response) => {
+                this.activities = response.data
+            },
+                /* Error callback */
+                function (){
+                   this.errorMessage();
+                }.bind(this)
+            );
+        },
+        viewUser: function(id){
+            if(process.env.NODE_ENV === 'production'){
+                window.location.href="pages/user/"+id+"";
+            }else{
+                window.location.href="user/"+id+"";
+            }
+        },
+        viewCourse: function(id){
+            if(process.env.NODE_ENV === 'production'){
+                window.location.href="pages/viewcourse/"+id+"";
+            }else{
+                window.location.href="viewcourse/"+id+"";
+            }
+        },
+        processDateTime: function(date){
+            var dt1 = new Date();
+            var dt2 = new Date(date);
+            var diffTime = Math.abs(dt2 - dt1); 
+            var diffinMinutes = diffTime / (1000 * 60); 
+            var diffInHours = diffTime / (1000 * 60 * 60); 
+
+            var day = dt2.getDate();
+            var month = dt2.getMonth();
+            var year = dt2.getFullYear()
+
+
+            if(diffinMinutes > 60){
+                if(diffInHours < 24){
+                    return this.lang["activity-about-time-hour"] + Math.round(diffInHours) + this.lang["activity-time-hour-ago"];
+                }else{
+                    return day + '/' + month + '/' + year;
+                }
+            }else{
+                return this.lang["activity-few-minutes-ago"];
+            }
+          
+            
         }
     }
 }
@@ -305,6 +326,10 @@ export default {
   width: 100%;
   height:100%;
   max-height: 100%;
+}
+
+.user-avatar{
+    width:70px;
 }
 
 

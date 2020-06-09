@@ -97,7 +97,7 @@ export default {
             var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("Login", "doLogin");
             axios.post(urlToBeUsedInTheRequest, formData).then((response) => {
                 if(response.data == true){
-                    window.location.href = this.getDomainNameToNavigation() + 'dashboard';
+                    window.location.href = this.getDomainNameToNavigation() + 'courses';
                 }else{
                     this.wrongPasswordOrUser = true;
                 }

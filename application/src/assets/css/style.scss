@@ -7157,6 +7157,10 @@ input[type=radio]:checked.mxn + label {
   color:#00A9B4;
 }
 
+.text-sabiorealm:hover{
+  color:#00C0FD;
+}
+
 .text-sabiorealm-secondary{
   color: #29277F;
 }
@@ -7441,6 +7445,11 @@ a.btn-eadtools-block{
 
 .el-select-dropdown__item.selected{
   color:#09aec7;
+}
+
+.el-select-dropdown__wrap.el-scrollbar__wrap{
+    margin-right: -5px;
+    margin-bottom: -15px !important;
 }
 
 

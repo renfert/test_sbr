@@ -125,6 +125,10 @@ export default {
             this.getAnswers(this.questionId);
         }.bind(this));
 
+        eventBus.$on('new-open-modal-edit-question', function(response){
+            this.getAnswers(response["questionId"]);
+        }.bind(this));
+
         this.getAnswers(this.questionId);
     },
     methods: {
