@@ -12,7 +12,7 @@
         <div class="content-page">
             <div class="content">
                 <div class="container-fluid">
-                    <view-program></view-program>
+                    <view-program v-if="programId != ''" :program-id="programId"></view-program>
                 </div>
             </div>
         </div> <!-- End of content page -->
@@ -53,15 +53,12 @@ export default {
     },
     data: function() {
         return {
-            favicon: '',
+            programId: '',
         }
     },
     created(){
         this.getIntegrations();
-
-        eventBus.$on("change-leftbar-class", function(){
-            this.mobile == "retracted" ? this.mobile = "opened" : this.mobile = "retracted";
-        }.bind(this))
+        this.programId = sessionStorage.getItem('sbr_program_id');
     },
     methods: {
         getIntegrations: function(){

@@ -309,11 +309,9 @@ export default {
         }
     },
     created(){
-        var urlParameter = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
-
-        this.courseId = urlParameter;
-
-        this.getCourse(urlParameter);
+        var courseId = sessionStorage.getItem('sbr_product_id');
+        this.courseId = courseId
+        this.getCourse(courseId);
     },
     mounted(){
         eventLang.$on('lang', function(response){  

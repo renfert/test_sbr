@@ -147,10 +147,11 @@ export default {
             );
         },
         viewProduct:function(id){
+            sessionStorage.setItem('sbr_product_id', ''+id+'');
             if(process.env.NODE_ENV === 'production'){
-                window.location.href="pages/product/"+id+"";
+                window.location.href="pages/product";
             }else{
-                 window.location.href="product/"+id+"";
+                 window.location.href="product";
             }
         },
     }

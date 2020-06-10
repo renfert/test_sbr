@@ -23,13 +23,20 @@
 
     "activity-course-created": " Creó un nuevo curso: ",
     "activity-course-deleted": " borró un curso: ",
+    "activity-course-edited": " editó un curso: ",
+    "activity-course-finished": " terminó el curso: ",
+    "activity-finished-lesson": " terminó la lección: ",
     "activity-about-time-minute": " Hace unos ",
     "activity-about-time-hour": " Hace aproximadamente ",
     "activity-time-minute-ago": " minutos ",
     "activity-time-hour-ago": " horas ",
     "activity-few-minutes-ago": " Hace pocos minutos... ",
-    "activity-in": "En ",
+    "activity-logout": " se fue ",
+    "activity-login": " se unió ",
+    "in-the-course": " en el curso ",
+    "activity-program-created": " Creó un nuevo programa: ",
 
+    "no-activities": "Sin actividades",
 
     "view-topbar-title": "Ver como",
     "admin-view-topbar": "Administrador",
@@ -186,11 +193,14 @@
 
     "no-results-courses-in-group" : "No hay cursos asignados a este grupo",
     "no-results-courses-in-user": "El usuario no está asignado a ningún curso.",
+    "no-results-programs-in-user" : "El usuario no está asignado a ningún programa.",
     "this-looks-like-a-desert": "Al parecer es un desierto",
     "add-course": "Agregar curso",
     "add-student": "Agregar alumno",
     "add-instructor": "Agregar instructor",
     "add-program": "Agregar programa",
+
+    "profile": "Perfil",
 
     "this-email-doesnt-exist": "Este correo no existe",
 
@@ -210,7 +220,7 @@
     "question-delete-answer": "Eliminar respuesta: ",
     "answer-deleted-success": "Respuesta eliminada",
 
-    "all-courses-already-added": "Todos los cursos ya están agregados.",
+    "all-courses-already-added": "No hay cursos para agregar.",
     "all-students-already-added": "Todos los estudiantes ya están agregados.",
     "all-instructors-already-added": "Todos los instructores ya están agregados.",
     "all-programs-already-added": "Todos los programas ya están agregados.",
@@ -243,8 +253,8 @@
     "what-would-you-like-to-do": "¿Que te gustaría hacer ahora?",
     "view-course": "Ver el curso",
     "view-program": "Ver el programa",
-    "create-new-program" : "Crear un nuevo programa",
-    "share": "Compartir curso",
+    "create-new-program" : "Nuevo programa",
+    "share": "Compartir",
     "join-students": "Inscribir alumnos en este curso",
     "create-new-course": "Nuevo curso",
     "select-role": "Rol de usuario",
@@ -252,6 +262,14 @@
     "join-persons": "Agregar personas",
 
     "course-created-successfully": "Curso creado con éxito",
+    "program-created-successfully": "Programa creado con éxito",
+
+    "program-expired": "El programa expiró en: ",
+
+    "program-avaiable-in" : "Programa disponible en: ",
+
+    "total-courses-completed": "Total de cursos completados: ",
+
 
     "create-first-question": "Crear una nueva pregunta",
     "create-new-question": "Crear pregunta",

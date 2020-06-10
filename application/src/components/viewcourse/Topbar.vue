@@ -106,7 +106,7 @@ export default {
     },
     created: function(){
         this.getCompanyLogo();
-        var courseId = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
+        var courseId = sessionStorage.getItem('sbr_course_id');
         this.courseId = courseId;
         this.getCourse(courseId);
         this.getCourseProgress(courseId);

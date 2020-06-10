@@ -214,9 +214,6 @@ class Course_Model extends CI_Model {
    
 
 	public function edit($dataReceiveFromPost){
-        $this->Activity_Model->save("course-edited", $dataReceiveFromPost["id"], 1, null, 1, null,null,null,null);
-    
-
         $data = array(
             'title' => $dataReceiveFromPost["title"],
             'description' => $dataReceiveFromPost["description"],
@@ -233,6 +230,7 @@ class Course_Model extends CI_Model {
         );
         $this->db->where("id" , $dataReceiveFromPost["id"]);
         if($this->db->update("mycourse", $data)){
+            $this->Activity_Model->save("course-edited", $dataReceiveFromPost["id"], 1, null, 1, null,null,null,null);
             return true;
         }else{
             return false;

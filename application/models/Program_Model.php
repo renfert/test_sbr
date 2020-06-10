@@ -27,6 +27,8 @@ class Program_Model extends CI_Model {
         /* Eroll user creator into this program */
         $this->enrollUserIntoProgram($programId, getUserId());
 
+        $this->Activity_Model->save("program-created", 1, 1, null, $programId, null,null,null,null);
+
 
         return $programId;
     }
@@ -78,12 +80,15 @@ class Program_Model extends CI_Model {
 
   
     public function listing(){
+        $currentDate = getCurrentDate("Y-m-d");
         $this->db->select("
             T1.id,
             T1.title,
             T1.photo, 
-            T1.release_date, 
-            T1.expiration_date, 
+            DATE_FORMAT(T1.release_date, '%d/%m/%Y') as release_date, 
+            DATE_FORMAT(T1.expiration_date, '%d/%m/%Y') as expiration_date, 
+            DATEDIFF(T1.expiration_date, '$currentDate') as expirationDays,
+            DATEDIFF(T1.release_date, '$currentDate') as releaseDays,
             (SELECT count( DISTINCT T3.mylesson_id) FROM program_has_mycourse T2 INNER JOIN lesson_status T3 ON T2.mycourse_id = T3.mycourse_id WHERE T2.program_id = T1.id ) as lessons,
             (SELECT count( DISTINCT T3.mylesson_id) FROM program_has_mycourse T2 INNER JOIN lesson_status T3 ON T2.mycourse_id = T3.mycourse_id WHERE T2.program_id = T1.id AND T3.status = 'finished' ) as finishedLessons");
         $this->db->distinct();
@@ -100,15 +105,22 @@ class Program_Model extends CI_Model {
     }
 
    
-    public function viewProgram($programId){
-        $this->db->select("*");
-        $this->db->from("mycourse");
-        $this->db->where("id" , $courseId );
+    public function listingCoursesToViewProgram($programId,$userId){
+        $this->db->select("
+            T2.title as program,
+            T1.title as course,
+            T1.id as id,
+            (SELECT DISTINCT COUNT(*) FROM lesson_status WHERE mycourse_id = T1.id AND status IS NULL AND myuser_id = $userId) as status"
+        );
+        $this->db->from("program_has_mycourse T0");
+        $this->db->join("mycourse T1", "T0.mycourse_id = T1.id");
+        $this->db->join("program T2", "T0.program_id = T2.id");
+        $this->db->where("T0.program_id", $programId);
         $query = $this->db->get();
-       
         if($query->num_rows() > 0){
-            return $query->row();
+            return $query->result();
         }
+
     }
 
     public function getCourses(){

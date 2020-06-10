@@ -44,12 +44,14 @@
             </div>
         </div>
 
-        <!-- No categories found content -->
-        <div class="text-center gap-20" v-else>
-            <h4>{{lang["no-leads-found"]}}</h4>
-            <img class="image-no-results" src="@/assets/img/general/ux/not_found.png" alt="">
+        <div class="row gap-20" v-else>
+            <div class="col-12 text-center">
+                <img class="no-results-img" src="@/assets/img/general/ux/not_found.png" alt="No leads">
+                <h4 class="no-results-text">{{lang["no-leads-found"]}}</h4>
+            </div>
         </div>
-        <!-- No categories found content end -->
+
+      
     </div>
 </template>
 

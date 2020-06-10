@@ -655,6 +655,23 @@ a:focus {
   color: #ffffff !important;
 }
 
+.no-results-text{
+  font-weight: 400;
+  color: #9e9c9c;
+  font-size: 1.2em ;
+}
+
+.no-results-img{
+  width:10%;
+}
+
+@media only screen and (max-width: 600px) {
+  .no-results-img{
+    width:30%;
+    margin-top:15%;
+  }
+}
+
 .text-danger {
   color: #ff5b5b !important;
 }

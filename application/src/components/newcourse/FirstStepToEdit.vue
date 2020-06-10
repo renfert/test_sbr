@@ -255,8 +255,7 @@ export default {
         }
     },
     created(){
-        var urlParameter = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
-        this.courseId = urlParameter;
+        this.courseId = sessionStorage.getItem('sbr_course_id');
         this.getCategories();
         this.getCourse();
     },

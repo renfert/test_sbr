@@ -1,7 +1,7 @@
 <template>
     <div class="col-12">
         <!-- Group list -->
-        <div class="card-box table-responsive">
+        <div class="card-box table-responsive" v-if="groupList != null">
 
             <facebook-loader 
                 v-if="loadingContent == true"
@@ -13,7 +13,7 @@
             </facebook-loader>
 
             <div v-else>
-                <div v-if="groupList != null">
+                <div>
                     <h4>{{lang["list-group"]}}</h4>
                     <div style="margin-bottom: 10px">
                         <el-row>
@@ -54,21 +54,6 @@
                         </el-table-column>
                     </data-tables>
                 </div>  
-
-                <div class="box-no-results" v-else>
-                    <div class="row">
-                        <div class="col-1"></div>
-                        <div class="col-5">
-                            <div class="text-no-results">
-                                <h4>{{lang["no-results-group-title"]}}</h4>
-                                <p>{{lang["no-results-group-subtitle"]}} <span class="text-eadtools">{{lang["no-results-group-subtitle-highlight"]}}</span></p>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <img class="image-no-results" src="@/assets/img/general/ux/no_persons.png" alt="">
-                        </div>
-                    </div>
-                </div>
         
                 <!-- Group edit modal -->
                 <div>
@@ -88,6 +73,13 @@
                         </div>
                     </el-dialog>
                 </div>
+            </div>
+        </div>
+
+        <div class="row mb-5 mt-5" v-else>
+            <div class="col-12 text-center">
+                <img class="no-results-img" src="@/assets/img/general/ux/no_persons.png" alt="No persons">
+                <h4 class="no-results-text">{{lang["no-results-group-title"]}}</h4>
             </div>
         </div>
     </div>

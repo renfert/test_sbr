@@ -8,24 +8,22 @@
         <div class="content-page">
             <div class="content">
                 <div class="container-fluid">
-                    <div class="row mt-5">
-                        <div class="svg-wrapper">
-                            <svg height="60" width="320" xmlns="http://www.w3.org/2000/svg">
-                            <rect class="shape" height="60" width="320" />
-                            </svg>
-                            <div class="text">{{name}}</div>
-                        </div>
-
+                    <div class="row mt-5 text-center">
                         <!-- Group tabs -->
                         <div class="col-12">
                             <el-tabs type="border-card">
+                                <el-tab-pane style="height:800px">
+                                    <span slot="label"><i class="el-icon-user"></i> {{lang["profile"]}} </span>
+                                    <profile :user-id="userId"></profile>
+                                </el-tab-pane>
+
                                 <el-tab-pane>
                                     <span slot="label"><i class="mdi mdi-book-outline"></i> {{lang["courses"]}} </span>
                                     <courses :user-id="userId"></courses>
                                 </el-tab-pane>
 
                                 <el-tab-pane>
-                                    <span slot="label"><i class="mdi mdi-account-star-outline"></i> {{lang["programs"]}} </span>
+                                    <span slot="label"><i class="el-icon-s-unfold"></i> {{lang["programs"]}} </span>
                                     <programs :user-id="userId"></programs>
                                 </el-tab-pane>
                             </el-tabs>
@@ -51,6 +49,7 @@ import lang from 'element-ui/lib/locale/lang/en'
 import locale from 'element-ui/lib/locale'
 import Courses from '@/components/user/Courses'
 import Programs from '@/components/user/Programs'
+import Profile from '@/components/user/Profile'
 import Vue from 'vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
@@ -78,7 +77,7 @@ export default {
     },
     created(){
         this.getIntegrations();
-        this.userId = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
+        this.userId = sessionStorage.getItem('sbr_user_id');
         this.getUser();
     },
     methods: {
@@ -135,12 +134,13 @@ export default {
     ],
   },
   components: { 
-    TopBar,
-    LeftBar,
-    UpdatePlan,
-    Lang, 
-    Courses,
-    Programs,
+        TopBar,
+        LeftBar,
+        UpdatePlan,
+        Lang, 
+        Courses,
+        Programs,
+        Profile
   },
   mounted() {
     eventLang.$on('lang', function(response){
@@ -151,50 +151,6 @@ export default {
 </script>
 
 <style>
-.svg-wrapper {
-  cursor:pointer;
-  height: 60px;
-	margin: 0 auto;
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 320px;
-}
 
-.shape {
-  fill: transparent;
-  stroke-dasharray: 140 540;
-  stroke-dashoffset: -474;
-  stroke-width: 8px;
-  stroke: #009CD8 ;
-}
-
-.text {
-  color: #4F4F4F;
-  font-family: 'Poppins', sans-serif;
-  font-size: 22px;
-  letter-spacing: 5px;
-  position: relative;
-  top: -48px;
-  text-align:center;
-}
-
-@keyframes draw {
-  0% {
-    stroke-dasharray: 140 540;
-    stroke-dashoffset: -474;
-    stroke-width: 8px;
-  }
-  100% {
-    stroke-dasharray: 760;
-    stroke-dashoffset: 0;
-    stroke-width: 2px;
-  }
-}
-
-.svg-wrapper:hover .shape {
-  -webkit-animation: 0.5s draw linear forwards;
-  animation: 0.5s draw linear forwards;
-}
 
 </style>

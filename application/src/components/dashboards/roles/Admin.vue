@@ -58,7 +58,7 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row" v-if="activities != null">
             <div class="col-12 col-md-12 mb-5">
                 <div class="card-widget" style="overflow-y: scroll; height:500px;border-radius:10px 0px 0px 10px !important;">
                     <div class="activities-title text-center mb-5">
@@ -89,6 +89,7 @@
                                             @click.prevent="viewCourse(element.mycourse_id)" href="javascript:void(0)">
                                             <b class="text-sabiorealm">{{element.title}} </b>
                                         </a> 
+                                        <i class="ti-blackboard text-success"></i>
                                      </h4>
                                     <span>{{processDateTime(element.date)}}</span>
                                 </div>
@@ -101,18 +102,115 @@
                                             <b class="text-sabiorealm">{{element.name}} </b>
                                         </a> 
                                         {{lang["activity-course-deleted"]}}
-                                        <b class="text-danger">{{element.course_title}} </b>
+                                        <b class="text-sabiorealm">{{element.course_title}} </b>
+                                        <i class="ti-trash text-danger"></i>
                                      </h4>
                                     <span>{{processDateTime(element.date)}}</span>
                                 </div>
+
+                                <!-- Course edited -->
+                                <div class="activity-info" v-if="element.type == 'course-edited' ">
+                                    <h4>
+                                        <a 
+                                            @click.prevent="viewUser(element.create_user)" href="javascript:void(0)">
+                                            <b class="text-sabiorealm">{{element.name}} </b>
+                                        </a> 
+                                        {{lang["activity-course-edited"]}}
+                                        <a 
+                                            @click.prevent="viewCourse(element.mycourse_id)" href="javascript:void(0)">
+                                            <b class="text-sabiorealm">{{element.title}} </b>
+                                        </a> 
+                                        <i class="ti-pencil-alt text-warning"></i>
+                                     </h4>
+                                    <span>{{processDateTime(element.date)}}</span>
+                                </div>
+
+                                <!-- Lesson finished -->
+                                <div class="activity-info" v-if="element.type == 'lesson-finished' ">
+                                    <h4>
+                                        <a 
+                                            @click.prevent="viewUser(element.create_user)" href="javascript:void(0)">
+                                            <b class="text-sabiorealm">{{element.name}} </b>
+                                        </a> 
+                                        {{lang["activity-finished-lesson"]}}
+                                        <b class="text-sabiorealm">{{element.lessonTitle}} </b>
+                                        {{lang["in-the-course"]}}
+                                        <a 
+                                            @click.prevent="viewCourse(element.mycourse_id)" href="javascript:void(0)">
+                                            <b class="text-sabiorealm">{{element.title}} </b>
+                                        </a> 
+                                        <i class="ti-arrow-circle-down text-success"></i>
+                                     </h4>
+                                    <span>{{processDateTime(element.date)}}</span>
+                                </div>
+
+                                <!-- Course finished -->
+                                <div class="activity-info" v-if="element.type == 'course-finished' ">
+                                    <h4>
+                                        <a 
+                                            @click.prevent="viewUser(element.create_user)" href="javascript:void(0)">
+                                            <b class="text-sabiorealm">{{element.name}} </b>
+                                        </a> 
+                                        {{lang["activity-course-finished"]}}
+                                        <a 
+                                            @click.prevent="viewCourse(element.mycourse_id)" href="javascript:void(0)">
+                                            <b class="text-sabiorealm">{{element.title}} </b>
+                                        </a> 
+                                        <i class="ti-arrow-circle-down text-success"></i>
+                                     </h4>
+                                    <span>{{processDateTime(element.date)}}</span>
+                                </div>
+
+                                <!-- Logout -->
+                                <div class="activity-info" v-if="element.type == 'logout' ">
+                                    <h4>
+                                        <a 
+                                            @click.prevent="viewUser(element.create_user)" href="javascript:void(0)">
+                                            <b class="text-sabiorealm">{{element.name}} </b>
+                                        </a> 
+                                        {{lang["activity-logout"]}}
+                                        <i class="ti-shift-left text-danger"></i>
+                                     </h4>
+                                    <span>{{processDateTime(element.date)}}</span>
+                                </div>
+
+                                <!-- Login -->
+                                <div class="activity-info" v-if="element.type == 'login' ">
+                                    <h4>
+                                        <a 
+                                            @click.prevent="viewUser(element.create_user)" href="javascript:void(0)">
+                                            <b class="text-sabiorealm">{{element.name}} </b>
+                                        </a> 
+                                        {{lang["activity-login"]}}
+                                        <i class="ti-shift-right text-success"></i>
+                                     </h4>
+                                    <span>{{processDateTime(element.date)}}</span>
+                                </div>
+
+                                <!-- Program created -->
+                                <div class="activity-info" v-if="element.type == 'program-created' ">
+                                    <h4>
+                                        <a 
+                                            @click.prevent="viewUser(element.create_user)" href="javascript:void(0)">
+                                            <b class="text-sabiorealm">{{element.name}} </b>
+                                        </a> 
+                                        {{lang["activity-program-created"]}}
+                                        <i class="ti-layers-alt text-success"></i>
+                                     </h4>
+                                    <span>{{processDateTime(element.date)}}</span>
+                                </div>
+
                             </div>
                         </div>
                     </div> <!-- End Activity -->
-
-                    <div class="text-center mt-3">
-                        <a href="javascript:void(0)" class="text-sabiorealm">Load more...</a>
-                    </div>
                 </div>
+            </div>
+        </div>
+
+        <div class="row mb-5" v-else>
+            <div class="col-12 text-center">
+                <img class="no-results-img" src="@/assets/img/general/ux/no_notification.png" alt="No activities">
+                <h4 class="no-results-text">{{lang["no-activities"]}}</h4>
             </div>
         </div>
     </div> 
@@ -279,17 +377,19 @@ export default {
             );
         },
         viewUser: function(id){
+            sessionStorage.setItem('sbr_user_id', ''+id+'');
             if(process.env.NODE_ENV === 'production'){
-                window.location.href="pages/user/"+id+"";
+                window.location.href="pages/user";
             }else{
-                window.location.href="user/"+id+"";
+                window.location.href="user";
             }
         },
         viewCourse: function(id){
+            sessionStorage.setItem('sbr_course_id', ''+id+'');
             if(process.env.NODE_ENV === 'production'){
-                window.location.href="pages/viewcourse/"+id+"";
+                window.location.href="pages/viewcourse";
             }else{
-                window.location.href="viewcourse/"+id+"";
+                window.location.href="viewcourse";
             }
         },
         processDateTime: function(date){

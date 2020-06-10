@@ -14,71 +14,140 @@ class Pages extends CI_Controller {
     }
 
     public function users(){
-        $this->load->view('users.html');
+        if(activeSession()){
+            $this->load->view('users.html');
+        }else{
+            $this->load->view('404session.html');
+        }
     }
 
     public function user(){
-        $this->load->view('user.html');
+        if(activeSession()){
+            $this->load->view('user.html');
+        }else{
+            $this->load->view('404session.html');
+        }
+       
     }
 
     public function site(){
-        $this->load->view('site.html');
+        if(activeSession()){
+            $this->load->view('site.html');
+        }else{
+            $this->load->view('404session.html');
+        }
     }
 
     public function courses(){
-        $this->load->view('courses.html');
+       if(activeSession()){
+            $this->load->view('courses.html');
+        }else{
+            $this->load->view('404session.html');
+        }
     }
 
     public function newcourse(){
-        $this->load->view('newcourse.html');
+        if(activeSession()){
+            $this->load->view('newcourse.html');
+        }else{
+            $this->load->view('404session.html');
+        }
     }
 
     public function viewcourse(){
-        $this->load->view('viewcourse.html');
+        if(activeSession()){
+            $this->load->view('viewcourse.html');
+        }else{
+            $this->load->view('404session.html');
+        }
     }
 
     public function dashboard(){
-        $this->load->view('dashboard.html');
+        if(activeSession()){
+            $this->load->view('dashboard.html');
+        }else{
+            $this->load->view('404session.html');
+        }
     }
 
     public function categories(){
-        $this->load->view('categories.html');
+        if(activeSession()){
+            $this->load->view('categories.html');
+        }else{
+            $this->load->view('404session.html');
+        }
     }
 
     public function certificates(){
-        $this->load->view('certificates.html');
+        if(activeSession()){
+            $this->load->view('certificates.html');
+        }else{
+            $this->load->view('404session.html');
+        }
     }
 
     public function corrections(){
-        $this->load->view('corrections.html');
+        if(activeSession()){
+            $this->load->view('corrections.html');
+        }else{
+            $this->load->view('404session.html');
+        }
     }
 
     public function editcourse(){
-        $this->load->view('editcourse.html');
+        if(activeSession()){
+            $this->load->view('editcourse.html');
+        }else{
+            $this->load->view('404session.html');
+        }
     }
 
     public function group(){
-        $this->load->view('group.html');
+        if(activeSession()){
+            $this->load->view('group.html');
+        }else{
+            $this->load->view('404session.html');
+        }
     }
 
     public function groups(){
-        $this->load->view('groups.html');
+        if(activeSession()){
+            $this->load->view('groups.html');
+        }else{
+            $this->load->view('404session.html');
+        }
     }
 
     public function helpcenter(){
-        $this->load->view('helpcenter.html');
+        if(activeSession()){
+            $this->load->view('helpcenter.html');
+        }else{
+            $this->load->view('404session.html');
+        }
     }
 
     public function integrations(){
-        $this->load->view('integrations.html');
+        if(activeSession()){
+            $this->load->view('integrations.html');
+        }else{
+            $this->load->view('404session.html');
+        }
     }
 
     public function newprogram(){
-        $this->load->view('newprogram.html');
+        if(activeSession()){
+            $this->load->view('newprogram.html');
+        }else{
+            $this->load->view('404session.html');
+        }
     }
 
     public function plans(){
-        $this->load->view('plans.html');
+        if(activeSession()){
+            $this->load->view('plans.html');
+        }else{
+            $this->load->view('404session.html');
+        }
     }
 
     public function product(){
@@ -86,23 +155,43 @@ class Pages extends CI_Controller {
     }
 
     public function profile(){
-        $this->load->view('profile.html');
+        if(activeSession()){
+            $this->load->view('profile.html');
+        }else{
+            $this->load->view('404session.html');
+        }
     }
 
     public function programs(){
-        $this->load->view('programs.html');
+        if(activeSession()){
+            $this->load->view('programs.html');
+        }else{
+            $this->load->view('404session.html');
+        }
     }
 
     public function records(){
-        $this->load->view('records.html');
+        if(activeSession()){
+            $this->load->view('records.html');
+        }else{
+            $this->load->view('404session.html');
+        }
     }
 
     public function settings(){
-        $this->load->view('settings.html');
+        if(activeSession()){
+            $this->load->view('settings.html');
+        }else{
+            $this->load->view('404session.html');
+        }
     }
 
     public function calendar(){
-        $this->load->view('calendar.html');
+        if(activeSession()){
+            $this->load->view('calendar.html');
+        }else{
+            $this->load->view('404session.html');
+        }
     }
 
     public function products(){
@@ -110,11 +199,26 @@ class Pages extends CI_Controller {
     }
 
     public function leads(){
-        $this->load->view('leads.html');
+        if(activeSession()){
+            $this->load->view('leads.html');
+        }else{
+            $this->load->view('404session.html');
+        }
+    }
+    
+    public function viewprogram(){
+        if(activeSession()){
+            $this->load->view('viewprogram.html');
+        }else{
+            $this->load->view('404session.html');
+        }
     }
 
     public function success(){
-        $data['title'] = 'Learndash';
         $this->load->view('purchasesuccess.html');
+    }
+
+    public function notfound(){
+        $this->load->view('404.html');
     }
 }

@@ -8,7 +8,11 @@
         <div class="content-page">
             <div class="content">
                 <div class="container-fluid">
-                    <create-program></create-program>
+                    <div class="form-wizard-wrapper">
+                        <div class="form-wizard-content-wrapper">
+                            <create-program></create-program>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div> <!-- End of content page -->
@@ -105,13 +109,7 @@ export default {
 </script>
 
 <style>
-    .image-no-results{
-        width:100%;
-    }
-    .box-construction{
-      background-color: #FCFCFC !important;
-    }
-    .text-no-results{
-        margin-top:25%;
-    }
+.form-wizard-wrapper{
+    position:relative !important;
+}
 </style>

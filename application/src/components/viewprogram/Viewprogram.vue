@@ -1,39 +1,33 @@
 <template>
     <div class="col-12">
         <div class="program-title">
-            <h2>Program title</h2>
+            <h2>{{programName}}</h2>
         </div>
         <div class="items-outer-container">
             <div class="items-container">
                 <div class="items">
                     
                     <div id="items-completed__header">
-                        <h1 class="total-items text-center">3 completed courses</h1>
+                        <h1 class="total-items text-center">{{lang["total-courses-completed"]}} <b class="text-sabiorealm"> {{totalCoursesCompleted}} </b></h1>
                     </div>
 
                     <hr class="mt-5 mb-5">
 
                     
-                    <div class="row item-row">
-                        <div class="col-2 item-icon text-center" style="padding:15px 30px 15px 30px;">
+                    <div class="row item-row" v-for="element in courses" :key="element.id">
+
+                        <div v-if="element.status == 0" class="col-2 item-icon text-center" style="padding:15px 30px 15px 30px;">
                             <svg  class="svg-inline--fa fa-check fa-w-2 completed" aria-hidden="true" data-prefix="fas" data-icon="check" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="#00E1F0" d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"></path></svg>
                         </div>
-                        <div class="col-4 mr-5 text-left item-name">
-                            <h3>Teste</h3>
-                        </div>
-                    </div>
 
-                     <div class="row item-row">
-                        <div class="col-2 item-icon text-center" style="padding:15px 30px 15px 30px;">
+                        <div v-else class="col-2 item-icon text-center" style="padding:15px 30px 15px 30px;">
                            <svg class="svg-inline--fa fa-circle fa-w-16 uncompleted" aria-hidden="true" data-prefix="far" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200z"></path></svg>
                         </div>
+
                         <div class="col-4 mr-5 text-left item-name">
-                            <h3>Teste</h3>
+                            <h3><a class="text-sabiorealm" href="javascript:void(0)">{{element.course}}</a></h3>
                         </div>
                     </div>
-
-                    
-                
                 </div>
             </div>
         </div>
@@ -59,36 +53,48 @@ Vue.use(VueTheMask)
 Vue.use(VueAxios, axios)
 export default {
     mixins: [domains,alerts],
+    props:['program-id'],
     data: function() {
         return {
-            lang: {}
+            lang: {},
+            courses:[],
+            totalCoursesCompleted: '',
+            programName: '',
         }
     },
     mounted(){
         eventLang.$on('lang', function(response){  
             this.lang = response;
         }.bind(this));
+
+        this.listingCoursesToViewProgram();
     },
     methods: {
-        getProgram: function(){
-            var form = document.getElementById('form-category')
-            var formData = new FormData(form)
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("program", "getCourses")
+        listingCoursesToViewProgram: function(){
+            var formData = new FormData();
+            formData.set("programId", this.programId);
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("program", "listingCoursesToViewProgram")
             axios.post(urlToBeUsedInTheRequest, formData).then((response) => {
-            /* Success callback */
-            if(response.data == false){ 
-                this.categoryAlreadyExistsMessage();
-            }else{
-                this.successMessage();
-                this.actionsToBePerformedAfterRegistration();       
-            }
-            },
+                /* Success callback */
+                this.courses = response.data;
+                this.programName = response.data[0]["program"];
+                this.completedCourses();
+            },  
             /* Error callback */
             function(){
                 this.errorMessage();  
             }
             );
         },
+        completedCourses: function(){
+            var total = 0;
+            for (let index = 0; index < this.courses.length; index++) {
+                if(this.courses[index]["status"] == 0){
+                    total = parseInt(total) + parseInt(1);
+                }
+            }
+            this.totalCoursesCompleted = total;
+        }   
     }
 }
 </script>

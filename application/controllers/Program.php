@@ -35,9 +35,10 @@ class Program extends CI_Controller {
     }
 
     
-    public function viewProgram(){
+    public function listingCoursesToViewProgram(){
         $programId = $this->input->post("programId");
-        $result = $this->Course_Model->get($programId);
+        $userId = getUserId();
+        $result = $this->Program_Model->listingCoursesToViewProgram($programId, $userId);
         echo json_encode($result);
     }
 

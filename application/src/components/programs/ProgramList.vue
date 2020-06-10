@@ -11,13 +11,14 @@
             <program-table-view v-else></program-table-view>
         </div>
 
-        <!-- No courses found content -->
-        <div class="text-center mt-5" v-else>
-            <h4>{{lang["no-programs-found"]}}</h4>
-            <img class="image-no-results" src="@/assets/img/general/ux/not_found.png" alt="">
+        <div class="row mb-5 mt-5" v-else>
+            <div class="col-12 text-center">
+                <img class="no-results-img" src="@/assets/img/general/ux/no_programs.png" alt="No programs">
+                <h4 class="no-results-text">{{lang["no-programs-found"]}}</h4>
+            </div>
         </div>
-        <!-- No courses found content end -->
 
+      
     </div><!-- End col-12 -->
 </template>
 

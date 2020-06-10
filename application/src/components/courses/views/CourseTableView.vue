@@ -72,10 +72,20 @@ export default {
     },
     methods:{
         editCourse:function(id){
-            window.location.href="pages/editcourse/"+id+"";
+            sessionStorage.setItem('sbr_course_id', ''+id+'');
+            if(process.env.NODE_ENV === 'production'){
+                window.location.href="pages/editcourse";
+            }else{
+                window.location.href="editcourse";
+            }
         },
         viewCourse: function(id){
-            window.location.href="pages/viewcourse/"+id+"";
+            sessionStorage.setItem('sbr_course_id', ''+id+'');
+            if(process.env.NODE_ENV === 'production'){
+                window.location.href="pages/viewcourse";
+            }else{
+                 window.location.href="viewcourse";
+            }
         },
         updateCourseListArray(){
             this.loading = true;

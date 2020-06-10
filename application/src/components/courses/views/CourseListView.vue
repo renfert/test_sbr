@@ -112,10 +112,11 @@ export default {
     },
     methods:{
         editCourse:function(id){
+            sessionStorage.setItem('sbr_course_id', ''+id+'');
             if(process.env.NODE_ENV === 'production'){
-                window.location.href="pages/editcourse/"+id+"";
+                window.location.href="pages/editcourse";
             }else{
-                 window.location.href="editcourse/"+id+"";
+                 window.location.href="editcourse";
             }
         },
 
@@ -135,10 +136,11 @@ export default {
             );
         },
         viewCourse: function(id){
+            sessionStorage.setItem('sbr_course_id', ''+id+'');
             if(process.env.NODE_ENV === 'production'){
-                window.location.href="pages/viewcourse/"+id+"";
+                window.location.href="pages/viewcourse";
             }else{
-                 window.location.href="viewcourse/"+id+"";
+                 window.location.href="viewcourse";
             }
         },
         getCourses(){

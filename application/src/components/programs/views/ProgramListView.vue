@@ -5,38 +5,50 @@
                <!-- Card -->
                 <div class="card">
                 
-                <a @click.prevent="viewProgram(element.id)" v-if="element.photo != '' && element.photo != null">
-                    <!-- Card image -->
-                    <img  class="card-img-top" :src="''+getCurrentDomainName()+'assets/uploads/program/' + element.photo" alt="Card image cap">
-                </a>
+                    <a  @click.prevent="viewProgram(element.id,element.expirationDays,element.releaseDays)" v-if="element.photo != '' && element.photo != null">
+                        <!-- Card image -->
+                        <img  class="card-img-top" :src="''+getCurrentDomainName()+'assets/uploads/program/' + element.photo" alt="Card image cap">
+                    </a>
 
-                <a  @click.prevent="viewProgram(element.id)" v-else>
-                    <img  class="card-img-top" src="@/assets/img/general/ux/course_image_default.png" alt="Card image cap">
-                </a>
+                    <a  @click.prevent="viewProgram(element.id,element.expirationDays,element.releaseDays)" v-else>
+                        <img  class="card-img-top" src="@/assets/img/general/ux/course_image_default.png" alt="Card image cap">
+                    </a>
                     
-                <!-- Card content -->
-                <div class="card-body">
+                    <!-- Card content -->
+                    <div class="card-body">
+                        <!-- Title -->
+                        <h4 class="card-title"><a @click.prevent="viewProgram(element.id,element.expirationDays,element.releaseDays)">{{element.title}}</a></h4>
 
-                    <!-- Title -->
-                    <h4 class="card-title"><a @click.prevent="viewProgram(element.id)">{{element.title}}</a></h4>
-                    <el-progress  :percentage="parseInt(((100 * element.finishedLessons) /  element.lessons ))"></el-progress>
-                    <el-divider v-if="roleId != 3"><i class="el-icon-more-outline"></i></el-divider>
-                    <el-row v-if="roleId != 3">
-                        <el-button class="btn-sabiorealm" @click.prevent="editProgram(element.id)" type="primary" icon="el-icon-edit" circle></el-button>
-                        <template>
-                            <el-popconfirm
-                                confirmButtonText='Ok'
-                                cancelButtonText='No, Thanks'
-                                placement="right"
-                                :title="lang['question-delete-program'] + element.title  + '?'"
-                                @onConfirm="deleteProgram(element.id)"
-                            >
-                            <el-button class="btn-sabiorealm-danger" slot="reference" type="danger" icon="el-icon-delete" circle></el-button>
-                            </el-popconfirm>
-                        </template>
-                    </el-row>
+                        <el-progress  :percentage="parseInt(((100 * element.finishedLessons) /  element.lessons ))"></el-progress>
 
-                </div>
+                        <el-tag
+                            v-if="element.expirationDays < 0"
+                            type="danger">
+                            {{lang["program-expired"]}} {{element.expiration_date}}
+                        </el-tag>
+
+                        <el-tag
+                            v-if="element.releaseDays > 0"
+                            type="primary">
+                            {{lang["program-avaiable-in"]}} {{element.release_date}}
+                        </el-tag>
+
+                        <el-divider v-if="roleId != 3"><i class="el-icon-more-outline"></i></el-divider>
+                        <el-row v-if="roleId != 3">
+                            <el-button class="btn-sabiorealm" @click.prevent="editProgram(element.id)" type="primary" icon="el-icon-edit" circle></el-button>
+                            <template>
+                                <el-popconfirm
+                                    confirmButtonText='Ok'
+                                    cancelButtonText='No, Thanks'
+                                    placement="right"
+                                    :title="lang['question-delete-program'] + element.title  + '?'"
+                                    @onConfirm="deleteProgram(element.id)"
+                                >
+                                <el-button class="btn-sabiorealm-danger" slot="reference" type="danger" icon="el-icon-delete" circle></el-button>
+                                </el-popconfirm>
+                            </template>
+                        </el-row>
+                    </div>
 
                 </div>
                 <!-- Card -->
@@ -112,11 +124,23 @@ export default {
                 }.bind(this)
             );
         },
-        viewProgram: function(id){
-            if(process.env.NODE_ENV === 'production'){
-                window.location.href="pages/viewprogram/"+id+"";
-            }else{
-                 window.location.href="viewprogram/"+id+"";
+        viewProgram: function(id,expirationDays,releaseDays){
+            
+            if(releaseDays == null){
+                releaseDays = -1;
+            }
+
+            if(expirationDays == null){
+                expirationDays = 1;
+            }
+
+            if(expirationDays > 0  && releaseDays <= 0){
+                sessionStorage.setItem('sbr_program_id', ''+id+'');
+                if(process.env.NODE_ENV === 'production'){
+                    window.location.href="pages/viewprogram";
+                }else{
+                    window.location.href="viewprogram";
+                }
             }
         },
         getProgram(){
@@ -148,5 +172,9 @@ export default {
 <style lang="scss" scoped>
 .list-courses{
     margin-bottom: 50px !important;
+}
+
+.unavaiable-by-date{
+
 }
 </style>
