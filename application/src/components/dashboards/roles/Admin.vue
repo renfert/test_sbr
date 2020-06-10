@@ -29,7 +29,7 @@
                         <div class="title-widget text-center">
                             <img src="@/assets/img/general/ux/storage.png" alt="">
                             <el-tooltip class="item" effect="dark" :content="totalStorageUsed + ' GB / ' + totalStorageAvaiable + ' GB' " placement="bottom">
-                                <h3 class="text-sabiorealm">{{lang["storage"]}} <b>0,6%</b></h3>
+                                <h3 class="text-sabiorealm">{{lang["storage"]}} <b>{{storagePercent}}</b></h3>
                             </el-tooltip>
                         </div>
                     </div>
@@ -254,6 +254,7 @@ export default {
             numberTotalOfUsers: '',
             numberTotalOfCourses: '',
             plan: '',
+            storagePercent:'',
             activities: [],
             totalStorageAvaiable: '',
             totalStorageUsed:'',    
@@ -334,7 +335,8 @@ export default {
         getStorage: function(){
             var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("widgets", "getStorage");
             axios.get(urlToBeUsedInTheRequest).then((response) => {
-                this.totalStorageUsed = response.data
+                this.totalStorageUsed = response.data;
+                this.storagePercent = (100 * response.data / this.totalStorageAvaiable).toFixed(2) + ' %';
             },
                 /* Error callback */
                 function (){
