@@ -1,87 +1,110 @@
 <template>
-    <div class="col-auto gap5" v-loading="loading">
+    <div class="col-auto gap5">
         
-        <!-- Courses list content -->
-        <div class="course-content" v-if="coursesInsideGroup != null">
-            <div style="margin-bottom: 10px" >
-                <el-row>
-                    <el-col :span="6">
-                        <el-input v-model="filters[0].value" placeholder="Search"></el-input>
-                    </el-col>
-                    <el-col :span="6">
-                        <el-button  @click.prevent="addCourse" style="margin-left:15%;" class="btn-sabiorealm" icon="el-icon-plus" circle></el-button>
-                    </el-col>
-                </el-row>
-            </div>
-            <data-tables :pagination-props="{ background: true, pageSizes: [5] }"  :data="coursesInsideGroup"  :filters="filters">
-                <el-table-column v-for="title in titles"  sortable="custom" :prop="title.prop" :label="title.label" :key="title.label">
-                </el-table-column>
+        <facebook-loader 
+            v-if="loadingContent == true"
+            :speed="2"
+            width="700"
+            height="200"
+            primaryColor = "#f0f0f0"
+            secondaryColor = "#d9d9d9"
+        >
+        </facebook-loader>
 
-                <el-table-column label="Actions" align="center">
-                    <template slot-scope="scope">
-                        <!-- Remove course -->
-                        <el-popconfirm  
-                        confirmButtonText='Ok'
-                        cancelButtonText='No, Thanks'
-                        :title="lang['remove-course-question'] + scope.row.title  + '?'"
-                        @onConfirm="removeCourseFromGroup(scope.row.id)"
-                        >
-                            <el-button class="btn-sabiorealm" slot="reference" type="danger"  size="medium" icon="el-icon-delete" circle></el-button>
-                        </el-popconfirm>
-                    </template>
-                </el-table-column>
-            </data-tables>
-        </div> <!-- Courses list content -->
+        <div v-else>
+            
+            <!-- Programs list content -->
+            <div class="program-content" v-if="enrolledPrograms != null">
+                <div style="margin-bottom: 10px" >
+                    <el-row>
+                        <el-col :span="6">
+                            <el-input v-model="filters[0].value" placeholder="Search"></el-input>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-button  @click.prevent="addProgram" style="margin-left:15%;" class="btn-sabiorealm" icon="el-icon-plus" circle></el-button>
+                        </el-col>
+                    </el-row>
+                </div>
+                <data-tables :pagination-props="{ background: true, pageSizes: [5] }"  :data="enrolledPrograms"  :filters="filters">
+                    <el-table-column v-for="title in titles"  sortable="custom" :prop="title.prop" :label="title.label" :key="title.label">
+                    </el-table-column>
 
-        <div class="row mb-5 mt-5" v-else>
-            <div class="col-12 text-center">
-                <img class="no-results-img" src="@/assets/img/general/ux/no_programs.png" alt="No persons">
-                <h4 class="no-results-text">{{lang["no-results-programs-in-user"]}}</h4>
-                <el-button   
-                    class="btn-sabiorealm"
-                    @click="addCourse()"
-                    type="primary"  
-                    size="medium">
-                    {{lang["add-program"]}}
-                </el-button>
-            </div>
-        </div>
-        
-        <!-- Add new program dialog -->
-        <el-dialog  :visible.sync="modal" :title="lang['join-courses']" center  top="5vh">
-            <div v-if="coursesOutsideGroup != null" v-loading="loadingDialog">
-                <template>
-                    <el-transfer
-                        :titles="['Courses', 'Group']"
-                        v-model="courses"
-                        :data="coursesOutsideGroup">
-                    </el-transfer>
-                </template>
-                <br>
-                <el-button   
-                    class="btn-sabiorealm"
-                    @click="saveCourses()"
-                    type="primary"  
-                    size="medium">
-                    {{lang["save-button"]}}
-                </el-button>
-            </div>
+                    <el-table-column label="Actions" align="center">
+                        <template slot-scope="scope">
+                            <!-- Remove program -->
+                            <el-popconfirm  
+                            confirmButtonText='Ok'
+                            cancelButtonText='No, Thanks'
+                            :title="lang['remove-program-question'] + scope.row.title  + '?'"
+                            @onConfirm="removeProgramFromUser(scope.row.id)"
+                            >
+                                <el-button class="btn-sabiorealm-danger" slot="reference" type="danger"  size="medium" icon="el-icon-delete" circle></el-button>
+                            </el-popconfirm>
+                        </template>
+                    </el-table-column>
+                </data-tables>
+            </div> <!-- Programs list content -->
 
-            <!-- No courses found content -->
-            <div class="card-box box-no-results" v-else>
-                <div class="row">
-                    <div class="col-1"></div>
-                    <div class="col-5">
-                        <div class="text-no-results">
-                            <h5>{{lang["all-courses-already-added"]}}</h5>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <img class="image-no-results" src="@/assets/img/general/ux/no_courses.png" alt="">
-                    </div>
+            <div class="row mb-5 mt-5" v-else>
+                <div class="col-12 text-center">
+                    <img class="no-results-img" src="@/assets/img/general/ux/no_programs.png" alt="No programs">
+                    <h4 class="no-results-text">{{lang["no-results-programs-in-user"]}}</h4>
+                    <el-button   
+                        class="btn-sabiorealm"
+                        @click="addProgram()"
+                        type="primary"  
+                        size="medium">
+                        {{lang["add-program"]}}
+                    </el-button>
                 </div>
             </div>
-            <!-- No courses found content end -->
+
+        </div>
+
+        
+        <!-- Add new program dialog -->
+        <el-dialog  :visible.sync="modal" :title="lang['join-programs']" center  top="5vh">
+
+            <facebook-loader 
+                v-if="loadingContentModal == true"
+                :speed="2"
+                width="700"
+                height="200"
+                primaryColor = "#f0f0f0"
+                secondaryColor = "#d9d9d9"
+            >
+            </facebook-loader>
+
+            <div v-else>
+                <div v-if="notEnrolledPrograms != null">
+                    <template>
+                        <el-transfer
+                            filterable
+                            :titles="['Courses', 'User']"
+                            v-model="programs"
+                            :data="notEnrolledPrograms">
+                        </el-transfer>
+                    </template>
+                    <br>
+                    <el-button   
+                        class="btn-sabiorealm"
+                        v-loading="loadingButton" 
+                        @click="enrollUserIntoPrograms()"
+                        type="primary"  
+                        size="medium">
+                        {{lang["save-button"]}}
+                    </el-button>
+                </div>
+
+                <div class="row mb-5 mt-5" v-else>
+                    <div class="col-12 text-center">
+                        <img class="no-results-img" src="@/assets/img/general/ux/no_programs.png" alt="No programs">
+                        <h4 class="no-results-text">{{lang["all-programs-already-added"]}}</h4>
+                    </div>
+                </div>
+
+            </div>
+
         </el-dialog>
 
     </div><!-- End col-auto -->
@@ -100,6 +123,7 @@ import lang from 'element-ui/lib/locale/lang/en'
 import locale from 'element-ui/lib/locale'
 import domains from '@/mixins/domains'
 import alerts from '@/mixins/alerts'
+import { FacebookLoader } from 'vue-content-loader';
 
 locale.use(lang)
 Vue.use(DataTables)
@@ -108,25 +132,29 @@ Vue.use(ElementUI)
 Vue.use(VueTheMask)
 Vue.use(VueAxios, axios)
 export default {
+    components: {
+        FacebookLoader
+    },
     mixins: [domains,alerts],
-    props: ['group-id'],
+    props: ['user-id'],
     data: function() {
         return {   
             titles : [{prop: "title",label: "Title"}],
-            coursesInsideGroup : [],
-            coursesOutsideGroup: [],
+            enrolledPrograms : [],
+            notEnrolledPrograms: [],
             filters: [{prop: 'title',value: ''}],
             tableProps: {defaultSort: {prop: 'title',order: 'descending'}},
             lang: {},
-            loading: false,
-            loadingDialog: false,
             modal : false,
-            courses: [],
+            programs: [],
+            loadingButton: false,
+            loadingContent : false,
+            loadingContentModal: false
         }
     },
     created(){
-        this.getCoursesInsideTheGroup();
-        this.getCoursesOutsideTheGroup();
+        this.getEnrolledPrograms();
+        this.getNotEnrolledPrograms();
     },
     mounted(){
         eventLang.$on('lang', function(response){
@@ -134,82 +162,82 @@ export default {
         }.bind(this));
     },
     methods:{
-        removeCourseFromGroup: function(courseId){
+        removeProgramFromUser: function(programId){
             var formData = new FormData();
-            formData.set("courseId", courseId);
-            formData.set("groupId", this.groupId);
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("group", "removeCourseFromGroup");
+            formData.set("programId", programId);
+            formData.set("userId", this.userId);
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("user", "removeProgramFromUser");
             axios.post(urlToBeUsedInTheRequest, formData).then(() => {
                 // success callback
-                this.getCoursesInsideTheGroup();
-                this.getCoursesOutsideTheGroup();
+                this.getEnrolledPrograms();
+                this.getNotEnrolledPrograms();
                 this.successMessage();
             }, 
                 // Failure callback
                 function(){
                     this.errorMessage();
-                }
+                }.bind(this)
             );
         },
-        saveCourses: function(){
-            this.loadingDialog = true;
-            var formData = new FormData();
-            formData.set("groupId", this.groupId);
-            formData.set("courses", this.courses);
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("group", "saveCoursesIntoGroup");
-            axios.post(urlToBeUsedInTheRequest, formData).then(() => {
-                // success callback
-                this.loadingDialog = false;
-                this.modal = false;
-                this.getCoursesInsideTheGroup();
-                this.getCoursesOutsideTheGroup();
-                this.courses = [];
-            }, 
-                // Failure callback
-                function(){
-                    this.errorMessage();
-                }
-            );
-        },
-        addCourse: function(){
+      
+        addProgram: function(){
             this.modal=true;
         },
-        editCourse:function(id){
-            window.location.href="editcourse/"+id+"";
-        },
-        viewCourse: function(id){
-             window.location.href="viewcourse/"+id+"";
-        },
-        getCoursesInsideTheGroup(){
-            this.loading = true;
+        enrollUserIntoPrograms: function(){
+            this.loadingButton = true;
             var formData = new FormData();
-            formData.set("groupId", this.groupId);
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("group", "getCoursesInsideGroup");
-            axios.post(urlToBeUsedInTheRequest, formData).then((response) => {
+            formData.set("userId", this.userId);
+            formData.set("programs", this.programs);
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("user", "enrollUserIntoPrograms");
+            axios.post(urlToBeUsedInTheRequest, formData).then(() => {
                 // success callback
-                this.coursesInsideGroup = response.data; 
-                this.loading = false;
+                this.loadingButton = false;
+                this.successMessage();
+                this.modal = false;
+                this.getEnrolledPrograms();
+                this.getNotEnrolledPrograms();
+                this.programs = [];
             }, 
                 // Failure callback
                 function(){
                     this.errorMessage();
-                }
+                }.bind(this)
             );
         },
-        getCoursesOutsideTheGroup: function(){
-            this.loading = true;
+        getEnrolledPrograms(){
+            this.loadingContent = true;
             var formData = new FormData();
-            formData.set("groupId", this.groupId);
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("group", "getCoursesOutsideGroup");
+            formData.set("userId", this.userId);
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("user", "getEnrolledPrograms");
             axios.post(urlToBeUsedInTheRequest, formData).then((response) => {
                 // success callback
-                this.coursesOutsideGroup = response.data; 
-                this.loading = false;
+                this.enrolledPrograms = response.data; 
+                setTimeout(function(){ 
+                    this.loadingContent = false;
+                }.bind(this), 1000);
             }, 
                 // Failure callback
                 function(){
                     this.errorMessage();
-                }
+                }.bind(this)
+            );
+        },
+        getNotEnrolledPrograms: function(){
+            this.loadingContentModal = true;
+            var formData = new FormData();
+            formData.set("userId", this.userId);
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("user", "getNotEnrolledPrograms");
+            axios.post(urlToBeUsedInTheRequest, formData).then((response) => {
+                // success callback
+                this.notEnrolledPrograms = response.data; 
+                setTimeout(function(){ 
+                    this.loadingContentModal = false;
+                }.bind(this), 1000);
+            }, 
+                // Failure callback
+                function(){
+                    this.errorMessage();
+                }.bind(this)
             );
         }
     },

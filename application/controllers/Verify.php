@@ -29,6 +29,11 @@ class Verify extends CI_Controller {
         $result = $this->Verify_Model->correctAnswerExist($questionId);
         echo json_encode($result);
     }
+
+    public function getCurrentDate(){
+        $result = getCurrentDate("Y-m-d H:i:s");
+        echo json_encode($result);
+    }
     
 
 }

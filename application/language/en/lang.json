@@ -61,7 +61,7 @@
     "pending": "Pending",
     "done": "Done",
 
-    
+    "no-results-exam": "No exams found",
 
     "list-corrections": "Exams list",
     "correction-status-information": "The status column indicates whether there are questions without evaluations within the exam.",
@@ -193,9 +193,9 @@
     "answer-deleted-success": "Answer deleted successfully",
 
     "all-courses-already-added": "There are no courses to add.",
-    "all-students-already-added": "All students have already been added.",
-    "all-instructors-already-added": "All instructors have already been added.",
-    "all-programs-already-added": "All programs have already been added.",
+    "all-students-already-added": "There are no students to add.",
+    "all-instructors-already-added": "There are no instructors to add.",
+    "all-programs-already-added": "There are no programs to add.",
     
 
     "remove-course-question": "Remove course: ",

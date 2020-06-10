@@ -51,6 +51,29 @@ class Program_Model extends CI_Model {
         return true;
     }
 
+    public function removeUserFromProgram($userId, $programId){
+       
+        /* Remove user from program */
+        $this->db->where('myuser_id', $userId);
+        $this->db->where('mycourse_id', 1);
+        $this->db->where('mymodule_id', 1);
+        $this->db->where('mylesson_id', 1);
+        $this->db->where('mygroup_id', 1);
+        $this->db->where('question_id', 1);
+        $this->db->where('answer_id', 1);
+        $this->db->where('program_id', $programId);
+        $this->db->delete("relationship"); 
+
+        /* Remove user from all courses of this program */
+        $courses = $this->getAllCoursesIntoProgram($programId);
+        foreach($courses as $course){
+            $courseId  = $course->id;
+            $deleteResult = $this->Course_Model->removeUserFromCourse($userId, $courseId);
+        }
+
+        return $deleteResult;
+    }
+
     public function enrollUserIntoProgram($programId, $userId){
         $data = array(
             'myuser_id' => $userId,

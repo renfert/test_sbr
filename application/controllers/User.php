@@ -54,6 +54,12 @@ class User extends CI_Controller {
         echo json_encode($result);
     }
 
+    public function getUserExams(){
+        $userId = $this->input->post("userId");
+        $result = $this->User_Model->getUserExams($userId);
+        echo json_encode($result);
+    }
+
     
 	public function getUserProfile(){
         $result = $this->User_Model->getUserProfile();
@@ -72,9 +78,21 @@ class User extends CI_Controller {
         echo json_encode($result);
     }
 
+    public function getEnrolledPrograms(){
+        $userId = $this->input->post("userId");
+        $result = $this->User_Model->getEnrolledPrograms($userId);
+        echo json_encode($result);
+    }
+
     public function getNotEnrolledCourses(){
         $userId = $this->input->post("userId");
         $result = $this->User_Model->getNotEnrolledCourses($userId);
+        echo json_encode($result);
+    }
+
+    public function getNotEnrolledPrograms(){
+        $userId = $this->input->post("userId");
+        $result = $this->User_Model->getNotEnrolledPrograms($userId);
         echo json_encode($result);
     }
 
@@ -85,10 +103,24 @@ class User extends CI_Controller {
         $result = $this->User_Model->enrollUserIntoCourses($userId,$arrayCourses);
     }
 
+    public function enrollUserIntoPrograms(){
+        $userId = $this->input->post("userId");
+        $programs = $this->input->post("programs");
+        $arrayPrograms = explode (",", $programs); 
+        $result = $this->User_Model->enrollUserIntoPrograms($userId,$arrayPrograms);
+    }
+
     public function removeCourseFromUser(){
         $userId = $this->input->post("userId");
         $courseId = $this->input->post("courseId");
         $result = $this->Course_Model->removeUserFromCourse($userId,$courseId);
+        echo json_encode($result);
+    }
+
+    public function removeProgramFromUser(){
+        $userId = $this->input->post("userId");
+        $courseId = $this->input->post("programId");
+        $result = $this->Program_Model->removeUserFromCourse($userId,$courseId);
         echo json_encode($result);
     }
 

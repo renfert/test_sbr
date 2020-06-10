@@ -7,6 +7,7 @@ class User_Model extends CI_Model {
 		parent::__construct();
 		$this->load->helper("email");
 		$this->load->model('Course_Model');
+		$this->load->model('Program_Model');
 	}
 
 	
@@ -153,6 +154,20 @@ class User_Model extends CI_Model {
 		}
 	}	
 
+	public function getUserExams($userId){
+		$this->db->select("T0.score,T1.title as exam, T2.title as course, T1.id, T1.approval");
+		$this->db->from("lesson_status T0");
+		$this->db->join("mylesson T1", "T0.mylesson_id = T1.id");
+		$this->db->join("mycourse T2", "T0.mycourse_id = T2.id");
+		$this->db->where("T1.type_mylesson_id", 8);
+		$this->db->where("T0.myuser_id", $userId);
+		$this->db->where("T0.status", "finished");
+		$query = $this->db->get();
+		if($query->num_rows() > 0){
+			return $query->result();
+		}
+	}
+
 	
 
 	public function getInstructors($courseId){
@@ -179,6 +194,19 @@ class User_Model extends CI_Model {
         }
 	}
 
+	public function getEnrolledPrograms($userId){
+		$this->db->select("T1.id,T1.title");
+        $this->db->distinct();
+        $this->db->from("relationship T0");
+        $this->db->join("program T1", "T0.program_id = T1.id");
+        $this->db->where("T0.myuser_id", $userId);
+        $this->db->where("T0.program_id !=",  1);
+        $query = $this->db->get();
+        if($query->num_rows() > 0){
+            return $query->result();
+        }
+	}
+
 	public function getNotEnrolledCourses($userId){
         $this->db->select("T1.id as key,T1.title as label");
         $this->db->distinct();
@@ -191,10 +219,29 @@ class User_Model extends CI_Model {
             return $query->result();
         }
 	}
+
+	public function getNotEnrolledPrograms($userId){
+        $this->db->select("T1.id as key,T1.title as label");
+        $this->db->distinct();
+        $this->db->from("relationship T0");
+        $this->db->join("program T1", "T0.program_id = T1.id");
+        $this->db->where("T0.myuser_id !=", $userId);
+        $this->db->where("T0.program_id NOT IN (SELECT program_id FROM relationship WHERE myuser_id = ".$userId.")", null, false);
+        $query = $this->db->get();
+        if($query->num_rows() > 0){
+            return $query->result();
+        }
+	}
 	
 	public function enrollUserIntoCourses($userId,$courses){
 		foreach($courses as $courseId){
             $this->Course_Model->enrollUserIntoCourse($courseId,$userId);
+        }
+	}
+
+	public function enrollUserIntoPrograms($userId,$programs){
+		foreach($programs as $programId){
+            $this->Program_Model->enrollUserIntoProgram($programId,$userId);
         }
 	}
 

@@ -25,4 +25,9 @@ class Chart extends CI_Controller {
         echo json_encode($chart); 
     }
 
+    public function getStudentCourses(){
+        $chart = $this->Chart_Model->getStudentCourses();
+        echo json_encode($chart); 
+    }
+
 }

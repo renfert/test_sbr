@@ -29,4 +29,10 @@ class Activity extends CI_Controller {
         $result = $this->Activity_Model->listingAll();
         echo json_encode($result);
     }
+
+    public function listingUserActivities(){
+        $userId = $this->input->post("userId");
+        $result = $this->Activity_Model->listingUserActivities($userId);
+        echo json_encode($result);
+    }
 }

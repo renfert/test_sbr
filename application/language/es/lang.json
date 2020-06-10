@@ -36,6 +36,8 @@
     "in-the-course": " en el curso ",
     "activity-program-created": " Creó un nuevo programa: ",
 
+    "no-results-exam": "No se encontraron exámenes",
+
     "no-activities": "Sin actividades",
 
     "view-topbar-title": "Ver como",
@@ -221,9 +223,9 @@
     "answer-deleted-success": "Respuesta eliminada",
 
     "all-courses-already-added": "No hay cursos para agregar.",
-    "all-students-already-added": "Todos los estudiantes ya están agregados.",
-    "all-instructors-already-added": "Todos los instructores ya están agregados.",
-    "all-programs-already-added": "Todos los programas ya están agregados.",
+    "all-students-already-added": "No hay estudiantes para agregar.",
+    "all-instructors-already-added": "No hay instructores para agregar.",
+    "all-programs-already-added": "No hay programas para agregar.",
     
 
     "remove-course-question": "Borrar curso: ",

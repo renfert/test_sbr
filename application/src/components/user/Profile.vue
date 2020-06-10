@@ -36,22 +36,64 @@
                             <div class="chart">
                                 <BarChart  
                                 rainbow 
+                                title="Courses"
                                 :data="data" 
                                 smooth  />
                             </div>
                         </div>
                     </div>
                     <div class="col-12 col-md-6 mb-5">
-                        <div class="card-widget" style="height:350px;">
-                            <div class="chart">
-                                <BarChart  
-                                rainbow 
-                                :data="data" 
-                                smooth  />
+                        <div class="card-widget" style="overflow-y: scroll; height:350px;border-radius:10px 0px 0px 10px !important;">
+
+                            <div v-if="exams != null">
+                                <h3 class="exams-title">{{lang["exams"]}}</h3>
+                                
+                                <div class="exams-list-header">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <h4>Exam</h4>
+                                        </div>
+                                        <div class="col-4">
+                                            <h4>Score</h4>
+                                        </div>
+                                        <div class="col-4">
+                                            <h4>Course</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                                <div class="exams-list-body"> 
+                                    <div class="row exam-item" v-for="element in exams" :key="element.id">
+                                        <div class="col-4">
+                                            <h4>
+                                                <i v-if="parseInt(element.score) > parseInt(element.approval)" class=" ti-pin-alt text-sabiorealm"></i> 
+
+                                                <i v-else class=" ti-pin-alt text-danger"></i>
+                            
+                                                {{element.exam}}
+                                            </h4>
+                                        </div>
+                                        <div class="col-4">
+                                            <h4>{{element.score}}</h4>
+                                        </div>
+                                        <div class="col-4">
+                                            <h4>{{element.course}}</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-5 mt-5" v-else>
+                                <div class="col-12 text-center">
+                                    <img class="no-results-img" src="@/assets/img/general/ux/no_exams.png" alt="No persons" style="width:30%;">
+                                    <br><br>
+                                    <h4 class="no-results-text">{{lang["no-results-exam"]}}</h4>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <user-activities :user-id="userId"></user-activities>
             </div>
         </div>
 
@@ -72,6 +114,7 @@ import lang from 'element-ui/lib/locale/lang/en'
 import locale from 'element-ui/lib/locale'
 import domains from '@/mixins/domains'
 import alerts from '@/mixins/alerts'
+import UserActivities from '@/components/activity/UserActivities'
 import { FacebookLoader } from 'vue-content-loader';
 import DrVueEcharts from 'dr-vue-echarts';
 Vue.use(DrVueEcharts)
@@ -84,7 +127,8 @@ Vue.use(VueTheMask)
 Vue.use(VueAxios, axios)
 export default {
     components: {
-        FacebookLoader
+        FacebookLoader,
+        UserActivities
     },
     mixins: [domains,alerts],
     props: ['user-id'],
@@ -95,24 +139,25 @@ export default {
             userEmail: '',
             userAvatar: '',
             role: '',
+            exams:[],
             loadingContent: false,
             data: [
                 {
                 name: "Courses",
-                data: [
-                    {
-                        label: "In process",
-                        value: 45
-                    },
-                    {
-                        label: "Finished",
-                        value: 60
-                    },
-                    {
-                        label: "Not started",
-                        value: 60
-                    }
-                ]
+                    data: [
+                        {
+                            label: "In progress",
+                            value: 0
+                        },
+                        {
+                            label: "Finalized",
+                            value: 0
+                        },
+                        {
+                            label: "Not initiated",
+                            value: 0
+                        }
+                    ]
                 }
             ]
         }
@@ -122,14 +167,16 @@ export default {
             this.lang = response;
         }.bind(this));
 
-        this.getUserProfile();
+        this.getCourses();
+        this.getUser();
+        this.getUserExams();
     },
     methods:{
-        getUserProfile: function(){
+        getUser: function(){
             this.loadingContent = true;
             var formData = new FormData();
             formData.set("userId", this.userId);
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("user", "getUserProfile");
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("user", "get");
             axios.post(urlToBeUsedInTheRequest, formData).then((response) => {
                 this.userName = response.data["name"];
                 this.userEmail = response.data["email"];
@@ -145,6 +192,42 @@ export default {
                 }.bind(this)
             );
         }, 
+        getUserExams: function(){
+            var formData = new FormData();
+            formData.set("userId", this.userId);
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("user", "getUserExams");
+            axios.post(urlToBeUsedInTheRequest, formData).then((response) => {
+                this.exams = response.data;
+            }, 
+                // Failure callback
+                function(){
+                    this.errorMessage();
+                }.bind(this)
+            );
+        }, 
+        getCourses: function(){
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("chart","getStudentCourses");
+            axios.get(urlToBeUsedInTheRequest).then((response) => {
+                for (let index = 0; index < response.data.length; index++) {
+                    var status = response.data[index]["status"];
+                    var total = response.data[index]["total"];
+                    if(status == "in_progress"){
+                        this.data[0]["data"][0].value = total;
+                    }
+                    if(status == "finished"){
+                       this.data[0]["data"][1].value = total;
+                    }
+                    if(status == null){
+                        this.data[0]["data"][2].value = total;
+                    }
+                }
+            },
+                /* Error callback */
+                function (){
+                   this.errorMessage();
+                }.bind(this)
+            );
+        },
     },
 }
 
@@ -198,6 +281,46 @@ export default {
 
 .card-widget:hover {
   box-shadow: 0 0px 7px rgba(70, 67, 67, 0.25), 0 5px 5px rgba(70, 67, 67, 0.25);
+}
+
+::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar
+{
+	width: 2px;
+	background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb
+{
+    background-color: #0ae;
+	background-image: -webkit-gradient(linear, 0 0, 0 100%,
+    color-stop(.5, rgba(255, 255, 255, .2)),
+	color-stop(.5, transparent), to(transparent));
+}
+
+.exams-title{
+    color: #9e9c9c;
+}
+
+.exams-list-header{
+    background-color: rgba(230, 230, 230, 0.4);
+    border-radius: 10px;
+    margin-bottom:5%;
+}
+
+.exam-item{
+    cursor:pointer;
+    border-bottom: 1px  solid rgba(230, 230, 230, 0.4);
+    padding:5px;
+}
+
+.exam-item:hover{
+    background-color: rgba(230, 230, 230, 0.4);
 }
 
 </style>

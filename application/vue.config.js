@@ -173,5 +173,15 @@ module.exports = {
             template: 'purchaseinprocess.html',
             filename: 'purchaseinprocess.html',
         },
+        '404': {
+            entry: './src/pages/404/main.js',
+            template: '404.html',
+            filename: '404.html',
+        },
+        '404session': {
+            entry: './src/pages/404session/main.js',
+            template: '404session.html',
+            filename: '404session.html',
+        },
     }
 }

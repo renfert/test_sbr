@@ -207,6 +207,7 @@ class Course_Model extends CI_Model {
         $this->db->where('mygroup_id', 1);
         $this->db->where('question_id', 1);
         $this->db->where('answer_id', 1);
+        $this->db->where('program_id', 1);
         $this->db->delete("relationship"); 
 
         /* Remove user from all lessons of this course */
