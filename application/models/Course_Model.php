@@ -178,6 +178,14 @@ class Course_Model extends CI_Model {
                     $this->Lesson_Model->enrollUserIntoLesson($lessonId, $courseId, $userId);
                 }
             }
+
+            /* Course helper */
+            $data = array(
+                "myuser_id" => $userId,
+                "mycourse_id" => $courseId,
+                'enroll_date' => getCurrentDate("Y-m-d")
+            );
+            $this->db->insert("course_helper", $data);
         }
     }
 
@@ -283,5 +291,23 @@ class Course_Model extends CI_Model {
         if($query->num_rows() > 0 ){
             return $query->result();
         }
+    }
+
+
+    public function updateCourseStatus($courseId,$status){
+        if($status == "finished"){
+            $data = array(
+                "status" => "finished",
+                "end_date" => getCurrentDate("Y-m-d")
+            );
+        }else{
+            $data = array(
+                "status" => "in_progress"
+            );
+        }
+
+        $this->db->where("myuser_id", getUserId());
+        $this->db->where("mycourse_id", $courseId);
+        $this->db->update("course_helper", $data);
     }
 }

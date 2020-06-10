@@ -224,6 +224,9 @@ class Lesson_Model extends CI_Model {
         if($courseProgress == 100){
             $this->Course_Model->generateCertificate($courseId);
             $this->Activity_Model->save("course-finished", $courseId,1, null, 1, null,null,null,null);
+            $this->Course_Model->updateCourseStatus($courseId,"finished");
+        }else{
+            $this->Course_Model->updateCourseStatus($courseId,"in-progress");
         }
     }
 

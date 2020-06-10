@@ -43,16 +43,24 @@
             <div class="col-12 col-md-6 mb-5">
                 <div class="card-widget" style="height:350px;">
                     <div class="chart">
-                        <line-chart :data="students" smooth  />
+                        <line-chart 
+                            :data="students" 
+                            />
                     </div>
                 </div>
             </div>
 
-            <!-- Students -->
-            <div class="col-12 col-md-6">
+            <!-- Courses -->
+            <div class="col-12 col-md-6 mb-5">
                 <div class="card-widget" style="height:350px;">
-                    <div class="chart">
-                        <line-chart :data="students" smooth  />
+                    <div class="chart" style="margin-top:-10%;">
+                        <pie-chart 
+                            :data="courses" 
+                            pie-style="donut"
+                            :tooltip="true"
+                            :emphasis-label="false"
+                            legend
+                        />
                     </div>
                 </div>
             </div>
@@ -229,7 +237,7 @@ import locale from 'element-ui/lib/locale'
 import {eventLang} from '@/components/helper/HelperLang'
 import domains from '@/mixins/domains'
 import alerts from '@/mixins/alerts'
-import DrVueEcharts from 'dr-vue-echarts/packages/line';
+import DrVueEcharts from 'dr-vue-echarts';
 Vue.use(DrVueEcharts)
 
 
@@ -258,7 +266,6 @@ export default {
             activities: [],
             totalStorageAvaiable: '',
             totalStorageUsed:'',    
-            colors: ['#c3c3c3', '#c7c7c6'],
             students: [
                 {
                     name: "Students",
@@ -266,10 +273,24 @@ export default {
                 },
                 {
                     name: "Instructors",
-                    data: []
+                    data: [],
                 },
 
             ],
+            courses: [
+                {
+                    name: "In progress",
+                    value: 0,
+                },
+                {
+                    name: "Finalized",
+                    value: 0
+                },
+                {
+                    name: "Not initiated",
+                    value: 8
+                }
+            ]
         }
     },
     created(){
@@ -285,6 +306,7 @@ export default {
         this.getStorage();
         this.getRegisteredStuentsPerMonth();
         this.getRegisteredInstructorsPerMonth();
+        this.getCourses();
         this.listActivities();
     },
     methods: {
@@ -303,6 +325,29 @@ export default {
             var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("chart","getRegisteredInstructorsPerMonth");
             axios.get(urlToBeUsedInTheRequest).then((response) => {
                 this.students[1].data = response.data;
+            },
+                /* Error callback */
+                function (){
+                   this.errorMessage();
+                }.bind(this)
+            );
+        },
+        getCourses: function(){
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("chart","getCourses");
+            axios.get(urlToBeUsedInTheRequest).then((response) => {
+                for (let index = 0; index < response.data.length; index++) {
+                    var status = response.data[index]["status"];
+                    var total = response.data[index]["total"];
+                    if(status == "in_progress"){
+                        this.courses[0].value = total;
+                    }
+                    if(status == "finished"){
+                        this.courses[1].value = total;
+                    }
+                    if(status == null){
+                        this.courses[2].value = total;
+                    }
+                }
             },
                 /* Error callback */
                 function (){

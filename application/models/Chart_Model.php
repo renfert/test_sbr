@@ -35,4 +35,14 @@ class Chart_Model extends CI_Model {
             return $result;
         }
     }
+
+    public function getCourses(){
+        $this->db->select("COUNT(*) as total, status");
+        $this->db->from("course_helper");
+        $this->db->group_by("status");
+        $query = $this->db->get();
+        if($query->num_rows() > 0){
+            return $query->result();
+        }
+    }
 }
