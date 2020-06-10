@@ -157,3 +157,95 @@ ERROR - 2020-06-10 08:03:55 --> Severity: Notice --> Undefined variable: file C:
 ERROR - 2020-06-10 08:03:55 --> Severity: Notice --> Undefined index:  C:\xampp\htdocs\application\controllers\Upload.php 24
 ERROR - 2020-06-10 08:19:54 --> Severity: Notice --> Undefined property: Chart::$sb C:\xampp\htdocs\system\core\Model.php 73
 ERROR - 2020-06-10 08:19:54 --> Severity: error --> Exception: Call to a member function from() on null C:\xampp\htdocs\application\models\Chart_Model.php 41
+ERROR - 2020-06-10 08:38:44 --> Severity: error --> Exception: Call to undefined method Chart_Model::getCourses() C:\xampp\htdocs\application\controllers\Chart.php 24
+ERROR - 2020-06-10 08:38:48 --> Severity: error --> Exception: Call to undefined method Chart_Model::getCourses() C:\xampp\htdocs\application\controllers\Chart.php 24
+ERROR - 2020-06-10 08:40:18 --> Query error: Unknown column 'undefined' in 'where clause' - Invalid query: SELECT DISTINCT `T1`.`id` as `key`, `T1`.`title` as `label`
+FROM `relationship` `T0`
+JOIN `mycourse` `T1` ON `T0`.`mycourse_id` = `T1`.`id`
+WHERE `T0`.`mygroup_id` != 'undefined'
+AND T0.mycourse_id NOT IN (SELECT mycourse_id FROM relationship WHERE mygroup_id = undefined)
+ERROR - 2020-06-10 08:40:18 --> Severity: error --> Exception: Call to a member function num_rows() on boolean C:\xampp\htdocs\application\models\Group_Model.php 243
+ERROR - 2020-06-10 08:41:18 --> Query error: Unknown column 'undefined' in 'where clause' - Invalid query: SELECT DISTINCT `T1`.`id` as `key`, `T1`.`title` as `label`
+FROM `relationship` `T0`
+JOIN `mycourse` `T1` ON `T0`.`mycourse_id` = `T1`.`id`
+WHERE `T0`.`mygroup_id` != 'undefined'
+AND T0.mycourse_id NOT IN (SELECT mycourse_id FROM relationship WHERE mygroup_id = undefined)
+ERROR - 2020-06-10 08:41:18 --> Severity: error --> Exception: Call to a member function num_rows() on boolean C:\xampp\htdocs\application\models\Group_Model.php 243
+ERROR - 2020-06-10 08:43:22 --> Query error: Unknown column 'undefined' in 'where clause' - Invalid query: SELECT DISTINCT `T1`.`id` as `key`, `T1`.`title` as `label`
+FROM `relationship` `T0`
+JOIN `mycourse` `T1` ON `T0`.`mycourse_id` = `T1`.`id`
+WHERE `T0`.`mygroup_id` != 'undefined'
+AND T0.mycourse_id NOT IN (SELECT mycourse_id FROM relationship WHERE mygroup_id = undefined)
+ERROR - 2020-06-10 08:43:22 --> Severity: error --> Exception: Call to a member function num_rows() on boolean C:\xampp\htdocs\application\models\Group_Model.php 243
+ERROR - 2020-06-10 08:45:19 --> Query error: Unknown column 'undefined' in 'where clause' - Invalid query: SELECT DISTINCT `T1`.`id` as `key`, `T1`.`title` as `label`
+FROM `relationship` `T0`
+JOIN `mycourse` `T1` ON `T0`.`mycourse_id` = `T1`.`id`
+WHERE `T0`.`mygroup_id` != 'undefined'
+AND T0.mycourse_id NOT IN (SELECT mycourse_id FROM relationship WHERE mygroup_id = undefined)
+ERROR - 2020-06-10 08:45:19 --> Severity: error --> Exception: Call to a member function num_rows() on boolean C:\xampp\htdocs\application\models\Group_Model.php 243
+ERROR - 2020-06-10 08:55:33 --> Query error: Unknown column 'undefined' in 'where clause' - Invalid query: SELECT DISTINCT `T1`.`id` as `key`, `T1`.`title` as `label`
+FROM `relationship` `T0`
+JOIN `mycourse` `T1` ON `T0`.`mycourse_id` = `T1`.`id`
+WHERE `T0`.`mygroup_id` != 'undefined'
+AND T0.mycourse_id NOT IN (SELECT mycourse_id FROM relationship WHERE mygroup_id = undefined)
+ERROR - 2020-06-10 08:55:33 --> Severity: error --> Exception: Call to a member function num_rows() on boolean C:\xampp\htdocs\application\models\Group_Model.php 243
+ERROR - 2020-06-10 19:26:21 --> Query error: Unknown column 'undefined' in 'where clause' - Invalid query: SELECT DISTINCT `T1`.`id` as `key`, `T1`.`title` as `label`
+FROM `relationship` `T0`
+JOIN `mycourse` `T1` ON `T0`.`mycourse_id` = `T1`.`id`
+WHERE `T0`.`mygroup_id` != 'undefined'
+AND T0.mycourse_id NOT IN (SELECT mycourse_id FROM relationship WHERE mygroup_id = undefined)
+ERROR - 2020-06-10 19:26:21 --> Severity: error --> Exception: Call to a member function num_rows() on boolean C:\xampp\htdocs\application\models\Group_Model.php 243
+ERROR - 2020-06-10 19:28:41 --> Query error: Unknown column 'undefined' in 'where clause' - Invalid query: SELECT DISTINCT `T1`.`id` as `key`, `T1`.`title` as `label`
+FROM `relationship` `T0`
+JOIN `mycourse` `T1` ON `T0`.`mycourse_id` = `T1`.`id`
+WHERE `T0`.`mygroup_id` != 'undefined'
+AND T0.mycourse_id NOT IN (SELECT mycourse_id FROM relationship WHERE mygroup_id = undefined)
+ERROR - 2020-06-10 19:28:41 --> Severity: error --> Exception: Call to a member function num_rows() on boolean C:\xampp\htdocs\application\models\Group_Model.php 243
+ERROR - 2020-06-10 19:33:14 --> Query error: Unknown column 'undefined' in 'where clause' - Invalid query: SELECT DISTINCT `T1`.`id` as `key`, `T1`.`title` as `label`
+FROM `relationship` `T0`
+JOIN `mycourse` `T1` ON `T0`.`mycourse_id` = `T1`.`id`
+WHERE `T0`.`mygroup_id` != 'undefined'
+AND T0.mycourse_id NOT IN (SELECT mycourse_id FROM relationship WHERE mygroup_id = undefined)
+ERROR - 2020-06-10 19:33:14 --> Severity: error --> Exception: Call to a member function num_rows() on boolean C:\xampp\htdocs\application\models\Group_Model.php 243
+ERROR - 2020-06-10 19:33:45 --> Query error: Unknown column 'undefined' in 'where clause' - Invalid query: SELECT DISTINCT `T1`.`id` as `key`, `T1`.`title` as `label`
+FROM `relationship` `T0`
+JOIN `mycourse` `T1` ON `T0`.`mycourse_id` = `T1`.`id`
+WHERE `T0`.`mygroup_id` != 'undefined'
+AND T0.mycourse_id NOT IN (SELECT mycourse_id FROM relationship WHERE mygroup_id = undefined)
+ERROR - 2020-06-10 19:33:45 --> Severity: error --> Exception: Call to a member function num_rows() on boolean C:\xampp\htdocs\application\models\Group_Model.php 243
+ERROR - 2020-06-10 19:36:11 --> Query error: Unknown column 'undefined' in 'where clause' - Invalid query: SELECT DISTINCT `T1`.`id` as `key`, `T1`.`title` as `label`
+FROM `relationship` `T0`
+JOIN `mycourse` `T1` ON `T0`.`mycourse_id` = `T1`.`id`
+WHERE `T0`.`mygroup_id` != 'undefined'
+AND T0.mycourse_id NOT IN (SELECT mycourse_id FROM relationship WHERE mygroup_id = undefined)
+ERROR - 2020-06-10 19:36:11 --> Severity: error --> Exception: Call to a member function num_rows() on boolean C:\xampp\htdocs\application\models\Group_Model.php 243
+ERROR - 2020-06-10 19:39:30 --> Query error: Unknown column 'undefined' in 'where clause' - Invalid query: SELECT DISTINCT `T1`.`id` as `key`, `T1`.`title` as `label`
+FROM `relationship` `T0`
+JOIN `mycourse` `T1` ON `T0`.`mycourse_id` = `T1`.`id`
+WHERE `T0`.`mygroup_id` != 'undefined'
+AND T0.mycourse_id NOT IN (SELECT mycourse_id FROM relationship WHERE mygroup_id = undefined)
+ERROR - 2020-06-10 19:39:30 --> Severity: error --> Exception: Call to a member function num_rows() on boolean C:\xampp\htdocs\application\models\Group_Model.php 243
+ERROR - 2020-06-10 19:40:25 --> Query error: Unknown column 'undefined' in 'where clause' - Invalid query: SELECT DISTINCT `T1`.`id` as `key`, `T1`.`title` as `label`
+FROM `relationship` `T0`
+JOIN `mycourse` `T1` ON `T0`.`mycourse_id` = `T1`.`id`
+WHERE `T0`.`mygroup_id` != 'undefined'
+AND T0.mycourse_id NOT IN (SELECT mycourse_id FROM relationship WHERE mygroup_id = undefined)
+ERROR - 2020-06-10 19:40:25 --> Severity: error --> Exception: Call to a member function num_rows() on boolean C:\xampp\htdocs\application\models\Group_Model.php 243
+ERROR - 2020-06-10 19:40:31 --> Query error: Unknown column 'undefined' in 'where clause' - Invalid query: SELECT DISTINCT `T1`.`id` as `key`, `T1`.`title` as `label`
+FROM `relationship` `T0`
+JOIN `mycourse` `T1` ON `T0`.`mycourse_id` = `T1`.`id`
+WHERE `T0`.`mygroup_id` != 'undefined'
+AND T0.mycourse_id NOT IN (SELECT mycourse_id FROM relationship WHERE mygroup_id = undefined)
+ERROR - 2020-06-10 19:40:31 --> Severity: error --> Exception: Call to a member function num_rows() on boolean C:\xampp\htdocs\application\models\Group_Model.php 243
+ERROR - 2020-06-10 19:43:45 --> Query error: Unknown column 'undefined' in 'where clause' - Invalid query: SELECT DISTINCT `T1`.`id` as `key`, `T1`.`title` as `label`
+FROM `relationship` `T0`
+JOIN `mycourse` `T1` ON `T0`.`mycourse_id` = `T1`.`id`
+WHERE `T0`.`mygroup_id` != 'undefined'
+AND T0.mycourse_id NOT IN (SELECT mycourse_id FROM relationship WHERE mygroup_id = undefined)
+ERROR - 2020-06-10 19:43:45 --> Severity: error --> Exception: Call to a member function num_rows() on boolean C:\xampp\htdocs\application\models\Group_Model.php 243
+ERROR - 2020-06-10 19:46:48 --> Query error: Unknown column 'undefined' in 'where clause' - Invalid query: SELECT DISTINCT `T1`.`id` as `key`, `T1`.`title` as `label`
+FROM `relationship` `T0`
+JOIN `mycourse` `T1` ON `T0`.`mycourse_id` = `T1`.`id`
+WHERE `T0`.`mygroup_id` != 'undefined'
+AND T0.mycourse_id NOT IN (SELECT mycourse_id FROM relationship WHERE mygroup_id = undefined)
+ERROR - 2020-06-10 19:46:48 --> Severity: error --> Exception: Call to a member function num_rows() on boolean C:\xampp\htdocs\application\models\Group_Model.php 243

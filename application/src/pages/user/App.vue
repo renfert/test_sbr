@@ -12,7 +12,7 @@
                         <!-- Group tabs -->
                         <div class="col-12">
                             <el-tabs type="border-card">
-                                <el-tab-pane style="height:800px">
+                                <el-tab-pane>
                                     <span slot="label"><i class="el-icon-user"></i> {{lang["profile"]}} </span>
                                     <profile :user-id="userId"></profile>
                                 </el-tab-pane>

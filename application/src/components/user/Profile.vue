@@ -15,21 +15,32 @@
                 <div class="img-container">
                     <div class="img-profile-container">
                         <div class="user-img">
-                            <img style="width:180px;" :src="''+getCurrentDomainName()+'assets/uploads/avatar/1.png'" alt="user-img"  class="rounded-circle img-thumbnail img-responsive">
+                            <img style="width:180px;" :src="''+getCurrentDomainName()+'assets/uploads/avatar/' + userAvatar" alt="user-img"  class="rounded-circle img-thumbnail img-responsive">
                         </div>
                     </div>
                     <img  src="@/assets/img/general/ux/profile_bg.png">
                 </div>
                 <div class="profile-info">
-                    <h2>Kevin smith</h2>
-                    <span class="text-sabiorealm">Instrutor</span>
-                    <h4>kevin@studante.com</h4>
+                    <h2>{{userName}}</h2>
+                    <span v-if="role == 2" class="text-sabiorealm">{{lang["instructor"]}}</span>
+                    <span v-else class="text-sabiorealm">{{lang["student"]}}</span>
+                    <h4>{{userEmail}}</h4>
                     <br>
                 </div>
             </div>    
 
             <div class="profile-charts mt-5">
                 <div class="row">
+                    <div class="col-12 col-md-6 mb-5">
+                        <div class="card-widget" style="height:350px;">
+                            <div class="chart">
+                                <BarChart  
+                                rainbow 
+                                :data="data" 
+                                smooth  />
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-12 col-md-6 mb-5">
                         <div class="card-widget" style="height:350px;">
                             <div class="chart">
@@ -79,17 +90,12 @@ export default {
     props: ['user-id'],
     data: function() {
         return {   
-            titles : [{prop: "title",label: "Title"}],
-            enrolledCourses : [],
-            notEnrolledCourses: [],
-            filters: [{prop: 'title',value: ''}],
-            tableProps: {defaultSort: {prop: 'title',order: 'descending'}},
             lang: {},
-            modal : false,
-            courses: [],
-            loadingButton: false,
-            loadingContent : false,
-            loadingContentModal: false,
+            userName: '',
+            userEmail: '',
+            userAvatar: '',
+            role: '',
+            loadingContent: false,
             data: [
                 {
                 name: "Courses",
@@ -111,25 +117,27 @@ export default {
             ]
         }
     },
-    created(){
-       
-    },
     mounted(){
         eventLang.$on('lang', function(response){
             this.lang = response;
         }.bind(this));
+
+        this.getUserProfile();
     },
     methods:{
-        removeCourseFromUser: function(courseId){
+        getUserProfile: function(){
+            this.loadingContent = true;
             var formData = new FormData();
-            formData.set("courseId", courseId);
             formData.set("userId", this.userId);
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("user", "removeCourseFromUser");
-            axios.post(urlToBeUsedInTheRequest, formData).then(() => {
-                // success callback
-                this.getEnrolledCourses();
-                this.getNotEnrolledCourses();
-                this.successMessage();
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("user", "getUserProfile");
+            axios.post(urlToBeUsedInTheRequest, formData).then((response) => {
+                this.userName = response.data["name"];
+                this.userEmail = response.data["email"];
+                this.userAvatar = response.data["avatar"];
+                this.role = response.data["myrole_id"];
+                setTimeout(function(){ 
+                    this.loadingContent = false;
+                }.bind(this), 1000);
             }, 
                 // Failure callback
                 function(){

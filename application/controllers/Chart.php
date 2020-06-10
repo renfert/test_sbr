@@ -20,8 +20,8 @@ class Chart extends CI_Controller {
         echo json_encode($chart);
     }
 
-    public function getCourses(){
-        $chart = $this->Chart_Model->getCourses();
+    public function getAdminCourses(){
+        $chart = $this->Chart_Model->getAdminCourses();
         echo json_encode($chart); 
     }
 

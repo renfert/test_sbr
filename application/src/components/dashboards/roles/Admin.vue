@@ -333,7 +333,7 @@ export default {
             );
         },
         getCourses: function(){
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("chart","getCourses");
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("chart","getAdminCourses");
             axios.get(urlToBeUsedInTheRequest).then((response) => {
                 for (let index = 0; index < response.data.length; index++) {
                     var status = response.data[index]["status"];
