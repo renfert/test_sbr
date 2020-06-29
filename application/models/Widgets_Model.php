@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-require APPPATH . "/aws/aws-autoloader.php";
+require FCPATH  . "vendor\autoload.php";
 use Aws\S3\S3Client;
 class Widgets_Model extends CI_Model {
 

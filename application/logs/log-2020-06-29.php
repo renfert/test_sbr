@@ -1,0 +1,26 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+
+ERROR - 2020-06-29 19:45:19 --> Severity: Warning --> require(C:\xampp\htdocs\application\/aws/aws-autoloader.php): failed to open stream: No such file or directory C:\xampp\htdocs\application\models\Widgets_Model.php 3
+ERROR - 2020-06-29 19:45:19 --> Severity: Warning --> require(C:\xampp\htdocs\application\/aws/aws-autoloader.php): failed to open stream: No such file or directory C:\xampp\htdocs\application\models\Widgets_Model.php 3
+ERROR - 2020-06-29 19:45:19 --> Severity: Compile Error --> require(): Failed opening required 'C:\xampp\htdocs\application\/aws/aws-autoloader.php' (include_path='C:\xampp\php\PEAR') C:\xampp\htdocs\application\models\Widgets_Model.php 3
+ERROR - 2020-06-29 19:45:19 --> Severity: Compile Error --> require(): Failed opening required 'C:\xampp\htdocs\application\/aws/aws-autoloader.php' (include_path='C:\xampp\php\PEAR') C:\xampp\htdocs\application\models\Widgets_Model.php 3
+ERROR - 2020-06-29 19:45:19 --> Severity: Warning --> require(C:\xampp\htdocs\application\/aws/aws-autoloader.php): failed to open stream: No such file or directory C:\xampp\htdocs\application\models\Widgets_Model.php 3
+ERROR - 2020-06-29 19:45:19 --> Severity: Compile Error --> require(): Failed opening required 'C:\xampp\htdocs\application\/aws/aws-autoloader.php' (include_path='C:\xampp\php\PEAR') C:\xampp\htdocs\application\models\Widgets_Model.php 3
+ERROR - 2020-06-29 19:47:25 --> Severity: Warning --> require(C:\xampp\htdocs\system\vendor/autoload): failed to open stream: No such file or directory C:\xampp\htdocs\application\models\Widgets_Model.php 3
+ERROR - 2020-06-29 19:47:25 --> Severity: Warning --> require(C:\xampp\htdocs\system\vendor/autoload): failed to open stream: No such file or directory C:\xampp\htdocs\application\models\Widgets_Model.php 3
+ERROR - 2020-06-29 19:47:25 --> Severity: Warning --> require(C:\xampp\htdocs\system\vendor/autoload): failed to open stream: No such file or directory C:\xampp\htdocs\application\models\Widgets_Model.php 3
+ERROR - 2020-06-29 19:47:25 --> Severity: Compile Error --> require(): Failed opening required 'C:\xampp\htdocs\system\vendor/autoload' (include_path='C:\xampp\php\PEAR') C:\xampp\htdocs\application\models\Widgets_Model.php 3
+ERROR - 2020-06-29 19:47:25 --> Severity: Compile Error --> require(): Failed opening required 'C:\xampp\htdocs\system\vendor/autoload' (include_path='C:\xampp\php\PEAR') C:\xampp\htdocs\application\models\Widgets_Model.php 3
+ERROR - 2020-06-29 19:47:25 --> Severity: Compile Error --> require(): Failed opening required 'C:\xampp\htdocs\system\vendor/autoload' (include_path='C:\xampp\php\PEAR') C:\xampp\htdocs\application\models\Widgets_Model.php 3
+ERROR - 2020-06-29 19:48:11 --> Severity: Warning --> require(C:\xampp\htdocs\vendor/autoload): failed to open stream: No such file or directory C:\xampp\htdocs\application\models\Widgets_Model.php 3
+ERROR - 2020-06-29 19:48:11 --> Severity: Warning --> require(C:\xampp\htdocs\vendor/autoload): failed to open stream: No such file or directory C:\xampp\htdocs\application\models\Widgets_Model.php 3
+ERROR - 2020-06-29 19:48:11 --> Severity: Compile Error --> require(): Failed opening required 'C:\xampp\htdocs\vendor/autoload' (include_path='C:\xampp\php\PEAR') C:\xampp\htdocs\application\models\Widgets_Model.php 3
+ERROR - 2020-06-29 19:48:11 --> Severity: Warning --> require(C:\xampp\htdocs\vendor/autoload): failed to open stream: No such file or directory C:\xampp\htdocs\application\models\Widgets_Model.php 3
+ERROR - 2020-06-29 19:48:11 --> Severity: Compile Error --> require(): Failed opening required 'C:\xampp\htdocs\vendor/autoload' (include_path='C:\xampp\php\PEAR') C:\xampp\htdocs\application\models\Widgets_Model.php 3
+ERROR - 2020-06-29 19:48:11 --> Severity: Compile Error --> require(): Failed opening required 'C:\xampp\htdocs\vendor/autoload' (include_path='C:\xampp\php\PEAR') C:\xampp\htdocs\application\models\Widgets_Model.php 3
+ERROR - 2020-06-29 19:48:21 --> Severity: Warning --> require(C:\xampp\htdocs\vendor\autoload): failed to open stream: No such file or directory C:\xampp\htdocs\application\models\Widgets_Model.php 3
+ERROR - 2020-06-29 19:48:21 --> Severity: Warning --> require(C:\xampp\htdocs\vendor\autoload): failed to open stream: No such file or directory C:\xampp\htdocs\application\models\Widgets_Model.php 3
+ERROR - 2020-06-29 19:48:21 --> Severity: Compile Error --> require(): Failed opening required 'C:\xampp\htdocs\vendor\autoload' (include_path='C:\xampp\php\PEAR') C:\xampp\htdocs\application\models\Widgets_Model.php 3
+ERROR - 2020-06-29 19:48:21 --> Severity: Warning --> require(C:\xampp\htdocs\vendor\autoload): failed to open stream: No such file or directory C:\xampp\htdocs\application\models\Widgets_Model.php 3
+ERROR - 2020-06-29 19:48:21 --> Severity: Compile Error --> require(): Failed opening required 'C:\xampp\htdocs\vendor\autoload' (include_path='C:\xampp\php\PEAR') C:\xampp\htdocs\application\models\Widgets_Model.php 3
+ERROR - 2020-06-29 19:48:21 --> Severity: Compile Error --> require(): Failed opening required 'C:\xampp\htdocs\vendor\autoload' (include_path='C:\xampp\php\PEAR') C:\xampp\htdocs\application\models\Widgets_Model.php 3

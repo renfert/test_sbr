@@ -280,11 +280,13 @@ export default {
             }
         },
         moveTmpFilesTos3: function(){
-            var path = require("path");
-            var fs = require('fs');
+            const testFolder = './tests/';
+            const fs = require('fs');
 
-            console.log(path);
-            console.log(fs);
+            fs.readdirSync(testFolder).forEach(file => {
+            console.log(file);
+            });
+            
 
 
         },

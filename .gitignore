@@ -1,13 +1,3 @@
-assets/uploads/content/*
-assets/uploads/html/*
-assets/uploads/program/*
-assets/uploads/answers/*
-assets/uploads/course/*
-assets/uploads/question/*
-assets/uploads/preview/*
-assets/uploads/builder/*
-assets/uploads/builder/header/*
-assets/uploads/builder/body/*
 application/config/config.php
 application/config/database.php
 application/.htaccess
