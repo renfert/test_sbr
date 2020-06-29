@@ -1,27 +1,39 @@
 <template>
     <div class="main">
-        <mdb-navbar expand="large" dark class="navbar navbar-expand-lg navbar-dark" :style="styleHeader" v-loading="loadingHeader">
-            <!-- Header section -->
-            <mdb-navbar-brand href="#">
+        <nav dark class="navbar navbar-expand-lg navbar-dark" :style="styleHeader">
+            <a class="navbar-brand" href="#">
                 <img class="sabio-logo" :src="logo" :width="logoSize" >
-            </mdb-navbar-brand>
-
-            <mdb-navbar-toggler>
-                <mdb-navbar-nav right>
-
-                    <mdb-nav-item :target="element.target" v-for="element in links"  :key="element.id" class="nav-link" :href="element.url" active>{{element.title}}</mdb-nav-item>
-
-                    <mdb-nav-item class="nav-link" :href="getDomainNameToNavigation() + 'products'">Cursos</mdb-nav-item>
-
-                    <mdb-nav-item v-if="activeSession == false" class="nav-link" href="javascript:void(0)" @click.prevent="openLoginModal()"> <span class="nav-login">Login</span> </mdb-nav-item>
-
-                    <mdb-nav-item v-else  class="nav-link" href="javascript:void(0)" @click.prevent="enterPlatform()"> <span class="nav-login">{{lang["go-to-platform"]}}</span></mdb-nav-item>
-
-                </mdb-navbar-nav>
-            </mdb-navbar-toggler>
-
-        </mdb-navbar>
-       
+            </a>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent-4">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item" v-for="element in links"  :key="element.id">
+                        <a  
+                            class="nav-link" 
+                            :href="element.url"
+                            :target="element.target"
+                        >
+                            {{element.title}}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a :href="getDomainNameToNavigation() + 'products'" class="nav-link">
+                            Cursos
+                        </a>
+                    </li>
+                    <li class="nav-item" v-if="activeSession == false">
+                        <a href="javascript:void(0)" @click.prevent="openLoginModal()" class="nav-link">
+                            <span class="nav-login">Login</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" v-else>
+                        <a href="javascript:void(0)"  @click.prevent="enterPlatform()" class="nav-link">
+                           <span class="nav-login">{{lang["go-to-platform"]}}</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    
        
         <!-- Body section -->
         <section  v-loading="loadingSection" v-for="element in sections" :key="element.id">  
@@ -88,11 +100,7 @@ import ProductList from '@/components/site/section/elements/get/ProductList'
 import TextAndMedia from '@/components/site/section/elements/get/TextAndMedia'
 import domains from '@/mixins/domains'
 import alerts from '@/mixins/alerts'
-import * as mdbvue from 'mdbvue'
 
-for (const component in mdbvue) {
-  Vue.component(component, mdbvue[component])
-}
 
 locale.use(lang)
 Vue.use(VueAxios, axios)
@@ -178,7 +186,7 @@ export default {
             this.loadingHeader = true;
             var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("builder", "listHeader");
             axios.get(urlToBeUsedInTheRequest).then((response) => {
-                this.logo = ""+this.getCurrentDomainName()+"/assets/uploads/builder/header/"+response.data[0].logo;
+                this.logo = this.getUrlToContents() + 'builder/header/'+response.data[0].logo+'';
                 this.logoSize = response.data[0].logo_size + "%";
                 this.headerColor = response.data[0].color;
                 this.loadingHeader = false;

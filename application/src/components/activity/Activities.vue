@@ -7,16 +7,19 @@
                     <div class="activities-title text-center mb-5">
                         <h3>Last activities</h3>
                     </div>
+
             
                     <!-- Activity -->
                     <div 
                         class="activity-item mb-4"
                         v-for="element in activities"
                         :key="element.id"    
+                        style="display:flex;align-items:center;"
                     >
-                        <div class="row">
+
+                        <div class="row" style="width:100%;">
                             <div class="col-12 col-md-2">
-                                <img   :src="''+getCurrentDomainName()+'assets/uploads/avatar/'+element.avatar+''" class="rounded-circle img-thumbnail img-responsive user-avatar" alt="">
+                                <el-avatar :size="70" fit="contain"  :src="getUrlToContents() + 'avatar/'+element.avatar+''"></el-avatar>
                             </div>
                             <div class="col-10 text-left">
 
@@ -192,7 +195,7 @@ export default {
             lang: {},
             loading: false,
             activities: [],
-            currentDate: ''
+            currentDate: '',
         }
     },
     mounted(){
@@ -216,6 +219,8 @@ export default {
                 }.bind(this)
             );
         },
+        
+
         viewUser: function(id){
             sessionStorage.setItem('sbr_user_id', ''+id+'');
             if(process.env.NODE_ENV === 'production'){
@@ -277,8 +282,6 @@ export default {
     width:70px;
 }
 
-
-
 .card-widget {
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     transition: all 0.3s cubic-bezier(.25,.8,.25,1);
@@ -296,11 +299,13 @@ export default {
 }
 
 .activity-item{
-    height:70px;
+    height:auto;
     cursor: pointer;
     background-color: rgba(230, 230, 230, 0.4);
-    padding:0px 0px 30px 30px;
+    padding:10px;
     border-radius: 20px;
+    display:flex;
+    align-items:center;
 }
 
 .activity-item:hover{

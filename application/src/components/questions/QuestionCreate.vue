@@ -43,30 +43,20 @@
                             @click.prevent="createNewAnswerEvent()" 
                             size="medium">{{lang["add-new-answer"]}}
                         </el-button>
-                  </div>
-              </div>
-              <div class="form-group col-xl-6 col-md-6">
-                  <!-- Question image -->
-                  <h4>{{lang["question-image"]}}</h4>
-                  <div class="drop-area" style="height:100px !important;"> 
-                    <input :value="questionImageName" name="questionImageName" type="text">
-                    <input 
-                        class="upload"  
-                        @change.prevent="render($event)"  
-                        type="file"
-                        acceptable=".png,.jpg,.jpeg"
-                    >
-                    <div class="drop-message">
-                        <span class="file-icon" :class="icon"></span>
-                        <p>{{message}}</p>
                     </div>
-                    <div class="drop-preview on" style="text-align:center;">
-                        <div class="drop-img">
-                            <img id="previewQuestionImage" class="preview" :src="previewImg">
-                        </div>
-                    </div>
-                  </div>
-                  <input class="hide" type="text" name="realName" :value="realName">
+                </div>
+                <div class="form-group col-xl-6 col-md-6">
+                    <!-- Question image -->
+                    <h4>{{lang["question-image"]}}</h4>
+                    <upload 
+                        :key="componentKey"
+                        do-upload= "true"
+                        box-height = "100"
+                        return-name="questionImageName" 
+                        input-name="file"  
+                        bucket-key="uploads/question" 
+                        acceptable=".png,.jpg,.jpeg">
+                    </upload>
               </div>
           </div>
           <div class="form-row" v-if="type == 2">
@@ -97,10 +87,10 @@ import ToggleButton from 'vue-js-toggle-button'
 import AnswerList from '@/components/answers/AnswerList'
 import {eventBus} from '@/pages/newcourse/App'
 import {eventLang} from '@/components/helper/HelperLang'
-import {eventProgress} from '@/components/helper/HelperProgress'
+import {eventUpload} from '@/components/helper/HelperUpload'
+import Upload from '@/components/helper/HelperUpload'
 import domains from '@/mixins/domains'
 import alerts from '@/mixins/alerts'
-import $ from 'jquery'
 Vue.use(ToggleButton)
 Vue.use(VueTheMask)
 Vue.use(VueTheMask)
@@ -108,25 +98,22 @@ Vue.use(VueAxios, axios)
 export default {
     mixins: [domains,alerts],
     components: {
-        AnswerList
+        AnswerList,
+        Upload
     },
     data: () => {
         return {
             lang: {},
             question: '',
             questionId: '',
-            questionImageName: '',
             weight: 1,
             type: 1,
             modalCreateQuestion : false,
             loading : false,
             automaticFeedback: '',
             checked: '',
-            previewImg: '',
-            realName: '',
-            icon: 'fas fa-cloud-upload-alt',
-            message:"Upload a file",
-            examId: ''
+            examId: '',
+            componentKey: 0
         }
     },
     mounted(){
@@ -135,9 +122,9 @@ export default {
         }.bind(this));
    
         eventBus.$on("open-question-modal", function(response){
-        this.questionId = response["questionId"];
-        this.examId = response["examId"];
-        this.modalCreateQuestion = true;
+            this.questionId = response["questionId"];
+            this.examId = response["examId"];
+            this.modalCreateQuestion = true;
         }.bind(this));
     },
     methods: {
@@ -185,67 +172,19 @@ export default {
                 ); 
             }
         },
-        render: function(event){
-            this.upload(event);
-            this.message = '';
-            this.icon = '';
-            var input = event.target; 
-            var fullName = input.value;  
-            var fileName = fullName.split(/(\\|\/)/g).pop();
-            var fileExtension = fullName.split('.').pop();
-            this.realName = fileName;
-            if(fileExtension == 'png' || fileExtension == 'jpg' || fileExtension == 'jpeg' ){
-            var reader = new FileReader();
-                reader.onload = function (e) {
-                var div = input.parentElement; 
-                var img = div.getElementsByTagName('img')[0];
-                img.src = e.target.result;
-            };  
-            reader.readAsDataURL(input.files[0]);
-            }else{
-            this.message = fileName;
-            this.icon = "far fa-thumbs-up text-default";
-            }
+        forceRerender: function() {
+            this.componentKey += 1;
         },
-        upload: function(event){
-            eventProgress.$emit("new-progress");
-            const config = {
-                onUploadProgress: function(progressEvent) {
-                var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
-                eventProgress.$emit("new-percent", percentCompleted);
-                }
-            }
-            var formData = new FormData()
-            formData.append('file', event.target.files[0])
-            formData.append('type', 'question-image')
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("upload", "upload_file");
-            axios.post(urlToBeUsedInTheRequest,formData,config).then((response) => {
-                this.questionImageName = response.data;
-                event.target.value = null
-                eventProgress.$emit("finish-progress");
-            }, 
-                /* Error callback */
-                function(){
-                    this.errorMessage();
-                }.bind(this)
-            );
-        },
+    
         actionsToBePerformedAfterRegistration(){
-
-            $("#previewQuestionImage").removeAttr("src");
-            $("#previewQuestionImage").show();
-
+            this.forceRerender();
+            eventUpload.$emit("clear");
             this.question = '',
             this.weight = 1,
             this.type = 1,
             this.automaticFeedback = '',
-            this.message = 'Upload a file';
-            this.icon = 'fas fa-cloud-upload-alt';
-            this.questionImageName = '';
-            this.previewImg = '',
-            this.realName = '',
             this.modalCreateQuestion = false;
-            eventBus.$emit('new-question'); 
+            eventBus.$emit("new-question"); 
         }
     }
 }

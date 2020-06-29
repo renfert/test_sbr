@@ -16,7 +16,7 @@
                     >
                         <div class="row">
                             <div class="col-12 col-md-2">
-                                <img   :src="''+getCurrentDomainName()+'assets/uploads/avatar/'+element.avatar+''" class="rounded-circle img-thumbnail img-responsive user-avatar" alt="">
+                                <el-avatar :size="70" fit="contain"  :src="getUrlToContents() + 'avatar/'+element.avatar+''"></el-avatar>
                             </div>
                             <div class="col-10 text-left">
 

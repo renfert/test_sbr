@@ -30,7 +30,7 @@
                     <div class="image-upload" style="text-align:center;">
                         <label for="file-input">
                             <el-avatar style="cursor:pointer" :size="100">
-                                <img :src="''+getCurrentDomainName()+'assets/uploads/testimonial/' + photo" />
+                               <img :src="getUrlToContents() + 'testimonial/'+photo+''">
                             </el-avatar>
                         </label>
                         <input :value="avatar" name="avatar" type="text">
@@ -54,6 +54,7 @@
                 </div>
             </form>
         </el-dialog>
+        <helper-progress></helper-progress>
     </div> 
 </template>
 
@@ -70,9 +71,13 @@ import lang from 'element-ui/lib/locale/lang/en'
 import locale from 'element-ui/lib/locale'
 import {eventLang} from '@/components/helper/HelperLang'
 import {eventBus} from '@/pages/site/App'
+import {eventProgress} from '@/components/helper/HelperProgress'
 import $ from 'jquery'
 import domains from '@/mixins/domains'
 import alerts from '@/mixins/alerts'
+import HelperProgress from '@/components/helper/HelperProgress.vue'
+import AWS from 'aws-sdk/global';
+import S3 from 'aws-sdk/clients/s3';
 
 locale.use(lang)
 Vue.use(VueTheMask)
@@ -85,6 +90,7 @@ export default {
     components: {
         draggable,
         Lang,
+        HelperProgress
     },
     mixins: [domains,alerts],
     props:["testimonial-id"],
@@ -100,9 +106,12 @@ export default {
             photo: '',
             personId: '',
             avatar: '',
+            subDomainName: ''
         }
     },
     mounted(){
+        this.getSubDomainName();
+
         eventLang.$on('lang', function(response){  
             this.lang = response;
         }.bind(this));
@@ -130,17 +139,29 @@ export default {
             reader.readAsDataURL(input.files[0]);
         },
         upload: function(event){
-            var data = new FormData()
-            data.append('file', event.target.files[0])
-            data.append('type', "testimonial-avatar")
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("upload", "upload_file");
-            axios.post(urlToBeUsedInTheRequest,data).then((response) => {
-                this.avatar = response.data;
-                event.target.value = null
-            }, () => {
-                /* Error callback */
-                this.errorMessage();
-            })
+
+            var file = event.target.files[0];
+            var fileName = file.name;
+            var fileExt = fileName.split('.').pop();
+            var newFileName = this.generateFileName(40) + '.' + fileExt;
+            eventProgress.$emit("new-progress");
+
+            AWS.config.update({
+                accessKeyId: "AKIA5AQZS5JMAWUELDG7",
+                secretAccessKey: "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",
+                "region": "us-east-1"  
+            }); 
+
+            var bucket = new S3({params: {Bucket: 'sabiorealm'}});
+            var params = {Key: ''+this.subDomainName+'/uploads/testimonial/'+newFileName +'', ContentType: file.type, Body: file};
+
+            bucket.upload(params).on('httpUploadProgress', function(evt) {
+                var percentCompleted = Math.round(parseInt((evt.loaded * 100) / evt.total));
+                eventProgress.$emit("new-percent", percentCompleted);
+            }).send(function() {
+                this.avatar = newFileName;
+                eventProgress.$emit("finish-progress");
+            }.bind(this));
         },
         deletePerson: function(id){
             var formData = new FormData();
@@ -150,6 +171,28 @@ export default {
                 this.updatePersonsListArray();  
                 this.successMessage();
                 eventBus.$emit("edit-person");
+            }, 
+                function(){
+                    this.errorMessage();
+                }.bind(this)
+            );
+        },
+        generateFileName: function(length){
+            var today = new Date();   
+            var time = today.getHours()  + today.getMinutes() + today.getSeconds();
+
+            var result           = '';
+            var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            var charactersLength = characters.length;
+            for ( var i = 0; i < length; i++ ) {
+                result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            }
+            return result + time;
+        },
+        getSubDomainName: function(){
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("verify", "getSubDomainName");
+            axios.get(urlToBeUsedInTheRequest).then((response) => {
+                this.subDomainName = response.data;
             }, 
                 function(){
                     this.errorMessage();

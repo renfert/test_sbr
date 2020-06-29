@@ -6,15 +6,31 @@
                 <div class="text-container">
                     <h4>{{lang["course-created-successfully"]}}</h4>
                     <h1>{{courseName}}</h1>
+                    <div id="share" v-if="share == true">
+                       
+                        <!-- facebook -->
+                        <a class="facebook" href="https://www.facebook.com/share.php?u=url&title=titulo" target="blank"><i class="fab fa-facebook-f"></i></a>
+
+                        <!-- twitter -->
+                        <a class="twitter" href="https://twitter.com/intent/tweet?status=titulo+url" target="blank"><i class="fab fa-twitter"></i></a>
+
+                        <!-- google plus -->
+                        <a class="googleplus" href="https://plus.google.com/share?url=url" target="blank"><i class="fab fa-google-plus-g"></i></a>
+
+                        <!-- linkedin -->
+                        <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=url&title=titulo&source=source" target="blank"><i class="fab fa-linkedin-in"></i></a>
+                    
+                 
+                    </div>
                 </div>
         
                 <img  src="@/assets/img/general/ux/course_completed.png">
             </div>
         </div>
 
-        <div class="row mt-3">
+        <div class="row mt-3 ml-5 mr-5">
             <div class="col-12 col-md-3">
-                <a :href="viewCourseUrl">
+                <a href="javascript:void(0)" @click.prevent="viewCourse()">
                     <div class="card-box">
                         <h5>{{lang["view-course"]}}</h5>
                         <img src="@/assets/img/general/ux/view_course.png" alt="">
@@ -41,7 +57,7 @@
             </div>
 
             <div class="col-12 col-md-3">
-                <a href="#">
+                <a href="javascript:void(0)" @click.prevent="share = true">
                     <div class="card-box">
                         <h5>{{lang["share"]}}</h5>
                         <img src="@/assets/img/general/ux/share.png" alt="">
@@ -114,17 +130,17 @@ export default {
             usersList : [],
             users: [],
             courseId: '',
-            viewCourseUrl: '',
             loading: false,
             courseName: '',
             courseImage: '',
+            share: false
         }
     },
     mounted(){
         /* New course */
         eventBus.$on('new-course', function(response){
             this.courseId = response;
-            this.viewCourseUrl = this.getCurrentDomainName() + 'pages/viewcourse/' + response;
+            sessionStorage.setItem('sbr_course_id', ''+response+'');
             this.getUsersOutsideTheCourse(response);
         }.bind(this));
 
@@ -154,6 +170,14 @@ export default {
     methods:{
         reloadPage: function(){
            location.reload();
+        },
+        viewCourse: function(){
+            sessionStorage.setItem('sbr_course_id', ''+this.courseId+'');
+            if(process.env.NODE_ENV === 'production'){
+                window.location.href="pages/viewcourse";
+            }else{
+                 window.location.href="viewcourse";
+            }
         },
         getCourse: function(){
             var formData = new FormData();
@@ -307,6 +331,58 @@ export default {
 
 .container-fluid{
     padding-left:0px !important;
+}
+
+#share {
+    width: 100%;
+    text-align: center;
+}
+
+/* buttons */
+
+#share a {
+    width: 50px;
+    height: 50px;
+    display: inline-block;
+    margin: 8px;
+    border-radius: 50%;
+    font-size: 24px;
+    color: #fff;
+    transition: opacity 0.15s linear;
+}
+
+#share a:hover {
+    opacity: 0.75;
+}
+
+/* icons */
+
+#share i {
+    position: relative;
+    top:40%;
+    transform: translateY(-50%);
+}
+
+    /* colors */
+
+.facebook {
+    background: #3b5998;
+}
+
+.twitter {
+    background: #55acee;
+}
+
+.googleplus {
+    background: #dd4b39;
+}
+
+.linkedin {
+    background: #0077b5;
+}
+
+.pinterest {
+    background: #cb2027;
 }
 
 

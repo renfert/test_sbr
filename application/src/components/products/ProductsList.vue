@@ -32,7 +32,8 @@
                   <div v-if="new Date(element.release_date) <= new Date() && new Date(element.expiration_date) >= new Date() || element.release_date == null && element.expiration_date == null || element.release_date == '0000-00-00' && element.expiration_date == '0000-00-00'"  class="card">
                                 
                     <!-- Course image -->
-                    <img style="height:200px;" v-if="element.photo != '' && element.photo != null"  class="card-img-top" :src="''+getCurrentDomainName()+'assets/uploads/course/' + element.photo" alt="Card image cap">
+                    <img :src="getUrlToContents() + 'course/'+element.photo+''" style="height:200px;" v-if="element.photo != '' && element.photo != null"  class="card-img-top">
+
 
                     <img style="height:200px;" v-else class="card-img-top" src="@/assets/img/general/ux/course_image_default.png" alt="Card image cap">
                     <!-- Course content -->

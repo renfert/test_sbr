@@ -4,10 +4,12 @@
             <!-- Left side media position -->
             <div v-if="element.media_align == 'left' " class="row">
                 <div class="col-12 col-md-6">
-                    <img v-if="mediaExtension == 'png' || mediaExtension == 'jpg' || mediaExtension == 'jpeg'" style="max-width:100%;" :src="''+getCurrentDomainName()+'assets/uploads/builder/body/' + element.media" /> 
+                    
+                    <img :src="getUrlToContents() + 'builder/body/'+element.media+''" v-if="mediaExtension == 'png' || mediaExtension == 'jpg' || mediaExtension == 'jpeg'" style="max-width:100%;">
+                   
                     <div class="player-container"  v-else>
                         <vue-plyr>
-                            <video :src="''+getCurrentDomainName()+'assets/uploads/builder/body/' + element.media" ></video>
+                            <video :src="getUrlToContents() + 'builder/body/'+element.media+''"></video>
                         </vue-plyr>
                     </div>
                 </div>
@@ -45,10 +47,10 @@
                     </a>
                 </div>
                 <div class="col-12 col-md-6 right-side">
-                    <img v-if="mediaExtension == 'png' || mediaExtension == 'jpg' || mediaExtension == 'jpeg'" style="max-width:100%;" :src="''+getCurrentDomainName()+'assets/uploads/builder/body/' + element.media" /> 
+                    <img :src="getUrlToContents() + 'builder/body/'+element.media+''" v-if="mediaExtension == 'png' || mediaExtension == 'jpg' || mediaExtension == 'jpeg'" style="max-width:100%;">
                     <div class="player-container"  v-else>
                         <vue-plyr>
-                            <video :src="''+getCurrentDomainName()+'assets/uploads/builder/body/' + element.media"></video>
+                            <video :src="getUrlToContents() + 'builder/body/'+element.media+''"></video>
                         </vue-plyr>
                     </div>
                 </div>
@@ -61,10 +63,10 @@
             <div v-if="element.media_align == 'top'"  class="text-box">
                 <div class="row">
                     <div class="col-12 col-md-12">
-                        <img v-if="mediaExtension == 'png' || mediaExtension == 'jpg' || mediaExtension == 'jpeg'" style="max-width:100%;" :src="''+getCurrentDomainName()+'assets/uploads/builder/body/' + element.media" /> 
+                        <img :src="getUrlToContents() + 'builder/body/'+element.media+''" v-if="mediaExtension == 'png' || mediaExtension == 'jpg' || mediaExtension == 'jpeg'" style="max-width:100%;"> 
                         <div class="player-container"  v-else>
                             <vue-plyr>
-                                <video :src="''+getCurrentDomainName()+'assets/uploads/builder/body/' + element.media"></video>
+                                <video :src="getUrlToContents() + 'builder/body/'+element.media+''"></video>
                             </vue-plyr>
                         </div>
                     </div>
@@ -108,10 +110,10 @@
                 </div>
                 <div class="row">
                     <div class="col-12 col-md-12">
-                        <img v-if="mediaExtension == 'png' || mediaExtension == 'jpg' || mediaExtension == 'jpeg'" style="max-width:100%;" :src="''+getCurrentDomainName()+'assets/uploads/builder/body/' + element.media" /> 
+                        <img :src="getUrlToContents() + 'builder/body/'+element.media+''" v-if="mediaExtension == 'png' || mediaExtension == 'jpg' || mediaExtension == 'jpeg'" style="max-width:100%;"> 
                         <div class="player-container"  v-else>
                             <vue-plyr>
-                                <video :src="''+getCurrentDomainName()+'assets/uploads/builder/body/' + element.media"></video>
+                                <video :src="getUrlToContents() + 'builder/body/'+element.media+''"></video>
                             </vue-plyr>
                         </div>
                     </div>

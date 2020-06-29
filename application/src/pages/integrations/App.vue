@@ -39,7 +39,7 @@
                 </div>
             </div>
         </div> <!-- End of content page -->
-        <update-plan></update-plan> <!-- Update plan modal -->
+        <Loader></Loader>
     </div> <!-- End of wrapper -->
 </template>
 
@@ -47,7 +47,6 @@
 
 import TopBar from '@/components/template/TheTopBar.vue' 
 import LeftBar from '@/components/template/TheLeftBar.vue'  
-import UpdatePlan from '@/components/template/TheUpdatePlan.vue'  
 import Lang from '@/components/helper/HelperLang.vue'
 import ElementUI from 'element-ui'
 import {eventLang} from '@/components/helper/HelperLang'
@@ -58,6 +57,8 @@ import GoogleTagManager from '@/components/integrations/GoogleTagManager'
 import GoogleAnalytics from '@/components/integrations/GoogleAnalytics'
 import MercadoPago from '@/components/integrations/MercadoPago'
 import FacebookPixel from '@/components/integrations/FacebookPixel'
+import Loader from '@/components/template/TheLoader.vue'
+
 
 locale.use(lang)
 Vue.use(ElementUI)
@@ -69,78 +70,45 @@ import VueAxios from 'vue-axios'
 import VueHead from 'vue-head'
 import domains from '@/mixins/domains'
 import alerts from '@/mixins/alerts'
-import VueGtm from 'vue-gtm';
-import VueGtag from "vue-gtag";
+import headerTags from '@/mixins/headerTags'
+import integrations from '@/mixins/integrations'
+
 export const eventBus = new Vue();
 
 
 Vue.use(VueAxios, axios)
 Vue.use(VueHead)
 export default {
-    mixins: [domains,alerts],
+    mixins: [domains,alerts,integrations,headerTags],
     data: () => {
         return {
-            favicon: '',
             lang: [],
             tab: 'gtm'
         }
     },
     created: function(){
-        this.getIntegrations();
-    },
-    methods: {
-        getIntegrations: function(){
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("integrations", "getIntegrations");
-            axios.get(urlToBeUsedInTheRequest).then((response) => {
-                
-                /* Google analytics */
-                var gaId = response.data["ga_id"];
-                Vue.use(VueGtag, {
-                    config: { 
-                        id: gaId
-                    }
-                });
-
-                /* Google tag manager */
-                var gtmId = response.data["gtm_id"];
-                Vue.use(VueGtm, {
-                    id: gtmId
-                });
-
-            },
-                function(){
-                    this.errorMessage();
-                }.bind(this)
-            );
-        },
+        this.loadIntegrations();
+        this.createFavicon();
     },
     head: {
         title: {
-        inner: 'Integrations'
+            inner: 'Integrations'
         },
         meta: [
-        { name: 'charset', content: 'utf-8' },
-        { name: 'viewport', content: 'width=device-width, initial-scale=1.0'}, 
-        { name: 'author', content: 'Eadtools' },
-    
-        // Facebook / Open Graph
-        { property: 'og:title', content: 'Content Title' },
-        // with shorthand
-        { p: 'og:image', c: 'teste' },
-        ],
-        link: [
-        { rel: 'icon', href: require('assets/uploads/settings/favicon.png'), sizes: '16x16', type: 'image/png' }
-        ],
+            { name: 'charset', content: 'utf-8' },
+            { name: 'viewport', content: 'width=device-width, initial-scale=1.0'}, 
+            { name: 'author', content: 'Sabiorealm' },
+        ]
     },
     components: { 
         TopBar,
         LeftBar,
-        UpdatePlan,
         Lang,
         GoogleTagManager,
         GoogleAnalytics,
         MercadoPago,
-        FacebookPixel
+        FacebookPixel,
+        Loader
     },
     mounted() {
         eventLang.$on('lang', function(response){

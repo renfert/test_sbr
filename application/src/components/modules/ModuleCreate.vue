@@ -31,7 +31,11 @@
                   <label style="margin-bottom:4%;" class="col-form-label">{{lang["required-module"]}}</label>
                   <br>
                   <div class="input-group">
-                      <toggle-button name="required" color="#009CD8" v-model="required"/>
+                      <el-switch 
+                          name="required" 
+                          v-model="required"
+                          active-color="#09dfff">
+                      </el-switch>
                   </div>
               </div>
           </div>
@@ -51,12 +55,10 @@ import Vue from 'vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import VueTheMask from 'vue-the-mask'
-import ToggleButton from 'vue-js-toggle-button'
 import {eventBus} from '@/pages/newcourse/App'
 import {eventLang} from '@/components/helper/HelperLang'
 import domains from '@/mixins/domains'
 import alerts from '@/mixins/alerts'
-Vue.use(ToggleButton)
 Vue.use(VueTheMask)
 Vue.use(VueAxios, axios)
 export default {

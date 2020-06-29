@@ -4,7 +4,7 @@
             <el-carousel-item v-for="element in personsArray" :key="element.id">
                 <div class="testimonial-persons">
                     <el-avatar :size="80">
-                        <img :src="''+getCurrentDomainName()+'assets/uploads/testimonial/' + element.photo" /> 
+                        <img :src="getUrlToContents() + 'testimonial/'+element.photo+''">
                     </el-avatar>
                     <h3>{{element.name}}</h3>
                     <h4>{{element.occupation}}</h4>

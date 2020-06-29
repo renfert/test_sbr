@@ -105,7 +105,7 @@ export default {
   z-index: 1;
   position:absolute;
   width:100%;
-  border-radius: 4px;
+  border-radius: 0px 0px;
   display: flex;
   justify-content: center;
   padding: 0;

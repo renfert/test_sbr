@@ -7,9 +7,9 @@
                 <article class="pricing-column">
                     <div class="inner-box card-box">
                         <div class="plan-header text-center">
-                            <h3 class="text-eadtools">STARTER <i class="far fa-paper-plane"></i></h3>
+                            <h3 class="text-eadtools">BASIC <i class="far fa-paper-plane"></i></h3>
                             <hr>
-                            <h2 class="plan-price">USD$41</h2>
+                            <h2 class="plan-price">USD$99</h2>
                             <div class="plan-duration">Per Month</div>
                         </div>
                         <ul class="plan-stats list-unstyled text-left">
@@ -46,7 +46,7 @@
                         </ul>
 
                         <div class="text-center">
-                            <a href="#" class="ead btn-eadtools">{{lang["upgrade-now"]}}</a>
+                            <a href="#" class="btn-ead btn-sabiorealm">{{lang["upgrade-now"]}}</a>
                         </div>
                     </div>
                 </article>
@@ -57,9 +57,9 @@
                 <article class="pricing-column">
                     <div class="inner-box card-box">
                         <div class="plan-header text-center">
-                            <h3 class="text-eadtools">PRO <i class="fas fa-plane-departure"></i></h3>
+                            <h3 class="text-eadtools">GROWT <i class="fas fa-plane-departure"></i></h3>
                             <hr>
-                            <h2 class="plan-price">USD$89</h2>
+                            <h2 class="plan-price">USD$150</h2>
                             <div class="plan-duration">Per Month</div>
                         </div>
                         <ul class="plan-stats list-unstyled text-left">
@@ -96,7 +96,7 @@
                         </ul>
 
                         <div class="text-center">
-                            <a href="#" class="ead btn-eadtools">{{lang["upgrade-now"]}}</a>
+                            <a href="#" class="btn-ead btn-sabiorealm">{{lang["upgrade-now"]}}</a>
                         </div>
                     </div>
                 </article>
@@ -107,9 +107,9 @@
                 <article class="pricing-column">
                     <div class="inner-box card-box">
                         <div class="plan-header text-center">
-                            <h3 class="text-eadtools">ENTERPRISE <i class="fas fa-fighter-jet"></i></h3>
+                            <h3 class="text-eadtools">BUSINESS <i class="fas fa-fighter-jet"></i></h3>
                             <hr>
-                            <h2 class="plan-price">USD$399</h2>
+                            <h2 class="plan-price">USD$450</h2>
                             <div class="plan-duration">Per Month</div>
                         </div>
                         <ul class="plan-stats list-unstyled text-left">
@@ -146,7 +146,7 @@
                         </ul>
 
                         <div class="text-center">
-                            <a href="#" class="ead btn-eadtools">{{lang["upgrade-now"]}}</a>
+                            <a href="#" class="btn-ead btn-sabiorealm">{{lang["upgrade-now"]}}</a>
                         </div>
                     </div>
                 </article>

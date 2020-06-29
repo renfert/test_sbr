@@ -70,7 +70,7 @@ export default {
             axios.post(urlToBeUsedInTheRequest, formData).then((response) => {
                 /* Success callback */
                 this.courseTitle = response.data["title"];
-                this.courseImage = this.getCurrentDomainName() + 'assets/uploads/course/' + response.data["photo"];
+                this.courseImage = this.getUrlToContents() + 'course/'+response.data["photo"]+'';
             },
             /* Error callback */
             function(){

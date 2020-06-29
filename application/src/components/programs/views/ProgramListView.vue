@@ -7,7 +7,7 @@
                 
                     <a  @click.prevent="viewProgram(element.id,element.expirationDays,element.releaseDays)" v-if="element.photo != '' && element.photo != null">
                         <!-- Card image -->
-                        <img  class="card-img-top" :src="''+getCurrentDomainName()+'assets/uploads/program/' + element.photo" alt="Card image cap">
+                        <img :src="getUrlToContents() + 'program/'+element.photo+''" class="card-img-top">
                     </a>
 
                     <a  @click.prevent="viewProgram(element.id,element.expirationDays,element.releaseDays)" v-else>
@@ -19,15 +19,19 @@
                         <!-- Title -->
                         <h4 class="card-title"><a @click.prevent="viewProgram(element.id,element.expirationDays,element.releaseDays)">{{element.title}}</a></h4>
 
-                        <el-progress  :percentage="parseInt(((100 * element.finishedLessons) /  element.lessons ))"></el-progress>
+                        <el-progress v-if="parseInt(((100 * element.finishedLessons) /  element.lessons )) > 0"  :percentage="parseInt(((100 * element.finishedLessons) /  element.lessons ))"></el-progress>
+
+                        <el-progress v-else  percentage="0"></el-progress>
 
                         <el-tag
+                            class="mt-2"
                             v-if="element.expirationDays < 0"
                             type="danger">
                             {{lang["program-expired"]}} {{element.expiration_date}}
                         </el-tag>
 
                         <el-tag
+                            class="mt-2"
                             v-if="element.releaseDays > 0"
                             type="primary">
                             {{lang["program-avaiable-in"]}} {{element.release_date}}
@@ -174,7 +178,5 @@ export default {
     margin-bottom: 50px !important;
 }
 
-.unavaiable-by-date{
 
-}
 </style>

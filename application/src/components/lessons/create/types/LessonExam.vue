@@ -3,27 +3,25 @@
         <el-dialog  :visible.sync="modalCreateExam" :title="lang['create-new-exam']" center top="5vh" >
             <div class="form-row" style="margin-top:-30px !important;">
                 <div class="form-group col-xl-12 col-md-12">
-                    <div class="form-wizard-wrapper">
-                        <ul>
-                            <li @click.prevent="accessFirstStep()">
-                                <a class="form-wizard-link" :class="active == 1 ? 'active' : '' " href="#">
-                                <span>
-                                    {{lang["basic-information"]}} 
-                                </span>
-                                </a>
-                            </li>
-                            <li @click.prevent="accessSecondStep()">
-                                <a class="form-wizard-link" :class="active == 2 ? 'active' : '' " href="#">
-                                <span>
-                                    {{lang["questions"]}} 
-                                </span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                    <ul>
+                        <li @click.prevent="accessFirstStep()">
+                            <a class="form-wizard-link" :class="active == 1 ? 'active' : '' " href="#">
+                            <span>
+                                {{lang["basic-information"]}} 
+                            </span>
+                            </a>
+                        </li>
+                        <li @click.prevent="accessSecondStep()">
+                            <a class="form-wizard-link" :class="active == 2 ? 'active' : '' " href="#">
+                            <span>
+                                {{lang["questions"]}} 
+                            </span>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
-            <hr>
+            
             <div class="card-box" v-if="showExamFirstStep">
                 <form id="form-lesson-exam" @submit.prevent="createExam()">
                     <div class="form-row">
@@ -231,7 +229,6 @@ export default {
 .form-wizard-wrapper ul {
   background-color:#373C41;
   z-index: 1;
-  position:absolute;
   width:100%;
   border-radius: 4px;
   display: flex;

@@ -10,7 +10,7 @@
                     <div class="image-upload" style="text-align:center;">
                         <label for="file-input">
                             <el-avatar style="cursor:pointer" :size="100">
-                                <img :src="''+getCurrentDomainName()+'assets/uploads/avatar/' + photo" />
+                                <img :src="getUrlToContents() + 'avatar/'+photo+''" >
                             </el-avatar>
                         </label>
                         <input :value="avatar" name="avatar" type="text">
@@ -52,7 +52,7 @@
                 </div>
             </form>
         </div>
-           
+        <helper-progress></helper-progress>
     </div> 
 </template>
 
@@ -67,9 +67,13 @@ import 'element-ui/lib/theme-chalk/index.css'
 import lang from 'element-ui/lib/locale/lang/en'
 import locale from 'element-ui/lib/locale'
 import {eventLang} from '@/components/helper/HelperLang'
+import {eventProgress} from '@/components/helper/HelperProgress'
 import {eventBus} from '@/pages/profile/App'
 import domains from '@/mixins/domains'
 import alerts from '@/mixins/alerts'
+import HelperProgress from '@/components/helper/HelperProgress.vue'
+import AWS from 'aws-sdk/global';
+import S3 from 'aws-sdk/clients/s3';
 
 locale.use(lang)
 Vue.use(VueTheMask)
@@ -81,6 +85,7 @@ Vue.use(ElementUI)
 export default {
     components: {
         Lang,
+        HelperProgress
     },
     mixins: [domains,alerts],
     props:["testimonial-id"],
@@ -101,10 +106,11 @@ export default {
         }
     },
     mounted(){
+        
         eventLang.$on('lang', function(response){  
             this.lang = response;
         }.bind(this));
-
+        this.getSubDomainName();
         this.getProfile();
 
     },
@@ -126,17 +132,28 @@ export default {
             reader.readAsDataURL(input.files[0]);
         },
         upload: function(event){
-            var data = new FormData()
-            data.append('file', event.target.files[0])
-            data.append('type', "profile-avatar")
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("upload", "upload_file");
-            axios.post(urlToBeUsedInTheRequest,data).then((response) => {
-                this.avatar = response.data;
-                event.target.value = null
-            }, () => {
-                /* Error callback */
-                this.errorMessage();
-            })
+            var file = event.target.files[0];
+            var fileName = file.name;
+            var fileExt = fileName.split('.').pop();
+            var newFileName = this.generateFileName(40) + '.' + fileExt;
+            eventProgress.$emit("new-progress");
+
+            AWS.config.update({
+                accessKeyId: "AKIA5AQZS5JMAWUELDG7",
+                secretAccessKey: "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",
+                "region": "us-east-1"  
+            }); 
+
+            var bucket = new S3({params: {Bucket: 'sabiorealm'}});
+            var params = {Key: ''+this.subDomainName+'/uploads/avatar/'+newFileName +'', ContentType: file.type, Body: file};
+
+            bucket.upload(params).on('httpUploadProgress', function(evt) {
+                var percentCompleted = Math.round(parseInt((evt.loaded * 100) / evt.total));
+                eventProgress.$emit("new-percent", percentCompleted);
+            }).send(function() {
+                this.avatar = newFileName;
+                eventProgress.$emit("finish-progress");
+            }.bind(this));
         },
         editProfile: function(){
             if(this.password != this.confirmPassword){
@@ -174,6 +191,28 @@ export default {
                 /* Error callback */
                 function (){
                    this.errorMessage();
+                }.bind(this)
+            );
+        },
+        generateFileName: function(length){
+            var today = new Date();   
+            var time = today.getHours()  + today.getMinutes() + today.getSeconds();
+
+            var result           = '';
+            var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            var charactersLength = characters.length;
+            for ( var i = 0; i < length; i++ ) {
+                result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            }
+            return result + time;
+        },
+        getSubDomainName: function(){
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("verify", "getSubDomainName");
+            axios.get(urlToBeUsedInTheRequest).then((response) => {
+                this.subDomainName = response.data;
+            }, 
+                function(){
+                    this.errorMessage();
                 }.bind(this)
             );
         },

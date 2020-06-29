@@ -26,7 +26,8 @@ class Chart extends CI_Controller {
     }
 
     public function getStudentCourses(){
-        $chart = $this->Chart_Model->getStudentCourses();
+        $userId = $this->input->post("userId");
+        $chart = $this->Chart_Model->getStudentCourses($userId);
         echo json_encode($chart); 
     }
 

@@ -90,6 +90,18 @@ class Course_Model extends CI_Model {
         }
     }
 
+    public function userProgress($courseId,$studentId){
+        $lessons = $this->getLessonsListFromCourse($courseId);
+        $lessonList = $lessons["lessons"];
+
+        $numberOfLessons = $lessons["numberOfLessons"]; 
+        $completedLessons = $this->getLessonsCompletedByTheUserToCorrection($lessonList,$studentId);
+
+        $percentageOfCourseCompleted = (($completedLessons * 100) / $numberOfLessons);
+        
+        return $percentageOfCourseCompleted;
+    }
+
   
     public function progress($courseId){
         $lessons = $this->getLessonsListFromCourse($courseId);
@@ -103,7 +115,7 @@ class Course_Model extends CI_Model {
         return $percentageOfCourseCompleted;
     }
 
-    public function generateCertificate($courseId){
+    public function generateCertificate($courseId,$studentId){
         $course = $this->get($courseId);
         $certificate = $course->certificate;
         $courseTitle = $course->title;
@@ -111,7 +123,7 @@ class Course_Model extends CI_Model {
 
         $data = array(
             'certificate' => $certificate,
-            'myuser_id' => getUserId(),
+            'myuser_id' => $studentId,
             'mycourse_id' => $courseId,
             'course' => $courseTitle,
             'date' => getCurrentDate("Y-m-d")
@@ -130,6 +142,22 @@ class Course_Model extends CI_Model {
         $this->db->select("*");
         $this->db->from("lesson_status");
         $this->db->where("myuser_id", getUserId() );
+        $this->db->where("status", "finished");
+        $this->db->where_in("mylesson_id", $where);
+        $query = $this->db->get();
+        if($query->num_rows() >= 0){
+            return $query->num_rows();
+        }   
+    }
+
+    private function getLessonsCompletedByTheUserToCorrection($responseLessons,$studentId){
+        $where = array();
+        foreach($responseLessons as $value){
+            array_push($where, $value->mylesson_id);
+        };
+        $this->db->select("*");
+        $this->db->from("lesson_status");
+        $this->db->where("myuser_id", $studentId);
         $this->db->where("status", "finished");
         $this->db->where_in("mylesson_id", $where);
         $query = $this->db->get();
@@ -271,6 +299,18 @@ class Course_Model extends CI_Model {
         /* Delete from relationship */
         $this->db->where("mycourse_id", $courseId);
         if($this->db->delete("relationship") == false){
+            return false;
+        }
+
+        /* Delete from payments */
+        $this->db->where("mycourse_id", $courseId);
+        if($this->db->delete("payments") == false){
+            return false;
+        }
+
+        /* Delete from course_helper */
+        $this->db->where("mycourse_id", $courseId);
+        if($this->db->delete("course_helper") == false){
             return false;
         }
 

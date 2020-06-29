@@ -6811,6 +6811,8 @@ input[type=checkbox]:checked.lockCheck + label {
   cursor:pointer;
 }
 
+
+
 .imgAdd
 {
   width:30px;
@@ -7605,6 +7607,18 @@ span.question_text{
   color: #495057;
 }
 
+.card-widget {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    background-color:white;
+    border-radius: 10px;
+    padding:30px;
+}
+
+.card-widget:hover {
+  box-shadow: 0 0px 7px rgba(70, 67, 67, 0.25), 0 5px 5px rgba(70, 67, 67, 0.25);
+}
+
 
 div.wrap{
   max-width:50%;
@@ -7819,6 +7833,7 @@ table td {
   letter-spacing: 3px;
 }
 
+
 .artistic-template p{
   color: #293579 !important;
 }
@@ -7827,5 +7842,9 @@ table td {
   color:white;
   background-color:white;
   width:50%;
+}
+
+.card-img-top{
+  height:180px !important;
 }
 

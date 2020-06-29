@@ -1,5 +1,4 @@
 <template>
-  <!--  Modal new question -->
   <div>
     <el-dialog  :visible.sync="modalCreateAnswer" :title="lang['create-new-answer']" center  top="5vh">
         <form id="form-answer" @submit.prevent="createAnswer()">
@@ -25,7 +24,6 @@
         </form>  
     </el-dialog>
   </div>
-<!-- End  modal new module -->
 </template>
 
 <script>

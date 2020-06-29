@@ -135,7 +135,7 @@ export default {
                 },
                 {
                     name: "Not initiated",
-                    value: 8
+                    value: 0
                 }
             ]
         }
@@ -251,6 +251,10 @@ export default {
                 if(response.data["plan"] == "bussiness"){
                     this.totalStorageAvaiable = 512;
                 }
+
+                if(response.data["plan"] == "trial"){
+                    this.totalStorageAvaiable = 64;
+                }
                 
             },
                 /* Error callback */
@@ -316,21 +320,7 @@ export default {
   box-shadow: 0 0px 7px rgba(70, 67, 67, 0.25), 0 5px 5px rgba(70, 67, 67, 0.25);
 }
 
-.activities-title h3{
-    color: #9e9c9c;
-}
 
-.activity-item{
-    height:70px;
-    cursor: pointer;
-    background-color: rgba(230, 230, 230, 0.4);
-    padding:0px 0px 30px 30px;
-    border-radius: 20px;
-}
-
-.activity-item:hover{
-    background-color: rgba(214, 211, 211, 0.4);
-}
 
 ::-webkit-scrollbar-track
 {

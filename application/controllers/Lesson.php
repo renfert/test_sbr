@@ -22,7 +22,7 @@ class Lesson extends CI_Controller {
         $postInformation = $this->input->post();
         $dataArray = array();
         foreach($postInformation as $key=>$value){
-            if($key != "moduleId" && $key != "lessonId"){
+            if($key != "moduleId" && $key != "lessonId" && $key != "file"){
                 $dataArray["dataToCreate"][$key] = $value;
             }
         }
@@ -41,7 +41,7 @@ class Lesson extends CI_Controller {
         $postInformation = $this->input->post();
         $dataArray = array();
         foreach($postInformation as $key=>$value){
-            if($key != "lessonId" AND $key != "moduleId"){
+            if($key != "lessonId" AND $key != "moduleId" && $key != "file"){
                 $dataArray["dataToUpdate"][$key] = $value;
             }
         }

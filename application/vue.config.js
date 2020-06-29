@@ -32,6 +32,7 @@ module.exports = {
             entry: './src/pages/home/main.js',
             template: 'index.html',
             filename: 'index.html',
+            chunks: ['chunk-vendors', 'chunk-common', 'home']
         },
         'categories': {
             entry: './src/pages/categories/main.js',

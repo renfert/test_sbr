@@ -125,7 +125,7 @@
                     v-if="element.answer != '' && element.answer != null"
                     download
                     class="btn-ead btn-sabiorealm"
-                    :href="''+getCurrentDomainName()+'assets/uploads/answers/' + element.answer"
+                    :href="''+getUrlToContents()+'answers/' + element.answer"
                 >
                 {{lang["download-answer"]}}
                 </a>
@@ -304,5 +304,20 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
+.custom-checkbox .custom-control-label::before {
+    border-radius: .25rem;
+    top: -1%;
+}
 
+.custom-control {
+    position: relative;
+    display: block;
+    min-height: 1.5rem;
+    padding-left: 1.5rem;
+    padding-bottom: 2rem;
+}
+
+.custom-checkbox .custom-control-input:checked~.custom-control-label::after {
+    top: -1%;
+}
 </style>

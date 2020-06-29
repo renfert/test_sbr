@@ -66,8 +66,8 @@
                                     do-upload= "true"
                                     box-height = "200"
                                     return-name="photo" 
-                                    input-name="image"  
-                                    type="program" 
+                                    input-name="file"  
+                                    bucket-key="uploads/program"   
                                     acceptable=".png,.jpg,.jpeg">
                                 </upload>
                             </div>
@@ -78,6 +78,7 @@
                 <el-button native-type="submit"  type="primary"  size="medium">{{lang["save-button"]}}</el-button>
             </form>
         </div>
+        <helper-progress></helper-progress>
         <program-created :class="programId == '' ? 'hide' : 'main'"  :program-name="name" :program-id="programId"></program-created>
     </div>
 </template>
@@ -88,6 +89,7 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import {eventLang} from '@/components/helper/HelperLang'
 import ProgramCreated from '@/components/newprogram/ProgramCreated'
+import HelperProgress from '@/components/helper/HelperProgress.vue'
 import wysiwyg from "vue-wysiwyg"
 import domains from '@/mixins/domains'
 import alerts from '@/mixins/alerts'
@@ -125,7 +127,8 @@ export default {
     },
     components: {
         Upload,
-        ProgramCreated
+        ProgramCreated,
+        HelperProgress
     },
     mounted(){
         eventLang.$on('lang', function(response){

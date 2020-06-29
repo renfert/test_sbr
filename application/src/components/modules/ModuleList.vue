@@ -114,7 +114,11 @@
                             <label style="margin-bottom:4%;" class="col-form-label">{{lang["required-module"]}}</label>
                             <br>
                             <div class="input-group">
-                                <toggle-button name="required" color="#09dfff" v-model="moduleRequired"/>
+                                <el-switch 
+                                    name="required" 
+                                    v-model="moduleRequired"
+                                    active-color="#09dfff">
+                                </el-switch>
                             </div>
                         </div>
                     </div>
@@ -174,21 +178,40 @@
                 </div><br><hr><br>
                 <div class="row">
                     <!-- HTML -->
-                    <div class="col-xl-3 col-md-3 lesson">
+                    <div class="col-xl-3 col-md-3 lesson" v-if="plan == 'bussiness' || plan == 'trial'">
                         <a @click.prevent="emitNewLessonEvent('new-html')">
                             <img src="@/assets/img/class/html.png" class="lesson-img img-thumbnail img-responsive">
                             <br>
                             <span>Html</span>
                         </a>
                     </div>
+
+                    <!-- HTML -->
+                    <div class="col-xl-3 col-md-3 lesson" v-else>
+                        <a @click.prevent="upgradePlan()">
+                            <img src="@/assets/img/general/ux/file_block.png" class="lesson-img img-thumbnail img-responsive">
+                            <br>
+                            <span>Html</span>
+                        </a>
+                    </div>
                     <!-- Webinar -->
-                    <div class="col-xl-3 col-md-3 lesson">
+                    <div class="col-xl-3 col-md-3 lesson" v-if="plan != 'basic' ">
                         <a @click.prevent="emitNewLessonEvent('new-webinar')">
                             <img src="@/assets/img/class/webinar.png" class="lesson-img img-thumbnail img-responsive">
                             <br>
                             <span>Webinar</span>
                         </a>
                     </div>
+
+                    <!-- Webinar -->
+                    <div class="col-xl-3 col-md-3 lesson" v-else>
+                        <a @click.prevent="upgradePlan()">
+                            <img src="@/assets/img/general/ux/file_block.png" class="lesson-img img-thumbnail img-responsive">
+                            <br>
+                            <span>Webinar</span>
+                        </a>
+                    </div>
+
                     <!-- Videoconf -->
                     <div class="col-xl-3 col-md-3 lesson">
                         <a @click.prevent="emitNewLessonEvent('new-videoconf')">
@@ -221,6 +244,7 @@
         <question-create></question-create>
         <question-edit></question-edit>
         <answer-create></answer-create>
+        <upgrade-plan></upgrade-plan>
     </div>
 </template>
 
@@ -233,7 +257,6 @@ import LessonCreate from '@/components/lessons/LessonCreate'
 import LessonList from '@/components/lessons/LessonList'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import ToggleButton from 'vue-js-toggle-button'
 import Lang from '@/components/helper/HelperLang.vue'
 import draggable from 'vuedraggable'
 import $ from 'jquery'
@@ -252,14 +275,16 @@ import LessonExamEdit from '@/components/lessons/edit/types/LessonExamEdit'
 import QuestionCreate from '@/components/questions/QuestionCreate'
 import QuestionEdit from '@/components/questions/QuestionEdit'
 import AnswerCreate from '@/components/answers/AnswerCreate'
+import UpgradePlan from '@/components/plans/UpgradePlan'
 
 import {eventLang} from '@/components/helper/HelperLang'
 import {eventBus} from '@/pages/newcourse/App'
+import {eventPlan} from '@/components/plans/UpgradePlan'
+
 
 import { FacebookLoader } from 'vue-content-loader';
 
 locale.use(lang)
-Vue.use(ToggleButton)
 Vue.use(VueTheMask)
 Vue.use(VueAxios, axios)
 Vue.use(ElementUI)
@@ -283,7 +308,8 @@ export default {
         QuestionCreate,
         QuestionEdit,
         AnswerCreate,
-        FacebookLoader
+        FacebookLoader,
+        UpgradePlan
     },
     data: () => {
         return {
@@ -293,15 +319,18 @@ export default {
             moduleId: '',
             moduleTitle: '',
             moduleReleaseDate: '',
-            moduleRequired: '',
+            moduleRequired: false,
             modalChooseLessons: false,
             loadingContent: false,
             loadingButton: false,
+            plan: '',
         }
     },
     props: ['course'],
 
     mounted(){
+        this.getCompanyInformation();
+
         eventLang.$on('lang', function(response){  
             this.lang = response;
         }.bind(this));
@@ -318,6 +347,17 @@ export default {
         }.bind(this));
     },
     methods: {
+
+        upgradePlan: function(){
+            eventPlan.$emit("upgrade-plan");
+        },
+
+        getCompanyInformation(){
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("company", "getCompanyInformation");
+            axios.get(urlToBeUsedInTheRequest).then(function (response) {
+                this.plan = response.data["plan"];
+            }.bind(this));
+        },
 
         openModuleModal: function(){
             eventBus.$emit('open-module-modal');
@@ -354,15 +394,24 @@ export default {
         },
 
         openEditModuleModal: function(id,title,required,date){
+            
+        
             this.moduleId = id;
             this.moduleTitle = title;
-            this.moduleRequired = required;
-            this.moduleReleaseDate = date;
+
+
+            if(required == "on"){
+                this.moduleRequired = true;
+            }else{
+                this.moduleRequired = false;
+            }
+
             if(date == null || date == '' || date == '0000-00-00'){
                 this.moduleReleaseDate = '';
             }else{
                 this.moduleReleaseDate = date;
             }
+            
             this.modalEditModule = true; 
         },
 

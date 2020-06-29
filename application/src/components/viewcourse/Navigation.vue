@@ -8,9 +8,8 @@
         ref="menu"
     >
         <div  v-for="(element,index) in modules" :key="index">
-            <el-submenu :disabled="element.disable"  :id="'module' + index" :index="'module' + index">
+            <el-submenu :disabled="element.disable" v-if="element.daysDiff <= 0"  :id="'module' + index" :index="'module' + index">
                 
-
                 <template slot="title">
                     <i class="el-icon-menu"></i>
                     <span>{{element.title}}</span>
@@ -19,6 +18,15 @@
                 <lesson-list-to-view-course :module-id="element.id" :module-index="index"></lesson-list-to-view-course>
 
             </el-submenu>
+
+            <el-tooltip v-else  class="item" effect="dark" :content="lang['module-available-in'] + element.release_date" placement="top">
+                <el-submenu :disabled="true"  :id="'module' + index" :index="'module' + index">
+                    <template slot="title">
+                        <i class="el-icon-date"></i>
+                        <span>{{element.title}}</span>
+                    </template>
+                </el-submenu>
+            </el-tooltip>
         </div>
     </el-menu>  
 </template>
@@ -43,6 +51,7 @@ export default {
             title: '',
             modules: [],
             courseId: '',
+            currentDate: '',
         }
     },
     components: {
@@ -77,17 +86,6 @@ export default {
         openmenu: function(index) {
             this.$refs.menu.open(index);
         },
-
-        checkModuleAvailability: function(moduleId){
-            var formData = new FormData();
-            formData.set("moduleId", moduleId);
-            formData.set("courseId", this.courseId);
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("module", "checkModuleAvailability");
-            axios.post(urlToBeUsedInTheRequest, formData).then(function (response) {
-               return response;
-            }.bind(this));
-        },
-
       
         getCourse: function(courseId){
             var formData = new FormData();

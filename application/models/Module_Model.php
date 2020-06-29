@@ -106,8 +106,9 @@ class Module_Model extends CI_Model {
     public function listing($courseId){
 
         $newArray = array();
+        $currentDate = getCurrentDate("Y-m-d");
 
-        $this->db->select("DISTINCT(T0.mymodule_id),(select count(DISTINCT mylesson_id) from relationship where mymodule_id = T1.id AND mylesson_id != 1 ) as totalLessons,T1.id, T1.title, T1.position,T1.required_to_next, T1.release_date");
+        $this->db->select("DISTINCT(T0.mymodule_id),(select count(DISTINCT mylesson_id) from relationship where mymodule_id = T1.id AND mylesson_id != 1 ) as totalLessons,T1.id, T1.title, T1.position,T1.required_to_next, T1.release_date , DATEDIFF(T1.release_date, '$currentDate') as daysDiff");
         $this->db->from("relationship T0");
         $this->db->join('mymodule T1', 'T0.mymodule_id = T1.id');
         $this->db->where("T0.mycourse_id", $courseId);
@@ -117,9 +118,13 @@ class Module_Model extends CI_Model {
         $query = $this->db->get();
         if($query->num_rows() > 0){
             foreach($query->result() as $row){
-
-                $disable = $this->checkModuleAvailability($row->id, $courseId);
-
+                
+                if($row->required_to_next == null){
+                    $disable = 0;
+                }else{
+                    $disable = $this->checkModuleAvailability($row->id, $courseId);
+                }
+               
                 $ar = array(
                     'id' =>  $row->id,
                     'totalLessons' =>  $row->totalLessons,
@@ -127,7 +132,8 @@ class Module_Model extends CI_Model {
                     'position' => $row->position,
                     'required_to_next' => $row->required_to_next,
                     'release_date' => $row->release_date,
-                    'disable' => $disable < 1 ? false : true
+                    'disable' => $disable < 1 ? false : true,
+                    'daysDiff' => $row->daysDiff
                 );
                 
                 array_push($newArray, $ar);

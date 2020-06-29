@@ -47,11 +47,11 @@ class Chart_Model extends CI_Model {
         }
     }
 
-    public function getStudentCourses(){
+    public function getStudentCourses($userId){
         $this->db->select("COUNT(*) as total, status");
         $this->db->from("course_helper T0");
         $this->db->join("mycourse T1", "T0.mycourse_id = T1.id");
-        $this->db->where("myuser_id", getUserId());
+        $this->db->where("myuser_id", $userId);
         $this->db->group_by("status");
         $query = $this->db->get();
         if($query->num_rows() > 0){

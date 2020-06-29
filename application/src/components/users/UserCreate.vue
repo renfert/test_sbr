@@ -3,9 +3,9 @@
         <div class="card-box">
             <div class="float-right">
                 <!-- Massive import button -->
-                <el-button class="btn-sabiorealm"  v-if="plan == 'enterprise'"  @click.prevent="modal = true" type="primary"  size="medium">{{lang["massive-import"]}}</el-button>
+                <el-button class="btn-sabiorealm"  v-if="plan == 'bussiness' || plan == 'trial'"  @click.prevent="modal = true" type="primary"  size="medium">{{lang["massive-import"]}}</el-button>
 
-                <el-button v-else class="btn-eadtools"   type="primary" data-toggle="modal" data-target="#modalPlan" size="medium">{{lang["massive-import"]}}</el-button>
+                <el-button @click.prevent="upgradePlan()" v-else class="btn-eadtools"   type="primary"    size="medium">{{lang["massive-import"]}}</el-button>
             </div>
             <h4>{{lang["create-user"]}}</h4><br>
             <form id="form-user" @submit.prevent="createUser">
@@ -72,11 +72,12 @@
                     <div class="row">
                         <div class="col-xl-12 col-md-12 center">
                             <form id="form-massive" @submit.prevent="massivelyCreateUsers">
-                                <Upload 
-                                input-name="file" 
-                                acceptable=".xlsx" 
-                                box-height = "200"
-                                />
+                                <upload 
+                                    input-name="file" 
+                                    acceptable=".xlsx" 
+                                    box-height = "200"
+                                >
+                                </upload>
                                 <br>
                                 <el-button 
                                     v-loading="loadingButton" 
@@ -92,6 +93,7 @@
                 </el-dialog>
             </div> <!-- End massive import -->  
         </div>
+        <upgrade-plan></upgrade-plan>
     </div>
 </template>
 
@@ -99,8 +101,10 @@
 import Vue from 'vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-import {eventBus} from '../../pages/categories/App'
-import {eventLang} from '../../components/helper/HelperLang'
+import {eventBus} from '@/pages/categories/App'
+import {eventLang} from '@/components/helper/HelperLang'
+import {eventPlan} from '@/components/plans/UpgradePlan'
+import {eventUpload} from '@/components/helper/HelperUpload'
 import ElementUI from 'element-ui'
 import VueTheMask from 'vue-the-mask'
 import Upload from '@/components/helper/HelperUpload'
@@ -109,6 +113,7 @@ import lang from 'element-ui/lib/locale/lang/en'
 import locale from 'element-ui/lib/locale'
 import domains from '@/mixins/domains'
 import alerts from '@/mixins/alerts'
+import UpgradePlan from '@/components/plans/UpgradePlan'
 
 locale.use(lang)
 Vue.use(ElementUI)
@@ -132,7 +137,8 @@ export default {
         }
     },
     components: {
-        Upload
+        Upload,
+        UpgradePlan
     },
     mounted(){
         eventLang.$on('lang', function(response){  
@@ -143,6 +149,9 @@ export default {
         this.getCompanyInformation();
     },
     methods: {
+        upgradePlan: function(){
+            eventPlan.$emit("upgrade-plan");
+        },
         getCompanyInformation(){
             var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("company", "getCompanyInformation");
             axios.get(urlToBeUsedInTheRequest).then(function (response) {
@@ -156,11 +165,15 @@ export default {
             var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("user", "create");
             axios.post(urlToBeUsedInTheRequest, formData).then((response) => {
                 /* Success callback */
-                if(response.data == false){ 
-                    this.userAlreadyExistsMessage();
+                if(response.data == "upgrade-plan"){
+                    eventPlan.$emit("upgrade-plan");
                 }else{
-                    this.successMessage();
-                    this.actionsToBePerformedAfterRegistration();
+                    if(response.data == false){ 
+                        this.userAlreadyExistsMessage();
+                    }else{
+                        this.successMessage();
+                        this.actionsToBePerformedAfterRegistration();
+                    }
                 }
                 this.loadingButton = false;
             },
@@ -178,6 +191,7 @@ export default {
             axios.post(urlToBeUsedInTheRequest,formData, {headers: {'Content-Type': 'multipart/form-data'}}).then(() => {
                 this.successMessage();   
                 eventBus.$emit('new-user');  
+                eventUpload.$emit("clear");
             }, 
                 /* Error callback */
                 function(){

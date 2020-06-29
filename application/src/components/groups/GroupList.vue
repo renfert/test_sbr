@@ -139,10 +139,11 @@ export default {
     },
     methods:{
         viewGroup: function(id){
+            sessionStorage.setItem('sbr_group_id', ''+id+'');
             if(process.env.NODE_ENV === 'production'){
-                window.location.href="pages/group/"+id+"";
+                window.location.href="pages/group";
             }else{
-                window.location.href="group/"+id+"";
+                window.location.href="group";
             }
         },
         openModalToEditGroup(id,name){

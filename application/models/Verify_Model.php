@@ -51,5 +51,94 @@ class Verify_Model extends CI_Model {
         }
     }
 
+    public function getSubDomainName(){
+        $this->db->select("*");
+        $this->db->from("mycompany");
+        $query = $this->db->get();
+        $result = $query->result();
+        return $result[0]->subdomain;
+    }
+
+    public function verifyUserCreate($role){
+
+        /* Get plan */
+        $this->db->select("*");
+        $this->db->from("mycompany");
+        $query = $this->db->get();
+        $plan = $query->result()[0]->plan;
+
+        /* Total students and instructors */
+        $this->db->select("(SELECT COUNT(*) FROM myuser WHERE myrole_id = 2 ) as instructors, (SELECT COUNT(*) FROM myuser WHERE myrole_id = 3 ) as students");
+        $query = $this->db->get();
+        $totalInstructors = $query->result()[0]->instructors;
+        $totalStudents = $query->result()[0]->students;
+
+
+        if($plan == "basic"){
+            if($role == "Instructor"){
+                if($totalInstructors >= 1){
+                    return false;
+                }
+            }
+
+            if($role == "Student"){
+                if($totalStudents >= 100){
+                    return false;
+                }
+            }
+
+        }
+
+        if($plan == "growt"){
+
+            if($role == "Instructor"){
+                if($totalInstructors >= 5){
+                    return false;
+                }
+            }
+
+            if($role == "Student"){
+                if($totalStudents >= 300){
+                    return false;
+                }
+            }
+
+        }
+
+        if($plan == "bussiness"){
+
+            if($role == "Instructor"){
+                if($totalInstructors >= 100){
+                    return false;
+                }
+            }
+
+            if($role == "Student"){
+                if($totalStudents >= 5000){
+                    return false;
+                }
+            }
+
+        }
+
+        if($plan == "trial"){
+
+            if($role == "Instructor"){
+                if($totalInstructors >= 100){
+                    return false;
+                }
+            }
+
+            if($role == "Student"){
+                if($totalStudents >= 5000){
+                    return false;
+                }
+            }
+
+        }
+
+        return true;
+    }
+
 
 }

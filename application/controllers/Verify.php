@@ -24,6 +24,7 @@ class Verify extends CI_Controller {
         echo json_encode($result);
     }
 
+
     public function correctAnswerExist(){
         $questionId = $this->input->post("questionId");
         $result = $this->Verify_Model->correctAnswerExist($questionId);
@@ -32,6 +33,11 @@ class Verify extends CI_Controller {
 
     public function getCurrentDate(){
         $result = getCurrentDate("Y-m-d H:i:s");
+        echo json_encode($result);
+    }
+
+    public function getSubDomainName(){
+        $result = $this->Verify_Model->getSubDomainName();
         echo json_encode($result);
     }
     

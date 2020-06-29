@@ -226,6 +226,12 @@
     "all-students-already-added": "No hay estudiantes para agregar.",
     "all-instructors-already-added": "No hay instructores para agregar.",
     "all-programs-already-added": "No hay programas para agregar.",
+
+    "upgrade-your-plan-to-access": "Actualice su plan para acceder",
+
+    "see-result": "Ver resultado",
+
+    "module-available-in": "Módulo disponible en: ",
     
 
     "remove-course-question": "Borrar curso: ",
@@ -419,6 +425,8 @@
     "no-results-group-subtitle" : "Esto se parece a:",
     "no-results-group-subtitle-highlight": "Desierto...",
 
+    "certificate-unavailable": "Debes completar el curso para recibir el certificado",
+
     "email-account-created": "¡Tu cuenta fue creada exitosamente!",
 
     "add-new-question": "Agregar pregunta",
@@ -428,7 +436,7 @@
     "new-module": "Nuevo modulo",
     "create-new-module" : "Crear nuevo modulo",
 
-    "create-new-exam": "Crear nuevo examenm",
+    "create-new-exam": "Crear nuevo examen",
     "granted-to": "Este certificado acredita que",
     "certify-completition": "ha realizado y superado con éxito el curso",
 

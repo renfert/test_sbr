@@ -9,24 +9,30 @@ class User extends CI_Controller {
         $this->load->helper("email");
         $this->load->model('User_Model');
         $this->load->model('Course_Model');
+        $this->load->model('Verify_Model');
     }
 
     
 	public function create(){
-        $dataReceiveFromPost = array(
-            'name' => $this->input->post("name"),
-            'email' => $this->input->post("email"),
-            'role' => $this->input->post("role"),
-            'password' => $this->input->post("password"),
-            'template-email' => 'register',
-            'subject' => 'email-account-created'
-        );
-        $resultUserCreate = $this->User_Model->create($dataReceiveFromPost);
-        echo json_encode($resultUserCreate);
+        
+        if($this->Verify_Model->verifyUserCreate($this->input->post("role"))){
+            $dataReceiveFromPost = array(
+                'name' => applySecurityFunctions($this->input->post("name")),
+                'email' => applySecurityFunctions($this->input->post("email")),
+                'role' => $this->input->post("role"),
+                'password' => $this->input->post("password"),
+                'template-email' => 'register',
+                'subject' => 'email-account-created'
+            );
+            $resultUserCreate = $this->User_Model->create($dataReceiveFromPost);
+            echo json_encode($resultUserCreate);
+        }else{
+            echo json_encode("upgrade-plan");
+        }
     }
 
    
-      public function delete(){
+    public function delete(){
         $userId = $this->input->post("id");
         $resultUserDelete = $this->User_Model->delete($userId);
         echo json_encode($resultUserDelete);
@@ -127,14 +133,14 @@ class User extends CI_Controller {
     public function editProfile(){
         if($this->input->post("password")){
             $data = array(
-                'name' => $this->input->post("name"), 
+                'name' => applySecurityFunctions($this->input->post("name")), 
                 'description' => $this->input->post("description"),
                 'avatar' => $this->input->post("avatar"),
                 'password' => md5($this->input->post("password"))
             );
         }else{
             $data = array(
-                'name' => $this->input->post("name"), 
+                'name' => applySecurityFunctions($this->input->post("name")), 
                 'description' => $this->input->post("description"),
                 'avatar' => $this->input->post("avatar"),
             );

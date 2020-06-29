@@ -45,24 +45,18 @@
                         <div class="form-group col-xl-6 col-md-6">
                             <!-- Question image -->
                             <h4>{{lang["question-image"]}}</h4>
-                            <div class="drop-area" style="height:100px !important;"> 
-                                <input :value="questionImageName" name="questionImageName" type="text">
-                                <input 
-                                    class="upload"  
-                                    @change.prevent="render($event)"  
-                                    type="file"
-                                    acceptable=".png,.jpg,.jpeg"
-                                >
-                                <div v-if="questionImageName == null || questionImageName == '' " class="drop-message">
-                                    <span class="file-icon" :class="icon"></span>
-                                    <p>{{message}}</p>
-                                </div>
-                                <div class="drop-preview on" style="text-align:center;">
-                                    <div class="drop-img">
-                                        <img v-if="questionImageName != null && questionImageName != ''" id="previewQuestionImage" class="preview" :src="previewImg">
-                                    </div>
-                                </div>
-                            </div>
+                            <upload 
+                                v-if="this.previewImg != ''"
+                                :key="componentKey"
+                                :src-name="this.questionImageName"
+                                :src-img="this.previewImg"
+                                do-upload= "true"
+                                box-height = "100"
+                                return-name="questionImageName" 
+                                input-name="file"  
+                                bucket-key="uploads/question" 
+                                acceptable=".png,.jpg,.jpeg">
+                            </upload>
                         </div>
                     </div>
                     <div class="form-row" v-if="type == 2">
@@ -100,7 +94,7 @@ import domains from '@/mixins/domains'
 import alerts from '@/mixins/alerts'
 import {eventLang} from '@/components/helper/HelperLang'
 import {eventBus} from '@/pages/newcourse/App'
-import {eventProgress} from '@/components/helper/HelperProgress'
+import Upload from '@/components/helper/HelperUpload'
 
 locale.use(lang)
 Vue.use(VueTheMask)
@@ -113,7 +107,8 @@ export default {
     mixins: [domains,alerts],
     components: {
         Lang, 
-        AnswerList
+        AnswerList,
+        Upload
     },
     data: () => {
         return {
@@ -128,14 +123,13 @@ export default {
             questionImageName : '',
             previewImg: '',
             examId: '',
-            icon: 'fas fa-cloud-upload-alt',
-            message:"Upload a file",
         }
     },
     mounted(){
         eventLang.$on('lang', function(response){  
             this.lang = response;
         }.bind(this));
+        
 
         eventBus.$on('new-open-modal-edit-question', function(response){
             this.questionId = response["questionId"];
@@ -144,9 +138,10 @@ export default {
             this.weight = parseInt(response["weight"]);
             this.automaticFeedback = response["feedback"];
             this.questionImageName = response["image"];
-            this.previewImg = ''+this.getCurrentDomainName()+'assets/uploads/question/' + response["image"]
+            this.previewImg = this.getUrlToContents() + 'question/'+response["image"]+'';
             this.examId = response["examId"];
             this.modalEditQuestion = true;
+            this.forceRerender();
         }.bind(this));
     },
     methods: {
@@ -171,50 +166,8 @@ export default {
                 }.bind(this)
             );
         },
-        render: function(event){
-            this.upload(event);
-            this.message = '';
-            this.icon = '';
-            var input = event.target; 
-            var fullName = input.value;  
-            var fileName = fullName.split(/(\\|\/)/g).pop();
-            var fileExtension = fullName.split('.').pop();
-            this.realName = fileName;
-            if(fileExtension == 'png' || fileExtension == 'jpg' || fileExtension == 'jpeg' ){
-            var reader = new FileReader();
-                reader.onload = function (e) {
-                var div = input.parentElement; 
-                var img = div.getElementsByTagName('img')[0];
-                img.src = e.target.result;
-            };  
-            reader.readAsDataURL(input.files[0]);
-            }else{
-            this.message = fileName;
-            this.icon = "far fa-thumbs-up text-default";
-            }
-        },
-        upload: function(event){
-            eventProgress.$emit("new-progress");
-            const config = {
-                onUploadProgress: function(progressEvent) {
-                var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
-                eventProgress.$emit("new-percent", percentCompleted);
-                }
-            }
-            var formData = new FormData()
-            formData.append('file', event.target.files[0])
-            formData.append('type', 'question-image')
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("upload", "upload_file");
-            axios.post(urlToBeUsedInTheRequest,formData,config).then((response) => {
-                this.questionImageName = response.data;
-                event.target.value = null
-                eventProgress.$emit("finish-progress");
-            }, 
-                /* Error callback */
-                function(){
-                    this.errorMessage();
-                }.bind(this)
-            );
+        forceRerender: function() {
+            this.componentKey += 1;
         },
         actionsToBePerformedAfterEdit(){    
             this.modalEditQuestion = false; 

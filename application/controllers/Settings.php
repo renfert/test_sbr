@@ -26,10 +26,10 @@ class Settings extends CI_Controller {
     */
 	public function edit(){
         $params = array(
-            'name' => $this->input->post("name"),
-            'email' => $this->input->post("email"),
-            'description' => $this->input->post("description"),
-            'phone' => $this->input->post("phone"),
+            'name' => applySecurityFunctions($this->input->post("name")),
+            'email' => applySecurityFunctions($this->input->post("email")),
+            'description' => applySecurityFunctions($this->input->post("description")),
+            'phone' => applySecurityFunctions($this->input->post("phone")),
             'lang' => $this->input->post("language"),
             'marketplace' => $this->input->post("marketplace"),
             'logo' => $this->input->post("logo"),

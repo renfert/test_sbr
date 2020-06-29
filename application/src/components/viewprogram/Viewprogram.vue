@@ -25,7 +25,7 @@
                         </div>
 
                         <div class="col-4 mr-5 text-left item-name">
-                            <h3><a class="text-sabiorealm" href="javascript:void(0)">{{element.course}}</a></h3>
+                            <h3><a @click.prevent="viewCourse(element.id)" class="text-sabiorealm" href="javascript:void(0)">{{element.course}}</a></h3>
                         </div>
                     </div>
                 </div>
@@ -85,6 +85,14 @@ export default {
                 this.errorMessage();  
             }
             );
+        },
+        viewCourse: function(id){
+            sessionStorage.setItem('sbr_course_id', ''+id+'');
+            if(process.env.NODE_ENV === 'production'){
+                window.location.href="pages/viewcourse";
+            }else{
+                window.location.href="viewcourse";
+            }
         },
         completedCourses: function(){
             var total = 0;
@@ -212,5 +220,6 @@ export default {
     color: #9e9c9c;
     font-size: 1.2em ;
 }
+
 
 </style>

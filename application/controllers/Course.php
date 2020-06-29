@@ -13,18 +13,34 @@ class Course extends CI_Controller {
 	public function create(){
         $this->input->post("mycategory_id") == '' ? $category = 1 : $category =  $this->input->post("mycategory_id");
         $dateCreate = getCurrentDate("Y-m-d");
+        
+        /* Empty image */
+        if($this->input->post("photo") == ''){
+            $coursePhoto = null;
+        }else{
+            $coursePhoto  = $this->input->post("photo");
+        }
+
+        /* Empty video preview */
+         if($this->input->post("preview") == ''){
+            $coursePreview = null;
+        }else{
+            $coursePreview  = $this->input->post("preview");
+        }
+
+
     
 
         $dataReceiveFromPost = array(
-            'title' => $this->input->post("title"),
+            'title' => applySecurityFunctions($this->input->post("title")),
             'mycategory_id' => $category,
             'release_date' => $this->input->post("release_date"),
             'expiration_date' => $this->input->post("expiration_date"),
             'validity' => $this->input->post("validity"),
             'comments' => $this->input->post("comments"),
             'spotlight' => $this->input->post("spotlight"),
-            'photo' =>  $this->input->post("photo"),
-            'preview' =>  $this->input->post("preview"),
+            'photo' =>  $coursePhoto,
+            'preview' =>  $coursePreview,
             'certificate' => $this->input->post("certificate"),
             'price' => $this->input->post("price"),
             'creation_date' => $dateCreate,
@@ -75,7 +91,7 @@ class Course extends CI_Controller {
         $this->input->post("preview") == '' ? $preview = null : $preview =  $this->input->post("preview");
 
         $dataReceiveFromPost = array(
-            'title' => $this->input->post("title"),
+            'title' => applySecurityFunctions($this->input->post("title")),
             'mycategory_id' => $this->input->post("mycategory_id"),
             'release_date' => $releaseDate,
             'expiration_date' => $expirationDate,

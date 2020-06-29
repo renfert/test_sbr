@@ -23,7 +23,7 @@
                                         box-height = "200"
                                         return-name="mediaName" 
                                         input-name="file" 
-                                        type="media" 
+                                        bucket-key="uploads/builder/body"
                                         acceptable=".png,.jpg,.jpeg,.mov,.mp4,.avi">
                                     </upload>
                                 </div>
@@ -291,7 +291,7 @@ export default {
                 this.header = response.data[0]["header"];
                 this.content = response.data[0]["content"];
                 this.mediaName = response.data[0]["media"];
-                this.media = ''+this.getCurrentDomainName()+'assets/uploads/builder/body/'+ this.mediaName;
+                this.media = this.getUrlToContents() + 'builder/body/'+this.mediaName+'';
                 this.mediaAlign = response.data[0]["media_align"];
                 this.buttonId = response.data[0]["button_id"];
                 this.buttonAlign = response.data[0]["button_align"];

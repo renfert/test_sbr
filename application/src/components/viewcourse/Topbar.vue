@@ -6,14 +6,10 @@
             <a class="pr-5" :href="getDomainNameToNavigation() + 'courses'">
                 <el-button size="medium"  icon="el-icon-back" circle></el-button>
             </a>
-            <el-button  class="btn-sabiorealm-secondary mr-3" @click="prevLesson()" icon="el-icon-arrow-left"></el-button>
-            <el-button class="btn-sabiorealm-secondary" @click="nextLesson()"  ><i class="el-icon-arrow-right"></i></el-button>
+            <el-button  class="btn-sabiorealm mr-3" @click="prevLesson()" icon="el-icon-arrow-left"></el-button>
+            <el-button class="btn-sabiorealm" @click="nextLesson()"  ><i class="el-icon-arrow-right"></i></el-button>
         </div>
 
-        <!-- Navbar brand -->
-        <a  class="navbar-brand brand-viewcourse" :href="getDomainNameToNavigation() + 'pages/courses'">
-            <img style="width:120px"  :src="''+getCurrentDomainName()+'assets/uploads/settings/' + logo"  alt="logo" />
-        </a>
        
         <!-- Collapsible content -->
         <div class="collapse navbar-collapse" id="basicExampleNav">
@@ -27,27 +23,30 @@
                 </li>
              
                 
-                 <li class="nav-item" v-if="certificate != null">
+                <li class="nav-item" v-if="certificate != null">
 
                     <a @click.prevent="printCertificate" v-if="progress == 100"  class="nav-link course-title" href="javascript:void(0)">
-                         <img   src="@/assets/img/general/certificate/certificate.png" alt=""> 
+                         <img class="cert"  src="@/assets/img/general/ux/certificate.png" alt="certificate"> 
                     </a>
 
                     <a v-else style="cursor:not-allowed;"  class="nav-link course-title" href="javascript:void(0)">
-                         <img class="disable" src="@/assets/img/general/certificate/certificate.png" alt=""> 
+                        <el-tooltip class="item" effect="dark" :content="lang['certificate-unavailable']" placement="right">
+                            <img class="cert"  src="@/assets/img/general/ux/certificate.png" alt="certificate"> 
+                        </el-tooltip>
                     </a>
                     
                     
                 </li>
 
+            
             </ul>
 
             
             <ul class="navbar-nav mr-6">
                 <li class="nav-item">
                     <el-button-group>
-                        <el-button class="btn-sabiorealm-secondary" @click="prevLesson()" icon="el-icon-arrow-left">Previous lesson</el-button>
-                        <el-button class="btn-sabiorealm-secondary" @click="nextLesson()"  >Next lesson<i class="el-icon-arrow-right"></i></el-button>
+                        <el-button class="btn-sabiorealm" @click="prevLesson()" icon="el-icon-arrow-left">Previous lesson</el-button>
+                        <el-button class="btn-sabiorealm" @click="nextLesson()"  >Next lesson<i class="el-icon-arrow-right"></i></el-button>
                     </el-button-group>
                 </li>
                 
@@ -101,13 +100,14 @@ export default {
             certificate: null,
             companyName: '',
             courseId: null,
-            showCertificate: false
+            showCertificate: false,
+            comments: ''
         }
     },
     created: function(){
         this.getCompanyLogo();
         var courseId = sessionStorage.getItem('sbr_course_id');
-        this.courseId = courseId;
+        this.courseId = sessionStorage.getItem('sbr_course_id');
         this.getCourse(courseId);
         this.getCourseProgress(courseId);
     },
@@ -189,6 +189,7 @@ export default {
                 this.title = response.data["title"];
                 this.courseId = response.data["id"];
                 this.certificate = response.data["certificate"];
+                this.comments = response.data["comments"];
             }.bind(this));
         },
     },
@@ -233,16 +234,17 @@ export default {
 }
 
 .progress-bar{
-    background-color: #3734A9;
+    background-color: #00A9B4;
 }
 
 .col-2{
     padding: 0px !important;
 }
 
-.disable{
-    filter: grayscale(100%);
+.cert {
+    width:30px;
 }
+
 
 
 </style>

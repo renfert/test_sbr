@@ -3,7 +3,7 @@
     <!-- Logo -->
     <div class="topbar-left">
       <a :href="getDomainNameToNavigation() + 'index'" class="logo">
-        <span><img :src="''+getCurrentDomainName()+'assets/uploads/settings/' + logo" alt=""></span>
+        <span> <img :src="getUrlToContents() + 'settings/'+logo+''"></span>
         <i class="mdi mdi-layers"> </i>
       </a>
     </div>

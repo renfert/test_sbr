@@ -2,13 +2,13 @@
 
 
 function sendEmail($params){
-    $ci =& get_instance();
+    $ci =& get_instance(); 
     $config = array(
         'protocol' => 'smtp',
-        'smtp_host' => 'mail.eadtools.com',
+        'smtp_host' => 'mail.sabiorealm.com',
         'smtp_port' => '587',
-        'smtp_user' => 'support@eadtools.com',
-        'smtp_pass' => '7it7eyO3*',
+        'smtp_user' => 'noreply@sabiorealm.com',
+        'smtp_pass' => '5S=P0BT*SwA=C<F&!5J]?}jN@',
         'mailtype' => 'html',
         'charset' => 'utf-8',
         'wordwrap' => TRUE

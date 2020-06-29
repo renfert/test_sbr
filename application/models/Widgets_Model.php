@@ -1,10 +1,12 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+require APPPATH . "/aws/aws-autoloader.php";
+use Aws\S3\S3Client;
 class Widgets_Model extends CI_Model {
 
 	public function __construct(){
-		parent::__construct();
+        parent::__construct();
+        $this->load->model("Verify_Model");
 	}
 
     public function getTotalNumberOfUsers(){
@@ -25,74 +27,33 @@ class Widgets_Model extends CI_Model {
     }
    
     public function getStorage(){
-        
-        // All media content size
-        $dir = './assets/uploads/content';
-        $sizeUploads = 0;
-        $file_data = scandir($dir);
-        foreach($file_data as $file){
-            if($file === '.' OR $file === '..'){
-                continue;
-            }else{
-                $path = $dir . '/' . $file;
-                $sizeUploads = $sizeUploads + filesize($path);
-            }
+        $clientS3 = S3Client::factory(array(
+            'region' => 'us-east-1', 
+            'version' => 'latest',   
+            'credentials' => [
+                    'key' => 'AKIA5AQZS5JMAWUELDG7',
+                    'secret' => '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',
+                ]
+        ));
+
+        $subDomain = $this->Verify_Model->getSubDomainName();
+
+        $size = 0;
+        $bucket = "sabiorealm";
+        $objects = $clientS3->getIterator('ListObjects', array(
+            "Bucket" => $bucket,
+            "Prefix" => $subDomain
+        ));
+        $i = 0;
+        foreach ($objects as $object) {
+            $size = $size+$object['Size'];
         }
- 
-        // Course images size
-        $dir = './assets/uploads/course';
-        $sizeCourse = 0;
-        $file_data = scandir($dir);
-        foreach($file_data as $file){
-            if($file === '.' OR $file === '..'){
-                continue;
-            }else{
-                $path = $dir . '/' . $file;
-                $sizeCourse = $sizeCourse + filesize($path);
-            }
-        }
- 
-        // Courses preview video size
-        $dir = './assets/uploads/preview';
-        $sizePreview = 0;
-        $file_data = scandir($dir);
-        foreach($file_data as $file){
-            if($file === '.' OR $file === '..'){
-                continue;
-            }else{
-                $path = $dir . '/' . $file;
-                $sizePreview = $sizePreview + filesize($path);
-            }
-        }
- 
-        // Program images size
-        $dir = './assets/uploads/program';
-        $sizeProgram = 0;
-        $file_data = scandir($dir);
-        foreach($file_data as $file){
-            if($file === '.' OR $file === '..'){
-                continue;
-            }else{
-                $path = $dir . '/' . $file;
-                $sizeProgram = $sizeProgram + filesize($path);
-            }
-        }
- 
-        // Questions size
-        $dir = './assets/uploads/question';
-        $sizeQuestion = 0;
-        $file_data = scandir($dir);
-        foreach($file_data as $file){
-            if($file === '.' OR $file === '..'){
-                continue;
-            }else{
-                $path = $dir . '/' . $file;
-                $sizeQuestion = $sizeQuestion + filesize($path);
-            }
-        }
- 
-        $totalSize = $sizeCourse + $sizePreview + $sizeUploads + $sizeProgram + $sizeQuestion;       
-        return number_format($totalSize / 1073741824, 1 );
+    
+        return $this->formatSizeUnits($size);
+    }
+
+    public function formatSizeUnits($bytes) {
+        return number_format($bytes / 1073741824, 2);
     }
 
 }

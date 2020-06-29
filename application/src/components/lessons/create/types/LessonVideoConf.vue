@@ -1,69 +1,69 @@
 <template>
 <!--  Modal new lesson -->
   <div>
-      <el-dialog  :visible.sync="modalCreateVideoConf" :title="lang['create-new-lesson']" center  top="5vh">
-        <form id="form-lesson-videoconf" @submit.prevent="create()">
-            <div class="form-row">
-                <!-- Module id -->
-                <input type="number" class="hide"  name="moduleId" :value="moduleId">
-                <!-- Type lesson -->
-                <input type="text" class="hide" name="type_mylesson_id" value="5">
-                <div class="form-group col-xl-12 col-md-12">
-                    <!-- Lesson name -->
-                    <label class="col-form-label">{{lang["name"]}} *</label>
-                    <el-input required v-model="name" name="title"></el-input>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-xl-12 col-md-12">
-                    <!-- Lesson description -->
-                    <label class="col-form-label">{{lang["description"]}} *</label>
-                    <el-input type="textarea" name="description" rows="3" v-model="description"></el-input>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-xl-12 col-md-12">
-                    <!-- Lesson date -->
-                    <label class="col-form-label">{{lang["date"]}} *</label>
-                    <div class="block">
-                        <el-date-picker 
-                        required
-                        v-model="date"
-                        type="date"
-                        name="date"
-                        format="yyyy/MM/dd"
-                        value-format="yyyy-MM-dd"
-                        placeholder="Pick a day">
-                        </el-date-picker>
+        <el-dialog  :visible.sync="modalCreateVideoConf" :title="lang['create-new-lesson']" center  top="5vh">
+            <form id="form-lesson-videoconf" @submit.prevent="create()">
+                <div class="form-row">
+                    <!-- Module id -->
+                    <input type="number" class="hide"  name="moduleId" :value="moduleId">
+                    <!-- Type lesson -->
+                    <input type="text" class="hide" name="type_mylesson_id" value="5">
+                    <div class="form-group col-xl-12 col-md-12">
+                        <!-- Lesson name -->
+                        <label class="col-form-label">{{lang["name"]}} *</label>
+                        <el-input required v-model="name" name="title"></el-input>
                     </div>
                 </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-xl-12 col-md-12">
-                    <!-- Lesson Schedule -->
-                    <label class="col-form-label">{{lang["schedule"]}} *</label>
-                    <div class="block">
-                        <el-time-select
-                        required
-                        v-model="schedule"
-                        name="time"
-                        :picker-options="{
-                            start: '00:00',
-                            end: '23:30'
-                        }"
-                        placeholder="Select time">
-                        </el-time-select>
+                <div class="form-row">
+                    <div class="form-group col-xl-12 col-md-12">
+                        <!-- Lesson description -->
+                        <label class="col-form-label">{{lang["description"]}} *</label>
+                        <el-input type="textarea" name="description" rows="3" v-model="description"></el-input>
                     </div>
                 </div>
+                <div class="form-row">
+                    <div class="form-group col-xl-12 col-md-12">
+                        <!-- Lesson date -->
+                        <label class="col-form-label">{{lang["date"]}} *</label>
+                        <div class="block">
+                            <el-date-picker 
+                            required
+                            v-model="date"
+                            type="date"
+                            name="date"
+                            format="yyyy/MM/dd"
+                            value-format="yyyy-MM-dd"
+                            placeholder="Pick a day">
+                            </el-date-picker>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-xl-12 col-md-12">
+                        <!-- Lesson Schedule -->
+                        <label class="col-form-label">{{lang["schedule"]}} *</label>
+                        <div class="block">
+                            <el-time-select
+                            required
+                            v-model="schedule"
+                            name="time"
+                            :picker-options="{
+                                start: '00:00',
+                                end: '23:30'
+                            }"
+                            placeholder="Select time">
+                            </el-time-select>
+                        </div>
+                    </div>
+                </div>
+            <div class="form-row">
+                <div class="form-group col-xl-6 col-md-6">
+                    <el-button class="btn-sabiorealm" v-loading="loading"  native-type="submit"  type="primary"  size="medium">{{lang["save-button"]}}</el-button>
+                </div>
             </div>
-          <div class="form-row">
-              <div class="form-group col-xl-6 col-md-6">
-                <el-button class="btn-sabiorealm" v-loading="loading"  native-type="submit"  type="primary"  size="medium">{{lang["save-button"]}}</el-button>
-              </div>
-          </div>
         </form>  
       </el-dialog>
-  </div>
+    </div>
 <!-- End  modal new module -->
 </template>
 
@@ -80,59 +80,58 @@ Vue.use(VueTheMask)
 Vue.use(VueTheMask)
 Vue.use(VueAxios, axios)
 export default {
-  mixins: [domains,alerts],
-  props: ['module-id'],
-  data: () => {
-    return {
-        lang: {},
-        name: '',
-        modalCreateVideoConf : false,
-        loading: false,
-        url: '',
-        date: '',
-        description:'',
-        schedule: '',
-    }
-  },
-  mounted(){
-    eventLang.$on('lang', function(response){  
-      this.lang = response;
-    }.bind(this));
-    /* Get new video click event */
-    eventBus.$on('new-videoconf', function(){
-      this.modalCreateVideoConf = true;
-    }.bind(this));
-  },
-  methods: {
-    /* Create a new lesson */
-    create: function(){
-      this.loading = true;
-      var form = document.getElementById('form-lesson-videoconf')
-      var formData = new FormData(form)
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("lesson", "create");
-      axios.post(urlToBeUsedInTheRequest, formData).then(() => {
-        /* Success callback */
-        this.successMessage();
-        this.actionsToBePerformedAfterRegistration();
-        this.loading = false;
-      },
-        /* Error callback */
-        function(){
-          this.errorMessage();
+    mixins: [domains,alerts],
+    props: ['module-id'],
+    data: () => {
+        return {
+            lang: {},
+            name: '',
+            modalCreateVideoConf : false,
+            loading: false,
+            url: '',
+            date: '',
+            description:'',
+            schedule: '',
         }
-      );
-      
     },
-    actionsToBePerformedAfterRegistration(){
-        this.name = '';
-        this.url = '';
-        this.description = '';
-        this.date = '';
-        this.schedule = '';
-        this.modalCreateVideoConf = false;
-        eventBus.$emit('new-lesson');  
+    mounted(){
+        eventLang.$on('lang', function(response){  
+            this.lang = response;
+        }.bind(this));
+        /* Get new video click event */
+        eventBus.$on('new-videoconf', function(){
+            this.modalCreateVideoConf = true;
+        }.bind(this));
+    },
+    methods: {
+        /* Create a new lesson */
+        create: function(){
+            this.loading = true;
+            var form = document.getElementById('form-lesson-videoconf')
+            var formData = new FormData(form)
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("lesson", "create");
+            axios.post(urlToBeUsedInTheRequest, formData).then(() => {
+                /* Success callback */
+                this.successMessage();
+                this.actionsToBePerformedAfterRegistration();
+                this.loading = false;
+            },
+                /* Error callback */
+                function(){
+                    this.errorMessage();
+                }.bind(this)
+            );
+        },
+        actionsToBePerformedAfterRegistration(){
+            this.name = '';
+            this.url = '';
+            this.description = '';
+            this.date = '';
+            this.schedule = '';
+            this.modalCreateVideoConf = false;
+            eventBus.$emit('new-lesson');  
+        }
     }
-  }
 }
 </script>
 

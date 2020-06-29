@@ -501,3 +501,13 @@ WHERE `T0`.`mygroup_id` != 'undefined'
 AND `T1`.`id` != 1
 AND T0.program_id NOT IN (SELECT program_id FROM relationship WHERE mygroup_id = undefined)
 ERROR - 2020-06-10 23:33:52 --> Severity: error --> Exception: Call to a member function num_rows() on boolean C:\xampp\htdocs\application\models\Group_Model.php 344
+ERROR - 2020-06-10 19:47:37 --> Severity: Warning --> file_get_contents(default/application/language/en/lang.json): failed to open stream: No such file or directory C:\xampp\htdocs\application\helpers\email_helper.php 26
+ERROR - 2020-06-10 19:47:37 --> Severity: Notice --> Undefined variable: userName C:\xampp\htdocs\application\views\email\register.php 105
+ERROR - 2020-06-10 19:47:37 --> Severity: Notice --> Undefined variable: title C:\xampp\htdocs\application\views\email\register.php 105
+ERROR - 2020-06-10 19:47:37 --> Severity: Notice --> Undefined variable: userEmail C:\xampp\htdocs\application\views\email\register.php 127
+ERROR - 2020-06-10 19:47:37 --> Severity: Notice --> Undefined variable: pass C:\xampp\htdocs\application\views\email\register.php 128
+ERROR - 2020-06-10 21:03:47 --> Severity: Warning --> file_get_contents(default/application/language/en/lang.json): failed to open stream: No such file or directory C:\xampp\htdocs\application\helpers\email_helper.php 26
+ERROR - 2020-06-10 21:03:47 --> Severity: Notice --> Undefined variable: userName C:\xampp\htdocs\application\views\email\register.php 105
+ERROR - 2020-06-10 21:03:47 --> Severity: Notice --> Undefined variable: title C:\xampp\htdocs\application\views\email\register.php 105
+ERROR - 2020-06-10 21:03:47 --> Severity: Notice --> Undefined variable: userEmail C:\xampp\htdocs\application\views\email\register.php 127
+ERROR - 2020-06-10 21:03:47 --> Severity: Notice --> Undefined variable: pass C:\xampp\htdocs\application\views\email\register.php 128

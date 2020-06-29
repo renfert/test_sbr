@@ -17,12 +17,12 @@
                                     <label class="col-form-label">{{lang["image"]}} *</label>
                                     <upload 
                                         :src-name="element.image"
-                                        :src-img="''+getCurrentDomainName()+'assets/uploads/builder/body/'+ element.image"
+                                        :src-img="getUrlToContents() + 'builder/body/'+element.image+''"
                                         do-upload="true" 
                                         box-height = "200"
                                         return-name="bannerName" 
                                         input-name="file" 
-                                        type="banner" 
+                                        bucket-key="uploads/builder/body"
                                         acceptable=".png,.jpg">
                                     </upload>
                                 </div>
@@ -152,6 +152,7 @@
                 </form>  
             </el-dialog>
         </div>
+        <helper-progress></helper-progress>
     </div>
 </template>
 
@@ -167,6 +168,7 @@ import Lang from '@/components/helper/HelperLang.vue'
 import lang from 'element-ui/lib/locale/lang/en'
 import locale from 'element-ui/lib/locale'
 import {eventLang} from '@/components/helper/HelperLang'
+import HelperProgress from '@/components/helper/HelperProgress.vue'
 import {eventBus} from '@/pages/site/App'
 import domains from '@/mixins/domains'
 import alerts from '@/mixins/alerts'
@@ -182,7 +184,8 @@ export default {
     mixins: [domains,alerts],
     components: {
         Lang, 
-        Upload
+        Upload,
+        HelperProgress
     },
     data: () => {
         return {

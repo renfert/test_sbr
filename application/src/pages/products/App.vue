@@ -25,6 +25,7 @@
                 </div>
             </div>
         </div>
+        <Loader></Loader>
     </div> <!-- End of wrapper -->
 </template>
 
@@ -40,17 +41,17 @@ import domains from '@/mixins/domains'
 import alerts from '@/mixins/alerts'
 import NavBar from '@/components/template/TheNavBar'
 import ProductsList from '@/components/products/ProductsList'
-import VueGtag from "vue-gtag";
-import VueGtm from 'vue-gtm';
+import headerTags from '@/mixins/headerTags'
+import integrations from '@/mixins/integrations'
+import Loader from '@/components/template/TheLoader.vue'
 export const eventBus = new Vue();
 
 Vue.use(VueAxios, axios)
 Vue.use(VueHead)
 export default {
-    mixins: [domains,alerts],
+    mixins: [domains,alerts,integrations,headerTags],
     data: () => {
         return {
-            favicon: '',
             img: '',
             lang: [],
             videoOverlay: false
@@ -59,36 +60,12 @@ export default {
     components: { 
         Lang,
         NavBar,
-        ProductsList
+        ProductsList,
+        Loader
     },
     created(){
-        this.getIntegrations();
-    },
-    methods:{
-        getIntegrations: function(){
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("integrations", "getIntegrations");
-            axios.get(urlToBeUsedInTheRequest).then((response) => {
-                
-                /* Google analytics */
-                var gaId = response.data["ga_id"];
-                Vue.use(VueGtag, {
-                    config: { 
-                        id: gaId
-                    }
-                });
-
-                /* Google tag manager */
-                var gtmId = response.data["gtm_id"];
-                Vue.use(VueGtm, {
-                    id: gtmId
-                });
-
-            },
-                function(){
-                    this.errorMessage();
-                }.bind(this)
-            );
-        },
+        this.loadIntegrations();
+        this.createFavicon();
     },
     mounted(){
         eventLang.$on('lang', function(response){  
@@ -97,21 +74,13 @@ export default {
     },
     head: {
         title: {
-        inner: 'Products'
+            inner: 'Products'
         },
         meta: [
-        { name: 'charset', content: 'utf-8' },
-        { name: 'viewport', content: 'width=device-width, initial-scale=1.0'}, 
-        { name: 'author', content: 'Eadtools' },
-    
-        // Facebook / Open Graph
-        { property: 'og:title', content: 'Content Title' },
-        // with shorthand
-        { p: 'og:image', c: 'teste' },
-        ],
-        link: [
-        { rel: 'icon', href: require('assets/uploads/settings/favicon.png'), sizes: '16x16', type: 'image/png' }
-        ],
+            { name: 'charset', content: 'utf-8' },
+            { name: 'viewport', content: 'width=device-width, initial-scale=1.0'}, 
+            { name: 'author', content: 'Sabiorealm' },
+        ]
     },
 }
 </script>

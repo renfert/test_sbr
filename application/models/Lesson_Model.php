@@ -50,6 +50,10 @@ class Lesson_Model extends CI_Model {
 
    
     public function edit($dataArray){
+        $fileName = $dataArray["dataToUpdate"]["path"];
+        $fileExtension = $this->getFileExtension($fileName);
+        $dataArray["dataToUpdate"]["ext"] = $fileExtension;
+
         $lessonId = $dataArray["lessonId"];
         $this->db->where("id", $lessonId);
         $this->db->update("mylesson", $dataArray["dataToUpdate"]);
@@ -218,13 +222,12 @@ class Lesson_Model extends CI_Model {
         $this->db->update("lesson_status", $data);
 
         $courseId = $this->getCourseIdByLessonId($lessonId);
-        $courseProgress = $this->Course_Model->progress($courseId);
+        $courseProgress = $this->Course_Model->userProgress($courseId,$studentId);
         $this->Activity_Model->save("lesson-finished", $courseId, $lessonId, null, 1, null,null,null,null);
-        
-        if($courseProgress == 100){
-            $this->Course_Model->generateCertificate($courseId);
+        if($courseProgress  >= 99){
             $this->Activity_Model->save("course-finished", $courseId,1, null, 1, null,null,null,null);
             $this->Course_Model->updateCourseStatus($courseId,"finished");
+            $this->Course_Model->generateCertificate($courseId,$studentId);
         }else{
             $this->Course_Model->updateCourseStatus($courseId,"in-progress");
         }

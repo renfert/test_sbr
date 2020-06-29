@@ -67,7 +67,7 @@ export default {
             axios.post(urlToBeUsedInTheRequest, formData).then((response) => {
                 this.banner = response.data[0];
                 this.loading= false;
-                this.image = ""+this.getCurrentDomainName()+"/assets/uploads/builder/body/"+response.data[0]["image"];
+                this.image = this.getUrlToContents() + 'builder/body/'+response.data[0]["image"]+'';
                 this.buttonColor = response.data[0]["color"];
                 this.buttonColorHover = response.data[0]["color_hover"];
                 this.headerColor = response.data[0]["header_color"];
@@ -126,7 +126,6 @@ export default {
 }
 
 
-
 header p{
     font-size: 18px;
     padding: 0 25%;
@@ -135,7 +134,7 @@ header p{
 }
 
 header{
-    height:100vh;
+    height:90vh;
     width:100%;
     -webkit-backgroud-size:cover;
     background-size:cover;

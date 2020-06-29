@@ -49,7 +49,7 @@
                                     box-height = "200"
                                     return-name="photo" 
                                     input-name="file" 
-                                    type="image-course" 
+                                    bucket-key="uploads/course" 
                                     acceptable=".png,.jpg">
                                 </upload>
                             </div>
@@ -61,7 +61,7 @@
                                     box-height = "200"
                                     return-name="preview" 
                                     input-name="filePreview"  
-                                    type="video-preview" 
+                                    bucket-key="uploads/preview" 
                                     acceptable=".mp4,.mov">
                                 </upload>
                             </div>

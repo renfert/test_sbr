@@ -52,7 +52,7 @@
                                     box-height = "200"
                                     return-name="photo" 
                                     input-name="file" 
-                                    type="image-course" 
+                                    bucket-key="uploads/course" 
                                     acceptable=".png,.jpg">
                                 </upload>
                             </div>
@@ -66,8 +66,8 @@
                                     do-upload= "true"
                                     box-height = "200"
                                     return-name="preview" 
-                                    input-name="previewFile"  
-                                    type="video-preview" 
+                                    input-name="file"  
+                                    bucket-key="uploads/preview"  
                                     acceptable=".mp4,.mov">
                                 </upload>
                             </div>
@@ -155,7 +155,7 @@
             <div class="row" v-if="certificate == true">
                 <div class="col-xl-4 col-md-4">
                     <p class="text-center">Classic</p>
-                    <input id="classic" type="radio" name="certificate" value="classic">
+                    <input :checked="certificateValue == 'classic' ? true:false" id="classic" type="radio" name="certificate" value="classic">
                     <label for="classic"> 
                         <img style="max-width:100%" class="img-responsive" src="@/assets/img/general/certificate/classic_template.png"  alt="">
                     </label>
@@ -163,7 +163,7 @@
 
                 <div class="col-xl-4 col-md-4">
                     <p class="text-center">Tech</p>
-                    <input id="tech" type="radio" name="certificate" value="tech">
+                    <input :checked="certificateValue == 'tech' ? true:false" id="tech" type="radio"  name="certificate" value="tech">
                     <label for="tech"> 
                         <img style="max-width:100%" class="img-responsive" src="@/assets/img/general/certificate/tech_template.png"  alt="">
                     </label>
@@ -172,7 +172,7 @@
                 
                 <div class="col-xl-4 col-md-4">
                     <p class="text-center">Artistic</p>
-                    <input id="artistic" type="radio" name="certificate" value="artistic">
+                    <input :checked="certificateValue == 'artistic' ? true:false" id="artistic" type="radio" name="certificate" value="artistic">
                     <label for="artistic"> 
                         <img style="max-width:100%" class="img-responsive" src="@/assets/img/general/certificate/artistic_template.png"  alt="">
                     </label>
@@ -261,8 +261,6 @@ export default {
     },
     mounted(){
 
-        
-
         eventBus.$emit('new-course', this.courseId);
         eventLang.$on('lang', function(response){
             this.lang = response;
@@ -309,9 +307,11 @@ export default {
                 this.category = response.data["mycategory_id"];
                 this.description = response.data["description"];
                 this.srcName = response.data["photo"];
-                this.srcImg = ''+this.getCurrentDomainName()+'assets/uploads/course/' + response.data["photo"];
+                this.srcImg = this.getUrlToContents() + 'course/'+response.data["photo"]+'';
+               
                 this.srcPreviewName = response.data["preview"];
-                this.srcPreview = ''+this.getCurrentDomainName()+'assets/uploads/preview/' + response.data["preview"];
+                this.srcPreview = this.getUrlToContents() + 'preview/'+response.data["preview"]+'';
+               
                 response.data["price"] == null ? this.price = '' : this.price =  response.data["price"];
 
                 if(response.data["release_date"] == null || response.data["release_date"] == '' || response.data["release_date"] == '0000-00-00' ){

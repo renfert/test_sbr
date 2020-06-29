@@ -5,7 +5,12 @@
         <div v-loading="loading" >
             <!-- Print button -->
             <div class="text-center mb-3">
-                <el-button @click="printCertificate">{{lang["print-certificate"]}}</el-button>
+                <div class="text-center">
+                    <img src="@/assets/img/general/ux/certificate.png"  class="mb-3">
+                    <br>
+                    <a @click.prevent="printCertificate" href="javascript:void(0)" class="btn-ead btn-sabiorealm">{{lang["print-certificate"]}}
+                    </a>
+                </div>
             </div>
         </div>
         <vue-html2pdf
@@ -136,6 +141,7 @@ export default {
         }
     },
     mounted(){
+    
         eventLang.$on('lang', function(response){  
             this.lang = response;
         }.bind(this));
@@ -175,12 +181,10 @@ export default {
             formData.set("courseId", this.courseId)
             var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("certificate", "get");
             axios.post(urlToBeUsedInTheRequest, formData).then(function (response) {
-               
                 this.course = response.data[0]["course"];
                 this.date = response.data[0]["date"];
                 this.template = response.data[0]["certificate"];
                 this.number = response.data[0]["number"];
-                
             }.bind(this));
         }
     },

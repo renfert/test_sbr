@@ -40,11 +40,7 @@ import locale from 'element-ui/lib/locale'
 import {eventLang} from '@/components/helper/HelperLang'   
 import domains from '@/mixins/domains'
 import alerts from '@/mixins/alerts'
-import * as mdbvue from 'mdbvue'
 
-for (const component in mdbvue) {
-  Vue.component(component, mdbvue[component])
-}
 
 locale.use(lang)
 Vue.use(VueAxios, axios)

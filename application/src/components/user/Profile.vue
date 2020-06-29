@@ -15,7 +15,7 @@
                 <div class="img-container">
                     <div class="img-profile-container">
                         <div class="user-img">
-                            <img style="width:180px;" :src="''+getCurrentDomainName()+'assets/uploads/avatar/' + userAvatar" alt="user-img"  class="rounded-circle img-thumbnail img-responsive">
+                            <el-avatar :size="180" fit="contain" :src="getUrlToContents() + 'avatar/'+userAvatar+''"></el-avatar>
                         </div>
                     </div>
                     <img  src="@/assets/img/general/ux/profile_bg.png">
@@ -206,8 +206,10 @@ export default {
             );
         }, 
         getCourses: function(){
+            var formData = new FormData();
+            formData.set("userId", this.userId);
             var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("chart","getStudentCourses");
-            axios.get(urlToBeUsedInTheRequest).then((response) => {
+            axios.post(urlToBeUsedInTheRequest, formData).then((response) => {
                 for (let index = 0; index < response.data.length; index++) {
                     var status = response.data[index]["status"];
                     var total = response.data[index]["total"];

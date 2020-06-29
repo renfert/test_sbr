@@ -110,8 +110,8 @@
            <el-row>
 
             <!-- Profile -->
-            <a  :href="getDomainNameToNavigation() + 'profile'" class="pr-4">
-              <img style="width:20%;" :src="''+getCurrentDomainName()+'assets/uploads/avatar/' + userAvatar" alt="user-img"  class="rounded-circle img-thumbnail img-responsive">
+            <a  :href="getDomainNameToNavigation() + 'profile'" class="pr-4 mb-2">
+              <el-avatar   :src="getUrlToContents() + 'avatar/'+userAvatar+''"></el-avatar>
             </a>
             
             <!-- Notification -->
@@ -178,7 +178,7 @@
             <el-row>
                 <!-- Profile -->
                 <a  :href="getDomainNameToNavigation() + 'profile'" class="pr-4">
-                    <img style="width:20%;" :src="''+getCurrentDomainName()+'assets/uploads/avatar/' + userAvatar" alt="user-img"  class="rounded-circle img-thumbnail img-responsive">
+                    <el-avatar   :src="getUrlToContents() + 'avatar/'+userAvatar+''"></el-avatar>
                 </a>
 
                 <!-- Notification -->
@@ -245,7 +245,7 @@
 
             <!-- Profile -->
             <a  :href="getDomainNameToNavigation() + 'profile'" class="pr-4">
-              <img style="width:20%;" :src="''+getCurrentDomainName()+'assets/uploads/avatar/' + userAvatar" alt="user-img"  class="rounded-circle img-thumbnail img-responsive">
+               <el-avatar   :src="getUrlToContents() + 'avatar/'+userAvatar+''"></el-avatar>
             </a>
             
             <!-- Notification -->
@@ -387,5 +387,9 @@ export default {
 
 .menu-item-user{
   background-color: #2A2D35 !important;
+}
+
+.side-menu{
+  overflow-y:auto !important;
 }
 </style>

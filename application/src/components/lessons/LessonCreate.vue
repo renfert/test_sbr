@@ -1,16 +1,16 @@
 <template>
-  <div>
-    <lang></lang>
-    <lesson-video :module-id="moduleId"></lesson-video>  
-    <lesson-audio :module-id="moduleId"></lesson-audio> 
-    <lesson-pdf :module-id="moduleId"></lesson-pdf> 
-    <lesson-downloadable :module-id="moduleId"></lesson-downloadable> 
-    <lesson-html :module-id="moduleId"></lesson-html> 
-    <lesson-webinar :module-id="moduleId"></lesson-webinar> 
-    <lesson-video-conf :module-id="moduleId"></lesson-video-conf> 
-    <lesson-exam  :module-id="moduleId"></lesson-exam>
-    <helper-progress></helper-progress>
-  </div>
+    <div>
+        <lang></lang>
+        <lesson-video :module-id="moduleId"></lesson-video>  
+        <lesson-audio :module-id="moduleId"></lesson-audio> 
+        <lesson-pdf :module-id="moduleId"></lesson-pdf> 
+        <lesson-downloadable :module-id="moduleId"></lesson-downloadable> 
+        <lesson-html :module-id="moduleId"></lesson-html> 
+        <lesson-webinar :module-id="moduleId"></lesson-webinar> 
+        <lesson-video-conf :module-id="moduleId"></lesson-video-conf> 
+        <lesson-exam  :module-id="moduleId"></lesson-exam>
+        <helper-progress></helper-progress>
+    </div>
 </template>
 
 <script>
@@ -42,7 +42,7 @@ export default {
   },
   mounted(){
     eventBus.$on("create-lesson", function(response){
-      eventBus.$emit(response);
+        eventBus.$emit(response);
     });
   }
 }

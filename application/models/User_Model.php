@@ -1,6 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+
 class User_Model extends CI_Model {
 
 	public function __construct(){
@@ -45,7 +46,7 @@ class User_Model extends CI_Model {
 
 
 	public function massivelyCreateUsers($excelFileWithUsers){
-		$this->load->library('excel');
+		$this->load->library('excel/excel');
 		$fileTemporaryName = $excelFileWithUsers['tmp_name'];
 		$object = PHPExcel_IOFactory::load($fileTemporaryName);
 		$highestColumn = $object->setActiveSheetIndex(0)->getHighestColumn();
@@ -95,31 +96,50 @@ class User_Model extends CI_Model {
 	
 	
 	public function delete($userId){
+
+		/* Delete from relationshoip */
 		$this->db->where("myuser_id", $userId);
 		if($this->db->delete("relationship") == false){
 			return false;
 		}
-
+		
+		/* Delete from lesson_status */
 		$this->db->where("myuser_id", $userId);
 		if($this->db->delete("lesson_status") == false){
 			return false;
 		}
 
+		/* Delete from myuser_has_certificate */
 		$this->db->where("myuser_id", $userId);
 		if($this->db->delete("myuser_has_certificate") == false){
 			return false;
 		}
-
+		
+		/* Delete from myuser_has_social_networkds */
 		$this->db->where("myuser_id", $userId);
 		if($this->db->delete("myuser_has_social_networks") == false){
 			return false;
 		}
 
+		/* Delete from payments */
 		$this->db->where("myuser_id", $userId);
 		if($this->db->delete("payments") == false){
 			return false;
 		}
 
+		/* Delete from users_answers */
+		$this->db->where("create_user", $userId);
+		if($this->db->delete("activities") == false){
+			return false;
+		}
+
+		/* Delete from course_helper */
+		$this->db->where("myuser_id", $userId);
+		if($this->db->delete("course_helper") == false){
+			return false;
+		}
+
+		/* Delete from users_answers */
 		$this->db->where("myuser_id", $userId);
 		if($this->db->delete("users_answers") == false){
 			return false;
@@ -212,7 +232,8 @@ class User_Model extends CI_Model {
         $this->db->distinct();
         $this->db->from("relationship T0");
         $this->db->join("mycourse T1", "T0.mycourse_id = T1.id");
-        $this->db->where("T0.myuser_id !=", $userId);
+		$this->db->where("T0.myuser_id !=", $userId);
+		$this->db->where("T1.id !=", 1);
         $this->db->where("T0.mycourse_id NOT IN (SELECT mycourse_id FROM relationship WHERE myuser_id = ".$userId.")", null, false);
         $query = $this->db->get();
         if($query->num_rows() > 0){

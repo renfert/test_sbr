@@ -22,8 +22,8 @@
             
                 <div class="controls">
                     <el-button-group>
-                        <el-button @click="prevQuestion();" type="primary" icon="el-icon-arrow-left">Previous question</el-button>
-                        <el-button @click="nextQuestion();" type="primary">Next question<i class="el-icon-arrow-right"></i></el-button>
+                        <el-button class="btn-sabiorealm" @click="prevQuestion();" type="primary" icon="el-icon-arrow-left">Previous question</el-button>
+                        <el-button class="btn-sabiorealm" @click="nextQuestion();" type="primary">Next question<i class="el-icon-arrow-right"></i></el-button>
                     </el-button-group>
                     <br><br>
                     
@@ -43,7 +43,7 @@
                         <div class="demo-image__preview">
                             <el-image 
                                 v-if="element.image != null && element.image != ''"
-                                :src="''+getCurrentDomainName()+'assets/uploads/question/' + element.image" 
+                                :src="''+getUrlToContents()+'question/' + element.image" 
                                 fit="scale-down"
                             >
                                 <div slot="error" class="image-slot">
@@ -103,6 +103,7 @@ import vueAwesomeCountdown from 'vue-awesome-countdown'
 import AnswersList from '@/components/viewcourse/AnswersList'
 import HelperProgress from '@/components/helper/HelperProgress'
 import Upload from '@/components/helper/HelperUpload'
+import $ from 'jquery'
 
 
 locale.use(lang)
@@ -151,18 +152,29 @@ export default {
         }.bind(this));
 
         eventBus.$on("open-exam-modal", function(data){
+            this.questionsControl = 0;
+            this.showFinishExamButton = false;
+
+            this.clear();
+
             this.modal = true;
             this.examId = data["lessonId"];
             this.lessonStatus = data["lessonStatus"];
             this.lessonType = data["lessonType"];
-            this.getExam();
-            this.getQuestions();
+            this.getExam(data["lessonId"]);
+            this.getQuestions(data["lessonId"]);
+
         }.bind(this));
         
 
     },
    
     methods: {
+        clear: function(){
+            $(document).ready(function() {
+                $('#form-exam').find('input:file,textarea').val('');    
+            });
+        },
         finishExam() {
             var form = document.getElementById('form-exam')
             var formData = new FormData(form)
@@ -183,9 +195,9 @@ export default {
                 }.bind(this)
             );
         },
-        getExam: function(){
+        getExam: function(examId){
             var formData = new FormData()
-            formData.set('lessonId', this.examId);
+            formData.set('lessonId', examId);
             var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("lesson", "get");
             axios.post(urlToBeUsedInTheRequest, formData).then((response) => {
                 /* Success callback */
@@ -213,9 +225,9 @@ export default {
                 this.showFinishExamButton = false;
             }
         },
-        getQuestions: function(){
+        getQuestions: function(examId){
             var formData = new FormData()
-            formData.set('examId', this.examId);
+            formData.set('examId', examId);
             var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("question", "listing");
             axios.post(urlToBeUsedInTheRequest, formData).then((response) => {
                 this.questions = response.data;

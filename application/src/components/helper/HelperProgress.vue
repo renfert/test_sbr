@@ -1,33 +1,33 @@
 <template>
 <!--  Modal Progress bar -->
-  <div>
-    <mdb-modal id="progress" :show="modal" centered  @close="modal = false">
-      <article>
-          <h2>Uploading...</h2>
-          <h3>{{percentText}} %</h3>
-          <input type="radio" name="switch-color" class="hide" id="cyan" checked>
-          <div class="chart">
-              <div class="bar" :class="percentClass">
-                  <div class="face top">
-                      <div class="growing-bar"></div>
-                  </div>
-                  <div class="face side-0">
-                      <div class="growing-bar"></div>
-                  </div>
-                  <div class="face floor">
-                      <div class="growing-bar"></div>
-                  </div>
-                  <div class="face side-a"></div>
-                  <div class="face side-b"></div>
-                  <div class="face side-1">
-                      <div class="growing-bar"></div>
-                  </div>
-              </div>
-          </div>
-      </article>
-    </mdb-modal>
-  </div>
-<!-- Progress bar -->
+    <div>
+        <div id="video-overlay" class="video-overlay" :class="videoOverlay == true?'open': 'hide'">
+            <article>
+                <h2>Uploading...</h2>
+                <h3>{{percentText}} %</h3>
+                <input type="radio" name="switch-color" class="hide" id="cyan" checked>
+                <div class="chart">
+                    <div class="bar" :class="percentClass">
+                        <div class="face top">
+                            <div class="growing-bar"></div>
+                        </div>
+                        <div class="face side-0">
+                            <div class="growing-bar"></div>
+                        </div>
+                        <div class="face floor">
+                            <div class="growing-bar"></div>
+                        </div>
+                        <div class="face side-a"></div>
+                        <div class="face side-b"></div>
+                        <div class="face side-1">
+                            <div class="growing-bar"></div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>   
+    </div>
+    <!-- Progress bar -->
 </template>
 
 <script>
@@ -36,33 +36,32 @@ export const eventProgress = new Vue();
 import Vue from 'vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-import {mdbModal  } from 'mdbvue';
 Vue.use(VueAxios, axios)
+
 export default {
-    components: {
-        mdbModal,
-    },
+
     data: function() {
         return {
-          lang: {},
-          modal : false,
-          percentClass: 'bar-0',
-          percentText: 0
+            lang: {},
+            modal : true,
+            percentClass: 'bar-0',
+            percentText: 0,
+            videoOverlay: false,
         }
     },
     mounted(){
-      eventProgress.$on('new-progress', function(){
-        this.modal = true;    
-      }.bind(this)); 
-      eventProgress.$on("new-percent", function(response){
-        this.percentText = response;
-        this.percentClass = "bar-" + response;
-      }.bind(this));
-      eventProgress.$on("finish-progress", function(){
-        this.modal = false;
-        this.percentText = 0;
-        this.percentClass = "bar-" + 0;
-      }.bind(this));
+        eventProgress.$on('new-progress', function(){
+            this.videoOverlay = true;    
+        }.bind(this)); 
+        eventProgress.$on("new-percent", function(response){
+            this.percentText = response;
+            this.percentClass = "bar-" + response;
+        }.bind(this));
+        eventProgress.$on("finish-progress", function(){
+            this.videoOverlay = false;
+            this.percentText = 0;
+            this.percentClass = "bar-" + 0;
+        }.bind(this));
     },
 }
 </script>
@@ -70,18 +69,56 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 
-  .modal{
+   .video-overlay {
+    position: fixed;
     z-index: 9999 !important;
-  }
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0,0,0,0.80);
+    opacity: 0;
+    transition: all ease 500ms;
+}
 
-  .chart{
+.video-overlay.open {
+    position: fixed;
+    z-index: 1000;
+    opacity: 1;
+}
+
+.video-overlay-close {
+    position: absolute;
+    z-index: 1000;
+    top: 15px;
+    right: 20px;
+    font-size: 36px;
+    line-height: 1;
+    font-weight: 400;
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 200ms;
+}
+
+.video-overlay-close:hover {
+    color: #009CD8;
+}
+
+.video-overlay article {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    width: 25%; 
+    height: auto;
+}
+
+.chart{
     width:100% !important;
     margin-top:0px !important;
-  }
+}
 
-  #progress:first-child > :first-child > :first-child{
-    background-color:transparent;
-  }
 
   article h2,h3{
     text-align:center;
@@ -202,7 +239,7 @@ export default {
   .growing-bar {
     -webkit-transition: all 0.3s ease-in-out;
     transition: all 0.3s ease-in-out;
-    background-color: rgba(236, 0, 140, 0.6);
+    background-color: #00A9B4;
     width: 100%;
     height: 2em;
   }

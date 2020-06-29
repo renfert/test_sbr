@@ -11,12 +11,12 @@
                         <el-menu-item index="1-1">
                             <upload 
                                 :src-name="element.logo"
-                                :src-img="''+getCurrentDomainName()+'assets/uploads/builder/header/'+ element.logo"
+                                :src-img="getUrlToContents() + 'builder/header/'+element.logo+''"
                                 do-upload= "true"
                                 box-height = "150"
                                 return-name="logoName" 
                                 input-name="logo"  
-                                type="logo-site" 
+                                bucket-key="uploads/builder/header"
                                 acceptable=".png,.jpg,.jpeg">
                             </upload>
                         </el-menu-item>

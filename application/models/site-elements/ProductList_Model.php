@@ -16,7 +16,7 @@ class ProductList_Model extends CI_Model {
         $data = array(
             "number_of_products" => 5,
             "header" => "See our amazing courses",
-            "subheader" => "Enjoy the quarentine"
+            "subheader" => "Enjoy the knowledge"
         );
         $this->db->insert("product_list", $data);
         $productListId = $this->db->insert_id();

@@ -196,6 +196,14 @@
     "all-students-already-added": "There are no students to add.",
     "all-instructors-already-added": "There are no instructors to add.",
     "all-programs-already-added": "There are no programs to add.",
+
+    "upgrade-your-plan-to-access": "Upgrade your plan to access",
+
+    "see-result": "See result",
+
+    "module-available-in": "Module available in: ",
+
+    "certificate-unavailable": "You must complete the course to receive the certificate",
     
 
     "remove-course-question": "Remove course: ",

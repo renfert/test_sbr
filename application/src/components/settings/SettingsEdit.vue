@@ -16,14 +16,14 @@
                                 </div>
                                 <label>{{lang['logo']}}</label>
                                 <upload 
-                                    v-if="logoName != ''"
-                                    :src-img="''+getCurrentDomainName()+'assets/uploads/settings/' + logoName"
-                                    :src-name="logoName"
+                                    v-if="this.logoName != ''"
+                                    :src-img="this.getUrlToContents() + 'settings/'+this.logoName+''"
+                                    :src-name="this.logoName"
                                     do-upload= "true"
                                     box-height = "200"
                                     return-name="logo" 
-                                    input-name="logoFile"  
-                                    type="settings" 
+                                    input-name="file"  
+                                    bucket-key="uploads/settings" 
                                     acceptable=".png,.jpg,.jpeg">
                                 </upload>
                             </div>
@@ -34,14 +34,14 @@
                                 </div>
                                 <label>{{lang['description']}}</label>
                                 <upload 
-                                    v-if="faviconName != ''"
-                                    :src-img="''+getCurrentDomainName()+'assets/uploads/settings/' + faviconName"
-                                    :src-name="faviconName"
+                                    v-if="this.faviconName != ''"
+                                    :src-img="this.getUrlToContents() + 'settings/'+this.faviconName+''"
+                                    :src-name="this.faviconName"
                                     do-upload= "true"
                                     box-height = "200"
                                     return-name="favicon" 
-                                    input-name="faviconFile"  
-                                    type="settings" 
+                                    input-name="file"  
+                                    bucket-key="uploads/settings" 
                                     acceptable=".png,.jpg,.jpeg">
                                 </upload>
                             </div>
@@ -176,7 +176,7 @@ export default {
     },
     mounted(){
         eventLang.$on('lang', function(response){  
-        this.lang = response;
+            this.lang = response;
         }.bind(this));  
     },
     methods: {

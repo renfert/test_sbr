@@ -48,7 +48,7 @@
                 </div>
             </div>
         </div> <!-- End of content page -->
-        <update-plan></update-plan> <!-- Update plan modal -->
+        <Loader></Loader>
     </div> <!-- End of wrapper -->
 </template>
 
@@ -56,7 +56,6 @@
 
 import TopBar from '@/components/template/TheTopBar.vue' 
 import LeftBar from '@/components/template/TheLeftBar.vue'  
-import UpdatePlan from '@/components/template/TheUpdatePlan.vue'  
 import Lang from '@/components/helper/HelperLang.vue'
 import ElementUI from 'element-ui'
 import {eventLang} from '@/components/helper/HelperLang'
@@ -73,8 +72,11 @@ import VueAxios from 'vue-axios'
 import VueHead from 'vue-head'
 import domains from '@/mixins/domains'
 import alerts from '@/mixins/alerts'
-import VueGtag from "vue-gtag";
-import VueGtm from 'vue-gtm';
+import headerTags from '@/mixins/headerTags'
+import integrations from '@/mixins/integrations'
+import Loader from '@/components/template/TheLoader.vue'
+
+
 export const eventBus = new Vue();
 
 locale.use(lang)
@@ -82,18 +84,18 @@ Vue.use(ElementUI)
 Vue.use(VueAxios, axios)
 Vue.use(VueHead)
 export default {
-    mixins: [domains,alerts],
+    mixins: [domains,alerts,integrations,headerTags],
     data: () => {
         return {
-            favicon: '',
             lang: [],
             groupId: '',
             name: '',
         }
     },
     created(){
-        this.getIntegrations();
-        this.groupId = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
+        this.loadIntegrations();
+        this.createFavicon();
+        this.groupId = sessionStorage.getItem('sbr_group_id');
         this.getGroup();
     },
     methods: {
@@ -105,58 +107,26 @@ export default {
                 this.name = response.data["name"];
             }.bind(this));
         },
-        getIntegrations: function(){
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("integrations", "getIntegrations");
-            axios.get(urlToBeUsedInTheRequest).then((response) => {
-                
-                /* Google analytics */
-                var gaId = response.data["ga_id"];
-                Vue.use(VueGtag, {
-                    config: { 
-                        id: gaId
-                    }
-                });
-
-                /* Google tag manager */
-                var gtmId = response.data["gtm_id"];
-                Vue.use(VueGtm, {
-                    id: gtmId
-                });
-
-            },
-                function(){
-                    this.errorMessage();
-                }.bind(this)
-            );
-        },
     },
     head: {
         title: {
-        inner: 'Manage group'
+            inner: 'Manage group'
         },
         meta: [
-        { name: 'charset', content: 'utf-8' },
-        { name: 'viewport', content: 'width=device-width, initial-scale=1.0'}, 
-        { name: 'author', content: 'Eadtools' },
-    
-        // Facebook / Open Graph
-        { property: 'og:title', content: 'Content Title' },
-        // with shorthand
-        { p: 'og:image', c: 'teste' },
-        ],
-        link: [
-        { rel: 'icon', href: require('assets/uploads/settings/favicon.png'), sizes: '16x16', type: 'image/png' }
-        ],
+            { name: 'charset', content: 'utf-8' },
+            { name: 'viewport', content: 'width=device-width, initial-scale=1.0'}, 
+            { name: 'author', content: 'Sabiorealm' },
+        ]
     },
     components: { 
         TopBar,
         LeftBar,
-        UpdatePlan,
         Lang, 
         Courses,
         Students,
         Instructors,
-        Programs
+        Programs,
+        Loader
     },
 
     mounted() {

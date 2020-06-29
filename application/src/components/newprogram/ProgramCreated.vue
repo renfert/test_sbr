@@ -14,7 +14,7 @@
 
             <div class="row mt-3">
                 <div class="col-12 col-md-4">
-                    <a :href="viewProgramUrl">
+                    <a href="javascript:void(0)" @click.prevent="viewProgram()">
                         <div class="card-box">
                             <h5>{{lang["view-program"]}}</h5>
                             <img src="@/assets/img/general/ux/view_course.png" alt="">
@@ -107,7 +107,6 @@ export default {
             modal: false,
             usersList : [],
             users: [],
-            viewProgramUrl:''
         }
     },
     props:['program-id', 'program-name'],
@@ -117,6 +116,14 @@ export default {
         }.bind(this));
     },
     methods: {
+        viewProgram: function(){
+            sessionStorage.setItem('sbr_program_id', ''+this.programId+'');
+            if(process.env.NODE_ENV === 'production'){
+                window.location.href="pages/viewprogram";
+            }else{
+                window.location.href="viewprogram";
+            }
+        },
         enrollUsers: function(){
             this.loading = true;
             var formData = new FormData();
@@ -158,7 +165,6 @@ export default {
     watch: {
         programId: function () {
             this.getPersonsOutsideTheProgram();
-            this.viewProgramUrl = this.getCurrentDomainName() + 'pages/viewprogram/' + this.programId;
         }
   },
 }

@@ -60,11 +60,31 @@ export default {
                 }.bind(this)
             );
         },
-    }
+    },
+    watch: {
+        questionId: function () {
+            this.getAnswers();
+        }
+    },
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
+.custom-checkbox .custom-control-label::before {
+    border-radius: .25rem;
+    top: -1%;
+}
 
+.custom-control {
+    position: relative;
+    display: block;
+    min-height: 1.5rem;
+    padding-left: 1.5rem;
+    padding-bottom: 2rem;
+}
+
+.custom-checkbox .custom-control-input:checked~.custom-control-label::after {
+    top: -1%;
+}
 </style>

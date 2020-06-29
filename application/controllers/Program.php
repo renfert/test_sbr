@@ -16,7 +16,7 @@ class Program extends CI_Controller {
         $courses = $this->input->post("courses");
         $coursesArray = explode (",", $courses); 
         $dataReceiveFromPost = array(
-            'title' => $this->input->post('title'),
+            'title' => applySecurityFunctions($this->input->post('title')),
             'description' => $this->input->post('description'),
             'photo' => $this->input->post('photo'),
             'release_date' => $this->input->post('release_date'),

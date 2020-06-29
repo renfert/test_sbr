@@ -16,7 +16,7 @@ class Group extends CI_Controller {
     */
     
 	public function create(){
-        $groupName = $this->input->post("name");
+        $groupName = applySecurityFunctions($this->input->post("name"));
         $resultGroupCreate = $this->Group_Model->create($groupName);
         echo json_encode($resultGroupCreate);
     }
@@ -24,7 +24,7 @@ class Group extends CI_Controller {
   
     public function edit(){
         $dataReceiveFromPost = array(
-            'name' => $this->input->post("name"),
+            'name' => applySecurityFunctions($this->input->post("name")),
             'id' => $this->input->post("id")
         );
         $resultGroupEdit = $this->Group_Model->edit($dataReceiveFromPost);

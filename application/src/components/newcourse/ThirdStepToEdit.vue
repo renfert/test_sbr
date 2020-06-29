@@ -128,7 +128,9 @@ export default {
         /* New course */
         eventBus.$on('new-course', function(response){
             this.courseId = response;
-            this.viewCourseUrl = this.getCurrentDomainName() + 'pages/viewcourse/' + response;
+            sessionStorage.setItem('sbr_course_id', ''+response+'');
+            this.viewCourseUrl = this.getCurrentDomainName() + 'pages/viewcourse';
+            this.getUsersOutsideTheCourse(response);
         }.bind(this));
 
         eventLang.$on('lang', function(response){

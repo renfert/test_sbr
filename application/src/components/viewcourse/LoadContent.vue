@@ -6,144 +6,132 @@
                 <!-- Video -->
                 <div class="player-container" v-if="showVideo">
                     <vue-plyr>
-                        <video preload="none" v-on:ended="finishLesson()" :src="''+getCurrentDomainName()+'assets/uploads/content/' + path" ></video>
+                        <video  preload="none" v-on:ended="finishLesson()" :src="this.getUrlToContents() + 'content/'+path+''"></video>
                     </vue-plyr>
                 </div>
 
                 <!-- Audio -->
                 <div class="player-container" v-if="showAudio">
                     <vue-plyr>
-                        <video preload="none" v-on:ended="finishLesson()" :src="''+getCurrentDomainName()+'assets/uploads/content/' + path" ></video>
+                        <video preload="none" v-on:ended="finishLesson()"  :src="this.getUrlToContents() + 'content/'+path+''" ></video>
                     </vue-plyr>
                 </div>
 
                 <!-- Videoconference -->
                 <div class="videoconference-container" v-if="showVideoConf">
-                    <div class="jumbotron text-center stylish-color white-text mx-2 mb-5">
-
                     <!-- Title -->
-                    <h2 class="card-title h2">{{title}}</h2>
-
-                    <!-- Date -->
-                    <p class="my-4 h6">
-                        {{lang["date"]}}: {{date}}  
-                        <el-divider direction="vertical"></el-divider>
-                        {{lang["schedule"]}}: {{time}}
-
-                    </p>
-               
-                    <div class="row d-flex justify-content-center">
-                        <div class="col-xl-7 pb-2">
-                            <p class="card-text">{{description}}</p>
-                        </div>
-                    </div>
-    
-
+                    <h2 class="card-title h2 text-center">{{title}}</h2>
+                    <h3 class="card-title h6 pl-5 pr-5 text-center">{{description}}</h3>
                     <hr class="my-4 rgba-white-light">
+                
 
-                    <div class="pt-2">
-                        <a target="_blank" @click="finishLesson()" :href="url" class="btn btn-outline-white">{{lang["enter"]}}</a>
-                    </div>
+                    <div class="row gap-10">
+                       
+                        <div class="col-12 col-md-4 text-center">
+                            <div>
+                                <img src="@/assets/img/general/ux/calendar.png" alt="calendar">
+                                <h3>{{lang["date"]}}: {{date}}</h3>
+                            </div>
+                        </div>
 
+                        <div class="col-12 col-md-4 text-center">
+                            <div>
+                                <img src="@/assets/img/general/ux/webinar.png"  alt="clock">
+                                <br><br>
+                                <a  @click="finishLesson()" :href="url" target="_blank" class="btn-ead btn-sabiorealm">
+                                    {{lang["enter"]}}
+                                </a>
+                            </div>
+                        </div>
+
+                         <div class="col-12 col-md-4 text-center">
+                            <div>
+                                <img src="@/assets/img/general/ux/clock.png" alt="clock">
+                                <h3>{{lang["schedule"]}}: {{time}}</h3>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
 
                 <!-- Webinar -->
                 <div class="webinar-container" v-if="showWebinar">
-                    <div class="jumbotron text-center stylish-color white-text mx-2 mb-5">
-
                     <!-- Title -->
-                    <h2 class="card-title h2">{{title}}</h2>
-
-                    <!-- Date -->
-                    <p class="my-4 h6">
-                        {{lang["date"]}}: {{date}}  
-                        <el-divider direction="vertical"></el-divider>
-                        {{lang["schedule"]}}: {{time}}
-                    </p>
-               
-                    <div class="row d-flex justify-content-center">
-                        <div class="col-xl-7 pb-2">
-                            <p class="card-text">{{description}}</p>
-                        </div>
-                    </div>
-    
-
+                    <h2 class="card-title h2 text-center">{{title}}</h2>
+                    <h3 class="card-title h6 pl-5 pr-5 text-center">{{description}}</h3>
                     <hr class="my-4 rgba-white-light">
+                
 
-                    <div class="pt-2">
-                        <a target="_blank" @click="finishLesson()" :href="url" class="btn btn-outline-white">{{lang["enter"]}}</a>
-                    </div>
+                    <div class="row gap-10">
+                       
+                        <div class="col-12 col-md-4 text-center">
+                            <div>
+                                <img src="@/assets/img/general/ux/calendar.png" alt="calendar">
+                                <h3>{{lang["date"]}}: {{date}}</h3>
+                            </div>
+                        </div>
 
+                        <div class="col-12 col-md-4 text-center">
+                            <div>
+                                <img src="@/assets/img/general/ux/webinar.png"  alt="clock">
+                                <br><br>
+                                <a  @click="finishLesson()" :href="url" target="_blank" class="btn-ead btn-sabiorealm">
+                                    {{lang["enter"]}}
+                                </a>
+                            </div>
+                        </div>
+
+                         <div class="col-12 col-md-4 text-center">
+                            <div>
+                                <img src="@/assets/img/general/ux/clock.png" alt="clock">
+                                <h3>{{lang["schedule"]}}: {{time}}</h3>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Downloadable content -->
                 <div class="webinar-container" v-if="showDownloadable">
-                    <div class="jumbotron text-center stylish-color white-text mx-2 mb-5">
-
                     <!-- Title -->
-                    <h2 class="card-title h2">{{title}}</h2>
-    
-
+                    <h2 class="card-title h2 text-center">{{title}}</h2>
                     <hr class="my-4 rgba-white-light">
-
-                    <div class="pt-2">
-                        <a @click="finishLesson()" :href="''+getCurrentDomainName()+'assets/uploads/content/' + path" class="btn btn-outline-white" download>{{lang["download"]}}</a>
+ 
+                    <div class="text-center gap-10"> 
+                        <img src="@/assets/img/general/ux/download.png" alt="download" class="mb-3">
+                        <br>
+                        <a @click="finishLesson()" :href="this.getUrlToContents() + 'content/'+path+''" class="btn-ead btn-sabiorealm" download>{{lang["download"]}}</a>
                     </div>
-
-                    </div>
+                
                 </div>
 
                 <!-- Html content -->
                 <div class="html-container" v-if="showHtml">
-                     
                     <!-- Title -->
                     <h2 class="card-title h2 text-center">{{title}}</h2>
-    
-
                     <hr class="my-4 rgba-white-light">
-                    <iframe :src="+getCurrentDomainName()+ path" frameborder="0"></iframe>        
+                    <iframe style="width:100%;height:500px;" :src="this.getUrlToContents() + path + '/index.html'" frameborder="0"></iframe>      
                 </div>
 
                 <!-- Pdf content -->
-                <div class="pdf-container" v-if="showPDf">
-
-                    <iframe :src="getCurrentDomainName() + 'ViewerJS/#' + getCurrentDomainName() + 'assets/uploads/content/' + path" width='100%' height='500px' allowfullscreen webkitallowfullscreen></iframe>
-                                      
+                <div class="pdf-container" v-if="showPDf">    
+                    <iframe 
+                        width='100%' 
+                        height='500px' 
+                        allowfullscreen webkitallowfullscreen 
+                        :src="getCurrentDomainName() + 'ViewerJS/index.html#' + this.getUrlToContents() + 'content/' + path" 
+                        frameborder="0"
+                        :key="componentKey"
+                        ></iframe>                              
                 </div>
 
 
                 <!-- Exam -->
                 <div  v-if="showExam">
-                    <div class="jumbotron text-center stylish-color white-text mx-2 mb-5">
-
-                    <!-- Title -->
-                    <h2 class="card-title h2">{{title}}</h2>
-
-                    <!-- Date -->
-                    <div class="row">
-                        <div class="col-md-2"></div>
-                        <div class="col-12 col-md-4">
-                            <p class="text-center my-4 h6">
-                                {{lang["exam-duration"]}}: <span class="text-primary"> {{time}}  {{lang["minutes"]}} </span>
-                            </p>   
-                        </div>
-                        
-                        <div class="col-12 col-md-4">
-                            <p class="text-center my-4 h6">
-                                {{lang["attempts"]}}: <span class="text-primary"> {{userRetests}} / {{retest}} </span>
-                            </p>
-                        </div>
-                        <div class="col-md-2"></div>
-                    </div>
-                   
-               
-
-                    <div class="row d-flex justify-content-center">
+                     <!-- Title -->
+                    <h2 class="card-title h2 text-center">{{title}}</h2>
+                    <div class="row d-flex justify-content-center text-center">
                         <div class="col-xl-7 pb-2">
-                            <el-tag type="danger" v-if="parseInt(overview['yourScore']) < parseInt(approval) && overview['waitingEvaluationQuestions'] == 0">{{lang['not-passed']}}</el-tag>
+                            <el-tag  type="danger" v-if="parseInt(overview['yourScore']) < parseInt(approval) && overview['waitingEvaluationQuestions'] == 0">{{lang['not-passed']}}</el-tag>
 
                             <el-tag type="success" v-if="parseInt(overview['yourScore']) >= parseInt(approval) && overview['waitingEvaluationQuestions'] == 0">{{lang['passed']}}</el-tag>
 
@@ -151,25 +139,49 @@
 
                         </div>
                     </div>
-    
-
                     <hr class="my-4 rgba-white-light">
+                
 
-                    <el-row>
-                        <!-- Start exam button -->
-                        <el-button v-if="userRetests == 0" @click="openExamModal(lessonId)">{{lang["start-exam"]}}</el-button>
+                    <div class="row gap-10">
+                       
+                        <div class="col-12 col-md-4 text-center">
+                            <div>
+                                <img src="@/assets/img/general/ux/clock.png" alt="clock">
+                                <h3>{{lang["exam-duration"]}}: {{time}}</h3>
+                            </div>
+                        </div>
 
-                        <!-- Start retest button -->
-                        <el-button  v-if="userRetests < retest && userRetests != 0 && parseInt(overview['yourScore']) < parseInt(approval) && overview['waitingEvaluationQuestions'] == 0" @click="openExamModal(lessonId)">{{lang["start-retest"]}}</el-button>
+                        <div class="col-12 col-md-4 text-center">
+                            <div>
+                                <img src="@/assets/img/general/ux/pencil.png" v-if="userRetests == 0">
 
-                         <!-- Correction button -->
-                        <el-button type="primary" v-if="userRetests > 0"  @click="openCorrection(lessonId)">{{lang["see-exam-correction"]}}</el-button>
+                                <img src="@/assets/img/general/ux/retest.png"  v-if="userRetests < retest && userRetests != 0 && parseInt(overview['yourScore']) < parseInt(approval) && overview['waitingEvaluationQuestions'] == 0">
 
+                                <img src="@/assets/img/general/ux/correction.png" v-if="userRetests == retest">
 
-                    </el-row>
+                                <br>
 
-                                        
+                                <!-- Start exam button -->
+                                <el-button class="btn-ead btn-sabiorealm" v-if="userRetests == 0" @click="openExamModal(lessonId)">{{lang["start-exam"]}}</el-button>
 
+                                <!-- Start retest button -->
+                                <el-button class="btn-ead btn-sabiorealm"  v-if="userRetests < retest && userRetests != 0 && parseInt(overview['yourScore']) < parseInt(approval) && overview['waitingEvaluationQuestions'] == 0" @click="openExamModal(lessonId)">{{lang["start-retest"]}}</el-button>
+
+                                <!-- Correction button -->
+                                <el-button class="btn-ead btn-sabiorealm" type="primary" v-if="userRetests == retest"  @click="openCorrection(lessonId)">{{lang["see-exam-correction"]}}</el-button>
+
+                            </div>
+                        </div>
+
+                         <div class="col-12 col-md-4 text-center">
+                            <div>
+                                <img src="@/assets/img/general/ux/clock.png" alt="clock">
+                                <h3>{{lang["attempts"]}}: {{userRetests}} / {{retest}}</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                   
                     <!-- Modal exam -->
                     <exam></exam>
                     
@@ -184,16 +196,14 @@
                         width="50%" 
                         top="30vh"
                     >   
-                    <div class="text-center">
-                        <el-button @click.prevent="openCorrection(lessonId)" class="text-center" type="primary">Ver resultado</el-button>
-                    </div>
-        
+                        <div class="text-center">
+                            <img src="@/assets/img/general/ux/correction.png" alt="download" class="mb-3">
+                            <br>
+                            <a @click.prevent="openCorrection(lessonId)" href="javascript:void(0)" class="btn-ead btn-sabiorealm">{{lang["see-result"]}}
+                            </a>
+                        </div>
                     </el-dialog>
-    
-                    </div>
                 </div>
-
-
             </div>
         </el-main>
       </el-container>
@@ -244,6 +254,8 @@ export default {
             userRetests: '',
             lessonId: '',
             lessonStatus: '',
+
+            componentKey: 0,
     
             showVideo: false,
             showAudio : false,
@@ -268,7 +280,6 @@ export default {
        ExamCorrection
     },
     mounted(){
-
         this.getUserProfile();
 
         eventLang.$on('lang', function(response){  
@@ -315,6 +326,10 @@ export default {
                     type: 'success'
                 });
             }
+        },
+
+        forceRerender: function() {
+            this.componentKey += 1;
         },
 
         getUserRetest: function(examId){
@@ -406,6 +421,7 @@ export default {
                     this.showAudio = true;
                     break;
                 case '3':
+                    this.forceRerender();
                     this.showPDf = true;
                     break;
                 case '4':
@@ -454,5 +470,8 @@ export default {
 <style lang="scss" scoped>
     video{
         max-width:100%;
+    }
+    .card-title{
+        color: #9e9c9c;
     }
 </style>

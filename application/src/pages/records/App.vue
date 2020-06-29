@@ -15,14 +15,13 @@
                 </div>
             </div>
         </div> <!-- End of content page -->
-        <update-plan></update-plan> <!-- Update plan modal -->
+        <Loader></Loader>
     </div> <!-- End of wrapper -->
 </template>
 
 <script>
 import TopBar from '@/components/template/TheTopBar.vue' 
 import LeftBar from '@/components/template/TheLeftBar.vue'  
-import UpdatePlan from '@/components/template/TheUpdatePlan.vue'  
 import Lang from '@/components/helper/HelperLang.vue'
 import RecordList from '@/components/records/RecordList'
 import Vue from 'vue'
@@ -32,8 +31,9 @@ import VueRouter from 'vue-router'
 import VueHead from 'vue-head'
 import domains from '@/mixins/domains'
 import alerts from '@/mixins/alerts'
-import VueGtag from "vue-gtag";
-import VueGtm from 'vue-gtm';
+import headerTags from '@/mixins/headerTags'
+import integrations from '@/mixins/integrations'
+import Loader from '@/components/template/TheLoader.vue'
 export const eventBus = new Vue();
 
 
@@ -41,65 +41,27 @@ Vue.use(VueAxios, axios)
 Vue.use(VueHead)
 Vue.use(VueRouter)
 export default {
-    mixins: [domains,alerts],
+    mixins: [domains,alerts,integrations,headerTags],
     components: { 
         TopBar,
         LeftBar,
-        UpdatePlan,
         Lang,
-        RecordList
-    },
-    data: () => {
-        return {
-            favicon: '',
-        }
+        RecordList,
+        Loader
     },
     created(){
-        this.getIntegrations();
-    },
-    methods: {
-        getIntegrations: function(){
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("integrations", "getIntegrations");
-            axios.get(urlToBeUsedInTheRequest).then((response) => {
-                
-                /* Google analytics */
-                var gaId = response.data["ga_id"];
-                Vue.use(VueGtag, {
-                    config: { 
-                        id: gaId
-                    }
-                });
-
-                /* Google tag manager */
-                var gtmId = response.data["gtm_id"];
-                Vue.use(VueGtm, {
-                    id: gtmId
-                });
-
-            },
-                function(){
-                    this.errorMessage();
-                }.bind(this)
-            );
-        },
+        this.loadIntegrations();
+        this.createFavicon();
     },
     head: {
         title: {
-        inner: 'Records'
+            inner: 'Records'
         },
         meta: [
-        { name: 'charset', content: 'utf-8' },
-        { name: 'viewport', content: 'width=device-width, initial-scale=1.0'}, 
-        { name: 'author', content: 'Sabio Realms' },
-    
-        // Facebook / Open Graph
-        { property: 'og:title', content: 'Content Title' },
-        // with shorthand
-        { p: 'og:image', c: 'teste' },
-        ],
-        link: [
-        { rel: 'icon', href: require('assets/uploads/settings/favicon.png'), sizes: '16x16', type: 'image/png' }
-        ],
+            { name: 'charset', content: 'utf-8' },
+            { name: 'viewport', content: 'width=device-width, initial-scale=1.0'}, 
+            { name: 'author', content: 'Sabiorealm' },
+        ]
     }
 }
 </script>

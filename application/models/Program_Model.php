@@ -200,6 +200,10 @@ class Program_Model extends CI_Model {
         $this->db->where("program_id", $programId);
         $this->db->delete("program_has_mycourse");
 
+        /* Delete from activities */
+        $this->db->where("program_id", $programId);
+        $this->db->delete("activities");
+
         /* Delete program */
         $this->db->where("id", $programId);
         $this->db->delete("program");

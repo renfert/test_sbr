@@ -115,12 +115,11 @@
                 <a @click.prevent="videoOverlay = false" class="video-overlay-close">&times;</a>
                 <div class="player-container">
                     <vue-plyr>
-                        <video class="video-preview" :src="''+getCurrentDomainName()+'assets/uploads/preview/' + preview"></video>
+                        <video class="video-preview" :src="getUrlToContents() + 'preview/'+preview+''"></video>
                     </vue-plyr>
                 </div>
             </div>
-            <img  v-if="photo != null" class="card-img-top" :src="''+getCurrentDomainName()+'assets/uploads/course/' + photo">
-
+            <img v-if="photo != null" class="card-img-top" :src="getUrlToContents() + 'course/'+photo+''" alt="">
             <el-tabs type="border-card">
 
                 <!-- Description -->

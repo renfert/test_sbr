@@ -3,39 +3,28 @@
   <div>
     <el-dialog  :visible.sync="modalCreateDownloadable" :title="lang['create-new-lesson']" center  top="5vh">
         <form id="form-lesson-downloadable" @submit.prevent="create()">
-          <div class="form-row">
-              <!-- Module id -->
-              <input type="number" class="hide"  name="moduleId" :value="moduleId">
-              <div class="form-group col-xl-12 col-md-12">
-                  <!-- Lesson name -->
-                  <label class="col-form-label">{{lang["name"]}} *</label>
-                  <el-input required v-model="name" name="title"></el-input>
-              </div>
-          </div>
-          <div class="form-row">
-              <div class="form-group col-xl-12 col-md-12">
-                  <!-- Downloadable file upload -->
-                  <label class="col-form-label">Downloadable file *</label>
-                  <div class="drop-area"> 
-                    <!-- Type lesson -->
-                    <input type="text" name="type_mylesson_id" value="4">
-                    <input :value="downloadableName" name="path" type="text">
-                    <input 
-                        class="upload"  
-                        @change.prevent="render($event)"  
-                        type="file"
-                    >
-                    <div class="drop-message">
-                        <span class="file-icon" :class="icon"></span>
-                        <p>{{message}}</p>
-                    </div>
-                    <div class="drop-preview on" style="text-align:center;">
-                        <div class="drop-img">
-                            <img class="preview" :src="previewImg" alt="">
-                        </div>
-                    </div>
-                  </div>
-                  <input class="hide" type="text" name="real_name" :value="realName">
+            <div class="form-row">
+                <!-- Module id -->
+                <input type="number" class="hide"  name="moduleId" :value="moduleId">
+                 <input type="text" class="hide" name="type_mylesson_id" value="4">
+                <div class="form-group col-xl-12 col-md-12">
+                    <!-- Lesson name -->
+                    <label class="col-form-label">{{lang["name"]}} *</label>
+                    <el-input required v-model="name" name="title"></el-input>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-xl-12 col-md-12">
+                    <!-- Downloadable file upload -->
+                    <label class="col-form-label">Downloadable file *</label>
+                    <upload 
+                        do-upload= "true"
+                        box-height = "200"
+                        return-name="path" 
+                        input-name="file"  
+                        bucket-key="uploads/content" 
+                        acceptable=".*">
+                    </upload>
               </div>
           </div>
           <div class="form-row">
@@ -55,107 +44,59 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import {eventBus} from '@/pages/newcourse/App'
 import {eventLang} from '@/components/helper/HelperLang'
-import {eventProgress} from '@/components/helper/HelperProgress'
+import {eventUpload} from '@/components/helper/HelperUpload'
+import Upload from '@/components/helper/HelperUpload'
 import domains from '@/mixins/domains'
 import alerts from '@/mixins/alerts'
 Vue.use(VueAxios, axios)
 export default {
-  mixins: [domains,alerts],
-  props: ['module-id'],
-  data: () => {
-    return {
-      lang: {},
-      name: '',
-      downloadableName: '',
-      previewImg: '',
-      realName: '',
-      icon: 'fas fa-cloud-upload-alt',
-      message:"Upload a file",
-      modalCreateDownloadable : false,
-      loading: false
-    }
-  },
-  mounted(){
-    eventLang.$on('lang', function(response){  
-      this.lang = response;
-    }.bind(this));
+    mixins: [domains,alerts],
+    props: ['module-id'],
+    components: {
+        Upload, 
+    },
+    data: () => {
+        return {
+            lang: {},
+            name: '',
+            modalCreateDownloadable : false,
+            loading: false
+        }
+    },
+    mounted(){
+        eventLang.$on('lang', function(response){  
+            this.lang = response;
+        }.bind(this));
 
-    eventBus.$on('new-downloadable', function(){
-      this.modalCreateDownloadable = true;
-    }.bind(this));
-  },
-  methods: {
-    /* Create a new lesson */
-    create: function(){
-      this.loading = true;
-      var form = document.getElementById('form-lesson-downloadable')
-      var formData = new FormData(form)
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("lesson", "create");
-      axios.post(urlToBeUsedInTheRequest, formData).then(() => {
-        /* Success callback */
-        this.successMessage();
-        this.actionsToBePerformedAfterRegistration();
-        this.loading = false;
-      },
-        /* Error callback */
-        function(){
-          this.errorMessage();
+        eventBus.$on('new-downloadable', function(){
+            this.modalCreateDownloadable = true;
+        }.bind(this));
+    },
+    methods: {
+        /* Create a new lesson */
+        create: function(){
+            this.loading = true;
+            var form = document.getElementById('form-lesson-downloadable')
+            var formData = new FormData(form)
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("lesson", "create");
+            axios.post(urlToBeUsedInTheRequest, formData).then(() => {
+                /* Success callback */
+                this.successMessage();
+                this.actionsToBePerformedAfterRegistration();
+                this.loading = false;
+            },
+                /* Error callback */
+                function(){
+                    this.errorMessage();
+                }.bind(this)
+            );
+        },
+        actionsToBePerformedAfterRegistration(){
+            this.name = '';
+            this.modalCreateDownloadable = false;
+            eventBus.$emit("new-lesson");  
+            eventUpload.$emit("clear");
         }
-      );
-    },
-    render: function(event){
-        this.upload(event);
-        this.message = '';
-        this.icon = '';
-        var input = event.target; 
-        var fullName = input.value;  
-        var fileName = fullName.split(/(\\|\/)/g).pop();
-        var fileExtension = fullName.split('.').pop();
-        this.realName = fileName;
-        if(fileExtension == 'png' || fileExtension == 'jpg' || fileExtension == 'jpeg' ){
-          var reader = new FileReader();
-            reader.onload = function (e) {
-              var div = input.parentElement; 
-              var img = div.getElementsByTagName('img')[0];
-              img.src = e.target.result;
-          };  
-          reader.readAsDataURL(input.files[0]);
-        }else{
-          this.message = fileName;
-          this.icon = "far fa-thumbs-up text-default";
-        }
-    },
-    upload: function(event){
-      eventProgress.$emit("new-progress");
-      const config = {
-          onUploadProgress: function(progressEvent) {
-          var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
-          eventProgress.$emit("new-percent", percentCompleted);
-          }
-      }
-      var formData = new FormData()
-      formData.append('file', event.target.files[0])
-      formData.append('type', 'lesson-downloadable')
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("upload", "upload_file");
-      axios.post(urlToBeUsedInTheRequest,formData,config).then((response) => {
-          this.downloadableName = response.data;
-          event.target.value = null
-          eventProgress.$emit("finish-progress");
-      }, 
-          /* Error callback */
-          function(){
-            this.errorMessage();
-          }.bind(this)
-      );
-    },
-    actionsToBePerformedAfterRegistration(){
-        this.name = '';
-        this.message = 'Upload a file';
-        this.icon = 'fas fa-cloud-upload-alt';
-        this.downloadableName = '';
-        this.modalCreateDownloadable = false;
-        eventBus.$emit('new-lesson');  
-    }
   }
 }
 </script>

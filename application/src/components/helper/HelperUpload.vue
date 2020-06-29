@@ -5,7 +5,7 @@
             <input 
                 :name="inputName" 
                 class="upload"  
-                @change.prevent="preview($event,doUpload,type)" 
+                @change.prevent="preview($event,doUpload)" 
                 :accept="acceptable" 
                 type="file"
             >
@@ -19,7 +19,7 @@
                 </div>
             </div>
         </div>
-        <input class="hide" type="text" name="realName" :value="realName">
+        <input class="hide" type="text" name="real_name" :value="realName">
    </div>
 </template>
 
@@ -31,29 +31,62 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import toastr from 'toastr'
 import {eventProgress} from '@/components/helper/HelperProgress'
+import domains from '@/mixins/domains'
+import alerts from '@/mixins/alerts'
+import AWS from 'aws-sdk/global';
+import S3 from 'aws-sdk/clients/s3';
 Vue.use(VueAxios, axios)
 Vue.use(toastr)
 
 /* Event bus to handle communication between components */
 export const eventUpload = new Vue();
 export default {
+    mixins: [domains,alerts],
     data: function() {
-         return {
-             lang: {},
-             icon: 'fas fa-cloud-upload-alt',
-             message:"Upload a file",
-             src: '',
-             messageClass: '',
-             realName: '',
-             name: '',
-             previewImg: ''
-         }
+        return {
+            lang: {},
+            icon: 'fas fa-cloud-upload-alt',
+            message:"Upload a file",
+            src: '',
+            messageClass: '',
+            realName: '',
+            name: '',
+            previewImg: '',
+            subDomainName: ''
+        }
+    },
+    props: ['acceptable', 'input-name', 'do-upload', 'return-name', 'bucket-key', 'box-height','src-name','src-img', 'src-real-name'],
+    mounted(){
+
+        this.getSubDomainName();
+
+        if(this.srcName != undefined && this.srcName != null && this.srcName != ''){
+            this.loadDefaultName();
+            this.message = this.srcRealName;
+            this.realName = this.srcRealName;
+        }    
+        
+        if(this.srcImg != undefined && this.srcImg != null && this.srcImg != ''){
+            this.loadDefaultImg();
+        }
+
+        eventLang.$on("lang", function(response){  
+            this.lang = response;
+        }.bind(this));
+
+        eventUpload.$on("clear", function(){
+            this.realName = "";
+            this.message = "Upload a file";
+            this.icon = "fas fa-cloud-upload-alt";
+            this.previewImg = "";
+        }.bind(this));
+
     },
     methods: {
-        preview: function(event, upload, type){
+        preview: function(event, upload){
             var ins = this;
             if(upload != undefined){
-                ins.upload(event,type);
+                ins.upload(event);
             }
             var input = event.target; 
             var fullName = input.value;  
@@ -65,8 +98,8 @@ export default {
             if(input.files && input.files[0]){ 
                 /* Verify acceptable files extensions*/
                 var acceptable = ins.acceptable;
-                if(acceptable.indexOf(fileExtension) == -1 && acceptable != "*"){
-                    ins.message = ""+ins.lang["invalid-extension"]+": "+fileExtension+"";
+                if(acceptable.indexOf(fileExtension) == -1 && acceptable != ".*"){
+                    ins.message = "Invalid extension: "+fileExtension+"";
                     ins.icon = "fas fa-exclamation-triangle text-danger"
                     input.value = ''
                 }else{            
@@ -117,6 +150,9 @@ export default {
                             ins.icon = "fas fa-file-archive text-default"
                             ins.message = fileName
                             break;
+                        default:
+                            ins.icon = "fas fa-file text-default"
+                            ins.message = fileName
                     }
                 }
             }
@@ -130,32 +166,98 @@ export default {
             };
             reader.readAsDataURL(input.files[0]);
         },
-        upload: function(event,type){
-            eventProgress.$emit("new-progress");
-            const config = {
-                onUploadProgress: function(progressEvent) {
-                var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
-                eventProgress.$emit("new-percent", percentCompleted);
-                }
+        upload: function(event){
+
+            if(this.bucketKey == "uploads/html"){
+                this.uploadHtml(event);
+            }else{
+                var file = event.target.files[0];
+                var fileName = file.name;
+                var fileExt = fileName.split('.').pop();
+                var newFileName = this.generateFileName(40) + '.' + fileExt;
+                eventProgress.$emit("new-progress");
+
+                AWS.config.update({
+                    accessKeyId: "AKIA5AQZS5JMAWUELDG7",
+                    secretAccessKey: "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",
+                    "region": "us-east-1"  
+                }); 
+
+                var bucket = new S3({params: {Bucket: 'sabiorealm'}});
+                var params = {Key: ''+this.subDomainName+'/'+this.bucketKey+'/'+newFileName +'', ContentType: file.type, Body: file};
+
+                bucket.upload(params).on('httpUploadProgress', function(evt) {
+                    var percentCompleted = Math.round(parseInt((evt.loaded * 100) / evt.total));
+                    eventProgress.$emit("new-percent", percentCompleted);
+                }).send(function() {
+                    event.target.value = null
+                    var el = event.target.parentElement.children[0];
+                    el.value = newFileName;
+                    eventProgress.$emit("finish-progress");
+                    eventUpload.$emit("finish-upload");
+                });
             }
-            /* Get a url root to production enviroment */
-            var loc = window.location.href;
-            var arr = loc.split("/");
-            var url = arr[0] + "//" + arr[2]
-            let data = new FormData()
-            data.append('file', event.target.files[0])
-            data.append('type', type)
-            axios.post(process.env.NODE_ENV === 'production' ? ''+url+'/upload/upload_file' : ''+process.env.VUE_APP_URL_DEV+'upload/upload_file',data,config
-            ).then((response) => {
-                event.target.value = null
-                var el = event.target.parentElement.children[0];
-                el.value = response.data;
-                eventProgress.$emit("finish-progress");
-                eventUpload.$emit("finish-upload");
-            }, () => {
-                /* Error callback */
-                toastr.error(''+this.lang["error-callback-message"]+'');
+        },
+        uploadHtml: function(event){
+            this.extractFilesFromTmpFolder(event);
+            this.createFolder();
+        },
+        createFolder: function(){
+            /* Create new folder into bucket */
+            AWS.config.update({
+                accessKeyId: "AKIA5AQZS5JMAWUELDG7",
+                secretAccessKey: "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",
+                "region": "us-east-1"  
+            }); 
+
+            var folderName = this.generateFileName(30);
+            var keyName = this.subDomainName + "/uploads/html/"+folderName+"/";
+            console.log(keyName);
+
+            var bucket = new S3({
+                params: {
+                    Bucket: "sabiorealm"
+                }
             });
+
+            var contentToPost = {
+                Key: keyName
+            };
+
+            bucket.putObject(contentToPost, function (error) {
+                if (error) {
+                    return false;
+                } else{
+                    return folderName;
+                }
+            })
+
+          
+            //return folderName;
+        },
+        extractFilesFromTmpFolder: function(event){
+            /* Extract zip files into tmp folder */
+            var file = event.target.files[0];
+            var formData = new FormData;
+            formData.set("html", file);
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("upload", "uploadHtml");
+            axios.post(urlToBeUsedInTheRequest, formData).then(() => {
+               
+            }, 
+                function(){
+                    this.errorMessage();
+                }.bind(this)
+            );
+        },
+        getSubDomainName: function(){
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("verify", "getSubDomainName");
+            axios.get(urlToBeUsedInTheRequest).then((response) => {
+                this.subDomainName = response.data;
+            }, 
+                function(){
+                    this.errorMessage();
+                }.bind(this)
+            );
         },
         loadDefaultName(){
             this.name = this.srcName;
@@ -164,43 +266,45 @@ export default {
             if(this.srcName != null){
                 var array = this.srcName.split(".",2);
                 var extension = array[1];
-                if(extension == 'png'){
+              
+
+                if(extension == 'png' || extension == 'jpg' || extension == 'jpeg' ){
+                    this.previewImg = this.srcImg;
                     this.messageClass = "hide";
+                    this.icon = '';
+                }else{
+                    this.icon = "fas fa-file text-default"
                 }
-                if(extension == 'mp4' || extension == 'mov'){
-                    this.icon = "fas fa-file-video text-default"
-                    this.message = this.srcName;
-                }
-                this.previewImg = this.srcImg;
+               
+                
             }
         },
-        chooseDomainForDevOrProductonEnviroment(controler,model){
-            var entireUrl = window.location.href;
-            var entireUrlDividedIntoTwoParts = entireUrl.split("/");
-            var domainName = entireUrlDividedIntoTwoParts[0] + "//" + entireUrlDividedIntoTwoParts[2];
-            var url = process.env.NODE_ENV === 'production' ? ''+domainName+'/'+controler+'/'+model : ''+process.env.VUE_APP_URL_DEV+controler+'/'+model
-            return url;
+        moveTmpFilesTos3: function(){
+            var path = require("path");
+            var fs = require('fs');
+
+            console.log(path);
+            console.log(fs);
+
+
         },
-    },
-    props: ['acceptable', 'val', 'input-name', 'do-upload', 'return-name', 'type', 'box-height','src-name','src-img'],
-    computed: {
-      style () {
-        return 'height: ' +this.boxHeight+ 'px';
-      }
-    },
-    mounted(){
+        generateFileName: function(length){
+            var today = new Date();   
+            var time = today.getHours()  + today.getMinutes() + today.getSeconds();
 
-        if(this.srcName != undefined && this.srcName != null){
-            this.loadDefaultName();
-        }    
-        
-        if(this.srcImg != undefined && this.srcImg != null){
-            this.loadDefaultImg();
+            var result           = '';
+            var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            var charactersLength = characters.length;
+            for ( var i = 0; i < length; i++ ) {
+                result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            }
+            return result + time;
         }
-
-        eventLang.$on('lang', function(response){  
-            this.lang = response;
-        }.bind(this));
+    },
+    computed: {
+        style () {
+            return 'height: ' +this.boxHeight+ 'px';
+        }
     },
 }   
 </script>

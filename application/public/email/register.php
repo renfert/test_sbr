@@ -102,7 +102,7 @@
                         <td class="alert alert-warning"
                             style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 16px; vertical-align: top; color: #fff; font-weight: 500; text-align: center; border-radius: 3px 3px 0 0; background-color: #71b6f9; margin: 0; padding: 20px;"
                             align="center" bgcolor="#71b6f9" valign="top">
-                        <?php echo $userName; ?>, bienvenido a <b><?php echo $title; ?></b>.
+                        <?php echo $data["name"]; ?>, bienvenido a <b><?php echo $data["title"]; ?></b>.
                         </td>
                     </tr>
                     <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
@@ -124,8 +124,8 @@
                                     <td class="content-block"
                                         style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;"
                                         valign="top">
-                                        <p>Login: <?php echo $userEmail; ?></p>
-                                        <p>Contraseña: <?php echo $pass; ?></p>
+                                        <p>Login: <?php echo $data["email"]; ?></p>
+                                        <p>Contraseña: <?php echo $data["password"]; ?></p>
                                     </td>
                                 </tr>
                                 <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">

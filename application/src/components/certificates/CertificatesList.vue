@@ -75,6 +75,9 @@ export default {
         }.bind(this));
     },
     methods:{
+        printCertificate: function(){
+            
+        },
         getCertificates(){
             var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("certificate", "listing");
             axios.get(urlToBeUsedInTheRequest).then((response) => {
