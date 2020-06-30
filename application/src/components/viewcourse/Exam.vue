@@ -33,7 +33,7 @@
             </div>
 
        
-            <form id="form-exam">
+            <form id="form-exam"  :key="componentKey">
                 <input type="text" class="hide" name="examId" v-model="examId">
                 <div style="margin-top:-40px !important;" :class="index == questionsControl ? '' : 'hide'" class="questions" v-for="(element , index) in questions" :key="index">
                     <div  class="current-question" :class="index == questionsControl ? '' : 'hide'">
@@ -141,6 +141,7 @@ export default {
             message:"Upload a file",
             answerImage: '',
             retest: '',
+            componentKey: 0,
 
             showFinishExamButton: false
            
@@ -175,6 +176,9 @@ export default {
                 $('#form-exam').find('input:file,textarea').val('');    
             });
         },
+        forceRerender: function() {
+            this.componentKey += 1;
+        },
         finishExam() {
             var form = document.getElementById('form-exam')
             var formData = new FormData(form)
@@ -189,6 +193,7 @@ export default {
                 eventBus.$emit("load-lesson", data);
                 this.modal = false;
                 eventBus.$emit("update-progress-bar");
+                this.forceRerender();
             },
                 function(){
                     this.errorMessage();

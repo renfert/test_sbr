@@ -201,6 +201,7 @@ export default {
         uploadHtml: function(event){
             this.extractFilesFromTmpFolder(event);
             this.createFolder();
+            this.moveTmpFilesTos3();
         },
         createFolder: function(){
             /* Create new folder into bucket */
@@ -212,7 +213,7 @@ export default {
 
             var folderName = this.generateFileName(30);
             var keyName = this.subDomainName + "/uploads/html/"+folderName+"/";
-            console.log(keyName);
+            
 
             var bucket = new S3({
                 params: {
@@ -273,21 +274,14 @@ export default {
                     this.messageClass = "hide";
                     this.icon = '';
                 }else{
-                    this.icon = "fas fa-file text-default"
+                    this.icon = "fas fa-cloud-upload-alt"
                 }
                
                 
             }
         },
         moveTmpFilesTos3: function(){
-            const testFolder = './tests/';
-            const fs = require('fs');
-
-            fs.readdirSync(testFolder).forEach(file => {
-            console.log(file);
-            });
-            
-
+           
 
         },
         generateFileName: function(length){

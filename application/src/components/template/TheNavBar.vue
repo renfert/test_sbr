@@ -1,9 +1,9 @@
 <template>
     <div>
         <login></login>
-        <!-- Header section -->
+       
         <nav dark class="navbar navbar-expand-lg navbar-dark" :style="styleHeader">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="index">
                 <img class="sabio-logo" :src="logo" :width="logoSize" >
             </a>
             <div class="collapse navbar-collapse" id="navbarSupportedContent-4">
@@ -13,23 +13,38 @@
                             class="nav-link" 
                             :href="element.url"
                             :target="element.target"
+                            :style ="styleLinks"
                         >
                             {{element.title}}
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a :href="getDomainNameToNavigation() + 'products'" class="nav-link">
+                        <a 
+                            :href="getDomainNameToNavigation() + 'products'" 
+                            class="nav-link" 
+                            :style ="styleLinks"
+                        >
                             Cursos
                         </a>
                     </li>
                     <li class="nav-item" v-if="activeSession == false">
-                        <a href="javascript:void(0)" @click.prevent="openLoginModal()" class="nav-link">
-                            <span class="nav-login">Login</span>
+                        <a 
+                            href="javascript:void(0)" 
+                            @click.prevent="openLoginModal()" 
+                            class="nav-link"
+                            :style ="styleLinks"
+                        >
+                            <span  :style="styleBorder" >Login</span>
                         </a>
                     </li>
                     <li class="nav-item" v-else>
-                        <a href="javascript:void(0)"  @click.prevent="enterPlatform()" class="nav-link">
-                           <span class="nav-login">{{lang["go-to-platform"]}}</span>
+                        <a 
+                            href="javascript:void(0)"
+                            @click.prevent="enterPlatform()"
+                            class="nav-link"
+                            :style ="styleLinks"
+                        >
+                            <span :style="styleBorder">{{lang["go-to-platform"]}}</span>
                         </a>
                     </li>
                 </ul>
@@ -96,16 +111,26 @@ export default {
     computed: {
         styleHeader: function(){
              return {
-            'background-color': this.headerColor,
-            'position': this.headerColor == 'transparent' ? 'absolute' : 'relative',
-            'width': '100%'
+                'background-color': this.headerColor,
+                'width': '100%'
             }
         },
         styleFooter: function(){
              return {
-            'background-color': this.footerColor+'!important',
+                'background-color': this.footerColor+'!important',
             }
         },
+        styleLinks: function(){
+            return{
+                'color': this.headerColor == 'transparent' ? '#969bb5': 'white'
+            }
+        },
+        styleBorder: function(){
+             return{
+                'border': this.headerColor == 'transparent' ? '1px solid #969bb5': '1px solid white',
+                'padding': '5px 15px 5px 15px'
+            }
+        }
     },
     methods: {
         enterPlatform: function(){

@@ -95,7 +95,7 @@ export default {
         },
         styleHeader: function(){
              return {
-            'background-image': 'url('+this.image+')',
+                'background-image': 'url('+this.image+')',
             }
         },
         styleBannerHeader: function(){
@@ -134,7 +134,7 @@ header p{
 }
 
 header{
-    height:90vh;
+    height:100vh;
     width:100%;
     -webkit-backgroud-size:cover;
     background-size:cover;
