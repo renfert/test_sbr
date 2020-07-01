@@ -14,17 +14,6 @@ module.exports = {
           openAnalyzer: true
         }
     },
-    devServer: {
-        watchOptions: {
-            ignored: [
-                path.resolve(__dirname, 'dist'),
-                path.resolve(__dirname, '**../../../assets/uploads/testimonial'),
-                path.resolve(__dirname, '**../../../assets/uploads/builder/header'),
-                path.resolve(__dirname, '**../../../assets/uploads/builder/body'),
-                path.resolve(__dirname, '**../../../assets/uploads/settings'),
-            ]
-        }
-    },
     publicPath: process.env.NODE_ENV === 'production' ? '/application/views/' : '/',
     outputDir: './views',
      pages: {

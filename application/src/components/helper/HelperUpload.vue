@@ -355,8 +355,7 @@ export default {
 
 .drop-preview img {
     max-width: 100%;
-    margin-top: 3%;
-    width: 60%;
+    width: 50%;
     vertical-align: middle;
     border-style: none;
 }

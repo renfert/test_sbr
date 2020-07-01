@@ -17,6 +17,7 @@
               <div class="form-group col-xl-6 col-md-6">
                   <!-- Module release date -->
                   <label class="col-form-label">{{lang["start-date"]}} *</label>
+                  <br>
                   <el-date-picker
                       v-model="releaseDate"
                       name="date"
