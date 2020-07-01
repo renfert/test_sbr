@@ -33,10 +33,15 @@ class Course_Model extends CI_Model {
 
   
     public function listing(){
+        $currentDate = getCurrentDate("Y-m-d");
         $this->db->select("
             T0.id,
             T0.title,
             T0.photo,
+            DATE_FORMAT(T0.release_date, '%d/%m/%Y') as release_date, 
+            DATE_FORMAT(T0.expiration_date, '%d/%m/%Y') as expiration_date, 
+            DATEDIFF(T0.expiration_date, '$currentDate') as expirationDays,
+            DATEDIFF(T0.release_date, '$currentDate') as releaseDays,
             (SELECT count(DISTINCT mylesson_id ) - 1 FROM relationship WHERE mycourse_id = T0.id ) as lessons,
             (SELECT count(DISTINCT mylesson_id) FROM lesson_status WHERE mycourse_id = T0.id AND myuser_id = ".getUserId()." AND status = 'finished') as finishedLessons
         ");
@@ -54,8 +59,24 @@ class Course_Model extends CI_Model {
     }
 
     public function listingAll($category){
+        $currentDate = getCurrentDate("Y-m-d");
         if($category == '' OR $category == 1){
-            $this->db->select("T0.id,T0.title,T0.description,T0.photo,T0.price,T0.creation_date,T0.release_date,T0.expiration_date,T0.spotlight,T0.validity,T0.preview, T1.name, T2.currency");
+            $this->db->select("
+                T0.id,
+                T0.title,
+                T0.description,
+                T0.photo,
+                T0.price,
+                T0.creation_date,
+                DATE_FORMAT(T0.release_date, '%d/%m/%Y') as release_date, 
+                DATE_FORMAT(T0.expiration_date, '%d/%m/%Y') as expiration_date, 
+                DATEDIFF(T0.expiration_date, '$currentDate') as expirationDays,
+                DATEDIFF(T0.release_date, '$currentDate') as releaseDays,
+                T0.spotlight,
+                T0.validity,
+                T0.preview, 
+                T1.name,
+                T2.currency");
             $this->db->from("mycourse T0");
             $this->db->join("myuser T1", "T0.creation_user = T1.id");
             $this->db->join("settings T2", "1 = 1");

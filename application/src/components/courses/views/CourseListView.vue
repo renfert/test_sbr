@@ -16,12 +16,12 @@
                <!-- Card -->
                 <div class="card">
                 
-                    <a @click.prevent="viewCourse(element.id)" v-if="element.photo != '' && element.photo != null">
+                    <a @click.prevent="viewCourse(element.id,element.expirationDays,element.releaseDays)" v-if="element.photo != '' && element.photo != null">
                         <!-- Card image -->
                         <img :src="getUrlToContents() + 'course/'+element.photo+''" style="height:200px;" class="card-img-top">
                     </a>
 
-                    <a  @click.prevent="viewCourse(element.id)" v-else>
+                    <a  @click.prevent="viewCourse(element.id,element.expirationDays,element.releaseDays)" v-else>
                         <img style="height:200px;" class="card-img-top" src="@/assets/img/general/ux/course_image_default.png" alt="Card image cap">
                     </a>
 
@@ -29,10 +29,24 @@
                     <div class="card-body">
 
                         <!-- Title -->
-                        <h4 class="card-title"><a @click.prevent="viewCourse(element.id)">{{element.title}}</a></h4>
+                        <h4 class="card-title"><a @click.prevent="viewCourse(element.id,element.expirationDays,element.releaseDays)">{{element.title}}</a></h4>
                         <el-progress v-if="parseInt(((100 * element.finishedLessons) /  element.lessons )) >=0 "  :percentage="parseInt(((100 * element.finishedLessons) /  element.lessons ))"></el-progress>
 
                         <el-progress v-else  percentage="0"></el-progress>
+
+                        <el-tag
+                            class="mt-2"
+                            v-if="element.expirationDays < 0"
+                            type="danger">
+                            {{lang["course-expired"]}} {{element.expiration_date}}
+                        </el-tag>
+
+                        <el-tag
+                            class="mt-2"
+                            v-if="element.releaseDays > 0"
+                            type="primary">
+                            {{lang["course-avaiable-in"]}} {{element.release_date}}
+                        </el-tag>
                         
                         <el-divider v-if="roleId != 3"><i class="el-icon-more-outline"></i></el-divider>
                         <el-row v-if="roleId != 3">
@@ -138,12 +152,22 @@ export default {
                 }
             );
         },
-        viewCourse: function(id){
-            sessionStorage.setItem('sbr_course_id', ''+id+'');
-            if(process.env.NODE_ENV === 'production'){
-                window.location.href="pages/viewcourse";
-            }else{
-                 window.location.href="viewcourse";
+        viewCourse: function(id,expirationDays,releaseDays){
+            if(releaseDays == null){
+                releaseDays = -1;
+            }
+
+            if(expirationDays == null){
+                expirationDays = 1;
+            }
+
+            if(expirationDays > 0  && releaseDays <= 0){
+                sessionStorage.setItem('sbr_course_id', ''+id+'');
+                if(process.env.NODE_ENV === 'production'){
+                    window.location.href="pages/viewcourse";
+                }else{
+                    window.location.href="viewcourse";
+                }
             }
         },
         getCourses(){

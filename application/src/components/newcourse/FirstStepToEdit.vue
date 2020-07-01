@@ -12,13 +12,13 @@
 
                                 <!-- Course name -->
                                 <label class="col-form-label">{{lang["name"]}} *</label>
-                                <el-input name="title" :class="invalidField ? 'invalid-field' : '' "   v-model="name"></el-input>
+                                <el-input @change="editCourse(false)" name="title" :class="invalidField ? 'invalid-field' : '' "   v-model="name"></el-input>
 
                                 <br><br>
                                 <!-- Course category -->
                                 <label class="col-form-label">{{lang["category"]}}</label>
                                 <br>
-                                <select class="form-control" name="mycategory_id" v-model="category">
+                                <select @change="editCourse(false)" class="form-control" name="mycategory_id" v-model="category">
                                     <option value="1">{{lang['without-category']}}</option>
                                     <option v-for="item in categories" :value="item.id" :key="item.id">
                                         {{item.name}}
@@ -36,7 +36,7 @@
                             <div class="form-group  col-xl-6 col-md-6">
                                 <textarea class="hide" v-model="description" name="description"></textarea>
                                 <label class="col-form-label">{{lang["description"]}}</label>
-                                <wysiwyg  v-model="description" />
+                                <wysiwyg  @change="editCourse(false)" v-model="description" />
                             </div>
                         </div>
 
@@ -178,7 +178,7 @@
                     </label>
                 </div>
             </div>
-            <el-button class="mt-3" @click.prevent="modal = false"  type="primary"  size="medium">{{lang["save-button"]}}</el-button>
+            <el-button class="mt-3" @click.prevent="modal = false; editCourse(false);"  type="primary"  size="medium">{{lang["save-button"]}}</el-button>
         </el-dialog>
     </form>
     <helper-progress></helper-progress>
@@ -362,20 +362,24 @@ export default {
                 this.loading = false;
             }.bind(this), 500);
         },
-        editCourse: function(){
+        editCourse: function(update){
             this.loading = true;
-            var form = document.getElementById('form-first-step')
-            var formData = new FormData(form)
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("course", "edit")
-            axios.post(urlToBeUsedInTheRequest, formData).then(() => {
-                this.loading = false;
-                this.actionsToBePerformedAfterEdit();
-            }, 
-                /* Error callback */
-                function(){
-                    this.errorMessage();
-                }.bind(this)
-            );
+            setTimeout(function(){
+                var form = document.getElementById('form-first-step')
+                var formData = new FormData(form)
+                var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("course", "edit")
+                axios.post(urlToBeUsedInTheRequest, formData).then(() => {
+                    this.loading = false;
+                    if(update != false){
+                        this.actionsToBePerformedAfterEdit();   
+                    }
+                }, 
+                    /* Error callback */
+                    function(){
+                        this.errorMessage();
+                    }.bind(this)
+                );
+            }.bind(this), 2000);
         },
         requiredInputNameMessage(){
             this.$notify({

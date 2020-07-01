@@ -245,6 +245,9 @@
     "program-expired": "The program expired on: ",
     "program-avaiable-in" : "Program available in: ",
 
+    "course-expired": "The course expired on: ",
+    "course-avaiable-in": "Course available in: ",
+
     "total-courses-completed": "Total courses completed: ",
 
     "doubts": "For any questions please contact:",

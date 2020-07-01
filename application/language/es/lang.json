@@ -273,8 +273,10 @@
     "program-created-successfully": "Programa creado con éxito",
 
     "program-expired": "El programa expiró en: ",
-
     "program-avaiable-in" : "Programa disponible en: ",
+
+    "course-expired": "El curso expiró en : ",
+    "course-avaiable-in": "Curso disponible en: ",
 
     "total-courses-completed": "Total de cursos completados: ",
 

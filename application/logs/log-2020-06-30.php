@@ -115,3 +115,11 @@ ERROR - 2020-06-30 01:29:18 --> Severity: Warning --> Invalid argument supplied 
 ERROR - 2020-06-30 01:31:23 --> Severity: Notice --> Undefined index: path C:\xampp\htdocs\application\models\Lesson_Model.php 53
 ERROR - 2020-06-30 01:31:23 --> Severity: Notice --> Undefined offset: 1 C:\xampp\htdocs\application\models\Lesson_Model.php 120
 ERROR - 2020-06-30 01:31:44 --> Severity: Warning --> Invalid argument supplied for foreach() C:\xampp\htdocs\application\models\Answer_Model.php 69
+ERROR - 2020-06-30 03:09:55 --> Severity: Notice --> Undefined variable: currentDate C:\xampp\htdocs\application\models\Course_Model.php 72
+ERROR - 2020-06-30 03:09:55 --> Severity: Notice --> Undefined variable: currentDate C:\xampp\htdocs\application\models\Course_Model.php 73
+ERROR - 2020-06-30 03:12:49 --> Severity: Notice --> Undefined variable: currentDate C:\xampp\htdocs\application\models\Course_Model.php 72
+ERROR - 2020-06-30 03:12:49 --> Severity: Notice --> Undefined variable: currentDate C:\xampp\htdocs\application\models\Course_Model.php 73
+ERROR - 2020-06-30 03:13:47 --> Severity: Notice --> Undefined variable: currentDate C:\xampp\htdocs\application\models\Course_Model.php 72
+ERROR - 2020-06-30 03:13:47 --> Severity: Notice --> Undefined variable: currentDate C:\xampp\htdocs\application\models\Course_Model.php 73
+ERROR - 2020-06-30 03:14:28 --> Severity: Notice --> Undefined variable: currentDate C:\xampp\htdocs\application\models\Course_Model.php 72
+ERROR - 2020-06-30 03:14:28 --> Severity: Notice --> Undefined variable: currentDate C:\xampp\htdocs\application\models\Course_Model.php 73
