@@ -19,7 +19,7 @@
 
             <div class="row">
                 <!-- Left content -->
-                <div  class="col-12 col-md-9">
+                <div  class="col-12 col-md-8">
                     <course-details :currency="currency"></course-details>
                 </div>
 

@@ -6,7 +6,11 @@
             <a class="navbar-brand" href="index">
                 <img class="sabio-logo" :src="logo" :width="logoSize" >
             </a>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent-4">
+            <button  @click.prevent="changeMobileButtonClass()" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div :style="navMobile" class="collapse navbar-collapse" id="navbarSupportedContent-4">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item" v-for="element in links"  :key="element.id">
                         <a  
@@ -92,7 +96,8 @@ export default {
             links: [],
             socialMedias: [],
             headerColor: '',
-            activeSession: false
+            activeSession: false,
+            navMobile: "display:initial !important"
         }
     },
     mounted(){
@@ -154,6 +159,13 @@ export default {
                     this.errorMessage();
                 }.bind(this)
             );
+        },
+        changeMobileButtonClass: function(){
+            if(this.navMobile == "display:none !important;"){
+                this.navMobile = "display:initial !important;";
+            }else{
+                this.navMobile = "display:none !important;";
+            }
         },
         listFooter: function(){
             this.loadingFooter = true;

@@ -119,7 +119,7 @@
                     </vue-plyr>
                 </div>
             </div>
-            <img v-if="photo != null" class="card-img-top" :src="getUrlToContents() + 'course/'+photo+''" alt="">
+            <img v-if="photo != null" class="card-img-top" style="height: 380px !important;" :src="getUrlToContents() + 'course/'+photo+''" alt="">
             <el-tabs type="border-card">
 
                 <!-- Description -->
@@ -555,6 +555,10 @@ export default {
 </script>
 
 <style>
+
+.card-img-top{
+    height: 500px !important;
+}
 
 .player-container{
     width: 560px !important;

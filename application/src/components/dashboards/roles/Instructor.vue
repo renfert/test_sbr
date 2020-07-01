@@ -42,9 +42,16 @@ import locale from 'element-ui/lib/locale'
 import {eventLang} from '@/components/helper/HelperLang'
 import domains from '@/mixins/domains'
 import alerts from '@/mixins/alerts'
-import DrVueEcharts from 'dr-vue-echarts';
-Vue.use(DrVueEcharts)
+import { 
+  BarChart,
+  LineChart,
+  PieChart,
+  //...
+} from 'dr-vue-echarts'
 
+Vue.use(BarChart);
+Vue.use(LineChart)
+Vue.use(PieChart)
 
 
 

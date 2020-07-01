@@ -6,7 +6,7 @@
     function getUserId(){
         $CI =& get_instance();
         if(production() == false){
-			return 3;
+			return 1;
 		}else{
 			return $CI->session->userdata("id");
 		}
