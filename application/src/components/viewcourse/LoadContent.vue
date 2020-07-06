@@ -153,22 +153,22 @@
 
                         <div class="col-12 col-md-4 text-center">
                             <div>
-                                <img src="@/assets/img/general/ux/pencil.png" v-if="userRetests == 0">
+                                <img src="@/assets/img/general/ux/pencil.png" v-if="parseInt(userRetests) == 0">
 
-                                <img src="@/assets/img/general/ux/retest.png"  v-if="userRetests < retest && userRetests != 0 && parseInt(overview['yourScore']) < parseInt(approval) && overview['waitingEvaluationQuestions'] == 0">
+                                <img src="@/assets/img/general/ux/retest.png"  v-if="parseInt(userRetests) < parseInt(retest) && parseInt(userRetests) != 0 && parseInt(overview['yourScore']) < parseInt(approval) && parseInt(overview['waitingEvaluationQuestions']) == 0" @click="openExamModal(lessonId)">
 
-                                <img src="@/assets/img/general/ux/correction.png" v-if="userRetests == retest">
+                                <img src="@/assets/img/general/ux/correction.png" v-if="parseInt(userRetests) == parseInt(retest) || parseInt(overview['yourScore']) >= parseInt(approval) ">
 
                                 <br>
 
                                 <!-- Start exam button -->
-                                <el-button class="btn-ead btn-sabiorealm" v-if="userRetests == 0" @click="openExamModal(lessonId)">{{lang["start-exam"]}}</el-button>
+                                <el-button class="btn-ead btn-sabiorealm" v-if="parseInt(userRetests) == 0" @click="openExamModal(lessonId)">{{lang["start-exam"]}}</el-button>
 
                                 <!-- Start retest button -->
-                                <el-button class="btn-ead btn-sabiorealm"  v-if="userRetests < retest && userRetests != 0 && parseInt(overview['yourScore']) < parseInt(approval) && overview['waitingEvaluationQuestions'] == 0" @click="openExamModal(lessonId)">{{lang["start-retest"]}}</el-button>
+                                <el-button class="btn-ead btn-sabiorealm"  v-if="parseInt(userRetests) < parseInt(retest) && parseInt(userRetests) != 0 && parseInt(overview['yourScore']) < parseInt(approval) && parseInt(overview['waitingEvaluationQuestions']) == 0" @click="openExamModal(lessonId)">{{lang["start-retest"]}}</el-button>
 
                                 <!-- Correction button -->
-                                <el-button class="btn-ead btn-sabiorealm" type="primary" v-if="userRetests == retest"  @click="openCorrection(lessonId)">{{lang["see-exam-correction"]}}</el-button>
+                                <el-button class="btn-ead btn-sabiorealm" type="primary" v-if="parseInt(userRetests) == parseInt(retest) || parseInt(overview['yourScore']) >= parseInt(approval)"  @click="openCorrection(lessonId)">{{lang["see-exam-correction"]}}</el-button>
 
                             </div>
                         </div>
@@ -314,6 +314,7 @@ export default {
                 axios.post(urlToBeUsedInTheRequest, formData).then(() => {
                     /* Success callback */
                     eventBus.$emit("update-progress-bar");
+                    eventBus.$emit("update-modules");
                 },
                     /* Error callback */
                     function(){

@@ -32,7 +32,7 @@
                                     <label>{{lang['description']}}</label>
                                     <el-input  name="description" :placeholder="lang['description']" v-model="description"></el-input>
                                 </div>
-                                <label>{{lang['description']}}</label>
+                                <label>{{lang['favicon']}}</label>
                                 <upload 
                                     v-if="this.faviconName != ''"
                                     :src-img="this.getUrlToContents() + 'settings/'+this.faviconName+''"

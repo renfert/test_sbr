@@ -20,7 +20,7 @@
             <el-row>
                 <h3 class="text-center">{{lang["exam-status"]}} 
                     <b> 
-                        <a class="text-warning" href="#" v-if="overview['waitingEvaluationQuestions'] != 0">
+                        <a class="text-warning" href="#" v-if="parseInt(overview['waitingEvaluationQuestions']) != 0">
                             {{lang["in-progress"]}}
                         </a>
 

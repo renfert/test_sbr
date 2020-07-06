@@ -6,6 +6,7 @@
         </template>
         <el-menu-item-group title="Sections">
                 <div class="list-block">
+                    <section-list></section-list>
                     <div class="form-row align-items-center">
                         <div class="col-xl-12">
                             <div class="mt-3">
@@ -25,8 +26,6 @@
                             </div>
                         </div>
                     </div>
-                    <br>
-                    <section-list></section-list>
                 </div>
         </el-menu-item-group>
     </el-submenu>

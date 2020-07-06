@@ -119,6 +119,7 @@ import { FacebookLoader } from 'vue-content-loader';
 import DrVueEcharts from 'dr-vue-echarts';
 Vue.use(DrVueEcharts)
 
+
 locale.use(lang)
 Vue.use(DataTables)
 Vue.use(DataTablesServer)

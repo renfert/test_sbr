@@ -2,6 +2,11 @@ const path = require('path');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 module.exports = {
     configureWebpack: {
+        optimization: {
+            splitChunks: {
+                chunks: 'all',
+            }
+        },
         resolve: {
             alias: {
                 "components": path.resolve(__dirname, 'src/components/'),

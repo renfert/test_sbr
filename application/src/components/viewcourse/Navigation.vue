@@ -1,34 +1,36 @@
 <template>
-    <el-menu
-        style="width:351px;"
-        background-color="#545c64"
-        text-color="#fff"
-        active-text-color="#09dfff"
-        default-active = "lesson00"
-        ref="menu"
-    >
-        <div  v-for="(element,index) in modules" :key="index">
-            <el-submenu :disabled="element.disable" v-if="element.daysDiff <= 0"  :id="'module' + index" :index="'module' + index">
-                
-                <template slot="title">
-                    <i class="el-icon-menu"></i>
-                    <span>{{element.title}}</span>
-                </template>
-                
-                <lesson-list-to-view-course :module-id="element.id" :module-index="index"></lesson-list-to-view-course>
-
-            </el-submenu>
-
-            <el-tooltip v-else  class="item" effect="dark" :content="lang['module-available-in'] + element.release_date" placement="top">
-                <el-submenu :disabled="true"  :id="'module' + index" :index="'module' + index">
+    <el-aside  v-loading="loading" class="leftside-viewcourse" :class="mobile" width="350px" style="background-color:#545c64">
+        <el-menu
+            style="width:351px;"
+            background-color="#545c64"
+            text-color="#fff"
+            active-text-color="#09dfff"
+            default-active = "lesson00"
+            ref="menu"
+        >
+            <div  v-for="(element,index) in modules" :key="index">
+                <el-submenu :disabled="element.disable" v-if="element.daysDiff <= 0"  :id="'module' + index" :index="'module' + index">
+                    
                     <template slot="title">
-                        <i class="el-icon-date"></i>
+                        <i class="el-icon-menu"></i>
                         <span>{{element.title}}</span>
                     </template>
+                    
+                    <lesson-list-to-view-course :module-id="element.id" :module-index="index"></lesson-list-to-view-course>
+
                 </el-submenu>
-            </el-tooltip>
-        </div>
-    </el-menu>  
+
+                <el-tooltip v-else  class="item" effect="dark" :content="lang['module-available-in'] + element.release_date" placement="top">
+                    <el-submenu :disabled="true"  :id="'module' + index" :index="'module' + index">
+                        <template slot="title">
+                            <i class="el-icon-date"></i>
+                            <span>{{element.title}}</span>
+                        </template>
+                    </el-submenu>
+                </el-tooltip>
+            </div>
+        </el-menu>  
+    </el-aside>
 </template>
 
 <script>
@@ -52,6 +54,7 @@ export default {
             modules: [],
             courseId: '',
             currentDate: '',
+            loading: false
         }
     },
     components: {
@@ -72,6 +75,10 @@ export default {
         eventBus.$on("open-menu", function(response){
             this.openmenu(response);
         }.bind(this));
+
+        eventBus.$on("update-modules", function(){
+            this.getModules(this.courseId);
+        }.bind(this))
 
 
 
@@ -96,11 +103,13 @@ export default {
             }.bind(this));
         },
         getModules: function(courseId){
+            this.loading = true;
             var formData = new FormData();
             formData.set("courseId", courseId);
             var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("module", "listing");
             axios.post(urlToBeUsedInTheRequest, formData).then(function (response) {
                 this.modules = response.data;
+                this.loading = false;
             }.bind(this));
         },
     },

@@ -221,6 +221,7 @@ class Exam_Model extends CI_Model {
         $this->db->join("relationship T1", "T0.id = T1.question_id");
         $this->db->where("T1.mylesson_id" , $examId);
         $this->db->where("T0.id !=", 1);
+        $this->db->where("T0.status !=", 'temporary');
         $query = $this->db->get();
         if($query->num_rows() > 0){
             foreach($query->result() as $row){

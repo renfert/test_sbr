@@ -3,9 +3,7 @@
         <lang></lang>
         <topbar></topbar>
         <el-container style="height: 100%; max-height:100% !important; border: 1px solid #eee">
-            <el-aside class="leftside-viewcourse" :class="mobile" width="350px" style="background-color:#545c64">
-                <navigation></navigation>
-            </el-aside>
+            <navigation></navigation>
             <load-content></load-content>
         </el-container>
         <Loader></Loader>

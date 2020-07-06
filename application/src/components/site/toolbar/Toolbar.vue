@@ -1,9 +1,9 @@
 <template>
 <div>
     <el-container>
-        <el-aside>
-            <button class="btn-ead btn-sabiorealm btn-block">Build your site</button>
+        <el-aside class="fixed-aside">
             <el-menu  class="el-menu-vertical-demo">
+                <br><br>
                 <toolbar-header></toolbar-header>
                 <toolbar-body></toolbar-body>
                 <toolbar-footer></toolbar-footer>
@@ -66,6 +66,27 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 
+.fixed-aside{
+    width:350px !important;
+    position: fixed;
+    top: 0;
+    bottom:0;
+    background: #fff;
+  
+}
+
+.fixed-aside ul{
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    z-index: 9998;
+    top:0;
+    left:0;
+    background: white;
+    width: 280px;
+   
+}
+
 .content-page.content{
     padding: 0px !important;
 }
@@ -104,9 +125,7 @@ export default {
     background-color:white !important;
 }
 
-.el-aside {
-    width: auto !important;
-}
+
 
 @media only screen and (max-width: 600px) {
     .el-aside {

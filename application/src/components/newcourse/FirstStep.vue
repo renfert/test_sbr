@@ -43,7 +43,7 @@
                         <div class="form-row">
                             <!-- Course image -->
                             <div class="form-group col-xl-6 col-md-6">
-                                <label class="col-form-label">{{lang["image"]}}</label>
+                                <label class="col-form-label">{{lang["image"]}} (1900x1200 px)</label>
                                 <upload 
                                     do-upload="true" 
                                     box-height = "200"
