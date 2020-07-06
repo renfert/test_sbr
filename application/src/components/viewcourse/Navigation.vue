@@ -1,5 +1,5 @@
 <template>
-    <el-aside  v-loading="loading" class="leftside-viewcourse" :class="mobile" width="350px" style="background-color:#545c64">
+    <el-aside  v-loading="loading" class="leftside-viewcourse" :class="mobile" width="350x" style="background-color:#545c64">
         <el-menu
             style="width:351px;"
             background-color="#545c64"
@@ -54,6 +54,7 @@ export default {
             modules: [],
             courseId: '',
             currentDate: '',
+            mobile: 'retracted',
             loading: false
         }
     },
@@ -78,10 +79,11 @@ export default {
 
         eventBus.$on("update-modules", function(){
             this.getModules(this.courseId);
-        }.bind(this))
+        }.bind(this));
 
-
-
+        eventBus.$on("change-leftbar-class", function(){
+            this.mobile == "retracted" ? this.mobile = "opened" : this.mobile = "retracted";
+        }.bind(this));
     },
     methods: {
         getCompanyLogo: function(){

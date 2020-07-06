@@ -38,30 +38,27 @@
         </div><!-- End Widgets -->
 
 
+
         <div class="row">
             <!-- Students -->
             <div class="col-12 col-md-6 mb-5">
-                <div class="card-widget" style="height:350px;">
-                    <div class="chart">
-                        <line-chart 
-                            :data="students" 
-                            />
-                    </div>
+                <div class="card-widget">
+                    <GChart
+                        type="ColumnChart"
+                        :data="chartData"
+                        :options="chartOptions"
+                    />
                 </div>
             </div>
 
             <!-- Courses -->
             <div class="col-12 col-md-6 mb-5">
-                <div class="card-widget" style="height:350px;">
-                    <div class="chart" style="margin-top:-10%;">
-                        <pie-chart 
-                            :data="courses" 
-                            pie-style="donut"
-                            :tooltip="true"
-                            :emphasis-label="false"
-                            legend
-                        />
-                    </div>
+                <div class="card-widget" >
+                    <GChart
+                        type="ColumnChart"
+                        :data="chartData"
+                        :options="chartOptions"
+                    />
                 </div>
             </div>
         </div>
@@ -83,11 +80,8 @@ import locale from 'element-ui/lib/locale'
 import {eventLang} from '@/components/helper/HelperLang'
 import domains from '@/mixins/domains'
 import alerts from '@/mixins/alerts'
-import DrVueEcharts from 'dr-vue-echarts';
-Vue.use(DrVueEcharts)
-
-
-
+import VueGoogleCharts from 'vue-google-charts'
+Vue.use(VueGoogleCharts)
 
 locale.use(lang)
 Vue.use(VueTheMask)
@@ -104,6 +98,19 @@ export default {
     mixins: [domains,alerts],
     data: () => {
         return {
+            chartData: [
+                ['Year', 'Sales', 'Expenses', 'Profit'],
+                ['2014', 1000, 400, 200],
+                ['2015', 1170, 460, 250],
+                ['2016', 660, 1120, 300],
+                ['2017', 1030, 540, 350]
+            ],
+      chartOptions: {
+        chart: {
+          title: 'Company Performance',
+          subtitle: 'Sales, Expenses, and Profit: 2014-2017',
+        }
+      },
             lang: {},
             loading: false,
             numberTotalOfUsers: '',
@@ -113,31 +120,6 @@ export default {
             activities: [],
             totalStorageAvaiable: '',
             totalStorageUsed:'',    
-            students: [
-                {
-                    name: "Students",
-                    data: []
-                },
-                {
-                    name: "Instructors",
-                    data: [],
-                },
-
-            ],
-            courses: [
-                {
-                    name: "In progress",
-                    value: 0,
-                },
-                {
-                    name: "Finalized",
-                    value: 0
-                },
-                {
-                    name: "Not initiated",
-                    value: 0
-                }
-            ]
         }
     },
     created(){

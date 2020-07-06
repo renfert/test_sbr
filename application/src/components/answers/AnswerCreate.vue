@@ -14,6 +14,7 @@
             <div class="form-row">
                 <div class="form-group col-xl-6 col-md-6">
                     <el-button  
+                        v-loading="loading"
                         class="btn-sabiorealm"
                         type="primary" 
                         native-type="submit"  

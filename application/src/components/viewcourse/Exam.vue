@@ -10,7 +10,6 @@
             :close-on-click-modal="false"
             :close-on-press-escape="false"
         >
-        
             <div slot="title" class="exam-header">
                 <vac :end-time="new Date().getTime() + time" v-if="time != ''">
                     <span
@@ -28,7 +27,7 @@
                     <br><br>
                     
                     
-                    <el-button class="btn-sabiorealm-secondary" @click.prevent="finishExam()" v-if="showFinishExamButton" native-type="submit" type="success">{{lang["finish-exam"]}}</el-button>
+                    <el-button  v-loading="loading" :disabled="loading" class="btn-sabiorealm-secondary" @click.prevent="finishExam()" v-if="showFinishExamButton" native-type="submit" type="success">{{lang["finish-exam"]}}</el-button>
                 </div>
             </div>
 
@@ -142,6 +141,7 @@ export default {
             answerImage: '',
             retest: '',
             componentKey: 0,
+            loading: false,
 
             showFinishExamButton: false
            
@@ -180,6 +180,7 @@ export default {
             this.componentKey += 1;
         },
         finishExam() {
+            this.loading = true;
             var form = document.getElementById('form-exam')
             var formData = new FormData(form)
             var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("exam", "finish");
@@ -193,7 +194,9 @@ export default {
                 eventBus.$emit("load-lesson", data);
                 this.modal = false;
                 eventBus.$emit("update-progress-bar");
+                eventBus.$emit("update-modules");
                 this.forceRerender();
+                this.loading = false;
             },
                 function(){
                     this.errorMessage();

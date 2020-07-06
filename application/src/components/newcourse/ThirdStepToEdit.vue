@@ -12,7 +12,7 @@
             </div>
         </div>
 
-        <div class="row mt-3">
+        <div class="row mt-3 ml-5 mr-5">
             <div class="col-12 col-md-3">
                 <a :href="viewCourseUrl">
                     <div class="card-box">
@@ -214,6 +214,11 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 
+.container-fluid{
+    padding-left:0px !important;
+    padding-right:0px !important;
+}
+
 .img-course{
   width:40%;
 }
@@ -262,6 +267,10 @@ export default {
 
 .text-container h1{
     text-transform:uppercase;
+}
+
+.img-container img{
+    width:inherit !important;
 }
 
 .content{

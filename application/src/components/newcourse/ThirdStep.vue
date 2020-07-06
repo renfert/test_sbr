@@ -24,7 +24,7 @@
                     </div>
                 </div>
         
-                <img  src="@/assets/img/general/ux/course_completed.png">
+                <img  src="@/assets/img/general/ux/course_completed.png"/>
             </div>
         </div>
 
@@ -282,6 +282,10 @@ export default {
 
 .text-container h1{
     text-transform:uppercase;
+}
+
+.img-container img{
+    width:inherit !important;
 }
 
 .content{

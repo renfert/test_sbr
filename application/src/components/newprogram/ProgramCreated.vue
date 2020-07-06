@@ -12,7 +12,7 @@
                 </div>
             </div>
 
-            <div class="row mt-3">
+            <div class="row mt-3 ml-5 mr-5">
                 <div class="col-12 col-md-4">
                     <a href="javascript:void(0)" @click.prevent="viewProgram()">
                         <div class="card-box">
@@ -199,6 +199,10 @@ export default {
     height:380px;
     overflow:hidden;
     margin: 0px !important;
+}
+
+.img-container img{
+    width:inherit !important;
 }
 
 

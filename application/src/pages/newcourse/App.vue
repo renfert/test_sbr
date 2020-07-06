@@ -76,6 +76,11 @@ export default {
 </script>
 
 <style scoped>
+.container-fluid{
+    padding-left:0px !important;
+    padding-right: 0px !important;
+}
+
 .form-wizard-wrapper{
     position:relative !important;
 }
