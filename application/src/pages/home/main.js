@@ -7,6 +7,7 @@ import "@/assets/fontawesome/css/all.css"
 import 'mdbvue/lib/css/mdb.min.css'
 
 
+
 new Vue({
   render: h => h(App),
 }).$mount('#app')   

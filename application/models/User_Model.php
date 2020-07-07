@@ -12,17 +12,18 @@ class User_Model extends CI_Model {
 	}
 
 	
-
+	/* ---------------------
+        Create a new user 
+    -----------------------*/
 	public function create($dataReceiveFromPost){
 		$name = $dataReceiveFromPost["name"];
 		$email = $dataReceiveFromPost["email"];
 		$password = $dataReceiveFromPost["password"];
 		$dataReceiveFromPost["role"] == 'Instructor'  ? $role = 2 : $role = 3;
-		/* 
-		=============================================
-		We need verify if user already exist and if the role ID == 1. User registration with role = 1 is not allowed!
-		============================================== 
-		*/
+		
+		/*-------------------------------
+			Verify if user already exist
+		--------------------------------*/
         $this->db->where("email", $email);
         $query = $this->db->get("myuser");
         if($query->num_rows() > 0 OR $role == 1){
@@ -44,7 +45,9 @@ class User_Model extends CI_Model {
         }
 	}
 
-
+	/* -----------------------
+        Import massively users
+    ------------------------*/
 	public function massivelyCreateUsers($excelFileWithUsers){
 		$this->load->library('excel/excel');
 		$fileTemporaryName = $excelFileWithUsers['tmp_name'];
@@ -81,7 +84,9 @@ class User_Model extends CI_Model {
 		}
 	}
 
-	
+	/* ---------------------
+        Listing all users
+    -----------------------*/
     public function listing(){
         $this->db->select("T0.id,T0.name,T0.email,T1.name as role");
 		$this->db->from("myuser T0");
@@ -94,7 +99,9 @@ class User_Model extends CI_Model {
         }
     }
 	
-	
+	/* ---------------------
+        Delete a user 
+    -----------------------*/
 	public function delete($userId){
 
 		/* Delete from relationshoip */
@@ -153,7 +160,9 @@ class User_Model extends CI_Model {
 		return true;
     }
 
-	
+	/* ---------------------
+        Get user profile
+    -----------------------*/
 	public function getUserProfile(){
 		$this->db->where("id",  getUserId() );
 		$query = $this->db->get("myuser");
@@ -164,6 +173,9 @@ class User_Model extends CI_Model {
 		}
 	}	
 
+	/* ---------------------
+        Get a specific user
+    -----------------------*/
 	public function get($userId){
 		$this->db->where("id",  $userId );
 		$query = $this->db->get("myuser");
@@ -174,6 +186,9 @@ class User_Model extends CI_Model {
 		}
 	}	
 
+	/* ---------------------
+        Get all exams from specific user 
+    -----------------------*/
 	public function getUserExams($userId){
 		$this->db->select("T0.score,T1.title as exam, T2.title as course, T1.id, T1.approval");
 		$this->db->from("lesson_status T0");
@@ -189,7 +204,10 @@ class User_Model extends CI_Model {
 	}
 
 	
-
+	
+    /* -----------------------------------------
+        Get all instructors from specific course
+    -------------------------------------------*/
 	public function getInstructors($courseId){
 		$this->db->select("T1.name,T1.description,T1.avatar");
 		$this->db->from("relationship T0");
@@ -201,6 +219,34 @@ class User_Model extends CI_Model {
 		}
 	}
 
+	/* -----------------------------------------
+        Get all students from specific instructor
+    -------------------------------------------*/
+	public function getStudents($instructorId){
+		$courses = array();
+		$instructorCourses = $this->getEnrolledCourses($instructorId);
+		foreach($instructorCourses as $row){
+			$courseId = $row->id;
+			array_push($courses, $courseId);
+		}
+
+		$this->db->select("T0.myuser_id");
+		$this->db->distinct();
+		$this->db->from("relationship T0 ");
+		$this->db->join("myuser T1", "T0.myuser_id = T1.id");
+		$this->db->where("T1.myrole_id", 3);
+		$this->db->where_in("T0.mycourse_id", $courses);
+		$query = $this->db->get();
+		if($query->num_rows() > 0){
+			return $query->result();
+		}
+	}
+
+
+
+	/* -------------------------------------------------
+        Get all courses that a specific user is enrolled 
+    --------------------------------------------------*/
 	public function getEnrolledCourses($userId){
 		$this->db->select("T1.id,T1.title");
         $this->db->distinct();
@@ -214,6 +260,9 @@ class User_Model extends CI_Model {
         }
 	}
 
+	/* -------------------------------------------------
+        Get all programs that a specific user is enrolled 
+    --------------------------------------------------*/
 	public function getEnrolledPrograms($userId){
 		$this->db->select("T1.id,T1.title");
         $this->db->distinct();
@@ -227,6 +276,9 @@ class User_Model extends CI_Model {
         }
 	}
 
+	/* ------------------------------------------------------------
+        Get all courses that a specific user is not yet enrolled in
+    -------------------------------------------------------------*/
 	public function getNotEnrolledCourses($userId){
         $this->db->select("T1.id as key,T1.title as label");
         $this->db->distinct();
@@ -241,6 +293,9 @@ class User_Model extends CI_Model {
         }
 	}
 
+	/* ------------------------------------------------------------
+        Get all programs that a specific user is not yet enrolled in
+    -------------------------------------------------------------*/
 	public function getNotEnrolledPrograms($userId){
         $this->db->select("T1.id as key,T1.title as label");
         $this->db->distinct();
@@ -260,12 +315,19 @@ class User_Model extends CI_Model {
         }
 	}
 
+	/* ------------------------------------------------------------
+        Enroll a specific user into a multiple courses
+    -------------------------------------------------------------*/
 	public function enrollUserIntoPrograms($userId,$programs){
 		foreach($programs as $programId){
             $this->Program_Model->enrollUserIntoProgram($programId,$userId);
         }
-	}
+	}	
 
+
+	/* ------------------------------------------------------------
+       Get a user role from database
+    -------------------------------------------------------------*/
 	public function getUserRole($userId){
 		$this->db->select("myrole_id");
 		$this->db->from("myuser");
@@ -276,6 +338,9 @@ class User_Model extends CI_Model {
 		}
 	}
 
+	/* ------------------------------------------------------------
+        Edit user profile
+    -------------------------------------------------------------*/
 	public function editProfile($userId, $data){
 		$this->db->where("id", $userId);
 		if($this->db->update("myuser", $data)){

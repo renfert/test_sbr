@@ -48,7 +48,6 @@
                 </div>
             </div>
         </div> <!-- End of content page -->
-        <Loader></Loader>
     </div> <!-- End of wrapper -->
 </template>
 
@@ -74,7 +73,6 @@ import domains from '@/mixins/domains'
 import alerts from '@/mixins/alerts'
 import headerTags from '@/mixins/headerTags'
 import integrations from '@/mixins/integrations'
-import Loader from '@/components/template/TheLoader.vue'
 
 
 export const eventBus = new Vue();
@@ -126,7 +124,6 @@ export default {
         Students,
         Instructors,
         Programs,
-        Loader
     },
 
     mounted() {

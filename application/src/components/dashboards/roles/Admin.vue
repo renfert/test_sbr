@@ -45,8 +45,8 @@
                 <div class="card-widget">
                     <GChart
                         type="ColumnChart"
-                        :data="chartData"
-                        :options="chartOptions"
+                        :data="usersData"
+                        :options="usersChartOptions"
                     />
                 </div>
             </div>
@@ -55,9 +55,9 @@
             <div class="col-12 col-md-6 mb-5">
                 <div class="card-widget" >
                     <GChart
-                        type="ColumnChart"
-                        :data="chartData"
-                        :options="chartOptions"
+                        type="PieChart"
+                        :data="coursesData"
+                        :options="coursesChartOptions"
                     />
                 </div>
             </div>
@@ -98,19 +98,16 @@ export default {
     mixins: [domains,alerts],
     data: () => {
         return {
-            chartData: [
-                ['Year', 'Sales', 'Expenses', 'Profit'],
-                ['2014', 1000, 400, 200],
-                ['2015', 1170, 460, 250],
-                ['2016', 660, 1120, 300],
-                ['2017', 1030, 540, 350]
-            ],
-      chartOptions: {
-        chart: {
-          title: 'Company Performance',
-          subtitle: 'Sales, Expenses, and Profit: 2014-2017',
-        }
-      },
+            usersData: [],
+            coursesData: [],
+            usersChartOptions: {
+                title:'New users',
+                colors: ['#00A9B4', '#29277F']
+            },
+            coursesChartOptions: {
+                title:'Courses',
+                colors: ['#00A9B4', '#29277F', "#6959CD"]
+            },
             lang: {},
             loading: false,
             numberTotalOfUsers: '',
@@ -133,27 +130,15 @@ export default {
         this.getTotalNumberOfUsers();
         this.getTotalNumberOfCourses();
         this.getStorage();
-        this.getRegisteredStuentsPerMonth();
-        this.getRegisteredInstructorsPerMonth();
+        this.getRegisteredUsersPerMonth();
         this.getCourses();
         this.listActivities();
     },
     methods: {
-        getRegisteredStuentsPerMonth: function(){
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("chart", "getRegisteredStuentsPerMonth");
+        getRegisteredUsersPerMonth: function(){
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("chart", "getRegisteredUsersPerMonth");
             axios.get(urlToBeUsedInTheRequest).then((response) => {
-                this.students[0].data = response.data;
-            },
-                /* Error callback */
-                function (){
-                   this.errorMessage();
-                }.bind(this)
-            );
-        },
-        getRegisteredInstructorsPerMonth: function(){
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("chart","getRegisteredInstructorsPerMonth");
-            axios.get(urlToBeUsedInTheRequest).then((response) => {
-                this.students[1].data = response.data;
+                this.usersData = response.data;
             },
                 /* Error callback */
                 function (){
@@ -162,21 +147,9 @@ export default {
             );
         },
         getCourses: function(){
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("chart","getAdminCourses");
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("chart","getCourses");
             axios.get(urlToBeUsedInTheRequest).then((response) => {
-                for (let index = 0; index < response.data.length; index++) {
-                    var status = response.data[index]["status"];
-                    var total = response.data[index]["total"];
-                    if(status == "in_progress"){
-                        this.courses[0].value = total;
-                    }
-                    if(status == "finished"){
-                        this.courses[1].value = total;
-                    }
-                    if(status == null){
-                        this.courses[2].value = total;
-                    }
-                }
+                this.coursesData = response.data;
             },
                 /* Error callback */
                 function (){
@@ -187,7 +160,7 @@ export default {
         getTotalNumberOfUsers: function(){
             var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("widgets", "getTotalNumberOfUsers");
             axios.get(urlToBeUsedInTheRequest).then((response) => {
-                this.numberTotalOfUsers = response.data["total"];
+                this.numberTotalOfUsers = response.data;
             },
                 /* Error callback */
                 function (){
@@ -198,7 +171,7 @@ export default {
         getTotalNumberOfCourses: function(){
             var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("widgets", "getTotalNumberOfCourses");
             axios.get(urlToBeUsedInTheRequest).then((response) => {
-                this.numberTotalOfCourses = response.data["total"];
+                this.numberTotalOfCourses = response.data;
             },
                 /* Error callback */
                 function (){

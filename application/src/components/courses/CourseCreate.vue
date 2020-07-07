@@ -19,7 +19,7 @@
                     <div class="text-courses">
                         <h4>{{lang["no-results-course-title"]}}</h4>
                         <br>
-                        <a href="newcourse" class="btn-ead btn-sabiorealm">{{lang["new-course-button"]}}</a>
+                        <a href="newcourse" class="sbr-btn sbr-primary">{{lang["new-course-button"]}}</a>
                     </div>
                 </div>
 
@@ -27,7 +27,7 @@
                     <div class="text-courses">
                         <h3>{{lang["courses-already-created"]}} <b class="text-sabiorealm">{{numberTotalOfCoursesCreated}}</b></h3>
                         <br>
-                        <a href="newcourse" class="btn-ead btn-sabiorealm">{{lang["new-course-button"]}}</a>
+                        <a href="newcourse" class="sbr-btn sbr-primary">{{lang["new-course-button"]}}</a>
                     </div>
                 </div>
                 <el-divider style="height:auto;" direction="vertical"></el-divider>
@@ -118,7 +118,7 @@ export default {
 
 
 .text-courses{
-    margin-top:20%;
+    margin-top:15%;
 }
 
 .el-divider--vertical{

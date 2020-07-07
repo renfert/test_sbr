@@ -10,24 +10,22 @@ class Chart extends CI_Controller {
     }
 
 
-	public function getRegisteredStuentsPerMonth(){
-        $chart = $this->Chart_Model->getRegisteredStuentsPerMonth();
+	public function getRegisteredUsersPerMonth(){
+        $chart = $this->Chart_Model->getRegisteredUsersPerMonth();
         echo json_encode($chart);
     }
 
-    public function getRegisteredInstructorsPerMonth(){
-        $chart = $this->Chart_Model->getRegisteredInstructorsPerMonth();
-        echo json_encode($chart);
-    }
 
-    public function getAdminCourses(){
-        $chart = $this->Chart_Model->getAdminCourses();
+
+    public function getCourses(){
+        $chart = $this->Chart_Model->getCourses();
         echo json_encode($chart); 
     }
 
+
     public function getStudentCourses(){
-        $userId = $this->input->post("userId");
-        $chart = $this->Chart_Model->getStudentCourses($userId);
+        $studentId = $this->input->post("studentId");
+        $chart = $this->Chart_Model->getStudentCourses($studentId);
         echo json_encode($chart); 
     }
 

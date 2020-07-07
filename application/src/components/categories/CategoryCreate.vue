@@ -17,7 +17,7 @@
                   <div class="form-group">
                     <el-button 
                       v-loading="loadingButton"
-                      class="btn-sabiorealm" 
+                      class="sbr-btn sbr-primary" 
                       native-type="submit" 
                       type="primary">
                       {{lang["save-button"]}}

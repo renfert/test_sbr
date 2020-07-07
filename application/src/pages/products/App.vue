@@ -25,7 +25,6 @@
                 </div>
             </div>
         </div>
-        <Loader></Loader>
     </div> <!-- End of wrapper -->
 </template>
 
@@ -43,7 +42,6 @@ import NavBar from '@/components/template/TheNavBar'
 import ProductsList from '@/components/products/ProductsList'
 import headerTags from '@/mixins/headerTags'
 import integrations from '@/mixins/integrations'
-import Loader from '@/components/template/TheLoader.vue'
 export const eventBus = new Vue();
 
 Vue.use(VueAxios, axios)
@@ -61,7 +59,6 @@ export default {
         Lang,
         NavBar,
         ProductsList,
-        Loader
     },
     created(){
         this.loadIntegrations();

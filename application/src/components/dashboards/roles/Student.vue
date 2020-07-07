@@ -1,20 +1,19 @@
 <template>
     <div class="main"  v-loading="loading">
         <lang></lang> 
-        <div class="row">
+        <div class="row mb-5">
             <!-- Courses -->
             <div class="col-12 col-md-12">
-                <div class="card-box">
-                    <div class="chart">
-                        <label>Courses</label>
-                        <pie-chart 
-                            label-position="center"
-                            legend 
-                            :data="courses"/>
-                    </div>
+                <div class="card-widget" >
+                    <GChart
+                        type="PieChart"
+                        :data="coursesData"
+                        :options="coursesChartOptions"
+                    />
                 </div>
             </div>
         </div>    
+        <user-activities v-if="userId != 0" :user-id="userId"></user-activities>
     </div> 
 </template>
 
@@ -31,10 +30,9 @@ import locale from 'element-ui/lib/locale'
 import {eventLang} from '@/components/helper/HelperLang'
 import domains from '@/mixins/domains'
 import alerts from '@/mixins/alerts'
-import DrVueEcharts from 'dr-vue-echarts';
-Vue.use(DrVueEcharts)
-
-
+import VueGoogleCharts from 'vue-google-charts'
+import UserActivities from '@/components/activity/UserActivities.vue'
+Vue.use(VueGoogleCharts)
 
 
 locale.use(lang)
@@ -47,82 +45,36 @@ Vue.use(ElementUI)
 export default {
     components: {
         Lang,
+        UserActivities
     },
     mixins: [domains,alerts],
     data: () => {
         return {
             lang: {},
+            userId: 0,
             loading: false,
-            colors: ['#c3c3c3', '#c7c7c6'],
-            students: [
-                {
-                    name: "Students",
-                    data: [
-                        {
-                        label: "Jan",
-                        value: 3
-                        },
-                        {
-                        label: "Fev",
-                        value: 15
-                        },
-                        {
-                        label: "Mar",
-                        value: 23
-                        },
-                        {
-                        label: "Abr",
-                        value: 58
-                        }
-                    ]
-                }
-            ],
-            sales: [
-                {
-                name: "Sales U$",
-                data: []
-                }
-            ],
-            storage: [
-                {
-                name: 'Total',
-                value: 30,
-                },
-                {
-                name: 'Used',
-                value: 15,
-                },
-            ],
-            courses: [
-                {
-                    name: 'Not started',
-                    value: 3,
-                },
-                {
-                    name: 'In progress',
-                    value: 5,
-                },
-                {
-                    name: 'Finished',
-                    value: 15,
-                },
-            ],
+            coursesData: [],
+            coursesChartOptions: {
+                title:'Courses',
+                colors: ['#00A9B4', '#29277F', "#6959CD"]
+            },
         }
+    },
+    created() {
+        this.getUserProfile();
     },
     mounted(){
         eventLang.$on('lang', function(response){  
             this.lang = response;
         }.bind(this));
-
-        this.getStudentsChart();
-        this.getSalesChart();
     },
     methods: {
-        getStudentsChart: function(){
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("chart", "getStudentsChart");
-            axios.get(urlToBeUsedInTheRequest).then((response) => {
-                //this.students = response.data;
-                this.students[0].data = response.data;
+        getCourses: function(studentId){
+            var formData = new FormData();
+            formData.set("studentId", studentId);
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("chart","getStudentCourses");
+            axios.post(urlToBeUsedInTheRequest, formData).then((response) => {
+                this.coursesData = response.data;
             },
                 /* Error callback */
                 function (){
@@ -130,11 +82,11 @@ export default {
                 }.bind(this)
             );
         },
-        getSalesChart: function(){
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("chart", "getSalesChart");
+        getUserProfile: function(){
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("user","getUserProfile");
             axios.get(urlToBeUsedInTheRequest).then((response) => {
-                //this.students = response.data;
-                this.sales[0].data = response.data;
+                this.userId = response.data["id"];
+                this.getCourses(response.data["id"]);
             },
                 /* Error callback */
                 function (){

@@ -36,10 +36,8 @@
                         <template slot-scope="scope">
                             <!-- Edit category -->
                             <el-button 
-                                class="btn-sabiorealm"
-                                type="primary" 
+                                class="sbr-btn sbr-primary"
                                 @click="openModalToEditCategory(scope.row.id,scope.row.name)" 
-                                size="medium" 
                                 icon="el-icon-edit" 
                                 circle>
                             </el-button>
@@ -53,10 +51,8 @@
                             @onConfirm="deleteCategory(scope.row.id)"
                             >
                             <el-button  
-                                class="btn-sabiorealm-danger"
-                                slot="reference" 
-                                type="danger"  
-                                size="medium" 
+                                class="sbr-btn sbr-danger"
+                                slot="reference"  
                                 icon="el-icon-delete" 
                                 circle></el-button>
                             </el-popconfirm>

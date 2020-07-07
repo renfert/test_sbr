@@ -39,7 +39,6 @@
                 </div>
             </div>
         </div> <!-- End of content page -->
-        <Loader></Loader>
     </div> <!-- End of wrapper -->
 </template>
 
@@ -57,7 +56,6 @@ import GoogleTagManager from '@/components/integrations/GoogleTagManager'
 import GoogleAnalytics from '@/components/integrations/GoogleAnalytics'
 import MercadoPago from '@/components/integrations/MercadoPago'
 import FacebookPixel from '@/components/integrations/FacebookPixel'
-import Loader from '@/components/template/TheLoader.vue'
 
 
 locale.use(lang)
@@ -108,7 +106,6 @@ export default {
         GoogleAnalytics,
         MercadoPago,
         FacebookPixel,
-        Loader
     },
     mounted() {
         eventLang.$on('lang', function(response){

@@ -2,30 +2,43 @@
     <div class="main"  v-loading="loading">
         <lang></lang> 
         <div class="row">
-            <!-- Students -->
-            <div class="col-12 col-md-12">
-                <div class="card-box">
-                    <div class="chart">
-                        <line-chart :data="students" smooth  />
+            <div class="col-12 col-md-6 mb-5">
+                <a href="courses">
+                    <div class="card-widget">
+                        <div class="title-widget text-center">
+                            <img src="@/assets/img/general/ux/view_course.png" alt="">
+                            <h3 class="text-sabiorealm">{{lang["courses"]}}: <b>{{numberTotalOfCourses}}</b></h3>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
-        </div>
+             <div class="col-12 col-md-6 mb-5">
+                <a href="javascript:void(0)">
+                    <div class="card-widget">
+                        <div class="title-widget text-center">
+                            <img src="@/assets/img/general/ux/join_persons.png" alt="">
+                            <h3 class="text-sabiorealm">{{lang["students"]}}: <b>{{numberTotalOfStudents}}</b></h3>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div><!-- End Widgets -->
+
+
 
         <div class="row">
             <!-- Courses -->
-            <div class="col-12 col-md-12">
-                <div class="card-box">
-                    <div class="chart">
-                        <label>Courses</label>
-                        <pie-chart 
-                            label-position="center"
-                            legend 
-                            :data="courses"/>
-                    </div>
+            <div class="col-12 col-md-12 mb-5">
+                <div class="card-widget" >
+                    <GChart
+                        type="PieChart"
+                        :data="coursesData"
+                        :options="coursesChartOptions"
+                    />
                 </div>
             </div>
-        </div>    
+        </div>
+        <Activities></Activities>
     </div> 
 </template>
 
@@ -35,6 +48,7 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import VueTheMask from 'vue-the-mask'
 import ElementUI from 'element-ui'
+import Activities from '@/components/activity/Activities.vue'
 import Lang from '@/components/helper/HelperLang.vue'
 import 'element-ui/lib/theme-chalk/index.css'
 import lang from 'element-ui/lib/locale/lang/en'
@@ -42,10 +56,8 @@ import locale from 'element-ui/lib/locale'
 import {eventLang} from '@/components/helper/HelperLang'
 import domains from '@/mixins/domains'
 import alerts from '@/mixins/alerts'
-import DrVueEcharts from 'dr-vue-echarts';
-Vue.use(DrVueEcharts)
-
-
+import VueGoogleCharts from 'vue-google-charts'
+Vue.use(VueGoogleCharts)
 
 
 locale.use(lang)
@@ -58,66 +70,21 @@ Vue.use(ElementUI)
 export default {
     components: {
         Lang,
+        Activities
     },
     mixins: [domains,alerts],
     data: () => {
         return {
+            coursesData: [],
+            coursesChartOptions: {
+                title:'Courses',
+                colors: ['#00A9B4', '#29277F', "#6959CD"]
+            },
             lang: {},
             loading: false,
-            colors: ['#c3c3c3', '#c7c7c6'],
-            students: [
-                {
-                    name: "Students",
-                    data: [
-                        {
-                        label: "Jan",
-                        value: 3
-                        },
-                        {
-                        label: "Fev",
-                        value: 15
-                        },
-                        {
-                        label: "Mar",
-                        value: 23
-                        },
-                        {
-                        label: "Abr",
-                        value: 58
-                        }
-                    ]
-                }
-            ],
-            sales: [
-                {
-                name: "Sales U$",
-                data: []
-                }
-            ],
-            storage: [
-                {
-                name: 'Total',
-                value: 30,
-                },
-                {
-                name: 'Used',
-                value: 15,
-                },
-            ],
-            courses: [
-                {
-                    name: 'Not started',
-                    value: 3,
-                },
-                {
-                    name: 'In progress',
-                    value: 5,
-                },
-                {
-                    name: 'Finished',
-                    value: 15,
-                },
-            ],
+            numberTotalOfStudents: 0,
+            numberTotalOfCourses: '',
+            activities: [],   
         }
     },
     mounted(){
@@ -125,15 +92,16 @@ export default {
             this.lang = response;
         }.bind(this));
 
-        this.getStudentsChart();
-        this.getSalesChart();
+        this.getTotalNumberOfStudents();
+        this.getTotalNumberOfCourses();
+        this.getCourses();
+        this.listActivities();
     },
     methods: {
-        getStudentsChart: function(){
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("chart", "getStudentsChart");
+        getCourses: function(){
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("chart","getCourses");
             axios.get(urlToBeUsedInTheRequest).then((response) => {
-                //this.students = response.data;
-                this.students[0].data = response.data;
+                this.coursesData = response.data;
             },
                 /* Error callback */
                 function (){
@@ -141,18 +109,39 @@ export default {
                 }.bind(this)
             );
         },
-        getSalesChart: function(){
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("chart", "getSalesChart");
+        getTotalNumberOfStudents: function(){
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("widgets", "getTotalNumberOfStudents");
             axios.get(urlToBeUsedInTheRequest).then((response) => {
-                //this.students = response.data;
-                this.sales[0].data = response.data;
+                this.numberTotalOfStudents = response.data;
             },
                 /* Error callback */
                 function (){
                    this.errorMessage();
                 }.bind(this)
             );
-        }
+        },
+        getTotalNumberOfCourses: function(){
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("widgets", "getTotalNumberOfCourses");
+            axios.get(urlToBeUsedInTheRequest).then((response) => {
+                this.numberTotalOfCourses = response.data;
+            },
+                /* Error callback */
+                function (){
+                   this.errorMessage();
+                }.bind(this)
+            );
+        },
+        listActivities: function(){
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("activity", "listingStudentsActivities");
+            axios.get(urlToBeUsedInTheRequest).then((response) => {
+                this.activities = response.data
+            },
+                /* Error callback */
+                function (){
+                   this.errorMessage();
+                }.bind(this)
+            );
+        },
     }
 }
 </script>

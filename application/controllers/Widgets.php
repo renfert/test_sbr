@@ -16,6 +16,11 @@ class Widgets extends CI_Controller {
         echo json_encode($result);
     }
 
+    public function gettotalNumberOfStudents(){
+        $result = $this->Widgets_Model->gettotalNumberOfStudents();
+        echo json_encode($result);
+    }
+
     public function getTotalNumberOfCourses(){   
         $result = $this->Widgets_Model->getTotalNumberOfCourses();
         echo json_encode($result);

@@ -1,17 +1,16 @@
 <template>
     <div>
         <lang></lang>
-            <site-preview :full-screen-button="false"></site-preview>
+        <site-preview :full-screen-button="false"></site-preview>
         <login></login>
-        <Loader></Loader>
     </div> <!-- End of wrapper -->
 </template>
 
 <script>
+import Vue from 'vue'
 import Lang from '@/components/helper/HelperLang'
 import SitePreview from '@/components/site/SitePreview'
 import Login from '@/components/login/Login'
-import Vue from 'vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import VueHead from 'vue-head'
@@ -19,7 +18,6 @@ import domains from '@/mixins/domains'
 import alerts from '@/mixins/alerts'
 import headerTags from '@/mixins/headerTags'
 import integrations from '@/mixins/integrations'
-import Loader from '@/components/template/TheLoader.vue'
 
 export const eventBus = new Vue();
 Vue.use(VueAxios, axios)
@@ -29,8 +27,7 @@ export default {
     components: { 
         Lang,
         SitePreview,
-        Login,
-        Loader
+        Login
     },
     created(){
         eventBus.$on("full-screen", function(){

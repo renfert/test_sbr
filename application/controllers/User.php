@@ -12,9 +12,16 @@ class User extends CI_Controller {
         $this->load->model('Verify_Model');
     }
 
-    
+    /* ---------------------
+        Create a new user 
+    -----------------------*/
 	public function create(){
         
+        /*-------------------
+            verifyUserCreate method will check 
+            within the customer plan if there are users 
+            available for registration
+        -------------------*/
         if($this->Verify_Model->verifyUserCreate($this->input->post("role"))){
             $dataReceiveFromPost = array(
                 'name' => applySecurityFunctions($this->input->post("name")),
@@ -31,7 +38,10 @@ class User extends CI_Controller {
         }
     }
 
-   
+    
+    /* ---------------------
+        Delete a user 
+    -----------------------*/
     public function delete(){
         $userId = $this->input->post("id");
         $resultUserDelete = $this->User_Model->delete($userId);
@@ -39,6 +49,9 @@ class User extends CI_Controller {
     }
     
 
+    /* -----------------------
+        Import massively users
+    ------------------------*/
 	public function massivelyCreateUsers(){
         if(isset($_FILES['file'])){
             $excelFileWithUsers = $_FILES['file'];
@@ -49,17 +62,28 @@ class User extends CI_Controller {
     }
 
     
+    /* ---------------------
+        Listing all users
+    -----------------------*/
     public function listing(){
         $userList = $this->User_Model->listing();
         echo json_encode($userList);
     }
 
+    
+    /* ---------------------
+        Get a specific user
+    -----------------------*/
     public function get(){
         $userId = $this->input->post("userId");
         $result = $this->User_Model->get($userId);
         echo json_encode($result);
     }
 
+
+    /* ---------------------
+        Get all exams from specific user 
+    -----------------------*/
     public function getUserExams(){
         $userId = $this->input->post("userId");
         $result = $this->User_Model->getUserExams($userId);
@@ -67,41 +91,70 @@ class User extends CI_Controller {
     }
 
     
+
+    /* ---------------------
+        Get user profile
+    -----------------------*/
 	public function getUserProfile(){
         $result = $this->User_Model->getUserProfile();
         echo json_encode($result);
     }
 
+
+    /* -----------------------------------------
+        Get all instructors from specific course
+    -------------------------------------------*/
     public function getInstructors(){
         $courseId = $this->input->post("courseId");
         $result = $this->User_Model->getInstructors($courseId);
         echo json_encode($result);
-    }
+    }  
+    
 
+    /* -------------------------------------------------
+        Get all courses that a specific user is enrolled 
+    --------------------------------------------------*/
     public function getEnrolledCourses(){
         $userId = $this->input->post("userId");
         $result = $this->User_Model->getEnrolledCourses($userId);
         echo json_encode($result);
     }
 
+
+   
+    /* -------------------------------------------------
+        Get all programs that a specific user is enrolled 
+    --------------------------------------------------*/
     public function getEnrolledPrograms(){
         $userId = $this->input->post("userId");
         $result = $this->User_Model->getEnrolledPrograms($userId);
         echo json_encode($result);
     }
 
+
+    /* ------------------------------------------------------------
+        Get all courses that a specific user is not yet enrolled in
+    -------------------------------------------------------------*/
     public function getNotEnrolledCourses(){
         $userId = $this->input->post("userId");
         $result = $this->User_Model->getNotEnrolledCourses($userId);
         echo json_encode($result);
     }
 
+    
+    /* ------------------------------------------------------------
+        Get all programs that a specific user is not yet enrolled in
+    -------------------------------------------------------------*/
     public function getNotEnrolledPrograms(){
         $userId = $this->input->post("userId");
         $result = $this->User_Model->getNotEnrolledPrograms($userId);
         echo json_encode($result);
     }
 
+
+    /* ------------------------------------------------------------
+        Enroll a specific user into a multiple courses
+    -------------------------------------------------------------*/
     public function enrollUserIntoCourses(){
         $userId = $this->input->post("userId");
         $courses = $this->input->post("courses");
@@ -109,6 +162,10 @@ class User extends CI_Controller {
         $result = $this->User_Model->enrollUserIntoCourses($userId,$arrayCourses);
     }
 
+
+    /* ------------------------------------------------------------
+        Enroll a specific user into a multiple programs
+    -------------------------------------------------------------*/
     public function enrollUserIntoPrograms(){
         $userId = $this->input->post("userId");
         $programs = $this->input->post("programs");
@@ -116,6 +173,9 @@ class User extends CI_Controller {
         $result = $this->User_Model->enrollUserIntoPrograms($userId,$arrayPrograms);
     }
 
+    /* ------------------------------------------------------------
+        Remove user from course
+    -------------------------------------------------------------*/
     public function removeCourseFromUser(){
         $userId = $this->input->post("userId");
         $courseId = $this->input->post("courseId");
@@ -123,6 +183,9 @@ class User extends CI_Controller {
         echo json_encode($result);
     }
 
+    /* ------------------------------------------------------------
+        Remove user from program
+    -------------------------------------------------------------*/
     public function removeProgramFromUser(){
         $userId = $this->input->post("userId");
         $courseId = $this->input->post("programId");
@@ -130,6 +193,9 @@ class User extends CI_Controller {
         echo json_encode($result);
     }
 
+    /* ------------------------------------------------------------
+        Edit user profile
+    -------------------------------------------------------------*/
     public function editProfile(){
         if($this->input->post("password")){
             $data = array(
@@ -151,7 +217,9 @@ class User extends CI_Controller {
         
     }
 
-   
+    /* ------------------------------------------------------------
+        Logoff
+    -------------------------------------------------------------*/
 	public function logoff(){
         $logoff = $this->User_Model->logoff();
         echo json_encode($logoff);

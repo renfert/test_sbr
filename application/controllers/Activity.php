@@ -30,6 +30,11 @@ class Activity extends CI_Controller {
         echo json_encode($result);
     }
 
+    public function listingStudentsActivities(){
+        $result = $this->Activity_Model->listingStudentsActivities();
+        echo json_encode($result);
+    }
+
     public function listingUserActivities(){
         $userId = $this->input->post("userId");
         $result = $this->Activity_Model->listingUserActivities($userId);

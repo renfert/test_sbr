@@ -6,7 +6,6 @@
             <navigation></navigation>
             <load-content></load-content>
         </el-container>
-        <Loader></Loader>
     </div> <!-- End of wrapper -->
 </template>
 
@@ -26,7 +25,6 @@ import 'element-ui/lib/theme-chalk/index.css'
 import lang from 'element-ui/lib/locale/lang/en'
 import locale from 'element-ui/lib/locale'
 import headerTags from '@/mixins/headerTags'
-import Loader from '@/components/template/TheLoader.vue'
 import integrations from '@/mixins/integrations'
 export const eventBus = new Vue();
 
@@ -41,7 +39,6 @@ export default {
         Navigation,
         Topbar,
         LoadContent,
-        Loader
     },
     data: function() {
         return {

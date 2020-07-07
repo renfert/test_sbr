@@ -10,6 +10,8 @@
         >
         </facebook-loader>
 
+        
+
         <div v-else>
             <div class="row" style="background-color:#F3F6F6;">
                 <div class="img-container">
@@ -33,13 +35,14 @@
                 <div class="row">
                     <div class="col-12 col-md-6 mb-5">
                         <div class="card-widget" style="height:350px;">
-                            <div class="chart">
-                                <BarChart  
-                                rainbow 
-                                title="Courses"
-                                :data="data" 
-                                smooth  />
-                            </div>
+                           
+                                <GChart
+                                    class="mt-5"
+                                    type="PieChart"
+                                    :data="coursesData"
+                                    :options="coursesChartOptions"
+                                />
+                            
                         </div>
                     </div>
                     <div class="col-12 col-md-6 mb-5">
@@ -116,8 +119,8 @@ import domains from '@/mixins/domains'
 import alerts from '@/mixins/alerts'
 import UserActivities from '@/components/activity/UserActivities'
 import { FacebookLoader } from 'vue-content-loader';
-import DrVueEcharts from 'dr-vue-echarts';
-Vue.use(DrVueEcharts)
+import VueGoogleCharts from 'vue-google-charts'
+Vue.use(VueGoogleCharts)
 
 
 locale.use(lang)
@@ -141,26 +144,12 @@ export default {
             userAvatar: '',
             role: '',
             exams:[],
+            coursesData: [],
+            coursesChartOptions: {
+                title:'Courses',
+                colors: ['#00A9B4', '#29277F', "#6959CD"]
+            },
             loadingContent: false,
-            data: [
-                {
-                name: "Courses",
-                    data: [
-                        {
-                            label: "In progress",
-                            value: 0
-                        },
-                        {
-                            label: "Finalized",
-                            value: 0
-                        },
-                        {
-                            label: "Not initiated",
-                            value: 0
-                        }
-                    ]
-                }
-            ]
         }
     },
     mounted(){
@@ -168,7 +157,7 @@ export default {
             this.lang = response;
         }.bind(this));
 
-        this.getCourses();
+        this.getCourses(this.userId);
         this.getUser();
         this.getUserExams();
     },
@@ -206,24 +195,12 @@ export default {
                 }.bind(this)
             );
         }, 
-        getCourses: function(){
+        getCourses: function(studentId){
             var formData = new FormData();
-            formData.set("userId", this.userId);
+            formData.set("studentId", studentId);
             var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("chart","getStudentCourses");
             axios.post(urlToBeUsedInTheRequest, formData).then((response) => {
-                for (let index = 0; index < response.data.length; index++) {
-                    var status = response.data[index]["status"];
-                    var total = response.data[index]["total"];
-                    if(status == "in_progress"){
-                        this.data[0]["data"][0].value = total;
-                    }
-                    if(status == "finished"){
-                       this.data[0]["data"][1].value = total;
-                    }
-                    if(status == null){
-                        this.data[0]["data"][2].value = total;
-                    }
-                }
+                this.coursesData = response.data;
             },
                 /* Error callback */
                 function (){

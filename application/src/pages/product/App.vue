@@ -29,7 +29,6 @@
                 </div>
             </div>
         </div>
-        <Loader></Loader>
     </div> <!-- End of wrapper -->
 </template>
 
@@ -48,7 +47,6 @@ import CourseDetails from '@/components/product/CourseDetails'
 import RightWidget from '@/components/product/RightWidget'
 import headerTags from '@/mixins/headerTags'
 import integrations from '@/mixins/integrations'
-import Loader from '@/components/template/TheLoader.vue'
 export const eventBus = new Vue();
 
 
@@ -69,7 +67,6 @@ export default {
         NavBar,
         CourseDetails,
         RightWidget,
-        Loader
     },
     created(){
         var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("settings", "getSettingsInformation")

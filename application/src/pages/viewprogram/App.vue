@@ -16,7 +16,6 @@
                 </div>
             </div>
         </div> <!-- End of content page -->
-        <Loader></Loader>
     </div> <!-- End of wrapper -->
 </template>
 
@@ -34,7 +33,6 @@ import alerts from '@/mixins/alerts'
 import ViewProgram from '@/components/viewprogram/Viewprogram'
 import headerTags from '@/mixins/headerTags'
 import integrations from '@/mixins/integrations'
-import Loader from '@/components/template/TheLoader.vue'
 export const eventBus = new Vue();
 
 
@@ -48,7 +46,6 @@ export default {
         LeftBar,
         Lang,
         ViewProgram,
-        Loader
     },
     data: function() {
         return {

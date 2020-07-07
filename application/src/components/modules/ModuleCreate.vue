@@ -42,7 +42,7 @@
           </div>
           <div class="form-row">
               <div class="form-group col-xl-6 col-md-6">
-                   <el-button class="btn-sabiorealm" native-type="submit"  type="primary"  size="medium">{{lang["save-button"]}}</el-button> 
+                   <el-button class="sbr-btn sbr-primary" native-type="submit"  type="primary"  size="medium">{{lang["save-button"]}}</el-button> 
               </div>
           </div>
         </form>  

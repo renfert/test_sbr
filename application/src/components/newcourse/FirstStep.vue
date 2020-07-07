@@ -27,7 +27,7 @@
                                 <br><br>
 
                                 <!-- Advanced configurations button -->
-                                <el-button class="btn-sabiorealm"  @click.prevent="modal = true" native-type="submit"  type="primary"  size="medium">{{lang["advanced-settings"]}} <i class="el-icon-setting"></i> </el-button>
+                                <el-button class="sbr-btn sbr-primary"  @click.prevent="modal = true" native-type="submit">{{lang["advanced-settings"]}} </el-button>
         
                             </div>
                             
@@ -173,7 +173,7 @@
                 </div>
             </div>
 
-            <el-button class="btn-sabiorealm mt-5" @click.prevent="modal = false"  type="primary"  size="medium">{{lang["save-button"]}}</el-button>
+            <el-button class="sbr-btn sbr-primary mt-5" @click.prevent="modal = false"  type="primary"  size="medium">{{lang["save-button"]}}</el-button>
         </el-dialog>
     </form>
     <helper-progress></helper-progress>

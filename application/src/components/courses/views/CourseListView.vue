@@ -50,7 +50,7 @@
                         
                         <el-divider v-if="roleId != 3"><i class="el-icon-more-outline"></i></el-divider>
                         <el-row v-if="roleId != 3">
-                            <el-button class="btn-sabiorealm" @click.prevent="editCourse(element.id)" type="primary" icon="el-icon-edit" circle></el-button>
+                            <el-button class="sbr-btn sbr-primary" @click.prevent="editCourse(element.id)" type="primary" icon="el-icon-edit" circle></el-button>
                             <template>
                                 <el-popconfirm
                                     confirmButtonText='Ok'
@@ -59,7 +59,7 @@
                                     :title="lang['question-delete-course'] + element.title  + '?'"
                                     @onConfirm="deleteCourse(element.id)"
                                 >
-                                <el-button class="btn-sabiorealm-danger" slot="reference" type="danger" icon="el-icon-delete" circle></el-button>
+                                <el-button slot="reference" class="sbr-btn sbr-danger" icon="el-icon-delete" circle></el-button>
                                 </el-popconfirm>
                             </template>
                         </el-row>

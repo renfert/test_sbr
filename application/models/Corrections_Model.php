@@ -5,12 +5,12 @@ class Corrections_Model extends CI_Model {
 
 	public function __construct(){
         parent::__construct();
-        $this->load->model('Instructors_Model');
+        $this->load->model('User_Model');
     }
     
     
     public function listing($instructorId){
-        $courses = $this->Instructors_Model->getInstructorCourses(getUserId());
+        $courses = $this->User_Model->getEnrolledCourses(getUserId());
         $coursesArray = array();
         foreach($courses as $row){
             $courseId = $row->mycourse_id;  

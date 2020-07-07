@@ -7098,20 +7098,20 @@ input[type=radio]:checked.mxn + label {
 }
 
 .btn-ead-md {
-  margin: .8rem 0px;
-  font-size: 12px;
-  min-width: 64px;
-  padding: 0.5rem 2rem;
-  text-transform: uppercase;
-  border-radius: 4px;
-  letter-spacing: 0.05857em;
-  font-family: 'Lato', sans-serif;
-  background: transparent;
-  position: relative;
-  border: 1px solid;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  cursor: pointer;
-  outline: none;
+  margin: .8rem 0px !important;
+  font-size: 12px !important;
+  min-width: 64px !important;
+  padding: 0.5rem 2rem !important;
+  text-transform: uppercase !important;
+  border-radius: 4px !important;
+  letter-spacing: 0.05857em !important;
+  font-family: 'Lato', sans-serif !important;
+  background: transparent !important;
+  position: relative !important;
+  border: 1px solid !important;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms !important;
+  cursor: pointer !important;
+  outline: none !important;
 }
 
 .btn-marketplace-sabiorealm{
@@ -7124,25 +7124,143 @@ input[type=radio]:checked.mxn + label {
   font-family: 'Lato', sans-serif;
 }
 
-.btn-sabiorealm { 
-  border: none;
-  text-transform: uppercase;
-  font-family: 'Lato', sans-serif;
-  font-size:12px;
-  color: #fff;
-  background: #00A9B4;
-  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12);
+
+
+
+$primary-color: #009CD8;
+$secondary-color: #29277F;
+$danger-color: #DC143C;
+$purple-color: #6A5ACD	;
+
+$button-bg: $primary-color;
+$button-bg-secondary: $secondary-color;
+$button-bg-danger: $danger-color; 
+$button-bg-purple: $purple-color;
+$button-text-color: #fff;
+$baby-blue: #f8faff;
+
+
+
+.sbr-btn{
+    font-family: 'Helvetica', 'Arial', sans-serif !important;
+    display: inline-block !important; 
+    font-size: 1.1em !important;
+    padding: 0.8em 2em !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    color: $button-text-color !important;
+    border-radius: 4px !important;
+    border: none !important;
+    cursor: pointer !important;
+    position: relative !important;
+    transition: transform ease-in 0.1s, box-shadow ease-in 0.25s !important;
+  
+    &:focus {
+      outline: 0 !important;
+    }
+  
+    &:before, &:after{
+        position: absolute !important;
+        content: '' !important;
+        display: block !important;
+        width: 140% !important;
+        height: 100% !important;
+        left: -20% !important;
+        z-index: -1000 !important;
+        transition: all ease-in-out 0.5s !important;
+        background-repeat: no-repeat !important;
+    }
+  
+    &:before{
+        display: none !important;
+        top: -75% !important;
+        background-image :  
+        radial-gradient(circle, $button-bg 20%, transparent 20%),
+        radial-gradient(circle,  transparent 20%, $button-bg 20%, transparent 30%),
+        radial-gradient(circle, $button-bg 20%, transparent 20%), 
+        radial-gradient(circle, $button-bg 20%, transparent 20%),
+        radial-gradient(circle,  transparent 10%, $button-bg 15%, transparent 20%),
+        radial-gradient(circle, $button-bg 20%, transparent 20%),
+        radial-gradient(circle, $button-bg 20%, transparent 20%),
+        radial-gradient(circle, $button-bg 20%, transparent 20%),
+        radial-gradient(circle, $button-bg 20%, transparent 20%);
+        background-size: 10% 10%, 20% 20%, 15% 15%, 20% 20%, 18% 18%, 10% 10%, 15% 15%, 10% 10%, 18% 18% !important;
+        //background-position: 0% 80%, -5% 20%, 10% 40%, 20% 0%, 30% 30%, 22% 50%, 50% 50%, 65% 20%, 85% 30%;
+    }
+  
+    &:after{
+        display: none !important;
+        bottom: -75% !important;
+        background-image:  
+        radial-gradient(circle, $button-bg 20%, transparent 20%), 
+        radial-gradient(circle, $button-bg 20%, transparent 20%),
+        radial-gradient(circle,  transparent 10%, $button-bg 15%, transparent 20%),
+        radial-gradient(circle, $button-bg 20%, transparent 20%),
+        radial-gradient(circle, $button-bg 20%, transparent 20%),
+        radial-gradient(circle, $button-bg 20%, transparent 20%),
+        radial-gradient(circle, $button-bg 20%, transparent 20%);
+    background-size: 15% 15%, 20% 20%, 18% 18%, 20% 20%, 15% 15%, 10% 10%, 20% 20% !important;
+    //background-position: 5% 90%, 10% 90%, 10% 90%, 15% 90%, 25% 90%, 25% 90%, 40% 90%, 55% 90%, 70% 90%;
+    }
+ 
+    &:active{
+        transform: scale(0.9) !important;
+        background-color: darken($button-bg, 5%) !important;
+        box-shadow: 0 2px 25px rgba(255, 0, 130, 0.2) !important;
+    }
+  
+    &.animate{
+        &:before{
+        display: block !important;
+        animation: topBubbles ease-in-out 0.75s forwards !important;
+        }
+        &:after{
+        display: block;
+        animation: bottomBubbles ease-in-out 0.75s forwards !important;
+        }
+    }
 }
+
+.sbr-primary{
+    background-color: $button-bg !important; 
+    box-shadow: 0 2px 10px  rgba(0, 225, 240, 0.5) !important;
+}
+
+.sbr-secondary{
+    background-color: $button-bg-secondary !important; 
+    box-shadow: 0 2px 10px  rgba(0, 0, 205, 0.5) !important;
+}
+
+
+.sbr-danger{
+    background-color: $button-bg-danger !important; 
+    box-shadow: 0 2px 10px  rgba(255, 0, 0, 0.5) !important;
+}
+
+.sbr-purple{
+    background-color: $button-bg-purple !important; 
+    box-shadow: 0 2px 10px  rgba(131, 111, 255, 0.5) !important;
+}
+
+
+.is-circle{
+    border-radius: 50% !important;
+    padding: 12px !important;
+}
+
+
+
+
 
 .el-tabs--border-card{
   margin-bottom: 10% !important;
 }
 
 .btn-sabiorealm:hover {
-  border: none;
-  color: #fff;
-  background: #00E1F0;
-  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12);
+  border: none !important;
+  color: #fff !important;
+  background: #00E1F0 !important;
+  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12) !important;
 }
 
 .btn-sabiorealm-danger { 
@@ -7374,72 +7492,6 @@ a.a-light:hover{
 
 }
 
-.btn-eadtools {
-  border: none;
-  color: #fff;
-  background: #09aec7;
-  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12);
-}
-
-.btn-eadtools:hover {
-  background: #0cc6e2;
-}
-
-.btn-eadtools-secondary{
-  border: none;
-  color: white;
-  background: #09aec7;
-  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12);
-}
-
-.btn-eadtools-secondary:hover{
-  background:#08ceec;
-}
-
-a.btn-eadtools{
-  border: none;
-  color: #fff !important;
-  background: #09aec7;
-  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12);
-}
-
-a.btn-eadtools-secondary{
-  border: none;
-  color: white;
-  background: #09aec7;
-  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12);
-}
-
-
-a.btn-eadtools-secondary:hover{
-  background:#0cc6e2;
-  color:white;
-}
-
-
-.btn-eadtools-block{
-  border: none;
-  color: #fff;
-  background: #09aec7;
-  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12);
-  width:100%;
-}
-
-.btn-eadtools-block:hover{
-  border: none;
-  color: #fff;
-  background: #0cc6e2;
-  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12);
-  width:100%;
-}
-
-a.btn-eadtools-block{
-  border: none;
-  color: #fff !important;
-  background:#09aec7;
-  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12);
-  width:100% !important;
-}
 
 .image-upload>input {
   display: none;
@@ -7463,7 +7515,11 @@ a.btn-eadtools-block{
 
 
 .el-pagination.is-background .el-pager li:not(.disabled).active{
-  background: #09aec7;
+  background: #009CD8 !important;
+}
+
+.el-pagination.is-background .el-pager li:not(.disabled).active{
+    background: #009CD8 !important;
 }
 
 .el-select-dropdown__item.selected{
@@ -7521,19 +7577,7 @@ a.btn-eadtools-block{
   position:absolute;
 }
 
-.btn-eadtools-danger {
-  border: none;
-  color: #fff;
-  background: #ff5b5b;
-  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12);
-}
 
-.btn-eadtools-danger:hover {
-  border: none;
-  color: #fff;
-  background: #f04e4e;
-  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12);
-}
 .pagination .page-item.active .page-link {
   background-color:#AA66CC;
 }
