@@ -1,5 +1,5 @@
 <template>
-    <el-aside  v-loading="loading" class="leftside-viewcourse" :class="mobile" width="350x" style="background-color:#545c64">
+    <el-aside  class="leftside-viewcourse" :class="mobile" width="350x" style="background-color:#545c64">
         <el-menu
             style="width:351px;"
             background-color="#545c64"
@@ -105,13 +105,11 @@ export default {
             }.bind(this));
         },
         getModules: function(courseId){
-            this.loading = true;
             var formData = new FormData();
             formData.set("courseId", courseId);
             var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("module", "listing");
             axios.post(urlToBeUsedInTheRequest, formData).then(function (response) {
                 this.modules = response.data;
-                this.loading = false;
             }.bind(this));
         },
     },

@@ -130,11 +130,7 @@ export default {
     methods:{
         editCourse:function(id){
             sessionStorage.setItem('sbr_course_id', ''+id+'');
-            if(process.env.NODE_ENV === 'production'){
-                window.location.href="pages/editcourse";
-            }else{
-                 window.location.href="editcourse";
-            }
+            window.location.href="editcourse";
         },
 
         deleteCourse: function(id){
@@ -163,11 +159,7 @@ export default {
 
             if(expirationDays > 0  && releaseDays <= 0){
                 sessionStorage.setItem('sbr_course_id', ''+id+'');
-                if(process.env.NODE_ENV === 'production'){
-                    window.location.href="pages/viewcourse";
-                }else{
-                    window.location.href="viewcourse";
-                }
+                window.location.href="viewcourse";
             }
         },
         getCourses(){

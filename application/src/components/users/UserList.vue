@@ -22,10 +22,10 @@
                             <el-col v-if="userList != null" :span="6">
                                 <export-excel
                                     :data="userList"
-                                    name = "leads.xls"
+                                    name = "users.xls"
                                 >
                                     <el-tooltip class="item" effect="dark" :content="lang['export']" placement="top">
-                                        <el-button class="btn-export"  type="primary" icon="el-icon-download" circle></el-button>
+                                        <el-button class="sbr-btn sbr-purple ml-3"  type="primary" icon="el-icon-download" circle></el-button>
                                     </el-tooltip>
                                 
                                 </export-excel>
@@ -45,7 +45,7 @@
                         <el-table-column  label="Actions" align="center">
                             <template slot-scope="scope">
                                 <!-- Manage user -->
-                                <el-button @click="viewUser(scope.row.id)" class="btn-sabiorealm" type="primary" size="medium" icon="el-icon-user" circle></el-button>
+                                <el-button @click="viewUser(scope.row.id)" class="sbr-btn sbr-primary" icon="el-icon-user" circle></el-button>
                             
                                 <!-- Delete User -->
                                 <el-popconfirm  
@@ -55,7 +55,7 @@
                                 :title="lang['question-delete-user'] + scope.row.name  + '?'"
                                 @onConfirm="deleteUser(scope.row.id)"
                                 >
-                                <el-button  class="btn-sabiorealm-danger"  slot="reference" type="danger"  size="medium" icon="el-icon-delete" circle></el-button>
+                                <el-button  class="sbr-btn sbr-danger ml-1"  slot="reference" icon="el-icon-delete" circle></el-button>
                                 </el-popconfirm>
                             </template>
                         </el-table-column>
@@ -140,11 +140,7 @@ export default {
         },
         viewUser: function(id){
             sessionStorage.setItem('sbr_user_id', ''+id+'');
-            if(process.env.NODE_ENV === 'production'){
-                window.location.href="pages/user";
-            }else{
-                window.location.href="user";
-            }
+            window.location.href="user";
         },
         getUsers(){
             this.loadingContent = true;

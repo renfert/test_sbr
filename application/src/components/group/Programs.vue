@@ -15,13 +15,13 @@
         
             <!-- Program list content -->
             <div class="course-content" v-if="programsInsideGroup != null">
-                <div style="margin-bottom: 10px" >
+                <div class="mb-5">
                     <el-row>
-                        <el-col :span="6">
+                        <el-col :span="6" class="mr-5">
                             <el-input v-model="filters[0].value" placeholder="Search"></el-input>
                         </el-col>
-                        <el-col :span="6">
-                            <el-button  @click.prevent="addProgram" style="margin-left:15%;" class="btn-sabiorealm" icon="el-icon-plus" circle></el-button>
+                        <el-col :span="2">
+                            <el-button  @click.prevent="addProgram"  class="sbr-btn sbr-purple" icon="el-icon-plus" circle></el-button>
                         </el-col>
                     </el-row>
                 </div>
@@ -38,7 +38,7 @@
                             :title="lang['remove-program-question'] + scope.row.title  + '?'"
                             @onConfirm="removeProgramFromGroup(scope.row.id)"
                             >
-                                <el-button class="btn-sabiorealm-danger" slot="reference" type="danger"  size="medium" icon="el-icon-delete" circle></el-button>
+                                <el-button class="sbr-btn sbr-danger" slot="reference"  icon="el-icon-delete" circle></el-button>
                             </el-popconfirm>
                         </template>
                     </el-table-column>
@@ -46,28 +46,21 @@
             </div> <!-- Program list content -->
 
             <!-- No programs found content -->
-            <div class="card-box box-no-results" v-else>
-                <div class="row">
-                    <div class="col-1"></div>
-                    <div class="col-5">
-                        <div class="text-no-results">
-                            <h4>{{lang["no-results-programs-in-group"]}}</h4>
-                            <p>{{lang["this-looks-like-a-desert"]}}</p>
-                            <el-button   
-                                class="btn-sabiorealm"
-                                @click="addProgram()"
-                                type="primary"  
-                                size="medium">
-                                {{lang["add-program"]}}
-                            </el-button>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <img class="image-no-results" src="@/assets/img/general/ux/no_courses.png" alt="">
+            <div  v-else>
+                <div class="row mb-5">
+                    <div class="col-12 text-center">
+                        <img class="no-results-img" src="@/assets/img/general/ux/not_found.png" alt="No activities">
+                        <h4 class="no-results-text mb-3">{{lang["no-results-programs-in-group"]}}</h4>
+                         <el-button   
+                            class="sbr-btn sbr-primary"
+                            @click="addProgram()"
+                        >
+                            {{lang["add-program"]}}
+                        </el-button>
                     </div>
                 </div>
             </div>
-            <!-- No courses found content end -->
+            <!-- No programs found content end -->
         </div>
 
         
@@ -98,29 +91,23 @@
                     <br>
                     <el-button   
                         v-loading="loadingButton" 
-                        class="btn-sabiorealm"
+                        class="sbr-btn sbr-primary"
                         @click="savePrograms()"
-                        type="primary"  
-                        size="medium">
+                    >
                         {{lang["save-button"]}}
                     </el-button>
                 </div>
 
-                <!-- No programs found content -->
-                <div class="card-box box-no-results" v-else>
-                    <div class="row">
-                        <div class="col-1"></div>
-                        <div class="col-5">
-                            <div class="text-no-results">
-                                <h5>{{lang["all-programs-already-added"]}}</h5>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <img class="image-no-results" src="@/assets/img/general/ux/no_courses.png" alt="">
+                 <!-- No programs found  -->
+                <div  v-else>
+                    <div class="row mb-5">
+                        <div class="col-12 text-center">
+                            <img class="no-results-img" src="@/assets/img/general/ux/not_found.png" alt="No activities">
+                            <h4>{{lang["all-programs-already-added"]}}</h4>
                         </div>
                     </div>
                 </div>
-                <!-- No courses found content end -->
+                <!-- No programs found content end -->
             </div>
         </el-dialog>
 

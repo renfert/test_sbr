@@ -42,23 +42,37 @@
         <div class="row">
             <!-- Students -->
             <div class="col-12 col-md-6 mb-5">
-                <div class="card-widget">
+                <div class="card-widget chart">
                     <GChart
+                        v-if="usersData != null"
                         type="ColumnChart"
                         :data="usersData"
                         :options="usersChartOptions"
                     />
+                    <div class="row mb-5" v-else>
+                        <div class="col-12 text-center">
+                            <img style="width:40%;" src="@/assets/img/general/ux/not_found.png" alt="No activities">
+                            <h4 class="no-results-text">{{lang["no-data"]}}</h4>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <!-- Courses -->
             <div class="col-12 col-md-6 mb-5">
-                <div class="card-widget" >
+                <div class="card-widget chart" >
                     <GChart
+                        v-if="coursesData != null"
                         type="PieChart"
                         :data="coursesData"
                         :options="coursesChartOptions"
                     />
+                    <div class="row mb-5" v-else>
+                        <div class="col-12 text-center">
+                            <img style="width:40%;" src="@/assets/img/general/ux/not_found.png" alt="No activities">
+                            <h4 class="no-results-text">{{lang["no-data"]}}</h4>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -253,8 +267,14 @@ export default {
 <style lang="scss" scoped>
 .chart {
   width: 100%;
-  height:100%;
+  height:300px;
   max-height: 100%;
+}
+
+@media only screen and (max-width: 600px) {
+    .chart {
+        height: 100%;
+    }
 }
 
 .user-avatar{
@@ -270,6 +290,7 @@ export default {
     border-radius: 10px;
     padding:30px;
 }
+
 
 .card-widget:hover {
   box-shadow: 0 0px 7px rgba(70, 67, 67, 0.25), 0 5px 5px rgba(70, 67, 67, 0.25);

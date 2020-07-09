@@ -30,6 +30,7 @@ import domains from '@/mixins/domains'
 import alerts from '@/mixins/alerts'
 import headerTags from '@/mixins/headerTags'
 import integrations from '@/mixins/integrations'
+import verify from '@/mixins/verify'
 
 export const eventBus = new Vue();
 
@@ -38,7 +39,7 @@ Vue.use(VueHead)
 
 
 export default {
-    mixins: [domains,alerts,headerTags,integrations],
+    mixins: [domains,alerts,headerTags,integrations,verify],
     components: { 
         TopBar,
         LeftBar,
@@ -48,6 +49,7 @@ export default {
     created(){
         this.loadIntegrations();
         this.createFavicon();
+        this.verifySession();
     },
     head: {
         title: {

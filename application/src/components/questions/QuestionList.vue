@@ -19,15 +19,24 @@
 
             <div v-if="questionList != null">
                 <div class="card-box">
-                    <h4>{{lang["question-list"]}}</h4>
-                    <br>
+                    <el-row class="mb-5">
+                        <el-col :span="5">
+                            <h4>{{lang["question-list"]}}</h4>
+                        </el-col>
+                        <el-col :span="1">
+                             <el-tooltip class="item" effect="dark" :content="lang['create-first-question']" placement="top">
+                            <el-button  @click.prevent="createNewQuestionEvent()" class="sbr-btn sbr-purple ml-3"  icon="el-icon-plus" circle></el-button>
+                        </el-tooltip>
+                        </el-col>
+                    </el-row>
+                            
                     <draggable v-model="questionList" ghost-class="ghost" @end="finishRepositioning" > 
                         <transition-group type="transition" name="flip-list">
                             <div class="sortable"  v-for="element in questionList" :key="element.id">
                                 <li class="module" :id="element.id">
                                     <div class="question-box">
                                         <!-- Edit question -->   
-                                        <el-button class="btn-sabiorealm" type="primary" @click.prevent="openEditQuestionModal(element.id,element.question,element.type_question_id, element.weight, element.feedback,element.image)"  size="mini" icon="el-icon-edit" circle></el-button>
+                                        <el-button class="sbr-btn sbr-primary mr-1" @click.prevent="openEditQuestionModal(element.id,element.question,element.type_question_id, element.weight, element.feedback,element.image)"  size="mini" icon="el-icon-edit" circle></el-button>
 
                                         <!-- Delete question -->
                                         <template>
@@ -38,12 +47,12 @@
                                                 :title="lang['question-delete-question']"
                                                 @onConfirm="deleteQuestion(element.id)"
                                             >
-                                            <el-button class="btn-sabiorealm-danger" slot="reference" type="danger"  size="mini" icon="el-icon-delete" circle></el-button>
+                                            <el-button class="sbr-btn sbr-danger mr-1" slot="reference"  icon="el-icon-delete" circle></el-button>
                                             </el-popconfirm>
                                         </template>
                                         
                                         <!-- Move question -->
-                                        <el-button class="handle" type="purple"  size="mini" icon="el-icon-rank" circle></el-button>
+                                        <el-button class="handle sbr-btn sbr-neutral mr-1"  icon="el-icon-rank" circle></el-button>
 
                                         <el-divider direction="vertical"></el-divider>
                                     
@@ -55,9 +64,7 @@
                                 </li>
                             </div>
                         </transition-group>
-                    </draggable>     
-                    <br>
-                    <el-button class="btn-sabiorealm" type="primary"  @click.prevent="createNewQuestionEvent()" size="medium">{{lang["create-first-question"]}}</el-button>
+                    </draggable>                         
                 </div>      
             </div> <!-- End accordion -->
 
@@ -66,7 +73,7 @@
                     <div class="col-1"></div>
                     <div class="col-6">
                         <div class="text-no-results">
-                            <el-button class="btn-sabiorealm" @click.prevent="createNewQuestionEvent()"  type="primary"  size="medium">{{lang["create-first-question"]}}</el-button>
+                            <el-button class="sbr-btn sbr-purple" @click.prevent="createNewQuestionEvent()"  type="primary"  size="medium">{{lang["create-first-question"]}}</el-button>
                         </div>
                     </div>
                     <div class="col-4">
@@ -344,7 +351,7 @@ export default {
 }
 
 .handle{
-    cursor:move;
+    cursor:move !important;
 }
 
 

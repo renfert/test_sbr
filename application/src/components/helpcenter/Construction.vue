@@ -1,16 +1,9 @@
 <template>
-    <div class="card-box box-construction mt-5">
-        <div class="row">
-            <div class="col-1"></div>
-            <div class="col-5">
-                <div class="text-no-results">
-                    <h4>{{lang["under-construction-title"]}}</h4>
-                    <p>{{lang["under-construction-subtitle"]}}</p>
-                </div>
-            </div>
-            <div class="col-6">
-                <img class="image-no-results" src="@/assets/img/general/ux/no_documents.png" alt="">
-            </div>
+    <div class="row construction">
+        <div class="col-12 text-center">
+            <img class="no-results-img" src="@/assets/img/general/ux/no_persons.png" alt="No courses">
+            <h4 class="no-results-text">{{lang["under-construction-title"]}}</h4>
+            <p>{{lang["under-construction-subtitle"]}}</p>
         </div>
     </div>
 </template>
@@ -45,5 +38,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-  .ead-md{margin-left: 0.8em;}
+  .construction{
+    margin-top: 15%;
+  }
 </style>

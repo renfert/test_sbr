@@ -14,19 +14,24 @@ class Widgets_Model extends CI_Model {
     public function getTotalNumberOfStudents(){
         $coursesId = array();
         $enrolledCourses = $this->User_Model->getEnrolledCourses(getUserId());
-        foreach ($enrolledCourses as $key => $value) {
-            $courseId = $value->id;
-            array_push($coursesId, $courseId);
-        }
-        $this->db->select("COUNT(DISTINCT T1.id) as totalStudents");
-        $this->db->distinct();
-        $this->db->from("relationship T0");
-        $this->db->join("myuser T1", "T0.myuser_id = T1.id");
-        $this->db->where("T1.myrole_id", 3);
-        $this->db->where_in("T0.mycourse_id", $coursesId);
-        $query = $this->db->get();
-        if($query->num_rows() > 0){
-            return $query->result()[0]->totalStudents;
+        
+        if($enrolledCourses == null){
+            return 0;
+        }else{
+            foreach ($enrolledCourses as $key => $value) {
+                $courseId = $value->id;
+                array_push($coursesId, $courseId);
+            }
+            $this->db->select("COUNT(DISTINCT T1.id) as totalStudents");
+            $this->db->distinct();
+            $this->db->from("relationship T0");
+            $this->db->join("myuser T1", "T0.myuser_id = T1.id");
+            $this->db->where("T1.myrole_id", 3);
+            $this->db->where_in("T0.mycourse_id", $coursesId);
+            $query = $this->db->get();
+            if($query->num_rows() > 0){
+                return $query->result()[0]->totalStudents;
+            }
         }
     }
 

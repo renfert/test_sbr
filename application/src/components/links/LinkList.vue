@@ -17,35 +17,6 @@
                 </draggable>     
             </ul>      
         </div> <!-- End accordion -->
-
-        <!--  Modal edit link -->
-        <div>
-            <el-dialog  :visible.sync="modal" :title="lang['edit-link']" center width="40%" top="5vh">
-                <form id="form-link" @submit.prevent="editLink()">
-                    <div class="form-group">
-                        <label>{{lang["name"]}}</label>
-                        <el-input  name="title" v-model="title"></el-input>
-                        <input type="text" name="linkId" v-model="linkId" class="hide">
-                    </div>
-                    <div class="form-group">
-                        <label>{{lang["url"]}}</label>
-                        <el-input  name="url" v-model="url"></el-input>
-                    </div>
-                    <div class="form-group">
-                        <label>{{lang["target"]}}</label>
-                        <div class="block">
-                            <select class="form-select" name="target" v-model="target">
-                                <option value="_new">{{lang["new-window"]}}</option>
-                                <option value="_blank">{{lang["same-window"]}}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <el-button native-type="submit"  type="primary"  size="medium">{{lang["save-button"]}}</el-button>
-                    </div>
-                </form>  
-            </el-dialog>
-        </div>
     </div>
 </template>
 
@@ -83,11 +54,6 @@ export default {
         return {
             lang: {},
             links: null,
-            linkId: '',
-            title: '',
-            url : '',
-            target: '',
-            modal: false,
             loading: false
         }
     },
@@ -102,25 +68,14 @@ export default {
         this.updateLinkListArray();
     },
     methods: {
-        editLink: function(){
-            var form = document.getElementById('form-link')
-            var formData = new FormData(form)
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("link", "edit");
-            axios.post(urlToBeUsedInTheRequest, formData).then(() => {
-                this.successMessage();
-                this.actionsToBePerformedAfterEdit();
-            }, 
-                function(){
-                    this.errorMessage();
-                }.bind(this)
-            );
-        },
         openEditLinkModal: function(id,title,url,target){
-            this.linkId = id;
-            this.title = title;
-            this.url = url;
-            this.target = target;
-            this.modal = true; 
+            let data = {
+                "id" : id,
+                "title": title,
+                "url": url,
+                "target": target
+            }
+            eventBus.$emit("edit-link",data);
         },
         deleteLink: function(id){
             var formData = new FormData();
@@ -172,11 +127,6 @@ export default {
                    this.errorMessage();
                 }.bind(this)
             );
-        },
-        actionsToBePerformedAfterEdit(){
-            this.updateLinkListArray();
-            eventBus.$emit("link-list-update");
-            this.modal = false; 
         }
     }
 }

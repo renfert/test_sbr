@@ -146,7 +146,7 @@
                     <br>
                     <div class="form-row">
                         <div class="form-group col-xl-12 col-md-12">
-                           <el-button class="btn-sabiorealm" native-type="submit"  v-loading="loadingButton"  type="primary"  size="medium">{{lang["save-button"]}}</el-button>
+                           <el-button class="sbr-btn sbr-primary" native-type="submit"  v-loading="loadingButton"  type="primary"  size="medium">{{lang["save-button"]}}</el-button>
                         </div>
                     </div>
                 </form>  

@@ -51,7 +51,7 @@
                             @onConfirm="deleteCategory(scope.row.id)"
                             >
                             <el-button  
-                                class="sbr-btn sbr-danger"
+                                class="sbr-btn sbr-danger ml-1"
                                 slot="reference"  
                                 icon="el-icon-delete" 
                                 circle></el-button>
@@ -78,7 +78,7 @@
                     <el-input  name="name" v-model="newCategoryName"></el-input>
                 </div>
                 <div class="form-group">
-                    <el-button @click.prevent="editCategory(categoryId,newCategoryName)"  type="primary"  size="medium">{{lang["save-button"]}}</el-button>
+                    <el-button @click.prevent="editCategory(categoryId,newCategoryName)"  class="sbr-btn sbr-primary">{{lang["save-button"]}}</el-button>
                 </div>
             </el-dialog>
         </div>

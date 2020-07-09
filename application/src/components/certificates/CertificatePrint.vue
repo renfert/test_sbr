@@ -8,7 +8,7 @@
                 <div class="text-center">
                     <img src="@/assets/img/general/ux/certificate.png"  class="mb-3">
                     <br>
-                    <a @click.prevent="printCertificate" href="javascript:void(0)" class="btn-ead btn-sabiorealm">{{lang["print-certificate"]}}
+                    <a @click.prevent="printCertificate" href="javascript:void(0)" class="sbr-btn sbr-primary">{{lang["print-certificate"]}}
                     </a>
                 </div>
             </div>

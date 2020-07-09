@@ -20,8 +20,8 @@
                         <el-col :span="6">
                             <el-input v-model="filters[0].value" placeholder="Search"></el-input>
                         </el-col>
-                        <el-col :span="6">
-                            <el-button  @click.prevent="addCourse" style="margin-left:15%;" class="btn-sabiorealm" icon="el-icon-plus" circle></el-button>
+                        <el-col :span="2">
+                            <el-button  @click.prevent="addCourse"  class="sbr-btn sbr-purple" icon="el-icon-plus" circle></el-button>
                         </el-col>
                     </el-row>
                 </div>
@@ -38,7 +38,7 @@
                             :title="lang['remove-course-question'] + scope.row.title  + '?'"
                             @onConfirm="removeCourseFromUser(scope.row.id)"
                             >
-                                <el-button class="btn-sabiorealm-danger" slot="reference" type="danger"  size="medium" icon="el-icon-delete" circle></el-button>
+                                <el-button class="sbr-btn sbr-danger" slot="reference" icon="el-icon-delete" circle></el-button>
                             </el-popconfirm>
                         </template>
                     </el-table-column>
@@ -50,7 +50,7 @@
                     <img class="no-results-img" src="@/assets/img/general/ux/no_courses.png" alt="No persons">
                     <h4 class="no-results-text">{{lang["no-results-courses-in-user"]}}</h4>
                     <el-button   
-                        class="btn-sabiorealm"
+                        class="sbr-btn sbr-primary"
                         @click="addCourse()"
                         type="primary"  
                         size="medium">

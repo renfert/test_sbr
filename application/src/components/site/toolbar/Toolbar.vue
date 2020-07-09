@@ -14,6 +14,10 @@
     <edit-testimonial></edit-testimonial>
     <edit-product-list></edit-product-list>
     <edit-text-and-media></edit-text-and-media>
+    <link-create></link-create>
+    <link-edit></link-edit>
+    <social-media-create></social-media-create>
+    <social-media-edit></social-media-edit>
 </div>
 </template>
 
@@ -33,6 +37,10 @@ import EditBanner from '@/components/site/section/elements/edit/Banner'
 import EditTestimonial from '@/components/site/section/elements/edit/Testimonial'
 import EditProductList from '@/components/site/section/elements/edit/ProductList'
 import EditTextAndMedia from '@/components/site/section/elements/edit/TextAndMedia'
+import LinkCreate from '@/components/links/LinkCreate'
+import LinkEdit from '@/components/links/LinkEdit'
+import SocialMediaCreate from '@/components/social/SocialMediaCreate'
+import SocialMediaEdit from '@/components/social/SocialMediaEdit'
 
 locale.use(lang)
 Vue.use(VueAxios, axios)
@@ -45,7 +53,11 @@ export default {
         EditBanner,
         EditTestimonial,
         EditProductList,
-        EditTextAndMedia
+        EditTextAndMedia,
+        LinkCreate,
+        LinkEdit,
+        SocialMediaCreate,
+        SocialMediaEdit
     },
     data: () => {
         return {

@@ -34,7 +34,7 @@
                         <el-table-column  label="Actions" align="center">
                             <template slot-scope="scope">
                                 <!-- Edit group -->
-                                <el-button class="btn-sabiorealm" type="primary" @click="openModalToEditGroup(scope.row.id,scope.row.name)"  size="medium" icon="el-icon-edit" circle></el-button>
+                                <el-button class="sbr-btn sbr-primary mr-1" @click="openModalToEditGroup(scope.row.id,scope.row.name)"  size="medium" icon="el-icon-edit" circle></el-button>
                             
                                 <!-- Delete group -->
                                 <el-popconfirm  
@@ -44,10 +44,10 @@
                                 :title="lang['question-delete-group'] + scope.row.name  + '?'"
                                 @onConfirm="deleteGroup(scope.row.id)"
                                 >
-                                <el-button class="btn-sabiorealm-danger"  slot="reference" type="danger"  size="medium" icon="el-icon-delete" circle></el-button>
+                                <el-button class="sbr-btn sbr-danger mr-1"  slot="reference"      icon="el-icon-delete" circle></el-button>
                                 </el-popconfirm>
                                 <!-- Manage group -->
-                                <el-button class="btn-sabiorealm-secondary"  type="success" @click="viewGroup(scope.row.id)"  size="medium" icon="el-icon-magic-stick" circle></el-button>
+                                <el-button class="sbr-btn sbr-secondary"  type="success" @click="viewGroup(scope.row.id)"  size="medium" icon="el-icon-magic-stick" circle></el-button>
                             
                             
                             </template>
@@ -64,10 +64,9 @@
                         </div>
                         <div class="form-group">
                             <el-button 
-                                class="btn-sabiorealm"
+                                class="sbr-btn sbr-primary"
                                 @click.prevent="editGroup(groupId,newGroupName)"  
-                                type="primary"  
-                                size="medium">
+                            >
                                 {{lang["save-button"]}}
                             </el-button>
                         </div>
@@ -140,11 +139,7 @@ export default {
     methods:{
         viewGroup: function(id){
             sessionStorage.setItem('sbr_group_id', ''+id+'');
-            if(process.env.NODE_ENV === 'production'){
-                window.location.href="pages/group";
-            }else{
-                window.location.href="group";
-            }
+            window.location.href="group";
         },
         openModalToEditGroup(id,name){
             this.groupName = name;

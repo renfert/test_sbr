@@ -9,7 +9,7 @@
                 <el-input :type="typeInput" v-model="accessToken" name="id" placeholder="ACCESS TOKEN">
                     <el-button @click.prevent="changeInputType()"  slot="append" :icon="typeInput == 'password' ? 'mdi mdi-eye-off' : 'mdi mdi-eye'"></el-button>
                 </el-input>
-                <el-button class="btn-sabiorealm mt-3" native-type="submit" type="primary">{{lang["save-button"]}}</el-button>
+                <el-button class="sbr-btn sbr-primary mt-3" native-type="submit" type="primary">{{lang["save-button"]}}</el-button>
                 <br>
 
                 <div class="mt-5">

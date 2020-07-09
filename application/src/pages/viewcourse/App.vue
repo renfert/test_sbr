@@ -26,6 +26,7 @@ import lang from 'element-ui/lib/locale/lang/en'
 import locale from 'element-ui/lib/locale'
 import headerTags from '@/mixins/headerTags'
 import integrations from '@/mixins/integrations'
+import verify from '@/mixins/verify'
 export const eventBus = new Vue();
 
 locale.use(lang)
@@ -33,7 +34,7 @@ Vue.use(ElementUI)
 Vue.use(VueAxios, axios)
 Vue.use(VueHead)
 export default {
-    mixins: [domains,alerts,integrations,headerTags],
+    mixins: [domains,alerts,integrations,headerTags,verify],
     components: { 
         Lang,
         Navigation,
@@ -46,6 +47,7 @@ export default {
         }
     },
     created(){
+        this.verifySession();
         this.loadIntegrations();
         this.createFavicon();
 

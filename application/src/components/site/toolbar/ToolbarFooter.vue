@@ -23,11 +23,10 @@
                     <div class="list-block">
                         <social-media-list></social-media-list>
                         <br>
-                        <el-button class="btn-sabiorealm" @click.prevent="openSocialModal()">{{lang["add-new-social"]}} <i class="el-icon-circle-plus-outline"></i> </el-button>
+                        <el-button class="sbr-btn sbr-primary" @click.prevent="openSocialModal()">{{lang["add-new-social"]}} <i class="el-icon-circle-plus-outline"></i> </el-button>
                     </div>
                 </el-menu-item-group>
             </el-submenu>
-            <social-media-create></social-media-create>
         </div>
     </div>
 </template>
@@ -42,7 +41,6 @@ import lang from 'element-ui/lib/locale/lang/en'
 import locale from 'element-ui/lib/locale'
 import {eventLang} from '@/components/helper/HelperLang'
 import {eventBus} from '@/pages/site/App'
-import SocialMediaCreate from '@/components/social/SocialMediaCreate'
 import SocialMediaList from '@/components/social/SocialMediaList'
 import domains from '@/mixins/domains'
 import alerts from '@/mixins/alerts'
@@ -52,7 +50,6 @@ Vue.use(ElementUI)
 export default {
     mixins: [domains,alerts],
     components: {
-        SocialMediaCreate,
         SocialMediaList,
     },
     data: () => {

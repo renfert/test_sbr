@@ -38,6 +38,12 @@
                 </el-table-column>
             </data-tables>
         </div>        
+        <div class="row gap-10" v-else>
+            <div class="col-12 text-center">
+                <img style="width:15%;" src="@/assets/img/general/ux/no_exams.png" alt="No activities">
+                <h4 class="no-results-text">{{lang["no-records"]}}</h4>
+            </div>
+        </div>
     </div><!-- End col-12 -->
 </template>
 
@@ -106,6 +112,10 @@ export default {
     }
     .text-no-results{
         margin-top:15%;
+    }
+
+    .gap-10{
+        margin-top: 10%;
     }
 
 </style>

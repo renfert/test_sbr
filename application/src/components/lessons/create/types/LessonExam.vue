@@ -68,10 +68,10 @@
                 </form>  
             </div>
 
-            <!-- Questions -->
+           
             <div v-if="showexamSecondStep">
                 <question-list :exam-id="this.examId"></question-list>
-                <el-button v-loading="loading" class="btn-sabiorealm" @click.prevent="changeExamStatus()"  type="primary"  size="medium">{{lang["save-button"]}}</el-button>
+                <el-button v-loading="loading" class="sbr-btn sbr-primary" @click.prevent="changeExamStatus()"  type="primary"  size="medium">{{lang["save-button"]}}</el-button>
             </div>
         </el-dialog>
     </div>

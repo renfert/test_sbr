@@ -1,5 +1,5 @@
 <template>
-    <div class="main">
+    <div class="main" v-loading="loading">
         <nav dark class="navbar navbar-expand-lg navbar-dark" :style="styleHeader">
             <a class="navbar-brand" href="#">
                 <img class="sabio-logo" :src="logo" :width="logoSize" >
@@ -42,7 +42,7 @@
     
        
         <!-- Body section -->
-        <section  v-loading="loadingSection" v-for="element in sections" :key="element.id">  
+        <section v-for="element in sections" :key="element.id">  
             <banner :section-id="element.id" v-if="element.banner_id != 1"></banner>
             <testimonial :section-id="element.id" v-if="element.testimonial_id != 1"></testimonial>
             <product-list :section-id="element.id" v-if="element.product_list_id != 1"></product-list>
@@ -50,7 +50,7 @@
         </section>     
 
         <!-- Footer secion -->   
-        <footer class="page-footer font-small blue" :style="styleFooter"  v-loading="loadingFooter">
+        <footer class="page-footer font-small blue" :style="styleFooter">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12 py-5">
@@ -126,9 +126,7 @@ export default {
             logo: '',
             logoSize: "",
             sections: null,
-            loadingHeader: false,
-            loadingSection: false,
-            loadingFooter: false,
+            loading: false,
             footerColor: '',
             copyright: '',
             links: [],
@@ -187,16 +185,16 @@ export default {
             eventLogin.$emit("open-login-modal");
         },
         enterPlatform: function(){
-            window.location.href=  this.getCurrentDomainName() + "pages/dashboard";
+            window.location.href=  this.getDomainNameToNavigation() + "dashboard";
         },
         listHeader: function(){
-            this.loadingHeader = true;
+            this.loading = true;
             var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("builder", "listHeader");
             axios.get(urlToBeUsedInTheRequest).then((response) => {
                 this.logo = this.getUrlToContents() + 'builder/header/'+response.data[0].logo+'';
                 this.logoSize = response.data[0].logo_size + "%";
                 this.headerColor = response.data[0].color;
-                this.loadingHeader = false;
+                this.loading = false;
                 this.updateLinkListArray();
             },
                 /* Error callback */
@@ -213,12 +211,12 @@ export default {
             }
         },
         listFooter: function(){
-            this.loadingFooter = true;
+            this.loading = true;
             var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("builder", "listFooter");
             axios.get(urlToBeUsedInTheRequest).then((response) => {
                 this.footerColor = response.data[0].color;
                 this.copyright = response.data[0].copyright;
-                this.loadingFooter = false;
+                this.loading = false;
                 this.updateSocialMediaListArray();
             },
                 /* Error callback */
@@ -231,11 +229,11 @@ export default {
             eventBus.$emit("full-screen");
         },
         updateSectionListArray: function (){
-            this.loadingSection = true;
+            this.loading = true;
             var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("section", "listing");
             axios.post(urlToBeUsedInTheRequest).then((response) => {
                 this.sections = response.data;
-                this.loadingSection = false;
+                this.loading = false;
             },
                 /* Error callback */
                 function (){

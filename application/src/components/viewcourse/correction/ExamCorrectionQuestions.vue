@@ -19,17 +19,12 @@
                 <span v-if="element.score == null && roleId != 3" slot="label"><i class="mdi mdi-buffer"></i>  Question {{parseInt(index) + parseInt(1)}}</span>
 
                 <span v-else slot="label">Question {{parseInt(index) + parseInt(1)}}</span>
+                
 
                 <!-- Correction button -->
                 <el-row v-if="element.type_question_id != 2 && roleId != 3 && element.score == null">
                     <div class="float-right">
-                        <el-popover
-                            placement="top-start"
-                            width="200"
-                            trigger="hover"
-                            :content="lang['rate-question']">
-                            <el-button @click.prevent="openRateModal(element.feedback, element.score, element.id)" slot="reference" type="primary" icon="el-icon-edit" circle></el-button>
-                        </el-popover>
+                        <el-button class="sbr-btn sbr-primary" @click.prevent="openRateModal(element.feedback, element.score, element.id)"  icon="el-icon-edit" circle></el-button>
                     </div>
                 </el-row>
             
@@ -86,7 +81,7 @@
                             <h3 class="text-sabiorealm">{{lang['score']}}</h3>
                             <el-slider v-if="score != null" v-model="score"></el-slider>
                         </div>
-                        <el-button @click.prevent="saveEvaluation"  type="primary"  size="medium">{{lang["save-button"]}}</el-button>
+                        <el-button class="sbr-btn sbr-primary" @click.prevent="saveEvaluation"  type="primary"  size="medium">{{lang["save-button"]}}</el-button>
                     </form>
                 </el-dialog>
 

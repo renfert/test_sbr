@@ -1,8 +1,18 @@
 <template>
-   
-      <el-container v-loading="loading"> 
+
+    <el-container> 
         <el-main>
-            <div class="content">
+            <facebook-loader 
+            v-if="loading == true"
+            :speed="2"
+            width="400"
+            height="200"
+            style="margin-left:15%;margin-top:5%;"
+            primaryColor = "#f0f0f0"
+            secondaryColor = "#d9d9d9"
+        >
+        </facebook-loader>
+            <div class="content" v-else>
                 <!-- Video -->
                 <div class="player-container" v-if="showVideo">
                     <vue-plyr>
@@ -162,13 +172,13 @@
                                 <br>
 
                                 <!-- Start exam button -->
-                                <el-button size="small" class="btn-sabiorealm mt-2" v-if="parseInt(userRetests) == 0" @click="openExamModal(lessonId)">{{lang["start-exam"]}}</el-button>
+                                <el-button size="small" class="sbr-btn sbr-primary mt-2" v-if="parseInt(userRetests) == 0" @click="openExamModal(lessonId)">{{lang["start-exam"]}}</el-button>
 
                                 <!-- Start retest button -->
-                                <el-button size="small" class="btn-sabiorealm mt-2"  v-if="parseInt(userRetests) < parseInt(retest) && parseInt(userRetests) != 0 && parseInt(overview['yourScore']) < parseInt(approval) && parseInt(overview['waitingEvaluationQuestions']) == 0" @click="openExamModal(lessonId)">{{lang["start-retest"]}}</el-button>
+                                <el-button size="small" class="sbr-btn sbr-purple mt-2"  v-if="parseInt(userRetests) < parseInt(retest) && parseInt(userRetests) != 0 && parseInt(overview['yourScore']) < parseInt(approval) && parseInt(overview['waitingEvaluationQuestions']) == 0" @click="openExamModal(lessonId)">{{lang["start-retest"]}}</el-button>
 
                                 <!-- Correction button -->
-                                <el-button size="small"  class="btn-sabiorealm mt-2"  v-if="parseInt(userRetests) == parseInt(retest) || parseInt(overview['yourScore']) >= parseInt(approval)"  @click="openCorrection(lessonId)">{{lang["see-exam-correction"]}}</el-button>
+                                <el-button size="small"  class="sbr-btn sbr-primary mt-2"  v-if="parseInt(userRetests) == parseInt(retest) || parseInt(overview['yourScore']) >= parseInt(approval)"  @click="openCorrection(lessonId)">{{lang["see-exam-correction"]}}</el-button>
 
                             </div>
                         </div>
@@ -199,7 +209,7 @@
                         <div class="text-center">
                             <img src="@/assets/img/general/ux/correction.png" alt="download" class="mb-3">
                             <br>
-                            <a @click.prevent="openCorrection(lessonId)" href="javascript:void(0)" class="btn-ead btn-sabiorealm">{{lang["see-result"]}}
+                            <a @click.prevent="openCorrection(lessonId)" href="javascript:void(0)" class="sbr-btn sbr-primary">{{lang["see-result"]}}
                             </a>
                         </div>
                     </el-dialog>
@@ -226,7 +236,7 @@ import alerts from '@/mixins/alerts'
 import VuePlyr from 'vue-plyr'
 import Exam from '@/components/viewcourse/Exam'
 import ExamCorrection from '@/components/viewcourse/correction/ExamCorrection'
-
+import { FacebookLoader } from 'vue-content-loader';
 
 
 locale.use(lang)
@@ -254,6 +264,7 @@ export default {
             userRetests: '',
             lessonId: '',
             lessonStatus: '',
+            
 
             componentKey: 0,
     
@@ -271,13 +282,14 @@ export default {
 
             modal: false,
             
-            loading: false
+            loading: true
         }
     },
     
     components: {
        Exam,
-       ExamCorrection
+       ExamCorrection,
+       FacebookLoader
     },
     mounted(){
         this.getUserProfile();
@@ -349,15 +361,12 @@ export default {
         },
 
         getExamOverview: function(){
-            this.loading = true;
             var formData = new FormData()
             formData.set("examId", this.lessonId);
             formData.set("studentId", this.studentId);
             var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("exam", "getExamOverview");
             axios.post(urlToBeUsedInTheRequest, formData).then((response) => {
-
                 this.overview = response.data[0];
-                this.loading = false;
             },
                 
                 function(){
@@ -445,7 +454,9 @@ export default {
 
             }
 
-            this.loading = false;
+            setTimeout(function(){ 
+                this.loading = false;
+            }.bind(this), 1000);
         },
         hideAllLessons: function(){
             this.showVideo  = false;

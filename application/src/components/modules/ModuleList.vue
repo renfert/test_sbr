@@ -25,12 +25,12 @@
                                             <template slot="title">
                                                 <!-- Add lesson -->
                                                 <el-tooltip class="item" effect="dark" :content="lang['add-new-lesson']" placement="top-start">
-                                                    <el-button class="sbr-btn sbr-secondary" data-toggle="tooltip" title="Another one here too" @click.prevent="openLessonsModal(element.id)" type="success"  size="small" icon="el-icon-plus" circle></el-button>
+                                                    <el-button class="sbr-btn sbr-purple mr-1" data-toggle="tooltip" title="Another one here too" @click.prevent="openLessonsModal(element.id)" type="success"  size="small" icon="el-icon-plus" circle></el-button>
                                                 </el-tooltip>
 
                                                 <!-- Edit module -->   
                                                 <el-tooltip class="item" effect="dark" :content="lang['edit-module']" placement="top-start">
-                                                    <el-button class="sbr-btn sbr-primary" @click.prevent="openEditModuleModal(element.id,element.title,element.required_to_next, element.release_date)" type="primary"  size="small" icon="el-icon-edit" circle></el-button>
+                                                    <el-button class="sbr-btn sbr-primary mr-1" @click.prevent="openEditModuleModal(element.id,element.title,element.required_to_next, element.release_date)" type="primary"  size="small" icon="el-icon-edit" circle></el-button>
                                                 </el-tooltip>
 
                                                 <!-- Delete module -->
@@ -42,12 +42,12 @@
                                                         :title="lang['question-delete-module'] +element.title  + '?'"
                                                         @onConfirm="deleteModule(element.id)"
                                                     >
-                                                    <el-button class="sbr-btn sbr-danger" slot="reference" type="danger"  size="small" icon="el-icon-delete" circle></el-button>
+                                                    <el-button class="sbr-btn sbr-danger mr-1" slot="reference" type="danger"  size="small" icon="el-icon-delete" circle></el-button>
                                                     </el-popconfirm>
                                                 </template>
                                                 <!-- Move module -->
                                                 <el-tooltip class="item" effect="dark" :content="lang['reposition-module']" placement="top-start">
-                                                    <el-button class="handle sbr-btn sbr-purple" type="purple"  size="small" icon="el-icon-rank" circle></el-button>
+                                                    <el-button class="handle sbr-btn sbr-neutral mr-1" type="purple"  size="small" icon="el-icon-rank" circle></el-button>
                                                 </el-tooltip>
                                                 <el-divider direction="vertical"></el-divider>
                                                 <span class="moduleTitle">{{element.title}}</span>
@@ -549,7 +549,7 @@ export default {
 }
 
 .handle{
-    cursor:move;
+    cursor:move !important;
 }
 
 

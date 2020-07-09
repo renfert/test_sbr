@@ -59,8 +59,8 @@
                     <br>
                     <div class="form-row">
                         <div class="form-group col-xl-12 col-md-12">
-                            <el-button  v-loading="loadingButton"  @click.prevent="editTestimonial()" native-type="submit"  type="primary"  size="medium">{{lang["save-button"]}}</el-button>
-                            <el-button class="btn-sabiorealm" v-loading="loadingButton" @click.prevent="addNewPerson(element.id)" native-type="submit"  type="success"  size="medium">{{lang["add-new-testimonial"]}}</el-button>
+                            <el-button  v-loading="loadingButton"  @click.prevent="editTestimonial()" native-type="submit" class="sbr-btn sbr-primary">{{lang["save-button"]}}</el-button>
+                            <el-button class="sbr-btn sbr-purple" v-loading="loadingButton" @click.prevent="addNewPerson(element.id)" native-type="submit">{{lang["add-new-testimonial"]}}</el-button>
                         </div>
                     </div>
                 </form>  

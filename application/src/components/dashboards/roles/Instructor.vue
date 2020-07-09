@@ -31,10 +31,17 @@
             <div class="col-12 col-md-12 mb-5">
                 <div class="card-widget" >
                     <GChart
+                        v-if="coursesData != null"
                         type="PieChart"
                         :data="coursesData"
                         :options="coursesChartOptions"
                     />
+                    <div class="row mb-5" v-else>
+                        <div class="col-12 text-center">
+                            <img style="width:20%;" src="@/assets/img/general/ux/not_found.png" alt="No activities">
+                            <h4 class="no-results-text">{{lang["no-data"]}}</h4>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

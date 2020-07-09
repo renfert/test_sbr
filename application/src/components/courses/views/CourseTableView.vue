@@ -1,10 +1,22 @@
 <template>
    <div class="col-auto" v-loading="loading">
+        <lang></lang>
         <h4><b>{{lang["list-course"]}}</b></h4>
-        <div style="margin-bottom: 10px">
+        <div style="margin-bottom: 10px">   
             <el-row>
                 <el-col :span="6">
-                <el-input v-model="filters[0].value" placeholder="Search"></el-input>
+                    <el-input v-model="filters[0].value" placeholder="Search"></el-input>
+                </el-col>
+                <el-col v-if="courseList != null" :span="6">
+                    <export-excel
+                        :data="courseList"
+                        name = "courses.xls"
+                    >
+                        <el-tooltip class="item" effect="dark" :content="lang['export']" placement="top">
+                            <el-button class="sbr-btn sbr-purple ml-3"  type="primary" icon="el-icon-download" circle></el-button>
+                        </el-tooltip>
+                    
+                    </export-excel>
                 </el-col>
             </el-row>
         </div>
@@ -14,9 +26,9 @@
 
             <el-table-column label="Actions" align="center">
                 <template slot-scope="scope">
-                    <el-button class="btn-sabiorealm" v-if="roleId != 3" @click.prevent="editCourse(scope.row.id)" type="primary"  size="medium" icon="el-icon-edit" circle></el-button>
-                    <el-button class="btn-sabiorealm-danger" v-if="roleId != 3" type="danger"  size="medium" icon="el-icon-delete" circle></el-button>
-                    <el-button class="btn-sabiorealm-secondary" @click.prevent="viewCourse(scope.row.id)" type="success"  size="medium" icon="el-icon-video-play" circle></el-button>
+                    <el-button class="sbr-btn sbr-primary" v-if="roleId != 3" @click.prevent="editCourse(scope.row.id)" type="primary"  size="medium" icon="el-icon-edit" circle></el-button>
+                    <el-button class="sbr-btn sbr-danger" v-if="roleId != 3" type="danger"  size="medium" icon="el-icon-delete" circle></el-button>
+                    <el-button class="sbr-btn sbr-secondary" @click.prevent="viewCourse(scope.row.id)" type="success"  size="medium" icon="el-icon-video-play" circle></el-button>
                 </template>
             </el-table-column>
         </data-tables>
@@ -33,11 +45,15 @@ import {eventLang} from '@/components/helper/HelperLang'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import lang from 'element-ui/lib/locale/lang/en'
+import Lang from '@/components/helper/HelperLang'
 import locale from 'element-ui/lib/locale'
 import domains from '@/mixins/domains'
+import excel from 'vue-excel-export'
 import alerts from '@/mixins/alerts'
 
 locale.use(lang)
+
+Vue.use(excel)
 Vue.use(DataTables)
 Vue.use(DataTablesServer)
 Vue.use(ElementUI)
@@ -45,6 +61,9 @@ Vue.use(VueTheMask)
 Vue.use(VueAxios, axios)
 export default {
     mixins: [domains,alerts],
+    components: {
+        Lang
+    },
     data: function() {
         return {   
             titles : [{prop: "title",label: "Title"}],
@@ -73,19 +92,11 @@ export default {
     methods:{
         editCourse:function(id){
             sessionStorage.setItem('sbr_course_id', ''+id+'');
-            if(process.env.NODE_ENV === 'production'){
-                window.location.href="pages/editcourse";
-            }else{
-                window.location.href="editcourse";
-            }
+            window.location.href="editcourse";
         },
         viewCourse: function(id){
             sessionStorage.setItem('sbr_course_id', ''+id+'');
-            if(process.env.NODE_ENV === 'production'){
-                window.location.href="pages/viewcourse";
-            }else{
-                 window.location.href="viewcourse";
-            }
+            window.location.href="viewcourse";
         },
         updateCourseListArray(){
             this.loading = true;

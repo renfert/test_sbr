@@ -15,13 +15,13 @@
         
             <!-- Courses list content -->
             <div class="course-content" v-if="coursesInsideGroup != null">
-                <div style="margin-bottom: 10px" >
+                <div class="mb-5">
                     <el-row>
-                        <el-col :span="6">
+                        <el-col :span="6" class="mr-5">
                             <el-input v-model="filters[0].value" placeholder="Search"></el-input>
                         </el-col>
-                        <el-col :span="6">
-                            <el-button  @click.prevent="addCourse" style="margin-left:15%;" class="btn-sabiorealm" icon="el-icon-plus" circle></el-button>
+                        <el-col :span="2">
+                            <el-button  @click.prevent="addCourse"  class="sbr-btn sbr-purple" icon="el-icon-plus" circle></el-button>
                         </el-col>
                     </el-row>
                 </div>
@@ -39,10 +39,8 @@
                             @onConfirm="removeCourseFromGroup(scope.row.id)"
                             >
                                 <el-button 
-                                    class="btn-sabiorealm-danger" 
+                                    class="sbr-btn sbr-danger" 
                                     slot="reference" 
-                                    type="danger"  
-                                    size="medium" 
                                     icon="el-icon-delete" 
                                     circle>
                                 </el-button>
@@ -53,23 +51,17 @@
             </div> <!-- Courses list content -->
 
             <!-- No courses found content -->
-            <div class="card-box box-no-results" v-else>
-                <div class="row">
-                    <div class="col-1"></div>
-                    <div class="col-5">
-                        <div class="text-no-results">
-                            <h4 class="mb-4">{{lang["no-results-courses-in-group"]}}</h4>
-                            <el-button   
-                                class="btn-sabiorealm"
-                                @click="addCourse()"
-                                type="primary"  
-                                size="medium">
-                                {{lang["add-course"]}}
-                            </el-button>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <img class="image-no-results" src="@/assets/img/general/ux/no_courses.png" alt="">
+            <div  v-else>
+                <div class="row mb-5">
+                    <div class="col-12 text-center">
+                        <img class="no-results-img" src="@/assets/img/general/ux/not_found.png" alt="No activities">
+                        <h4 class="no-results-text mb-3">{{lang["no-results-courses-in-group"]}}</h4>
+                         <el-button   
+                            class="sbr-btn sbr-primary"
+                            @click="addCourse()"
+                        >
+                            {{lang["add-course"]}}
+                        </el-button>
                     </div>
                 </div>
             </div>
@@ -103,25 +95,19 @@
                     <br>
                     <el-button   
                         v-loading="loadingButton" 
-                        class="btn-sabiorealm"
+                        class="sbr-btn sbr-primary"
                         @click="saveCourses()"
-                        type="primary"  
-                        size="medium">
+                    >
                         {{lang["save-button"]}}
                     </el-button>
                 </div>
 
-                <!-- No courses found content -->
-                <div class="card-box box-no-results" v-else>
-                    <div class="row">
-                        <div class="col-1"></div>
-                        <div class="col-5">
-                            <div class="text-no-results">
-                                <h5>{{lang["all-courses-already-added"]}}</h5>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <img class="image-no-results" src="@/assets/img/general/ux/no_courses.png" alt="">
+                <!-- No courses found  -->
+                <div  v-else>
+                    <div class="row mb-5">
+                        <div class="col-12 text-center">
+                            <img class="no-results-img" src="@/assets/img/general/ux/not_found.png" alt="No activities">
+                            <h4>{{lang["all-courses-already-added"]}}</h4>
                         </div>
                     </div>
                 </div>
@@ -269,13 +255,10 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
     .image-no-results{
-        width:60%;
-    }
-    .box-no-results{
-       background-color: #F9FBFC;
+        width:40%;
     }
     .text-no-results{
-        margin-top:15%;
+        margin-top:5%;
     }
 
 </style>

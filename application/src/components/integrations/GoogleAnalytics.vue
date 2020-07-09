@@ -4,7 +4,7 @@
         <br>
         <form @submit.prevent="saveAnalytics()" id="form-google-analytics">
             <el-input v-model="id" name="id" :placeholder="lang['tracking-id']"></el-input>
-            <el-button class="btn-sabiorealm mt-3" native-type="submit" type="primary">{{lang["save-button"]}}</el-button>
+            <el-button class="sbr-btn sbr-primary mt-3" native-type="submit" type="primary">{{lang["save-button"]}}</el-button>
         </form>
     </div>
 </template>

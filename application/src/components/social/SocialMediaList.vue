@@ -16,35 +16,6 @@
                 </draggable>     
             </ul>      
         </div> <!-- End accordion -->
-
-        <!--  Modal edit social media -->
-        <div>
-            <el-dialog  :visible.sync="modal" :title="lang['edit']" center width="40%" top="5vh">
-                <form id="form-social" @submit.prevent="editSocialMedia()">
-                    <input class="hide" type="number" name="socialMediaId" v-model="socialMediaId">
-                    <div class="form-group">
-                        <label>{{lang["social-media"]}}</label>
-                        <div class="block">
-                            <select class="form-select" name="socialMedia" v-model="name">
-                                <option value="facebook">Facebook</option>
-                                <option value="instagram">Instagram</option>
-                                <option value="linkedin">Linkedin</option>
-                                <option value="twitter">Twitter</option>
-                                <option value="pinterest">Pinterest</option>
-                                <option value="youtube">Youtube</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>{{lang["url"]}}</label>
-                        <el-input  name="url" v-model="url"></el-input>
-                        </div>
-                        <div class="form-group">
-                        <el-button native-type="submit"  type="primary"  size="medium">{{lang["save-button"]}}</el-button>
-                    </div>
-                </form>  
-            </el-dialog>
-        </div>
     </div>
 </template>
 
@@ -81,10 +52,6 @@ export default {
         return {
             lang: {},
             socialMedias: null,
-            socialMediaId: '',
-            name: '',
-            url : '',
-            modal: false,
             loading: false
         }
     },
@@ -99,24 +66,13 @@ export default {
         this.updateSocialMediaListArray();
     },
     methods: {
-        editSocialMedia: function(){
-            var form = document.getElementById('form-social')
-            var formData = new FormData(form)
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("social", "edit");
-            axios.post(urlToBeUsedInTheRequest, formData).then(() => {
-                this.successMessage();
-                this.actionsToBePerformedAfterEdit();
-            }, 
-                function(){
-                    this.errorMessage();
-                }.bind(this)
-            );
-        },
         openEditSocialMediaModal: function(id,name,url){
-            this.socialMediaId = id;
-            this.name = name;
-            this.url = url;
-            this.modal = true; 
+            let data = {
+                "id": id,
+                "name": name,
+                "url": url
+            }
+            eventBus.$emit("edit-social-media", data)
         },
         deleteSocialMedia: function(id){
             var formData = new FormData();
@@ -146,11 +102,6 @@ export default {
                 }.bind(this)
             );
         },
-        actionsToBePerformedAfterEdit(){
-            eventBus.$emit("new-change-footer");
-            this.updateSocialMediaListArray();
-            this.modal = false; 
-        }
     }
 }
 </script>

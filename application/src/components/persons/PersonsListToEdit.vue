@@ -9,11 +9,11 @@
                             {{element.name}}
                             <div class="action-icons">
                                 <!-- Edit person -->
-                                <el-button @click.prevent="openEditPersonModal(element.id,element.name,element.occupation,element.comment,element.photo)" type="primary" size="medium" icon="el-icon-edit" circle></el-button>
+                                <el-button @click.prevent="openEditPersonModal(element.id,element.name,element.occupation,element.comment,element.photo)" class="sbr-btn sbr-primary" icon="el-icon-edit" circle></el-button>
                                 <!-- Delete person -->
-                                <el-button @click.prevent="deletePerson(element.id)"  slot="reference" type="danger"  size="medium" icon="el-icon-delete" circle></el-button>
+                                <el-button @click.prevent="deletePerson(element.id)"  slot="reference" class="sbr-btn sbr-danger" icon="el-icon-delete" circle></el-button>
                                 <!-- Change position -->
-                                <el-button type="success" icon="el-icon-rank" class="handle positionPerson" :id="element.id" circle></el-button>
+                                <el-button  icon="el-icon-rank" class="handle positionPerson sbr-btn sbr-neutral" :id="element.id" circle></el-button>
                             </div>
                         </li>
                     </transition-group>
@@ -50,7 +50,7 @@
                     <el-input type="textarea" name="comment" v-model="comment"></el-input>
                 </div>
                 <div class="form-group">
-                    <el-button native-type="submit"  type="primary"  size="medium">{{lang["save-button"]}}</el-button>
+                    <el-button native-type="submit"  class="sbr-btn sbr-primary">{{lang["save-button"]}}</el-button>
                 </div>
             </form>
         </el-dialog>

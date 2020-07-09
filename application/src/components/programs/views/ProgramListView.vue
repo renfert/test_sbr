@@ -39,7 +39,7 @@
 
                         <el-divider v-if="roleId != 3"><i class="el-icon-more-outline"></i></el-divider>
                         <el-row v-if="roleId != 3">
-                            <el-button class="btn-sabiorealm" @click.prevent="editProgram(element.id)" type="primary" icon="el-icon-edit" circle></el-button>
+                            <el-button class="sbr-btn sbr-primary" @click.prevent="editProgram(element.id)" type="primary" icon="el-icon-edit" circle></el-button>
                             <template>
                                 <el-popconfirm
                                     confirmButtonText='Ok'
@@ -48,7 +48,7 @@
                                     :title="lang['question-delete-program'] + element.title  + '?'"
                                     @onConfirm="deleteProgram(element.id)"
                                 >
-                                <el-button class="btn-sabiorealm-danger" slot="reference" type="danger" icon="el-icon-delete" circle></el-button>
+                                <el-button class="sbr-btn sbr-danger" slot="reference" type="danger" icon="el-icon-delete" circle></el-button>
                                 </el-popconfirm>
                             </template>
                         </el-row>
@@ -140,11 +140,7 @@ export default {
 
             if(expirationDays > 0  && releaseDays <= 0){
                 sessionStorage.setItem('sbr_program_id', ''+id+'');
-                if(process.env.NODE_ENV === 'production'){
-                    window.location.href="pages/viewprogram";
-                }else{
-                    window.location.href="viewprogram";
-                }
+                window.location.href="viewprogram";
             }
         },
         getProgram(){

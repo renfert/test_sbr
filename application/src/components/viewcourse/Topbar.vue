@@ -6,8 +6,8 @@
             <a class="pr-5" :href="getDomainNameToNavigation() + 'courses'">
                 <el-button size="medium"  icon="el-icon-back" circle></el-button>
             </a>
-            <el-button  class="btn-sabiorealm mr-3" @click="prevLesson()" icon="el-icon-arrow-left"></el-button>
-            <el-button class="btn-sabiorealm" @click="nextLesson()"  ><i class="el-icon-arrow-right"></i></el-button>
+            <el-button  class="sbr-btn sbr-primary mr-3" @click="prevLesson()" icon="el-icon-arrow-left"></el-button>
+            <el-button class="sbr-btn sbr-primary" @click="nextLesson()"  ><i class="el-icon-arrow-right"></i></el-button>
         </div>
 
        
@@ -45,8 +45,8 @@
             <ul class="navbar-nav mr-6">
                 <li class="nav-item">
                     <el-button-group>
-                        <el-button class="btn-sabiorealm" @click="prevLesson()" icon="el-icon-arrow-left">Previous lesson</el-button>
-                        <el-button class="btn-sabiorealm" @click="nextLesson()"  >Next lesson<i class="el-icon-arrow-right"></i></el-button>
+                        <el-button class="sbr-btn sbr-primary mr-4" @click="prevLesson()" icon="el-icon-arrow-left">Previous lesson</el-button>
+                        <el-button class="sbr-btn sbr-primary" @click="nextLesson()"  >Next lesson<i class="el-icon-arrow-right"></i></el-button>
                     </el-button-group>
                 </li>
                 
@@ -234,7 +234,7 @@ export default {
 }
 
 .progress-bar{
-    background-color: #00A9B4;
+    background-color: #009CD8 !important;
 }
 
 .col-2{

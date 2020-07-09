@@ -128,7 +128,7 @@
                     </el-tabs>
                 </template>
                 </div>
-                <el-button class="btn-sabiorealm" native-type="submit"  type="primary"  size="medium">{{lang["save-button"]}}</el-button>
+                <el-button class="sbr-btn sbr-primary" native-type="submit"  type="primary"  size="medium">{{lang["save-button"]}}</el-button>
             </form>
         </div>
         <helper-progress></helper-progress>

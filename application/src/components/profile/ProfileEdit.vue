@@ -48,7 +48,7 @@
 
                
                 <div class="form-group">
-                    <el-button native-type="submit"  type="primary"  size="medium">{{lang["save-button"]}}</el-button>
+                    <el-button native-type="submit" class="sbr-btn sbr-primary">{{lang["save-button"]}}</el-button>
                 </div>
             </form>
         </div>

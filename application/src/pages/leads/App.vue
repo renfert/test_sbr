@@ -32,13 +32,14 @@ import domains from '@/mixins/domains'
 import alerts from '@/mixins/alerts'
 import headerTags from '@/mixins/headerTags'
 import integrations from '@/mixins/integrations'
+import verify from '@/mixins/verify'
 export const eventBus = new Vue();
 
 
 Vue.use(VueAxios, axios)
 Vue.use(VueHead)
 export default {
-    mixins: [domains,alerts,integrations,headerTags],
+    mixins: [domains,alerts,integrations,headerTags,verify],
     data: () => {
         return {
             lang: {}
@@ -51,6 +52,8 @@ export default {
         LeadList,
     },
     created: function(){
+        this.verifySession();
+        this.verifyAdministratorPrivileges();
         this.loadIntegrations();
         this.createFavicon();
     },

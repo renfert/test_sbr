@@ -12,7 +12,12 @@ class Chart extends CI_Controller {
 
 	public function getRegisteredUsersPerMonth(){
         $chart = $this->Chart_Model->getRegisteredUsersPerMonth();
-        echo json_encode($chart);
+        
+        if(sizeof($chart) == 1){
+            echo json_encode(null);  
+        }else{
+            echo json_encode($chart);  
+        }
     }
 
 

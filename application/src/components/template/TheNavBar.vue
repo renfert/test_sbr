@@ -3,7 +3,7 @@
         <login></login>
        
         <nav dark class="navbar navbar-expand-lg navbar-dark" :style="styleHeader">
-            <a class="navbar-brand" href="index">
+            <a class="navbar-brand" :href="getDomainNameToNavigation()">
                 <img class="sabio-logo" :src="logo" :width="logoSize" >
             </a>
             <button  @click.prevent="changeMobileButtonClass()" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"

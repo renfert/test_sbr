@@ -36,7 +36,7 @@
                 </el-table-column>
                 <el-table-column  label="Actions" align="center">
                     <template slot-scope="scope">
-                        <el-button @click="openCorrection(scope.row.id,scope.row.studentId)"  type="primary" size="medium" icon="el-icon-edit" circle></el-button> 
+                        <el-button @click="openCorrection(scope.row.id,scope.row.studentId)"  class="sbr-btn sbr-primary" icon="el-icon-edit" circle></el-button> 
                     </template>
                 </el-table-column>
                 <el-table-column   
@@ -55,17 +55,10 @@
             </data-tables>
         </div>  <!-- End correction list -->
 
-        <div class="card-box box-no-results" v-else>
-            <div class="row">
-                <div class="col-1"></div>
-                <div class="col-5">
-                    <div class="text-no-results">
-                        <h4>{{lang["no-results-corrections-title"]}}</h4>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <img class="image-no-results" src="@/assets/img/general/ux/no_questions.png" alt="">
-                </div>
+        <div class="row mb-5 mt-5" v-else>
+            <div class="col-12 text-center">
+                <img class="no-results-img" src="@/assets/img/general/ux/no_exams.png" alt="No persons">
+                <h4 class="no-results-text">{{lang["no-results-corrections-title"]}}</h4>
             </div>
         </div>
     </div><!-- End col-12 -->

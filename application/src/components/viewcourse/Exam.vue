@@ -10,7 +10,7 @@
             :close-on-click-modal="false"
             :close-on-press-escape="false"
         >
-            <div slot="title" class="exam-header">
+            <div slot="title" class="exam-header" v-if="examOn">
                 <vac :end-time="new Date().getTime() + time" v-if="time != ''">
                     <span
                         slot="process"
@@ -21,18 +21,22 @@
             
                 <div class="controls">
                     <el-button-group>
-                        <el-button class="btn-sabiorealm" @click="prevQuestion();" type="primary" icon="el-icon-arrow-left">Previous question</el-button>
-                        <el-button class="btn-sabiorealm" @click="nextQuestion();" type="primary">Next question<i class="el-icon-arrow-right"></i></el-button>
+                        <el-button class="sbr-primary" @click="prevQuestion();" type="primary" icon="el-icon-arrow-left">Previous question</el-button>
+                        <el-button class="sbr-primary" @click="nextQuestion();" type="primary">Next question<i class="el-icon-arrow-right"></i></el-button>
                     </el-button-group>
                     <br><br>
                     
                     
-                    <el-button  v-loading="loading" :disabled="loading" class="btn-sabiorealm-secondary" @click.prevent="finishExam()" v-if="showFinishExamButton" native-type="submit" type="success">{{lang["finish-exam"]}}</el-button>
+                    <el-button  v-loading="loading" :disabled="loading" class="sbr-purple" @click.prevent="finishExam()" v-if="showFinishExamButton" native-type="submit" type="success">{{lang["finish-exam"]}}</el-button>
                 </div>
             </div>
 
+            <div slot="title" v-else>
+                <h3>{{lang["process-exam"]}}</h3>
+            </div>
+
        
-            <form id="form-exam"  :key="componentKey">
+            <form id="form-exam"  :key="componentKey" v-if="examOn">
                 <input type="text" class="hide" name="examId" v-model="examId">
                 <div style="margin-top:-40px !important;" :class="index == questionsControl ? '' : 'hide'" class="questions" v-for="(element , index) in questions" :key="index">
                     <div  class="current-question" :class="index == questionsControl ? '' : 'hide'">
@@ -70,15 +74,18 @@
                                     do-upload= "true"
                                     box-height = "200"
                                     :return-name="'answer['+element.id+']'" 
-                                    input-name="fileAnswer"  
-                                    type="answer-exam" 
-                                    acceptable="*">
+                                    input-name="file"  
+                                    bucket-key="uploads/answers" 
+                                    acceptable=".*">
                                 </upload>
                             </div>
                         </div>
                     </div>
                 </div>
             </form>
+            <div v-else class="text-center">
+                <img src="https://sbrfiles.s3.amazonaws.com/gifs/loader4.gif" style="width:50%;" alt="">
+            </div>
         </el-dialog>
         <helper-progress></helper-progress>
     </div>
@@ -142,6 +149,7 @@ export default {
             retest: '',
             componentKey: 0,
             loading: false,
+            examOn: true,
 
             showFinishExamButton: false
            
@@ -180,7 +188,7 @@ export default {
             this.componentKey += 1;
         },
         finishExam() {
-            this.loading = true;
+            this.examOn = false;
             var form = document.getElementById('form-exam')
             var formData = new FormData(form)
             var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("exam", "finish");
@@ -190,13 +198,16 @@ export default {
                     "lessonStatus": this.lessonStatus,
                     "lessonType": this.lessonType,
                 };
-                eventBus.$emit("exam-finished");  
-                eventBus.$emit("load-lesson", data);
-                this.modal = false;
-                eventBus.$emit("update-progress-bar");
-                eventBus.$emit("update-modules");
-                this.forceRerender();
-                this.loading = false;
+            
+                setTimeout(function(){ 
+                    eventBus.$emit("exam-finished");  
+                    eventBus.$emit("load-lesson", data);
+                    
+                    eventBus.$emit("update-progress-bar");
+                    eventBus.$emit("update-modules");
+
+                    this.forceRerender();
+                }.bind(this), 6000);
             },
                 function(){
                     this.errorMessage();

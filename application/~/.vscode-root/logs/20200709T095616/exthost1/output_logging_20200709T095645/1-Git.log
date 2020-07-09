@@ -1,0 +1,126 @@
+Looking for git in: git
+Using git 2.11.0 from git
+> git rev-parse --show-toplevel
+> git rev-parse --git-dir
+> git config --get commit.template
+Open repository: /var/www/html/sabiorealm
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse fix/pagesRestrictions
+> git rev-parse --symbolic-full-name fix/pagesRestrictions@{u}
+fatal: no upstream configured for branch 'fix/pagesRestrictions'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git check-ignore -v -z --stdin
+> git show :.htaccess
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse fix/pagesRestrictions
+> git rev-parse --symbolic-full-name fix/pagesRestrictions@{u}
+fatal: no upstream configured for branch 'fix/pagesRestrictions'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse fix/pagesRestrictions
+> git rev-parse --symbolic-full-name fix/pagesRestrictions@{u}
+fatal: no upstream configured for branch 'fix/pagesRestrictions'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git show :.htaccess
+> git check-ignore -v -z --stdin
+> git check-ignore -v -z --stdin
+> git check-ignore -v -z --stdin
+> git check-ignore -v -z --stdin
+> git check-ignore -v -z --stdin
+> git check-ignore -v -z --stdin
+> git check-ignore -v -z --stdin
+> git check-ignore -v -z --stdin
+> git check-ignore -v -z --stdin
+> git check-ignore -v -z --stdin
+> git check-ignore -v -z --stdin
+> git check-ignore -v -z --stdin
+> git check-ignore -v -z --stdin
+> git check-ignore -v -z --stdin
+> git show :application/src/components/site/section/elements/get/ProductList.vue
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse fix/pagesRestrictions
+> git rev-parse --symbolic-full-name fix/pagesRestrictions@{u}
+fatal: no upstream configured for branch 'fix/pagesRestrictions'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse fix/pagesRestrictions
+> git rev-parse --symbolic-full-name fix/pagesRestrictions@{u}
+fatal: no upstream configured for branch 'fix/pagesRestrictions'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git show :application/src/components/site/section/elements/get/ProductList.vue
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse fix/pagesRestrictions
+> git rev-parse --symbolic-full-name fix/pagesRestrictions@{u}
+fatal: no upstream configured for branch 'fix/pagesRestrictions'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git check-ignore -v -z --stdin
+> git check-ignore -v -z --stdin
+> git check-ignore -v -z --stdin
+> git show :application/src/pages/products/App.vue
+> git check-ignore -v -z --stdin
+> git check-ignore -v -z --stdin
+> git check-ignore -v -z --stdin
+> git check-ignore -v -z --stdin
+> git check-ignore -v -z --stdin
+> git check-ignore -v -z --stdin
+> git check-ignore -v -z --stdin
+> git show :application/src/components/template/TheNavBar.vue
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse fix/pagesRestrictions
+> git rev-parse --symbolic-full-name fix/pagesRestrictions@{u}
+fatal: no upstream configured for branch 'fix/pagesRestrictions'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse fix/pagesRestrictions
+> git rev-parse --symbolic-full-name fix/pagesRestrictions@{u}
+fatal: no upstream configured for branch 'fix/pagesRestrictions'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse fix/pagesRestrictions
+> git rev-parse --symbolic-full-name fix/pagesRestrictions@{u}
+fatal: no upstream configured for branch 'fix/pagesRestrictions'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git check-ignore -v -z --stdin
+> git show :application/src/components/modules/ModuleList.vue
+> git check-ignore -v -z --stdin
+> git show :application/src/components/viewcourse/Navigation.vue
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse fix/pagesRestrictions
+> git rev-parse --symbolic-full-name fix/pagesRestrictions@{u}
+fatal: no upstream configured for branch 'fix/pagesRestrictions'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse fix/pagesRestrictions
+> git rev-parse --symbolic-full-name fix/pagesRestrictions@{u}
+fatal: no upstream configured for branch 'fix/pagesRestrictions'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git show :application/src/components/viewcourse/Navigation.vue
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse fix/pagesRestrictions
+> git rev-parse --symbolic-full-name fix/pagesRestrictions@{u}
+fatal: no upstream configured for branch 'fix/pagesRestrictions'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose

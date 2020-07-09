@@ -1,7 +1,7 @@
 <template>
     <div class="main">
         <lang></lang>
-        <el-tag v-if="answers != null">{{lang["correct-answer-information"]}}</el-tag>
+        <el-tag class="mb-3" v-if="answers != null">{{lang["correct-answer-information"]}}</el-tag>
 
         <bullet-list-loader 
             class="mt-3"
@@ -27,13 +27,13 @@
                             </div>
                             <div class="action-buttons float-right">
                                 <!-- Edit answer -->
-                                <el-button @click.prevent="openEditAnswerModal(element.id,element.answer)" type="primary" class="btn-sabiorealm"  size="mini" icon="el-icon-edit" circle></el-button>
+                                <el-button @click.prevent="openEditAnswerModal(element.id,element.answer)"  class="sbr-btn sbr-primary"  icon="el-icon-edit" circle></el-button>
                                 
                                 <!-- Delete module -->
-                                <el-button @click.prevent="deleteAnswer(element.id)" slot="reference" type="danger" class="btn-sabiorealm-danger" size="mini" icon="el-icon-delete" circle></el-button>
+                                <el-button @click.prevent="deleteAnswer(element.id)" slot="reference"  class="sbr-btn sbr-danger"  icon="el-icon-delete" circle></el-button>
                                   
                                 <!-- Move answer -->
-                                <el-button class="handle" type="purple"  size="mini" icon="el-icon-rank" circle></el-button>
+                                <el-button class="handle sbr-btn sbr-neutral"  icon="el-icon-rank" circle></el-button>
                             </div>
                         </li>
                     </transition-group>
@@ -57,8 +57,7 @@
                     <div class="form-row">
                         <div class="form-group col-xl-6 col-md-6">
                             <el-button  
-                                class="btn-sabiorealm"
-                                type="primary" 
+                                class="sbr-btn sbr-primary"
                                 native-type="submit"  
                                 size="medium">{{lang["save-button"]}}
                             </el-button>
@@ -298,7 +297,7 @@ export default {
 
 
 .handle{
-    cursor:move;
+    cursor:move !important;
 }
 
 

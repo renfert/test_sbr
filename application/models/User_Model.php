@@ -225,20 +225,22 @@ class User_Model extends CI_Model {
 	public function getStudents($instructorId){
 		$courses = array();
 		$instructorCourses = $this->getEnrolledCourses($instructorId);
-		foreach($instructorCourses as $row){
-			$courseId = $row->id;
-			array_push($courses, $courseId);
-		}
-
-		$this->db->select("T0.myuser_id");
-		$this->db->distinct();
-		$this->db->from("relationship T0 ");
-		$this->db->join("myuser T1", "T0.myuser_id = T1.id");
-		$this->db->where("T1.myrole_id", 3);
-		$this->db->where_in("T0.mycourse_id", $courses);
-		$query = $this->db->get();
-		if($query->num_rows() > 0){
-			return $query->result();
+		if($instructorCourses != null){
+			foreach($instructorCourses as $row){
+				$courseId = $row->id;
+				array_push($courses, $courseId);
+			}
+	
+			$this->db->select("T0.myuser_id");
+			$this->db->distinct();
+			$this->db->from("relationship T0 ");
+			$this->db->join("myuser T1", "T0.myuser_id = T1.id");
+			$this->db->where("T1.myrole_id", 3);
+			$this->db->where_in("T0.mycourse_id", $courses);
+			$query = $this->db->get();
+			if($query->num_rows() > 0){
+				return $query->result();
+			}
 		}
 	}
 

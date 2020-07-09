@@ -38,7 +38,7 @@
                         <answer-list :question-id="questionId"></answer-list>
                         <br>
                         <el-button 
-                            class="btn-sabiorealm"
+                            class="sbr-btn sbr-primary"
                             type="primary"  
                             @click.prevent="createNewAnswerEvent()" 
                             size="medium">{{lang["add-new-answer"]}}
@@ -69,7 +69,7 @@
           <br>
           <div class="form-row">
               <div class="form-group col-xl-6 col-md-6">
-                  <el-button class="btn-sabiorealm" v-loading="loading"  native-type="submit"  type="primary"  size="medium">{{lang["save-button"]}}</el-button>
+                  <el-button class="sbr-btn sbr-primary" v-loading="loading"  native-type="submit">{{lang["save-button"]}}</el-button>
               </div>
           </div>
       </form>  

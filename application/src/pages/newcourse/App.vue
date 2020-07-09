@@ -1,7 +1,7 @@
 <template >
     <div id="wrapper">
         <lang></lang>
-        <top-bar></top-bar>
+        <top-bar :trial-bar="false"></top-bar>
         <left-bar></left-bar>
     
         <!-- Content page -->
@@ -39,14 +39,17 @@ import domains from '@/mixins/domains'
 import alerts from '@/mixins/alerts'
 import headerTags from '@/mixins/headerTags'
 import integrations from '@/mixins/integrations'
+import verify from '@/mixins/verify'
 export const eventBus = new Vue();
 
 
 Vue.use(VueAxios, axios)
 Vue.use(VueHead)
 export default {
-    mixins: [domains,alerts,integrations,headerTags],
+    mixins: [domains,alerts,integrations,headerTags,verify],
     created: function(){
+        this.verifySession();
+        this.blockStudentAccess();
         this.loadIntegrations();
         this.createFavicon();
     },
@@ -86,4 +89,5 @@ export default {
     padding-left: 0px !important;
     padding-right: 0px !important;
 }
+
 </style>

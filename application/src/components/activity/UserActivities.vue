@@ -221,19 +221,11 @@ export default {
         },
         viewUser: function(id){
             sessionStorage.setItem('sbr_user_id', ''+id+'');
-            if(process.env.NODE_ENV === 'production'){
-                window.location.href="pages/user";
-            }else{
-                window.location.href="user";
-            }
+            window.location.href="user";
         },
         viewCourse: function(id){
             sessionStorage.setItem('sbr_course_id', ''+id+'');
-            if(process.env.NODE_ENV === 'production'){
-                window.location.href="pages/viewcourse";
-            }else{
-                window.location.href="viewcourse";
-            }
+            window.location.href="viewcourse";
         },
         getCurrentDate(){
             var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("verify", "getCurrentDate");

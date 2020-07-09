@@ -3,9 +3,9 @@
         <div class="card-box">
             <div class="float-right">
                 <!-- Massive import button -->
-                <el-button class="btn-sabiorealm"  v-if="plan == 'bussiness' || plan == 'trial'"  @click.prevent="modal = true" type="primary"  size="medium">{{lang["massive-import"]}}</el-button>
+                <el-button class="sbr-btn sbr-primary"  v-if="plan == 'bussiness' || plan == 'trial'"  @click.prevent="modal = true" type="primary"  size="medium">{{lang["massive-import"]}}</el-button>
 
-                <el-button @click.prevent="upgradePlan()" v-else class="btn-eadtools"   type="primary"    size="medium">{{lang["massive-import"]}}</el-button>
+                <el-button @click.prevent="upgradePlan()" v-else class="sbr-btn sbr-danger"   type="primary"    size="medium"> <i class="el-icon-lock"></i> {{lang["massive-import"]}}</el-button>
             </div>
             <h4>{{lang["create-user"]}}</h4><br>
             <form id="form-user" @submit.prevent="createUser">
@@ -23,10 +23,9 @@
                         <div class="form-group">
                             <el-button 
                                 v-loading="loadingButton" 
-                                class="btn-sabiorealm" 
+                                class="sbr-btn sbr-primary" 
                                 native-type="submit"  
-                                type="primary"  
-                                size="medium">
+                                >
                                 {{lang["save-button"]}}
                             </el-button>
                         </div>
@@ -64,8 +63,8 @@
             <div>
                 <el-dialog  :visible.sync="modal" :title="lang['massive-import']" center width="40%" top="5vh">
                     <div class="row">
-                        <div class="col-xl-12 col-md-12 left">
-                            <a download href="https://cdn.eadtools.com/files/import_user.xlsx" class="btn-ead-md btn-sabiorealm-secondary">{{lang["download-template"]}}</a>
+                        <div class="col-xl-12 col-md-12 text-center">
+                            <a  download href="https://cdn.eadtools.com/files/import_user.xlsx" class="sbr-btn sbr-purple">{{lang["download-template"]}}</a>
                         </div>
                     </div>
                     <br>
@@ -81,10 +80,10 @@
                                 <br>
                                 <el-button 
                                     v-loading="loadingButton" 
-                                    class="btn-sabiorealm" 
+                                    class="sbr-btn sbr-primary" 
                                     native-type="submit"  
                                     type="primary"  
-                                    size="medium">
+                                    >
                                     {{lang["save-button"]}}
                                 </el-button>
                             </form>

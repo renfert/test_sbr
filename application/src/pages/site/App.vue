@@ -9,10 +9,10 @@
             <div class="content">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-xl-4" v-if="fullScreen == false">
+                        <div class="col-xl-3" v-if="fullScreen == false">
                             <toolbar></toolbar>
                         </div>
-                        <div :class="fullScreen == false ? 'col-xl-8' : 'col-xl-12'">
+                        <div :class="fullScreen == false ? 'col-xl-9' : 'col-xl-12'">
                             <site-preview :full-screen-button="true"></site-preview>
                         </div>
                     </div>
@@ -37,12 +37,13 @@ import domains from '@/mixins/domains'
 import alerts from '@/mixins/alerts'
 import headerTags from '@/mixins/headerTags'
 import integrations from '@/mixins/integrations'
+import verify from '@/mixins/verify'
 export const eventBus = new Vue();
 
 Vue.use(VueAxios, axios)
 Vue.use(VueHead)
 export default {
-    mixins: [domains,alerts,integrations,headerTags],
+    mixins: [domains,alerts,integrations,headerTags,verify],
     data: () => {
         return {
             fullScreen: false
@@ -56,7 +57,8 @@ export default {
                 this.fullScreen = true;
             }
         }.bind(this));
-
+        this.verifySession();
+        this.verifyAdministratorPrivileges();
         this.loadIntegrations();
         this.createFavicon();
     },

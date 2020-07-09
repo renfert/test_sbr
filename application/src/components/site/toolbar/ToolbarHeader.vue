@@ -45,11 +45,10 @@
                     <div class="list-block">
                         <link-list></link-list>
                         <br>
-                        <el-button class="btn-sabiorealm" @click.prevent="openLinksModal()">{{lang["add-new-link"]}} <i class="el-icon-circle-plus-outline"></i> </el-button>
+                        <el-button class="sbr-btn sbr-primary" @click.prevent="openLinksModal()">{{lang["add-new-link"]}} <i class="el-icon-circle-plus-outline"></i> </el-button>
                     </div>
                 </el-menu-item-group>
             </el-submenu>
-            <link-create></link-create>
         </div>
     </div>
 </template>
@@ -66,7 +65,6 @@ import {eventLang} from '@/components/helper/HelperLang'
 import {eventUpload} from '@/components/helper/HelperUpload'
 import {eventBus} from '@/pages/site/App'
 import Upload from '@/components/helper/HelperUpload'
-import LinkCreate from '@/components/links/LinkCreate'
 import LinkList from '@/components/links/LinkList'
 import domains from '@/mixins/domains'
 import alerts from '@/mixins/alerts'
@@ -77,7 +75,6 @@ export default {
     mixins: [domains,alerts],
     components: {
         Upload,
-        LinkCreate,
         LinkList,
     },
     data: () => {

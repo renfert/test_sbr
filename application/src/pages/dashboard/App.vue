@@ -32,6 +32,7 @@ import domains from '@/mixins/domains'
 import alerts from '@/mixins/alerts'
 import headerTags from '@/mixins/headerTags'
 import integrations from '@/mixins/integrations'
+import verify from '@/mixins/verify'
 
 
 import Dashboards from '@/components/dashboards/Dashboards'
@@ -41,7 +42,7 @@ export const eventBus = new Vue();
 Vue.use(VueAxios, axios)
 Vue.use(VueHead)
 export default {
-    mixins: [domains,alerts,headerTags,integrations],
+    mixins: [domains,alerts,headerTags,integrations,verify],
     data: () => {
         return {
             img: '',
@@ -57,6 +58,7 @@ export default {
     created: function(){
         this.loadIntegrations();
         this.createFavicon();
+        this.verifySession();
     },
     head: {
         title: {

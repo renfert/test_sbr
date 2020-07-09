@@ -35,6 +35,7 @@ export default {
             modal:false
         }
     },
+    props:['type'],
     mounted(){
         eventLang.$on('lang', function(response){
             this.lang = response;

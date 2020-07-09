@@ -173,11 +173,7 @@ export default {
         },
         viewCourse: function(){
             sessionStorage.setItem('sbr_course_id', ''+this.courseId+'');
-            if(process.env.NODE_ENV === 'production'){
-                window.location.href="pages/viewcourse";
-            }else{
-                 window.location.href="viewcourse";
-            }
+            window.location.href="viewcourse";
         },
         getCourse: function(){
             var formData = new FormData();

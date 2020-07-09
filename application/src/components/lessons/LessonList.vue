@@ -26,7 +26,7 @@
 
                                         <!-- Edit lesson -->   
                                         <el-tooltip class="item" effect="dark" :content="lang['edit-lesson']" placement="top-start">
-                                            <el-button class="btn-sabiorealm" @click.prevent="editLesson(element.id,element.title,element.path,element.ext, element.real_name, element.date, element.time,element.description,element.url,element.approval,element.retest,element.type_mylesson_id,element.status)" type="primary"  size="mini" icon="el-icon-edit" circle></el-button>
+                                            <el-button class="sbr-btn sbr-primary mr-1" @click.prevent="editLesson(element.id,element.title,element.path,element.ext, element.real_name, element.date, element.time,element.description,element.url,element.approval,element.retest,element.type_mylesson_id,element.status)" type="primary"  size="mini" icon="el-icon-edit" circle></el-button>
                                         </el-tooltip>
 
                                         <!-- Delete lesson -->
@@ -38,13 +38,13 @@
                                                 :title="lang['question-delete-lesson'] +element.title  + '?'"
                                                 @onConfirm="deleteLesson(element.id)"
                                             >
-                                                <el-button class="btn-sabiorealm-danger"  slot="reference" type="danger"  size="mini" icon="el-icon-delete" circle></el-button>
+                                                <el-button class="sbr-btn sbr-danger mr-1"  slot="reference" type="danger"  size="mini" icon="el-icon-delete" circle></el-button>
                                             </el-popconfirm>
                                         </template>
                                             
                                         <!-- Move lesson -->
                                         <el-tooltip class="item" effect="dark" :content="lang['reposition-lesson']" placement="top-start">
-                                            <el-button class="handle" type="purple"  size="mini" icon="el-icon-rank" circle></el-button>
+                                            <el-button class="handle sbr-btn sbr-neutral mr-1" type="purple"   size="mini" icon="el-icon-rank" circle></el-button>
                                         </el-tooltip>
                                         <el-divider direction="vertical"></el-divider>
                                     </template>
@@ -280,7 +280,7 @@ export default {
 }
 
 .handle{
-    cursor:move;
+    cursor:move !important;
 }
 
 li{

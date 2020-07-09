@@ -50,33 +50,36 @@ class Chart_Model extends CI_Model {
 
         $students = $this->User_Model->getStudents(getUserId());
         $studentsIdAr = array();
-        foreach($students as $row){
-            $studentId = $row->myuser_id;
-            array_push($studentsIdAr, $studentId);
+        
+        if($students != null){
+            foreach($students as $row){
+                $studentId = $row->myuser_id;
+                array_push($studentsIdAr, $studentId);
+            }
+    
+            $this->db->select("
+                count(case when T0.status='in_progress' then 1 end) as totalInProgress,
+                count(case when T0.status is null then 1 end) as totalNotInitiated,
+                count(case when T0.status='finished' then 1 end) as totalFinalized
+            ");
+            $this->db->from("course_helper T0");
+            $this->db->join("myuser T1", "T0.myuser_id = T1.id");
+            $this->db->where("T1.myrole_id", 3);
+            $this->db->where("T0.mycourse_id !=", 1);
+            $this->db->where_in("T0.myuser_id", $studentsIdAr);    
+            $query = $this->db->get();
+            if($query->num_rows() > 0){
+                $result = $query->result()[0];
+                $finalizedCourses = array('Finalized', (int)$result->totalFinalized);
+                $inProgressCourses = array('In progress', (int)$result->totalInProgress);
+                $notInitiatedCourses = array('Not initiated', (int)$result->totalNotInitiated);
+                array_push($ar, $finalizedCourses);
+                array_push($ar, $inProgressCourses);
+                array_push($ar, $notInitiatedCourses);
+            }
+    
+            return $ar;
         }
-
-        $this->db->select("
-            count(case when T0.status='in_progress' then 1 end) as totalInProgress,
-            count(case when T0.status is null then 1 end) as totalNotInitiated,
-            count(case when T0.status='finished' then 1 end) as totalFinalized
-        ");
-        $this->db->from("course_helper T0");
-        $this->db->join("myuser T1", "T0.myuser_id = T1.id");
-        $this->db->where("T1.myrole_id", 3);
-        $this->db->where("T0.mycourse_id !=", 1);
-        $this->db->where_in("T0.myuser_id", $studentsIdAr);    
-        $query = $this->db->get();
-        if($query->num_rows() > 0){
-            $result = $query->result()[0];
-            $finalizedCourses = array('Finalized', (int)$result->totalFinalized);
-            $inProgressCourses = array('In progress', (int)$result->totalInProgress);
-            $notInitiatedCourses = array('Not initiated', (int)$result->totalNotInitiated);
-            array_push($ar, $finalizedCourses);
-            array_push($ar, $inProgressCourses);
-            array_push($ar, $notInitiatedCourses);
-        }
-
-        return $ar;
     }
 
     public function getStudentCourses($studentId){

@@ -15,10 +15,9 @@
                 <div class="form-group col-xl-6 col-md-6">
                     <el-button  
                         v-loading="loading"
-                        class="btn-sabiorealm"
-                        type="primary" 
+                        class="sbr-btn sbr-primary"
                         native-type="submit"  
-                        size="medium">{{lang["save-button"]}}
+                       >{{lang["save-button"]}}
                     </el-button>
                 </div>
             </div>

@@ -6,6 +6,7 @@
             <div class="col-12 col-md-12">
                 <div class="card-widget" >
                     <GChart
+                        v-if="coursesData"
                         type="PieChart"
                         :data="coursesData"
                         :options="coursesChartOptions"

@@ -19,7 +19,7 @@
                     <div class="text-programs">
                         <h4>{{lang["no-results-program-title"]}}</h4>
                         <br>
-                        <a href="newprogram" class="btn-ead btn-sabiorealm">{{lang["new-program-button"]}}</a>
+                        <a href="newprogram" class="sbr-btn sbr-primary">{{lang["new-program-button"]}}</a>
                     </div>
                 </div>
 
@@ -27,7 +27,7 @@
                     <div class="text-programs">
                         <h3>{{lang["programs-already-created"]}} <b class="text-eadtools">{{numberTotalOfProgramsCreated}}</b></h3>
                         <br>
-                        <a href="newprogram" class="btn-ead btn-sabiorealm">{{lang["new-program-button"]}}</a>
+                        <a href="newprogram" class="sbr-btn sbr-primary">{{lang["new-program-button"]}}</a>
                     </div>
                 </div>
 
@@ -115,7 +115,7 @@ export default {
     background-color: #F8FAFC;
 }
 .text-programs{
-    margin-top:25%;
+    margin-top:15%;
 }
 
 .el-divider--vertical{

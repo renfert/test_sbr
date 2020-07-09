@@ -28,16 +28,10 @@ const routes = [
         import(/* webpackChunkName: "calendar" */ '@/pages/calendar/App'), 
     },
     {
-        name: '404',
-        path: '/404',
+        name: 'invalidsession',
+        path: '/invalidsession',
         component: () => 
-        import(/* webpackChunkName: "404" */ '@/pages/404/App'), 
-    },
-    {
-        name: '404session',
-        path: '/404session',
-        component: () => 
-        import(/* webpackChunkName: "404session" */ '@/pages/404session/App'), 
+        import(/* webpackChunkName: "invalidsession" */ '@/pages/invalidsession/App'), 
     },
     {
         name: 'categories',
@@ -188,6 +182,12 @@ const routes = [
         path: '/viewprogram',
         component: () => 
         import(/* webpackChunkName: "viewprogram" */ '@/pages/viewprogram/App'), 
+    },
+    {
+        name: '404',
+        path: '*',
+        component: () => 
+        import(/* webpackChunkName: "404" */ '@/pages/404/App'), 
     },
 ]
 

@@ -63,7 +63,7 @@
             </div>
           <div class="form-row">
               <div class="form-group col-xl-6 col-md-6">
-                  <el-button v-loading="loading"  native-type="submit"  type="primary"  size="medium">{{lang["save-button"]}}</el-button>
+                  <el-button v-loading="loading"  native-type="submit"  class="sbr-btn sbr-primary">{{lang["save-button"]}}</el-button>
               </div>
           </div>
         </form>  

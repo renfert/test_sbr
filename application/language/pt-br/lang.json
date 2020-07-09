@@ -21,6 +21,23 @@
     "plans-nav": "Planos",
     "help-center-nav": "Help center",
 
+    "trial-expiration-date-info-pt1": "Você tem",
+    "trial-expiration-date-info-pt2": "dias para provar a plataforma",
+
+    "upgrade-plan-info-pt1": "Aproveite e escolha um",
+    "upgrade-plan-info-pt2": "antes que o tempo acabe",
+
+    "plan" :  "plano",
+
+
+    "no-data": "Não há dados",
+
+    "no-records": "Não há registros",
+    "no-certificates": "Não há certificados",
+
+    "process-exam": "Estamos processando seu exame, aguarde um momento...",
+    
+
     "activity-course-created": " criou um novo curso: ",
     "activity-course-deleted": " deletou um curso: ",
     "activity-course-edited": " editou um curso: ",

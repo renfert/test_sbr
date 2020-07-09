@@ -22,7 +22,7 @@
                             <!-- Already registered -->
                             <div v-if="registeredUser">   
                                 <el-button 
-                                    class="btn-sabiorealm btn-fix" 
+                                    class="sbr-btn sbr-primary btn-fix" 
                                     @click.prevent="seeCourse()"
                                     icon="el-icon-video-play">{{lang["watch-course"]}}
                                 </el-button>
@@ -31,7 +31,7 @@
                             <!-- Unregistered user -->
                             <div v-else>
                                 <el-button
-                                    class="btn-sabiorealm btn-fix"
+                                    class="sbr-btn sbr-primary btn-fix"
                                     @click.prevent="enrollFreeCourse()"
                                     icon="el-icon-notebook-1"
                                     v-loading="loading"
@@ -46,7 +46,7 @@
                         <!-- Inactive session -->
                         <div v-else>
                             <el-button
-                                class="btn-sabiorealm btn-fix"
+                                class="sbr-btn sbr-primary btn-fix"
                                 @click.prevent="openLeadModal()"
                                 icon="el-icon-notebook-1"
                             >
@@ -67,7 +67,7 @@
                             <!-- Already registered -->
                             <div v-if="registeredUser == true">
                                 <el-button 
-                                    class="btn-sabiorealm btn-fix" 
+                                    class="sbr-btn sbr-primary btn-fix" 
                                     @click.prevent="seeCourse()"
                                     icon="el-icon-video-play">{{lang["watch-course"]}}
                                 </el-button>
@@ -91,7 +91,7 @@
                         <div v-else>
                             <el-button
                                 @click.prevent="openAccountModal()"
-                                class="btn-sabiorealm btn-fix"
+                                class="sbr-btn sbr-primary btn-fix"
                             >
                                {{lang["buy-this-course"]}}
                             </el-button>
@@ -171,7 +171,7 @@
 
                 
                     <!-- Sign in button -->
-                    <button class="btn btn-info btn-block my-4" type="submit">{{lang['create-account']}}</button>
+                    <button class="sbr-btn sbr-primary btn-block my-4" type="submit">{{lang['create-account']}}</button>
 
                     <div class="options text-center">
                         <p class="pt-1">{{lang["already-have-account"]}} <a href="javascript:void(0)" @click="createAnAccount = false; login = true;" class="blue-text">Log In</a></p>
@@ -203,7 +203,7 @@
                     </div>
 
                     <!-- Sign in button -->
-                    <button class="btn btn-info btn-block my-4" type="submit">Sign in</button>
+                    <button class="sbr-btn sbr-primary btn-block my-4" type="submit">Sign in</button>
 
                     <!-- Register -->
                     <p>{{lang["not-a-member"]}}

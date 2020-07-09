@@ -7,9 +7,10 @@ class User extends CI_Controller {
     function __construct(){
         parent::__construct();
         $this->load->helper("email");
-        $this->load->model('User_Model');
-        $this->load->model('Course_Model');
-        $this->load->model('Verify_Model');
+        $this->load->model("User_Model");
+        $this->load->model("Course_Model");
+        $this->load->model("Program_Model");
+        $this->load->model("Verify_Model");
     }
 
     /* ---------------------
@@ -189,7 +190,7 @@ class User extends CI_Controller {
     public function removeProgramFromUser(){
         $userId = $this->input->post("userId");
         $courseId = $this->input->post("programId");
-        $result = $this->Program_Model->removeUserFromCourse($userId,$courseId);
+        $result = $this->Program_Model->removeUserFromProgram($userId,$courseId);
         echo json_encode($result);
     }
 

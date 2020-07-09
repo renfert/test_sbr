@@ -129,7 +129,7 @@ export default {
         eventBus.$on('new-course', function(response){
             this.courseId = response;
             sessionStorage.setItem('sbr_course_id', ''+response+'');
-            this.viewCourseUrl = this.getCurrentDomainName() + 'pages/viewcourse';
+            this.viewCourseUrl = this.getCurrentDomainName() + 'viewcourse';
             this.getUsersOutsideTheCourse(response);
         }.bind(this));
 

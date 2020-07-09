@@ -33,6 +33,7 @@ import alerts from '@/mixins/alerts'
 import ViewProgram from '@/components/viewprogram/Viewprogram'
 import headerTags from '@/mixins/headerTags'
 import integrations from '@/mixins/integrations'
+import verify from '@/mixins/verify'
 export const eventBus = new Vue();
 
 
@@ -40,7 +41,7 @@ export const eventBus = new Vue();
 Vue.use(VueAxios, axios)
 Vue.use(VueHead)
 export default {
-    mixins: [domains,alerts,integrations,headerTags],
+    mixins: [domains,alerts,integrations,headerTags,verify],
     components: { 
         TopBar,
         LeftBar,
@@ -53,6 +54,7 @@ export default {
         }
     },
     created(){
+        this.verifySession();
         this.loadIntegrations();
         this.createFavicon();
         this.programId = sessionStorage.getItem('sbr_program_id');

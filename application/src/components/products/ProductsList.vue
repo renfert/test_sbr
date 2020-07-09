@@ -74,7 +74,7 @@
                                 type="primary">
                                 {{lang["course-avaiable-in"]}} {{element.release_date}}
                             </el-tag>
-                            <button v-if="formatExpirationDays(element.expirationDays) > 0  && formatReleasedDays(element.releaseDays) < 0" @click="viewProduct(element.id,element.expirationDays,element.releaseDays)" class="btn-ead btn-sabiorealm">VER CURSO</button>
+                            <button v-if="formatExpirationDays(element.expirationDays) > 0  && formatReleasedDays(element.releaseDays) < 0" @click="viewProduct(element.id,element.expirationDays,element.releaseDays)" class="sbr-btn sbr-primary">VER CURSO</button>
                         </div>
                     </div>
                 </div>
@@ -179,11 +179,7 @@ export default {
 
             if(expirationDays > 0  && releaseDays <= 0){
                 sessionStorage.setItem('sbr_product_id', ''+id+'');
-                if(process.env.NODE_ENV === 'production'){
-                    window.location.href="pages/product";
-                }else{
-                    window.location.href="product";
-                }
+                window.location.href="product";
             }
         },
         formatExpirationDays: function (expirationDays) {

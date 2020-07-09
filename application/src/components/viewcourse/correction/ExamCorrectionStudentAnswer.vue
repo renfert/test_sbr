@@ -124,7 +124,7 @@
                 <a 
                     v-if="element.answer != '' && element.answer != null"
                     download
-                    class="btn-ead btn-sabiorealm"
+                    class="sbr-btn sbr-primary"
                     :href="''+getUrlToContents()+'answers/' + element.answer"
                 >
                 {{lang["download-answer"]}}
