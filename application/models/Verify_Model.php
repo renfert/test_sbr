@@ -4,7 +4,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Verify_Model extends CI_Model {
 
 	public function __construct(){
-		parent::__construct();
+        parent::__construct();
+        $this->load->model("Widgets_Model");
 	}
 
     public function userIsInCourse($userId, $courseId){
@@ -35,6 +36,47 @@ class Verify_Model extends CI_Model {
         }
     }
 
+    public function checkStorageAvailability(){
+        $usedStorage = $this->Widgets_Model->getStorage();
+        $plan = $this->getPlan();
+
+        /*------------ 
+        Basic plan 
+        ------------*/
+        if($plan == "basic"){
+            $availableStorage = 32;
+        }
+
+        /*------------ 
+        Pro plan 
+        ------------*/
+        if($plan == "pro"){
+            $availableStorage = 64;
+        }
+
+
+        /*------------ 
+        Growt plan 
+        ------------*/
+        if($plan == "growt"){
+            $availableStorage = 128;
+        }
+
+        /*------------ 
+        Bussiness plan 
+        ------------*/
+        if($plan == "bussiness"){
+            $availableStorage = 512;
+        }
+
+        
+        if($usedStorage >= $availableStorage){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
     public function correctAnswerExist($questionId){
         $this->db->select("T0.id");
         $this->db->distinct();
@@ -51,6 +93,14 @@ class Verify_Model extends CI_Model {
         }
     }
 
+    private function getPlan(){
+        $this->db->select("*");
+        $this->db->from("mycompany");
+        $query = $this->db->get();
+        $plan = $query->result()[0]->plan;
+        return $plan;
+    }
+
     public function getSubDomainName(){
         $this->db->select("*");
         $this->db->from("mycompany");
@@ -60,12 +110,7 @@ class Verify_Model extends CI_Model {
     }
 
     public function verifyUserCreate($role){
-
-        /* Get plan */
-        $this->db->select("*");
-        $this->db->from("mycompany");
-        $query = $this->db->get();
-        $plan = $query->result()[0]->plan;
+        $plan = $this->getPlan();
 
         /* Total students and instructors */
         $this->db->select("(SELECT COUNT(*) FROM myuser WHERE myrole_id = 2 ) as instructors, (SELECT COUNT(*) FROM myuser WHERE myrole_id = 3 ) as students");
@@ -73,10 +118,27 @@ class Verify_Model extends CI_Model {
         $totalInstructors = $query->result()[0]->instructors;
         $totalStudents = $query->result()[0]->students;
 
-
+        /* Basic plan */ 
         if($plan == "basic"){
             if($role == "Instructor"){
                 if($totalInstructors >= 1){
+                    return false;
+                }
+            }
+
+            if($role == "Student"){
+                if($totalStudents >= 50){
+                    return false;
+                }
+            }
+
+        }
+
+
+        /* Pro plan */ 
+        if($plan == "basic"){
+            if($role == "Instructor"){
+                if($totalInstructors >= 3){
                     return false;
                 }
             }
@@ -89,6 +151,7 @@ class Verify_Model extends CI_Model {
 
         }
 
+        /* Growt plan */ 
         if($plan == "growt"){
 
             if($role == "Instructor"){
@@ -105,6 +168,7 @@ class Verify_Model extends CI_Model {
 
         }
 
+        /* Bussiness plan */ 
         if($plan == "bussiness"){
 
             if($role == "Instructor"){
@@ -121,16 +185,17 @@ class Verify_Model extends CI_Model {
 
         }
 
+        /* Trial plan */ 
         if($plan == "trial"){
 
             if($role == "Instructor"){
-                if($totalInstructors >= 100){
+                if($totalInstructors >= 1){
                     return false;
                 }
             }
 
             if($role == "Student"){
-                if($totalStudents >= 5000){
+                if($totalStudents >= 50){
                     return false;
                 }
             }

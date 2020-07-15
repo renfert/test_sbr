@@ -28,8 +28,8 @@
                     <div class="card-widget">
                         <div class="title-widget text-center">
                             <img src="@/assets/img/general/ux/storage.png" alt="">
-                            <el-tooltip class="item" effect="dark" :content="totalStorageUsed + ' GB / ' + totalStorageAvaiable + ' GB' " placement="bottom">
-                                <h3 class="text-sabiorealm">{{lang["storage"]}} <b>{{storagePercent}}</b></h3>
+                            <el-tooltip  class="item" effect="dark" :content="totalStorageUsed + ' GB / ' + totalStorageAvaiable + ' GB' " placement="bottom">
+                                <h3 class="text-sabiorealm">{{lang["storage"]}} <b>{{storagePercent}} %</b></h3>
                             </el-tooltip>
                         </div>
                     </div>
@@ -141,9 +141,9 @@ export default {
             this.lang = response;
         }.bind(this));
 
+        
         this.getTotalNumberOfUsers();
         this.getTotalNumberOfCourses();
-        this.getStorage();
         this.getRegisteredUsersPerMonth();
         this.getCourses();
         this.listActivities();
@@ -189,15 +189,15 @@ export default {
             },
                 /* Error callback */
                 function (){
-                   this.errorMessage();
+                   this.errorMessage();     
                 }.bind(this)
             );
         },
-        getStorage: function(){
+        getStorage: function(storageAvaiable){
             var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("widgets", "getStorage");
             axios.get(urlToBeUsedInTheRequest).then((response) => {
                 this.totalStorageUsed = response.data;
-                this.storagePercent = (100 * response.data / this.totalStorageAvaiable).toFixed(2) + ' %';
+                this.storagePercent = (100 * parseInt(response.data) / parseInt(storageAvaiable)).toFixed(2);
             },
                 /* Error callback */
                 function (){
@@ -209,7 +209,12 @@ export default {
             var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("company", "getCompanyInformation");
             axios.get(urlToBeUsedInTheRequest).then((response) => {
                 this.plan = response.data["plan"];
+
                 if(response.data["plan"] == "basic"){
+                    this.totalStorageAvaiable = 32;
+                }
+
+                if(response.data["plan"] == "pro"){
                     this.totalStorageAvaiable = 64;
                 }
 
@@ -224,6 +229,8 @@ export default {
                 if(response.data["plan"] == "trial"){
                     this.totalStorageAvaiable = 64;
                 }
+
+                this.getStorage(this.totalStorageAvaiable);
                 
             },
                 /* Error callback */

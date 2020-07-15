@@ -484,7 +484,8 @@ export default {
         },
     
         seeCourse: function(){
-            window.location.href=  this.getCurrentDomainName() + "pages/viewcourse/"+this.courseId+"";
+            sessionStorage.setItem('sbr_course_id', ''+this.courseId+'');
+            window.location.href=  "viewcourse";
         },
         getModules: function(){
             var formData = new FormData();

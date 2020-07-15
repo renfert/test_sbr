@@ -373,8 +373,7 @@
                                 },
                                 {
                                     "id": "workbench.action.togglePanel",
-                                    "label": "Show &&Panel",
-                                    "checked": true
+                                    "label": "Show &&Panel"
                                 },
                                 {
                                     "id": "vscode.menubar.separator"
@@ -1376,5 +1375,19 @@
     },
     "theme": "vs-dark",
     "themeBackground": "#1e1e1e",
-    "pickerWorkingDir": "/var/www/html"
+    "pickerWorkingDir": "/var/www/html",
+    "windowsState": {
+        "lastActiveWindow": {
+            "folder": "file:///var/www/html/sabiorealm",
+            "backupPath": "/var/www/html/sabiorealm/application/~/.vscode-root/Backups/91e584f5ebc19181c305a1449ee3bf64",
+            "uiState": {
+                "mode": 0,
+                "x": 0,
+                "y": 38,
+                "width": 1477,
+                "height": 706
+            }
+        },
+        "openedWindows": []
+    }
 }

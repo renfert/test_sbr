@@ -27,7 +27,7 @@
                                 <br><br>
 
                                 <!-- Advanced configurations button -->
-                                <el-button  @click.prevent="modal = true"  type="primary"  size="medium">{{lang["advanced-settings"]}} <i class="el-icon-setting"></i> </el-button>
+                                <el-button  @click.prevent="modal = true"  class="sbr-btn sbr-primary">{{lang["advanced-settings"]}} <i class="el-icon-setting"></i> </el-button>
         
                             </div>
                             
@@ -178,7 +178,7 @@
                     </label>
                 </div>
             </div>
-            <el-button class="mt-3" @click.prevent="modal = false; editCourse(false);"  type="primary"  size="medium">{{lang["save-button"]}}</el-button>
+            <el-button  @click.prevent="modal = false; editCourse(false);"  class="sbr-btn sbr-primary mt-3">{{lang["save-button"]}}</el-button>
         </el-dialog>
     </form>
     <helper-progress></helper-progress>

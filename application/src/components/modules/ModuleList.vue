@@ -195,7 +195,7 @@
                         </a>
                     </div>
                     <!-- Webinar -->
-                    <div class="col-xl-3 col-md-3 lesson" v-if="plan != 'basic' ">
+                    <div class="col-xl-3 col-md-3 lesson" v-if="plan != 'basic' && plan != 'trial' && plan != 'pro' ">
                         <a @click.prevent="emitNewLessonEvent('new-webinar')">
                             <img src="@/assets/img/class/webinar.png" class="lesson-img img-thumbnail img-responsive">
                             <br>
@@ -221,9 +221,18 @@
                         </a>
                     </div>
                     <!-- Exam -->
-                    <div class="col-xl-3 col-md-3 lesson">
+                    <div class="col-xl-3 col-md-3 lesson" v-if="plan != 'basic' && plan != 'trial'">
                         <a @click.prevent="emitNewLessonEvent('new-exam')">
                             <img src="@/assets/img/class/exam.png" class="lesson-img img-thumbnail img-responsive">
+                            <br>
+                            <span>Exam</span>
+                        </a>
+                    </div>
+
+                    <!-- Exam -->
+                    <div class="col-xl-3 col-md-3 lesson" v-else>
+                        <a @click.prevent="upgradePlan()">
+                            <img src="@/assets/img/general/ux/file_block.png" class="lesson-img img-thumbnail img-responsive">
                             <br>
                             <span>Exam</span>
                         </a>
@@ -244,7 +253,6 @@
         <question-create></question-create>
         <question-edit></question-edit>
         <answer-create></answer-create>
-        <upgrade-plan></upgrade-plan>
     </div>
 </template>
 
@@ -275,7 +283,6 @@ import LessonExamEdit from '@/components/lessons/edit/types/LessonExamEdit'
 import QuestionCreate from '@/components/questions/QuestionCreate'
 import QuestionEdit from '@/components/questions/QuestionEdit'
 import AnswerCreate from '@/components/answers/AnswerCreate'
-import UpgradePlan from '@/components/plans/UpgradePlan'
 
 import {eventLang} from '@/components/helper/HelperLang'
 import {eventBus} from '@/pages/newcourse/App'
@@ -309,7 +316,6 @@ export default {
         QuestionEdit,
         AnswerCreate,
         FacebookLoader,
-        UpgradePlan
     },
     data: () => {
         return {
@@ -349,7 +355,7 @@ export default {
     methods: {
 
         upgradePlan: function(){
-            eventPlan.$emit("upgrade-plan");
+            eventPlan.$emit("upgrade-plan", "feature");
         },
 
         getCompanyInformation(){

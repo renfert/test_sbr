@@ -3,9 +3,9 @@
         <div class="card-box">
             <div class="float-right">
                 <!-- Massive import button -->
-                <el-button class="sbr-btn sbr-primary"  v-if="plan == 'bussiness' || plan == 'trial'"  @click.prevent="modal = true" type="primary"  size="medium">{{lang["massive-import"]}}</el-button>
+                <el-button class="sbr-btn sbr-primary"  v-if="plan == 'bussiness'"  @click.prevent="modal = true" type="primary"  size="medium">{{lang["massive-import"]}}</el-button>
 
-                <el-button @click.prevent="upgradePlan()" v-else class="sbr-btn sbr-danger"   type="primary"    size="medium"> <i class="el-icon-lock"></i> {{lang["massive-import"]}}</el-button>
+                <el-button @click.prevent="upgradePlanFeature()" v-else class="sbr-btn sbr-primary"   type="primary"    size="medium"> <i class="el-icon-lock"></i> {{lang["massive-import"]}}</el-button>
             </div>
             <h4>{{lang["create-user"]}}</h4><br>
             <form id="form-user" @submit.prevent="createUser">
@@ -92,7 +92,6 @@
                 </el-dialog>
             </div> <!-- End massive import -->  
         </div>
-        <upgrade-plan></upgrade-plan>
     </div>
 </template>
 
@@ -112,7 +111,6 @@ import lang from 'element-ui/lib/locale/lang/en'
 import locale from 'element-ui/lib/locale'
 import domains from '@/mixins/domains'
 import alerts from '@/mixins/alerts'
-import UpgradePlan from '@/components/plans/UpgradePlan'
 
 locale.use(lang)
 Vue.use(ElementUI)
@@ -137,7 +135,6 @@ export default {
     },
     components: {
         Upload,
-        UpgradePlan
     },
     mounted(){
         eventLang.$on('lang', function(response){  
@@ -148,8 +145,8 @@ export default {
         this.getCompanyInformation();
     },
     methods: {
-        upgradePlan: function(){
-            eventPlan.$emit("upgrade-plan");
+        upgradePlanFeature: function(){
+            eventPlan.$emit("upgrade-plan", "feature");
         },
         getCompanyInformation(){
             var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("company", "getCompanyInformation");
@@ -165,7 +162,7 @@ export default {
             axios.post(urlToBeUsedInTheRequest, formData).then((response) => {
                 /* Success callback */
                 if(response.data == "upgrade-plan"){
-                    eventPlan.$emit("upgrade-plan");
+                    eventPlan.$emit("upgrade-plan", "users");
                 }else{
                     if(response.data == false){ 
                         this.userAlreadyExistsMessage();

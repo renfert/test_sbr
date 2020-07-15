@@ -24,9 +24,11 @@
             </div><!-- end container -->
         </div><!-- end navbar -->
 
-        <div class="top-trial" v-if="trialBar != false && role == 1">
-            <span>{{lang["trial-expiration-date-info-pt1"]}} <b>{{daysToExpiration}}</b> {{lang["trial-expiration-date-info-pt2"]}} | {{lang["upgrade-plan-info-pt1"]}} <a href="plans"> <b>{{lang["plan"]}}</b></a> {{lang["upgrade-plan-info-pt2"]}} </span>
+        <div class="top-trial" v-if="trialBar != false && role == 1 && daysToExpiration >= 0 && plan == 'trial'">
+            <span>{{lang["trial-expiration-date-info-pt1"]}} <b>{{daysToExpiration}}</b> {{lang["trial-expiration-date-info-pt2"]}} | {{lang["upgrade-plan-info-pt1"]}} <a @click="upgradePlan()" href="javascript:void(0)"> <b>{{lang["plan"]}}</b></a> {{lang["upgrade-plan-info-pt2"]}} </span>
         </div>
+
+        
     </div><!-- end topbar -->
 </template>
 
@@ -37,6 +39,7 @@ import VueAxios from 'vue-axios'
 import {eventLang} from '@/components/helper/HelperLang'
 import Lang from '@/components/helper/HelperLang'
 import {eventTemplate} from '@/components/template/TheLeftBar'
+import {eventPlan} from '@/components/plans/UpgradePlan'
 import domains from '@/mixins/domains'
 import alerts from '@/mixins/alerts'
 
@@ -53,10 +56,12 @@ export default {
             logo: '',
             lang: {},
             daysToExpiration:0,
-            currentDate: ''
+            currentDate: '',
+            plan: ''
         }
     },
     created(){
+        this.getCompanyPlan();
         this.getUserProfile();
         this.getCurrentDate();
         this.getCompanyLogo();
@@ -67,10 +72,19 @@ export default {
         }.bind(this));
     },
     methods: {
-        getCompanyLogo(){
+        upgradePlan: function(){
+            eventPlan.$emit("upgrade-plan", "trial-topbar")
+        },
+        getCompanyLogo: function(){
             var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("settings", "getSettingsInformation");
             axios.get(urlToBeUsedInTheRequest).then(function (response) {
                 this.logo = response.data["logo"];
+            }.bind(this));
+        },
+        getCompanyPlan: function(){
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("company", "getCompanyInformation");
+            axios.get(urlToBeUsedInTheRequest).then(function (response) {
+                this.plan = response.data["plan"];
             }.bind(this));
         },
         getUserProfile: function(){
@@ -93,12 +107,23 @@ export default {
             }.bind(this));
         },
         calculateDifferenceBetweenDates: function(expirationDate){
-            const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
-            const firstDate = new Date(this.currentDate);
-            const secondDate = new Date(expirationDate);
+            const _MS_PER_DAY = 1000 * 60 * 60 * 24;
 
-            const diffDays = Math.round(Math.abs((firstDate - secondDate) / oneDay));
-            this.daysToExpiration = diffDays;
+            // a and b are javascript Date objects
+            function dateDiffInDays(a, b) {
+                // Discard the time and time-zone information.
+                const utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+                const utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+
+                return Math.floor((utc2 - utc1) / _MS_PER_DAY);
+            }
+
+          
+            const a = new Date(this.currentDate),
+            b = new Date(expirationDate),
+            difference = dateDiffInDays(a, b);
+
+            this.daysToExpiration = difference;
         },
         changeLeftBarClass: function(){
             eventTemplate.$emit("change-leftbar-class");

@@ -1,5 +1,5 @@
 <template>  
-    <div>
+    <div v-loading="loading">
         <div :style="style" class="drop-area"> 
             <input :value="name" :name="returnName" type="text">
             <input 
@@ -35,6 +35,7 @@ import domains from '@/mixins/domains'
 import alerts from '@/mixins/alerts'
 import AWS from 'aws-sdk/global';
 import S3 from 'aws-sdk/clients/s3';
+import { eventPlan } from '../plans/UpgradePlan.vue'
 Vue.use(VueAxios, axios)
 Vue.use(toastr)
 
@@ -49,13 +50,18 @@ export default {
             message:"Upload a file",
             src: '',
             messageClass: '',
+            loading: false,
             realName: '',
             name: '',
             previewImg: '',
-            subDomainName: ''
+            subDomainName: '',
+            storageAvailability : true
         }
     },
     props: ['acceptable', 'input-name', 'do-upload', 'return-name', 'bucket-key', 'box-height','src-name','src-img', 'src-real-name'],
+    created() {
+        this.checkStorageAvailability();
+    },
     mounted(){
 
         this.getSubDomainName();
@@ -84,77 +90,86 @@ export default {
     },
     methods: {
         preview: function(event, upload){
-            var ins = this;
-            if(upload != undefined){
-                ins.upload(event);
-            }
-            var input = event.target; 
-            var fullName = input.value;  
-            var fileName = fullName.split(/(\\|\/)/g).pop();
-            var fileExtension = fullName.split('.').pop(); 
+            if(this.storageAvailability){
+                var ins = this;
+                if(upload != undefined){
+                    ins.upload(event);
+                }
+                var input = event.target; 
+                var fullName = input.value;  
+                var fileName = fullName.split(/(\\|\/)/g).pop();
+                var fileExtension = fullName.split('.').pop(); 
 
-            this.realName = fileName;
+                this.realName = fileName;
 
-            if(input.files && input.files[0]){ 
-                /* Verify acceptable files extensions*/
-                var acceptable = ins.acceptable;
-                if(acceptable.indexOf(fileExtension) == -1 && acceptable != ".*"){
-                    ins.message = "Invalid extension: "+fileExtension+"";
-                    ins.icon = "fas fa-exclamation-triangle text-danger"
-                    input.value = ''
-                }else{            
-                                    
-                    /*  Chance image or icon preview */
-                    switch(fileExtension) {
-                        case 'png': 
-                            ins.messageClass = "hide"
-                            ins.render(input)
-                            break;
-                        case 'jpg':
-                            ins.render(input)
-                            ins.messageClass = "hide"
-                            break;
-                        case 'jpeg':
-                            ins.render(input)
-                            ins.messageClass = "hide"
-                            break;
-                        case 'xlsx':
-                            ins.icon = "fas fa-file-pdf text-default"
-                            ins.message = fileName
-                            break;
-                        case 'pdf':
-                            ins.icon = "fas fa-file-excel text-default"
-                            ins.message = fileName
-                            break;
-                        case 'docx':
-                            ins.icon = "fas fa-file-word text-default"
-                            ins.message = fileName
-                            break;
-                        case 'mp4':
-                            ins.icon = "fas fa-file-video text-default"
-                            ins.message = fileName
-                            break;
-                        case 'mov':
-                            ins.icon = "fas fa-file-video text-default"
-                            ins.message = fileName
-                            break;
-                        case 'mp3':
-                            ins.icon = "fas fa-file-audio text-default"
-                            ins.message = fileName
-                            break;
-                        case 'pptx':
-                            ins.icon = "fas fa-file-powerpoint text-default"
-                            ins.message = fileName
-                            break;
-                        case 'zip':
-                            ins.icon = "fas fa-file-archive text-default"
-                            ins.message = fileName
-                            break;
-                        default:
-                            ins.icon = "fas fa-file text-default"
-                            ins.message = fileName
+                if(input.files && input.files[0]){ 
+                    /* Verify acceptable files extensions*/
+                    var acceptable = ins.acceptable;
+                    if(acceptable.indexOf(fileExtension) == -1 && acceptable != ".*"){
+                        ins.message = "Invalid extension: "+fileExtension+"";
+                        ins.icon = "fas fa-exclamation-triangle sbr-text-danger"
+                        input.value = ''
+                    }else{            
+                                        
+                        /*  Chance image or icon preview */
+                        switch(fileExtension) {
+                            case 'png': 
+                                ins.messageClass = "hide"
+                                ins.render(input)
+                                break;
+                            case 'jpg':
+                                ins.render(input)
+                                ins.messageClass = "hide"
+                                break;
+                            case 'jpeg':
+                                ins.render(input)
+                                ins.messageClass = "hide"
+                                break;
+                            case 'xlsx':
+                                ins.icon = "fas fa-file-pdf text-default"
+                                ins.message = fileName
+                                break;
+                            case 'pdf':
+                                ins.icon = "fas fa-file-excel text-default"
+                                ins.message = fileName
+                                break;
+                            case 'docx':
+                                ins.icon = "fas fa-file-word text-default"
+                                ins.message = fileName
+                                break;
+                            case 'mp4':
+                                ins.icon = "fas fa-file-video text-default"
+                                ins.message = fileName
+                                break;
+                            case 'mov':
+                                ins.icon = "fas fa-file-video text-default"
+                                ins.message = fileName
+                                break;
+                            case 'mp3':
+                                ins.icon = "fas fa-file-audio text-default"
+                                ins.message = fileName
+                                break;
+                            case 'pptx':
+                                ins.icon = "fas fa-file-powerpoint text-default"
+                                ins.message = fileName
+                                break;
+                            case 'zip':
+                                ins.icon = "fas fa-file-archive text-default"
+                                ins.message = fileName
+                                break;
+                            default:
+                                ins.icon = "fas fa-file text-default"
+                                ins.message = fileName
+                        }
                     }
                 }
+            }else{
+                eventPlan.$emit("upgrade-plan", "storage");
+                this.icon = "fas fa-lock sbr-text-danger";
+                this.message = "Full storage";
+                this.previewImg = ""; 
+                this.realName = "";
+                this.src = "";
             }
         },
         render: function(input){
@@ -166,8 +181,21 @@ export default {
             };
             reader.readAsDataURL(input.files[0]);
         },
+        checkStorageAvailability: function(){
+            this.loading = true;
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("verify", "checkStorageAvailability");
+            axios.get(urlToBeUsedInTheRequest).then((response) => {
+                this.storageAvailability = response.data;
+                setTimeout(function(){ 
+                    this.loading = false;
+                }.bind(this), 1000);
+            }, 
+                function(){
+                    this.errorMessage();
+                }.bind(this)
+            );
+        },
         upload: function(event){
-
             if(this.bucketKey == "uploads/html"){
                 this.uploadHtml(event);
             }else{

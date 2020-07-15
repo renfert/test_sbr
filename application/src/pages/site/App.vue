@@ -1,7 +1,7 @@
 <template >
     <div id="wrapper" class="forced enlarged">
         <lang></lang>
-        <top-bar></top-bar>
+        <top-bar :trial-bar="false"></top-bar>
         <left-bar :collapse="true"></left-bar>
         
         <!-- Content page -->

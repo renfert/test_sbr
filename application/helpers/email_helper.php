@@ -39,7 +39,7 @@ function sendEmail($params){
     $dataToEmail = array("data" => $data);
     $ci->load->library('email', $config);
     $mesg = $ci->load->view('email/'.$params["template-email"].'', $dataToEmail, true);
-    $ci->email->from('support@eadtools.com', $companyName);
+    $ci->email->from('noreply@sabiorealm.com', $companyName);
     $ci->email->to($params["email"]);
     $ci->email->subject($json[$subject]);
     $ci->email->message($mesg);

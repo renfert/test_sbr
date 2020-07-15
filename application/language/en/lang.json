@@ -35,6 +35,23 @@
     "no-certificates": "There is no certificates",
     "process-exam": "We are processing your exam, please wait a moment ...",
 
+    "functionality-not-available" : "Feature not available",
+
+    "functionality-not-available-text-pt1": "This feature is not available in your plan", 
+    "functionality-not-available-text-pt2": "To access it you need to perform a PLAN UPGRADE",
+
+    "upgrade-plan-button": "UPGRADE PLAN",
+
+    "view-plan-comparison": "VIEW PLAN COMPARISON", 
+
+    "thank-you-title-purchase": "Thank you very much for choosing Sabiorealm!",
+    "thank-you-pt1-purchase": "A notification has already been sent to a specialist consultant and within a maximum of 3 hours this same consultant will be contacting you to help with the following steps of contracting a new plan. The consultant will contact you via email:",
+    "thank-you-pt2-purchase": "or directly via chat within the platform.",
+
+    "have-any-doubt": "Do you have any doubt?",
+    "access": "Access",
+    "or-contact": "Or contact:",
+
     "activity-course-created": " created a new course: ",
     "activity-course-deleted": " deleted a course: ",
     "activity-course-edited": " edited a course: ",
@@ -58,6 +75,19 @@
     "student-view-topbar": "Student",
     "profile-topbar": "Your profile",
 
+    "new-purchase-request": "New purchase request",
+
+    "modal-trial-topbar-title":  "Is your trial period ending?",
+    "modal-trial-topbar-subtitle": "Do not worry! you can still continue to take advantage of Sabiorealm's resources by performing a plan upgrade.",
+
+    "modal-storage-title": "Your storage is full",
+    "modal-storage-subtitle": "To obtain more storage space, a plan upgrade is required.",
+
+    "trial-expired": "Your trial period is over",
+    "trial-expired-message": "To continue taking advantage of Sabiorealm's resources, it is necessary to perform a plan upgrade",
+
+    "trial-expired-to-another-role": "Página no disponible temporalmente",
+    "trial-expired-message-to-another-role" : "Para obtener más información, póngase en contacto:",
 
     "create-category" : "Create a new category",
     "list-category" : "List of categories",
@@ -562,21 +592,43 @@
     "current-plan": "You are currently on the plan:",
     "without-category": "Without category",
 
-    "feature-plan-1": "Ticket support",
-    "feature-plan-2" : "Google analytics integration",
-    "feature-plan-3" : "Mercadopago integration",
-    "feature-plan-4" : "Compatibility with pdf",
-    "feature-plan-5" : "Compatibility with MP4,AVI AND MOV",
-    "feature-plan-6" : "Compatibility with MP3,WAV AND OGG",
-    "feature-plan-7" : "Unlimited courses",
-    "feature-plan-8" : "Webinars /Videoconferences",
-    "feature-plan-9" : "Certificates",
-    "feature-plan-10" : "Exams",
-    "feature-plan-11" : "Programs",
-    "feature-plan-12" : "Priority support",
-    "feature-plan-13" : "Account Manager",
-    "feature-plan-14" : "API",
-    "feature-plan-15" : "Mass import",
+    "feature-plan-basic-storage": "32 Gb of storage",
+    "feature-plan-pro-storage" : "64 Gb of storage",
+    "feature-plan-growt-storage" : "128 Gb of storage",
+    "feature-plan-bussiness-storage" : "512 Gb of storage",
+
+
+    "feature-plan-basic-users": "Up to 50 Active users",
+    "feature-plan-pro-users": "Up to 100 Active users",
+    "feature-plan-growt-users": "Up to 300 Active users",
+    "feature-plan-bussiness-users": "More than 300 Active users",
+
+    "on-request": "On request",
+
+    "feature-plan-programs" : "Programs",
+    "feature-plan-content" : "Vídeos, Audios and PDFs",
+    "feature-plan-mercadopago" : "Mercadopago integration",
+    "feature-plan-google-analytics" : "Google Analytics",
+    "feature-plan-tag-manager" : "Tag Manager",
+    "feature-plan-facebook-pixel" : "Facebook Pixel",
+    "feature-plan-courses" : "Unlimited courses",
+    "feature-plan-webinar" : "Webinars",
+    "feature-plan-videoconference": "Videoconferences",
+    "feature-plan-mass-import" : "Mass import",
+    "feature-plan-certificate" : "Certificate",
+    "feature-plan-exams" : "Exams",
+
+    "feature-plan-basic-instructors": "Up to 1 instructor",
+    "feature-plan-pro-instructors": "Up to 3 instructor",
+    "feature-plan-growt-instructors": "Up to 5 instructors",
+    "feature-plan-bussiness-instructors": "Up to 100 instructors",
+
+    "included-in-all-plans": "Included in all plans",
+    "multi-languages": "Multi languages",
+    "chat-support": "Chat Support",
+
+    "monthly" : "Monthly",
+    "semiannually": "Semiannually",
 
     "first-step-course":  "Step 1 ",
     "second-step-course": "Step 2",

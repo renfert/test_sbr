@@ -2,7 +2,7 @@
     <div id="wrapper">
         <lang></lang>
         <topbar></topbar>
-        <el-container style="height: 100%; max-height:100% !important; border: 1px solid #eee">
+        <el-container style="height: 100vh; border: 1px solid #eee">
             <navigation></navigation>
             <load-content></load-content>
         </el-container>

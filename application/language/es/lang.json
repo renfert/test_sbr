@@ -557,27 +557,83 @@
     "banner" : "Banner",
     "product-list": "Lista de cursos",
 
+    "functionality-not-available" : "Característica no disponible",
+
+    "functionality-not-available-text-pt1": "Esta función no está disponible en su plan.", 
+    "functionality-not-available-text-pt2": "Para acceder a él, debe realizar una ACTUALIZACIÓN DEL PLAN",
+
+    "upgrade-plan-button": "ACTUALIZAR PLAN",
+
+    "view-plan-comparison": "VER COMPARACIÓN DE LOS PLANES", 
+
+
+    "thank-you-title-purchase": "¡Muchas gracias por elegir Sabiorealm!",
+    "thank-you-pt1-purchase": "Ya se ha enviado una notificación a un consultor especialista y, en un plazo máximo de 3 horas, este mismo consultor se comunicará con usted para ayudarlo con los siguientes pasos para contratar un nuevo plan. El consultor se comunicará con usted por correo electrónico:",
+    "thank-you-pt2-purchase": "o directamente por chat dentro de la plataforma.",
+
     "under-construction-title": "Esta página esta en construcción",
     "under-construction-subtitle": "En este momento, hay varias personas excepcionales con sus tazas de café trabajando en esa página, lo que significa que estará disponible muy pronto.",
 
     "current-plan": "Plano contratado:",
     "without-category": "Sin categoría",
 
-    "feature-plan-1": "Soporte vía ticket",
-    "feature-plan-2" : "Integración con Google analytics",
-    "feature-plan-3" : "Integración con Mercadopago",
-    "feature-plan-4" : "Compatibilidad con pdf",
-    "feature-plan-5" : "Compatibilidad con MP4,AVI AND MOV",
-    "feature-plan-6" : "Compatibilidad con MP3,WAV AND OGG",
-    "feature-plan-7" : "Cursos Ilimitados",
-    "feature-plan-8" : "Webinars y Videoconferencias",
-    "feature-plan-9" : "Certificados",
-    "feature-plan-10" : "Exámenes",
-    "feature-plan-11" : "Programas",
-    "feature-plan-12" : "Soporte prioritario",
-    "feature-plan-13" : "Gerente de cuentas",
-    "feature-plan-14" : "API",
-    "feature-plan-15" : "Importación Masiva",
+    "have-any-doubt": "¿Tienes alguna duda?",
+    "access": "Accede",
+    "or-contact": "O contactar:",
+
+    "on-request": "Bajo pedido",
+
+    "new-purchase-request": "New purchase request",
+
+    "trial-expired": "Tu período de prueba ha terminado",
+    "trial-expired-message": "Para continuar aprovechando los recursos de Sabiorealm, es necesario realizar una actualización del plan",
+
+    "trial-expired-to-another-role": "Página temporariamente indisponível",
+    "trial-expired-message-to-another-role" : "Para mais informações, entre em contato: ",
+
+    "modal-trial-topbar-title":  "¿Está finalizando su período de prueba?",
+    "modal-trial-topbar-subtitle": "¡No te preocupes! aún puede seguir aprovechando los recursos de Sabiorealm realizando una actualización del plan.",
+
+    "modal-storage-title": "Tu almacenamiento está lleno",
+    "modal-storage-subtitle": "Para obtener más espacio de almacenamiento, se requiere una actualización del plan.",
+
+
+    "feature-plan-basic-storage": "32 Gb de almacenamiento",
+    "feature-plan-pro-storage": "64 Gb de almacenamiento",
+    "feature-plan-growt-storage" : "128 Gb de almacenamiento",
+    "feature-plan-bussiness-storage" : "512 Gb de almacenamiento",
+
+
+    "feature-plan-basic-users": "Hasta 50 usuarios activos",
+    "feature-plan-pro-users": "Hasta 1-0 usuarios activos",
+    "feature-plan-growt-users": "Hasta 300 usuarios activos",
+    "feature-plan-bussiness-users": "Más de 300 usuarios activos",
+
+    "feature-plan-content" : "Vídeos, Audios y PDFs",
+    "feature-plan-mercadopago" : "Mercadopago",
+    "feature-plan-google-analytics" : "Google Analytics",
+    "feature-plan-tag-manager" : "Tag Manager",
+    "feature-plan-facebook-pixel" : "Facebook Pixel",
+    "feature-plan-courses" : "Cursos ilimitados",
+    "feature-plan-webinar" : "Webinars",
+    "feature-plan-videoconference": "Videoconferencias",
+    "feature-plan-mass-import" : "Importación masiva",
+    "feature-plan-certificate" : "Certificados",
+    "feature-plan-exams" : "Exámenes",
+
+    "feature-plan-programs" : "Programas",
+
+    "feature-plan-basic-instructors": "Hasta 1 tutor",
+    "feature-plan-pro-instructors": "Hasta 3 tutores",
+    "feature-plan-growt-instructors": "Hasta 5 tutores",
+    "feature-plan-bussiness-instructors": "Hasta 100 tutores",
+
+    "included-in-all-plans": "Incluido en todos los planes",
+    "multi-languages": "Múltiples idiomas",
+    "chat-support": "Soporte por chat",
+
+    "monthly" : "Mensual",
+    "semiannually": "Semi anualmente",
 
     "first-step-course":  "Paso 1 ",
     "second-step-course": "Paso 2",

@@ -40,6 +40,11 @@ class Verify extends CI_Controller {
         $result = $this->Verify_Model->getSubDomainName();
         echo json_encode($result);
     }
+
+    public function checkStorageAvailability(){
+        $result = $this->Verify_Model->checkStorageAvailability();
+        echo json_encode($result);
+    }
     
 
 }
