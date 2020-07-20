@@ -1,14 +1,13 @@
 <template>
 <div :class="contentShow == false ? 'hide' : 'main'">
-    <div class="form-wizard-content show" data-tab-content="info">
-        <div class="row">
-            <div class="col-12">
-                <div  class="card-box">
-                    <module-list :course="courseId"></module-list>
-                </div>
+    <div class="row">
+        <div class="col-12">
+            <div  class="card-box card-course">
+                <module-list :course="courseId"></module-list>
             </div>
         </div>
     </div>
+   
     <!-- Module create modal -->
     <module-create></module-create>
 </div>
@@ -103,14 +102,9 @@ export default {
     height:200px;
 }
 
-.form-wizard-wrapper .form-wizard-content {
-  background-color: #F3F6F6;
-  padding-top: 50px;
-  color: #777777;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  top: 0;
+
+.card-course{
+    margin: 30px
 }
 
 

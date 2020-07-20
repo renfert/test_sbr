@@ -11,10 +11,15 @@
         active-text-color="#00C0FD"
         class="el-menu-vertical-demo"
       >
-      
+
+        <el-menu-item index="1">
+          <i class="dripicons-home"></i>
+          <a href="home" class="waves-effect"><span class="menuMain"> {{lang["home-nav"]}} </span> </a>
+        </el-menu-item>
+
         <el-menu-item index="1">
           <i class="dripicons-graph-bar"></i>
-          <a :href="getDomainNameToNavigation() + 'dashboard'" class="waves-effect"><span class="menuMain"> {{lang["dashboard-nav"]}} </span> </a>
+          <a href="dashboard" class="waves-effect"><span class="menuMain"> {{lang["dashboard-nav"]}} </span> </a>
         </el-menu-item>
 
         <el-submenu index="2">
@@ -25,17 +30,17 @@
          
           <el-menu-item index="3">
             <i class="dripicons-media-next"></i>
-            <a :href="getDomainNameToNavigation() + 'courses'" class="waves-effect"><span class="menuMain"> {{lang["my-courses-nav"]}} </span> </a>
+            <a href="courses" class="waves-effect"><span class="menuMain"> {{lang["my-courses-nav"]}} </span> </a>
           </el-menu-item>
 
           <el-menu-item index="4">
             <i class="dripicons-list"></i>
-            <a :href="getDomainNameToNavigation() + 'categories'" class="waves-effect"><span class="menuMain"> {{lang["categories-nav"]}} </span> </a>
+            <a href="categories" class="waves-effect"><span class="menuMain"> {{lang["categories-nav"]}} </span> </a>
           </el-menu-item>
 
           <el-menu-item index="5">
             <i class="dripicons-to-do"></i>
-            <a :href="getDomainNameToNavigation() + 'programs'" class="waves-effect"><span class="menuMain"> {{lang["programs-nav"]}} </span> </a>
+            <a href="programs" class="waves-effect"><span class="menuMain"> {{lang["programs-nav"]}} </span> </a>
           </el-menu-item>
 
        
@@ -49,17 +54,17 @@
 
           <el-menu-item index="8">
             <i class="dripicons-user-id"></i>
-            <a :href="getDomainNameToNavigation() + 'users'" class="waves-effect"><span class="menuMain"> {{lang["users-nav"]}} </span> </a>
+            <a href="users" class="waves-effect"><span class="menuMain"> {{lang["users-nav"]}} </span> </a>
           </el-menu-item>
 
           <el-menu-item index="9">
             <i class="dripicons-user-group"></i>
-            <a :href="getDomainNameToNavigation() + 'groups'" class="waves-effect"><span class="menuMain"> {{lang["groups-nav"]}} </span> </a>
+            <a href="groups" class="waves-effect"><span class="menuMain"> {{lang["groups-nav"]}} </span> </a>
           </el-menu-item>
 
           <el-menu-item index="10">
             <i class=" dripicons-experiment"></i>
-            <a :href="getDomainNameToNavigation() + 'leads'" class="waves-effect"><span class="menuMain"> {{lang["leads-nav"]}} </span> </a>
+            <a href="leads" class="waves-effect"><span class="menuMain"> {{lang["leads-nav"]}} </span> </a>
           </el-menu-item>
 
     
@@ -67,7 +72,7 @@
 
         <el-menu-item index="11">
           <i class="dripicons-browser"></i>
-          <a :href="getDomainNameToNavigation() + 'site'" class="waves-effect"><span class="menuMain"> {{lang["site-nav"]}} </span> </a>
+          <a href="site" class="waves-effect"><span class="menuMain"> {{lang["site-nav"]}} </span> </a>
         </el-menu-item>
 
         <el-submenu index="12">
@@ -78,12 +83,12 @@
 
           <el-menu-item index="13">
             <i class="dripicons-web"></i>
-            <a :href="getDomainNameToNavigation() + 'settings'" class="waves-effect"><span class="menuMain"> {{lang["general-settings-nav"]}} </span> </a>
+            <a href="settings" class="waves-effect"><span class="menuMain"> {{lang["general-settings-nav"]}} </span> </a>
           </el-menu-item>
 
            <el-menu-item index="14">
             <i class="dripicons-cart"></i>
-            <a :href="getDomainNameToNavigation() + 'integrations'" class="waves-effect"><span class="menuMain"> {{lang["integrations-nav"]}} </span> </a>
+            <a href="integrations" class="waves-effect"><span class="menuMain"> {{lang["integrations-nav"]}} </span> </a>
           </el-menu-item>
         </el-submenu>
 
@@ -96,12 +101,12 @@
 
           <el-menu-item index="17">
             <i class="dripicons-rocket"></i>
-            <a :href="getDomainNameToNavigation() + 'plans'" class="waves-effect"><span class="menuMain"> {{lang["plans-nav"]}} </span> </a>
+            <a href="plans" class="waves-effect"><span class="menuMain"> {{lang["plans-nav"]}} </span> </a>
           </el-menu-item>
 
           <el-menu-item index="18">
               <i class="dripicons-question"></i>
-              <a :href="getDomainNameToNavigation() + 'helpcenter'" class="waves-effect"><span class="menuMain"> {{lang["help-center-nav"]}} </span> </a>
+              <a href="helpcenter" class="waves-effect"><span class="menuMain"> {{lang["help-center-nav"]}} </span> </a>
           </el-menu-item>
         </el-submenu>
 
@@ -110,7 +115,7 @@
            <el-row>
 
             <!-- Profile -->
-            <a  :href="getDomainNameToNavigation() + 'profile'" class="pr-4 mb-2">
+            <a  href="profile" class="pr-4 mb-2">
               <el-avatar   :src="getUrlToContents() + 'avatar/'+userAvatar+''"></el-avatar>
             </a>
             
@@ -120,7 +125,7 @@
             </a>
 
             <!-- Calendar -->
-            <a :href="getDomainNameToNavigation() + 'calendar'">
+            <a href="calendar">
               <i  class="mdi mdi-calendar mdi-18px  pr-3 mr-0"></i> 
             </a>
 

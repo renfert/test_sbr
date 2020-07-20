@@ -4,7 +4,7 @@
         <div class="form-wizard-content show" data-tab-content="info">
             <div class="row">
                 <div class="col-12">
-                    <div class="card-box"  v-loading="loading">
+                    <div class="card-box card-course"  v-loading="loading">
                         <div class="form-row">
                             <div class="form-group col-12 col-md-6">
                                 <!-- Course id -->
@@ -12,7 +12,7 @@
 
                                 <!-- Course name -->
                                 <label class="col-form-label">{{lang["name"]}} *</label>
-                                <el-input name="title" :class="invalidField ? 'invalid-field' : '' "   v-model="name"></el-input>
+                                <el-input class="v-step-0" name="title" :class="invalidField ? 'invalid-field' : '' "   v-model="name"></el-input>
 
                                 <br><br>
                                 <!-- Course category -->
@@ -36,7 +36,7 @@
                             <div class="form-group  col-xl-6 col-md-6">
                                 <textarea class="hide" v-model="description" name="description"></textarea>
                                 <label class="col-form-label">{{lang["description"]}}</label>
-                                <wysiwyg  v-model="description" />
+                                <wysiwyg class="v-step-1"  v-model="description" />
                             </div>
                         </div>
 
@@ -45,6 +45,7 @@
                             <div class="form-group col-xl-6 col-md-6">
                                 <label class="col-form-label">{{lang["image"]}} (1900x1200 px)</label>
                                 <upload 
+                                    class="v-step-2"
                                     do-upload="true" 
                                     box-height = "200"
                                     return-name="photo" 
@@ -120,11 +121,11 @@
             </div>
 
             <div class="row">
-                <!-- Course comments -->
+                <!-- Course reviews -->
                 <div class="col-xl-4 col-md-4">
-                    <label for="exampleInputEmail1">{{lang["comments"]}}</label>
+                    <label for="exampleInputEmail1">{{lang["reviews"]}}</label>
                     <div class="input-group">
-                        <toggle-button name="comments"  color="#009CD8" v-model="comments"/>
+                        <toggle-button name="reviews"  color="#009CD8" v-model="reviews"/>
                     </div>
                 </div>
 
@@ -177,6 +178,10 @@
         </el-dialog>
     </form>
     <helper-progress></helper-progress>
+    <!-------- 
+        Tour
+    ---------->
+    <v-tour name="user-tour" :options="tourOptions" :callbacks="tourCallbacks" :steps="steps"></v-tour>
 </div>
 </template>
 
@@ -196,13 +201,19 @@ import domains from '@/mixins/domains'
 import alerts from '@/mixins/alerts'
 
 
+
 Vue.use(wysiwyg, {
-    hideModules: { "image": true, "code": true, "table": true },
+    hideModules: { "image": true},
 });
 
 Vue.use(VueTheMask)
 Vue.use(ToggleButton)
 Vue.use(VueAxios, axios)
+
+import VueTour from 'vue-tour'
+require('vue-tour/dist/vue-tour.css')
+Vue.use(VueTour)
+
 
 
 export default {
@@ -212,7 +223,7 @@ export default {
         Money,
         HelperProgress,
     },
-    data: () => {
+    data: function() {
         return {
             modal: false,
             name: '', // Course name
@@ -222,8 +233,8 @@ export default {
             categories : {}, // List of categories
             certificates: {}, // List of certificates
             description: '', // Course description
-            comments: false, // Course comments
-            spotlight: false,// Course spotlight
+            reviews: false, // Course reviews
+            spotlight: true,// Course spotlight
             certificate: false, 
             multiple: false,
             releaseDate: '',
@@ -241,7 +252,65 @@ export default {
                 suffix: ' ',
                 precision: 2,
                 masked: false,
-            }
+            },
+             tourCallbacks: {
+                onFinish: this.finishTour,
+            },
+            tourOptions: {
+                useKeyboardNavigation: true,
+                labels: {
+                    buttonSkip:'',
+                    buttonPrevious: '',
+                    buttonNext: '',
+                    buttonStop: ''
+                }
+            },
+            steps: [
+                {
+                    target: ".v-step-0",
+                    header: {
+                        title: ''
+                    },
+                    params: {
+                        placement: 'bottom',
+                        highlight: true
+                    },
+                    content: ''
+                },
+                {
+                   target: ".v-step-1",
+                    header: {
+                        title: ''
+                    },
+                    params: {
+                        placement: 'right',
+                        highlight: true
+                    },
+                    content: ''
+                },
+                {
+                   target: ".v-step-2",
+                    header: {
+                        title: ''
+                    },
+                    params: {
+                        placement: 'right',
+                        highlight: true
+                    },
+                    content: ''
+                },
+                {
+                   target: ".v-step-3",
+                    header: {
+                        title: ''
+                    },
+                    params: {
+                        placement: 'left',
+                        highlight: true
+                    },
+                    content: ''
+                },
+            ],
         }
     },
     created(){
@@ -250,7 +319,37 @@ export default {
     mounted(){
         eventLang.$on('lang', function(response){
             this.lang = response;
+
+             /* Tour labels */
+            this.tourOptions.labels.buttonSkip = this.lang["skip-tour"];
+            this.tourOptions.labels.buttonPrevious = this.lang["previous-step-button"];
+            this.tourOptions.labels.buttonNext = this.lang["next-step-button"];
+            this.tourOptions.labels.buttonStop = this.lang["finish"];
+
+
+            /* Tour step 0 - Course name */
+            this.steps[0].header.title = this.lang["name"];
+            this.steps[0].content = this.lang["tour-course-name-message"];
+
+            /* Tour step 1 - Course description */
+            this.steps[1].header.title = this.lang["description"];
+            this.steps[1].content = this.lang["tour-course-description-message"];
+
+            /* Tour step 2 - Course image */
+            this.steps[2].header.title = this.lang["image"];
+            this.steps[2].content = this.lang["tour-course-image-message"];
+
+            /* Tour step 3 - Second step */
+            this.steps[3].header.title = this.lang["next-step-button"];
+            this.steps[3].content = this.lang["tour-course-step2-message"];
+
         }.bind(this));
+
+        setTimeout(() => {
+            if(this.$route.query.tour == 'true'){
+                this.$tours['user-tour'].start();
+            }
+        }, 2000)
 
         /* Show this content */
         eventBus.$on('access-first-step', function(){
@@ -283,6 +382,9 @@ export default {
         
     },
     methods:{
+        finishTour () {
+            window.location.href="/home";
+        },
         createCourse: function(){
             this.loading = true;
             var form = document.getElementById('form-first-step')
@@ -363,30 +465,27 @@ export default {
 
 
 .form-wizard-wrapper .form-wizard-content {
-  background-color: #F3F6F6;
-  padding-top: 50px;
-  color: #777777;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  top: 0;
+    background-color: #F3F6F6;
+    color: #777777;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
 }
 
 /* End default sizes */
 
 
-/* ------------- Max 1024px ---------------- */
-@media only screen and (max-width: 1024px) {
-    .editr--toolbar {
-        display:none !important;
-    }
-}
 
 input[type="radio"] {
     display: none;
 }
 input[type="radio"]:checked + label {
     border: 5px solid royalblue;
+}
+
+.card-course{
+    margin: 30px
 }
 
 

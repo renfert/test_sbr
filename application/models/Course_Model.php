@@ -157,18 +157,21 @@ class Course_Model extends CI_Model {
 
     private function getLessonsCompletedByTheUser($responseLessons){
         $where = array();
-        foreach($responseLessons as $value){
-            array_push($where, $value->mylesson_id);
-        };
-        $this->db->select("*");
-        $this->db->from("lesson_status");
-        $this->db->where("myuser_id", getUserId() );
-        $this->db->where("status", "finished");
-        $this->db->where_in("mylesson_id", $where);
-        $query = $this->db->get();
-        if($query->num_rows() >= 0){
-            return $query->num_rows();
-        }   
+        
+        if($responseLessons != null){
+            foreach($responseLessons as $value){
+                array_push($where, $value->mylesson_id);
+            };
+            $this->db->select("*");
+            $this->db->from("lesson_status");
+            $this->db->where("myuser_id", getUserId() );
+            $this->db->where("status", "finished");
+            $this->db->where_in("mylesson_id", $where);
+            $query = $this->db->get();
+            if($query->num_rows() >= 0){
+                return $query->num_rows();
+            }   
+        }
     }
 
     private function getLessonsCompletedByTheUserToCorrection($responseLessons,$studentId){
@@ -282,7 +285,7 @@ class Course_Model extends CI_Model {
             'spotlight' => $dataReceiveFromPost["spotlight"],
             'validity' => $dataReceiveFromPost["validity"],
             'preview' => $dataReceiveFromPost["preview"],
-            'comments' => $dataReceiveFromPost["comments"],
+            'reviews' => $dataReceiveFromPost["reviews"],
             'mycategory_id' => $dataReceiveFromPost["mycategory_id"],
             'certificate' => $dataReceiveFromPost["certificate"],
         );
@@ -335,6 +338,12 @@ class Course_Model extends CI_Model {
             return false;
         }
 
+        /* Delete from reviews */
+        $this->db->where("mycourse_id", $courseId);
+        if($this->db->delete("reviews") == false){
+            return false;
+        }
+
         /* Delete from mycourse */
         $this->db->where("id", $courseId);
         if($this->db->delete("mycourse") == false){
@@ -371,5 +380,16 @@ class Course_Model extends CI_Model {
         $this->db->where("myuser_id", getUserId());
         $this->db->where("mycourse_id", $courseId);
         $this->db->update("course_helper", $data);
+    }
+
+    public function getCourseCreator($courseId){
+        $this->db->select("T1.name, T1.email,T1.avatar");
+        $this->db->from("mycourse T0");
+        $this->db->join("myuser T1", "T0.creation_user = T1.id");
+        $this->db->where("T0.id", $courseId);
+        $query = $this->db->get();
+        if($query->num_rows() > 0){
+            return $query->result()[0];
+        }
     }
 }

@@ -3,15 +3,15 @@
     <el-container> 
         <el-main>
             <facebook-loader 
-            v-if="loading == true"
-            :speed="2"
-            width="400"
-            height="200"
-            style="margin-left:15%;margin-top:5%;"
-            primaryColor = "#f0f0f0"
-            secondaryColor = "#d9d9d9"
-        >
-        </facebook-loader>
+                v-if="loading == true"
+                :speed="2"
+                width="400"
+                height="200"
+                style="margin-left:15%;margin-top:5%;"
+                primaryColor = "#f0f0f0"
+                secondaryColor = "#d9d9d9"
+            >
+            </facebook-loader>
             <div class="content" v-else>
                 <!-- Video -->
                 <div class="player-container" v-if="showVideo">
@@ -243,10 +243,10 @@ locale.use(lang)
 Vue.use(VueAxios, axios)
 Vue.use(ElementUI)
 Vue.use(VuePlyr, {
-  plyr: {
-    fullscreen: { enabled: true }
-  },
-  emit: ['ended']
+    plyr: {
+        fullscreen: { enabled: true }
+    },
+    emit: ['ended']
 })
 export default {
     mixins: [domains,alerts],
@@ -265,7 +265,6 @@ export default {
             lessonId: '',
             lessonStatus: '',
             
-
             componentKey: 0,
     
             showVideo: false,
@@ -279,9 +278,8 @@ export default {
             overview: '',
 
             studentId: '',
-
+        
             modal: false,
-            
             loading: true
         }
     },
@@ -292,8 +290,9 @@ export default {
        FacebookLoader
     },
     mounted(){
-        this.getUserProfile();
 
+        this.getUserProfile();
+    
         eventLang.$on('lang', function(response){  
             this.lang = response;
         }.bind(this));
@@ -307,7 +306,6 @@ export default {
             if(data["lessonType"] == 3 || data["lessonType"] == 7){
                 this.finishLesson();
             }
-
         }.bind(this));
 
         eventBus.$on("exam-finished", function(){

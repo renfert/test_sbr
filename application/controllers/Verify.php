@@ -45,7 +45,17 @@ class Verify extends CI_Controller {
         $result = $this->Verify_Model->checkStorageAvailability();
         echo json_encode($result);
     }
-    
 
+    public function verifyIfCourseHasAlreadyBeenEvaluated(){
+        $courseId = $this->input->post("courseId");
+        $result = $this->Verify_Model->verifyIfCourseHasAlreadyBeenEvaluated($courseId);
+        echo json_encode($result);
+    }
+
+    public function stepsStatus(){
+        $result = $this->Verify_Model->stepsStatus();
+        echo json_encode($result);
+    }
+    
 }
 ?>

@@ -185,7 +185,7 @@ export default {
             eventLogin.$emit("open-login-modal");
         },
         enterPlatform: function(){
-            window.location.href=  this.getDomainNameToNavigation() + "dashboard";
+            window.location.href=  "home";
         },
         listHeader: function(){
             this.loading = true;

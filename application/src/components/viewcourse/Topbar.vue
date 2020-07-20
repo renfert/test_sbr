@@ -1,6 +1,9 @@
 <template>
     <nav class="navbar navbar-expand-lg navbar-dark special-color-dark">
 
+        <!------------------- 
+           Mobile topbar
+        ---------------  -->
         <div class="mobile-topbar">
             <i @click="changeLeftBarClass()" class="mdi mdi-menu mdi-24px pr-5"></i>
             <a class="pr-5" :href="getDomainNameToNavigation() + 'courses'">
@@ -10,21 +13,23 @@
             <el-button class="sbr-btn sbr-primary" @click="nextLesson()"  ><i class="el-icon-arrow-right"></i></el-button>
         </div>
 
-       
-        <!-- Collapsible content -->
-        <div class="collapse navbar-collapse" id="basicExampleNav">
-            <!-- Course name -->
-            <ul class="navbar-nav mr-auto">
 
+        <div class="collapse navbar-collapse" id="basicExampleNav">
+            <ul class="navbar-nav mr-auto">
+                
+                <!------------------- 
+                    Back button
+                ---------------  -->
                 <li class="nav-item mr-2 ml-2">
                     <a :href="getDomainNameToNavigation() + 'courses'">
                         <el-button size="medium"  icon="el-icon-back" circle></el-button>
                     </a>
                 </li>
              
-                
+                <!------------------- 
+                    Certificate icon
+                ---------------  -->
                 <li class="nav-item" v-if="certificate != null">
-
                     <a @click.prevent="printCertificate" v-if="progress == 100"  class="nav-link course-title" href="javascript:void(0)">
                          <img class="cert"  src="@/assets/img/general/ux/certificate.png" alt="certificate"> 
                     </a>
@@ -34,14 +39,12 @@
                             <img class="cert"  src="@/assets/img/general/ux/certificate.png" alt="certificate"> 
                         </el-tooltip>
                     </a>
-                    
-                    
                 </li>
-
-            
             </ul>
 
-            
+            <!------------------- 
+               Prev and next buttons
+            ---------------  -->
             <ul class="navbar-nav mr-6">
                 <li class="nav-item">
                     <el-button-group>
@@ -49,10 +52,11 @@
                         <el-button class="sbr-btn sbr-primary" @click="nextLesson()"  >Next lesson<i class="el-icon-arrow-right"></i></el-button>
                     </el-button-group>
                 </li>
-                
             </ul>     
            
-
+            <!------------------- 
+                Course title
+            ---------------  -->
             <ul class="navbar-nav mr-4">
                 <li class="nav-item">
                     <a class="nav-link course-title" href="#"></a>
@@ -60,15 +64,88 @@
             </ul>    
  
         </div>
-        <!-- Collapsible content -->
+    
 
-                
+        <!------------------- 
+           Progress bar
+        ---------------  -->
         <div class="col-2 progress progress-viewcourse">
             <div class="progress-bar" role="progressbar" :style="style" :aria-valuenow="progress" aria-valuemin="0" aria-valuemax="100"></div> 
         </div>
+        
 
+        <!------------------- 
+           Print certificate 
+        ---------------  -->
         <certificate-print v-if="courseId != null && certificate != null" :course-id="courseId" :show="showCertificate"></certificate-print>
-      
+        
+        <!------------------- 
+            Review modal 
+        ---------------  -->
+        <el-dialog  
+            :visible.sync="modalReview" 
+            center 
+            :title="lang['please-rate-my-course']"
+            width="50%" 
+            top="5vh"
+            >   
+            <div>  
+
+                <!------------------- 
+                    Review card 
+                ----------------  -->
+                <div v-if="showThanksCard == false">
+                    <!-- Instructor information -->
+                    <div class="block text-center mb-3">
+                        <el-avatar   :src="getUrlToContents() + 'avatar/'+userCreatorAvatar+''"></el-avatar>
+                        <h4> <b><i>{{userCreatorName}}</i></b></h4>
+                    </div>
+                    <!-- Rate -->
+                    <div class="block text-center mb-5">
+                        <h3>{{lang["how-would-you-rate-this-course"]}}</h3>
+                        <el-rate v-model="rate"></el-rate>
+                    </div>
+                    <!-- Comment -->
+                    <div class="block mb-3">
+                        <h3 class="text-center">{{lang['leave-a-comment']}}</h3>
+                        <textarea v-model="comment" class="form-control"  cols="30" rows="6"></textarea>
+                    </div>
+                    <!-- Save button -->
+                    <div class="block text-center">
+                        <el-button @click.prevent="saveReview()" v-loading="loading" class="sbr-btn sbr-primary">{{lang['save-button']}}</el-button>
+                    </div>
+                </div>
+                <!------------------- 
+                    End review card 
+                ----------------  -->
+
+
+                <!------------------- 
+                    Thanks card
+                ----------------  -->
+                <div v-else>
+                    <!-- Instructor information -->
+                    <div class="block text-center mb-3">
+                        <el-avatar   :src="getUrlToContents() + 'avatar/'+userCreatorAvatar+''"></el-avatar>
+                        <h4> <b><i>{{userCreatorName}}</i></b></h4>
+                    </div>
+
+                    <!-- Thanks message -->
+                    <div class="block text-center">
+                        <h3 class="sbr-text-primary">{{lang['thanks-for-your-feedback']}}</h3>
+                        <h2><i class="far fa-grin-wink"></i></h2>
+                    </div>
+
+                </div>
+                <!------------------- 
+                    End thanks card
+                ----------------  -->
+
+            </div>
+        </el-dialog>
+        <!------------------- 
+            End Review modal 
+        ---------------  -->
     </nav>
 </template>
 
@@ -94,6 +171,7 @@ export default {
     data: () => {
         return {
             lang: {},
+
             title: null,
             logo: '',
             progress: '',
@@ -101,17 +179,30 @@ export default {
             companyName: '',
             courseId: null,
             showCertificate: false,
-            comments: ''
+            userCreatorName: '',
+            userCreatorEmail: '',
+            userCreatorAvatar: '',
+            rate: 5,
+            comment: '',
+            loading: false,
+
+            courseHasAlreadyBeenEvaluated: false,
+
+            showThanksCard : false,
+            modalReview: false
         }
     },
     created: function(){
-        this.getCompanyLogo();
         var courseId = sessionStorage.getItem('sbr_course_id');
+        this.checkIfCourseHasAlreadyBeenEvaluated(courseId);
+        this.getCompanyLogo();
         this.courseId = sessionStorage.getItem('sbr_course_id');
         this.getCourse(courseId);
         this.getCourseProgress(courseId);
     },
     mounted(){
+        this.getCourseCreator();
+        
         eventLang.$on('lang', function(response){
             this.lang = response
         }.bind(this));
@@ -119,8 +210,41 @@ export default {
         eventBus.$on("update-progress-bar", function(){
             this.getCourseProgress(this.courseId);
         }.bind(this));
+        
     },
     methods: {
+        saveReview: function(){
+            this.loading = true;
+            var formData = new FormData()
+            formData.set('courseId', this.courseId);
+            formData.set('comment', this.comment);
+            formData.set('rate', this.rate);
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("reviews", "saveReview");
+            axios.post(urlToBeUsedInTheRequest, formData).then(() => {
+                this.loading = false;
+                this.showThanksCard = true;
+            },
+                /* Error callback */
+                function(){
+                    this.errorMessage();
+                }.bind(this)
+            );  
+        },
+        getCourseCreator: function(){
+            var formData = new FormData()
+            formData.set('courseId', this.courseId);
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("course", "getCourseCreator");
+            axios.post(urlToBeUsedInTheRequest, formData).then((response) => {
+                this.userCreatorEmail = response.data["email"];
+                this.userCreatorName = response.data["name"];
+                this.userCreatorAvatar = response.data["avatar"];
+            },
+                /* Error callback */
+                function(){
+                    this.errorMessage();
+                }.bind(this)
+            );
+        },
         changeLeftBarClass: function(){
             eventBus.$emit("change-leftbar-class");
         },
@@ -179,6 +303,9 @@ export default {
             var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("course", "progress");
             axios.post(urlToBeUsedInTheRequest, formData).then(function (response) {
                 this.progress = response.data;
+                if(response.data == 100 && this.courseHasAlreadyBeenEvaluated == false){
+                    this.modalReview = true;
+                }
             }.bind(this));
         },
         getCourse: function(courseId){
@@ -189,9 +316,21 @@ export default {
                 this.title = response.data["title"];
                 this.courseId = response.data["id"];
                 this.certificate = response.data["certificate"];
-                this.comments = response.data["comments"];
             }.bind(this));
         },
+        checkIfCourseHasAlreadyBeenEvaluated: function(courseId){
+            var formData = new FormData();
+            formData.set('courseId', courseId);
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("verify", "verifyIfCourseHasAlreadyBeenEvaluated");
+            axios.post(urlToBeUsedInTheRequest, formData).then((response) => {
+                this.courseHasAlreadyBeenEvaluated = response.data;
+            },
+                /* Error callback */
+                function(){
+                    this.errorMessage();
+                }.bind(this)
+            );  
+        }
     },
     computed: {
         style: function(){
@@ -203,7 +342,7 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+
 <style lang="scss" scoped>
 .el-submenu{
     border-bottom: 1px solid rgb(67, 74, 80);

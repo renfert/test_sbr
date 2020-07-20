@@ -71,7 +71,7 @@
                         <div class="text-no-results">
                             <h4>{{lang["no-results-module-title"]}}</h4>
                             <p>{{lang["no-results-module-subtitle"]}} <span class="text-sabiorealm-secondary">{{lang["no-results-module-subtitle-highlight"]}}</span></p>
-                            <el-button  class="sbr-btn sbr-primary" @click.prevent="openModuleModal()"  type="primary"  size="medium">{{lang["new-module"]}}  </el-button> 
+                            <el-button  class="sbr-btn sbr-primary mt-3" @click.prevent="openModuleModal()"  type="primary"  size="medium">{{lang["new-module"]}}  </el-button> 
                         </div>
                     </div>
                     <div class="col-xl-5 col-md-5">
@@ -588,7 +588,7 @@ li{
 }
 
 .text-no-results{
-    margin-top:15%; 
+    margin-top:10%; 
 }
 
 

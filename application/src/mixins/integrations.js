@@ -42,7 +42,7 @@ const integrations = {
                 })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
 
                 /* Tawk to */
-                if(this.currentRote != '/' && this.currentRote != '/products' && this.currentRote != '/product'){
+                if(this.currentRote != '/' && this.currentRote != '/site' && this.currentRote != '/products' && this.currentRote != '/product'){
                     var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("user", "getUserProfile");
                     axios.get(urlToBeUsedInTheRequest).then(function (response) {
                         let role = response.data["myrole_id"];

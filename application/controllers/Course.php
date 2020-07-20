@@ -22,13 +22,11 @@ class Course extends CI_Controller {
         }
 
         /* Empty video preview */
-         if($this->input->post("preview") == ''){
+        if($this->input->post("preview") == ''){
             $coursePreview = null;
         }else{
             $coursePreview  = $this->input->post("preview");
         }
-
-
     
 
         $dataReceiveFromPost = array(
@@ -37,7 +35,7 @@ class Course extends CI_Controller {
             'release_date' => $this->input->post("release_date"),
             'expiration_date' => $this->input->post("expiration_date"),
             'validity' => $this->input->post("validity"),
-            'comments' => $this->input->post("comments"),
+            'reviews' => $this->input->post("reviews"),
             'spotlight' => $this->input->post("spotlight"),
             'photo' =>  $coursePhoto,
             'preview' =>  $coursePreview,
@@ -96,7 +94,7 @@ class Course extends CI_Controller {
             'release_date' => $releaseDate,
             'expiration_date' => $expirationDate,
             'validity' => $validity,
-            'comments' => $this->input->post("comments"),
+            'reviews' => $this->input->post("reviews"),
             'spotlight' => $this->input->post("spotlight"),
             'photo' =>  $photo,
             'preview' =>  $preview,
@@ -133,6 +131,12 @@ class Course extends CI_Controller {
         $courseId = $this->input->post("courseId");
         $userId = $this->input->post("userId");
         $result = $this->Course_Model->enrollUserIntoCourse($courseId,$userId);
+        echo json_encode($result);
+    }
+
+    public function getCourseCreator(){
+        $courseId = $this->input->post("courseId");
+        $result = $this->Course_Model->getCourseCreator($courseId);
         echo json_encode($result);
     }
 }

@@ -4,10 +4,16 @@ Vue.use(Router)
 
 const routes = [
     {
-        name: 'home',
+        name: 'marketplace',
         path: '/',
         component: () => 
-        import(/* webpackChunkName: "home" */ '@/pages/home/App'),    
+        import(/* webpackChunkName: "marketplace" */ '@/pages/marketplace/App'),    
+    },
+    {
+        name: 'home',
+        path: '/home',
+        component: () => 
+        import(/* webpackChunkName: "home" */ '@/pages/home/App'), 
     },
     {
         name: 'dashboard',

@@ -340,14 +340,17 @@ export default {
                 }.bind(this)
             );
 
+
             const token = this.mpAccessToken;
+        
             
-    
             //Set credentials
             mercadopago.configure({
-                sandbox: true,
+                sandbox: false,
                 access_token: token
-            });
+            })
+            
+                   
 
             // Create a object with preference
             let preference = {
@@ -369,8 +372,8 @@ export default {
             .then(function(res){
                 this.preferenceId = res.response.id;
                 this.savePreferenceId(md5(res.response.id));
-            }.bind(this)).catch(function(){
-               
+            }.bind(this)).catch(function(err){
+                alert(err);
             });
 
             localStorage.setItem('purchase_reference', courseId);

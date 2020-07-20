@@ -16,6 +16,16 @@ class User_Model extends CI_Model {
         Create a new user 
     -----------------------*/
 	public function create($dataReceiveFromPost){
+
+		/*-------------------------------
+			Update step user 
+		--------------------------------*/
+		$data = array(
+			"status" => "finished"
+		);
+		$this->db->where("id", 1);
+		$this->db->update("first_steps", $data);
+
 		$name = $dataReceiveFromPost["name"];
 		$email = $dataReceiveFromPost["email"];
 		$password = $dataReceiveFromPost["password"];
@@ -143,6 +153,12 @@ class User_Model extends CI_Model {
 		/* Delete from course_helper */
 		$this->db->where("myuser_id", $userId);
 		if($this->db->delete("course_helper") == false){
+			return false;
+		}
+
+		/* Delete from reviews */
+		$this->db->where("myuser_id", $userId);
+		if($this->db->delete("reviews") == false){
 			return false;
 		}
 

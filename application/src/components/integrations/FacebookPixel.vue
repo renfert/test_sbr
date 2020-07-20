@@ -34,6 +34,7 @@ export default {
         eventLang.$on('lang', function(response){  
         this.lang = response;
         }.bind(this));
+        
 
         this.getFbPixel();
     },

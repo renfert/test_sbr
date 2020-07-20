@@ -139,7 +139,7 @@ export default {
     },
     methods: {
         enterPlatform: function(){
-            window.location.href=  this.getDomainNameToNavigation() + "dashboard";
+            window.location.href=  "home";
         },
         openLoginModal: function(){
             eventLogin.$emit("open-login-modal");

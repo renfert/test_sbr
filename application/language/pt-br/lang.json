@@ -1,5 +1,6 @@
 {   
     "dashboard-nav" : "Dashboard",
+    "home-nav": "Home",
     "courses-nav": "Cursos",
     "my-courses-nav": "Meus cursos",
     "categories-nav": "Categorias",
@@ -26,6 +27,17 @@
 
     "upgrade-plan-info-pt1": "Aproveite e escolha um",
     "upgrade-plan-info-pt2": "antes que o tempo acabe",
+
+    "welcome-to-sabiorealm" : "Bem vindo(a) a Sabiorealm",
+    "welcome-message-pt1": "Que tal começarmos com algumas atividades básicas para que você possa conhecer nossa plataforma um pouco melhor?",
+    "welcome-message-pt2": "Não seja tímido(a)! Se você tiver alguma dúvida sobre como começar, estaremos disponíveis no chat. Você pode nos chamar!",
+
+    "customize-your-platform": "Personalize sua plataforma",
+    "change-settings": "Alterar configurações",
+
+    "view-my-marketplace" : "Ver meu marketplace",
+    "view-my-entry-page" : "Ver minha página de entrada",
+
 
     "plan" :  "plano",
 
@@ -428,6 +440,23 @@
     "certify-completition": "para certificar que o curso foi concluído com satisfação",
 
     "print-certificate": "Imprimir certificado",
+    
+    "tour-user-name-message": "Vamos começar colocando um nome para o novo usuário",
+    "tour-user-email-message": "Agora é hora de definir o email do usuário, este email será usado para que o usuário possa entrar na plataforma.",
+    "tour-user-password-message": "A senha será usada junto ao email para entrar na plataforma.",
+    "tour-user-role-message": "Escolha a função de usuário na plataforma.</br> Saiba mais sobre as funções de usuário em nosso <b> <a style='color:white;' target='_blank' href='helpcenter'> Help center.</a></b>",
+    "tour-user-done-message": "Muito bem! aqui terminamos de criar um usuário. </br> Que tal voltarmos para a  <b><a style='color:white;' href='home'> <i class='dripicons-home'></i>  Home </a></b> e vemos se há mais alguma atividade a fazer?",
+
+    "tour-course-name-message": "Vamos começar colocando um nome para o novo curso",
+    "tour-course-description-message": "Muito bem! agora vamos colocar uma boa descrição para o curso que explica brevemente o que o aluno encontrará.",
+    "tour-course-image-message": "Agora vamos colocar uma imagem para o curso, esta imagem será usada como a imagem de apresentação do curso. O tamanho recomendado é <b> 1900 x 1200 px </b>",
+    "tour-course-step2-message" : "Nosso curso está quase pronto! agora só precisamos adicionar algum conteúdo! para fazer isso, clique na etapa 2",
+
+
+    "finish" : "Terminar",
+    "tour-done": "Terminamos!",
+
+    "publish" : "Publicar",
 
     "school-records": "Registros escolares",
 
@@ -443,6 +472,7 @@
     "number-of-re-tests": "Número de novas tentativas",
     "re-rest-info" : "Defina como 0 se o aluno tiver apenas uma oportunidade de fazer o exame.",
     "next-step-button": "Próxima etapa",
+    "previous-step-button": "Etapa anterior",
 
     "create-new-lesson" : "Criar uma nova lição",
     "lesson-created-success" : "Lição criada com sucesso",
@@ -468,7 +498,13 @@
     "download-template": "Descarregar template",
     "invalid-character": "Você está usando algum caractere inválido",
     
+    "create": "Criar",
+    "personalize": "Personalizar",
+    "to-set-up" : "Configurar",
 
+    "skip-this-step": "Pular esta etapa",
+
+    "skip-tour": "Pular tour",
 
     "name": "Nome",
     "password": "Senha",
@@ -555,6 +591,19 @@
 
     "access": "Acesse",
     "or-contact": "Ou entre em contato:",
+
+    "shortcuts" : "Atalhos",
+
+    "reviews": "Avaliações",
+
+    "how-would-you-rate-this-course" : "Como você classificaria este curso?",
+
+    "leave-a-comment": "Deixe um comentário",
+    "thanks-for-your-feedback": "Muito obrigado por seu feedback!",
+
+    "customize-your-page" : "Personalize sua página",
+
+    "last-activities": "Últimas atividades",
 
     "new-purchase-request": "New purchase request",
 

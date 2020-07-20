@@ -1,5 +1,5 @@
 <template>
-    <div id="video-overlay" class="video-overlay" :class="modal == true?'open': ''">
+    <div id="video-overlay"  class="video-overlay" :class="modal == true?'open': 'hide'">
         <a @click.prevent="modal = false" class="video-overlay-close">&times;</a>
         
         <div class="card-main" :class="comparativePlans == true? 'scrollable': ''">

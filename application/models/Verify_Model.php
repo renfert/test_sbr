@@ -22,6 +22,28 @@ class Verify_Model extends CI_Model {
         }
     }
 
+    public function stepsStatus(){
+        $this->db->select("*");
+        $this->db->from("first_steps");
+        $query = $this->db->get();
+        if($query->num_rows() > 0){
+            return $query->result();
+        }
+    }
+
+    public function verifyIfCourseHasAlreadyBeenEvaluated($courseId){
+        $this->db->select("*");
+        $this->db->from("reviews");
+        $this->db->where("mycourse_id", $courseId);
+        $this->db->where("myuser_id", getUserId());
+        $query = $this->db->get();
+        if($query->num_rows() > 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     public function checkPreferenceValidity($preferenceId){
         $this->db->select("*");
         $this->db->from("integrations");

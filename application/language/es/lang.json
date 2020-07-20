@@ -1,5 +1,6 @@
 {   
     "dashboard-nav" : "Dashboard",
+    "home-nav": "Home",
     "courses-nav": "Cursos",
     "my-courses-nav": "Mis cursos",
     "categories-nav": "Categorías",
@@ -21,11 +22,29 @@
     "plans-nav": "Planes",
     "help-center-nav": "Centro de Ayuda",
 
+    "welcome-to-sabiorealm" : "Bienvenido(a) a Sabiorealm",
+    "welcome-message-pt1": "¿Qué tal si comenzamos con algunas actividades básicas para que pueda conocer un poco mejor nuestra plataforma?",
+    "welcome-message-pt2": "¡No seas tímido(a)! Si tiene alguna duda sobre cómo comenzar, estaremos disponibles en el chat. Puedes llamarnos!",
+
+    "customize-your-platform": "Personaliza tu plataforma",
+    "change-settings": "Cambiar ajustes",
+
     "trial-expiration-date-info-pt1": "Tienes",
     "trial-expiration-date-info-pt2": "días de prueba",
 
+    "view-my-marketplace" : "Ver mi marketplace",
+    "view-my-entry-page" : "Ver mi página de entrada",
+
     "upgrade-plan-info-pt1": "Disfruta y elige un",
     "upgrade-plan-info-pt2": "antes de que se acabe el tiempo",
+
+    "create": "Crear",
+    "personalize": "Personalizar",
+    "to-set-up" : "Configurar",
+
+    "skip-this-step": "Saltar esta etapa",
+
+    "skip-tour": "Omitir este recorrido",
 
     "plan" :  "plan",
 
@@ -350,7 +369,7 @@
 
     "module-created-success" : "Modulo creado",
     "no-results-module-title": "Puedes comenzar a crear tu curso agregando un modulo",
-    "no-results-module-subtitle" : "Los cursos están compuestos por módulos y los módulos están compuestos a su vez por contenidos (Videos, Pdf, Audios, Exámenes, etc), haz clic en el botón de abajo para crear un modulo",
+    "no-results-module-subtitle" : "Los cursos están compuestos por módulos y los módulos están compuestos a su vez por contenidos (Videos, Pdf, Audios, Exámenes, etc), haz clic en el botón de abajo para crear un ",
     "no-results-module-subtitle-highlight": "Modulo",
     "module-deleted-success": "Modulo eliminado",
     "question-delete-module" : "Borrar modulo:",
@@ -473,9 +492,28 @@
     "number-of-re-tests": "Numero de reintentos",
     "re-rest-info" : "Dejar en 0 si el alumno solo tendrá 1 oportunidad para pasar el examen.",
     "next-step-button": "Siguiente",
+    "previous-step-button": "Anterior",
+
+    "tour-user-name-message": "Comencemos poniendo un nombre para el nuevo usuario",
+    "tour-user-email-message": "Ahora es el momento de definir el correo electrónico del usuario, este correo se utilizará para que el usuario pueda ingresar a la plataforma.",
+    "tour-user-password-message": "La contraseña se utilizará con el correo electrónico para ingresar a la plataforma.",
+    "tour-user-role-message": "Elija el rol de usuario dentro de la plataforma.</br> Obtenga más información sobre los roles de usuario en el <b> <a style='color:white;' target='_blank' href='helpcenter'> Help center.</a></b>",
+    "tour-user-save-message": "¡Muy bien! Es hora de salvar al usuario, simplemente haga clic en <b> guardar. </b>",
+    "tour-user-done-message": "¡Muy bien! aquí terminamos de crear un usuario. </br> ¿Qué tal si volvemos a la  <b><a style='color:white;' href='home'> <i class='dripicons-home'></i>  Home </a></b> y vemos si hay más actividad que hacer?",
+
+    "tour-course-name-message": "Comencemos poniendo un nombre para el nuevo curso",
+    "tour-course-description-message": "¡Muy bien! ahora vamos a poner una buena descripción del curso que explica brevemente lo que encontrará el alumno.",
+    "tour-course-image-message": "Ahora pondremos una imagen para el curso, esta imagen se utilizará como imagen de presentación del curso. El tamaño recomendado es <b> 1900 x 1200 px </b>",
+    "tour-course-step2-message" : "¡Nuestro curso está casi listo! ¡ahora solo necesitamos agregar algo de contenido! para hacer esto, haga clic en el paso 2",
+
+
+    "finish" : "Terminar",
+    "tour-done": "¡Terminado!",
 
     "create-new-lesson" : "Crear una nueva lección",
     "lesson-created-success" : "Lección creada exitosamente",
+
+    "publish" : "Publicar",
 
     "school-name" : "Nombre de la escuela",
     "color" : "Color",
@@ -547,7 +585,7 @@
     "text-and-media": "Text and media",
     "media" : "Media",
     "media-align": "Media align",
-    "content": "Content",
+    "content": "Contenido",
     "transparent-header": "Transparent header",
 
     "courses": "Cursos",
@@ -620,6 +658,20 @@
     "feature-plan-mass-import" : "Importación masiva",
     "feature-plan-certificate" : "Certificados",
     "feature-plan-exams" : "Exámenes",
+
+    "reviews": "Comentarios",
+
+    "how-would-you-rate-this-course" : "¿Cómo calificaría este curso?",
+
+    "leave-a-comment": "Deja un comentario",
+    "please-rate-my-course": "Por favor califique mi curso",
+    "thanks-for-your-feedback": "¡Gracias por tus comentarios!",
+
+    "customize-your-page" : "Personaliza tu página",
+
+    "last-activities": "Ultimas actividades",
+
+    "shortcuts" : "Atajos",
 
     "feature-plan-programs" : "Programas",
 

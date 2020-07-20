@@ -5,7 +5,7 @@
             <div class="col-12 col-md-12 mb-5">
                 <div class="card-widget" style="overflow-y: scroll; height:500px;border-radius:10px 0px 0px 10px !important;">
                     <div class="activities-title text-center mb-5">
-                        <h3>Last activities</h3>
+                        <h3>{{lang['last-activities']}}</h3>
                     </div>
 
             

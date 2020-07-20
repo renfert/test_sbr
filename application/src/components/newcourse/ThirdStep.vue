@@ -1,7 +1,7 @@
 <template>
     <div :class="contentShow == false ? 'hide' : 'main'">   
         
-        <div class="row">
+        <div class="row mt-5">
             <div class="img-container">
                 <div class="text-container">
                     <h4>{{lang["course-created-successfully"]}}</h4>
@@ -28,7 +28,7 @@
             </div>
         </div>
 
-        <div class="row mt-3 ml-5 mr-5">
+        <div class="row mt-5 ml-5 mr-5 mb-5">
             <div class="col-12 col-md-3">
                 <a href="javascript:void(0)" @click.prevent="viewCourse()">
                     <div class="card-box">
@@ -265,7 +265,7 @@ export default {
     position:absolute;
     width:400px;
     margin-left:50%;
-    margin-top:14%;
+    margin-top:10%;
     left: -200px;
     text-align:center;  
 }

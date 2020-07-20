@@ -1,6 +1,16 @@
 <template>  
-    <div v-loading="loading">
-        <div :style="style" class="drop-area"> 
+    <div>
+        <facebook-loader 
+            v-if="loading == true"
+            :speed="2"
+            width="700"
+            height="200"
+            primaryColor = "#f0f0f0"
+            secondaryColor = "#d9d9d9"
+        >
+        </facebook-loader>
+
+        <div v-else :style="style" class="drop-area"> 
             <input :value="name" :name="returnName" type="text">
             <input 
                 :name="inputName" 
@@ -35,13 +45,17 @@ import domains from '@/mixins/domains'
 import alerts from '@/mixins/alerts'
 import AWS from 'aws-sdk/global';
 import S3 from 'aws-sdk/clients/s3';
-import { eventPlan } from '../plans/UpgradePlan.vue'
+import { FacebookLoader } from 'vue-content-loader';
+import { eventPlan } from '@/components/plans/UpgradePlan.vue'
 Vue.use(VueAxios, axios)
 Vue.use(toastr)
 
 /* Event bus to handle communication between components */
 export const eventUpload = new Vue();
 export default {
+    components: {
+        FacebookLoader
+    },
     mixins: [domains,alerts],
     data: function() {
         return {

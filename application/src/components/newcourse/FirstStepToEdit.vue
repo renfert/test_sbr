@@ -36,7 +36,7 @@
                             <div class="form-group  col-xl-6 col-md-6">
                                 <textarea class="hide" v-model="description" name="description"></textarea>
                                 <label class="col-form-label">{{lang["description"]}}</label>
-                                <wysiwyg  @change="editCourse(false)" v-model="description" />
+                                <wysiwyg  v-model="description" />
                             </div>
                         </div>
 
@@ -126,11 +126,11 @@
             </div>
 
             <div class="row">
-                <!-- Course comments -->
+                <!-- Course reviews -->
                 <div class="col-xl-4 col-md-4">
-                    <label for="exampleInputEmail1">{{lang["comments"]}}</label>
+                    <label for="exampleInputEmail1">{{lang["reviews"]}}</label>
                     <div class="input-group">
-                        <toggle-button name="comments"  color="#3BB6B6" v-model="comments"/>
+                        <toggle-button name="reviews"  color="#3BB6B6" v-model="reviews"/>
                     </div>
                 </div>
 
@@ -201,9 +201,7 @@ import domains from '@/mixins/domains'
 import alerts from '@/mixins/alerts'
 
 
-Vue.use(wysiwyg, {
-    hideModules: { "image": true, "code": true, "table": true },
-});
+Vue.use(wysiwyg, {});
 
 Vue.use(VueTheMask)
 Vue.use(ToggleButton)
@@ -227,7 +225,7 @@ export default {
             categories : {}, // List of categories
             certificates: {}, // List of certificates
             description: '', // Course description
-            comments: false, // Course comments
+            reviews: false, // Course reviews
             spotlight: false,// Course spotlight
             certificate: false, 
             certificateValue: '',
@@ -328,7 +326,7 @@ export default {
             
     
                 response.data["spotlight"] == null ? this.spotlight = false : this.spotlight = true;
-                response.data["comments"] == null ? this.comments = false : this.comments = true;
+                response.data["reviews"] == null ? this.reviews = false : this.reviews = true;
                 this.validity = response.data["validity"]; 
                 response.data["certificate"] == null ? this.certificate = false : this.certificate = true; 
                 this.certificateValue = response.data["certificate"];
@@ -415,17 +413,7 @@ export default {
 .form-row{
     padding:0px !important;
 }
-.editr {
-    height:200px;
-    border-radius: 4px;
-    border: 2px solid #ccc;
-    transition: border-color .15s linear !important;
-}
 
-.editr--content{
-    font-family: 'Poppins', sans-serif !important;
-    font-size:15px !important;
-}
 
 .form-wizard-wrapper .form-wizard-content {
   background-color: #F3F6F6;
@@ -440,12 +428,6 @@ export default {
 /* End default sizes */
 
 
-/* ------------- Max 1024px ---------------- */
-@media only screen and (max-width: 1024px) {
-    .editr--toolbar {
-        display:none !important;
-    }
-}
 input[type="radio"] {
     display: none;
 }
