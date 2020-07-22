@@ -1,6 +1,6 @@
 <template>
     <nav class="navbar navbar-expand-lg navbar-dark special-color-dark">
-
+    
         <!------------------- 
            Mobile topbar
         ---------------  -->
@@ -174,6 +174,7 @@ export default {
 
             title: null,
             logo: '',
+            reviews: false,
             progress: '',
             certificate: null,
             companyName: '',
@@ -303,7 +304,7 @@ export default {
             var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("course", "progress");
             axios.post(urlToBeUsedInTheRequest, formData).then(function (response) {
                 this.progress = response.data;
-                if(response.data == 100 && this.courseHasAlreadyBeenEvaluated == false){
+                if(response.data == 100 && this.courseHasAlreadyBeenEvaluated == false && this.reviews != null){
                     this.modalReview = true;
                 }
             }.bind(this));
@@ -316,6 +317,7 @@ export default {
                 this.title = response.data["title"];
                 this.courseId = response.data["id"];
                 this.certificate = response.data["certificate"];
+                this.reviews = response.data["reviews"];
             }.bind(this));
         },
         checkIfCourseHasAlreadyBeenEvaluated: function(courseId){

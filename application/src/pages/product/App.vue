@@ -8,9 +8,9 @@
             <div class="font-up-bold text-uppercase">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb indigo lighten-4 breadcrumb-course">
-                        <li class="breadcrumb-item"><a class="black-text" :href="getDomainNameToNavigation() + 'index'">Home</a><i class="fas fa-caret-right mx-2"
+                        <li class="breadcrumb-item"><a class="black-text" href="/">Home</a><i class="fas fa-caret-right mx-2"
                             aria-hidden="true"></i></li>
-                        <li class="breadcrumb-item"><a class="black-text" :href="getDomainNameToNavigation() + 'products'">Courses</a><i class="fas fa-caret-right mx-2"
+                        <li class="breadcrumb-item"><a class="black-text" href="products">Courses</a><i class="fas fa-caret-right mx-2"
                             aria-hidden="true"></i></li>
                     </ol>
                 </nav> 

@@ -43,7 +43,7 @@ export default {
         }
     },
     created(){
-        this.courseId = sessionStorage.getItem('sbr_product_id');
+        this.courseId = this.$route.params.id;
     },
     mounted(){
         eventLang.$on('lang', function(response){  

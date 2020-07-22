@@ -12,10 +12,11 @@
                                 <div class="form-group">
                                     <!-- School name -->
                                     <label>{{lang['school-name']}}</label>
-                                    <el-input required name="name" :placeholder="lang['school-name']" v-model="name"></el-input>
+                                    <el-input class="v-settings-step-0" required name="name" :placeholder="lang['school-name']" v-model="name"></el-input>
                                 </div>
                                 <label>{{lang['logo']}}</label>
                                 <upload 
+                                    class="v-settings-step-2"
                                     v-if="this.logoName != ''"
                                     :src-img="this.getUrlToContents() + 'settings/'+this.logoName+''"
                                     :src-name="this.logoName"
@@ -30,10 +31,11 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label>{{lang['description']}}</label>
-                                    <el-input  name="description" :placeholder="lang['description']" v-model="description"></el-input>
+                                    <el-input class="v-settings-step-1"  name="description" :placeholder="lang['description']" v-model="description"></el-input>
                                 </div>
                                 <label>{{lang['favicon']}}</label>
                                 <upload 
+                                    class="v-settings-step-3"
                                     v-if="this.faviconName != ''"
                                     :src-img="this.getUrlToContents() + 'settings/'+this.faviconName+''"
                                     :src-name="this.faviconName"
@@ -128,10 +130,15 @@
                     </el-tabs>
                 </template>
                 </div>
-                <el-button class="sbr-btn sbr-primary" native-type="submit"  type="primary"  size="medium">{{lang["save-button"]}}</el-button>
+                <el-button class="sbr-btn sbr-primary v-settings-step-4" native-type="submit"  type="primary"  size="medium">{{lang["save-button"]}}</el-button>
             </form>
         </div>
         <helper-progress></helper-progress>
+
+        <!-------- 
+            Tour
+        ---------->
+        <v-tour name="settings-tour" :options="tourOptions" :callbacks="tourCallbacks"  :steps="steps"></v-tour>
   </div>
 </template>
 
@@ -146,12 +153,16 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import domains from '@/mixins/domains'
 import alerts from '@/mixins/alerts'
+import VueTour from 'vue-tour'
+require('vue-tour/dist/vue-tour.css')
+Vue.use(VueTour)
+
 Vue.use(ElementUI)
 Vue.use(VueAxios, axios)
 
 export default {
     mixins: [domains,alerts],
-    data: () => {
+    data: function() {
         return {
             name: '',
             email: '',
@@ -164,6 +175,76 @@ export default {
             lang: {},
             timezone: '',
             zones: [],
+            tourCallbacks: {
+                onFinish: this.finishTour
+            },
+            tourOptions: {
+                useKeyboardNavigation: true,
+                labels: {
+                    buttonSkip:'',
+                    buttonPrevious: '',
+                    buttonNext: '',
+                    buttonStop: ''
+                }
+            },
+            steps: [
+                {
+                    target: ".v-settings-step-0",
+                    header: {
+                        title: ''
+                    },
+                    params: {
+                        placement: 'top',
+                        highlight: true
+                    },
+                    content: ''
+                },
+                {
+                    target: ".v-settings-step-1",
+                    header: {
+                        title: ''
+                    },
+                    params: {
+                        placement: 'right',
+                        highlight: true
+                    },
+                    content: ''
+                },
+                {
+                    target: ".v-settings-step-2",
+                    header: {
+                        title: ''
+                    },
+                    params: {
+                        placement: 'right',
+                        highlight: true
+                    },
+                    content: ''
+                },
+                {
+                    target: ".v-settings-step-3",
+                    header: {
+                        title: ''
+                    },
+                    params: {
+                        placement: 'left',
+                        highlight: true
+                    },
+                    content: ''
+                },
+                {
+                    target: ".v-settings-step-4",
+                    header: {
+                        title: ''
+                    },
+                    params: {
+                        placement: 'right',
+                        highlight: true
+                    },
+                    content: ''
+                },
+              
+            ],
         }
     },
     components: { 
@@ -177,9 +258,45 @@ export default {
     mounted(){
         eventLang.$on('lang', function(response){  
             this.lang = response;
+
+            /* Tour labels */
+            this.tourOptions.labels.buttonSkip = this.lang["skip-tour"];
+            this.tourOptions.labels.buttonPrevious = this.lang["previous-step-button"];
+            this.tourOptions.labels.buttonNext = this.lang["next-step-button"];
+            this.tourOptions.labels.buttonStop = this.lang["finish"];
+
+            /* Tour step 0 - Name */
+            this.steps[0].header.title = this.lang["name"];
+            this.steps[0].content = this.lang["tour-settings-name-message"];
+
+            /* Tour step 1 - Description */
+            this.steps[1].header.title = this.lang["description"];
+            this.steps[1].content = this.lang["tour-settings-description-message"];
+
+            /* Tour step 2 - Logo */
+            this.steps[2].header.title = this.lang["logo"];
+            this.steps[2].content = this.lang["tour-settings-logo-message"];
+
+            /* Tour step 3 - Favicon */
+            this.steps[3].header.title = this.lang["favicon"];
+            this.steps[3].content = this.lang["tour-settings-favicon-message"];
+
+            /* Tour step 4 - Save button */
+            this.steps[4].header.title = this.lang["save-button"];
+            this.steps[4].content = this.lang["tour-settings-finish"];
+
+            setTimeout(() => {
+                if(this.$route.query.tour == 'true'){
+                    this.$tours['settings-tour'].start();
+                }
+            }, 2500)
+
         }.bind(this));  
     },
     methods: {
+        finishTour () {
+            window.location.href="/home";
+        },
         getSettings: function(){
             var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("settings", "getSettingsInformation")
             axios.get(urlToBeUsedInTheRequest).then(function (response) {

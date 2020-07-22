@@ -28,12 +28,12 @@
                                     <h4>
                                         <a 
                                             @click.prevent="viewUser(element.create_user)" href="javascript:void(0)">
-                                            <b class="text-sabiorealm">{{element.name}} </b>
+                                            <b class="sbr-text-primary">{{element.name}} </b>
                                         </a> 
                                         {{lang["activity-course-created"]}}
                                         <a 
                                             @click.prevent="viewCourse(element.mycourse_id)" href="javascript:void(0)">
-                                            <b class="text-sabiorealm">{{element.title}} </b>
+                                            <b class="sbr-text-primary">{{element.title}} </b>
                                         </a> 
                                         <i class="ti-blackboard text-success"></i>
                                      </h4>
@@ -45,10 +45,10 @@
                                     <h4>
                                         <a 
                                             @click.prevent="viewUser(element.create_user)" href="javascript:void(0)">
-                                            <b class="text-sabiorealm">{{element.name}} </b>
+                                            <b class="sbr-text-primary">{{element.name}} </b>
                                         </a> 
                                         {{lang["activity-course-deleted"]}}
-                                        <b class="text-sabiorealm">{{element.course_title}} </b>
+                                        <b class="sbr-text-primary">{{element.course_title}} </b>
                                         <i class="ti-trash text-danger"></i>
                                      </h4>
                                     <span>{{processDateTime(element.date)}}</span>
@@ -59,12 +59,12 @@
                                     <h4>
                                         <a 
                                             @click.prevent="viewUser(element.create_user)" href="javascript:void(0)">
-                                            <b class="text-sabiorealm">{{element.name}} </b>
+                                            <b class="sbr-text-primary">{{element.name}} </b>
                                         </a> 
                                         {{lang["activity-course-edited"]}}
                                         <a 
                                             @click.prevent="viewCourse(element.mycourse_id)" href="javascript:void(0)">
-                                            <b class="text-sabiorealm">{{element.title}} </b>
+                                            <b class="sbr-text-primary">{{element.title}} </b>
                                         </a> 
                                         <i class="ti-pencil-alt text-warning"></i>
                                      </h4>
@@ -76,14 +76,14 @@
                                     <h4>
                                         <a 
                                             @click.prevent="viewUser(element.create_user)" href="javascript:void(0)">
-                                            <b class="text-sabiorealm">{{element.name}} </b>
+                                            <b class="sbr-text-primary">{{element.name}} </b>
                                         </a> 
                                         {{lang["activity-finished-lesson"]}}
-                                        <b class="text-sabiorealm">{{element.lessonTitle}} </b>
+                                        <b class="sbr-text-primary">{{element.lessonTitle}} </b>
                                         {{lang["in-the-course"]}}
                                         <a 
                                             @click.prevent="viewCourse(element.mycourse_id)" href="javascript:void(0)">
-                                            <b class="text-sabiorealm">{{element.title}} </b>
+                                            <b class="sbr-text-primary">{{element.title}} </b>
                                         </a> 
                                         <i class="ti-arrow-circle-down text-success"></i>
                                      </h4>
@@ -95,12 +95,12 @@
                                     <h4>
                                         <a 
                                             @click.prevent="viewUser(element.create_user)" href="javascript:void(0)">
-                                            <b class="text-sabiorealm">{{element.name}} </b>
+                                            <b class="sbr-text-primary">{{element.name}} </b>
                                         </a> 
                                         {{lang["activity-course-finished"]}}
                                         <a 
                                             @click.prevent="viewCourse(element.mycourse_id)" href="javascript:void(0)">
-                                            <b class="text-sabiorealm">{{element.title}} </b>
+                                            <b class="sbr-text-primary">{{element.title}} </b>
                                         </a> 
                                         <i class="ti-arrow-circle-down text-success"></i>
                                      </h4>
@@ -112,7 +112,7 @@
                                     <h4>
                                         <a 
                                             @click.prevent="viewUser(element.create_user)" href="javascript:void(0)">
-                                            <b class="text-sabiorealm">{{element.name}} </b>
+                                            <b class="sbr-text-primary">{{element.name}} </b>
                                         </a> 
                                         {{lang["activity-logout"]}}
                                         <i class="ti-shift-left text-danger"></i>
@@ -125,7 +125,7 @@
                                     <h4>
                                         <a 
                                             @click.prevent="viewUser(element.create_user)" href="javascript:void(0)">
-                                            <b class="text-sabiorealm">{{element.name}} </b>
+                                            <b class="sbr-text-primary">{{element.name}} </b>
                                         </a> 
                                         {{lang["activity-login"]}}
                                         <i class="ti-shift-right text-success"></i>
@@ -138,7 +138,7 @@
                                     <h4>
                                         <a 
                                             @click.prevent="viewUser(element.create_user)" href="javascript:void(0)">
-                                            <b class="text-sabiorealm">{{element.name}} </b>
+                                            <b class="sbr-text-primary">{{element.name}} </b>
                                         </a> 
                                         {{lang["activity-program-created"]}}
                                         <i class="ti-layers-alt text-success"></i>

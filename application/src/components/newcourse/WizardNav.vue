@@ -17,7 +17,7 @@
             </li>
             <li class="box" @click.prevent="accessThirdStep">
                 <a class="form-wizard-link" :class="active3 == true ? 'active' : '' " href="#">
-                    <span class="numberCircle" :class="active3 == true ? 'active': '' ">
+                    <span class="numberCircle v-step-12" :class="active3 == true ? 'active': '' ">
                         3
                     </span>
                 </a>
@@ -54,6 +54,10 @@
             </div>
         </div>
 
+        <!-------- 
+        Click step 3 tour
+        ---------->
+        <v-tour name="tour-3-step" :options="tourOptions"  :steps="steps"></v-tour>
 
     </div>
 </template>
@@ -64,66 +68,104 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import {eventLang} from '@/components/helper/HelperLang'
 import {eventBus} from '@/pages/newcourse/App'
+import VueTour from 'vue-tour'
 require('vue-tour/dist/vue-tour.css')
+Vue.use(VueTour)
 
 
 Vue.use(VueAxios, axios)
 export default {
-  data: () => {
-    return {
-      firstStep: false,
-      secondStep: false,
-      thirdStep: false,
-      active1: true,
-      active2: false,
-      active3: false,
-      color: '',
-      lang: {},
-      invalidField: false
-    }
-  },
-  mounted(){
-    /* Get a language */
-    eventLang.$on('lang', function(response){
-      this.lang = response;
-    }.bind(this));
+    data: function() {
+        return {
+            firstStep: false,
+            secondStep: false,
+            thirdStep: false,
+            active1: true,
+            active2: false,
+            active3: false,
+            color: '',
+            lang: {},
+            invalidField: false,
+            tourOptions: {
+                useKeyboardNavigation: true,
+                labels: {
+                    buttonSkip:'',
+                    buttonPrevious: '',
+                    buttonNext: '',
+                    buttonStop: ''
+                }
+            },
+            steps: [
+                {
+                    target: ".v-step-12",
+                    header: {
+                        title: ''
+                    },
+                    params: {
+                        placement: 'bottom',
+                        highlight: true
+                    },
+                    content: ''
+                },
+            ],
+        }
+    },
+    mounted(){
+        /* Get a language */
+        eventLang.$on('lang', function(response){
+            this.lang = response;
 
-    eventBus.$on('response-access-second-step', function(response){
-      if(response == true){
-        this.active1 = false;
-        this.active2 = true;
-        this.active3 = false;
-        this.firstStep = true;
-      }
+            /* Tour labels */
+            this.tourOptions.labels.buttonSkip = this.lang["skip-tour"];
+            this.tourOptions.labels.buttonPrevious = this.lang["previous-step-button"];
+            this.tourOptions.labels.buttonNext = this.lang["next-step-button"];
+            this.tourOptions.labels.buttonStop = this.lang["finish"];
+
+            /* Tour step 0 - Last step */
+            this.steps[0].header.title = this.lang["third-step-course"];
+            this.steps[0].content = this.lang["tour-last-step"];
+
+
+        }.bind(this));
+
+        eventBus.$on('response-access-second-step', function(response){
+        if(response == true){
+            this.active1 = false;
+            this.active2 = true;
+            this.active3 = false;
+            this.firstStep = true;
+        }
     }.bind(this));
 
     eventBus.$on("response-access-third-step", function(response){
-      if(response == true){
-        this.active1 = false;
-        this.active2 = false;
-        this.active3 = true
-        this.firstStep = true;
-        this.secondStep = true;
-      }
-    }.bind(this));
+        if(response == true){
+            this.active1 = false;
+            this.active2 = false;
+            this.active3 = true
+            this.firstStep = true;
+            this.secondStep = true;
+        }
+        }.bind(this));
   },
-  methods: {
-    accessSecondStep: function(){
-      // Emit event to inform the attempt to access the second step
-      eventBus.$emit('access-second-step');
-    },
-    accessFirstStep: function(){
-      // Emit event to inform the attempt to access the second step
-      eventBus.$emit('access-first-step');
-      this.active1 = true;
-      this.active2 = false;
-      this.active3 = false;
-    },
-    accessThirdStep: function(){
-      // Emit event to inform the attempt to access the second step
-      eventBus.$emit("access-third-step");
+    methods: {
+        accessSecondStep: function(){
+            // Emit event to inform the attempt to access the second step
+            eventBus.$emit('access-second-step');
+        },
+
+        accessFirstStep: function(){
+            // Emit event to inform the attempt to access the second step
+            eventBus.$emit('access-first-step');
+            this.active1 = true;
+            this.active2 = false;
+            this.active3 = false;
+        },
+
+        accessThirdStep: function(){
+            // Emit event to inform the attempt to access the second step
+            eventBus.$emit("access-third-step");
+        }
     }
-  }
 }
 </script>
 

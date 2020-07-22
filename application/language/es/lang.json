@@ -506,6 +506,36 @@
     "tour-course-image-message": "Ahora pondremos una imagen para el curso, esta imagen se utilizará como imagen de presentación del curso. El tamaño recomendado es <b> 1900 x 1200 px </b>",
     "tour-course-step2-message" : "¡Nuestro curso está casi listo! ¡ahora solo necesitamos agregar algo de contenido! para hacer esto, haga clic en el paso 2",
 
+    "tour-course-new-module-message": "¡Muy bien! Ha llegado el momento de crear la estructura de contenido para nuestro curso. Para esto comenzaremos creando un nuevo módulo.",
+    "tour-course-new-module-name-message" : "Comencemos poniendo un nombre para el nuevo módulo. Ej: Introducción",
+    "tour-course-save-module-message" : "Ahora podemos guardar el módulo. Haga clic en el botón Guardar.",
+
+    "tour-course-new-content-message": "Ahora agreguemos contenido a nuestro nuevo módulo. Haz clic en el ícono agregar.",
+    "tour-course-new-pdf-message" : "Aquí encontrarás todo tipo de contenido disponible en Sabiorealm. ¿Qué tal si agregamos un pdf? Haz clic en el ícono PDF.",
+
+    "tour-course-add-pdf-name" : "Comencemos agregando un nombre a nuestro contenido.",
+
+    "tour-course-add-pdf-file" : "¡Muy bien! ahora vamos a agregar el archivo pdf.",
+
+    "tour-course-pdf-save": "Ahora solo guarda haciendo clic en el botón 'Guardar' ",
+
+    "tour-last-step": "Ahora que tenemos contenido en nuestro curso, ¡vamos al último paso! haga clic en el número 3",
+
+    "tour-finish-course-create-message" : "¡Muy bien! ¡acabamos de crear nuestro primer curso! haga clic en ver curso para ver cómo se ve.",
+
+    "tour-settings-name-message" : "Comencemos con el nombre de su escuela o proyecto.",
+
+    "tour-settings-description-message" : "Ahora, una breve descripción.",
+
+    "tour-settings-logo-message" : "Ha llegado el momento de agregar su logotipo. Recomendamos que su logotipo sea de <b> 150 x 150 px </b>",
+
+    "tour-settings-favicon-message" : "Now let's add your favicon. Don't know what favicon is? Well, they are those little icons that appear at the top of the navigation tabs. </br> <img class='mt-2' style='width:100%;' src='https://sbrfiles.s3.amazonaws.com/images/favicon_tour.png'> ",
+
+    "tour-settings-finish" : "¡Muy bien! ahora para terminar simplemente haga clic en guardar.",
+        
+    "finalized" : "Finalizados",
+
+    "not-started": "No empezado",
 
     "finish" : "Terminar",
     "tour-done": "¡Terminado!",
@@ -527,7 +557,7 @@
     "advanced-settings" : "Configuraciones avanzadas",
 
 
-
+    "please-wait": "Por favor espere, esto puede tomar unos minutos ...",
    
     "empty-fields-warning": "Hay campos que deben de llenarse",
     "update-plan-title": "Esta funcionalidad no está disponible en el plan contratado",

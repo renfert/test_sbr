@@ -4,27 +4,13 @@
         <nav-bar></nav-bar>
 
         <div class="main">
-
-            <!-- Subnav -->
-            <div class="font-up-bold text-uppercase">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb indigo lighten-4 breadcrumb-course">
-                        <li class="breadcrumb-item"><a class="black-text" :href="getDomainNameToNavigation()">Home</a><i class="fas fa-caret-right mx-2"
-                            aria-hidden="true"></i></li>
-                        <li class="breadcrumb-item"><a class="black-text" :href="getDomainNameToNavigation() + 'products'">Courses</a><i class="fas fa-caret-right mx-2"
-                            aria-hidden="true"></i></li>
-                    </ol>
-                </nav> 
-            </div>
-            <!-- Subnav -->
-
             <div class="row">
-                <div class="col-md-1"></div>
-                <div class="col-12 col-md-10">
+                <div class="col-12 col-md-12">
                     <products-list></products-list>
                 </div>
             </div>
         </div>
+
     </div> <!-- End of wrapper -->
 </template>
 
@@ -113,5 +99,7 @@ export default {
 body,html{
     background-color:#F6F9FA !important;
 }
+
+
 
 </style>

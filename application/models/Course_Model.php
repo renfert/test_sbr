@@ -8,11 +8,14 @@ class Course_Model extends CI_Model {
         $this->load->model('User_Model');
         $this->load->model('Verify_Model');
         $this->load->model('Lesson_Model');
+        $this->load->model('Category_Model');
     }
 
 
     
 	public function create($dataReceiveFromPost){
+        finishStep(2);
+
         $this->db->insert("mycourse", $dataReceiveFromPost);
         $courseId =  $this->db->insert_id();
         $this->Activity_Model->save("course-created", $courseId, 1, null, 1, null,null,null,null);
@@ -58,44 +61,62 @@ class Course_Model extends CI_Model {
         }
     }
 
-    public function listingAll($category){
+    public function listingAll($categories, $price){    
+
+        if($price == "free"){
+            $price = "T0.price IS NULL OR T0.price = '0,00'";
+        }
+
+        if($price == null OR $price == "all"){
+            $price = "1=1";
+        }
+
+        if($price == "paid"){
+            $price = "T0.price IS NOT NULL";
+        }
+
+
+        if($categories[0] == null){
+            $this->db->select("*");
+            $this->db->from("mycategory");
+            $query = $this->db->get();
+           
+            if($query->num_rows() > 0){
+                $result = $query->result();
+                foreach($result as $row){
+                    $categoryId  = $row->id;
+                    array_push($categories, $categoryId);
+                }
+            }
+        }
+
         $currentDate = getCurrentDate("Y-m-d");
-        if($category == '' OR $category == 1){
-            $this->db->select("
-                T0.id,
-                T0.title,
-                T0.description,
-                T0.photo,
-                T0.price,
-                T0.creation_date,
-                DATE_FORMAT(T0.release_date, '%d/%m/%Y') as release_date, 
-                DATE_FORMAT(T0.expiration_date, '%d/%m/%Y') as expiration_date, 
-                DATEDIFF(T0.expiration_date, '$currentDate') as expirationDays,
-                DATEDIFF(T0.release_date, '$currentDate') as releaseDays,
-                T0.spotlight,
-                T0.validity,
-                T0.preview, 
-                T1.name,
-                T2.currency");
-            $this->db->from("mycourse T0");
-            $this->db->join("myuser T1", "T0.creation_user = T1.id");
-            $this->db->join("settings T2", "1 = 1");
-            $this->db->where("T0.id !=", 1);
-            $query = $this->db->get();
-            if($query->num_rows() > 0){
-                return $query->result();
-            }
-        }else{
-            $this->db->select("T0.id,T0.title,T0.description,T0.photo,T0.price,T0.creation_date,T0.release_date,T0.expiration_date,T0.spotlight,T0.validity,T0.preview, T1.name, T2.currency");
-            $this->db->from("mycourse T0");
-            $this->db->join("myuser T1", "T0.creation_user = T1.id");
-            $this->db->join("settings T2", "1 = 1");
-            $this->db->where("T0.id !=", 1);
-            $this->db->where("T0.mycategory_id", $category);
-            $query = $this->db->get();
-            if($query->num_rows() > 0){
-                return $query->result();
-            }
+        $this->db->select("
+            T0.id,
+            T0.title,
+            T0.description,
+            T0.photo,
+            T0.price,
+            T0.creation_date,
+            DATE_FORMAT(T0.release_date, '%d/%m/%Y') as release_date, 
+            DATE_FORMAT(T0.expiration_date, '%d/%m/%Y') as expiration_date, 
+            DATEDIFF(T0.expiration_date, '$currentDate') as expirationDays,
+            DATEDIFF(T0.release_date, '$currentDate') as releaseDays,
+            T0.spotlight,
+            T0.validity,
+            T0.preview, 
+            T1.name,
+            T1.avatar,
+            T2.currency");
+        $this->db->from("mycourse T0");
+        $this->db->join("myuser T1", "T0.creation_user = T1.id");
+        $this->db->join("settings T2", "1 = 1");
+        $this->db->where("T0.id !=", 1);
+        $this->db->where_in("T0.mycategory_id", $categories);
+        $this->db->where($price);  
+        $query = $this->db->get();
+        if($query->num_rows() > 0){
+            return $query->result();
         }
     }
 

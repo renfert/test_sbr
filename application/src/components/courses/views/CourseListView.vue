@@ -22,7 +22,7 @@
                     </a>
 
                     <a  @click.prevent="viewCourse(element.id,element.expirationDays,element.releaseDays)" v-else>
-                        <img style="height:200px;" class="card-img-top" src="@/assets/img/general/ux/course_image_default.png" alt="Card image cap">
+                        <img style="height:200px;" class="card-img-top" src="@/assets/img/general/ux/course_image_default.jpg" alt="Card image cap">
                     </a>
 
                     <!-- Card content -->

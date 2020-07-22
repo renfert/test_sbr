@@ -2,6 +2,8 @@
     <div class="col-12" v-loading="loading">
         <lang></lang> 
         <admin v-if="roleId == 1"></admin>  
+        <instructor v-if="roleId == 2"></instructor>
+        <student v-if="roleId == 3"></student>
     </div> 
 </template>
 
@@ -19,6 +21,8 @@ import {eventLang} from '@/components/helper/HelperLang'
 import domains from '@/mixins/domains'
 import alerts from '@/mixins/alerts'
 import Admin from '@/components/home/roles/Admin'
+import Instructor from '@/components/home/roles/Instructor'
+import Student from '@/components/home/roles/Student'
 
 
 
@@ -33,6 +37,8 @@ export default {
     components: {
         Lang,
         Admin,
+        Instructor,
+        Student
     },
     mixins: [domains,alerts],
     data: () => {

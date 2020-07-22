@@ -308,9 +308,8 @@ export default {
         }
     },
     created(){
-        var courseId = sessionStorage.getItem('sbr_product_id');
-        this.courseId = courseId
-        this.getCourse(courseId);
+        this.courseId = this.$route.params.id
+        this.getCourse(this.courseId);
     },
     mounted(){
         eventLang.$on('lang', function(response){  
@@ -373,7 +372,7 @@ export default {
                 this.preferenceId = res.response.id;
                 this.savePreferenceId(md5(res.response.id));
             }.bind(this)).catch(function(err){
-                alert(err);
+                console.log(err);
             });
 
             localStorage.setItem('purchase_reference', courseId);
@@ -477,6 +476,32 @@ export default {
                 this.validity = response.data["validity"]; 
                 this.certificate = response.data["certificate"];
                 this.getModules();
+
+                /* Title og metatag */
+                var title = document.createElement('meta');
+                title.setAttribute("property", "og:title");
+                title.content = response.data["title"];
+                document.getElementsByTagName('head')[0].appendChild(title);
+
+
+                /* Description og metatag */
+                var description = document.createElement('meta');
+                description.setAttribute("property", "og:description");
+                description.content = response.data["description"];
+                document.getElementsByTagName('head')[0].appendChild(description);
+
+                /* Image og metatag */
+                var image = document.createElement('meta');
+                image.setAttribute("property", "og:image");
+                image.content = this.getUrlToContents() + 'course/'+response.data["photo"]+'';
+                document.getElementsByTagName('head')[0].appendChild(image);
+
+                /* Url og metatag */
+                var url = document.createElement('meta');
+                url.setAttribute("property", "og:url");
+                url .content = this.getCurrentDomainName() + 'product' + this.courseId;
+                document.getElementsByTagName('head')[0].appendChild(url);
+
                 this.createMpPreference(response.data["title"],parseInt(response.data["price"]),response.data["id"]);
             }, 
                 /* Error callback */

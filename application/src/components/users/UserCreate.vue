@@ -64,7 +64,7 @@
 
             <!-- Massive import -->
             <div>
-                <el-dialog  :visible.sync="modal" :title="lang['massive-import']" center width="40%" top="5vh">
+                <el-dialog   :visible.sync="modal" :title="lang['massive-import']" center width="40%" top="5vh">
                     <div class="row">
                         <div class="col-xl-12 col-md-12 text-center">
                             <a  download href="https://cdn.eadtools.com/files/import_user.xlsx" class="sbr-btn sbr-purple">{{lang["download-template"]}}</a>
@@ -73,7 +73,8 @@
                     <br>
                     <div class="row">
                         <div class="col-xl-12 col-md-12 center">
-                            <form id="form-massive" @submit.prevent="massivelyCreateUsers">
+                            <h3 v-if="loadingMassiveImport" class="sbr-text-grey">{{lang["please-wait"]}}</h3>
+                            <form v-loading="loadingMassiveImport" id="form-massive" @submit.prevent="massivelyCreateUsers">
                                 <upload 
                                     input-name="file" 
                                     acceptable=".xlsx" 
@@ -224,7 +225,8 @@ export default {
                     content: ''
                 },
             ],
-            loadingButton : false
+            loadingButton : false,
+            loadingMassiveImport: false
         }
     },
     components: {
@@ -315,14 +317,16 @@ export default {
             );
         },
         massivelyCreateUsers: function(){
-            this.modal = false;
+            this.loadingMassiveImport = true;
             var form = document.getElementById('form-massive');
             var formData = new FormData(form);
             var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("user", "massivelyCreateUsers");
             axios.post(urlToBeUsedInTheRequest,formData, {headers: {'Content-Type': 'multipart/form-data'}}).then(() => {
                 this.successMessage();   
+                this.loadingMassiveImport = false;
                 eventBus.$emit('new-user');  
                 eventUpload.$emit("clear");
+                this.modal = false;
             }, 
                 /* Error callback */
                 function(){

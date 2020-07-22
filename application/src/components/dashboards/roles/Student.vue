@@ -14,7 +14,6 @@
                 </div>
             </div>
         </div>    
-        <user-activities v-if="userId != 0" :user-id="userId"></user-activities>
     </div> 
 </template>
 
@@ -32,7 +31,6 @@ import {eventLang} from '@/components/helper/HelperLang'
 import domains from '@/mixins/domains'
 import alerts from '@/mixins/alerts'
 import VueGoogleCharts from 'vue-google-charts'
-import UserActivities from '@/components/activity/UserActivities.vue'
 Vue.use(VueGoogleCharts)
 
 
@@ -46,7 +44,6 @@ Vue.use(ElementUI)
 export default {
     components: {
         Lang,
-        UserActivities
     },
     mixins: [domains,alerts],
     data: () => {

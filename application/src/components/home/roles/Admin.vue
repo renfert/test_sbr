@@ -6,7 +6,7 @@
         
         <div 
             class="row" 
-            v-if="userStep != null && courseStep != null && customizeStep != null & settingsStep != null"
+            v-if="userStep != null && courseStep != null  && settingsStep != null"
         >
             <!-------------- 
                 Widgets 
@@ -19,7 +19,7 @@
                         <a href="courses">
                             <div class="card-widget">
                                 <div class="title-widget text-center">
-                                    <img src="@/assets/img/general/ux/widgets/courses.png" alt="">
+                                    <img src="@/assets/img/general/ux/widgets/admin/courses.png" alt="">
                                     <h3 class="sbr-text-grey">{{lang["courses"]}}: <b>{{numberTotalOfCourses}}</b></h3>
                                 </div>
                             </div>
@@ -30,7 +30,7 @@
                         <a href="users">
                             <div class="card-widget">
                                 <div class="title-widget text-center">
-                                    <img src="@/assets/img/general/ux/widgets/users.png" alt="">
+                                    <img src="@/assets/img/general/ux/widgets/admin/enrolled.png" alt="">
                                     <h3 class="sbr-text-grey">{{lang["users"]}}: <b>{{numberTotalOfUsers}}</b></h3>
                                 </div>
                             </div>
@@ -41,7 +41,7 @@
                         <a href="javascript:void(0)">
                             <div class="card-widget">
                                 <div class="title-widget text-center">
-                                    <img src="@/assets/img/general/ux/widgets/storage.png" alt="">
+                                    <img src="@/assets/img/general/ux/widgets/admin/storage.png" alt="">
                                     <el-tooltip  class="item" effect="dark" :content="totalStorageUsed + ' GB / ' + totalStorageAvaiable + ' GB' " placement="bottom">
                                         <h3 class="sbr-text-grey">{{lang["storage"]}} <b>{{storagePercent}} %</b></h3>
                                     </el-tooltip>
@@ -135,7 +135,7 @@
         <!-------------- 
             First steps
         --------------->
-        <first-steps></first-steps>
+        <first-steps v-else></first-steps>
     </div> 
 </template>
 

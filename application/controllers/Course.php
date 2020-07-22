@@ -56,8 +56,11 @@ class Course extends CI_Controller {
     }
 
     public function listingAll(){
-        $category = $this->input->post("category");
-        $courseList = $this->Course_Model->listingAll($category);
+        $categories = $this->input->post("categories");
+        $categoriesArray = explode (",", $categories); 
+
+        $price = $this->input->post("price");
+        $courseList = $this->Course_Model->listingAll($categoriesArray, $price);
         echo json_encode($courseList);
     }
 

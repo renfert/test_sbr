@@ -452,6 +452,33 @@
     "tour-course-image-message": "Agora vamos colocar uma imagem para o curso, esta imagem será usada como a imagem de apresentação do curso. O tamanho recomendado é <b> 1900 x 1200 px </b>",
     "tour-course-step2-message" : "Nosso curso está quase pronto! agora só precisamos adicionar algum conteúdo! para fazer isso, clique na etapa 2",
 
+    "tour-course-new-module-message": "Muito bem! Chegou a hora de criar a estrutura de conteúdo para o nosso curso. Para isso, começaremos criando um novo módulo.",
+    "tour-course-new-module-name-message" : "Vamos começar colocando um nome para o novo módulo. Ex: Introdução",
+    "tour-course-save-module-message" : "Agora podemos salvar o módulo. Clique no botão salvar",
+
+    "tour-course-new-content-message": "Agora vamos adicionar algum conteúdo ao nosso novo módulo. Clique no ícone adicionar.",
+    "tour-course-new-pdf-message" : "Aqui você encontrará todos os tipos de conteúdo disponíveis no Sabiorealm. Que tal se adicionarmos um pdf? Clique no ícone do PDF.",
+
+    "tour-course-add-pdf-name" : "Vamos começar adicionando um nome ao nosso conteúdo.",
+    "tour-course-add-pdf-file" : "Muito bem! agora vamos adicionar o arquivo pdf.",
+
+    "tour-course-pdf-save": "Agora basta salvar clicando no botão 'Salvar'",
+
+    "tour-last-step": "Agora que temos conteúdo em nosso curso, vamos para a última etapa! clique no número 3",
+
+    "tour-finish-course-create-message" : "Muito bem! Acabamos de criar nosso primeiro curso! clique em ver curso para dar uma olhada em como ficou.",
+
+    "tour-settings-name-message" : "Vamos começar com o nome da sua escola ou projeto.",
+
+    "tour-settings-description-message" : "Agora, uma breve descrição.",
+
+    "tour-settings-logo-message" : "Chegou a hora de adicionar seu logotipo. Recomendamos que seu logotipo tenha <b> 150 x 150 px </b>",
+
+    "tour-settings-finish" : "Muito bem! agora para finalizar basta clicar em salvar.",
+
+    "finalized" : "Finalizados",
+
+    "not-started": "Não iniciado",
 
     "finish" : "Terminar",
     "tour-done": "Terminamos!",
@@ -488,7 +515,7 @@
 
     "advanced-settings" : "Configurações avançadas",
 
-
+    "please-wait": "Por favor aguarde, isso pode levar alguns minutos...",
 
    
     "empty-fields-warning": "Existem campos que precisam ser preenchidos",

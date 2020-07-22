@@ -22,6 +22,8 @@
     "plans-nav": "plans",
     "help-center-nav": "Help center",
 
+    "not-started": "Not started",
+
     "welcome-to-sabiorealm" : "Welcome to Sabiorealm",
     "welcome-message-pt1": "How about we start with some basic activities so you can get to know our platform a little better?",
     "welcome-message-pt2": "Do not be shy! if you have any doubts on how to start we will be available in the chat. You can call us!",
@@ -179,6 +181,8 @@
     "your-current-score": "Your current score",
 
     "score": "Score",
+
+    "finalized" : "Finalized",
 
     "download-answer": "Download answer",
     "correct-alternatives": "Correct alternatives",
@@ -558,6 +562,35 @@
     "tour-course-image-message": "Now we will put an image for the course, this image will be used as the presentation image of the course. The recommended size is <b> 1900 x 1200 px </b>",
     "tour-course-step2-message" : "Our course is almost ready! now we just need to add some content! to do this, click on step 2",
 
+    "tour-course-new-module-message": "Very well! the time has come to create the content structure for our course. For this we will start by creating a new module.",
+
+    "tour-course-new-module-name-message" : "Let's start by putting a name for the new module. Ex: Introduction",
+    "tour-course-save-module-message" : "We can now save the module. Click the save button",
+
+    "tour-course-new-content-message": "Now let's add some content to our new module. Click the add icon.",
+
+    "tour-course-new-pdf-message" : "Here you will find all types of content available on Sabiorealm. How about if we add a pdf? Click the PDF icon.",
+
+    "tour-course-add-pdf-name" : "Let's start by adding a name to our content.",
+
+    "tour-course-add-pdf-file" : "Very well! now we are going to add the pdf file.",
+
+    "tour-course-pdf-save": "Now just save by clicking the 'Save' button",
+
+    "tour-last-step": "Now that we have content in our course, let's go to the last step! click on number 3",
+
+    "tour-finish-course-create-message" : "Very well! we just created our first course! click on view course to take a look at how it looks.",
+
+    "tour-settings-name-message" : "Let's start with the name of your school or project.",
+
+    "tour-settings-description-message" : "Now, a brief description.",
+
+    "tour-settings-logo-message" : "The time has come to add your logo. We recommend that your logo is <b> 150 x 150 px </b>",
+
+    "tour-settings-favicon-message" : "Now let's add your favicon. Don't know what favicon is? Well, they are those little icons that appear at the top of the navigation tabs. </br> <img style='width:50%;' src='https://sbrfiles.s3.amazonaws.com/images/favicon_tour.png'> ",
+
+    "tour-settings-finish" : "Very well! now to finish just click save.",
+
     "tour-done": "Finished!",
    
     "empty-fields-warning": "There are fields that need to be filled",
@@ -567,7 +600,7 @@
     "download-template": "Download template",
     "invalid-character": "You are using some invalid character",
     
-
+    "please-wait": "Please wait, this may take a few minutes ...",
 
     "name": "Name",
     "password": "Password",

@@ -11,7 +11,7 @@
                     </a>
 
                     <a  @click.prevent="viewProgram(element.id,element.expirationDays,element.releaseDays)" v-else>
-                        <img  class="card-img-top" src="@/assets/img/general/ux/course_image_default.png" alt="Card image cap">
+                        <img  class="card-img-top" src="@/assets/img/general/ux/course_image_default.jpg" alt="Card image cap">
                     </a>
                     
                     <!-- Card content -->

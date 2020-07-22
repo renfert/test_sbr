@@ -2,31 +2,6 @@
     <div class="main"  v-loading="loading">
         <lang></lang> 
         <div class="row">
-            <div class="col-12 col-md-6 mb-5">
-                <a href="courses">
-                    <div class="card-widget">
-                        <div class="title-widget text-center">
-                            <img src="@/assets/img/general/ux/view_course.png" alt="">
-                            <h3 class="text-sabiorealm">{{lang["courses"]}}: <b>{{numberTotalOfCourses}}</b></h3>
-                        </div>
-                    </div>
-                </a>
-            </div>
-             <div class="col-12 col-md-6 mb-5">
-                <a href="javascript:void(0)">
-                    <div class="card-widget">
-                        <div class="title-widget text-center">
-                            <img src="@/assets/img/general/ux/join_persons.png" alt="">
-                            <h3 class="text-sabiorealm">{{lang["students"]}}: <b>{{numberTotalOfStudents}}</b></h3>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div><!-- End Widgets -->
-
-
-
-        <div class="row">
             <!-- Courses -->
             <div class="col-12 col-md-12 mb-5">
                 <div class="card-widget" >
@@ -45,7 +20,6 @@
                 </div>
             </div>
         </div>
-        <Activities></Activities>
     </div> 
 </template>
 
@@ -55,7 +29,6 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import VueTheMask from 'vue-the-mask'
 import ElementUI from 'element-ui'
-import Activities from '@/components/activity/Activities.vue'
 import Lang from '@/components/helper/HelperLang.vue'
 import 'element-ui/lib/theme-chalk/index.css'
 import lang from 'element-ui/lib/locale/lang/en'
@@ -77,7 +50,6 @@ Vue.use(ElementUI)
 export default {
     components: {
         Lang,
-        Activities
     },
     mixins: [domains,alerts],
     data: () => {

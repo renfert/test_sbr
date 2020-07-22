@@ -151,6 +151,10 @@
         active-text-color="#00C0FD"
         class="el-menu-vertical-demo"
     >
+      <el-menu-item index="1">
+        <i class="dripicons-home"></i>
+        <a href="home" class="waves-effect"><span class="menuMain"> {{lang["home-nav"]}} </span> </a>
+      </el-menu-item>
 
       <el-menu-item index="1">
         <i class="dripicons-graph-bar"></i>
@@ -215,7 +219,11 @@
         text-color="#fff"
         active-text-color="#00C0FD"
         class="el-menu-vertical-demo"
-    >
+    > 
+      <el-menu-item index="1">
+        <i class="dripicons-home"></i>
+        <a href="home" class="waves-effect"><span class="menuMain"> {{lang["home-nav"]}} </span> </a>
+      </el-menu-item>
 
       <el-menu-item index="1">
         <i class="dripicons-graph-bar"></i>
@@ -250,7 +258,7 @@
 
             <!-- Profile -->
             <a  :href="getDomainNameToNavigation() + 'profile'" class="pr-4">
-               <el-avatar   :src="getUrlToContents() + 'avatar/'+userAvatar+''"></el-avatar>
+               <el-avatar :src="getUrlToContents() + 'avatar/'+userAvatar+''"></el-avatar>
             </a>
             
             <!-- Notification -->
@@ -391,10 +399,20 @@ export default {
 }
 
 .menu-item-user{
-  background-color: #2A2D35 !important;
+    background-color: #2A2D35 !important;
+    padding-left: 20px;
+    position: fixed;
+    z-index: 9999;
+    left: 0px;
+    bottom: 0px;
+    width: 230px;
+    color: white;
+    text-align: center;
+    background-color: rgb(55, 58, 67);
 }
 
+
 .side-menu{
-  overflow-y:auto !important;
+  overflow:overlay !important;
 }
 </style>

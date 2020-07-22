@@ -63,6 +63,7 @@ html {
   background: #F3F6F6;
   height:100%;
   overflow: auto;
+  scroll-behavior: smooth;
 }
 
 h1, h2, h3, h4, h5, h6,p {
@@ -6971,12 +6972,10 @@ input[type=radio]:checked.mxn + label {
   cursor: move !important;
 }
 
-.section{
-  padding-bottom:150px;
-}
+
 
 .inner-section{
-  padding:0% 15% 0% 15%;
+    padding:0% 15% 0% 15%;
 }
 
 .form-select {
@@ -7271,6 +7270,73 @@ $baby-blue: #f8faff;
 .sbr-shadow-primary{
   box-shadow: 0px 0px 3px 0px $primary-color;
 }
+
+/* ***********************
+  External page styles
+*************************/
+
+.sbr-h1-external{
+    line-height: 40px;
+    font-size: 34px;
+    color: #2D3954;
+    font-weight: 400;
+    font-family: 'Poppins', sans-serif;
+}
+
+.sbr-h3-external{
+    line-height: 30px;
+    font-size: 24px;
+    color: #2D3954;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+}
+
+.sbr-h4-external{
+    line-height: 22px;
+    font-size: 18px;
+    color: #2D3954;
+    font-weight: 400;
+    font-family: 'Poppins', sans-serif;
+}
+
+.sbr-external-top-5{
+    margin-top:5%;
+}
+
+.sbr-external-top-10{
+    margin-top:10%;
+}
+
+.sbr-external-top-15{
+    margin-top:15%;
+}
+
+.sbr-external-top-20{
+    margin-top:20%;
+}
+
+.sbr-external-top-25{
+    margin-top:25%;
+}
+
+.sbr-external-left-5{
+    margin-left: 5%;
+}
+
+.sbr-external-left-10{
+    margin-left: 10%;
+}
+
+.sbr-external-right-5{
+    margin-right: 5%;
+}
+
+.sbr-external-right-10{
+    margin-right: 10%;
+}
+/* ***********************
+  End external page styles
+*************************/
 
 
 .el-switch__label.is-active{

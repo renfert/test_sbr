@@ -113,7 +113,7 @@ const routes = [
     },
     {
         name: 'product',
-        path: '/product',
+        path: '/product/:id',
         component: () => 
         import(/* webpackChunkName: "product" */ '@/pages/product/App'), 
     },

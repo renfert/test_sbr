@@ -1,14 +1,20 @@
 <template>
-    <div class="section" v-loading="loading">
+    <div class="section sbr-external-top-10" v-loading="loading">
         <lang></lang>
-        <div class="text-box">
-            <h1>{{header}}</h1>
-            <h3>{{subheader}}</h3>
+        <div class="text-box inner-section">
+            <h1 class="sbr-h1-external mb-4">{{header}}</h1>
+            <h3 class="sbr-h4-external">{{subheader}}</h3>
         </div>
-        <div class="row">
+        <div class="row" id="myCheck">
             <div class="col-md-12">
                 <div class="inner-section">
-                    <carousel :autoplay="true" :navigationEnabled="true" :paginationEnabled="false" :autoplayHoverPause="true" :perPage="3">
+                    <carousel 
+                        :navigationEnabled="true" 
+                        :paginationEnabled="false" 
+                        :autoplayHoverPause="true" 
+                        :perPage="3"
+                        zIndex= "100 !important"
+                        >
                         <slide v-for="element in courses" :key="element.id" class="card-courses"> 
                             <!-- Course card -->
                             <div class="card">
@@ -19,7 +25,7 @@
                                 </a>
 
                                 <a  @click.prevent="viewProduct(element.id,element.expirationDays,element.releaseDays)" v-else>
-                                    <img style="height:200px;" class="card-img-top" src="@/assets/img/general/ux/course_image_default.png" alt="Card image cap">
+                                    <img style="height:200px;" class="card-img-top" src="@/assets/img/general/ux/course_image_default.jpg" alt="Card image cap">
                                 </a>
 
                                 <!-- Course content -->
@@ -110,6 +116,15 @@ export default {
         }
     },
     mounted(){
+
+        /****************** 
+        Fix carousel bug 
+        ********************/
+        setTimeout(() => {
+            window.dispatchEvent(new Event('resize'));
+        }, 2000)
+    
+
         eventLang.$on('lang', function(response){  
             this.lang = response;
         }.bind(this));
@@ -187,5 +202,11 @@ export default {
 .course-price{
     font-family: 'Poppins', sans-serif !important;
 }
+
+
+.VueCarousel-slide {
+    isibility: visible !important;
+}
+
 
 </style>

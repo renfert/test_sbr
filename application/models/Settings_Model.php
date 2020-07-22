@@ -30,6 +30,7 @@ class Settings_Model extends CI_Model {
     ============================================== 
     */
 	public function edit($params){	
+		finishStep(4);
 		if($this->db->update("settings", $params)){
 			return true;
 		}else{

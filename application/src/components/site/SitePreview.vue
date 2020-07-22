@@ -9,7 +9,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div :style="navMobile" class="collapse navbar-collapse" id="navbarSupportedContent-4">
-                <ul class="navbar-nav">
+                <ul class="navbar-nav" style="float:right;">
                     <li class="nav-item" v-for="element in links"  :key="element.id">
                         <a  
                             class="nav-link" 

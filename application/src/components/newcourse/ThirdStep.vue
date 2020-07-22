@@ -6,22 +6,6 @@
                 <div class="text-container">
                     <h4>{{lang["course-created-successfully"]}}</h4>
                     <h1>{{courseName}}</h1>
-                    <div id="share" v-if="share == true">
-                       
-                        <!-- facebook -->
-                        <a class="facebook" href="https://www.facebook.com/share.php?u=url&title=titulo" target="blank"><i class="fab fa-facebook-f"></i></a>
-
-                        <!-- twitter -->
-                        <a class="twitter" href="https://twitter.com/intent/tweet?status=titulo+url" target="blank"><i class="fab fa-twitter"></i></a>
-
-                        <!-- google plus -->
-                        <a class="googleplus" href="https://plus.google.com/share?url=url" target="blank"><i class="fab fa-google-plus-g"></i></a>
-
-                        <!-- linkedin -->
-                        <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=url&title=titulo&source=source" target="blank"><i class="fab fa-linkedin-in"></i></a>
-                    
-                 
-                    </div>
                 </div>
         
                 <img  src="@/assets/img/general/ux/course_completed.png"/>
@@ -31,7 +15,7 @@
         <div class="row mt-5 ml-5 mr-5 mb-5">
             <div class="col-12 col-md-3">
                 <a href="javascript:void(0)" @click.prevent="viewCourse()">
-                    <div class="card-box">
+                    <div class="card-box v-step-13">    
                         <h5>{{lang["view-course"]}}</h5>
                         <img src="@/assets/img/general/ux/view_course.png" alt="">
                     </div>
@@ -67,8 +51,15 @@
 
         </div>
 
-    
-    
+        <!--------- 
+            Share
+        ---------->
+        <el-dialog :visible.sync="share" :title="lang['share']" center top="5vh">
+            <el-input id="shareLink" placeholder="Please input" v-model="linkToShare">
+                <el-button @click.prevent="copyToClipboard()" slot="append"  icon="el-icon-copy-document"></el-button>
+            </el-input>
+        </el-dialog>
+
         <!-- Join users -->
         <el-dialog  :visible.sync="modal" :title="lang['join-persons']" center  top="5vh">
             <div v-if="usersList != null" v-loading="loading">
@@ -105,6 +96,11 @@
             </div>
             <!-- No users found content end -->
         </el-dialog>
+
+        <!-------- 
+        Last step tour
+        ---------->
+        <v-tour name="tour-last-step" :options="tourOptions"  :steps="steps"></v-tour>
     
     </div>
 </template>
@@ -117,12 +113,15 @@ import {eventLang} from '@/components/helper/HelperLang'
 import {eventBus} from '@/pages/newcourse/App'
 import domains from '@/mixins/domains'
 import alerts from '@/mixins/alerts'
+import VueTour from 'vue-tour'
+require('vue-tour/dist/vue-tour.css')
+Vue.use(VueTour)
 Vue.use(VueAxios, axios)
 
 
 export default {
     mixins: [domains,alerts],
-    data: () => {
+    data: function() {
         return {
             contentShow: false,
             lang: [],
@@ -133,19 +132,54 @@ export default {
             loading: false,
             courseName: '',
             courseImage: '',
-            share: false
+            linkToShare: '',
+            share: false,
+            tourOptions: {
+                useKeyboardNavigation: true,
+                labels: {
+                    buttonSkip:'',
+                    buttonPrevious: '',
+                    buttonNext: '',
+                    buttonStop: ''
+                }
+            },
+            steps: [
+                {
+                    target: ".v-step-13",
+                    header: {
+                        title: ''
+                    },
+                    params: {
+                        placement: 'bottom',
+                        highlight: true
+                    },
+                    content: ''
+                },
+            ],
         }
     },
     mounted(){
         /* New course */
         eventBus.$on('new-course', function(response){
             this.courseId = response;
+            this.linkToShare = this.getCurrentDomainName() + 'product/' + response;
             sessionStorage.setItem('sbr_course_id', ''+response+'');
             this.getUsersOutsideTheCourse(response);
         }.bind(this));
 
         eventLang.$on('lang', function(response){
             this.lang = response;
+
+            /* Tour labels */
+            this.tourOptions.labels.buttonSkip = this.lang["skip-tour"];
+            this.tourOptions.labels.buttonPrevious = this.lang["previous-step-button"];
+            this.tourOptions.labels.buttonNext = this.lang["next-step-button"];
+            this.tourOptions.labels.buttonStop = this.lang["finish"];
+
+            /* Tour step 0 - Last step */
+            this.steps[0].header.title = this.lang["tour-done"];
+            this.steps[0].content = this.lang["tour-finish-course-create-message"];
+
         }.bind(this));
 
         /* Access first step */
@@ -162,12 +196,34 @@ export default {
         /* Show this content */
         eventBus.$on('response-access-third-step', function(response){
             if(response == true){
+                this.$tours["tour-3-step"].finish();
                 this.contentShow = true;
                 this.getCourse();   
+
+                setTimeout(() => {
+                    if(this.$route.query.tour == 'true'){
+                        this.$tours["tour-last-step"].start();
+                    }
+                }, 1000)
             }
         }.bind(this));
     },
     methods:{
+        copyToClipboard: function(){
+            /* Get the text field */
+            var copyText = document.getElementById("shareLink");
+
+            /* Select the text field */
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); /*For mobile devices*/
+
+            /* Copy the text inside the text field */
+            document.execCommand("copy");
+
+            /* Alert the copied text */
+            this.$message('Copied');
+        
+        },
         reloadPage: function(){
            location.reload();
         },

@@ -25,7 +25,7 @@
                                             <template slot="title">
                                                 <!-- Add lesson -->
                                                 <el-tooltip class="item" effect="dark" :content="lang['add-new-lesson']" placement="top-start">
-                                                    <el-button class="sbr-btn sbr-purple mr-1" data-toggle="tooltip" title="Another one here too" @click.prevent="openLessonsModal(element.id)" type="success"  size="small" icon="el-icon-plus" circle></el-button>
+                                                    <el-button class="sbr-btn sbr-purple mr-1 v-step-7" data-toggle="tooltip" title="Another one here too" @click.prevent="openLessonsModal(element.id)" type="success"  size="small" icon="el-icon-plus" circle></el-button>
                                                 </el-tooltip>
 
                                                 <!-- Edit module -->   
@@ -71,7 +71,7 @@
                         <div class="text-no-results">
                             <h4>{{lang["no-results-module-title"]}}</h4>
                             <p>{{lang["no-results-module-subtitle"]}} <span class="text-sabiorealm-secondary">{{lang["no-results-module-subtitle-highlight"]}}</span></p>
-                            <el-button  class="sbr-btn sbr-primary mt-3" @click.prevent="openModuleModal()"  type="primary"  size="medium">{{lang["new-module"]}}  </el-button> 
+                            <el-button  class="sbr-btn sbr-primary mt-3 v-step-4" @click.prevent="openModuleModal()"  type="primary"  size="medium">{{lang["new-module"]}}  </el-button> 
                         </div>
                     </div>
                     <div class="col-xl-5 col-md-5">
@@ -162,7 +162,7 @@
                     <!-- Pdf -->
                     <div class="col-xl-3 col-md-3 lesson">
                         <a @click.prevent="emitNewLessonEvent('new-pdf')">
-                            <img src="@/assets/img/class/pdf.png"  class="lesson-img img-thumbnail img-responsive">
+                            <img src="@/assets/img/class/pdf.png"  class="lesson-img img-thumbnail img-responsive v-step-8">
                             <br>
                             <span>Pdf</span>
                         </a>
@@ -240,6 +240,25 @@
                 </div>
             </el-dialog>
         </div>
+
+        <!-------- 
+        Tour
+        ---------->
+        <v-tour name="second-step-tour" :options="tourOptions"  :steps="steps"></v-tour>
+
+
+        <!-------- 
+        Tour to add content
+        ---------->
+        <v-tour name="second-step-tour-add-content" :options="tourOptions"  :steps="stepsContent"></v-tour>
+
+
+        <!-------- 
+        Tour to add content modal
+        ---------->
+        <v-tour name="second-step-tour-add-content-modal" :options="tourOptions"  :steps="stepsContentModal"></v-tour>
+
+
         <!-- End  modal lesson -->
         <lesson-create :module-id="moduleId"></lesson-create>
         <lesson-video-edit></lesson-video-edit>
@@ -296,6 +315,10 @@ Vue.use(VueTheMask)
 Vue.use(VueAxios, axios)
 Vue.use(ElementUI)
 
+import VueTour from 'vue-tour'
+require('vue-tour/dist/vue-tour.css')
+Vue.use(VueTour)
+
 
 export default {
     mixins: [domains,alerts],
@@ -317,7 +340,7 @@ export default {
         AnswerCreate,
         FacebookLoader,
     },
-    data: () => {
+    data:function(){
         return {
             lang: {},
             modules: null,
@@ -330,6 +353,54 @@ export default {
             loadingContent: false,
             loadingButton: false,
             plan: '',
+            tourOptions: {
+                useKeyboardNavigation: true,
+                labels: {
+                    buttonSkip:'',
+                    buttonPrevious: '',
+                    buttonNext: '',
+                    buttonStop: ''
+                }
+            },
+            steps: [
+                {
+                    target: ".v-step-4",
+                    header: {
+                        title: ''
+                    },
+                    params: {
+                        placement: 'bottom',
+                        highlight: true
+                    },
+                    content: ''
+                },
+            ],
+            stepsContent: [
+                {
+                    target: ".v-step-7",
+                    header: {
+                        title: ''
+                    },
+                    params: {
+                        placement: 'bottom',
+                        highlight: true
+                    },
+                    content: ''
+                },
+            ],
+            stepsContentModal: [
+                {
+                    target: ".v-step-8",
+                    header: {
+                        title: ''
+                    },
+                    params: {
+                        placement: 'bottom',
+                        highlight: true
+                    },
+                    content: ''
+                },
+            ],
         }
     },
     props: ['course'],
@@ -339,20 +410,57 @@ export default {
 
         eventLang.$on('lang', function(response){  
             this.lang = response;
+
+            /* Tour labels */
+            this.tourOptions.labels.buttonSkip = this.lang["skip-tour"];
+            this.tourOptions.labels.buttonPrevious = this.lang["previous-step-button"];
+            this.tourOptions.labels.buttonNext = this.lang["next-step-button"];
+            this.tourOptions.labels.buttonStop = this.lang["finish"];
+
+            /* Tour step 0 - New module */
+            this.steps[0].header.title = this.lang["new-module"];
+            this.steps[0].content = this.lang["tour-course-new-module-message"];
+
+            /* Tour step 0 - New content */
+            this.stepsContent[0].header.title = this.lang["content"];
+            this.stepsContent[0].content = this.lang["tour-course-new-content-message"];
+
+            /* Tour step 0 - New pdf */
+            this.stepsContentModal[0].header.title = this.lang["content"];
+            this.stepsContentModal[0].content = this.lang["tour-course-new-pdf-message"];
+
         }.bind(this));
 
         eventBus.$on('new-module', function(){
             this.getModules(this.course);
         }.bind(this));
 
-       
         eventBus.$on('response-access-second-step', function(response){
             if(response == true){
                 this.getModules();
+                this.$tours["first-step-tour"].finish();
+
+                setTimeout(() => {
+                    if(this.$route.query.tour == 'true'){
+                        this.$tours["second-step-tour"].start();
+                    }
+                }, 1500)
             }
         }.bind(this));
     },
     methods: {
+
+        myCustomPreviousStepCallback (currentStep) {
+            alert(currentStep);
+        },
+        myCustomNextStepCallback (currentStep) {
+            if(currentStep == 3){
+               eventBus.$emit("access-second-step");
+            }
+        },
+        finishTour () {
+            window.location.href="/home";
+        },
 
         upgradePlan: function(){
             eventPlan.$emit("upgrade-plan", "feature");
@@ -366,6 +474,7 @@ export default {
         },
 
         openModuleModal: function(){
+            this.$tours["second-step-tour"].finish();
             eventBus.$emit('open-module-modal');
         },
 
@@ -379,9 +488,15 @@ export default {
         },
 
         openLessonsModal: function(id){
+            this.$tours["second-step-tour-add-content"].finish();
             this.modalChooseLessons = true;
             this.moduleId = id;
             this.loadingLessons = false;
+            setTimeout(() => {
+                if(this.$route.query.tour == 'true'){
+                    this.$tours["second-step-tour-add-content-modal"].start();
+                }
+            }, 1000)
         },
 
         editModule: function(){

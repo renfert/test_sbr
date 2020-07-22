@@ -181,7 +181,7 @@
     <!-------- 
         Tour
     ---------->
-    <v-tour name="user-tour" :options="tourOptions" :callbacks="tourCallbacks" :steps="steps"></v-tour>
+    <v-tour name="first-step-tour" :options="tourOptions" :steps="steps"></v-tour>
 </div>
 </template>
 
@@ -253,9 +253,6 @@ export default {
                 precision: 2,
                 masked: false,
             },
-             tourCallbacks: {
-                onFinish: this.finishTour,
-            },
             tourOptions: {
                 useKeyboardNavigation: true,
                 labels: {
@@ -320,7 +317,7 @@ export default {
         eventLang.$on('lang', function(response){
             this.lang = response;
 
-             /* Tour labels */
+            /* Tour labels */
             this.tourOptions.labels.buttonSkip = this.lang["skip-tour"];
             this.tourOptions.labels.buttonPrevious = this.lang["previous-step-button"];
             this.tourOptions.labels.buttonNext = this.lang["next-step-button"];
@@ -347,7 +344,7 @@ export default {
 
         setTimeout(() => {
             if(this.$route.query.tour == 'true'){
-                this.$tours['user-tour'].start();
+                this.$tours['first-step-tour'].start();
             }
         }, 2000)
 
@@ -382,9 +379,6 @@ export default {
         
     },
     methods:{
-        finishTour () {
-            window.location.href="/home";
-        },
         createCourse: function(){
             this.loading = true;
             var form = document.getElementById('form-first-step')
@@ -474,8 +468,6 @@ export default {
 }
 
 /* End default sizes */
-
-
 
 input[type="radio"] {
     display: none;

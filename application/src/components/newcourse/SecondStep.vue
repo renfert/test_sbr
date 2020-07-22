@@ -10,6 +10,7 @@
    
     <!-- Module create modal -->
     <module-create></module-create>
+
 </div>
 </template>
 
@@ -17,7 +18,6 @@
 import Vue from 'vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-import toastr from 'toastr'
 import ModuleList from '@/components/modules/ModuleList'
 import ModuleCreate from '@/components/modules/ModuleCreate'
 import {eventLang} from '@/components/helper/HelperLang'
@@ -25,7 +25,6 @@ import {eventBus} from '@/pages/newcourse/App'
 import domains from '@/mixins/domains'
 import alerts from '@/mixins/alerts'
 Vue.use(VueAxios, axios)
-Vue.use(toastr)
 
 
 export default {

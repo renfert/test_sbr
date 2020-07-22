@@ -21,11 +21,10 @@
             Steps
         --------------->
         <div class="block text-center mb-5 mt-5">
-            <hr class="divisor">
             <div class="row text-center">
-                <div class="col-md-3 col-12 mb-5">
-                    <img v-if="userStep != null" src="@/assets/img/general/ux/tour/check.png">
-                    <img v-else src="@/assets/img/general/ux/tour/1.png">
+                <div class="col-md-4 col-12 mb-5">
+                    <img class="img-step" v-if="userStep != null" src="@/assets/img/general/ux/tour/check.png">
+                    <img class="img-step" v-else src="@/assets/img/general/ux/tour/1.png">
                     <h3>{{lang['create-user']}}</h3>
                     <div v-if="userStep == null">
                         <a href="users?tour=true" class="sbr-btn sbr-primary mb-3">{{lang['create']}}</a>
@@ -35,9 +34,9 @@
                         </span>
                     </div>
                 </div>
-                 <div class="col-md-3 col-12 mb-5">
-                    <img v-if="courseStep != null" src="@/assets/img/general/ux/tour/check.png">
-                    <img v-else src="@/assets/img/general/ux/tour/2.png">
+                 <div class="col-md-4 col-12 mb-5">
+                    <img class="img-step" v-if="courseStep != null" src="@/assets/img/general/ux/tour/check.png">
+                    <img class="img-step" v-else src="@/assets/img/general/ux/tour/2.png">
                     <h3>{{lang['new-course-button']}}</h3>
                     <div v-if="courseStep == null">
                         <a href="newcourse?tour=true" class="sbr-btn sbr-primary mb-3">{{lang['create']}}</a>
@@ -47,9 +46,12 @@
                         </span>
                     </div>
                 </div>
-                 <div class="col-md-3 col-12 mb-5">
-                    <img v-if="customizeStep != null" src="@/assets/img/general/ux/tour/check.png">
-                    <img v-else src="@/assets/img/general/ux/tour/3.png">
+
+                <!-- 
+                Personalize platform - I DO NOT HAVE TIME TO DO THIS TOUR
+                <div class="col-md-3 col-12 mb-5">
+                    <img class="img-step" v-if="customizeStep != null" src="@/assets/img/general/ux/tour/check.png">
+                    <img class="img-step" v-else src="@/assets/img/general/ux/tour/3.png">
                     <h3>{{lang['customize-your-platform']}}</h3>
                     <div v-if="customizeStep == null">
                         <button class="sbr-btn sbr-primary mb-3">{{lang['personalize']}}</button>
@@ -58,13 +60,14 @@
                             <a class="sbr-text-grey" href="#">{{lang['skip-this-step']}} <i class="el-icon-right"></i></a>
                         </span>
                     </div>
-                </div>
-                <div class="col-md-3 col-12 mb-5">
-                    <img v-if="settingsStep != null" src="@/assets/img/general/ux/tour/check.png">
-                    <img v-else src="@/assets/img/general/ux/tour/4.png">
+                </div> -->
+
+                <div class="col-md-4 col-12 mb-5">
+                    <img class="img-step" v-if="settingsStep != null" src="@/assets/img/general/ux/tour/check.png">
+                    <img class="img-step" v-else src="@/assets/img/general/ux/tour/3.png">
                     <h3>{{lang['change-settings']}}</h3>
                     <div v-if="settingsStep == null">
-                        <button class="sbr-btn sbr-primary mb-3">{{lang['to-set-up']}}</button>
+                        <a href="settings?tour=true" class="sbr-btn sbr-primary mb-3">{{lang['to-set-up']}}</a>
                         <br>
                         <span>
                             <a class="sbr-text-grey" href="#">{{lang['skip-this-step']}} <i class="el-icon-right"></i></a>
@@ -144,26 +147,6 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 
-
-@media only screen and (max-width: 600px) {
-    .divisor{
-        position:absolute;
-        width:100%;
-        border-top: 3px solid #8c8b8b;
-        margin-top:3.5%;
-        margin-left:-20px;
-        display: none !important;
-    }
-}
-
-.divisor{
-    position:absolute;
-    width:100%;
-    border-top: 3px solid #8c8b8b;
-    margin-top:3.5%;
-    margin-left:-20px;
-}
-
 .waiter{
     width: 18%;
 }
@@ -172,5 +155,9 @@ export default {
     .waiter{
         width: 90%;
     }
+}
+
+.img-step{
+    width:25%;
 }
 </style>

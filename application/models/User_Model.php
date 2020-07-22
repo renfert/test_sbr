@@ -17,15 +17,8 @@ class User_Model extends CI_Model {
     -----------------------*/
 	public function create($dataReceiveFromPost){
 
-		/*-------------------------------
-			Update step user 
-		--------------------------------*/
-		$data = array(
-			"status" => "finished"
-		);
-		$this->db->where("id", 1);
-		$this->db->update("first_steps", $data);
-
+		finishStep(1);
+	
 		$name = $dataReceiveFromPost["name"];
 		$email = $dataReceiveFromPost["email"];
 		$password = $dataReceiveFromPost["password"];
@@ -77,15 +70,37 @@ class User_Model extends CI_Model {
 					$roleExcel = $worksheet->getCellByColumnAndRow(3, $row)->getValue();
 					$roleExcel == 'instructor' ? $role = "Instructor" : $role = "Student";
 					$passmd5 = md5($password);	
-					$params = array(
-						'name' => $name,
-						'email' => $email,
-						'role' => $role,
-						'password' => $password,
-						'template-email' => 'register',
-						'subject' => 'email-account-created'
-					);
-					$this->create($params);
+
+
+					/***********************  
+						Verify if user exist
+					************************/
+					$this->db->where("email", $email);
+					$query = $this->db->get("myuser");
+					if($query->num_rows() > 0){
+						
+					}else{
+						$params = array(
+							'name' => $name,
+							'email' => $email,
+							'role' => $role,
+							'password' => $password,
+							'template-email' => 'register',
+							'subject' => 'email-account-created'
+						);
+						$this->create($params);	
+					}
+
+					$this->db->select("*");
+					$this->db->from("myuser");
+					$this->db->where("email", $email);
+					$query = $this->db->get();
+					if($query->num_rows() > 0){
+						$result = $query->result();
+						$userId = $result[0]->id;
+						$courseId = 2;
+						$this->Course_Model->enrollUserIntoCourse($courseId,$userId);
+					}
 				}
 			}	
 			return true;
