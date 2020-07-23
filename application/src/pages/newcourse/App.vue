@@ -90,4 +90,5 @@ export default {
     padding-right: 0px !important;
 }
 
+
 </style>

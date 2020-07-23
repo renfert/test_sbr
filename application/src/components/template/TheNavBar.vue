@@ -1,59 +1,99 @@
 <template>
     <div>
         <login></login>
-       
-        <nav dark class="navbar navbar-expand-lg navbar-dark" :style="styleHeader">
-            <a class="navbar-brand" :href="getDomainNameToNavigation()">
-                <img class="sabio-logo" :src="logo" :width="logoSize" >
+
+        <div v-if="showMobile" class="sidebar-mobile">
+            <span @click.prevent="toogleSidebar" class="sidebar-mobile-close-button">✕</span>
+            <ul> 
+                <!-- Products -->
+                <li>
+                    <a href="products">
+                        Cursos
+                    </a>
+                </li>
+
+                <li  v-for="element in links"  :key="element.id">
+                    <a  
+                        :href="element.url"
+                        :target="element.target"
+                    >
+                        {{element.title}}
+                    </a>
+                </li>
+
+                <!-- Login button -->
+                 <li class="pt-5" v-if="activeSession == false">
+                    <a 
+                        href="javascript:void(0)" 
+                        @click.prevent="openLoginModal()" 
+                    >
+                        Login
+                    </a>
+                </li>
+
+                <li class="pt-5"  v-else>
+                    <a 
+                        href="javascript:void(0)"
+                        @click.prevent="enterPlatform()"
+                    >
+                       <span class="link-button" :style="linkButtonMobile">{{lang["go-to-platform"]}} </span>
+                    </a>
+                </li>
+               
+            </ul>
+        </div>
+
+        <header :style="styleHeader">
+            <a :href="getDomainNameToNavigation()"> 
+                <img class="logo-nav" :src="logo" :width="logoSize">
             </a>
-            <button  @click.prevent="changeMobileButtonClass()" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div :style="navMobile" class="collapse navbar-collapse" id="navbarSupportedContent-4">
-                <ul class="navbar-nav ml-auto" style="float:right;">
-                    <li class="nav-item" v-for="element in links"  :key="element.id">
-                        <a  
-                            class="nav-link" 
-                            :href="element.url"
-                            :target="element.target"
-                            :style ="styleLinks"
-                        >
-                            {{element.title}}
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a 
-                            :href="getDomainNameToNavigation() + 'products'" 
-                            class="nav-link" 
-                            :style ="styleLinks"
-                        >
-                            Cursos
-                        </a>
-                    </li>
-                    <li class="nav-item" v-if="activeSession == false">
-                        <a 
-                            href="javascript:void(0)" 
-                            @click.prevent="openLoginModal()" 
-                            class="nav-link"
-                            :style ="styleLinks"
-                        >
-                            <span  :style="styleBorder" >Login</span>
-                        </a>
-                    </li>
-                    <li class="nav-item" v-else>
-                        <a 
-                            href="javascript:void(0)"
-                            @click.prevent="enterPlatform()"
-                            class="nav-link"
-                            :style ="styleLinks"
-                        >
-                            <span :style="styleBorder">{{lang["go-to-platform"]}}</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+
+            <!-- Icon menu for mobile -->
+            <ul class="ul-mobile">
+                <li>
+                    <a @click.prevent="toogleSidebar" href="javascript:void(0)"><i class="ti-menu"></i></a>
+                </li>
+            </ul>
+
+            <ul class="ul-landscape">
+                <!-- Products -->
+                <li>
+                    <a href="products">
+                        Cursos
+                    </a>
+                </li>
+
+                <!-- Links -->
+                <li  v-for="element in links"  :key="element.id">
+                   <a  
+                        :href="element.url"
+                        :target="element.target"
+                    >
+                        {{element.title}}
+                    </a>
+                </li>
+
+                <!-- Login button -->
+                 <li v-if="activeSession == false">
+                    <a 
+                        href="javascript:void(0)" 
+                        @click.prevent="openLoginModal()" 
+                    >
+                        Login
+                    </a>
+                </li>
+
+                <li  v-else>
+                    <a 
+                        href="javascript:void(0)"
+                        @click.prevent="enterPlatform()"
+                    >
+                       <span class="link-button">{{lang["go-to-platform"]}} </span>
+                    </a>
+                </li>
+
+            </ul>
+        </header>      
     </div>
 </template>
 
@@ -97,6 +137,8 @@ export default {
             socialMedias: [],
             headerColor: '',
             activeSession: false,
+            showMobile: false,
+            primaryColor: '',
             navMobile: "display:initial !important"
         }
     },
@@ -110,13 +152,15 @@ export default {
         }.bind(this));
 
         this.getSession();
+        this.getPrimaryColor();
         this.listHeader();
+        this.navBarSticky();
       
     },
     computed: {
         styleHeader: function(){
              return {
-                'background-color': this.headerColor,
+                'background-color': this.headerColor == 'transparent' ? this.primaryColor : this.headerColor,
                 'width': '100%'
             }
         },
@@ -125,24 +169,35 @@ export default {
                 'background-color': this.footerColor+'!important',
             }
         },
-        styleLinks: function(){
-            return{
-                'color': this.headerColor == 'transparent' ? '#969bb5': 'white'
-            }
-        },
         styleBorder: function(){
              return{
                 'border': this.headerColor == 'transparent' ? '1px solid #969bb5': '1px solid white',
                 'padding': '5px 15px 5px 15px'
             }
+        },
+        linkButtonMobile: function(){
+            return{
+                'color' : '#fff',
+                'border' : '1px solid '+this.primaryColor+'',
+                'background-color': this.primaryColor
+            }
         }
     },
     methods: {
+        toogleSidebar: function(){
+            this.showMobile == true ? this.showMobile = false : this.showMobile = true;
+        },
         enterPlatform: function(){
             window.location.href=  "home";
         },
         openLoginModal: function(){
             eventLogin.$emit("open-login-modal");
+        },
+        navBarSticky: function(){
+            window.addEventListener("scroll", function(){
+                var header = document.querySelector("header");
+                header.classList.toggle("sticky", window.scrollY > 0);
+            });
         },
         listHeader: function(){
             this.loadingHeader = true;
@@ -222,6 +277,17 @@ export default {
                 }.bind(this)
             );
         },
+        getPrimaryColor: function (){
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("settings", "getSettingsInformation");
+            axios.post(urlToBeUsedInTheRequest).then((response) => {
+                this.primaryColor = response.data["color"];
+            },
+                /* Error callback */
+                function (){
+                   this.errorMessage();
+                }.bind(this)
+            );
+        },
         getSession: function (){
             var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("Mysessions", "activeSession");
             axios.post(urlToBeUsedInTheRequest).then((response) => {
@@ -239,76 +305,173 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
+/* =============
+    Navbar style
 
-.main{
-    width:100%;
-    position:relative;    
+    - Header
+    - Sticky
+    - Mobile
+    - Button
+
+============= */
+
+
+
+
+/* =============
+   Header
+============= */
+header{
+    position: relative;
+    top:0;
+    width: 100%;
+    height: 90px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transform: 0.4s;
+    padding: 0px 10%;
+    z-index: 2000; 
+    transition: 0.2s;
 }
 
-.contact{
-    width:400px;
-    position:relative;
-    margin-left:50%;
-    left: -200px;
-    text-align:center !important;
+header ul{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0px !important;
 }
 
-.sabio-logo{
-    padding:1%;
+header ul li{
+    position: relative;
+    list-style: none;
 }
 
-.nav-link{
-    font-size:1.2em;
+header ul li a{
+    position: relative;
+    margin: 0 15px;
+    font-weight: 500;
+    transition: 0.5s;
+    color: white;
+    font-size: 1.3em;
     font-family: 'Poppins', sans-serif;
 }
 
-#floating-button{
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  background: #09aec7;
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  cursor: pointer;
-  box-shadow: 0px 2px 5px #0e8496;
-  padding:10px;
+
+
+/* =============
+   sticky
+============= */
+header.sticky{
+    position: fixed;
+    height: 75px;
+    padding: 0px 10%;
+    background-color: white;  
+    animation: smoothScroll 1.2s forwards;
 }
 
-.full{
-  color: white;
-  font-size:15px;
-  top: 0;
-  display: block;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  text-align: center;
-  padding: 0;
-  margin-top: 0;
-  animation: plus-out 0.3s;
-  transition: all 0.3s;
+@keyframes smoothScroll {
+	0% {
+		transform: translateY(-40px);
+	}
+	100% {
+		transform: translateY(0px);
+	}
 }
 
-#container-floating{
-  position: fixed;
-  width: 70px;
-  height: 70px;
-  bottom: 30px;
-  right: 30px;
-  z-index: 50px;
+
+
+/* =============
+   Mobile
+============= */
+
+.ul-mobile{
+    display:none;
 }
 
-#container-floating:hover{
-  height: 400px;
-  width: 90px;
-  padding: 30px;
+.sidebar-mobile{
+    position: fixed;
+    overflow-y: auto;
+    left:0;
+    background-color:#1c2138;
+    width:90%;
+    height: 100vh;
+    z-index: 20000 !important;
+    animation: hideLeftBar 1s;
 }
 
-.nav-login{
-    border:1px solid white;
-    padding:5px 15px 5px 15px;
+@keyframes hideLeftBar {
+	0% {
+        transform: translateX(-100px);
+        
+	}
+	100% {
+		transform: translateX(0px);
+	}
 }
 
+.sidebar-mobile-close-button {
+    width: 30px;
+    height: 40px;
+    margin: 10px 7px;
+    display: none;
+    float: right;
+    color: #70798b;
+    font-size: 26px;
+    cursor: pointer;
+    display: block;
+}
+
+.sidebar-mobile ul{
+    width: 100%;
+    float: left;
+    padding: 0 !important;
+    margin-top:10%;
+}
+
+.sidebar-mobile ul li{
+    list-style: none;
+    border-top: solid 1px #2d3454;
+    padding: 10px 30px;
+}
+
+.sidebar-mobile ul li a{
+    position: relative;
+    font-weight: 500;
+    transition: 0.5s;
+    color: white;
+    font-size: 1.2em;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+
+@media only screen and (max-width: 1024px) {
+    .logo-nav{
+        width:80px !important;
+    }
+    .ul-landscape{
+        display: none;
+    }
+    .ul-mobile{
+        display: initial;
+    }
+    header{
+        height: 90px;
+    }
+    header ul li a{
+        font-size: 2em;
+    }
+}
+
+/* =============
+   Button
+============= */
+.link-button{
+    border: 1.2px solid white;
+    border-radius: 5px;
+    padding: 8px 18px 8px 18px; 
+}
 
 </style>

@@ -2,15 +2,7 @@
     <div id="wrapper">
         <lang></lang>
         <nav-bar></nav-bar>
-
-        <div class="main">
-            <div class="row">
-                <div class="col-12 col-md-12">
-                    <products-list></products-list>
-                </div>
-            </div>
-        </div>
-
+        <products-list></products-list>
     </div> <!-- End of wrapper -->
 </template>
 
@@ -97,8 +89,10 @@ export default {
 
 
 body,html{
-    background-color:#F6F9FA !important;
+    background-color:white !important;
 }
+
+
 
 
 

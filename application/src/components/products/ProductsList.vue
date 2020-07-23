@@ -1,6 +1,6 @@
 <template>
     <div>
-        <section class="pt-5 sbr-external-left-10 sbr-external-right-10">
+        <div class="container-site pt-5">
             <!-- Row -->
             <div class="row">
             
@@ -153,7 +153,7 @@
             
             </div>
             <!-- Row -->   
-        </section>
+        </div>
     </div><!-- End col-12 -->
 </template>
 
@@ -334,19 +334,182 @@ export default {
 
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 
+/* =============
+  == Products page style==
+
+    - Layout
+    - Fonts
+    - Checkbox
+    - Pagination
+    - Tags
+    - Filtersidebar
+    - Course list
+
+============= */
+
+
+
+
+/* =============
+   Layout
+============= */
+
+.container-site{
+    overflow-x: hidden !important;
+    padding: 0 10% 0 10%;
+}
 
 .list-courses{
     margin-bottom: 50px !important;
 }
 
-section {
-    padding: 80px 0 80px;
-    position: relative;
+
+/* =============
+   Fonts
+============= */
+h1, h2, h3, h4, h5, h6 {
+    color: #2D3954;
+    font-family: 'Poppins', sans-serif;
+    word-break: break-word !important; 
 }
 
+h1  {
+    line-height: 40px;
+    font-size: 36px;
+}
+
+h2 {
+    line-height: 36px;
+    font-size: 30px;
+}
+
+h3 {
+    line-height: 30px;
+    font-size: 24px;
+}
+
+h4 {
+    line-height: 26px;
+    font-size: 21px;
+}
+
+a {
+    color: #4a5682;
+    text-decoration: none;
+    background-color: transparent;
+    -webkit-text-decoration-skip: objects;
+}
+
+
+/* =============
+   Checkbox
+============= */
+.checkbox-custom + .checkbox-custom-label:before {
+    content: '';
+    background: #fff;
+    border: 2px solid #d8dfe6;
+    display: inline-block;
+    vertical-align: middle;
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+    padding: 2px;
+    margin-right: 10px;
+    text-align: center;
+}
+
+.checkbox-custom, .checkbox-custom-label, .radio-custom, .radio-custom-label {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 5px 0;
+    cursor: pointerer;
+}
+
+.checkbox-custom, .radio-custom {
+    opacity: 0;
+    position: absolute;
+}
+
+
+.checkbox-custom-label, .radio-custom-label {
+    position: relative;
+    padding-top:3%;
+}
+
+
+
+[role=button], a, area, button, input, label, select, summary, textarea {
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+}
+
+
+
+.checkbox-custom-label{
+    color: #647b9c;
+    font-size: 15px;
+    font-family: 'Muli', sans-serif;
+    font-weight: 400;
+}
+
+.checkbox-custom + .checkbox-custom-label[data-v-3b9628ad]:before {
+    margin-top:-4% !important;
+}
+
+/* =============
+   Pagination
+============= */
+.pagination{
+    display: inline-flex !important;
+}
+
+
+.pagination>li>a, .pagination>li>a, .pagination>li>span {
+    padding: 0;
+    margin: 5px;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+}
+
+.page-link{
+    border-radius: 50px !important;
+}
+
+.page-link.active{
+    color: white!important;
+}
+
+
+/* =============
+   Tags
+============= */
+.tag_cloud {
+    display: inline-block;
+}
+
+.tag_cloud a {
+    display: block;
+    float: left;
+    font-size: 13px !important;
+    font-weight: 500;
+    line-height: 1.5;
+    padding: 7px 15px 6px;
+    border-radius: 3px;
+    background: #e7eaf1;
+    color: #919baf;
+    border: 0;
+    margin: 5px;
+    overflow: hidden;
+}
+
+
+/* =============
+   Filter sidebar
+============= */
 .filter-sidebar {
     height: 100vh;
     width: 0;
@@ -376,31 +539,9 @@ section {
     font-weight: 500;
 }
 
-.filter-sidebar .closebtn {
-    position: relative;
-    font-size: 36px;
-    margin-left: 00px;
-    font-weight: 500;
-    text-align: center;
-    font-size: 14px;
-    padding: 0;
-    color: #2d4767;
-}
-
-.filter-sidebar .show-hide-sidebar {
-    padding: 10px 30px 10px 20px;
-    overflow-y: scroll;
-    position: relative;
-    width: calc(100% + 17px);
-    min-height: 300px;
-    display: block;
-    height: 100%;
-}
-
 .no-ul-list {
     padding: 0;
 }
-
 
 
 .page_sidebar {
@@ -412,71 +553,6 @@ section {
     padding: 2rem 1rem;
 }
 
-h1, h2, h3, h4, h5, h6 {
-    color: #2D3954;
-    font-family: 'Poppins', sans-serif;
-    word-break: break-word !important; 
-}
-
-h1  {
-    line-height: 40px;
-    font-size: 36px;
-}
-
-h2 {
-    line-height: 36px;
-    font-size: 30px;
-}
-
-h3 {
-    line-height: 30px;
-    font-size: 24px;
-}
-
-h4 {
-    line-height: 26px;
-    font-size: 21px;
-}
-
-
-.dashboard_container_header .form-inline .form-control, .form-inline.addons .form-control {
-    border-right: none;
-    width: auto;
-    border-radius: 5px 0px 0px 5px;
-}
-
-
-.dashboard_container_header .form-inline button, .form-inline.addons button {
-    background-color: #ffffff;
-    border: 1px solid #e6eaf3;
-    border-left: none;
-    border-radius: 0 5px 5px 0;
-    height: 54px;
-    color: #a8b0c5 !important;
-    display: flex;
-    align-items: center;
-    padding: 0 15px 0 0px;
-    justify-content: center;
-}
-
-.btn {
-    color: #ffffff;
-    padding: 12px 25px;
-    cursor: pointer;
-    -webkit-transition: 0s;
-    -o-transition: 0s;
-    transition: 0s;
-    border-radius: 0.1rem;
-}
-
-
-
-@media (min-width: 576px){
-    .my-sm-0 {
-        margin-top: 0!important;
-        margin-bottom: 0!important;
-    }
-}
 
 .no-ul-list li {
     list-style: none;
@@ -495,6 +571,9 @@ input[type=checkbox], input[type=radio] {
 }
 
 
+/* =============
+   Courses list
+============= */
 .education_block_grid {
     width: 100%;
     background: #ffffff;
@@ -531,12 +610,6 @@ input[type=checkbox], input[type=radio] {
     margin-bottom: 10px;
 }
 
-a {
-    color: #4a5682;
-    text-decoration: none;
-    background-color: transparent;
-    -webkit-text-decoration-skip: objects;
-}
 
 .cources_info_style3 {
     padding: 0 20px 20px;
@@ -615,120 +688,12 @@ a {
     color: #FF9800;
 }
 
-
-.checkbox-custom + .checkbox-custom-label:before {
-    content: '';
-    background: #fff;
-    border: 2px solid #d8dfe6;
-    display: inline-block;
-    vertical-align: middle;
-    width: 20px;
-    height: 20px;
-    border-radius: 3px;
-    padding: 2px;
-    margin-right: 10px;
-    text-align: center;
-}
-
-.checkbox-custom, .checkbox-custom-label, .radio-custom, .radio-custom-label {
-    display: inline-block;
-    vertical-align: middle;
-    margin: 5px 0;
-    cursor: pointerer;
-}
-
-.checkbox-custom, .radio-custom {
-    opacity: 0;
-    position: absolute;
-}
-
-button, input {
-    overflow: visible;
-}
-
-.checkbox-custom-label, .radio-custom-label {
-    position: relative;
-    padding-top:3%;
-}
-
-.checkbox-custom, .checkbox-custom-label, .radio-custom, .radio-custom-label {
-    display: inline-block;
-    vertical-align: middle;
-    margin: 5px 0;
-    cursor: pointerer;
-}
-
-[role=button], a, area, button, input, label, select, summary, textarea {
-    -ms-touch-action: manipulation;
-    touch-action: manipulation;
-}
-
-
-
-.checkbox-custom-label{
-    color: #647b9c;
-    font-size: 15px;
-    font-family: 'Muli', sans-serif;
-    font-weight: 400;
-}
-
-.checkbox-custom + .checkbox-custom-label[data-v-3b9628ad]:before {
-    margin-top:-4% !important;
-}
-
 .founded-courses{
     color: #647b9c;
     font-size: 15px;
     font-family: 'Muli', sans-serif;
     font-weight: 400;
 }
-
-
-
-
-.tag_cloud {
-    display: inline-block;
-}
-
-.tag_cloud a {
-    display: block;
-    float: left;
-    font-size: 13px !important;
-    font-weight: 500;
-    line-height: 1.5;
-    padding: 7px 15px 6px;
-    border-radius: 3px;
-    background: #e7eaf1;
-    color: #919baf;
-    border: 0;
-    margin: 5px;
-    overflow: hidden;
-}
-
-
-
-.pagination{
-    display: inline-flex !important;
-}
-
-
-.pagination>li>a, .pagination>li>a, .pagination>li>span {
-    padding: 0;
-    margin: 5px;
-    width: 40px;
-    height: 40px;
-    text-align: center;
-    line-height: 40px;
-}
-
-.page-link{
-    border-radius: 50px !important;
-}
-
-.page-link.active{
-    color: white!important;
-}
-
 
 .courses-grid{
     box-shadow: -10px 0px 10px -10px #e6ebf1;

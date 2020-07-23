@@ -2,74 +2,72 @@
 <div :class="contentShow == false ? 'hide' : 'main'">
     <form id="form-first-step">
         <div class="form-wizard-content show" data-tab-content="info">
-            <div class="row">
-                <div class="col-12">
-                    <div class="card-box card-course"  v-loading="loading">
-                        <div class="form-row">
-                            <div class="form-group col-12 col-md-6">
-                                <!-- Course id -->
-                                <input class="hide" type="text" v-model="courseId" name="id">
+           
+            <div class="card-box card-course"  v-loading="loading">
+                <div class="form-row">
+                    <div class="form-group col-12 col-md-6">
+                        <!-- Course id -->
+                        <input class="hide" type="text" v-model="courseId" name="id">
 
-                                <!-- Course name -->
-                                <label class="col-form-label">{{lang["name"]}} *</label>
-                                <el-input class="v-step-0" name="title" :class="invalidField ? 'invalid-field' : '' "   v-model="name"></el-input>
+                        <!-- Course name -->
+                        <label class="col-form-label">{{lang["name"]}} *</label>
+                        <el-input class="v-step-0" name="title" :class="invalidField ? 'invalid-field' : '' "   v-model="name"></el-input>
 
-                                <br><br>
-                                <!-- Course category -->
-                                <label class="col-form-label">{{lang["category"]}}</label>
-                                <br>
-                                <select class="form-control" name="mycategory_id">
-                                    <option value="1">{{lang['default-category']}}</option>
-                                    <option v-for="item in categories" :value="item.id" :key="item.id">
-                                        {{item.name}}
-                                    </option>
-                                </select><br>
-                                <br><br>
+                        <br><br>
+                        <!-- Course category -->
+                        <label class="col-form-label">{{lang["category"]}}</label>
+                        <br>
+                        <select class="form-control" name="mycategory_id">
+                            <option value="1">{{lang['default-category']}}</option>
+                            <option v-for="item in categories" :value="item.id" :key="item.id">
+                                {{item.name}}
+                            </option>
+                        </select><br>
+                        <br><br>
 
-                                <!-- Advanced configurations button -->
-                                <el-button class="sbr-btn sbr-primary"  @click.prevent="modal = true" native-type="submit">{{lang["advanced-settings"]}} </el-button>
-        
-                            </div>
-                            
-                            
-                            <!-- Course description -->
-                            <div class="form-group  col-xl-6 col-md-6">
-                                <textarea class="hide" v-model="description" name="description"></textarea>
-                                <label class="col-form-label">{{lang["description"]}}</label>
-                                <wysiwyg class="v-step-1"  v-model="description" />
-                            </div>
-                        </div>
+                        <!-- Advanced configurations button -->
+                        <el-button class="sbr-btn sbr-primary"  @click.prevent="modal = true" native-type="submit">{{lang["advanced-settings"]}} </el-button>
 
-                        <div class="form-row">
-                            <!-- Course image -->
-                            <div class="form-group col-xl-6 col-md-6">
-                                <label class="col-form-label">{{lang["image"]}} (1900x1200 px)</label>
-                                <upload 
-                                    class="v-step-2"
-                                    do-upload="true" 
-                                    box-height = "200"
-                                    return-name="photo" 
-                                    input-name="file" 
-                                    bucket-key="uploads/course" 
-                                    acceptable=".png,.jpg">
-                                </upload>
-                            </div>
-                            <!-- Course video preview -->
-                            <div class="form-group col-xl-6 col-md-6">
-                                <label class="col-form-label">{{lang["video-preview"]}}</label>
-                                <upload 
-                                    do-upload= "true"
-                                    box-height = "200"
-                                    return-name="preview" 
-                                    input-name="filePreview"  
-                                    bucket-key="uploads/preview" 
-                                    acceptable=".mp4,.mov">
-                                </upload>
-                            </div>
-                        </div>
+                    </div>
+                    
+                    
+                    <!-- Course description -->
+                    <div class="form-group  col-xl-6 col-md-6">
+                        <textarea class="hide" v-model="description" name="description"></textarea>
+                        <label class="col-form-label">{{lang["description"]}}</label>
+                        <wysiwyg class="v-step-1"  v-model="description" />
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <!-- Course image -->
+                    <div class="form-group col-xl-6 col-md-6">
+                        <label class="col-form-label">{{lang["image"]}} (1900x1200 px)</label>
+                        <upload 
+                            class="v-step-2"
+                            do-upload="true" 
+                            box-height = "200"
+                            return-name="photo" 
+                            input-name="file" 
+                            bucket-key="uploads/course" 
+                            acceptable=".png,.jpg">
+                        </upload>
+                    </div>
+                    <!-- Course video preview -->
+                    <div class="form-group col-xl-6 col-md-6">
+                        <label class="col-form-label">{{lang["video-preview"]}}</label>
+                        <upload 
+                            do-upload= "true"
+                            box-height = "200"
+                            return-name="preview" 
+                            input-name="filePreview"  
+                            bucket-key="uploads/preview" 
+                            acceptable=".mp4,.mov">
+                        </upload>
                     </div>
                 </div>
             </div>
+            
         </div>
       
 
