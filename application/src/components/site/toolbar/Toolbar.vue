@@ -4,6 +4,7 @@
         <el-aside class="fixed-aside">
             <el-menu  class="el-menu-vertical-demo">
                 <br><br>
+                <toolbar-general></toolbar-general>
                 <toolbar-header></toolbar-header>
                 <toolbar-body></toolbar-body>
                 <toolbar-footer></toolbar-footer>
@@ -33,6 +34,7 @@ import {eventLang} from '@/components/helper/HelperLang'
 import ToolbarHeader from '@/components/site/toolbar/ToolbarHeader'
 import ToolbarBody from '@/components/site/toolbar/ToolbarBody'
 import ToolbarFooter from '@/components/site/toolbar/ToolbarFooter'
+import ToolbarGeneral from '@/components/site/toolbar/ToolbarGeneral'
 import EditBanner from '@/components/site/section/elements/edit/Banner'
 import EditTestimonial from '@/components/site/section/elements/edit/Testimonial'
 import EditProductList from '@/components/site/section/elements/edit/ProductList'
@@ -50,6 +52,7 @@ export default {
         ToolbarHeader,
         ToolbarBody,
         ToolbarFooter,
+        ToolbarGeneral,
         EditBanner,
         EditTestimonial,
         EditProductList,

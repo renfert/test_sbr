@@ -28,10 +28,6 @@
                     <h3>{{lang['create-user']}}</h3>
                     <div v-if="userStep == null">
                         <a href="users?tour=true" class="sbr-btn sbr-primary mb-3">{{lang['create']}}</a>
-                        <br>
-                        <span>
-                            <a class="sbr-text-grey" href="#">{{lang['skip-this-step']}} <i class="el-icon-right"></i></a>
-                        </span>
                     </div>
                 </div>
                  <div class="col-md-4 col-12 mb-5">
@@ -40,10 +36,6 @@
                     <h3>{{lang['new-course-button']}}</h3>
                     <div v-if="courseStep == null">
                         <a href="newcourse?tour=true" class="sbr-btn sbr-primary mb-3">{{lang['create']}}</a>
-                        <br>
-                        <span>
-                            <a  class="sbr-text-grey" href="#">{{lang['skip-this-step']}} <i class="el-icon-right"></i></a>
-                        </span>
                     </div>
                 </div>
 
@@ -68,10 +60,6 @@
                     <h3>{{lang['change-settings']}}</h3>
                     <div v-if="settingsStep == null">
                         <a href="settings?tour=true" class="sbr-btn sbr-primary mb-3">{{lang['to-set-up']}}</a>
-                        <br>
-                        <span>
-                            <a class="sbr-text-grey" href="#">{{lang['skip-this-step']}} <i class="el-icon-right"></i></a>
-                        </span>
                     </div>
                 </div>
             </div>

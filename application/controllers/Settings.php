@@ -41,4 +41,17 @@ class Settings extends CI_Controller {
         echo json_encode($settings);
         
     }
+
+    /* 
+    =============================================
+    Edit primary color
+    ============================================== 
+    */
+    public function editPrimaryColor(){
+        $params = array(
+            "color" => $this->input->post("color")
+        );
+        $result = $this->Settings_Model->editPrimaryColor($params);
+        echo json_encode($result);
+    }
 }

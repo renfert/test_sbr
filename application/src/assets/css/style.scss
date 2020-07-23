@@ -7260,7 +7260,7 @@ $baby-blue: #f8faff;
 }
 
 .sbr-text-grey {
-  color: #9e9c9c;
+  color: #9e9c9c !important;
 }
 
 .sbr-text-danger{
@@ -7274,30 +7274,6 @@ $baby-blue: #f8faff;
 /* ***********************
   External page styles
 *************************/
-
-.sbr-h1-external{
-    line-height: 40px;
-    font-size: 34px;
-    color: #2D3954;
-    font-weight: 400;
-    font-family: 'Poppins', sans-serif;
-}
-
-.sbr-h3-external{
-    line-height: 30px;
-    font-size: 24px;
-    color: #2D3954;
-    font-weight: 600;
-    font-family: 'Poppins', sans-serif;
-}
-
-.sbr-h4-external{
-    line-height: 22px;
-    font-size: 18px;
-    color: #2D3954;
-    font-weight: 400;
-    font-family: 'Poppins', sans-serif;
-}
 
 .sbr-external-top-5{
     margin-top:5%;
@@ -7334,10 +7310,16 @@ $baby-blue: #f8faff;
 .sbr-external-right-10{
     margin-right: 10%;
 }
+
 /* ***********************
   End external page styles
 *************************/
 
+.sbr-empty-state-text{
+    font-weight: 400 !important;
+    color: #9e9c9c !important;
+    font-size: 1.2em !important;
+}
 
 .el-switch__label.is-active{
   color:$primary-color !important;
@@ -7745,6 +7727,10 @@ a.a-light:hover{
   z-index:9999;
   overflow:hidden;
   position:absolute;
+}
+
+.w-50{
+  width:50%;
 }
 
 

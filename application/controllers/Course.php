@@ -6,7 +6,8 @@ class Course extends CI_Controller {
 
     function __construct(){
         parent::__construct();
-        $this->load->model('Course_Model');
+        $this->load->model("Course_Model");
+        $this->load->model("Filters_Model");
     }
 
    
@@ -59,8 +60,10 @@ class Course extends CI_Controller {
         $categories = $this->input->post("categories");
         $categoriesArray = explode (",", $categories); 
 
+        $title = $this->input->post("title");
+
         $price = $this->input->post("price");
-        $courseList = $this->Course_Model->listingAll($categoriesArray, $price);
+        $courseList = $this->Course_Model->listingAll($categoriesArray, $price, $title);
         echo json_encode($courseList);
     }
 
@@ -80,29 +83,19 @@ class Course extends CI_Controller {
 
     
 	public function edit(){    
-
-        $this->input->post("release_date") == '' ? $releaseDate = null : $releaseDate =  $this->input->post("release_date");
-
-        $this->input->post("expiration_date") == '' ? $expirationDate = null : $expirationDate =  $this->input->post("expiration_date");
-
-        $this->input->post("validity") == '' ? $validity = null : $validity =  $this->input->post("validity");
-
-        $this->input->post("photo") == '' ? $photo = null : $photo =  $this->input->post("photo");
-
-        $this->input->post("preview") == '' ? $preview = null : $preview =  $this->input->post("preview");
-
+    
         $dataReceiveFromPost = array(
             'title' => applySecurityFunctions($this->input->post("title")),
             'mycategory_id' => $this->input->post("mycategory_id"),
-            'release_date' => $releaseDate,
-            'expiration_date' => $expirationDate,
-            'validity' => $validity,
+            'release_date' => $this->Filters_Model->filterEmptyFields($this->input->post("release_date"), array("")),
+            'expiration_date' => $this->Filters_Model->filterEmptyFields($this->input->post("expiration_date"), array("")),
+            'validity' => $this->Filters_Model->filterEmptyFields($this->input->post("validity"), array("")),
             'reviews' => $this->input->post("reviews"),
             'spotlight' => $this->input->post("spotlight"),
-            'photo' =>  $photo,
-            'preview' =>  $preview,
+            'photo' =>  $this->Filters_Model->filterEmptyFields($this->input->post("photo"), array("")),
+            'preview' =>  $this->Filters_Model->filterEmptyFields($this->input->post("preview"), array("")),
             'certificate' => $this->input->post("certificate"),
-            'price' => $this->input->post("price"),
+            'price' => $this->Filters_Model->filterEmptyFields($this->input->post("price"), array(" 0,00 ")),
             'description' => $this->input->post("description"),
             'id' => $this->input->post("id")
         );

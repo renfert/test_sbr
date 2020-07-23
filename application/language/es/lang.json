@@ -131,7 +131,8 @@
 
     "wanna-leave" : "¿Te gustaría irte?",
 
-    "free-course": "Free",
+    "paid-courses": "Cursos pagados",
+    "free-course": "Gratis",
 
     "create-account": "Crea tu cuenta",
 
@@ -536,6 +537,11 @@
     "finalized" : "Finalizados",
 
     "not-started": "No empezado",
+
+    "contact" : "Contacto",
+
+    "we-found": "Encontramos un total de :",
+
 
     "finish" : "Terminar",
     "tour-done": "¡Terminado!",

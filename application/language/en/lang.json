@@ -24,6 +24,8 @@
 
     "not-started": "Not started",
 
+    
+
     "welcome-to-sabiorealm" : "Welcome to Sabiorealm",
     "welcome-message-pt1": "How about we start with some basic activities so you can get to know our platform a little better?",
     "welcome-message-pt2": "Do not be shy! if you have any doubts on how to start we will be available in the chat. You can call us!",
@@ -155,6 +157,7 @@
     "multiple-choice": "Multiple choice",
     "free": "Free",
     "free-course": "Free",
+    "paid-courses": "Paid courses",
     "question-created-success": "Question created successfully",
 
     "take-this-course": "Take this course",
@@ -213,6 +216,8 @@
     "contact-information": "Contact information",
     "general-settings": "General settings",
     "integrations": "Integrations",
+
+    "contact" : "Contact",
 
     "finish-exam": "Finish exam",
     "confirm-password": "Confirm your new password",
@@ -457,6 +462,8 @@
     "answer-empty": "The student did not answer this question.",
 
     "go-to-platform": "Enter",
+
+    "we-found": "We found a total of :",
 
 
     "no-results-course-title": "You haven't created any course yet",

@@ -7,7 +7,8 @@ const routes = [
         name: 'marketplace',
         path: '/',
         component: () => 
-        import(/* webpackChunkName: "marketplace" */ '@/pages/marketplace/App'),    
+        import(/* webpackChunkName: "marketplace" */ '@/pages/marketplace/App'),   
+        alias : '/index' 
     },
     {
         name: 'home',

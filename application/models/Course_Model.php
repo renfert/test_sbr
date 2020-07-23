@@ -9,6 +9,7 @@ class Course_Model extends CI_Model {
         $this->load->model('Verify_Model');
         $this->load->model('Lesson_Model');
         $this->load->model('Category_Model');
+        $this->load->model("Filters_Model");
     }
 
 
@@ -61,34 +62,12 @@ class Course_Model extends CI_Model {
         }
     }
 
-    public function listingAll($categories, $price){    
+    public function listingAll($categories, $price, $title){    
 
-        if($price == "free"){
-            $price = "T0.price IS NULL OR T0.price = '0,00'";
-        }
-
-        if($price == null OR $price == "all"){
-            $price = "1=1";
-        }
-
-        if($price == "paid"){
-            $price = "T0.price IS NOT NULL";
-        }
-
-
-        if($categories[0] == null){
-            $this->db->select("*");
-            $this->db->from("mycategory");
-            $query = $this->db->get();
-           
-            if($query->num_rows() > 0){
-                $result = $query->result();
-                foreach($result as $row){
-                    $categoryId  = $row->id;
-                    array_push($categories, $categoryId);
-                }
-            }
-        }
+        
+        $price = $this->Filters_Model->filtercoursesByPrice($price);
+        $categories = $this->Filters_Model->filterCoursesByCategories($categories);
+        $title = $this->Filters_Model->filterCoursesByTitle($title);
 
         $currentDate = getCurrentDate("Y-m-d");
         $this->db->select("
@@ -97,6 +76,7 @@ class Course_Model extends CI_Model {
             T0.description,
             T0.photo,
             T0.price,
+            T0.reviews,
             T0.creation_date,
             DATE_FORMAT(T0.release_date, '%d/%m/%Y') as release_date, 
             DATE_FORMAT(T0.expiration_date, '%d/%m/%Y') as expiration_date, 
@@ -107,13 +87,19 @@ class Course_Model extends CI_Model {
             T0.preview, 
             T1.name,
             T1.avatar,
-            T2.currency");
+            T2.currency,
+            (SELECT COUNT(DISTINCT mymodule_id) FROM relationship WHERE mycourse_id = T0.id AND mymodule_id != 1) as totalModules,
+            (SELECT COUNT(DISTINCT mylesson_id) FROM relationship WHERE mycourse_id = T0.id AND mylesson_id != 1) as totalLessons,
+            (SELECT COUNT(DISTINCT id) FROM reviews WHERE mycourse_id =  T0.id) as totalReviews,
+            (SELECT SUM(rate) FROM reviews WHERE mycourse_id =  T0.id) as totalRate 
+            ");
         $this->db->from("mycourse T0");
         $this->db->join("myuser T1", "T0.creation_user = T1.id");
         $this->db->join("settings T2", "1 = 1");
         $this->db->where("T0.id !=", 1);
         $this->db->where_in("T0.mycategory_id", $categories);
         $this->db->where($price);  
+        $this->db->where($title);
         $query = $this->db->get();
         if($query->num_rows() > 0){
             return $query->result();

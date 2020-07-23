@@ -90,17 +90,6 @@ class User_Model extends CI_Model {
 						);
 						$this->create($params);	
 					}
-
-					$this->db->select("*");
-					$this->db->from("myuser");
-					$this->db->where("email", $email);
-					$query = $this->db->get();
-					if($query->num_rows() > 0){
-						$result = $query->result();
-						$userId = $result[0]->id;
-						$courseId = 2;
-						$this->Course_Model->enrollUserIntoCourse($courseId,$userId);
-					}
 				}
 			}	
 			return true;

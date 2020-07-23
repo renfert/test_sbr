@@ -110,6 +110,7 @@
     "multiple-choice": "Multipla escolha",
     "free": "Pergunta com arquivos",
     "free-course": "Grátis",
+    "paid-courses": "Cursos pagos",
    
     "take-this-course": "Faça este curso",
 
@@ -479,6 +480,10 @@
     "finalized" : "Finalizados",
 
     "not-started": "Não iniciado",
+
+    "contact" : "Contato",
+
+    "we-found": "Encontramos um total de :",
 
     "finish" : "Terminar",
     "tour-done": "Terminamos!",
