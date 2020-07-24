@@ -88,13 +88,15 @@
                         <div class="col-lg-6 col-md-6 col-sm-6" v-for="element in visibleCourses" :key="element.id">
                             <div class="education_block_grid style_2">
                                 
-                                <div class="education_block_thumb">
-                                    <a href="course-detail.html"><img v-lazy="getUrlToContents() + 'course/'+element.photo+''"  src="https://sabiorealm.s3.amazonaws.com/demo1/uploads/course/5xzwR4ayidpH2iP21B5ysKQkyt4xOUkmpvWNbCA7100.jpg" class="img-fluid" alt=""></a>
-                                    <div v-if="element.reviews != null" class="education_ratting"><i class="fa fa-star"></i>{{ rateAverage(element.totalRate, element.totalReviews) }} ({{element.totalReviews}})</div>
-                                </div>
+                                <a :href="'product/'+element.id">
+                                    <div class="education_block_thumb">
+                                        <a href="course-detail.html"><img v-lazy="getUrlToContents() + 'course/'+element.photo+''"  src="https://sabiorealm.s3.amazonaws.com/demo1/uploads/course/5xzwR4ayidpH2iP21B5ysKQkyt4xOUkmpvWNbCA7100.jpg" class="img-fluid" alt=""></a>
+                                        <div v-if="element.reviews != null" class="education_ratting"><i class="fa fa-star"></i>{{ rateAverage(element.totalRate, element.totalReviews) }} ({{element.totalReviews}})</div>
+                                    </div>
+                                </a>
                                 
                                 <div class="education_block_body">
-                                    <h4 class="bl-title"><a href="course-detail.html">{{element.title}}</a></h4>
+                                    <h4 class="bl-title"><a :href="'product/'+element.id">{{element.title}}</a></h4>
                                 </div>
                                 
                                 <div class="cources_info_style3">
@@ -175,7 +177,8 @@ import 'element-ui/lib/theme-chalk/index.css'
 
 
 locale.use(lang)
-// or with options
+
+
 Vue.use(VueLazyload, {
     preLoad: 1.3,
     error:'https://sbrfiles.s3.amazonaws.com/images/image-not-available.png',
@@ -283,37 +286,6 @@ export default {
                 }.bind(this)
             );
         },
-        viewProduct:function(id,expirationDays,releaseDays){
-            if(releaseDays == null){
-                releaseDays = -1;
-            }
-
-            if(expirationDays == null){
-                expirationDays = 1;
-            }
-
-            if(expirationDays > 0  && releaseDays <= 0){
-                sessionStorage.setItem('sbr_product_id', ''+id+'');
-                window.location.href="product   ";
-            }
-        },
-
-        formatExpirationDays: function (expirationDays) {
-       
-            if(expirationDays == null){
-                return 1;
-            }else{
-                return expirationDays;
-            }
-        },
-        formatReleasedDays: function (releasedDays) {
-       
-            if(releasedDays == null){
-                return -1;
-            }else{
-                return releasedDays;
-            }
-        },
     },
     watch: {
         checkedNames: function () {
@@ -355,11 +327,6 @@ export default {
 /* =============
    Layout
 ============= */
-
-.container-site{
-    overflow-x: hidden !important;
-    padding: 0 10% 0 10%;
-}
 
 .list-courses{
     margin-bottom: 50px !important;
@@ -612,7 +579,7 @@ input[type=checkbox], input[type=radio] {
 
 
 .cources_info_style3 {
-    padding: 0 20px 20px;
+   padding:  0px 0px 20px 20px;
 }
 
 .cources_info_style3 ul {

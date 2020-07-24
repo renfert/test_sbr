@@ -17,7 +17,7 @@
                             <div class="card-widget">
                                 <div class="title-widget text-center">
                                     <img src="@/assets/img/general/ux/widgets/admin/courses.png" alt="">
-                                    <h3 class="sbr-text-grey">{{lang["courses"]}}: <b>{{numberTotalOfCourses}}</b></h3>
+                                    <h3 class="sbr-text-grey text-widget">{{lang["courses"]}}: <b>{{numberTotalOfCourses}}</b></h3>
                                 </div>
                             </div>
                         </a>
@@ -28,7 +28,7 @@
                             <div class="card-widget">
                                 <div class="title-widget text-center">
                                     <img src="@/assets/img/general/ux/widgets/admin/enrolled.png" alt="">
-                                    <h3 class="sbr-text-grey">{{lang["students"]}}: <b>{{numberTotalOfStudents}}</b></h3>
+                                    <h3 class="sbr-text-grey text-widget">{{lang["students"]}}: <b>{{numberTotalOfStudents}}</b></h3>
                                 </div>
                             </div>
                         </a>
@@ -138,6 +138,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+/* =============
+   Fonts
+============= */
+.text-widget{
+    font-size:1em;
+}
+
+
 
 .user-avatar{
     width:70px;

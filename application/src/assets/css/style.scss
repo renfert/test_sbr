@@ -38,6 +38,11 @@ body {
 
 
 
+.container-site{
+  margin-left:15%;
+  margin-right: 15%;
+}
+
 ::-webkit-scrollbar-track
 {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
@@ -66,6 +71,7 @@ html {
   height:100%;
   overflow: auto;
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 h1, h2, h3, h4, h5, h6,p {
@@ -170,7 +176,6 @@ a:focus {
 #wrapper {
  width: 100%;
  height:100%;
- overflow-x: hidden;
 }
 
 .page {
@@ -7366,6 +7371,10 @@ $baby-blue: #f8faff;
   position: relative !important;
 }
 
+.editr{
+  overflow-x:hidden !important;
+}
+
 .editr--content{
   background-color: white;
   height: 100%;
@@ -7486,11 +7495,6 @@ $baby-blue: #f8faff;
   font-size:15px !important;
 }
 
-
-.text-box{
-  text-align:center;
-  padding-bottom:40px;
-}
 
 .app-background-accent{
     background-color: #4eb3f1;

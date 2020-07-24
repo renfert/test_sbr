@@ -20,7 +20,7 @@
                             <div class="card-widget">
                                 <div class="title-widget text-center">
                                     <img src="@/assets/img/general/ux/widgets/admin/courses.png" alt="">
-                                    <h3 class="sbr-text-grey">{{lang["courses"]}}: <b>{{numberTotalOfCourses}}</b></h3>
+                                    <h3 class="sbr-text-grey text-widget">{{lang["courses"]}}: <b>{{numberTotalOfCourses}}</b></h3>
                                 </div>
                             </div>
                         </a>
@@ -31,7 +31,7 @@
                             <div class="card-widget">
                                 <div class="title-widget text-center">
                                     <img src="@/assets/img/general/ux/widgets/admin/enrolled.png" alt="">
-                                    <h3 class="sbr-text-grey">{{lang["users"]}}: <b>{{numberTotalOfUsers}}</b></h3>
+                                    <h3 class="sbr-text-grey text-widget">{{lang["users"]}}: <b>{{numberTotalOfUsers}}</b></h3>
                                 </div>
                             </div>
                         </a>
@@ -43,7 +43,7 @@
                                 <div class="title-widget text-center">
                                     <img src="@/assets/img/general/ux/widgets/admin/storage.png" alt="">
                                     <el-tooltip  class="item" effect="dark" :content="totalStorageUsed + ' GB / ' + totalStorageAvaiable + ' GB' " placement="bottom">
-                                        <h3 class="sbr-text-grey">{{lang["storage"]}} <b>{{storagePercent}} %</b></h3>
+                                        <h3 class="sbr-text-grey text-widget">{{lang["storage"]}} <b>{{storagePercent}} %</b></h3>
                                     </el-tooltip>
                                 </div>
                             </div>
@@ -76,7 +76,7 @@
                         <div class="card-widget">
                             <div class="title-widget text-center">
                                 <img src="@/assets/img/general/ux/shortcuts/coursespage.png" alt="">
-                                <h3 class="sbr-text-grey"> {{lang['view-my-marketplace']}} </h3>
+                                <h3 class="sbr-text-grey text-widget"> {{lang['view-my-marketplace']}} </h3>
                             </div>
                         </div>
                     </a><br>
@@ -85,7 +85,7 @@
                         <div class="card-widget">
                             <div class="title-widget text-center">
                                 <img src="@/assets/img/general/ux/shortcuts/marketplace.png" alt="">
-                                <h3 class="sbr-text-grey"> {{lang['view-my-entry-page']}} </h3>
+                                <h3 class="sbr-text-grey text-widget"> {{lang['view-my-entry-page']}} </h3>
                             </div>
                         </div>
                     </a><br>
@@ -94,7 +94,7 @@
                         <div class="card-widget">
                             <div class="title-widget text-center">
                                 <img src="@/assets/img/general/ux/shortcuts/new_course.png" alt="">
-                                <h3 class="sbr-text-grey"> {{lang['new-course-button']}} </h3>
+                                <h3 class="sbr-text-grey text-widget"> {{lang['new-course-button']}} </h3>
                             </div>
                         </div>
                     </a><br>
@@ -103,7 +103,7 @@
                         <div class="card-widget">
                             <div class="title-widget text-center">
                                 <img src="@/assets/img/general/ux/shortcuts/add_user.png" alt="">
-                                <h3 class="sbr-text-grey">{{lang['create-user']}}</h3>
+                                <h3 class="sbr-text-grey text-widget">{{lang['create-user']}}</h3>
                             </div>
                         </div>
                     </a><br>
@@ -112,7 +112,7 @@
                         <div class="card-widget">
                             <div class="title-widget text-center">
                                 <img src="@/assets/img/general/ux/shortcuts/customize.png" alt="">
-                                <h3 class="sbr-text-grey">{{lang['customize-your-page']}}</h3>
+                                <h3 class="sbr-text-grey text-widget">{{lang['customize-your-page']}}</h3>
                             </div>
                         </div>
                     </a><br>
@@ -121,7 +121,7 @@
                         <div class="card-widget">
                             <div class="title-widget text-center">
                                 <img src="@/assets/img/general/ux/shortcuts/settings.png" alt="">
-                                <h3 class="sbr-text-grey">{{lang['settings-nav']}}</h3>
+                                <h3 class="sbr-text-grey text-widget">{{lang['settings-nav']}}</h3>
                             </div>
                         </div>
                     </a><br>
@@ -349,26 +349,18 @@ export default {
 
 <style lang="scss" scoped>
 
-.user-avatar{
-    width:70px;
-}
 
+/* =============
 
+    - Scrollbar
+    - Layout
+    - Fonts
 
-.card-widget {
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-    background-color:white;
-    border-radius: 10px;
-    padding:30px;
-}
+============= */
 
-
-.card-widget:hover {
-  box-shadow: 0 0px 7px rgba(70, 67, 67, 0.25), 0 5px 5px rgba(70, 67, 67, 0.25);
-}
-
-
+/* =============
+   Scrollbar
+============= */
 
 ::-webkit-scrollbar-track
 {
@@ -390,5 +382,38 @@ export default {
     color-stop(.5, rgba(255, 255, 255, .2)),
 	color-stop(.5, transparent), to(transparent));
 }
+
+/* =============
+   Layout
+============= */
+
+
+.user-avatar{
+    width:70px;
+}
+
+
+
+.card-widget {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    background-color:white;
+    border-radius: 10px;
+    padding:30px;
+}
+
+
+.card-widget:hover {
+  box-shadow: 0 0px 7px rgba(70, 67, 67, 0.25), 0 5px 5px rgba(70, 67, 67, 0.25);
+}
+
+/* =============
+   Fonts
+============= */
+.text-widget{
+    font-size:1em;
+}
+
+
 
 </style>

@@ -1,6 +1,6 @@
 <template>
     <div class="section" v-loading="loading">
-        <header :style="styleHeader">
+        <div class="banner" :style="styleHeader">
             <h1 :style="styleBannerHeader" class="banner-text">{{banner["header"]}}</h1>
             <p :style="styleBannerSubHeader">{{banner["subheader"]}}</p>
             <a  class="btn-marketplace-sabiorealm"
@@ -10,7 +10,7 @@
             >
                 {{banner["title"]}}
             </a>
-        </header>
+        </div>
     </div>
 </template>
 
@@ -126,19 +126,20 @@ export default {
 }
 
 
-header p{
+.banner p{
     font-size: 18px;
     padding: 0 25%;
     text-align:center;
     color:#fff;
 }
 
-header{
+.banner{
     height:100vh;
     width:100%;
     -webkit-backgroud-size:cover;
     background-size:cover;
     background-repeat: no-repeat;
+    background-position: center !important;
     display:-webkit-flex;
     display:-moz-flex;
     display:-ms-flex;
@@ -147,6 +148,8 @@ header{
     justify-content:center;
     align-items:center;
     flex-flow:column;
+    flex-wrap: wrap;
+    overflow: hidden;
 }
 
 .main{

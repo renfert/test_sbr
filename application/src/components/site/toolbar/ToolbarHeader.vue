@@ -7,15 +7,29 @@
                     <span>Header</span>
                 </template>
                 <form id="form-header">
-                    <el-menu-item-group title="Logo">
-                        <el-menu-item index="1-1">
+                    <el-menu-item-group title="Logo (150 x 50 px)">
+                        <el-menu-item index="1-0">
                             <upload 
                                 :src-name="element.logo"
                                 :src-img="getUrlToContents() + 'builder/header/'+element.logo+''"
                                 do-upload= "true"
-                                box-height = "150"
+                                box-height = "100"
                                 return-name="logoName" 
                                 input-name="logo"  
+                                bucket-key="uploads/builder/header"
+                                acceptable=".png,.jpg,.jpeg">
+                            </upload>
+                        </el-menu-item>
+                    </el-menu-item-group>
+                     <el-menu-item-group title="Logo sticker (150 x 50 px)">
+                        <el-menu-item index="1-1">
+                            <upload 
+                                :src-name="element.logoSticky"
+                                :src-img="getUrlToContents() + 'builder/header/'+element.logo_sticky+''"
+                                do-upload= "true"
+                                box-height = "100"
+                                return-name="logoStickyName" 
+                                input-name="logoSticky"  
                                 bucket-key="uploads/builder/header"
                                 acceptable=".png,.jpg,.jpeg">
                             </upload>
@@ -83,6 +97,7 @@ export default {
             lang: {},
             logoSize: 0,
             logo: '',
+            logoSticky: '',
             headerArray: [],
             headerColor: '',
             transparentHeader: false

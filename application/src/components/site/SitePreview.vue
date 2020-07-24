@@ -1,42 +1,98 @@
 <template>
-    <div class="main" v-loading="loading">
-        <nav dark class="navbar navbar-expand-lg navbar-dark" :style="styleHeader">
-            <a class="navbar-brand" href="#">
-                <img class="sabio-logo" :src="logo" :width="logoSize" >
+    <div>
+         <!-- Navbar -->
+        <div v-if="showMobile" class="sidebar-mobile">
+            <span @click.prevent="toogleSidebar" class="sidebar-mobile-close-button">✕</span>
+            <ul> 
+                <!-- Products -->
+                <li>
+                    <a href="products">
+                        Cursos
+                    </a>
+                </li>
+
+                <li  v-for="element in links"  :key="element.id">
+                    <a  
+                        :href="element.url"
+                        :target="element.target"
+                    >
+                        {{element.title}}
+                    </a>
+                </li>
+
+                <!-- Login button -->
+                 <li class="pt-5" v-if="activeSession == false">
+                    <a 
+                        href="javascript:void(0)" 
+                        @click.prevent="openLoginModal()" 
+                    >
+                        Login
+                    </a>
+                </li>
+
+                <li class="pt-5"  v-else>
+                    <a 
+                        href="home"
+                    >
+                       <span class="link-button" :style="linkButtonMobile">{{lang["go-to-platform"]}} </span>
+                    </a>
+                </li>
+               
+            </ul>
+        </div>
+
+        <header :style="styleHeader" >
+            <a :href="getDomainNameToNavigation()"> 
+                <img v-if="stickyMode == false && logo != null" class="logo-nav" :src="logo" :width="logoSize">
+                <img v-else class="logo-nav" :src="logoSticky" :width="logoSize">
             </a>
-            <button  @click.prevent="changeMobileButtonClass()" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div :style="navMobile" class="collapse navbar-collapse" id="navbarSupportedContent-4">
-                <ul class="navbar-nav" style="float:right;">
-                    <li class="nav-item" v-for="element in links"  :key="element.id">
-                        <a  
-                            class="nav-link" 
-                            :href="element.url"
-                            :target="element.target"
-                        >
-                            {{element.title}}
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a :href="getDomainNameToNavigation() + 'products'" class="nav-link">
-                            Cursos
-                        </a>
-                    </li>
-                    <li class="nav-item" v-if="activeSession == false">
-                        <a href="javascript:void(0)" @click.prevent="openLoginModal()" class="nav-link">
-                            <span class="nav-login">Login</span>
-                        </a>
-                    </li>
-                    <li class="nav-item" v-else>
-                        <a href="javascript:void(0)"  @click.prevent="enterPlatform()" class="nav-link">
-                           <span class="nav-login">{{lang["go-to-platform"]}}</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+
+            <!-- Icon menu for mobile -->
+            <ul class="ul-mobile">
+                <li>
+                    <a @click.prevent="toogleSidebar" href="javascript:void(0)"><i class="ti-menu"></i></a>
+                </li>
+            </ul>
+
+            <ul class="ul-landscape">
+                <!-- Products -->
+                <li>
+                    <a href="products">
+                        Cursos
+                    </a>
+                </li>
+
+                <!-- Links -->
+                <li  v-for="element in links"  :key="element.id">
+                   <a  
+                        :href="element.url"
+                        :target="element.target"
+                    >
+                        {{element.title}}
+                    </a>
+                </li>
+
+                <!-- Login button -->
+                 <li v-if="activeSession == false">
+                    <a 
+                        href="javascript:void(0)" 
+                        @click.prevent="openLoginModal()" 
+                    >
+                        Login
+                    </a>
+                </li>
+
+                <li  v-else>
+                    <a 
+                        href="home"
+                    >
+                       <span class="link-button">{{lang["go-to-platform"]}} </span>
+                    </a>
+                </li>
+
+            </ul>
+        </header>     
+        <!-- End Navbar --> 
 
         
     
@@ -50,7 +106,7 @@
         </section>     
 
         <!-- Footer secion -->   
-        <footer class="page-footer font-small blue" :style="styleFooter">
+        <footer class="page-footer font-small blue top-10" :style="styleFooter">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12 py-5">
@@ -123,17 +179,20 @@ export default {
     data: () => {
         return {
             lang: {},
-            logo: '',
+            logo: null,
+            logoSticky: '',
             logoSize: "",
             sections: null,
             loading: false,
             footerColor: '',
             copyright: '',
+            primaryColor: '',
             links: [],
             socialMedias: [],
             headerColor: '',
             activeSession: false,
-            navMobile: "display:initial !important"
+            showMobile: false,
+            stickyMode: false,
         }
     },
     mounted(){
@@ -161,6 +220,8 @@ export default {
             this.updateSectionListArray();
         }.bind(this));
 
+        this.navBarSticky();
+        this.getPrimaryColor();
         this.listHeader();
         this.listFooter();
         this.updateSectionListArray();
@@ -169,9 +230,21 @@ export default {
     computed: {
         styleHeader: function(){
              return {
-            'background-color': this.headerColor,
-            'position': this.headerColor == 'transparent' ? 'absolute' : 'relative',
-            'width': '100%'
+                'background-color': this.headerColor,
+                'width': '100%'
+            }
+        },
+        styleBorder: function(){
+             return{
+                'border': this.headerColor == 'transparent' ? '1px solid #969bb5': '1px solid white',
+                'padding': '5px 15px 5px 15px'
+            }
+        },
+        linkButtonMobile: function(){
+            return{
+                'color' : '#fff',
+                'border' : '1px solid '+this.primaryColor+'',
+                'background-color': this.primaryColor
             }
         },
         styleFooter: function(){
@@ -181,17 +254,38 @@ export default {
         },
     },
     methods: {
+        navBarSticky: function(){
+            window.addEventListener("scroll", function(){
+                var header = document.querySelector("header");
+                header.classList.toggle("sticky", window.scrollY > 0);
+                if(window.scrollY > 0){
+                    this.stickyMode = true;
+                }else{
+                    this.stickyMode = false;
+                }
+            }.bind(this));
+
+            window.addEventListener("touchmove",function() {
+                if(this.stickyMode == false){
+                    var header = document.querySelector("header");
+                    header.classList.toggle("sticky");
+                    this.stickyMode = true;
+                }
+            }.bind(this));
+
+        },
+        toogleSidebar: function(){
+            this.showMobile == true ? this.showMobile = false : this.showMobile = true;
+        },
         openLoginModal: function(){
             eventLogin.$emit("open-login-modal");
-        },
-        enterPlatform: function(){
-            window.location.href=  "home";
         },
         listHeader: function(){
             this.loading = true;
             var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("builder", "listHeader");
             axios.get(urlToBeUsedInTheRequest).then((response) => {
                 this.logo = this.getUrlToContents() + 'builder/header/'+response.data[0].logo+'';
+                this.logoSticky = this.getUrlToContents() + 'builder/header/'+response.data[0].logo_sticky+'';
                 this.logoSize = response.data[0].logo_size + "%";
                 this.headerColor = response.data[0].color;
                 this.loading = false;
@@ -202,13 +296,6 @@ export default {
                     this.errorMessage();
                 }.bind(this)
             );
-        },
-        changeMobileButtonClass: function(){
-            if(this.navMobile == "display:none !important;"){
-                this.navMobile = "display:initial !important;";
-            }else{
-                this.navMobile = "display:none !important;";
-            }
         },
         listFooter: function(){
             this.loading = true;
@@ -265,6 +352,17 @@ export default {
                 }.bind(this)
             );
         },
+        getPrimaryColor: function (){
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("settings", "getSettingsInformation");
+            axios.post(urlToBeUsedInTheRequest).then((response) => {
+                this.primaryColor = response.data["color"];
+            },
+                /* Error callback */
+                function (){
+                   this.errorMessage();
+                }.bind(this)
+            );
+        },
         getSession: function (){
             var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("Mysessions", "activeSession");
             axios.post(urlToBeUsedInTheRequest).then((response) => {
@@ -282,28 +380,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-
-.main{
-    width:100%;
-    position:relative;    
-}
-
-.contact{
-    width:400px;
-    position:relative;
-    margin-left:50%;
-    left: -200px;
-    text-align:center !important;
-}
-
-.sabio-logo{
-    padding:1%;
-}
-
-.nav-link{
-    font-size:1.2em;
-    font-family: 'Montserrat', sans-serif;
-}
 
 #floating-button{
   width: 45px;
@@ -348,9 +424,193 @@ export default {
   padding: 30px;
 }
 
-.nav-login{
-    border:1px solid white;
-    padding:5px 15px 5px 15px;
+
+/* =============
+
+    - Header
+    - Layout
+    - Sticky
+    - Mobile
+    - Button
+
+============= */
+
+/* =============
+   Layout
+============= */
+
+
+.top-10{
+    margin-top:10%;
+}
+
+
+
+
+/* =============
+   Header
+============= */
+header{
+    position: fixed;
+    top:0;
+    width: 100%;
+    height: 90px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transform: 0.4s;
+    padding: 0px 15%;
+    z-index: 2000; 
+    transition: 0.2s;
+}
+
+header ul{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0px !important;
+}
+
+header ul li{
+    position: relative;
+    list-style: none;
+}
+
+header ul li a{
+    position: relative;
+    margin: 0 15px;
+    font-weight: 500;
+    transition: 0.5s;
+    color: white;
+    font-size: 1.3em;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+
+/* =============
+   sticky
+============= */
+header.sticky{
+    position: fixed;
+    background-color: white !important;
+    height: 75px;
+    padding: 0px 15%;
+    animation: smoothScroll 1.2s forwards;
+}
+
+header.sticky ul li a, header.sticky ul li a span.link-button {
+    color: #4a5682 !important;
+}
+
+header.sticky ul li a span.link-button{
+    border: 2px solid #4a5682;
+}
+
+
+@keyframes smoothScroll {
+	0% {
+		transform: translateY(-40px);
+	}
+	100% {
+		transform: translateY(0px);
+	}
+}
+
+
+
+/* =============
+   Mobile
+============= */
+
+.ul-mobile{
+    display:none;
+}
+
+.sidebar-mobile{
+    position: fixed;
+    overflow-y: auto;
+    left:0;
+    background-color:#1c2138;
+    width:90%;
+    height: 100vh;
+    z-index: 20000 !important;
+    animation: hideLeftBar 1s;
+}
+
+@keyframes hideLeftBar {
+	0% {
+        transform: translateX(-100px);
+        
+	}
+	100% {
+		transform: translateX(0px);
+	}
+}
+
+.sidebar-mobile-close-button {
+    width: 30px;
+    height: 40px;
+    margin: 10px 7px;
+    display: none;
+    float: right;
+    color: #70798b;
+    font-size: 26px;
+    cursor: pointer;
+    display: block;
+}
+
+.sidebar-mobile ul{
+    width: 100%;
+    float: left;
+    padding: 0 !important;
+    margin-top:10%;
+}
+
+.sidebar-mobile ul li{
+    list-style: none;
+    border-top: solid 1px #2d3454;
+    padding: 10px 30px;
+}
+
+.sidebar-mobile ul li a{
+    position: relative;
+    font-weight: 500;
+    transition: 0.5s;
+    color: white;
+    font-size: 1.2em;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+
+@media only screen and (max-width: 1024px) {
+    .logo-nav{
+        width:80px !important;
+    }
+    .ul-landscape{
+        display: none;
+    }
+    .ul-mobile{
+        display: initial;
+    }
+    header{
+        height: 90px;
+    }
+    header ul li a{
+        font-size: 2em;
+    }
+    
+}
+
+/* =============
+   Button
+============= */
+.link-button{
+    border: 1.2px solid white;
+    border-radius: 5px;
+    padding: 8px 18px 8px 18px; 
 }
 
 </style>

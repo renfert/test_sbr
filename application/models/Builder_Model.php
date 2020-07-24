@@ -64,6 +64,7 @@ class Builder_Model extends CI_Model {
 	public function editHeader($dataReceiveFromPost){
         $data = array(
             "logo" => $dataReceiveFromPost["logoName"],
+            "logo_sticky" => $dataReceiveFromPost["logoStickyName"],
             "logo_size" => $dataReceiveFromPost["logoSize"],
             "color" => $dataReceiveFromPost["color"],
         );

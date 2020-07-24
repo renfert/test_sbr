@@ -91,6 +91,7 @@ class ProductList_Model extends CI_Model {
         T0.description,
         T0.photo,
         T0.price,
+        T0.reviews,
         T0.creation_date,
         DATE_FORMAT(T0.release_date, '%d/%m/%Y') as release_date, 
         DATE_FORMAT(T0.expiration_date, '%d/%m/%Y') as expiration_date, 
@@ -99,8 +100,14 @@ class ProductList_Model extends CI_Model {
         T0.spotlight,
         T0.validity,
         T0.preview, 
-        T1.name, 
-        T2.currency");
+        T1.name,
+        T1.avatar,
+        T2.currency,
+        (SELECT COUNT(DISTINCT mymodule_id) FROM relationship WHERE mycourse_id = T0.id AND mymodule_id != 1) as totalModules,
+        (SELECT COUNT(DISTINCT mylesson_id) FROM relationship WHERE mycourse_id = T0.id AND mylesson_id != 1) as totalLessons,
+        (SELECT COUNT(DISTINCT id) FROM reviews WHERE mycourse_id =  T0.id) as totalReviews,
+        (SELECT SUM(rate) FROM reviews WHERE mycourse_id =  T0.id) as totalRate 
+        ");
         $this->db->from("mycourse T0");
         $this->db->join("myuser T1", "T0.creation_user = T1.id");
         $this->db->join("settings T2", "1 = 1");

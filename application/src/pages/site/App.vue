@@ -83,6 +83,10 @@ export default {
 
 <style scoped>
 
+    #wrapper {
+        overflow-y:hidden; 
+    }
+
     .el-menu--collapse{
         width:71px !important;
     }

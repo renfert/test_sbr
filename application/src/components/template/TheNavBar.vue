@@ -2,6 +2,7 @@
     <div>
         <login></login>
 
+        <!-- Navbar -->
         <div v-if="showMobile" class="sidebar-mobile">
             <span @click.prevent="toogleSidebar" class="sidebar-mobile-close-button">✕</span>
             <ul> 
@@ -33,8 +34,7 @@
 
                 <li class="pt-5"  v-else>
                     <a 
-                        href="javascript:void(0)"
-                        @click.prevent="enterPlatform()"
+                        href="home"
                     >
                        <span class="link-button" :style="linkButtonMobile">{{lang["go-to-platform"]}} </span>
                     </a>
@@ -93,7 +93,8 @@
                 </li>
 
             </ul>
-        </header>      
+        </header>     
+        <!-- End Navbar --> 
     </div>
 </template>
 
@@ -162,11 +163,6 @@ export default {
              return {
                 'background-color': this.headerColor == 'transparent' ? this.primaryColor : this.headerColor,
                 'width': '100%'
-            }
-        },
-        styleFooter: function(){
-             return {
-                'background-color': this.footerColor+'!important',
             }
         },
         styleBorder: function(){
@@ -330,7 +326,7 @@ header{
     justify-content: space-between;
     align-items: center;
     transform: 0.4s;
-    padding: 0px 10%;
+    padding: 0px 15%;
     z-index: 2000; 
     transition: 0.2s;
 }
@@ -366,7 +362,7 @@ header ul li a{
 header.sticky{
     position: fixed;
     height: 75px;
-    padding: 0px 10%;
+    padding: 0px 15%;
     background-color: white;  
     animation: smoothScroll 1.2s forwards;
 }

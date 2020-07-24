@@ -1,10 +1,10 @@
 <template>
-    <div class="section" v-loading="loading">
-        <div class="text-box">
+    <div class="container-site top-10" v-loading="loading">
+        <div class="text-center mb-5">
             <h1>{{header}}</h1>
             <h3>{{subheader}}</h3>
         </div>
-        <div class="inner-section">
+        <div >
             <persons-list v-for="element in testimonialArray" :key="element.id" :testimonial-id="element.id"></persons-list>
         </div>
     </div>
@@ -103,8 +103,98 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+
 <style lang="scss" scoped>
+/* =============
+  == Products page style==
+
+    - Layout
+    - Fonts
+    - Mobile
+
+============= */
+
+/* =============
+   Layout
+============= */
+
+.top-10{
+    margin-top:10%;
+}
+
+/* =============
+   Fonts
+============= */
+h1, h2, h3, h4, h5, h6 {
+    color: #2D3954;
+    font-family: 'Poppins', sans-serif;
+    word-break: break-word !important; 
+}
+
+h1  {
+    line-height: 36px;
+    font-size: 32px;
+}
+
+h2 {
+    line-height: 32px;
+    font-size: 28px;
+}
+
+h3 {
+    line-height: 24px;
+    font-size: 18px;
+}
+
+h4 {
+    line-height: 24px;
+    font-size: 18px;
+}
+
+a {
+    color: #4a5682;
+    text-decoration: none;
+    background-color: transparent;
+    -webkit-text-decoration-skip: objects;
+}
+
+/* =============
+   Mobile
+============= */
+
+@media only screen and (max-width: 1024px) {
+
+    h1  {
+        line-height: 24px;
+        font-size: 22px;
+    }
+
+    h2 {
+        line-height: 22px;
+        font-size: 18px;
+    }
+
+    h3 {
+        line-height: 16px;
+        font-size: 14px;
+    }
+
+    h4 {
+        line-height: 14px;
+        font-size: 12px;
+    }
+
+    .link-button[data-v-059bd9ee] {
+        font-weight: 500;
+        -webkit-transition: 0.5s;
+        transition: 0.5s;
+        color: white;
+        font-size: 1em;
+        font-family: 'Poppins', sans-serif;
+        border-radius: 5px;
+        padding: 8px 18px 8px 18px;
+    }
+}
 
 
 </style>

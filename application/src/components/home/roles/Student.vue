@@ -17,7 +17,7 @@
                             <div class="card-widget">
                                 <div class="title-widget text-center">
                                     <img src="@/assets/img/general/ux/widgets/student/courses_finished.png" alt="">
-                                    <h3 class="sbr-text-grey">{{lang['finalized']}} <b>{{coursesData[1][1]}}</b></h3>
+                                    <h3 class="sbr-text-grey text-widget">{{lang['finalized']}} <b>{{coursesData[1][1]}}</b></h3>
                                 </div>
                             </div>
                         </a>
@@ -28,7 +28,7 @@
                             <div class="card-widget">
                                 <div class="title-widget text-center">
                                     <img src="@/assets/img/general/ux/widgets/student/courses_inprogress.png" alt="">
-                                    <h3 class="sbr-text-grey">{{lang['in-progress']}} <b>{{coursesData[2][1]}}</b></h3>
+                                    <h3 class="sbr-text-grey text-widget">{{lang['in-progress']}} <b>{{coursesData[2][1]}}</b></h3>
                                 </div>
                             </div>
                         </a>
@@ -40,7 +40,7 @@
                             <div class="card-widget">
                                 <div class="title-widget text-center">
                                     <img src="@/assets/img/general/ux/widgets/student/courses_notstarted.png" alt="">
-                                    <h3 class="sbr-text-grey">{{lang['not-started']}} <b>{{coursesData[3][1]}}</b></h3>
+                                    <h3 class="sbr-text-grey text-widget">{{lang['not-started']}} <b>{{coursesData[3][1]}}</b></h3>
                                 </div>
                             </div>
                         </a>
@@ -141,6 +141,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+/* =============
+   Fonts
+============= */
+.text-widget{
+    font-size:1em;
+}
+
+
 
 .user-avatar{
     width:70px;

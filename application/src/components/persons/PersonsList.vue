@@ -50,8 +50,24 @@ export default {
         }.bind(this));
 
         this.updatePersonsListArray();
+        this.getPrimaryColor();
     },
     methods: {
+        getPrimaryColor(){
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("settings", "getSettingsInformation");
+            axios.get(urlToBeUsedInTheRequest).then((response) => {
+                /* Create custom classes */
+                var style = document.createElement('style');
+                style.type = 'text/css';
+                style.innerHTML = '.el-carousel__arrow{background-color:'+response.data["color"]+' !important;}';
+                document.getElementsByTagName('head')[0].appendChild(style);
+            }, 
+                // Failure callback
+                function(){
+                    this.errorMessage();
+                }.bind(this)
+            );
+        },
         updatePersonsListArray: function (){
             this.loading = true;
             var formData = new FormData();
@@ -92,11 +108,18 @@ export default {
 
 
 .el-carousel__item:nth-child(2n) {
-background-color: #99a9bf;
+    background-color: white;
+    border-radius: 15px;
 }
 
 .el-carousel__item:nth-child(2n+1) {
-background-color: #d3dce6;
+    background-color: white;
+    border-radius: 15px;
+}
+
+.el-carousel__item.is-active.el-carousel__item--card.is-in-stage{
+    box-shadow: 10px 10px 33px -10px #aca9a9;
+    border-radius: 15px;
 }
 
 </style>

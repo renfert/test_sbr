@@ -1,30 +1,27 @@
 <template>
-    <div class="section" v-loading="loading">
-        <div class="inner-section"  v-for="element in textAndMediaArray" :key="element.id">
+    <div class="container-site top-10">
+        <div v-for="element in textAndMediaArray" :key="element.id">
+           
             <!-- Left side media position -->
-            <div v-if="element.media_align == 'left' " class="row">
-                <div class="col-12 col-md-6">
-                    
+
+            <div class="row" v-if="element.media_align == 'left'">
+                <div class="col-md-6 col-12">
                     <img :src="getUrlToContents() + 'builder/body/'+element.media+''" v-if="mediaExtension == 'png' || mediaExtension == 'jpg' || mediaExtension == 'jpeg'" style="max-width:100%;">
-                   
                     <div class="player-container"  v-else>
                         <vue-plyr>
                             <video :src="getUrlToContents() + 'builder/body/'+element.media+''"></video>
                         </vue-plyr>
                     </div>
                 </div>
-                
-                <div class="col-12 col-md-6 text-align-right">
+                <div class="col-md-6 col-12 content-right">
                     <h1>{{element.header}}</h1>
                     <h3>{{element.subheader}}</h3>
-                    <p>{{element.content}}</p>
+                    <p class="mb-4 mt-4">{{element.content}}</p>
                     <a 
-                        class="btn-marketplace-sabiorealm"
-                        :style="styleButton" 
                         :href="element.url"
                         :target="element.target"
                     >
-                        {{element.title}}
+                       <span class="link-button" :style="styleButton">{{element.title}}</span> 
                     </a>
                 </div>
             </div>
@@ -32,21 +29,20 @@
 
 
             <!-- Right side media position -->
-            <div v-if="element.media_align == 'right'" class="row">
-                <div class="col-12 col-md-6 text-align-left">
+
+            <div class="row" v-if="element.media_align == 'right'">
+                <div class="col-md-6 col-12 content-left">
                     <h1>{{element.header}}</h1>
                     <h3>{{element.subheader}}</h3>
-                    <p>{{element.content}}</p>
-                    <a 
-                        class="btn-marketplace-sabiorealm"
-                        :style="styleButton" 
+                    <p class="mb-4 mt-4">{{element.content}}</p>
+                    <a  
                         :href="element.url"
                         :target="element.target"
                     >
-                        {{element.title}}
+                       <span class="link-button" :style="styleButton">{{element.title}}</span> 
                     </a>
                 </div>
-                <div class="col-12 col-md-6 right-side">
+                <div class="col-md-6 col-12">
                     <img :src="getUrlToContents() + 'builder/body/'+element.media+''" v-if="mediaExtension == 'png' || mediaExtension == 'jpg' || mediaExtension == 'jpeg'" style="max-width:100%;">
                     <div class="player-container"  v-else>
                         <vue-plyr>
@@ -57,10 +53,10 @@
             </div>
             <!-- End side media position -->
 
-            <br><br>
+           
 
             <!-- Top side media position -->
-            <div v-if="element.media_align == 'top'"  class="text-box">
+            <div v-if="element.media_align == 'top'"  class="text-center">
                 <div class="row">
                     <div class="col-12 col-md-12">
                         <img :src="getUrlToContents() + 'builder/body/'+element.media+''" v-if="mediaExtension == 'png' || mediaExtension == 'jpg' || mediaExtension == 'jpeg'" style="max-width:100%;"> 
@@ -75,36 +71,32 @@
                     <div class="col-12 col-md-12 text-align-bottom">
                         <h1>{{element.header}}</h1>
                         <h3>{{element.subheader}}</h3>
-                        <p>{{element.content}}</p>
+                        <p  class="mb-4 mt-4">{{element.content}}</p>
                         <a 
-                        class="btn-marketplace-sabiorealm"
-                        :style="styleButton" 
-                        :href="element.url"
-                        :target="element.target"
-                        >
-                        {{element.title}}
+                            :href="element.url"
+                            :target="element.target"
+                            >
+                            <span class="link-button" :style="styleButton">{{element.title}}</span> 
                         </a>
                     </div>
                 </div>
             </div>
             <!-- End side media position -->
 
-            <br><br>
+            
 
             <!-- Bottom side media position -->
-            <div v-if="element.media_align == 'bottom'"  class="text-box">
+            <div v-if="element.media_align == 'bottom'" class="text-center">
                 <div class="row">
                     <div class="col-12 col-md-12 text-align-top">
                         <h1>{{element.header}}</h1>
                         <h3>{{element.subheader}}</h3>
-                        <p>{{element.content}}</p>
+                        <p class="mb-4 mt-4">{{element.content}}</p>
                         <a 
-                        class="btn-marketplace-sabiorealm"
-                        :style="styleButton" 
-                        :href="element.url"
-                        :target="element.target"
+                            :href="element.url"
+                            :target="element.target"
                         >
-                        {{element.title}}
+                            <span class="link-button" :style="styleButton">{{element.title}}</span> 
                         </a>
                     </div>
                 </div>
@@ -153,7 +145,7 @@ export default {
     data: () => {
         return {
             lang: {},
-            loading: false,
+            primaryColor: '',
             textAndMediaArray: [],
             mediaExtension: '',
             buttonColor: '',
@@ -169,17 +161,15 @@ export default {
         eventBus.$on('new-change-text-and-media', function(){  
             this.getTextAndMedia();
         }.bind(this));
-
+        this.getPrimaryColor();
         this.getTextAndMedia();
     },
     methods: {
         getTextAndMedia: function(){
-            this.loading = true;
             var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("site-elements/TextAndMedia", "get");
             var formData = new FormData();
             formData.set("sectionId", this.sectionId);
             axios.post(urlToBeUsedInTheRequest, formData).then((response) => {
-                this.loading = false;
                 this.textAndMediaArray = response.data;
                 this.buttonStyle = response.data[0].style;
                 this.buttonColor = response.data[0].color;
@@ -188,13 +178,24 @@ export default {
             },
                 /* Error callback */
                 function (){
-                this.errorMessage();
+                    this.errorMessage();
                 }.bind(this)
             );
         },
         getMediaExtension(media){
             var mediaNameArray = media.split(".");
             this.mediaExtension = mediaNameArray[1];
+        },
+        getPrimaryColor: function(){
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("settings", "getSettingsInformation");
+            axios.get(urlToBeUsedInTheRequest).then((response) => {
+                this.primaryColor = response.data["color"]
+            },
+                /* Error callback */
+                function (){
+                    this.errorMessage();
+                }.bind(this)
+            );
         }
     },
     computed: {
@@ -202,19 +203,29 @@ export default {
             return {
             'background-color': this.buttonColor,
             'display': this.buttonTitle == null ? 'none' : 'initial',
-            '--color-hover': this.buttonColorHover,
-            'border-radius': this.buttonStyle == 'plain'? '0px' : '30px'
             }
         },
     }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+
 <style lang="scss" scoped>
-.col-12, .col-md-6{
-    padding: 0 !important;
-}
+
+/* =============
+  == Products page style==
+
+    - Layout
+    - Fonts
+    - Button
+    - Mobile
+
+============= */
+
+/* =============
+   Layout
+============= */
+
 
 .text-align-right{
     padding-left:50px !important;
@@ -232,7 +243,113 @@ export default {
     padding-bottom:30px !important;
 }
 
-p{
-    padding-bottom:20px;
+.top-10{
+    margin-top:10%;
 }
+
+
+/* =============
+   Fonts
+============= */
+h1, h2, h3, h4, h5, h6 {
+    color: #2D3954;
+    font-family: 'Poppins', sans-serif;
+    word-break: break-word !important; 
+}
+
+h1  {
+    line-height: 36px;
+    font-size: 32px;
+}
+
+h2 {
+    line-height: 32px;
+    font-size: 28px;
+}
+
+h3 {
+    line-height: 24px;
+    font-size: 18px;
+}
+
+h4 {
+    line-height: 24px;
+    font-size: 18px;
+}
+
+a {
+    color: #4a5682;
+    text-decoration: none;
+    background-color: transparent;
+    -webkit-text-decoration-skip: objects;
+}
+
+/* =============
+   Button
+============= */
+.link-button{
+    font-weight: 500;
+    color: white;
+    font-size: 1.3em;
+    font-family: 'Poppins', sans-serif;
+    border-radius: 5px;
+    padding: 8px 18px 8px 18px; 
+}
+
+
+/* =============
+   Mobile
+============= */
+
+@media only screen and (max-width: 1024px) {
+    .text-align-right{
+        padding-left:0px !important;
+        margin-top:10%;
+    }
+
+    .text-align-left{
+        padding-right:0px !important;
+        margin-top: 10%;
+    }
+
+    .text-box{
+        padding-bottom: 0px;
+    }
+
+    h1  {
+        line-height: 24px;
+        font-size: 22px;
+    }
+
+    h2 {
+        line-height: 22px;
+        font-size: 18px;
+    }
+
+    h3 {
+        line-height: 16px;
+        font-size: 14px;
+    }
+
+    h4 {
+        line-height: 14px;
+        font-size: 12px;
+    }
+
+    .link-button[data-v-059bd9ee] {
+        font-weight: 500;
+        -webkit-transition: 0.5s;
+        transition: 0.5s;
+        color: white;
+        font-size: 1em;
+        font-family: 'Poppins', sans-serif;
+        border-radius: 5px;
+        padding: 8px 18px 8px 18px;
+    }
+
+    .content-left{
+        margin-bottom:15%;
+    }
+}
+
 </style>
