@@ -213,7 +213,7 @@ class User extends CI_Controller {
             );
         }
         
-        $resultEdit = $this->User_Model->editProfile($this->input->post("userId"), $data);
+        $resultEdit = $this->User_Model->editProfile(getUserId(), $data);
         echo json_encode($resultEdit);
         
     }

@@ -75,9 +75,10 @@
 
                             <!-- Unregistered user -->
                             <div v-else>
-                                <form action="process" method="POST" v-if="preferenceId != null" >
+                                <form  :action="this.getCurrentDomainName() + 'payment/process'" method="POST" v-if="preferenceId != null" >
                                     <script 
-                                    src="https://www.mercadopago.com.br/integrations/v1/web-payment-checkout.js"
+                                    v-if="link != null"
+                                    :src="link"
                                     :data-preference-id="preferenceId"
                                     type="application/javascript"
                                     >
@@ -219,9 +220,10 @@
                     <div class="col-8 mt-3">
                         <h2 class="text-sabiorealm">{{lang["congratulations"]}}</h2>
                         <h3>{{lang["you-are-logged-in-now"]}}</h3>
-                        <form v-if="preferenceId != null" action="process" method="POST">
+                        <form v-if="preferenceId != null" :action="this.getCurrentDomainName() + 'payment/process'" method="POST">
                             <script 
-                            src="https://www.mercadopago.com.br/integrations/v1/web-payment-checkout.js"
+                            v-if="link != null"
+                            :src="link"
                             :data-preference-id="preferenceId"
                             type="application/javascript"
                             >
@@ -304,7 +306,9 @@ export default {
             proceedToPayment: false,
             login: false,
             wrongPasswordOrUser: false,
-            mpAccessToken: '333'
+            mpAccessToken: '333',
+
+            link: null,
         }
     },
     created(){
@@ -369,10 +373,54 @@ export default {
             // Create a preference
             mercadopago.preferences.create(preference)
             .then(function(res){
+                
+                /* Mexico */
+                if(res.response.site_id == "MLM"){
+                    this.link = "https://www.mercadopago.com.mx/integrations/v1/web-payment-checkout.js";
+                }
+
+                /* Argetina */
+                if(res.response.site_id == "MLA"){
+                    this.link = "https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js";
+                }
+
+                /* Uruguay */
+                if(res.response.site_id == "MLU"){
+                    this.link = "https://www.mercadopago.com.uy/integrations/v1/web-payment-checkout.js";
+                }
+
+                /* Colombia */
+                if(res.response.site_id == "MCO"){
+                    this.link = "https://www.mercadopago.com.co/integrations/v1/web-payment-checkout.js";
+                }
+
+
+                /* Chile */
+                if(res.response.site_id == "MLC"){
+                    this.link = "https://www.mercadopago.cl/integrations/v1/web-payment-checkout.js";
+                }
+
+
+                /* Brasil */
+                if(res.response.site_id == "MLB"){
+                    this.link = "https://www.mercadopago.com.br/integrations/v1/web-payment-checkout.js";
+                }
+
+
+                /* Peru */
+                if(res.response.site_id == "MPE"){
+                    this.link = "https://www.mercadopago.com.pe/integrations/v1/web-payment-checkout.js";
+                }
+
+                /* Venezuela */
+                if(res.response.site_id == "MLV"){
+                    this.link = "https://www.mercadopago.com.ve/integrations/v1/web-payment-checkout.js";
+                }
+
                 this.preferenceId = res.response.id;
                 this.savePreferenceId(md5(res.response.id));
-            }.bind(this)).catch(function(err){
-                console.log(err);
+            }.bind(this)).catch(function(){
+               
             });
 
             localStorage.setItem('purchase_reference', courseId);
@@ -553,7 +601,8 @@ export default {
             formData.set("userId", this.userId);
             var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("course", "enrollUserIntoCourse")
             axios.post(urlToBeUsedInTheRequest, formData).then(() => {
-                window.location.href=  this.getCurrentDomainName() + "pages/viewcourse/"+this.courseId+"";
+                sessionStorage.setItem('sbr_course_id', ''+this.courseId+'');
+                window.location.href=  "viewcourse";
             }, 
                 /* Error callback */
                 function(){
@@ -776,12 +825,6 @@ export default {
     margin-top:3%;
 }
 
-.mercadopago-button:hover {
-  border: none;
-  color: #fff;
-  background: #00E1F0;
-  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12);
-}
 
 .fade-in{
     animation: fadein 2s;

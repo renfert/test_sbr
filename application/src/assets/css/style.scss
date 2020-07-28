@@ -441,6 +441,10 @@ a:focus {
     border-radius: 20px !important;
 }
 
+.el-dialog__wrapper{
+  z-index: 9999 !important;
+}
+
 .card-box .card-drop {
   color: #98a6ad;
   font-size: 20px;

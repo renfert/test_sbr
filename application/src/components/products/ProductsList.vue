@@ -122,7 +122,7 @@
                                 
                     <div class="row" v-else>
                         <div class="col-12 text-center">
-                            <img class="w-50" src="@/assets/img/general/ux/no_courses_products.png" alt="No activities">
+                            <img class="w-50" src="@/assets/img/general/ux/not_found.png" alt="No activities">
                             <h4 class="sbr-empty-state-text">{{lang["no-courses-found"]}}</h4>
                         </div>
                     </div>
@@ -226,7 +226,6 @@ export default {
     },
     methods:{
         rateAverage: function(totalRate, totalReviews){
-            console.log(totalReviews);
             if(totalRate == null){
                 return 0;
             }else{

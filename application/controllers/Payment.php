@@ -25,12 +25,12 @@ class Payment extends CI_Controller {
                 if($paymentStatus == "approved"){
                     $this->Payment_Model->savePurchaseRequisition($courseId,$paymentId,$paymentStatus);
                     $this->Course_Model->enrollUserIntoCourse($courseId,getUserId());
-                    $this->load->view('purchasesuccess.html');
+                    header('Location: '.base_url().'purchasesuccess');
                 }
 
                 if($paymentStatus == "in_process" OR $paymentStatus == "pending"){
                     $this->Payment_Model->savePurchaseRequisition($courseId,$paymentId,$paymentStatus);
-                    $this->load->view('purchaseinprocess.html');
+                    header('Location: '.base_url().'purchaseinprocess');
                 }
 
 
@@ -39,10 +39,7 @@ class Payment extends CI_Controller {
             }
         }else{
             // Redirect to 404 page
-        }
-
-       
-        
+        }        
     }
 
     /* 

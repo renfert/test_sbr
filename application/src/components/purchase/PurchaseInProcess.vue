@@ -51,11 +51,6 @@ export default {
         this.getCompanyInformation();
     },
     methods: {
-      
-        viewCourse: function(){
-            window.location.href = this.getCurrentDomainName() + 'pages/viewcourse/' + this.courseId;
-        },
-
         getCompanyInformation: function(){
             var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("company", "getCompanyInformation")
             axios.get(urlToBeUsedInTheRequest).then((response) => {

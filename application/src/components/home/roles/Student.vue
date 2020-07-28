@@ -116,7 +116,6 @@ export default {
             var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("chart","getStudentCourses");
             axios.post(urlToBeUsedInTheRequest, formData).then((response) => {
                 this.coursesData = response.data;
-                console.log(response.data);
             },
                 /* Error callback */
                 function (){

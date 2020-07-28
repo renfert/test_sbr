@@ -1,20 +1,20 @@
 <template>
     <div class="left side-menu" :class="mobile">
-      <!--- Sidemenu administrator role -->
-      <el-menu
-        v-if="roleId == 1"
-        :collapse="collapse"
-        background-color="#373A43"
-        text-color="#fff"
-        :style="collapse == true ? 'border-right:0px !important;' : 'width:230px;'"
-        default-active="2"
-        active-text-color="#00C0FD"
-        class="el-menu-vertical-demo"
-      >
+        <!--- Sidemenu administrator role -->
+        <el-menu
+            v-if="roleId == 1"
+            :collapse="collapse"
+            background-color="#373A43"
+            text-color="#fff"
+            :style="collapse == true ? 'border-right:0px !important;' : 'width:230px;'"
+            default-active="2"
+            active-text-color="#00C0FD"
+            class="el-menu-vertical-demo"
+        >
 
         <el-menu-item index="1">
-          <i class="dripicons-home"></i>
-          <a href="home" class="waves-effect"><span class="menuMain"> {{lang["home-nav"]}} </span> </a>
+            <i class="dripicons-home"></i>
+            <a href="home" class="waves-effect"><span class="menuMain"> {{lang["home-nav"]}} </span> </a>
         </el-menu-item>
 
         <el-menu-item index="1">
@@ -104,30 +104,29 @@
             <a href="plans" class="waves-effect"><span class="menuMain"> {{lang["plans-nav"]}} </span> </a>
           </el-menu-item>
 
-          <el-menu-item index="18">
-              <i class="dripicons-question"></i>
+        <el-menu-item index="18">
+        <i class="dripicons-question"></i>
               <a href="helpcenter" class="waves-effect"><span class="menuMain"> {{lang["help-center-nav"]}} </span> </a>
           </el-menu-item>
         </el-submenu>
 
         <!-- User information -->
         <el-menu-item index="17" class="menu-item-user" v-if="collapse != true">
-           <el-row>
+            <el-row>
 
             <!-- Profile -->
             <a  href="profile" class="pr-4 mb-2">
-              <el-avatar   :src="getUrlToContents() + 'avatar/'+userAvatar+''"></el-avatar>
+                <el-avatar   :src="getUrlToContents() + 'avatar/'+userAvatar+''"></el-avatar>
             </a>
             
             <!-- Notification -->
             <a href="#">
-              <i  class=" mdi mdi-bell mdi-18px  pr-3 mr-0"></i> 
+                <i  class=" mdi mdi-bell mdi-18px  pr-3 mr-0"></i> 
             </a>
 
             <!-- Calendar -->
-            <a href="calendar">
-              <i  class="mdi mdi-calendar mdi-18px  pr-3 mr-0"></i> 
-            </a>
+            <router-link to="calendar"><i  class="mdi mdi-calendar mdi-18px  pr-3 mr-0"></i> </router-link>
+           
 
             <!-- Lofoff -->
             <a href="javascript:void(0)" @click="confirmLogout">

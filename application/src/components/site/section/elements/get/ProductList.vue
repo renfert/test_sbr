@@ -1,90 +1,152 @@
 <template>
     <div class="top-10">
         <lang></lang>
-        <div class="text-center mb-5">
-            <h1>{{header}}</h1>
-            <h4>{{subheader}}</h4>
-        </div>
-        
         <div class="container-site">
-            <carousel 
-                :navigationEnabled="true" 
-                :paginationEnabled="false" 
-                :autoplayHoverPause="true" 
-                :perPage="mobile == true ? 1 : 3 "
-                zIndex= "100 !important"
+            <div class="text-center mb-5">
+                <h1>{{ header }}</h1>
+                <h4>{{ subheader }}</h4>
+            </div>
+            <carousel
+                :navigationEnabled="true"
+                :paginationEnabled="false"
+                :autoplayHoverPause="true"
+                :perPage="mobile == true ? 1 : 3"
+                zIndex="100 !important"
+            >
+                <slide
+                    v-for="element in courses"
+                    :key="element.id"
+                    class="card-courses"
                 >
-                <slide v-for="element in courses" :key="element.id" class="card-courses"> 
-                     <!-- Cource Grid  -->
+                    <!-- Cource Grid  -->
                     <div class="p-1">
                         <div class="education_block_grid style_2">
-                            
-                            <a :href="'product/'+element.id">
+                            <a :href="'product/' + element.id">
                                 <div class="education_block_thumb">
-                                    <a href="course-detail.html"><img v-lazy="getUrlToContents() + 'course/'+element.photo+''"  src="https://sabiorealm.s3.amazonaws.com/demo1/uploads/course/5xzwR4ayidpH2iP21B5ysKQkyt4xOUkmpvWNbCA7100.jpg" class="img-fluid" alt=""></a>
-                                    <div v-if="element.reviews != null" class="education_ratting"><i class="fa fa-star"></i>{{ rateAverage(element.totalRate, element.totalReviews) }} ({{element.totalReviews}})</div>
+                                    <a href="course-detail.html">
+                                        <img
+                                            v-lazy="
+                                                getUrlToContents() +
+                                                    'course/' +
+                                                    element.photo +
+                                                    ''
+                                            "
+                                            src="https://sabiorealm.s3.amazonaws.com/demo1/uploads/course/5xzwR4ayidpH2iP21B5ysKQkyt4xOUkmpvWNbCA7100.jpg"
+                                            class="img-fluid"
+                                            alt
+                                        />
+                                    </a>
+                                    <div
+                                        v-if="element.reviews != null"
+                                        class="education_ratting"
+                                    >
+                                        <i class="fa fa-star"></i>
+                                        {{
+                                            rateAverage(
+                                                element.totalRate,
+                                                element.totalReviews
+                                            )
+                                        }}
+                                        ({{ element.totalReviews }})
+                                    </div>
                                 </div>
                             </a>
-                            
+
                             <div class="education_block_body">
-                                <h4 class="bl-title"><a :href="'product/'+element.id">{{element.title}}</a></h4>
+                                <h4 class="bl-title">
+                                    <a :href="'product/' + element.id">{{
+                                        element.title
+                                    }}</a>
+                                </h4>
                             </div>
-                            
+
                             <div class="cources_info_style3">
                                 <ul>
-                                    <li><i class="ti-agenda mr-2"></i>Modules: {{element.totalModules}}</li>
-                                    <li><i class="ti-control-skip-forward mr-2"></i>Lessons: {{element.totalLessons}}</li>
+                                    <li>
+                                        <i class="ti-agenda mr-2"></i>
+                                        Modules: {{ element.totalModules }}
+                                    </li>
+                                    <li>
+                                        <i
+                                            class="ti-control-skip-forward mr-2"
+                                        ></i>
+                                        Lessons: {{ element.totalLessons }}
+                                    </li>
                                 </ul>
                             </div>
-                            
+
                             <div class="education_block_footer">
                                 <div class="education_block_author">
-                                    <div class="pr-2"><a href="javascript:void(0)">  <el-avatar :src="getUrlToContents() + 'avatar/'+element.avatar+''"></el-avatar> </a></div>
-                                    <h5><a href="javascript:void(0)">{{element.name}}</a></h5>
+                                    <div class="pr-2">
+                                        <a href="javascript:void(0)">
+                                            <el-avatar
+                                                :src="
+                                                    getUrlToContents() +
+                                                        'avatar/' +
+                                                        element.avatar +
+                                                        ''
+                                                "
+                                            ></el-avatar>
+                                        </a>
+                                    </div>
+                                    <h5>
+                                        <a href="javascript:void(0)">{{
+                                            element.name
+                                        }}</a>
+                                    </h5>
                                 </div>
-                                <div v-if="element.price != null" class="cources_price_foot"><span class="price_off">{{element.currency}} {{element.price}}</span></div>
-                                <div v-else class="foot_lecture"><i class="ti-gift mr-2"></i>{{lang["free-course"]}}</div>
+                                <div
+                                    v-if="element.price != null"
+                                    class="cources_price_foot"
+                                >
+                                    <span class="price_off"
+                                        >{{ element.currency }}
+                                        {{ element.price }}</span
+                                    >
+                                </div>
+                                <div v-else class="foot_lecture">
+                                    <i class="ti-gift mr-2"></i>
+                                    {{ lang["free-course"] }}
+                                </div>
                             </div>
-                            
-                        </div>	
+                        </div>
                     </div>
                 </slide>
             </carousel>
         </div>
-            
     </div>
 </template>
 
 <script>
-import Vue from 'vue'
-import axios from 'axios'
-import VueAxios from 'vue-axios'
-import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
-import lang from 'element-ui/lib/locale/lang/en'
-import locale from 'element-ui/lib/locale'
-import {eventLang} from '@/components/helper/HelperLang'    
-import Lang from '@/components/helper/HelperLang'
-import domains from '@/mixins/domains'
-import alerts from '@/mixins/alerts'
-import {eventBus} from '@/pages/site/App'
-import { Carousel, Slide } from 'vue-carousel';
-import VueLazyload from 'vue-lazyload'
-import 'element-ui/lib/theme-chalk/index.css'
+import Vue from "vue";
+import axios from "axios";
+import VueAxios from "vue-axios";
+import ElementUI from "element-ui";
+import "element-ui/lib/theme-chalk/index.css";
+import lang from "element-ui/lib/locale/lang/en";
+import locale from "element-ui/lib/locale";
+import { eventLang } from "@/components/helper/HelperLang";
+import Lang from "@/components/helper/HelperLang";
+import domains from "@/mixins/domains";
+import alerts from "@/mixins/alerts";
+import { eventBus } from "@/pages/site/App";
+import { Carousel, Slide } from "vue-carousel";
+import VueLazyload from "vue-lazyload";
+import "element-ui/lib/theme-chalk/index.css";
 
 Vue.use(VueLazyload, {
     preLoad: 1.3,
-    error:'https://sbrfiles.s3.amazonaws.com/images/image-not-available.png',
-    loading: 'https://sbrfiles.s3.amazonaws.com/gifs/loading7.gif',
+    error: "https://sbrfiles.s3.amazonaws.com/images/image-not-available.png",
+    loading: "https://sbrfiles.s3.amazonaws.com/gifs/loading7.gif",
     attempt: 1
-})
+});
 
-locale.use(lang)
-Vue.use(VueAxios, axios)
-Vue.use(ElementUI)
+locale.use(lang);
+Vue.use(VueAxios, axios);
+Vue.use(ElementUI);
 export default {
-    mixins: [domains,alerts],
-    props:["section-id"],
+    mixins: [domains, alerts],
+    props: ["section-id"],
     components: {
         Carousel,
         Slide,
@@ -94,102 +156,110 @@ export default {
         return {
             lang: {},
             courses: [],
-            title: '',
-            description: '',
-            photo: '',
-            price: '',
-            preview: '',
-            header: '',
-            subheader: '',
+            title: "",
+            description: "",
+            photo: "",
+            price: "",
+            preview: "",
+            header: "",
+            subheader: "",
             mobile: false,
-            rate: 5,
-        }
+            rate: 5
+        };
     },
-    mounted(){
-
+    mounted() {
         /****************** 
         Fix carousel bug 
         ********************/
-      
-        setTimeout(function(){ 
-            window.dispatchEvent(new Event('resize'));
+
+        setTimeout(function() {
+            window.dispatchEvent(new Event("resize"));
         }, 5000);
 
-        eventLang.$on('lang', function(response){  
-            this.lang = response;
-        }.bind(this));
+        eventLang.$on(
+            "lang",
+            function(response) {
+                this.lang = response;
+            }.bind(this)
+        );
 
-        eventBus.$on('new-change-product-list', function(){  
-            this.getCourses();
-        }.bind(this));
+        eventBus.$on(
+            "new-change-product-list",
+            function() {
+                this.getCourses();
+            }.bind(this)
+        );
 
         this.getCourses();
 
-        if(window.screen.width <= 800){
+        if (window.screen.width <= 800) {
             this.mobile = true;
         }
     },
     methods: {
-        rateAverage: function(totalRate, totalReviews){
+        rateAverage: function(totalRate, totalReviews) {
             console.log(totalReviews);
-            if(totalRate == null){
+            if (totalRate == null) {
                 return 0;
-            }else{
-                return (parseInt(totalRate) / parseInt(totalReviews)).toFixed(1);
+            } else {
+                return (parseInt(totalRate) / parseInt(totalReviews)).toFixed(
+                    1
+                );
             }
         },
-        getCourses: function(){
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("site-elements/productList", "get");
+        getCourses: function() {
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+                "site-elements/productList",
+                "get"
+            );
             var formData = new FormData();
             formData.set("sectionId", this.sectionId);
-            axios.post(urlToBeUsedInTheRequest, formData).then((response) => {
-                this.header = response.data["productList"][0]["header"];
-                this.subheader = response.data["productList"][0]["subheader"];
-                this.courses = response.data["courses"];
-            },
+            axios.post(urlToBeUsedInTheRequest, formData).then(
+                response => {
+                    this.header = response.data["productList"][0]["header"];
+                    this.subheader =
+                        response.data["productList"][0]["subheader"];
+                    this.courses = response.data["courses"];
+                },
                 /* Error callback */
-                function (){
-                this.errorMessage();
+                function() {
+                    this.errorMessage();
                 }.bind(this)
             );
         },
-        viewProduct:function(id,expirationDays,releaseDays){
-            if(releaseDays == null){
+        viewProduct: function(id, expirationDays, releaseDays) {
+            if (releaseDays == null) {
                 releaseDays = -1;
             }
 
-            if(expirationDays == null){
+            if (expirationDays == null) {
                 expirationDays = 1;
             }
 
-            if(expirationDays > 0  && releaseDays <= 0){
-                sessionStorage.setItem('sbr_product_id', ''+id+'');
-                window.location.href="product";
+            if (expirationDays > 0 && releaseDays <= 0) {
+                sessionStorage.setItem("sbr_product_id", "" + id + "");
+                window.location.href = "product";
             }
         },
-        formatExpirationDays: function (expirationDays) {
-       
-            if(expirationDays == null){
+        formatExpirationDays: function(expirationDays) {
+            if (expirationDays == null) {
                 return 1;
-            }else{
+            } else {
                 return expirationDays;
             }
         },
-        formatReleasedDays: function (releasedDays) {
-       
-            if(releasedDays == null){
+        formatReleasedDays: function(releasedDays) {
+            if (releasedDays == null) {
                 return -1;
-            }else{
+            } else {
                 return releasedDays;
             }
         }
-    },
-}
+    }
+};
 </script>
 
-
 <style lang="scss" scoped>
-
 /* =============
   == Products page style==
 
@@ -204,27 +274,32 @@ export default {
    Layout
 ============= */
 
-.top-10{
-    margin-top:10%;
+.top-10 {
+    margin-top: 10%;
 }
 
 /* =============
    Fonts
 ============= */
-h1, h2, h3, h4, h5, h6 {
-    color: #2D3954;
-    font-family: 'Poppins', sans-serif;
-    word-break: break-word !important; 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #2d3954;
+    font-family: "Poppins", sans-serif;
+    word-break: break-word !important;
 }
 
-h1  {
-    line-height: 36px;
-    font-size: 32px;
+h1 {
+    line-height: 34px;
+    font-size: 28px;
 }
 
 h2 {
-    line-height: 32px;
-    font-size: 28px;
+    line-height: 28px;
+    font-size: 22px;
 }
 
 h3 {
@@ -282,9 +357,8 @@ a {
     margin-bottom: 10px;
 }
 
-
 .cources_info_style3 {
-    padding:  0px 0px 20px 20px;
+    padding: 0px 0px 20px 20px;
 }
 
 .cources_info_style3 ul {
@@ -357,28 +431,26 @@ a {
 
 .education_ratting i {
     margin-right: 6px;
-    color: #FF9800;
+    color: #ff9800;
 }
 
-.founded-courses{
+.founded-courses {
     color: #647b9c;
     font-size: 15px;
-    font-family: 'Muli', sans-serif;
+    font-family: "Muli", sans-serif;
     font-weight: 400;
 }
 
-.courses-grid{
+.courses-grid {
     box-shadow: -10px 0px 10px -10px #e6ebf1;
 }
-
 
 /* =============
    Mobile
 ============= */
 
 @media only screen and (max-width: 1024px) {
-
-    h1  {
+    h1 {
         line-height: 24px;
         font-size: 22px;
     }
@@ -404,13 +476,9 @@ a {
         transition: 0.5s;
         color: white;
         font-size: 1em;
-        font-family: 'Poppins', sans-serif;
+        font-family: "Poppins", sans-serif;
         border-radius: 5px;
         padding: 8px 18px 8px 18px;
     }
-
 }
-
-
-
 </style>

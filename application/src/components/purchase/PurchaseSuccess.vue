@@ -80,7 +80,8 @@ export default {
         },
 
         viewCourse: function(){
-            window.location.href = this.getCurrentDomainName() + 'pages/viewcourse/' + this.courseId;
+            sessionStorage.setItem('sbr_course_id', ''+this.courseId+'');
+            window.location.href=  "viewcourse";
         },
 
         getCompanyInformation: function(){

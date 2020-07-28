@@ -4,8 +4,12 @@
 
         <!-- Navbar -->
         <div v-if="showMobile" class="sidebar-mobile">
-            <span @click.prevent="toogleSidebar" class="sidebar-mobile-close-button">✕</span>
-            <ul> 
+            <span
+                @click.prevent="toogleSidebar"
+                class="sidebar-mobile-close-button"
+                >✕</span
+            >
+            <ul>
                 <!-- Products -->
                 <li>
                     <a href="products">
@@ -13,45 +17,43 @@
                     </a>
                 </li>
 
-                <li  v-for="element in links"  :key="element.id">
-                    <a  
-                        :href="element.url"
-                        :target="element.target"
-                    >
-                        {{element.title}}
+                <li v-for="element in links" :key="element.id">
+                    <a :href="element.url" :target="element.target">
+                        {{ element.title }}
                     </a>
                 </li>
 
                 <!-- Login button -->
-                 <li class="pt-5" v-if="activeSession == false">
-                    <a 
-                        href="javascript:void(0)" 
-                        @click.prevent="openLoginModal()" 
+                <li class="pt-5" v-if="activeSession == false">
+                    <a
+                        href="javascript:void(0)"
+                        @click.prevent="openLoginModal()"
                     >
                         Login
                     </a>
                 </li>
 
-                <li class="pt-5"  v-else>
-                    <a 
-                        href="home"
-                    >
-                       <span class="link-button" :style="linkButtonMobile">{{lang["go-to-platform"]}} </span>
+                <li class="pt-5" v-else>
+                    <a href="home">
+                        <span class="link-button" :style="linkButtonMobile"
+                            >{{ lang["go-to-platform"] }}
+                        </span>
                     </a>
                 </li>
-               
             </ul>
         </div>
 
         <header :style="styleHeader">
-            <a :href="getDomainNameToNavigation()"> 
-                <img class="logo-nav" :src="logo" :width="logoSize">
+            <a :href="getDomainNameToNavigation()">
+                <img class="logo-nav" :src="logo" :width="logoSize" />
             </a>
 
             <!-- Icon menu for mobile -->
             <ul class="ul-mobile">
                 <li>
-                    <a @click.prevent="toogleSidebar" href="javascript:void(0)"><i class="ti-menu"></i></a>
+                    <a @click.prevent="toogleSidebar" href="javascript:void(0)"
+                        ><i class="ti-menu"></i
+                    ></a>
                 </li>
             </ul>
 
@@ -64,239 +66,281 @@
                 </li>
 
                 <!-- Links -->
-                <li  v-for="element in links"  :key="element.id">
-                   <a  
-                        :href="element.url"
-                        :target="element.target"
-                    >
-                        {{element.title}}
+                <li v-for="element in links" :key="element.id">
+                    <a :href="element.url" :target="element.target">
+                        {{ element.title }}
                     </a>
                 </li>
 
                 <!-- Login button -->
-                 <li v-if="activeSession == false">
-                    <a 
-                        href="javascript:void(0)" 
-                        @click.prevent="openLoginModal()" 
+                <li v-if="activeSession == false">
+                    <a
+                        href="javascript:void(0)"
+                        @click.prevent="openLoginModal()"
                     >
                         Login
                     </a>
                 </li>
 
-                <li  v-else>
-                    <a 
+                <li v-else>
+                    <a
                         href="javascript:void(0)"
                         @click.prevent="enterPlatform()"
                     >
-                       <span class="link-button">{{lang["go-to-platform"]}} </span>
+                        <span class="link-button"
+                            >{{ lang["go-to-platform"] }}
+                        </span>
                     </a>
                 </li>
-
             </ul>
-        </header>     
-        <!-- End Navbar --> 
+        </header>
+        <!-- End Navbar -->
     </div>
 </template>
 
 <script>
-import Vue from 'vue'
-import axios from 'axios'
-import VueAxios from 'vue-axios'
-import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
-import lang from 'element-ui/lib/locale/lang/en'
-import locale from 'element-ui/lib/locale'
-import {eventBus} from '@/pages/site/App'
-import {eventLang} from '@/components/helper/HelperLang'   
-import {eventLogin} from '@/components/login/Login'
-import domains from '@/mixins/domains'
-import alerts from '@/mixins/alerts'
-import Login from '@/components/login/Login'
+import Vue from "vue";
+import axios from "axios";
+import VueAxios from "vue-axios";
+import ElementUI from "element-ui";
+import "element-ui/lib/theme-chalk/index.css";
+import lang from "element-ui/lib/locale/lang/en";
+import locale from "element-ui/lib/locale";
+import { eventBus } from "@/pages/site/App";
+import { eventLang } from "@/components/helper/HelperLang";
+import { eventLogin } from "@/components/login/Login";
+import domains from "@/mixins/domains";
+import alerts from "@/mixins/alerts";
+import Login from "@/components/login/Login";
 
-
-locale.use(lang)
-Vue.use(VueAxios, axios)
-Vue.use(ElementUI)
+locale.use(lang);
+Vue.use(VueAxios, axios);
+Vue.use(ElementUI);
 export default {
-    mixins: [domains,alerts],
-    props: ['full-screen-button'],
+    mixins: [domains, alerts],
+    props: ["full-screen-button"],
     components: {
         Login
     },
     data: () => {
         return {
             lang: {},
-            logo: '',
+            logo: "",
             logoSize: "",
             sections: null,
             loadingHeader: false,
             loadingSection: false,
             loadingFooter: false,
-            footerColor: '',
-            copyright: '',
+            footerColor: "",
+            copyright: "",
             links: [],
             socialMedias: [],
-            headerColor: '',
+            headerColor: "",
             activeSession: false,
             showMobile: false,
-            primaryColor: '',
+            primaryColor: "",
             navMobile: "display:initial !important"
-        }
+        };
     },
-    mounted(){
-        eventLang.$on('lang', function(response){  
-            this.lang = response;
-        }.bind(this));
+    mounted() {
+        eventLang.$on(
+            "lang",
+            function(response) {
+                this.lang = response;
+            }.bind(this)
+        );
 
-        eventLogin.$on("new-login", function(){
-            this.getSession();
-        }.bind(this));
+        eventLogin.$on(
+            "new-login",
+            function() {
+                this.getSession();
+            }.bind(this)
+        );
 
         this.getSession();
         this.getPrimaryColor();
         this.listHeader();
         this.navBarSticky();
-      
     },
     computed: {
-        styleHeader: function(){
-             return {
-                'background-color': this.headerColor == 'transparent' ? this.primaryColor : this.headerColor,
-                'width': '100%'
-            }
+        styleHeader: function() {
+            return {
+                "background-color":
+                    this.headerColor == "transparent"
+                        ? this.primaryColor
+                        : this.headerColor,
+                width: "100%"
+            };
         },
-        styleBorder: function(){
-             return{
-                'border': this.headerColor == 'transparent' ? '1px solid #969bb5': '1px solid white',
-                'padding': '5px 15px 5px 15px'
-            }
+        styleBorder: function() {
+            return {
+                border:
+                    this.headerColor == "transparent"
+                        ? "1px solid #969bb5"
+                        : "1px solid white",
+                padding: "5px 15px 5px 15px"
+            };
         },
-        linkButtonMobile: function(){
-            return{
-                'color' : '#fff',
-                'border' : '1px solid '+this.primaryColor+'',
-                'background-color': this.primaryColor
-            }
+        linkButtonMobile: function() {
+            return {
+                color: "#fff",
+                border: "1px solid " + this.primaryColor + "",
+                "background-color": this.primaryColor
+            };
         }
     },
     methods: {
-        toogleSidebar: function(){
-            this.showMobile == true ? this.showMobile = false : this.showMobile = true;
+        toogleSidebar: function() {
+            this.showMobile == true
+                ? (this.showMobile = false)
+                : (this.showMobile = true);
         },
-        enterPlatform: function(){
-            window.location.href=  "home";
+        enterPlatform: function() {
+            window.location.href = "home";
         },
-        openLoginModal: function(){
+        openLoginModal: function() {
             eventLogin.$emit("open-login-modal");
         },
-        navBarSticky: function(){
-            window.addEventListener("scroll", function(){
+        navBarSticky: function() {
+            window.addEventListener("scroll", function() {
                 var header = document.querySelector("header");
                 header.classList.toggle("sticky", window.scrollY > 0);
             });
         },
-        listHeader: function(){
+        listHeader: function() {
             this.loadingHeader = true;
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("builder", "listHeader");
-            axios.get(urlToBeUsedInTheRequest).then((response) => {
-                this.logo = this.getUrlToContents() + 'builder/header/'+response.data[0].logo+'';
-                this.logoSize = response.data[0].logo_size + "%";
-                this.headerColor = response.data[0].color;
-                this.loadingHeader = false;
-                this.updateLinkListArray();
-            },
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+                "builder",
+                "listHeader"
+            );
+            axios.get(urlToBeUsedInTheRequest).then(
+                response => {
+                    this.logo =
+                        this.getUrlToContents() +
+                        "builder/header/" +
+                        response.data[0].logo +
+                        "";
+                    this.logoSize = response.data[0].logo_size + "%";
+                    this.headerColor = response.data[0].color;
+                    this.loadingHeader = false;
+                    this.updateLinkListArray();
+                },
                 /* Error callback */
-                function (){
+                function() {
                     this.errorMessage();
                 }.bind(this)
             );
         },
-        changeMobileButtonClass: function(){
-            if(this.navMobile == "display:none !important;"){
+        changeMobileButtonClass: function() {
+            if (this.navMobile == "display:none !important;") {
                 this.navMobile = "display:initial !important;";
-            }else{
+            } else {
                 this.navMobile = "display:none !important;";
             }
         },
-        listFooter: function(){
+        listFooter: function() {
             this.loadingFooter = true;
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("builder", "listFooter");
-            axios.get(urlToBeUsedInTheRequest).then((response) => {
-                this.footerColor = response.data[0].color;
-                this.copyright = response.data[0].copyright;
-                this.loadingFooter = false;
-                this.updateSocialMediaListArray();
-            },
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+                "builder",
+                "listFooter"
+            );
+            axios.get(urlToBeUsedInTheRequest).then(
+                response => {
+                    this.footerColor = response.data[0].color;
+                    this.copyright = response.data[0].copyright;
+                    this.loadingFooter = false;
+                    this.updateSocialMediaListArray();
+                },
                 /* Error callback */
-                function (){
+                function() {
                     this.errorMessage();
                 }.bind(this)
             );
         },
-        fullScreen: function(){
+        fullScreen: function() {
             eventBus.$emit("full-screen");
         },
-        updateSectionListArray: function (){
+        updateSectionListArray: function() {
             this.loadingSection = true;
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("section", "listing");
-            axios.post(urlToBeUsedInTheRequest).then((response) => {
-                this.sections = response.data;
-                this.loadingSection = false;
-            },
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+                "section",
+                "listing"
+            );
+            axios.post(urlToBeUsedInTheRequest).then(
+                response => {
+                    this.sections = response.data;
+                    this.loadingSection = false;
+                },
                 /* Error callback */
-                function (){
-                this.errorMessage();
+                function() {
+                    this.errorMessage();
                 }.bind(this)
             );
         },
-        updateLinkListArray: function (){
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("link", "listing");
-            axios.post(urlToBeUsedInTheRequest).then((response) => {
-                this.links = response.data;
-            },
+        updateLinkListArray: function() {
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+                "link",
+                "listing"
+            );
+            axios.post(urlToBeUsedInTheRequest).then(
+                response => {
+                    this.links = response.data;
+                },
                 /* Error callback */
-                function (){
-                this.errorMessage();
+                function() {
+                    this.errorMessage();
                 }.bind(this)
             );
         },
-        updateSocialMediaListArray: function (){
+        updateSocialMediaListArray: function() {
             this.loading = true;
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("social", "listing");
-            axios.post(urlToBeUsedInTheRequest).then((response) => {
-                this.socialMedias = response.data;
-                this.loading= false;
-            },
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+                "social",
+                "listing"
+            );
+            axios.post(urlToBeUsedInTheRequest).then(
+                response => {
+                    this.socialMedias = response.data;
+                    this.loading = false;
+                },
                 /* Error callback */
-                function (){
-                   this.errorMessage();
+                function() {
+                    this.errorMessage();
                 }.bind(this)
             );
         },
-        getPrimaryColor: function (){
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("settings", "getSettingsInformation");
-            axios.post(urlToBeUsedInTheRequest).then((response) => {
-                this.primaryColor = response.data["color"];
-            },
+        getPrimaryColor: function() {
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+                "settings",
+                "getSettingsInformation"
+            );
+            axios.post(urlToBeUsedInTheRequest).then(
+                response => {
+                    this.primaryColor = response.data["color"];
+                },
                 /* Error callback */
-                function (){
-                   this.errorMessage();
+                function() {
+                    this.errorMessage();
                 }.bind(this)
             );
         },
-        getSession: function (){
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("Mysessions", "activeSession");
-            axios.post(urlToBeUsedInTheRequest).then((response) => {
-                this.activeSession = response.data;
-            },
+        getSession: function() {
+            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+                "Mysessions",
+                "activeSession"
+            );
+            axios.post(urlToBeUsedInTheRequest).then(
+                response => {
+                    this.activeSession = response.data;
+                },
                 /* Error callback */
-                function (){
-                   this.errorMessage();
+                function() {
+                    this.errorMessage();
                 }.bind(this)
             );
         }
     }
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -311,15 +355,12 @@ export default {
 
 ============= */
 
-
-
-
 /* =============
-   Header
+Header
 ============= */
-header{
+header {
     position: relative;
-    top:0;
+    top: 0;
     width: 100%;
     height: 90px;
     display: flex;
@@ -327,84 +368,83 @@ header{
     align-items: center;
     transform: 0.4s;
     padding: 0px 15%;
-    z-index: 2000; 
+    z-index: 2000;
     transition: 0.2s;
 }
 
-header ul{
+header a {
+    flex: 0 0 20%;
+}
+
+header ul {
     position: relative;
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
     margin: 0px !important;
 }
 
-header ul li{
+header ul li {
     position: relative;
     list-style: none;
 }
 
-header ul li a{
+header ul li a {
     position: relative;
     margin: 0 15px;
     font-weight: 500;
     transition: 0.5s;
     color: white;
     font-size: 1.3em;
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
 }
-
-
 
 /* =============
    sticky
 ============= */
-header.sticky{
+header.sticky {
     position: fixed;
     height: 75px;
     padding: 0px 15%;
-    background-color: white;  
+    background-color: white;
     animation: smoothScroll 1.2s forwards;
 }
 
 @keyframes smoothScroll {
-	0% {
-		transform: translateY(-40px);
-	}
-	100% {
-		transform: translateY(0px);
-	}
+    0% {
+        transform: translateY(-40px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
 }
-
-
 
 /* =============
    Mobile
 ============= */
 
-.ul-mobile{
-    display:none;
+.ul-mobile {
+    display: none;
 }
 
-.sidebar-mobile{
+.sidebar-mobile {
     position: fixed;
     overflow-y: auto;
-    left:0;
-    background-color:#1c2138;
-    width:90%;
+    left: 0;
+    background-color: #1c2138;
+    width: 90%;
     height: 100vh;
-    z-index: 20000 !important;
+    z-index: 3000 !important;
     animation: hideLeftBar 1s;
 }
 
 @keyframes hideLeftBar {
-	0% {
+    0% {
         transform: translateX(-100px);
-        
-	}
-	100% {
-		transform: translateX(0px);
-	}
+    }
+    100% {
+        transform: translateX(0px);
+    }
 }
 
 .sidebar-mobile-close-button {
@@ -419,44 +459,42 @@ header.sticky{
     display: block;
 }
 
-.sidebar-mobile ul{
+.sidebar-mobile ul {
     width: 100%;
     float: left;
     padding: 0 !important;
-    margin-top:10%;
+    margin-top: 10%;
 }
 
-.sidebar-mobile ul li{
+.sidebar-mobile ul li {
     list-style: none;
     border-top: solid 1px #2d3454;
     padding: 10px 30px;
 }
 
-.sidebar-mobile ul li a{
+.sidebar-mobile ul li a {
     position: relative;
     font-weight: 500;
     transition: 0.5s;
     color: white;
     font-size: 1.2em;
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
 }
 
-
-
 @media only screen and (max-width: 1024px) {
-    .logo-nav{
-        width:80px !important;
+    .logo-nav {
+        width: 80px !important;
     }
-    .ul-landscape{
+    .ul-landscape {
         display: none;
     }
-    .ul-mobile{
+    .ul-mobile {
         display: initial;
     }
-    header{
+    header {
         height: 90px;
     }
-    header ul li a{
+    header ul li a {
         font-size: 2em;
     }
 }
@@ -464,10 +502,9 @@ header.sticky{
 /* =============
    Button
 ============= */
-.link-button{
+.link-button {
     border: 1.2px solid white;
     border-radius: 5px;
-    padding: 8px 18px 8px 18px; 
+    padding: 8px 18px 8px 18px;
 }
-
 </style>
