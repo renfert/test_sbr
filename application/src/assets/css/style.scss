@@ -26,7 +26,7 @@ $bg-classroom: #232323;
 
 
 body {
-  background-color: #F3F6F6;
+  background-color: white;
   font-size: 13px;
   font-weight: 400;
   font-family: 'Lato', sans-serif;
@@ -67,7 +67,7 @@ body {
 html {
   position: relative;
   min-height: 100%;
-  background: #F3F6F6;
+  background: white;
   height:100%;
   overflow: auto;
   scroll-behavior: smooth;
@@ -78,6 +78,7 @@ h1, h2, h3, h4, h5, h6,p {
   margin: 10px 0;
   font-family: 'Montserrat', sans-serif;
   word-break: break-word !important; 
+  color:#9e9c9c;
 }
 
 h1 {

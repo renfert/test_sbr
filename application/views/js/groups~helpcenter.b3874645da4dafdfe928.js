@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["groups~helpcenter"],{"05fd":function(p,n,o){p.exports=o.p+"img/no_persons.a86120d4.png"}}]);
+//# sourceMappingURL=groups~helpcenter.b3874645da4dafdfe928.js.map
