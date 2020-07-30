@@ -115,9 +115,9 @@ const routes = [
   },
   {
     name: "product",
-    path: "/product/:id",
+    path: "/product/:title",
     component: () =>
-      import(/* webpackChunkName: "product" */ "@/pages/product/App")
+      import(/* webpackChunkName: "product" */ "@/components/product/App")
   },
   {
     name: "products",
