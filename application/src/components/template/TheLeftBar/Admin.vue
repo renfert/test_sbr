@@ -6,7 +6,7 @@
       background-color="#373A43"
       text-color="#fff"
       :style="
-        collapse == true ? 'border-right:0px !important;' : 'width:230px;'
+        collapse == true ? 'border-right:0px !important;background-color' : 'width:230px;'
       "
       default-active="2"
       active-text-color="#00C0FD"
@@ -14,14 +14,14 @@
     >
       <el-menu-item index="1">
         <i class="dripicons-home"></i>
-        <router-link to="home">
+        <router-link to="/home">
           <span class="menuMain">{{ lang["home-nav"] }}</span>
         </router-link>
       </el-menu-item>
 
       <el-menu-item index="1">
         <i class="dripicons-graph-bar"></i>
-        <router-link to="dashboard">
+        <router-link to="/dashboard">
           <span class="menuMain">{{ lang["dashboard-nav"] }}</span>
         </router-link>
       </el-menu-item>
@@ -50,9 +50,9 @@
 
         <el-menu-item index="5">
           <i class="dripicons-to-do"></i>
-          <a href="programs" class="waves-effect">
+          <router-link to="/programs">
             <span class="menuMain">{{ lang["programs-nav"] }}</span>
-          </a>
+          </router-link>
         </el-menu-item>
       </el-submenu>
 
@@ -66,31 +66,31 @@
 
         <el-menu-item index="8">
           <i class="dripicons-user-id"></i>
-          <a href="users" class="waves-effect">
+          <router-link to="/users">
             <span class="menuMain">{{ lang["users-nav"] }}</span>
-          </a>
+          </router-link>
         </el-menu-item>
 
         <el-menu-item index="9">
           <i class="dripicons-user-group"></i>
-          <a href="groups" class="waves-effect">
+          <router-link to="/groups">
             <span class="menuMain">{{ lang["groups-nav"] }}</span>
-          </a>
+          </router-link>
         </el-menu-item>
 
         <el-menu-item index="10">
           <i class="dripicons-experiment"></i>
-          <a href="leads" class="waves-effect">
+          <router-link to="/leads">
             <span class="menuMain">{{ lang["leads-nav"] }}</span>
-          </a>
+          </router-link>
         </el-menu-item>
       </el-submenu>
 
       <el-menu-item index="11">
         <i class="dripicons-browser"></i>
-        <a href="site" class="waves-effect">
+        <router-link to="/site">
           <span class="menuMain">{{ lang["site-nav"] }}</span>
-        </a>
+        </router-link>
       </el-menu-item>
 
       <el-submenu index="12">
@@ -103,16 +103,16 @@
 
         <el-menu-item index="13">
           <i class="dripicons-web"></i>
-          <a href="settings" class="waves-effect">
+          <router-link to="/settings">
             <span class="menuMain">{{ lang["general-settings-nav"] }}</span>
-          </a>
+          </router-link>
         </el-menu-item>
 
         <el-menu-item index="14">
           <i class="dripicons-cart"></i>
-          <a href="integrations" class="waves-effect">
+          <router-link to="/integrations">
             <span class="menuMain">{{ lang["integrations-nav"] }}</span>
-          </a>
+          </router-link>
         </el-menu-item>
       </el-submenu>
 
@@ -126,16 +126,16 @@
 
         <el-menu-item index="17">
           <i class="dripicons-rocket"></i>
-          <a href="plans" class="waves-effect">
+          <router-link to="/plans">
             <span class="menuMain">{{ lang["plans-nav"] }}</span>
-          </a>
+          </router-link>
         </el-menu-item>
 
         <el-menu-item index="18">
           <i class="dripicons-question"></i>
-          <a href="helpcenter" class="waves-effect">
+          <router-link to="/helpcenter">
             <span class="menuMain">{{ lang["help-center-nav"] }}</span>
-          </a>
+          </router-link>
         </el-menu-item>
       </el-submenu>
 
@@ -143,9 +143,9 @@
       <el-menu-item index="17" class="menu-item-user" v-if="collapse != true">
         <el-row>
           <!-- Profile -->
-          <a href="profile" class="pr-4 mb-2">
+          <router-link to="/profile">
             <el-avatar :src="getUrlToContents() + 'avatar/' + userAvatar + ''"></el-avatar>
-          </a>
+          </router-link>
 
           <!-- Notification -->
           <a href="#">
@@ -174,7 +174,7 @@ import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
 import { mapState } from "vuex";
-import { eventBus } from "@/pages/profile/App";
+import { eventBus } from "@/components/profile/App";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
 export const eventTemplate = new Vue();
@@ -182,18 +182,21 @@ export const eventTemplate = new Vue();
 Vue.use(VueAxios, axios);
 export default {
   mixins: [domains, alerts],
-  props: ["collapse"],
   data: () => {
     return {
       userName: "",
       userAvatar: "",
       plan: "",
-      mobile: "retracted"
+      mobile: "retracted",
+      collapse: true
     };
   },
   created: function() {
     this.getCompanyInformation();
     this.getUserProfile();
+    if (this.$route.name == "site") {
+      this.collapse = true;
+    }
   },
   mounted() {
     eventBus.$on(

@@ -7,7 +7,8 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    lang: {}
+    lang: {},
+    courseId: ""
   },
   mutations: {
     setLang: (state, obj) => {

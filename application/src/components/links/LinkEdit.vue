@@ -39,7 +39,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import lang from 'element-ui/lib/locale/lang/en'
 import locale from 'element-ui/lib/locale'
 import {eventLang} from '@/components/helper/HelperLang'
-import {eventBus} from '@/pages/site/App'
+import {eventBus} from '@/components/site/App'
 import domains from '@/mixins/domains'
 import alerts from '@/mixins/alerts'
 

@@ -19,10 +19,7 @@
 
       <el-menu-item index="1">
         <i class="dripicons-graph-bar"></i>
-        <a
-          :href="getDomainNameToNavigation() + 'dashboard'"
-          class="waves-effect"
-        >
+        <a :href="getDomainNameToNavigation() + 'dashboard'" class="waves-effect">
           <span class="menuMain">{{ lang["dashboard-nav"] }}</span>
         </a>
       </el-menu-item>
@@ -36,30 +33,21 @@
 
       <el-menu-item index="3" v-if="plan != 'starter'">
         <i class="dripicons-to-do"></i>
-        <a
-          :href="getDomainNameToNavigation() + 'programs'"
-          class="waves-effect"
-        >
+        <a :href="getDomainNameToNavigation() + 'programs'" class="waves-effect">
           <span class="menuMain">{{ lang["programs-nav"] }}</span>
         </a>
       </el-menu-item>
 
       <el-menu-item index="4" v-if="plan != 'starter'">
         <i class="dripicons-message"></i>
-        <a
-          :href="getDomainNameToNavigation() + 'corrections'"
-          class="waves-effect"
-        >
+        <a :href="getDomainNameToNavigation() + 'corrections'" class="waves-effect">
           <span class="menuMain">{{ lang["corrections-nav"] }}</span>
         </a>
       </el-menu-item>
 
       <el-menu-item index="4">
         <i class="dripicons-list"></i>
-        <a
-          :href="getDomainNameToNavigation() + 'categories'"
-          class="waves-effect"
-        >
+        <a :href="getDomainNameToNavigation() + 'categories'" class="waves-effect">
           <span class="menuMain">{{ lang["categories-nav"] }}</span>
         </a>
       </el-menu-item>
@@ -69,9 +57,7 @@
         <el-row>
           <!-- Profile -->
           <a :href="getDomainNameToNavigation() + 'profile'" class="pr-4">
-            <el-avatar
-              :src="getUrlToContents() + 'avatar/' + userAvatar + ''"
-            ></el-avatar>
+            <el-avatar :src="getUrlToContents() + 'avatar/' + userAvatar + ''"></el-avatar>
           </a>
 
           <!-- Notification -->
@@ -100,7 +86,7 @@ import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
 import { mapState } from "vuex";
-import { eventBus } from "@/pages/profile/App";
+import { eventBus } from "@/components/profile/App";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
 

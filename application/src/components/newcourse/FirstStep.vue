@@ -134,7 +134,12 @@
           <div class="col-xl-4 col-md-4">
             <label for="exampleInputEmail1">{{lang["reviews"]}}</label>
             <div class="input-group">
-              <toggle-button name="reviews" color="#009CD8" v-model="reviews" />
+              <el-switch
+                name="reviews"
+                v-model="reviews"
+                active-color="#009CD8"
+                inactive-color="#9E9C9C"
+              ></el-switch>
             </div>
           </div>
 
@@ -142,7 +147,12 @@
           <div class="col-xl-4 col-md-4">
             <label for="exampleInputEmail1">{{lang["spotlight"]}}</label>
             <div class="input-group">
-              <toggle-button name="spotlight" color="#009CD8" v-model="spotlight" />
+              <el-switch
+                name="spotlight"
+                v-model="spotlight"
+                active-color="#009CD8"
+                inactive-color="#9E9C9C"
+              ></el-switch>
             </div>
           </div>
 
@@ -150,7 +160,7 @@
           <div class="col-xl-4 col-md-4">
             <label for="exampleInputEmail1">{{lang["certificate"]}}</label>
             <div class="input-group">
-              <toggle-button color="#009CD8" v-model="certificate" />
+              <el-switch v-model="certificate" active-color="#009CD8" inactive-color="#9E9C9C"></el-switch>
             </div>
           </div>
         </div>

@@ -9,21 +9,23 @@
         <div class="col-lg-7 col-md-9">
           <div class="ed_detail_wrap light">
             <ul class="cources_facts_list">
-              <li class="facts-1">Graphic</li>
+              <li v-if="category != 'default'" class="facts-1">{{ category }}</li>
             </ul>
             <div class="ed_header_caption">
-              <h2 class="ed_title">Advance Web Designing Courses</h2>
+              <h2 class="ed_title">{{ title }}</h2>
               <ul>
                 <li>
-                  <i class="ti-calendar"></i>10 - 20 weeks
+                  <i class="ti-agenda mr-2"></i>
+                  Modules: {{ modules }}
                 </li>
                 <li>
-                  <i class="ti-control-forward"></i>102 Lectures
+                  <i class="ti-control-forward"></i>
+                  Lessons: {{ lessons }}
                 </li>
               </ul>
             </div>
 
-            <div class="ed_rate_info">
+            <div v-if="reviews != null" class="ed_rate_info">
               <div class="star_info">
                 <i class="fas fa-star filled"></i>
                 <i class="fas fa-star filled"></i>
@@ -32,7 +34,8 @@
                 <i class="fas fa-star"></i>
               </div>
               <div class="review_counter">
-                <strong class="good">4.5</strong> 3572 Reviews
+                <strong :style="primaryColor" class="good">4.5</strong> 3572
+                Reviews
               </div>
             </div>
           </div>
@@ -46,7 +49,6 @@
 import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
-import { eventLang } from "@/components/helper/HelperLang";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
 
@@ -54,26 +56,18 @@ Vue.use(VueAxios, axios);
 
 export default {
   mixins: [domains, alerts],
-  data: () => {
-    return {
-      img: "",
-      lang: [],
-      videoOverlay: false,
-      currency: ""
-    };
-  },
-  mounted() {
-    eventLang.$on(
-      "lang",
-      function(response) {
-        this.lang = response;
-      }.bind(this)
-    );
+  props: ["title", "category", "modules", "lessons", "color", "reviews"],
+  computed: {
+    primaryColor: function() {
+      return {
+        color: this.color
+      };
+    }
   }
 };
 </script>
 
-<style>
+<style scoped>
 /* =============
   == Products page style==
 
@@ -119,7 +113,7 @@ export default {
 }
 
 /* =============
-   Text
+  Banner inner
 ============= */
 .ed_header_caption {
   width: 100%;
@@ -288,10 +282,6 @@ li {
   font-size: 12.5px;
 }
 
-.review_counter strong.good {
-  color: #3db773;
-}
-
 .review_counter strong {
   font-size: 16px;
 }
@@ -306,7 +296,7 @@ h5,
 h6 {
   font-family: "Poppins", sans-serif;
   word-break: break-word !important;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 h1 {

@@ -26,10 +26,10 @@ $bg-classroom: #232323;
 
 
 body {
-  background-color:rgb(244,248,250);
+  background-color:#fff;
   font-size: 13px;
   font-weight: 400;
-  font-family: 'Lato', sans-serif;
+  font-family: 'Muli',sans-serif !important;
   margin: 0;
   color: #647b9c;
   margin: 0px;
@@ -67,7 +67,7 @@ body {
 html {
   position: relative;
   min-height: 100%;
-  background: rgb(244,248,250);
+  background: #fff;
   height:100%;
   overflow: auto;
   scroll-behavior: smooth;
@@ -76,9 +76,9 @@ html {
 
 h1, h2, h3, h4, h5, h6,p {
   margin: 10px 0;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Poppins", sans-serif;
   word-break: break-word !important; 
-  color:#9e9c9c;
+  color:#647b9c;
 }
 
 h1 {
@@ -122,8 +122,14 @@ h6 {
 }
 
 p {
-  line-height: 1.6;
+  display: block;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  line-height: 1.8;
 }
+
 
 * {
   outline: none !important;
@@ -150,7 +156,7 @@ a:focus {
 
 .cell{
   font-size:  13px;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Muli',sans-serif;
 }
 
 .container {
@@ -2525,6 +2531,29 @@ table.dataTable th.focus, table.dataTable td.focus {
 .tablesaw-bar .btn-select.btn-small:after, .tablesaw-bar .btn-select.btn-micro:after {
   font-size: 8px;
   padding-right: 10px;
+}
+.mercadopago-button {
+  width: 80% !important;
+  margin: 1.5rem auto 0 !important;
+  display: flex !important;
+  height: 54px !important;
+  font-weight: 600 !important;
+  border-radius: 50px !important;
+  color: #fff !important !important;
+  align-items: center !important;
+  justify-content: center !important;
+  display: inline-block;
+  white-space: nowrap;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  font-size: 1rem !important;
+  line-height: 1.25 !important;
+  transition: all 0.15s ease-in-out;
+  cursor: pointer;
+
 }
 
 .tablesaw-swipe .tablesaw-cell-persist {
@@ -6977,7 +7006,7 @@ input[type=radio]:checked.mxn + label {
 
 
 .el-input__inner{
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Muli',sans-serif;
   font-size: 13px;
 }
  

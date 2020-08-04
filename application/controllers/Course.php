@@ -74,6 +74,12 @@ class Course extends CI_Controller {
         echo json_encode($course);
     }
 
+    public function getCourseByTitle(){
+        $courseTitle = $this->input->post("courseTitle");
+        $course = $this->Course_Model->getCourseByTitle($courseTitle);
+        echo json_encode($course);
+    }
+
   
     public function progress(){
         $courseId = $this->input->post("courseId");

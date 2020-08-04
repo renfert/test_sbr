@@ -7,7 +7,9 @@ const routes = [
     name: "marketplace",
     path: "/",
     component: () =>
-      import(/* webpackChunkName: "marketplace" */ "@/pages/marketplace/App"),
+      import(
+        /* webpackChunkName: "marketplace" */ "@/components/marketplace/App"
+      ),
     alias: "/index"
   },
   {
@@ -39,7 +41,7 @@ const routes = [
     path: "/invalidsession",
     component: () =>
       import(
-        /* webpackChunkName: "invalidsession" */ "@/pages/invalidsession/App"
+        /* webpackChunkName: "invalidsession" */ "@/components/invalidsession/App"
       )
   },
   {
@@ -60,41 +62,47 @@ const routes = [
     name: "corrections",
     path: "/corrections",
     component: () =>
-      import(/* webpackChunkName: "corrections" */ "@/pages/corrections/App")
+      import(
+        /* webpackChunkName: "corrections" */ "@/components/corrections/App"
+      )
   },
   {
     name: "editcourse",
     path: "/editcourse",
     component: () =>
-      import(/* webpackChunkName: "editcourse" */ "@/pages/editcourse/App")
+      import(/* webpackChunkName: "editcourse" */ "@/components/editcourse/App")
   },
   {
     name: "group",
     path: "/group",
-    component: () => import(/* webpackChunkName: "group" */ "@/pages/group/App")
+    component: () =>
+      import(/* webpackChunkName: "group" */ "@/components/group/App")
   },
   {
     name: "groups",
     path: "/groups",
     component: () =>
-      import(/* webpackChunkName: "groups" */ "@/pages/groups/App")
+      import(/* webpackChunkName: "groups" */ "@/components/groups/App")
   },
   {
     name: "helpcenter",
     path: "/helpcenter",
     component: () =>
-      import(/* webpackChunkName: "helpcenter" */ "@/pages/helpcenter/App")
+      import(/* webpackChunkName: "helpcenter" */ "@/components/helpcenter/App")
   },
   {
     name: "integrations",
     path: "/integrations",
     component: () =>
-      import(/* webpackChunkName: "integrations" */ "@/pages/integrations/App")
+      import(
+        /* webpackChunkName: "integrations" */ "@/components/integrations/App"
+      )
   },
   {
     name: "leads",
     path: "/leads",
-    component: () => import(/* webpackChunkName: "leads" */ "@/pages/leads/App")
+    component: () =>
+      import(/* webpackChunkName: "leads" */ "@/components/leads/App")
   },
   {
     name: "newcourse",
@@ -106,12 +114,13 @@ const routes = [
     name: "newprogram",
     path: "/newprogram",
     component: () =>
-      import(/* webpackChunkName: "newprogram" */ "@/pages/newprogram/App")
+      import(/* webpackChunkName: "newprogram" */ "@/components/newprogram/App")
   },
   {
     name: "plans",
     path: "/plans",
-    component: () => import(/* webpackChunkName: "plans" */ "@/pages/plans/App")
+    component: () =>
+      import(/* webpackChunkName: "plans" */ "@/components/plans/App")
   },
   {
     name: "product",
@@ -123,74 +132,71 @@ const routes = [
     name: "products",
     path: "/products",
     component: () =>
-      import(/* webpackChunkName: "products" */ "@/pages/products/App")
+      import(/* webpackChunkName: "products" */ "@/components/products/App")
   },
   {
     name: "profile",
     path: "/profile",
     component: () =>
-      import(/* webpackChunkName: "profile" */ "@/pages/profile/App")
+      import(/* webpackChunkName: "profile" */ "@/components/profile/App")
   },
   {
     name: "programs",
     path: "/programs",
     component: () =>
-      import(/* webpackChunkName: "programs" */ "@/pages/programs/App")
+      import(/* webpackChunkName: "programs" */ "@/components/programs/App")
   },
   {
-    name: "purchaseinprocess",
-    path: "/purchaseinprocess",
+    name: "purchase",
+    path: "/purchase",
     component: () =>
       import(
-        /* webpackChunkName: "purchaseinprocess" */ "@/pages/purchaseinprocess/App"
-      )
-  },
-  {
-    name: "purchasesuccess",
-    path: "/purchasesuccess",
-    component: () =>
-      import(
-        /* webpackChunkName: "purchasesuccess" */ "@/pages/purchasesuccess/App"
+        /* webpackChunkName: "purchaseinprocess" */ "@/components/purchase/App"
       )
   },
   {
     name: "records",
     path: "/records",
     component: () =>
-      import(/* webpackChunkName: "records" */ "@/pages/records/App")
+      import(/* webpackChunkName: "records" */ "@/components/records/App")
   },
   {
     name: "settings",
     path: "/settings",
     component: () =>
-      import(/* webpackChunkName: "settings" */ "@/pages/settings/App")
+      import(/* webpackChunkName: "settings" */ "@/components/settings/App")
   },
   {
     name: "site",
     path: "/site",
-    component: () => import(/* webpackChunkName: "site" */ "@/pages/site/App")
+    component: () =>
+      import(/* webpackChunkName: "site" */ "@/components/site/App")
   },
   {
     name: "user",
     path: "/user",
-    component: () => import(/* webpackChunkName: "user" */ "@/pages/user/App")
+    component: () =>
+      import(/* webpackChunkName: "user" */ "@/components/user/App")
   },
   {
     name: "users",
     path: "/users",
-    component: () => import(/* webpackChunkName: "users" */ "@/pages/users/App")
+    component: () =>
+      import(/* webpackChunkName: "users" */ "@/components/users/App")
   },
   {
     name: "viewcourse",
     path: "/viewcourse",
     component: () =>
-      import(/* webpackChunkName: "viewcourse" */ "@/pages/viewcourse/App")
+      import(/* webpackChunkName: "viewcourse" */ "@/components/viewcourse/App")
   },
   {
     name: "viewprogram",
     path: "/viewprogram",
     component: () =>
-      import(/* webpackChunkName: "viewprogram" */ "@/pages/viewprogram/App")
+      import(
+        /* webpackChunkName: "viewprogram" */ "@/components/viewprogram/App"
+      )
   },
   {
     name: "404",

@@ -1,9 +1,50 @@
 <template>
   <div id="wrapper">
-    <lang></lang>
     <nav-bar></nav-bar>
-    <banner></banner>
-    <information></information>
+    <banner
+      :title="courseTitle"
+      :category="category"
+      :lessons="totalLessons"
+      :modules="totalModules"
+      :color="color"
+      :reviews="reviews"
+    ></banner>
+    <section>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-8">
+            <thumb
+              :instructor-photo="instructorPhoto"
+              :instructor-name="instructorName"
+              :reviews="reviews"
+              :title="courseTitle"
+              :photo="photo"
+              :category="category"
+              :modules-total="totalModules"
+              :lessons-total="totalLessons"
+            ></thumb>
+            <tabs
+              :description="description"
+              :modules="modules"
+              :color="color"
+              :instructor-name="instructorName"
+              :instructor-photo="instructorPhoto"
+              :instructor-description="instructorDescription"
+            ></tabs>
+          </div>
+
+          <div class="col-lg-4 col-md-4">
+            <price
+              :course-title="courseTitle"
+              :course-id="courseId"
+              :color="color"
+              :price="price"
+              :description="description"
+            ></price>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
   <!-- End of wrapper -->
 </template>
@@ -13,13 +54,13 @@ import Vue from "vue";
 import VueHead from "vue-head";
 import axios from "axios";
 import VueAxios from "vue-axios";
-import Lang from "@/components/helper/HelperLang.vue";
-import { eventLang } from "@/components/helper/HelperLang";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
 import NavBar from "@/components/template/TheNavBar";
 import Banner from "@/components/product/Banner";
-import Information from "@/components/product/Information";
+import Thumb from "@/components/product/Thumb";
+import Tabs from "@/components/product/Tabs";
+import Price from "@/components/product/Price";
 
 Vue.use(VueAxios, axios);
 Vue.use(VueHead);
@@ -28,35 +69,39 @@ export default {
   data: () => {
     return {
       courseId: "",
-      title: "",
+      courseTitle: "",
+
+      totalModules: "",
+      totalLessons: "",
+
+      modules: [],
+
+      instructorName: "",
+      instructorPhoto: "",
+      instructorDescription: "",
+
       category: "",
       description: "",
       photo: "",
       preview: "",
       reviews: "",
-      currency: "",
-      price: "",
-      lang: []
+      color: "",
+      price: ""
     };
   },
   components: {
-    Lang,
     Banner,
-    Information,
+    Thumb,
+    Tabs,
+    Price,
     NavBar
   },
-  created() {
-    this.getCurrency();
-  },
   mounted() {
-    console.log(this.$route); // outputs 'yay'
+    let title = this.$route.params.title;
+    this.courseTitle = title.split("-").join(" ");
+    this.getColor();
     this.createMetaTags();
-    eventLang.$on(
-      "lang",
-      function(response) {
-        this.lang = response;
-      }.bind(this)
-    );
+    this.getCourse();
   },
   head: {
     title: {
@@ -71,19 +116,28 @@ export default {
   methods: {
     getCourse: function() {
       var formData = new FormData();
-      formData.set("courseId", this.courseId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("course", "get");
+      formData.set("courseTitle", this.courseTitle);
+      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+        "course",
+        "getCourseByTitle"
+      );
       axios.post(urlToBeUsedInTheRequest, formData).then(
         response => {
           // success callback
           this.courseId = response.data["id"];
-          this.title = response.data["title"];
+          this.courseTitle = response.data["title"];
           this.category = response.data["category"];
           this.description = response.data["description"];
           this.photo = response.data["photo"];
           this.preview = response.data["preview"];
           this.price = response.data["price"];
           this.reviews = response.data["reviews"];
+          this.totalModules = response.data["totalModules"];
+          this.totalLessons = response.data["totalLessons"];
+          this.instructorName = response.data["instructorName"];
+          this.instructorPhoto = response.data["instructorAvatar"];
+          this.instructorDescription = response.data["instructorDescription"];
+          this.getModules(response.data["id"]);
         },
         /* Error callback */
         function() {
@@ -91,14 +145,32 @@ export default {
         }.bind(this)
       );
     },
-    getCurrency: function() {
+    getModules: function(courseId) {
+      var formData = new FormData();
+      formData.set("courseId", courseId);
+      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+        "module",
+        "listing"
+      );
+      axios.post(urlToBeUsedInTheRequest, formData).then(
+        response => {
+          // success callback
+          this.modules = response.data;
+        },
+        /* Error callback */
+        function() {
+          this.errorMessage();
+        }.bind(this)
+      );
+    },
+    getColor: function() {
       var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
         "settings",
         "getSettingsInformation"
       );
       axios.get(urlToBeUsedInTheRequest).then(
         function(response) {
-          this.currency = response.data["currency"];
+          this.color = response.data["color"];
         }.bind(this)
       );
     },
@@ -131,7 +203,12 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+section {
+  padding: 80px 0;
+  position: relative;
+}
+
 .main ol {
   padding-left: 70px;
 }

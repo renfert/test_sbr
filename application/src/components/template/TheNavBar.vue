@@ -8,11 +8,17 @@
       <ul>
         <!-- Products -->
         <li>
-          <a href="products">Cursos</a>
+          <router-link to="/products" replace>
+            <span>{{ lang["courses"] }}</span>
+          </router-link>
         </li>
 
         <li v-for="element in links" :key="element.id">
-          <a :href="element.url" :target="element.target">{{ element.title }}</a>
+          <a :href="element.url" :target="element.target">
+            {{
+            element.title
+            }}
+          </a>
         </li>
 
         <!-- Login button -->
@@ -21,17 +27,17 @@
         </li>
 
         <li class="pt-5" v-else>
-          <a href="home">
+          <router-link to="/home">
             <span class="link-button" :style="linkButtonMobile">{{ lang["go-to-platform"] }}</span>
-          </a>
+          </router-link>
         </li>
       </ul>
     </div>
 
     <header :style="styleHeader">
-      <a :href="getDomainNameToNavigation()">
+      <router-link to="/">
         <img class="logo-nav" :src="logo" :width="logoSize" />
-      </a>
+      </router-link>
 
       <!-- Icon menu for mobile -->
       <ul class="ul-mobile">
@@ -45,12 +51,18 @@
       <ul class="ul-landscape">
         <!-- Products -->
         <li>
-          <a href="products">Cursos</a>
+          <router-link to="/products">
+            <span>{{ lang["courses"] }}</span>
+          </router-link>
         </li>
 
         <!-- Links -->
         <li v-for="element in links" :key="element.id">
-          <a :href="element.url" :target="element.target">{{ element.title }}</a>
+          <a :href="element.url" :target="element.target">
+            {{
+            element.title
+            }}
+          </a>
         </li>
 
         <!-- Login button -->
@@ -59,9 +71,9 @@
         </li>
 
         <li v-else>
-          <a href="javascript:void(0)" @click.prevent="enterPlatform()">
+          <router-link to="/home">
             <span class="link-button">{{ lang["go-to-platform"] }}</span>
-          </a>
+          </router-link>
         </li>
       </ul>
     </header>
@@ -73,20 +85,16 @@
 import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
-import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
-import lang from "element-ui/lib/locale/lang/en";
-import locale from "element-ui/lib/locale";
-import { eventBus } from "@/pages/site/App";
-import { eventLang } from "@/components/helper/HelperLang";
-import { eventLogin } from "@/components/login/Login";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
 import Login from "@/components/login/Login";
 
-locale.use(lang);
+import { eventBus } from "@/components/site/App";
+import { eventLogin } from "@/components/login/Login";
+import { mapState } from "vuex";
+
 Vue.use(VueAxios, axios);
-Vue.use(ElementUI);
+
 export default {
   mixins: [domains, alerts],
   props: ["full-screen-button"],
@@ -95,7 +103,6 @@ export default {
   },
   data: () => {
     return {
-      lang: {},
       logo: "",
       logoSize: "",
       sections: null,
@@ -114,13 +121,6 @@ export default {
     };
   },
   mounted() {
-    eventLang.$on(
-      "lang",
-      function(response) {
-        this.lang = response;
-      }.bind(this)
-    );
-
     eventLogin.$on(
       "new-login",
       function() {
@@ -158,7 +158,8 @@ export default {
         border: "1px solid " + this.primaryColor + "",
         "background-color": this.primaryColor
       };
-    }
+    },
+    ...mapState(["lang"])
   },
   methods: {
     toogleSidebar: function() {

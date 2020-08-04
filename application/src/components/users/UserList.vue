@@ -108,7 +108,7 @@ import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
 import { DataTables, DataTablesServer } from "vue-data-tables";
-import { eventBus } from "@/pages/users/App";
+import { eventBus } from "@/components/users/App";
 import { eventLang } from "@/components/helper/HelperLang";
 import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";

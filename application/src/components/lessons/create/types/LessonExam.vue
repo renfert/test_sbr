@@ -97,7 +97,6 @@ export default {
   props: ["module-id"],
   data: () => {
     return {
-      lang: {},
       name: "",
       approval: "",
       duration: "",

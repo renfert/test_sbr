@@ -46,7 +46,6 @@ export default {
   mixins: [domains, alerts],
   data: () => {
     return {
-      lang: {},
       answer: "",
       modalCreateAnswer: false,
       loading: false,

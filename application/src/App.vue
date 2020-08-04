@@ -1,11 +1,11 @@
 <template>
   <div>
     <!-------- 
-     Language
+    Language
     ---------->
     <lang></lang>
     <!-------- 
-     Template base
+    Template base
     ---------->
 
     <div
@@ -13,7 +13,10 @@
           currentRoute != null &&
           currentRoute != 'marketplace' &&
           currentRoute != 'products' &&
-          currentRoute != 'product'
+          currentRoute != 'product' && 
+          currentRoute != 'viewcourse' &&
+          currentRoute != 'invalidsession' &&
+          currentRoute != '404'
       "
     >
       <top-bar></top-bar>
@@ -72,13 +75,22 @@ export default {
   watch: {
     $route() {
       this.currentRoute = this.$route.name;
+
+      if (
+        this.$route.name != "marketplace" &&
+        this.$route.name != "invalidsession" &&
+        this.$route.name != "products" &&
+        this.$route.name != "product" &&
+        this.$route.name != "404"
+      ) {
+        this.verifySession();
+      }
     }
   },
   created() {
     this.getLanguage();
     this.loadIntegrations();
     this.createFavicon();
-    this.verifySession();
   },
   mounted() {
     this.addClassNameListener();

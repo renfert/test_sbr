@@ -12,24 +12,27 @@
 
             <!-- Categories filter -->
             <div v-if="categories != null">
-              <h4 class="side_title">{{lang['category']}}</h4>
+              <h4 class="side_title">{{ lang["category"] }}</h4>
               <ul class="no-ul-list mb-3">
                 <li v-for="element in categories" :key="element.id">
                   <input
-                    :id="'check'+element.id"
+                    :id="'check' + element.id"
                     :value="element.id"
                     class="checkbox-custom"
                     name="aa-4"
                     type="checkbox"
                     v-model="checkedNames"
                   />
-                  <label :for="'check'+element.id" class="checkbox-custom-label">{{element.name}}</label>
+                  <label
+                    :for="'check' + element.id"
+                    class="checkbox-custom-label"
+                  >{{ element.name }}</label>
                 </li>
               </ul>
             </div>
 
             <!-- Price filter -->
-            <h4 class="side_title">{{lang['price']}}</h4>
+            <h4 class="side_title">{{ lang["price"] }}</h4>
             <ul class="no-ul-list mb-3">
               <li>
                 <input
@@ -40,7 +43,11 @@
                   name="b-7"
                   type="radio"
                 />
-                <label for="b-7" class="checkbox-custom-label">{{lang["all"]}}</label>
+                <label for="b-7" class="checkbox-custom-label">
+                  {{
+                  lang["all"]
+                  }}
+                </label>
               </li>
               <li>
                 <input
@@ -51,7 +58,11 @@
                   name="b-8"
                   type="radio"
                 />
-                <label for="b-8" class="checkbox-custom-label">{{lang["free-course"]}}</label>
+                <label for="b-8" class="checkbox-custom-label">
+                  {{
+                  lang["free-course"]
+                  }}
+                </label>
               </li>
               <li>
                 <input
@@ -62,7 +73,11 @@
                   name="b-9"
                   type="radio"
                 />
-                <label for="b-9" class="checkbox-custom-label">{{lang["paid-courses"]}}</label>
+                <label for="b-9" class="checkbox-custom-label">
+                  {{
+                  lang["paid-courses"]
+                  }}
+                </label>
               </li>
             </ul>
           </div>
@@ -70,15 +85,15 @@
           <div class="page_sidebar hide-23">
             <!-- Contact -->
             <div>
-              <h4 class="side_title">{{lang["contact"]}}</h4>
+              <h4 class="side_title">{{ lang["contact"] }}</h4>
               <div class="mb-5 mt-3">
                 <label class="checkbox-custom-label">
                   <i class="ti-email mr-1"></i>
-                  {{companyEmail}}
+                  {{ companyEmail }}
                 </label>
                 <label class="checkbox-custom-label">
                   <i class="ti-mobile"></i>
-                  {{companyPhone}}
+                  {{ companyPhone }}
                 </label>
               </div>
             </div>
@@ -88,7 +103,11 @@
             <div class="popular_tags">
               <!-- Tags -->
               <div class="tag_cloud" v-for="element in categories" :key="element.id">
-                <a href="javascript:void(0)" class="tag-cloud-lin">{{element.name}}</a>
+                <a href="javascript:void(0)" class="tag-cloud-lin">
+                  {{
+                  element.name
+                  }}
+                </a>
               </div>
             </div>
           </div>
@@ -98,11 +117,11 @@
           <!-- Row -->
           <div id="top-list" class="row align-items-center mb-3" v-if="courseList != null">
             <div class="col-lg-6 col-md-6 col-sm-12 founded-courses">
-              {{lang["we-found"]}}
+              {{ lang["we-found"] }}
               <strong>
-                <b>{{courseList.length}}</b>
+                <b>{{ courseList.length }}</b>
               </strong>
-              {{lang["courses"]}}
+              {{ lang["courses"] }}
             </div>
           </div>
           <!-- /Row -->
@@ -115,26 +134,31 @@
               :key="element.id"
             >
               <div class="education_block_grid style_2">
-                <a :href="'product/'+formatTitleParameter(element.title)">
+                <router-link :to="'product/' + formatTitleParameter(element.title)">
                   <div class="education_block_thumb">
-                    <a href="course-detail.html">
+                    <a href="javascript:void(0)">
                       <img
-                        v-lazy="getUrlToContents() + 'course/'+element.photo+''"
-                        src="https://sabiorealm.s3.amazonaws.com/demo1/uploads/course/5xzwR4ayidpH2iP21B5ysKQkyt4xOUkmpvWNbCA7100.jpg"
+                        v-lazy="
+                          getUrlToContents() + 'course/' + element.photo + ''
+                        "
                         class="img-fluid"
-                        alt
                       />
                     </a>
                     <div v-if="element.reviews != null" class="education_ratting">
                       <i class="fa fa-star"></i>
-                      {{ rateAverage(element.totalRate, element.totalReviews) }} ({{element.totalReviews}})
+                      {{
+                      rateAverage(element.totalRate, element.totalReviews)
+                      }}
+                      ({{ element.totalReviews }})
                     </div>
                   </div>
-                </a>
+                </router-link>
 
                 <div class="education_block_body">
                   <h4 class="bl-title">
-                    <a :href="'product/'+formatTitleParameter(element.title)">{{element.title}}</a>
+                    <router-link
+                      :to="'product/' + formatTitleParameter(element.title)"
+                    >{{ element.title }}</router-link>
                   </h4>
                 </div>
 
@@ -142,11 +166,11 @@
                   <ul>
                     <li>
                       <i class="ti-agenda mr-2"></i>
-                      Modules: {{element.totalModules}}
+                      Modules: {{ element.totalModules }}
                     </li>
                     <li>
                       <i class="ti-control-skip-forward mr-2"></i>
-                      Lessons: {{element.totalLessons}}
+                      Lessons: {{ element.totalLessons }}
                     </li>
                   </ul>
                 </div>
@@ -155,19 +179,23 @@
                   <div class="education_block_author">
                     <div class="pr-2">
                       <a href="javascript:void(0)">
-                        <el-avatar :src="getUrlToContents() + 'avatar/'+element.avatar+''"></el-avatar>
+                        <el-avatar
+                          :src="
+                            getUrlToContents() + 'avatar/' + element.avatar + ''
+                          "
+                        ></el-avatar>
                       </a>
                     </div>
                     <h5>
-                      <a href="javascript:void(0)">{{element.name}}</a>
+                      <a href="javascript:void(0)">{{ element.name }}</a>
                     </h5>
                   </div>
                   <div v-if="element.price != null" class="cources_price_foot">
-                    <span class="price_off">{{element.currency}} {{element.price}}</span>
+                    <span class="price_off">{{ element.currency }} {{ element.price }}</span>
                   </div>
                   <div v-else class="foot_lecture">
                     <i class="ti-gift mr-2"></i>
-                    {{lang["free-course"]}}
+                    {{ lang["free-course"] }}
                   </div>
                 </div>
               </div>
@@ -177,7 +205,7 @@
           <div class="row" v-else>
             <div class="col-12 text-center">
               <img class="w-50" src="@/assets/img/general/ux/not_found.png" alt="No activities" />
-              <h4 class="sbr-empty-state-text">{{lang["no-courses-found"]}}</h4>
+              <h4 class="sbr-empty-state-text">{{ lang["no-courses-found"] }}</h4>
             </div>
           </div>
 
@@ -193,16 +221,18 @@
                 </li>
 
                 <li
-                  v-for="pag in parseInt(Math.ceil(courseList.length / perPage))"
+                  v-for="pag in parseInt(
+                    Math.ceil(courseList.length / perPage)
+                  )"
                   :key="pag"
                   class="page-item"
                 >
                   <a
                     class="page-link"
-                    :class="pag === currentPage ? 'active': ''"
+                    :class="pag === currentPage ? 'active' : ''"
                     @click.prevent="currentPage = pag"
                     href="javascript:void(0)"
-                  >{{pag}}</a>
+                  >{{ pag }}</a>
                 </li>
                 <li class="page-item">
                   <a class="page-link" href="javascript:void(0)" aria-label="Next">

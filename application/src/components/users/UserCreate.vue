@@ -165,7 +165,7 @@
 import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
-import { eventBus } from "@/pages/users/App";
+import { eventBus } from "@/components/users/App";
 import { eventLang } from "@/components/helper/HelperLang";
 import { eventPlan } from "@/components/plans/UpgradePlan";
 import { eventUpload } from "@/components/helper/HelperUpload";

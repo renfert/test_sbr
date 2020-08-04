@@ -126,7 +126,7 @@ import { eventLang } from "@/components/helper/HelperLang";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
 import VuePlyr from "vue-plyr";
-import { eventBus } from "@/pages/site/App";
+import { eventBus } from "@/components/site/App";
 
 locale.use(lang);
 Vue.use(VueAxios, axios);
