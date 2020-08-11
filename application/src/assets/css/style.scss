@@ -139,6 +139,7 @@ b {
   font-weight: 600;
 }
 
+
 a:hover {
   outline: 0;
   text-decoration: none;
@@ -213,6 +214,19 @@ a:focus {
 /* =============
    Helper clasess
 ============= */
+
+.fw-800{
+  font-weight: 800;
+}
+
+.fw-700{
+  font-weight: 700;
+}
+
+.fw-600{
+  font-weight: 600;
+}
+
 .p-20 {
   padding: 20px !important;
 }
@@ -446,6 +460,10 @@ a:focus {
 .el-dialog {
     width: 50%;
     border-radius: 20px !important;
+}
+
+.el-picker-panel{
+  z-index: 12000 !important;
 }
 
 .el-dialog__wrapper{
@@ -2553,7 +2571,6 @@ table.dataTable th.focus, table.dataTable td.focus {
   line-height: 1.25 !important;
   transition: all 0.15s ease-in-out;
   cursor: pointer;
-
 }
 
 .tablesaw-swipe .tablesaw-cell-persist {
@@ -5808,7 +5825,7 @@ File: Menu
 }
 
 .side-menu {
-  top: 70px;
+  top: 0px;
   width: 230px;
   z-index: 10;
   background: #373A43;
@@ -6435,22 +6452,25 @@ File: Responsive
   }
 }
 
+
 @media (max-width: 480px) {
     .side-menu {
         z-index: 10 !important;
         top: 50px;
     }
     .side-menu.retracted{
-        display:none;
-        -webkit-animation: fadeOut 5s;
-        animation: fadeOut 5s;
+        position: fixed;
+        top:0;
+        left:-500px;
+        transition: 1s;
     }
+    
     .side-menu.opened{
+        position: fixed;
+        top:0;
         display:initial;
-        -webkit-animation: slide 2s forwards;
-        -webkit-animation-delay: 2s;
-        animation: slide 2s forwards;
-        animation-delay: 2s;
+        transition: 1s;
+        left: 0;
     }
     .button-menu-mobile {
         display: block;
@@ -7009,6 +7029,10 @@ input[type=radio]:checked.mxn + label {
   font-family: 'Muli',sans-serif;
   font-size: 13px;
 }
+
+.el-message{
+  z-index: 20000 !important;
+}
  
 .handle {
   cursor: move !important;
@@ -7098,6 +7122,10 @@ input[type=radio]:checked.mxn + label {
     width: 50%;
     border-radius: 10px !important;
 }
+
+.el-color-dropdown{
+  z-index: 9999 !important;
+} 
 
 .el-dialog__header {
     padding: 20px 20px 10px;
@@ -7429,7 +7457,12 @@ $baby-blue: #f8faff;
 
 .is-circle{
     border-radius: 50% !important;
-    padding: 12px !important;
+    padding: 12px;
+    color: white;
+}
+
+.is-circle:hover{
+  color:white;
 }
 
 .el-tabs--border-card{
@@ -7490,6 +7523,10 @@ $baby-blue: #f8faff;
   background-color:#009CD8 !important;
 }
 
+.el-progress__text{
+  color: #647b9c !important;
+}
+
 .el-badge__content--primary{
   background-color:#00A9B4 !important;
 }
@@ -7527,6 +7564,11 @@ $baby-blue: #f8faff;
 .editr--content{
   font-family: 'Poppins', sans-serif !important;
   font-size:15px !important;
+  overflow-y: hidden !important;
+}
+
+.el-rate__text {
+  color: white !important;
 }
 
 

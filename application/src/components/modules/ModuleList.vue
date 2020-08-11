@@ -32,7 +32,7 @@
                           placement="top-start"
                         >
                           <el-button
-                            class="sbr-btn sbr-purple mr-1 v-step-7"
+                            class="sbr-purple mr-1"
                             data-toggle="tooltip"
                             title="Another one here too"
                             @click.prevent="openLessonsModal(element.id)"
@@ -51,7 +51,7 @@
                           placement="top-start"
                         >
                           <el-button
-                            class="sbr-btn sbr-primary mr-1"
+                            class="sbr-primary mr-1"
                             @click.prevent="openEditModuleModal(element.id,element.title,element.required_to_next, element.release_date)"
                             type="primary"
                             size="small"
@@ -70,7 +70,7 @@
                             @onConfirm="deleteModule(element.id)"
                           >
                             <el-button
-                              class="sbr-btn sbr-danger mr-1"
+                              class="sbr-danger mr-1"
                               slot="reference"
                               type="danger"
                               size="small"
@@ -87,7 +87,7 @@
                           placement="top-start"
                         >
                           <el-button
-                            class="handle sbr-btn sbr-neutral mr-1"
+                            class="handle sbr-neutral mr-1"
                             type="purple"
                             size="small"
                             icon="el-icon-rank"
@@ -123,7 +123,7 @@
                 >{{lang["no-results-module-subtitle-highlight"]}}</span>
               </p>
               <el-button
-                class="sbr-btn sbr-primary mt-3 v-step-4"
+                class="sbr-btn sbr-primary mt-3"
                 @click.prevent="openModuleModal()"
                 type="primary"
                 size="medium"
@@ -184,7 +184,7 @@
             <div class="form-group col-xl-6 col-md-6">
               <el-button
                 v-loading="loadingButton"
-                class="btn-sabiorealm"
+                class="sbr-btn sbr-primary"
                 type="primary"
                 @click.prevent="editModule()"
                 size="medium"
@@ -230,10 +230,7 @@
           <!-- Pdf -->
           <div class="col-xl-3 col-md-3 lesson">
             <a @click.prevent="emitNewLessonEvent('new-pdf')">
-              <img
-                src="@/assets/img/class/pdf.png"
-                class="lesson-img img-thumbnail img-responsive v-step-8"
-              />
+              <img src="@/assets/img/class/pdf.png" class="lesson-img img-thumbnail img-responsive" />
               <br />
               <span>Pdf</span>
             </a>
@@ -342,25 +339,6 @@
       </el-dialog>
     </div>
 
-    <!-------- 
-        Tour
-    ---------->
-    <v-tour name="second-step-tour" :options="tourOptions" :steps="steps"></v-tour>
-
-    <!-------- 
-        Tour to add content
-    ---------->
-    <v-tour name="second-step-tour-add-content" :options="tourOptions" :steps="stepsContent"></v-tour>
-
-    <!-------- 
-        Tour to add content modal
-    ---------->
-    <v-tour
-      name="second-step-tour-add-content-modal"
-      :options="tourOptions"
-      :steps="stepsContentModal"
-    ></v-tour>
-
     <!-- End  modal lesson -->
     <lesson-create :module-id="moduleId"></lesson-create>
     <lesson-video-edit></lesson-video-edit>
@@ -400,18 +378,14 @@ import LessonExamEdit from "@/components/lessons/edit/types/LessonExamEdit";
 import QuestionCreate from "@/components/questions/QuestionCreate";
 import QuestionEdit from "@/components/questions/QuestionEdit";
 import AnswerCreate from "@/components/answers/AnswerCreate";
-import VueTour from "vue-tour";
 
 import { eventBus } from "@/components/newcourse/App";
 import { mapState } from "vuex";
 import { eventPlan } from "@/components/plans/UpgradePlan";
 import { FacebookLoader } from "vue-content-loader";
 
-require("vue-tour/dist/vue-tour.css");
-
 Vue.use(VueAxios, axios);
 Vue.use(ElementUI);
-Vue.use(VueTour);
 
 export default {
   mixins: [domains, alerts],
@@ -443,81 +417,13 @@ export default {
       modalChooseLessons: false,
       loadingContent: false,
       loadingButton: false,
-      plan: "",
-      tourOptions: {
-        useKeyboardNavigation: true,
-        labels: {
-          buttonSkip: "",
-          buttonPrevious: "",
-          buttonNext: "",
-          buttonStop: ""
-        }
-      },
-      steps: [
-        {
-          target: ".v-step-4",
-          header: {
-            title: ""
-          },
-          params: {
-            placement: "bottom",
-            highlight: true
-          },
-          content: ""
-        }
-      ],
-      stepsContent: [
-        {
-          target: ".v-step-7",
-          header: {
-            title: ""
-          },
-          params: {
-            placement: "bottom",
-            highlight: true
-          },
-          content: ""
-        }
-      ],
-      stepsContentModal: [
-        {
-          target: ".v-step-8",
-          header: {
-            title: ""
-          },
-          params: {
-            placement: "bottom",
-            highlight: true
-          },
-          content: ""
-        }
-      ]
+      plan: ""
     };
   },
   props: ["course"],
 
   mounted() {
     this.getCompanyInformation();
-
-    /* Tour labels */
-    this.tourOptions.labels.buttonSkip = this.lang["skip-tour"];
-    this.tourOptions.labels.buttonPrevious = this.lang["previous-step-button"];
-    this.tourOptions.labels.buttonNext = this.lang["next-step-button"];
-    this.tourOptions.labels.buttonStop = this.lang["finish"];
-
-    /* Tour step 0 - New module */
-    this.steps[0].header.title = this.lang["new-module"];
-    this.steps[0].content = this.lang["tour-course-new-module-message"];
-
-    /* Tour step 0 - New content */
-    this.stepsContent[0].header.title = this.lang["content"];
-    this.stepsContent[0].content = this.lang["tour-course-new-content-message"];
-
-    /* Tour step 0 - New pdf */
-    this.stepsContentModal[0].header.title = this.lang["content"];
-    this.stepsContentModal[0].content = this.lang[
-      "tour-course-new-pdf-message"
-    ];
 
     eventBus.$on(
       "new-module",
@@ -531,13 +437,6 @@ export default {
       function(response) {
         if (response == true) {
           this.getModules();
-          this.$tours["first-step-tour"].finish();
-
-          setTimeout(() => {
-            if (this.$route.query.tour == "true") {
-              this.$tours["second-step-tour"].start();
-            }
-          }, 1500);
         }
       }.bind(this)
     );
@@ -554,10 +453,6 @@ export default {
         eventBus.$emit("access-second-step");
       }
     },
-    finishTour() {
-      window.location.href = "/home";
-    },
-
     upgradePlan: function() {
       eventPlan.$emit("upgrade-plan", "feature");
     },
@@ -575,7 +470,6 @@ export default {
     },
 
     openModuleModal: function() {
-      this.$tours["second-step-tour"].finish();
       eventBus.$emit("open-module-modal");
     },
 
@@ -589,15 +483,9 @@ export default {
     },
 
     openLessonsModal: function(id) {
-      this.$tours["second-step-tour-add-content"].finish();
       this.modalChooseLessons = true;
       this.moduleId = id;
       this.loadingLessons = false;
-      setTimeout(() => {
-        if (this.$route.query.tour == "true") {
-          this.$tours["second-step-tour-add-content-modal"].start();
-        }
-      }, 1000);
     },
 
     editModule: function() {

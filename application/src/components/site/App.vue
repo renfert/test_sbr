@@ -6,11 +6,11 @@
       <div class="content">
         <div class="container-fluid">
           <div class="row">
-            <div class="col-xl-3" v-if="fullScreen == false">
+            <div class="col-md-3 col-12" v-if="fullScreen == false">
               <toolbar></toolbar>
             </div>
-            <div :class="fullScreen == false ? 'col-xl-9' : 'col-xl-12'">
-              <site-preview :full-screen-button="true"></site-preview>
+            <div :class="fullScreen == false ? 'col-xl-9 col-12' : 'col-xl-12'">
+              <site-preview class="preview" :full-screen-button="true"></site-preview>
             </div>
           </div>
         </div>
@@ -100,5 +100,23 @@ export default {
 .container-fluid {
   padding-left: 0px !important;
   padding-right: 0px !important;
+}
+
+#wrapper.enlarged .content-page {
+  margin-left: 0px;
+}
+
+.col-xl-9 {
+  padding: 0px;
+}
+
+header {
+  width: 75% !important;
+}
+
+@media only screen and (max-width: 600px) {
+  .preview {
+    display: none;
+  }
 }
 </style>

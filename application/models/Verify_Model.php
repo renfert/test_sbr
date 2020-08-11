@@ -121,7 +121,31 @@ class Verify_Model extends CI_Model {
         $query = $this->db->get();
         $plan = $query->result()[0]->plan;
         return $plan;
+		}
+		
+    public function courseReleased($courseId){
+        $currentDate = getCurrentDate("Y-m-d");
+        $this->db->select("DATEDIFF(T0.release_date, '$currentDate') as releaseDays"); 
+        $this->db->from("mycourse T0");
+        $this->db->where("id", $courseId);
+        $query = $this->db->get();
+        if($query->num_rows() > 0){
+            $releaseDays = $query->result()[0]->releaseDays;
+            return $releaseDays;
+        }
     }
+
+    public function courseExpiration($courseId){
+      $currentDate = getCurrentDate("Y-m-d");
+      $this->db->select("DATEDIFF(T0.expiration_date, '$currentDate') as expirationDays,"); 
+      $this->db->from("mycourse T0");
+      $this->db->where("id", $courseId);
+      $query = $this->db->get();
+      if($query->num_rows() > 0){
+          $expirationDays = $query->result()[0]->expirationDays;
+          return $expirationDays;
+      }
+  }
 
     public function getSubDomainName(){
         $this->db->select("*");

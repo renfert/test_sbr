@@ -39,6 +39,7 @@
                 <answer-list :question-id="questionId"></answer-list>
                 <br />
                 <el-button
+                  class="sbr-btn sbr-primary"
                   type="primary"
                   @click.prevent="createNewAnswerEvent()"
                   size="medium"

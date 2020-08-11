@@ -6,7 +6,7 @@
     <div class="mobile-topbar">
       <i @click="changeLeftBarClass()" class="mdi mdi-menu mdi-24px pr-5"></i>
       <a class="pr-5" :href="getDomainNameToNavigation() + 'courses'">
-        <el-button size="medium" icon="el-icon-back" circle></el-button>
+        <el-button size="medium" class="sbr-primary" icon="el-icon-back" circle></el-button>
       </a>
       <el-button class="sbr-btn sbr-primary mr-3" @click="prevLesson()" icon="el-icon-arrow-left"></el-button>
       <el-button class="sbr-btn sbr-primary" @click="nextLesson()">
@@ -20,9 +20,9 @@
                     Back button
         ----------------->
         <li class="nav-item mr-2 ml-2">
-          <a :href="getDomainNameToNavigation() + 'courses'">
-            <el-button size="medium" icon="el-icon-back" circle></el-button>
-          </a>
+          <router-link to="/courses">
+            <el-button size="medium" class="sbr-primary" icon="el-icon-back" circle></el-button>
+          </router-link>
         </li>
 
         <!------------------- 
@@ -232,12 +232,11 @@ export default {
     };
   },
   created: function() {
-    var courseId = sessionStorage.getItem("sbr_course_id");
-    this.checkIfCourseHasAlreadyBeenEvaluated(courseId);
+    this.courseId = this.$route.params.id;
+    this.checkIfCourseHasAlreadyBeenEvaluated(this.courseId);
     this.getCompanyLogo();
-    this.courseId = sessionStorage.getItem("sbr_course_id");
-    this.getCourse(courseId);
-    this.getCourseProgress(courseId);
+    this.getCourse(this.courseId);
+    this.getCourseProgress(this.courseId);
   },
   mounted() {
     this.getCourseCreator();

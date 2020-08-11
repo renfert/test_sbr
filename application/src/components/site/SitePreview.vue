@@ -30,7 +30,7 @@
       </ul>
     </div>
 
-    <header :style="styleHeader">
+    <header :style="this.styleHeader">
       <a :href="getDomainNameToNavigation()">
         <img
           v-if="stickyMode == false && logo != null"
@@ -102,27 +102,27 @@
               >
                 <i
                   v-if="element.name == 'facebook'"
-                  class="fab fa-facebook-f fa-lg white-text mr-md-5 mr-3 fa-2x"
+                  class="fab fa-facebook-f fa-lg white-text fa-2x social-icon"
                 ></i>
                 <i
                   v-if="element.name == 'instagram'"
-                  class="fab fa-instagram fa-lg white-text mr-md-5 mr-3 fa-2x"
+                  class="fab fa-instagram fa-lg white-text fa-2x social-icon"
                 ></i>
                 <i
                   v-if="element.name == 'linkedin'"
-                  class="fab fa-linkedin-in fa-lg white-text mr-md-5 mr-3 fa-2x"
+                  class="fab fa-linkedin-in fa-lg white-text fa-2x social-icon"
                 ></i>
                 <i
                   v-if="element.name == 'twitter'"
-                  class="fab fa-twitter fa-lg white-text mr-md-5 mr-3 fa-2x"
+                  class="fab fa-twitter fa-lg white-text fa-2x social-icon"
                 ></i>
                 <i
                   v-if="element.name == 'pinterest'"
-                  class="fab fa-pinterest fa-lg white-text mr-md-5 mr-3 fa-2x"
+                  class="fab fa-pinterest fa-lg white-text fa-2x"
                 ></i>
                 <i
                   v-if="element.name == 'youtube'"
-                  class="fab fa-youtube fa-lg white-text mr-md-5 mr-3 fa-2x"
+                  class="fab fa-youtube fa-lg white-text fa-2x social-icon"
                 ></i>
               </a>
             </div>
@@ -196,7 +196,9 @@ export default {
       headerColor: "",
       activeSession: false,
       showMobile: false,
-      stickyMode: false
+      stickyMode: false,
+
+      fullScreenMode: false
     };
   },
   mounted() {
@@ -253,7 +255,10 @@ export default {
     styleHeader: function() {
       return {
         "background-color": this.headerColor,
-        width: "100%"
+        width:
+          this.fullScreenButton == true && this.fullScreenMode == false
+            ? "80%"
+            : "100%;"
       };
     },
     styleBorder: function() {
@@ -361,6 +366,9 @@ export default {
       );
     },
     fullScreen: function() {
+      this.fullScreenMode == false
+        ? (this.fullScreenMode = true)
+        : (this.fullScreenMode = false);
       eventBus.$emit("full-screen");
     },
     updateSectionListArray: function() {
@@ -555,6 +563,7 @@ sticky
 ============= */
 header.sticky {
   position: fixed;
+  box-shadow: 0px 0px 3px 0px #aca9a9;
   background-color: white !important;
   height: 75px;
   padding: 0px 15%;
@@ -670,5 +679,9 @@ Button
   border: 1.2px solid white;
   border-radius: 5px;
   padding: 8px 18px 8px 18px;
+}
+
+.social-icon {
+  margin: 0em 1em;
 }
 </style>

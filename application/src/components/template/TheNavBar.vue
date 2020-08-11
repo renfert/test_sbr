@@ -23,7 +23,12 @@
 
         <!-- Login button -->
         <li class="pt-5" v-if="activeSession == false">
-          <a href="javascript:void(0)" @click.prevent="openLoginModal()">Login</a>
+          <a
+            class="link-button"
+            href="javascript:void(0)"
+            :style="linkButtonMobile"
+            @click.prevent="openLoginModal()"
+          >Login</a>
         </li>
 
         <li class="pt-5" v-else>
@@ -67,7 +72,7 @@
 
         <!-- Login button -->
         <li v-if="activeSession == false">
-          <a href="javascript:void(0)" @click.prevent="openLoginModal()">Login</a>
+          <a class="link-button" href="javascript:void(0)" @click.prevent="openLoginModal()">Login</a>
         </li>
 
         <li v-else>
@@ -373,6 +378,7 @@ header ul li a {
 ============= */
 header.sticky {
   position: fixed;
+  box-shadow: 0px 0px 3px 0px #aca9a9;
   height: 75px;
   padding: 0px 15%;
   background-color: white;

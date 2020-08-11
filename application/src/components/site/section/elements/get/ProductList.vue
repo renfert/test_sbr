@@ -1,5 +1,5 @@
 <template>
-  <div class="top-10">
+  <div class="top-13">
     <lang></lang>
     <div class="container-site">
       <div class="text-center mb-5">
@@ -190,7 +190,6 @@ export default {
   },
   methods: {
     rateAverage: function(totalRate, totalReviews) {
-      console.log(totalReviews);
       if (totalRate == null) {
         return 0;
       } else {
@@ -263,8 +262,8 @@ export default {
    Layout
 ============= */
 
-.top-10 {
-  margin-top: 10%;
+.top-13 {
+  margin-top: 13%;
 }
 
 /* =============

@@ -1,6 +1,5 @@
 <template>
-  <div class="main" v-loading="loading">
-    <lang></lang>
+  <div class="main">
     <div class="row mb-5">
       <!-- Courses -->
       <div class="col-12 col-md-12">

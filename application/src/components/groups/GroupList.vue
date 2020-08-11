@@ -36,7 +36,7 @@
               <template slot-scope="scope">
                 <!-- Edit group -->
                 <el-button
-                  class="sbr-btn sbr-primary mr-1"
+                  class="sbr-primary mr-1"
                   @click="openModalToEditGroup(scope.row.id,scope.row.name)"
                   size="medium"
                   icon="el-icon-edit"
@@ -52,7 +52,8 @@
                   @onConfirm="deleteGroup(scope.row.id)"
                 >
                   <el-button
-                    class="sbr-btn sbr-danger mr-1"
+                    size="medium"
+                    class="sbr-danger mr-1"
                     slot="reference"
                     icon="el-icon-delete"
                     circle
@@ -60,7 +61,7 @@
                 </el-popconfirm>
                 <!-- Manage group -->
                 <el-button
-                  class="sbr-btn sbr-secondary"
+                  class="sbr-secondary"
                   type="success"
                   @click="viewGroup(scope.row.id)"
                   size="medium"

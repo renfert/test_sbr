@@ -9,9 +9,9 @@
           <div class="form-wizard-wrapper">
             <wizard-nav></wizard-nav>
             <div class="form-wizard-content-wrapper">
-              <first-step-to-edit></first-step-to-edit>
+              <first-step></first-step>
               <second-step></second-step>
-              <third-step-to-edit></third-step-to-edit>
+              <third-step></third-step>
             </div>
           </div>
         </div>
@@ -24,9 +24,9 @@
 
 <script>
 import WizardNav from "@/components/newcourse/WizardNav";
-import FirstStepToEdit from "@/components/newcourse/FirstStepToEdit";
+import FirstStep from "@/components/editcourse/FirstStep";
 import SecondStep from "@/components/newcourse/SecondStep";
-import ThirdStepToEdit from "@/components/newcourse/ThirdStepToEdit";
+import ThirdStep from "@/components/editcourse/ThirdStep";
 import Lang from "@/components/helper/HelperLang";
 import Vue from "vue";
 import axios from "axios";
@@ -66,9 +66,9 @@ export default {
   components: {
     Lang,
     WizardNav,
-    FirstStepToEdit,
+    FirstStep,
     SecondStep,
-    ThirdStepToEdit
+    ThirdStep
   }
 };
 </script>

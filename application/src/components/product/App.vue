@@ -8,6 +8,8 @@
       :modules="totalModules"
       :color="color"
       :reviews="reviews"
+      :total-reviews="totalReviews"
+      :total-rate="totalRate"
     ></banner>
     <section>
       <div class="container">
@@ -22,6 +24,8 @@
               :category="category"
               :modules-total="totalModules"
               :lessons-total="totalLessons"
+              :total-reviews="totalReviews"
+              :total-rate="totalRate"
             ></thumb>
             <tabs
               :description="description"
@@ -30,6 +34,10 @@
               :instructor-name="instructorName"
               :instructor-photo="instructorPhoto"
               :instructor-description="instructorDescription"
+              :total-reviews="totalReviews"
+              :total-rate="totalRate"
+              :course-id="courseId"
+              :reviews="reviews"
             ></tabs>
           </div>
 
@@ -40,6 +48,7 @@
               :color="color"
               :price="price"
               :description="description"
+              :preview="preview"
             ></price>
           </div>
         </div>
@@ -79,6 +88,9 @@ export default {
       instructorName: "",
       instructorPhoto: "",
       instructorDescription: "",
+
+      totalReviews: "",
+      totalRate: "",
 
       category: "",
       description: "",
@@ -137,6 +149,8 @@ export default {
           this.instructorName = response.data["instructorName"];
           this.instructorPhoto = response.data["instructorAvatar"];
           this.instructorDescription = response.data["instructorDescription"];
+          this.totalReviews = response.data["totalReviews"];
+          this.totalRate = response.data["totalRate"];
           this.getModules(response.data["id"]);
         },
         /* Error callback */
@@ -204,6 +218,14 @@ export default {
 </script>
 
 <style scoped>
+body {
+  background-color: #f4f8fa;
+}
+
+html {
+  background-color: #f4f8fa;
+}
+
 section {
   padding: 80px 0;
   position: relative;
@@ -219,19 +241,5 @@ section {
 
 .course-card {
   margin: 0px 80px 30px 70px;
-}
-
-.course-cta {
-  border-radius: 5px;
-  background-color: #c5cae9 !important;
-  margin: 0px 80px 20px 70px;
-  padding: 10px 10px 10px 10px;
-  text-align: center;
-}
-
-.course-cta h3 {
-  font-family: "Poppins", sans-serif;
-  font-size: 30px;
-  padding: 5px;
 }
 </style>

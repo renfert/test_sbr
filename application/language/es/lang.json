@@ -22,9 +22,19 @@
   "plans-nav": "Planes",
   "help-center-nav": "Centro de Ayuda",
 
+  "course-validity": "Este curso es válido por:",
+
+  "days": "dias",
+
   "enroll-now": "Enlístate ahora",
 
   "actual-price": "Precio actual",
+
+  "average-rating": "Puntuación media",
+
+  "lesson": "Lección",
+
+  "modules": "Módulos",
 
   "go-to-course": "Ir al curso",
 
@@ -327,7 +337,7 @@
   "questions": "Preguntas",
   "question-list": "Tus preguntas",
   "basic-information": "Información básica",
-  "back": "Anterior",
+  "back": "Vuelve",
   "automatic-feedback": "Feedback automático",
   "add-new-answer": "Agregar una nueva respuesta",
   "success": "Listo",
@@ -394,7 +404,7 @@
 
   "create-user": "Crear usuario",
   "list-users": "Lista de usuarios",
-  "user-already-exists": "Este usuario ya está registrado",
+  "user-already-exists": "Este usuario ya existe, elija otro correo electrónico.",
   "massive-import": "Importación masiva",
   "massive-import-success": "¡Importación exitosa!",
   "question-delete-user": "Borrar usuario: ",
@@ -555,7 +565,7 @@
   "photo": "Foto",
   "language": "Lenguaje",
   "marketplace": "Marketplace",
-  "logo": "Logo (150x150 px)",
+  "logo": "Logo (150x50 px)",
   "favicon": "Favicon (50x50 px)",
 
   "advanced-settings": "Configuraciones avanzadas",
@@ -570,7 +580,7 @@
   "invalid-character": "Estas utilizando caracteres inválidos",
 
   "name": "Nombre",
-  "password": "Password",
+  "password": "Contraseña",
   "email": "Email",
   "instructor": "Instructor",
   "student": "Alumno",

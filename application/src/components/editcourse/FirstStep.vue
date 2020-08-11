@@ -11,18 +11,18 @@
                   <input class="hide" type="text" v-model="courseId" name="id" />
 
                   <!-- Course name -->
-                  <label class="col-form-label">{{lang["name"]}} *</label>
+                  <label class="col-form-label">{{ lang["name"] }} *</label>
                   <el-input
                     @change="editCourse(false)"
                     name="title"
-                    :class="invalidField ? 'invalid-field' : '' "
+                    :class="invalidField ? 'invalid-field' : ''"
                     v-model="name"
                   ></el-input>
 
                   <br />
                   <br />
                   <!-- Course category -->
-                  <label class="col-form-label">{{lang["category"]}}</label>
+                  <label class="col-form-label">{{ lang["category"] }}</label>
                   <br />
                   <select
                     @change="editCourse(false)"
@@ -30,8 +30,12 @@
                     name="mycategory_id"
                     v-model="category"
                   >
-                    <option value="1">{{lang['without-category']}}</option>
-                    <option v-for="item in categories" :value="item.id" :key="item.id">{{item.name}}</option>
+                    <option value="1">{{ lang["without-category"] }}</option>
+                    <option
+                      v-for="item in categories"
+                      :value="item.id"
+                      :key="item.id"
+                    >{{ item.name }}</option>
                   </select>
                   <br />
                   <br />
@@ -39,7 +43,7 @@
 
                   <!-- Advanced configurations button -->
                   <el-button @click.prevent="modal = true" class="sbr-btn sbr-primary">
-                    {{lang["advanced-settings"]}}
+                    {{ lang["advanced-settings"] }}
                     <i class="el-icon-setting"></i>
                   </el-button>
                 </div>
@@ -47,7 +51,11 @@
                 <!-- Course description -->
                 <div class="form-group col-xl-6 col-md-6">
                   <textarea class="hide" v-model="description" name="description"></textarea>
-                  <label class="col-form-label">{{lang["description"]}}</label>
+                  <label class="col-form-label">
+                    {{
+                    lang["description"]
+                    }}
+                  </label>
                   <wysiwyg v-model="description" />
                 </div>
               </div>
@@ -55,7 +63,7 @@
               <div class="form-row">
                 <!-- Course image -->
                 <div class="form-group col-xl-6 col-md-6">
-                  <label class="col-form-label">{{lang["image"]}}</label>
+                  <label class="col-form-label">{{ lang["image"] }}</label>
                   <upload
                     v-if="srcImg != ''"
                     :src-img="srcImg"
@@ -70,7 +78,11 @@
                 </div>
                 <!-- Course video preview -->
                 <div class="form-group col-xl-6 col-md-6">
-                  <label class="col-form-label">{{lang["video-preview"]}}</label>
+                  <label class="col-form-label">
+                    {{
+                    lang["video-preview"]
+                    }}
+                  </label>
                   <upload
                     v-if="srcPreview != ''"
                     :src-img="srcPreview"
@@ -99,7 +111,7 @@
       >
         <!-- Course release date -->
         <div class="form-group">
-          <label class="col-form-label">{{lang["start-date"]}}</label>
+          <label class="col-form-label">{{ lang["start-date"] }}</label>
           <div class="input-group">
             <el-date-picker
               v-model="releaseDate"
@@ -113,7 +125,7 @@
         </div>
         <!-- Course expiration date -->
         <div class="form-group">
-          <label class="col-form-label">{{lang["end-date"]}}</label>
+          <label class="col-form-label">{{ lang["end-date"] }}</label>
           <div class="input-group">
             <el-date-picker
               v-model="expirationDate"
@@ -128,15 +140,19 @@
 
         <!-- Course validity -->
         <div class="form-group">
-          <label class="col-form-label">{{lang["validity-time"]}}</label>
+          <label class="col-form-label">{{ lang["validity-time"] }}</label>
           <div class="input-group">
-            <el-input-number name="validity" v-model="validity"></el-input-number>
+            <div style="display:flex;flex-direction:column;">
+              <el-switch v-model="validityAllowed" active-color="#009CD8" inactive-color="#9E9C9C"></el-switch>
+              <br />
+              <el-input-number v-if="validityAllowed" :min="1" name="validity" v-model="validity"></el-input-number>
+            </div>
           </div>
         </div>
 
         <!-- Price -->
         <div class="form-group">
-          <label class="col-form-label">{{lang["price"]}}</label>
+          <label class="col-form-label">{{ lang["price"] }}</label>
           <div class="input-group">
             <money name="price" v-model="price" class="text-field" v-bind="money">12323</money>
           </div>
@@ -145,25 +161,35 @@
         <div class="row">
           <!-- Course reviews -->
           <div class="col-xl-4 col-md-4">
-            <label for="exampleInputEmail1">{{lang["reviews"]}}</label>
+            <label for="exampleInputEmail1">{{ lang["reviews"] }}</label>
             <div class="input-group">
-              <toggle-button name="reviews" color="#3BB6B6" v-model="reviews" />
+              <el-switch
+                name="reviews"
+                v-model="reviews"
+                active-color="#009CD8"
+                inactive-color="#9E9C9C"
+              ></el-switch>
             </div>
           </div>
 
           <!-- Course spotlight  -->
           <div class="col-xl-4 col-md-4">
-            <label for="exampleInputEmail1">{{lang["spotlight"]}}</label>
+            <label for="exampleInputEmail1">{{ lang["spotlight"] }}</label>
             <div class="input-group">
-              <toggle-button name="spotlight" color="#3BB6B6" v-model="spotlight" />
+              <el-switch
+                name="spotlight"
+                v-model="spotlight"
+                active-color="#009CD8"
+                inactive-color="#9E9C9C"
+              ></el-switch>
             </div>
           </div>
 
           <!-- Course certificate  -->
           <div class="col-xl-4 col-md-4">
-            <label for="exampleInputEmail1">{{lang["certificate"]}}</label>
+            <label for="exampleInputEmail1">{{ lang["certificate"] }}</label>
             <div class="input-group">
-              <toggle-button color="#3BB6B6" v-model="certificate" />
+              <el-switch v-model="certificate" active-color="#009CD8" inactive-color="#9E9C9C"></el-switch>
             </div>
           </div>
         </div>
@@ -173,7 +199,7 @@
           <div class="col-xl-4 col-md-4">
             <p class="text-center">Classic</p>
             <input
-              :checked="certificateValue == 'classic' ? true:false"
+              :checked="certificateValue == 'classic' ? true : false"
               id="classic"
               type="radio"
               name="certificate"
@@ -192,7 +218,7 @@
           <div class="col-xl-4 col-md-4">
             <p class="text-center">Tech</p>
             <input
-              :checked="certificateValue == 'tech' ? true:false"
+              :checked="certificateValue == 'tech' ? true : false"
               id="tech"
               type="radio"
               name="certificate"
@@ -211,7 +237,7 @@
           <div class="col-xl-4 col-md-4">
             <p class="text-center">Artistic</p>
             <input
-              :checked="certificateValue == 'artistic' ? true:false"
+              :checked="certificateValue == 'artistic' ? true : false"
               id="artistic"
               type="radio"
               name="certificate"
@@ -228,9 +254,12 @@
           </div>
         </div>
         <el-button
-          @click.prevent="modal = false; editCourse(false);"
+          @click.prevent="
+            modal = false;
+            editCourse(false);
+          "
           class="sbr-btn sbr-primary mt-3"
-        >{{lang["save-button"]}}</el-button>
+        >{{ lang["save-button"] }}</el-button>
       </el-dialog>
     </form>
     <helper-progress></helper-progress>
@@ -278,15 +307,17 @@ export default {
       releaseDate: "",
       expirationDate: "",
       validity: "",
+      validityAllowed: false,
       category: "",
       contentShow: true,
       courseMode: "edit", // Course mode can be create or edit mode
       courseId: "",
-      loading: false,
       srcImg: "",
       srcName: "",
       srcPreview: "",
       srcPreviewName: "",
+      loading: false,
+      loadingContent: true,
       money: {
         decimal: ",",
         thousands: ".",
@@ -298,8 +329,8 @@ export default {
     };
   },
   created() {
-    this.courseId = sessionStorage.getItem("sbr_course_id");
     this.getCategories();
+    this.courseId = this.$route.params.id;
     this.getCourse();
   },
   computed: {
@@ -357,6 +388,7 @@ export default {
           this.name = response.data["title"];
           this.category = response.data["mycategory_id"];
           this.description = response.data["description"];
+          this.validity = response.data["validity"];
           this.srcName = response.data["photo"];
           this.srcImg =
             this.getUrlToContents() + "course/" + response.data["photo"] + "";
@@ -371,6 +403,10 @@ export default {
           response.data["price"] == null
             ? (this.price = "")
             : (this.price = response.data["price"]);
+
+          response.data["validity"] == null
+            ? (this.validityAllowed = false)
+            : (this.validityAllowed = true);
 
           if (
             response.data["release_date"] == null ||
@@ -398,7 +434,7 @@ export default {
           response.data["reviews"] == null
             ? (this.reviews = false)
             : (this.reviews = true);
-          this.validity = response.data["validity"];
+
           response.data["certificate"] == null
             ? (this.certificate = false)
             : (this.certificate = true);
@@ -499,7 +535,7 @@ export default {
 }
 
 .form-wizard-wrapper .form-wizard-content {
-  background-color: #f3f6f6;
+  background-color: #fff;
   padding-top: 50px;
   color: #777777;
   left: 0;

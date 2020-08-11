@@ -22,9 +22,17 @@
   "plans-nav": "plans",
   "help-center-nav": "Help center",
 
+  "course-validity": "This course is valid for:",
+
+  "days": "days",
+
   "not-started": "Not started",
 
   "actual-price": "Actual price",
+
+  "average-rating": "Average rating",
+
+  "lesson": "Lesson",
 
   "go-to-course": "Go to course",
 
@@ -347,7 +355,7 @@
   "questions": "Questions",
   "question-list": "Your questions",
   "basic-information": "Basic information",
-  "back": "Back",
+  "back": "Go back",
   "automatic-feedback": "Automatic Feedback",
   "add-new-answer": "Add a new answer",
   "success": "Success",
@@ -367,6 +375,8 @@
   "module-deleted-success": "Module deleted successfully",
   "question-delete-module": "Delete module:",
   "module-edited-success": "Module edited successfully",
+
+  "modules": "Modules",
 
   "all": "All",
 
@@ -390,7 +400,7 @@
 
   "create-user": "Create a new user",
   "list-users": "List of users",
-  "user-already-exists": "This user already exists",
+  "user-already-exists": "This user already exists, please choose another email.",
   "massive-import": "Mass import",
   "massive-import-success": "Import successfully completed!",
   "question-delete-user": "Delete user: ",
@@ -550,7 +560,7 @@
   "photo": "Photo",
   "language": "Language",
   "marketplace": "Marketplace",
-  "logo": "Logo (150x150 px)",
+  "logo": "Logo (150x50 px)",
   "favicon": "Favicon (50x50 px)",
 
   "advanced-settings": "Advanced Settings",

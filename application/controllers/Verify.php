@@ -56,6 +56,18 @@ class Verify extends CI_Controller {
         $result = $this->Verify_Model->stepsStatus();
         echo json_encode($result);
     }
+
+    public function courseReleased(){
+        $courseId = $this->input->post("courseId");
+        $result = $this->Verify_Model->courseReleased($courseId);
+        echo json_encode($result);
+    }
+
+    public function courseExpiration(){
+        $courseId = $this->input->post("courseId");
+        $result = $this->Verify_Model->courseExpiration($courseId);
+        echo json_encode($result);
+    }
     
 }
 ?>

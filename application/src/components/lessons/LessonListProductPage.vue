@@ -10,9 +10,10 @@
     ></bullet-list-loader>
 
     <div v-else>
-      <li v-for="element in lessons" :key="element.id">
+      <li v-for="(element,index) in lessons" :key="element.id">
         <div class="lectures_lists_title">
-          <i class="ti-control-play"></i>Lecture: 01
+          <i class="ti-control-play"></i>
+          {{lang["lesson"]}}: {{parseInt(index) + 1}}
         </div>
         {{element.title}}
       </li>
@@ -57,7 +58,7 @@ export default {
       formData.set("moduleId", this.moduleId);
       var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
         "lesson",
-        "listing"
+        "listingToProductPage"
       );
       axios.post(urlToBeUsedInTheRequest, formData).then(
         response => {
@@ -93,6 +94,61 @@ export default {
   font-weight: 400;
   font-size: 16px;
   margin-left: 5px;
+}
+
+ul.lectures_lists {
+  padding: 0;
+  margin: 0;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.edu_wraper ul.lectures_lists li {
+  background: #fff;
+}
+
+ul.lectures_lists li {
+  padding: 17px 15px;
+  background: #f1f4fb;
+  color: #24394e;
+  border-bottom: 1px solid #e5e8ef;
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.lectures_lists_title {
+  margin-right: 2rem;
+  font-weight: 400;
+  font-size: 14px;
+  color: #647b9c;
+}
+
+.lectures_lists_title i {
+  margin-right: 5px;
+}
+
+.edu_wraper ul.lectures_lists li {
+  background: #fff;
+  font-weight: 500;
+  font-size: 14px;
+  color: #647b9c;
+}
+
+[class*=" ti-"],
+[class^="ti-"] {
+  font-family: themify;
+  speak: none;
+  font-style: normal;
+  font-weight: 400;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .btn-link {

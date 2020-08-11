@@ -7,8 +7,7 @@
         height="200"
         primaryColor="#f0f0f0"
         secondaryColor="#d9d9d9"
-      >
-      </facebook-loader>
+      ></facebook-loader>
     </div>
 
     <div v-else>
@@ -18,10 +17,7 @@
         <div style="margin-bottom: 10px">
           <el-row>
             <el-col :span="6">
-              <el-input
-                v-model="filters[0].value"
-                placeholder="Search"
-              ></el-input>
+              <el-input v-model="filters[0].value" placeholder="Search"></el-input>
             </el-col>
           </el-row>
         </div>
@@ -36,18 +32,16 @@
             :prop="title.prop"
             :label="title.label"
             :key="title.label"
-          >
-          </el-table-column>
+          ></el-table-column>
           <el-table-column label="Actions" align="center">
             <template slot-scope="scope">
               <!-- Edit category -->
               <el-button
-                class="sbr-btn sbr-primary"
+                class="sbr-primary"
                 @click="openModalToEditCategory(scope.row.id, scope.row.name)"
                 icon="el-icon-edit"
                 circle
-              >
-              </el-button>
+              ></el-button>
 
               <!-- Delete category -->
               <el-popconfirm
@@ -57,12 +51,7 @@
                 :title="lang['question-delete-category'] + scope.row.name + '?'"
                 @onConfirm="deleteCategory(scope.row.id)"
               >
-                <el-button
-                  class="sbr-btn sbr-danger ml-1"
-                  slot="reference"
-                  icon="el-icon-delete"
-                  circle
-                ></el-button>
+                <el-button class="sbr-danger ml-1" slot="reference" icon="el-icon-delete" circle></el-button>
               </el-popconfirm>
             </template>
           </el-table-column>
@@ -73,24 +62,14 @@
       <!-- No categories found content -->
       <div class="text-center mt-5" v-else>
         <h4>{{ lang["no-categories-found"] }}</h4>
-        <img
-          class="image-no-results"
-          src="@/assets/img/general/ux/not_found.png"
-          alt=""
-        />
+        <img class="image-no-results" src="@/assets/img/general/ux/not_found.png" alt />
       </div>
       <!-- No categories found content end -->
     </div>
 
     <!-- Category edit modal -->
     <div>
-      <el-dialog
-        :visible.sync="modal"
-        :title="categoryName"
-        center
-        width="40%"
-        top="5vh"
-      >
+      <el-dialog :visible.sync="modal" :title="categoryName" center width="40%" top="5vh">
         <div class="form-group">
           <label>{{ lang["new-name"] }}</label>
           <el-input name="name" v-model="newCategoryName"></el-input>
@@ -98,9 +77,8 @@
         <div class="form-group">
           <el-button
             @click.prevent="editCategory(categoryId, newCategoryName)"
-            class="sbr-btn sbr-primary"
-            >{{ lang["save-button"] }}</el-button
-          >
+            class="sbr-primary"
+          >{{ lang["save-button"] }}</el-button>
         </div>
       </el-dialog>
     </div>
@@ -146,7 +124,6 @@ export default {
       categoryName: "",
       newCategoryName: "",
       loadingContent: false,
-      lang: {},
       modal: false
     };
   },

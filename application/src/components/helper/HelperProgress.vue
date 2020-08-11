@@ -77,7 +77,7 @@ export default {
 <style lang="scss" scoped>
 .video-overlay {
   position: fixed;
-  z-index: 9999 !important;
+  z-index: 30000 !important;
   top: 0;
   bottom: 0;
   left: 0;

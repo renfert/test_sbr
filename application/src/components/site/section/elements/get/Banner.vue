@@ -4,7 +4,7 @@
       <h1 :style="styleBannerHeader" class="banner-text">{{ banner["header"] }}</h1>
       <p :style="styleBannerSubHeader">{{ banner["subheader"] }}</p>
       <a
-        class="btn-marketplace-sabiorealm"
+        class="btn banner-btn"
         :style="styleButton"
         :href="buttonUrl"
         :target="buttonTarget"
@@ -102,7 +102,7 @@ export default {
         "background-color": this.buttonColor,
         display: this.banner["title"] == null ? "none" : "initial",
         "--color-hover": this.buttonColorHover,
-        "border-radius": this.buttonStyle == "plain" ? "0px" : "30px"
+        "border-radius": this.buttonStyle == "plain" ? "0px" : "50px"
       };
     },
     styleHeader: function() {
@@ -175,5 +175,35 @@ export default {
 .nav-link {
   font-size: 1.2em;
   font-family: "Poppins", sans-serif;
+}
+
+.btn {
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border: 1px solid transparent;
+  padding: 12px 25px;
+  font-size: 1rem;
+  line-height: 1.25;
+  transition: all 0.15s ease-in-out;
+  border: 2px solid transparent;
+  cursor: pointer;
+}
+
+.banner-btn {
+  margin: 1.5rem auto 0;
+  display: flex;
+  height: 44px;
+  font-weight: 600;
+  color: #fff !important;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem !important;
 }
 </style>

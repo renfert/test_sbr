@@ -51,6 +51,32 @@ const verify = {
           window.location.href = "/404";
         }
       });
+    },
+    verifyCourseReleased(courseId) {
+      var formData = new FormData();
+      formData.set("courseId", courseId);
+      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+        "verify",
+        "courseReleased"
+      );
+      axios.post(urlToBeUsedInTheRequest, formData).then(response => {
+        if (response.data > 0) {
+          window.history.back();
+        }
+      });
+    },
+    verifyCourseExpiration(courseId) {
+      var formData = new FormData();
+      formData.set("courseId", courseId);
+      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+        "verify",
+        "courseExpiration"
+      );
+      axios.post(urlToBeUsedInTheRequest, formData).then(response => {
+        if (response.data < 0) {
+          window.history.back();
+        }
+      });
     }
   }
 };

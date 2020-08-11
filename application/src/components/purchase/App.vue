@@ -2,10 +2,10 @@
   <div>
     <div id="wrapper">
       <lang></lang>
-      <nav-bar></nav-bar>
       <div>
         <div class="row">
-          <purchase-in-process></purchase-in-process>
+          <purchase-in-process v-if="purchaseStatus == 'pending'"></purchase-in-process>
+          <purchase-success v-if="purchaseStatus == 'success'"></purchase-success>
         </div>
       </div>
     </div>
@@ -22,29 +22,27 @@ import Lang from "@/components/helper/HelperLang.vue";
 import { eventLang } from "@/components/helper/HelperLang";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
-import NavBar from "@/components/template/TheNavBar";
 import PurchaseInProcess from "@/components/purchase/PurchaseInProcess";
-import headerTags from "@/mixins/headerTags";
-import integrations from "@/mixins/integrations";
+import PurchaseSuccess from "@/components/purchase/PurchaseSuccess";
 export const eventBus = new Vue();
 
 Vue.use(VueAxios, axios);
 Vue.use(VueHead);
 export default {
-  mixins: [domains, alerts, integrations, headerTags],
+  mixins: [domains, alerts],
   data: () => {
     return {
-      lang: []
+      lang: [],
+      purchaseStatus: null
     };
   },
   components: {
     Lang,
-    NavBar,
-    PurchaseInProcess
+    PurchaseInProcess,
+    PurchaseSuccess
   },
   created() {
-    this.loadIntegrations();
-    this.createFavicon();
+    this.purchaseStatus = this.$route.params.status;
   },
   mounted() {
     eventLang.$on(
@@ -56,7 +54,7 @@ export default {
   },
   head: {
     title: {
-      inner: "Purchase in process"
+      inner: "Purchase"
     },
     meta: [
       { name: "charset", content: "utf-8" },

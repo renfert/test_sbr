@@ -10,20 +10,20 @@
       </div>
     </div>
 
-    <div class="row mt-3 ml-5 mr-5">
+    <div class="row mb-5 mt-3 ml-5 mr-5">
       <div class="col-12 col-md-3">
-        <a :href="viewCourseUrl">
+        <router-link :to="'/viewcourse/'+courseId">
           <div class="card-box">
-            <h5>{{lang["view-course"]}}</h5>
+            <h5 class="fw-700">{{lang["view-course"]}}</h5>
             <img src="@/assets/img/general/ux/view_course.png" alt />
           </div>
-        </a>
+        </router-link>
       </div>
 
       <div class="col-12 col-md-3">
         <a href="javascript:void(0)" @click.prevent="modal = true">
           <div class="card-box">
-            <h5>{{lang["join-persons"]}}</h5>
+            <h5 class="fw-700">{{lang["join-persons"]}}</h5>
             <img src="@/assets/img/general/ux/join_persons.png" alt />
           </div>
         </a>
@@ -32,21 +32,30 @@
       <div class="col-12 col-md-3">
         <a href="javascript:void(0)" @click.prevent="reloadPage()">
           <div class="card-box">
-            <h5>{{lang["create-new-course"]}}</h5>
+            <h5 class="fw-700">{{lang["create-new-course"]}}</h5>
             <img src="@/assets/img/general/ux/create_new_course.png" alt />
           </div>
         </a>
       </div>
 
       <div class="col-12 col-md-3">
-        <a href="#">
+        <a href="javascript:void(0)" @click.prevent="share = true">
           <div class="card-box">
-            <h5>{{lang["share"]}}</h5>
+            <h5 class="fw-700">{{lang["share"]}}</h5>
             <img src="@/assets/img/general/ux/share.png" alt />
           </div>
         </a>
       </div>
     </div>
+
+    <!--------- 
+            Share
+    ---------->
+    <el-dialog :visible.sync="share" :title="lang['share']" center top="5vh">
+      <el-input id="shareLink" placeholder="Please input" v-model="linkToShare">
+        <el-button @click.prevent="copyToClipboard()" slot="append" icon="el-icon-copy-document"></el-button>
+      </el-input>
+    </el-dialog>
 
     <!-- Join users -->
     <el-dialog :visible.sync="modal" :title="lang['join-persons']" center top="5vh">
@@ -55,7 +64,12 @@
           <el-transfer filterable :titles="['Persons', 'Course']" v-model="users" :data="usersList"></el-transfer>
         </template>
         <br />
-        <el-button @click="enrollUsers()" type="primary" size="medium">{{lang["save-button"]}}</el-button>
+        <el-button
+          class="sbr-btn sbr-primary"
+          @click="enrollUsers()"
+          type="primary"
+          size="medium"
+        >{{lang["save-button"]}}</el-button>
       </div>
 
       <!-- No persons found content -->
@@ -68,7 +82,7 @@
             </div>
           </div>
           <div class="col-6">
-            <img class="image-no-results" src="@/assets/img/general/ux/no_persons.png" alt />
+            <img class="image-no-results" src="@/assets/img/general/ux/no_persons.png" />
           </div>
         </div>
       </div>
@@ -100,12 +114,13 @@ export default {
       usersList: [],
       users: [],
       courseId: "",
-      viewCourseUrl: "",
-      loading: false
+      loading: false,
+      share: false,
+      linkToShare: ""
     };
   },
   created() {
-    this.courseId = sessionStorage.getItem("sbr_course_id");
+    this.courseId = this.$route.params.id;
     this.getUsersOutsideTheCourse(this.courseId);
   },
   computed: {
@@ -117,8 +132,7 @@ export default {
       "new-course",
       function(response) {
         this.courseId = response;
-        sessionStorage.setItem("sbr_course_id", "" + response + "");
-        this.viewCourseUrl = this.getCurrentDomainName() + "viewcourse";
+        this.linkToShare = this.getCurrentDomainName() + "product/" + response;
         this.getUsersOutsideTheCourse(response);
       }.bind(this)
     );
@@ -152,6 +166,20 @@ export default {
     );
   },
   methods: {
+    copyToClipboard: function() {
+      /* Get the text field */
+      var copyText = document.getElementById("shareLink");
+
+      /* Select the text field */
+      copyText.select();
+      copyText.setSelectionRange(0, 99999); /*For mobile devices*/
+
+      /* Copy the text inside the text field */
+      document.execCommand("copy");
+
+      /* Alert the copied text */
+      this.$message("Copied");
+    },
     getUsersOutsideTheCourse(courseId) {
       var formData = new FormData();
       formData.set("courseId", courseId);
@@ -232,14 +260,13 @@ export default {
   color: grey !important;
 }
 
-.card-box:hover {
-  -webkit-box-shadow: 0px 0px 5px 0px #00a9b4;
-  box-shadow: 0px 0px 5px 0px #00a9b4;
+.card-box img {
+  width: 50px;
 }
 
-.course-name {
-  text-transform: uppercase;
-  letter-spacing: 1px;
+.card-box:hover {
+  -webkit-box-shadow: 0px 0px 5px 0px #009cd8;
+  box-shadow: 0px 0px 5px 0px #009cd8;
 }
 
 .img-container {
@@ -263,10 +290,12 @@ export default {
   text-transform: uppercase;
   font-family: "Poppins", sans-serif;
   letter-spacing: 1px;
+  color: white !important;
 }
 
 .text-container h1 {
   text-transform: uppercase;
+  color: white !important;
 }
 
 .img-container img {

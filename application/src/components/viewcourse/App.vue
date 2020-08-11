@@ -1,4 +1,4 @@
-<template >
+<template>
   <div id="wrapper">
     <lang></lang>
     <topbar></topbar>
@@ -48,10 +48,6 @@ export default {
     };
   },
   created() {
-    this.verifySession();
-    this.loadIntegrations();
-    this.createFavicon();
-
     eventBus.$on(
       "change-leftbar-class",
       function() {

@@ -37,23 +37,25 @@
               <div class="action-buttons float-right">
                 <!-- Edit answer -->
                 <el-button
+                  size="mini"
                   @click.prevent="openEditAnswerModal(element.id,element.answer)"
-                  class="sbr-btn sbr-primary"
+                  class="sbr-primary"
                   icon="el-icon-edit"
                   circle
                 ></el-button>
 
-                <!-- Delete module -->
+                <!-- Delete answer -->
                 <el-button
+                  size="mini"
                   @click.prevent="deleteAnswer(element.id)"
                   slot="reference"
-                  class="sbr-btn sbr-danger"
+                  class="sbr-danger"
                   icon="el-icon-delete"
                   circle
                 ></el-button>
 
                 <!-- Move answer -->
-                <el-button class="handle sbr-btn sbr-neutral" icon="el-icon-rank" circle></el-button>
+                <el-button class="handle sbr-neutral" size="mini" icon="el-icon-rank" circle></el-button>
               </div>
             </li>
           </transition-group>

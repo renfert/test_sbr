@@ -39,11 +39,6 @@
         </div>
       </form>
     </el-dialog>
-
-    <!-------- 
-        Pdf tour
-    ---------->
-    <v-tour name="pdf-tour" :options="tourOptions" :steps="steps"></v-tour>
   </div>
   <!-- End  modal new module -->
 </template>
@@ -55,15 +50,11 @@ import VueAxios from "vue-axios";
 import Upload from "@/components/helper/HelperUpload";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
-import VueTour from "vue-tour";
 
 import { eventBus } from "@/components/newcourse/App";
 import { eventUpload } from "@/components/helper/HelperUpload";
 import { mapState } from "vuex";
 
-require("vue-tour/dist/vue-tour.css");
-
-Vue.use(VueTour);
 Vue.use(VueAxios, axios);
 
 export default {
@@ -76,83 +67,14 @@ export default {
     return {
       name: "",
       modalCreatePdf: false,
-      loading: false,
-      tourOptions: {
-        useKeyboardNavigation: true,
-        labels: {
-          buttonSkip: "",
-          buttonPrevious: "",
-          buttonNext: "",
-          buttonStop: ""
-        }
-      },
-      steps: [
-        {
-          target: ".v-step-9",
-          header: {
-            title: ""
-          },
-          params: {
-            placement: "bottom",
-            highlight: true
-          },
-          content: ""
-        },
-        {
-          target: ".v-step-10",
-          header: {
-            title: ""
-          },
-          params: {
-            placement: "bottom",
-            highlight: true
-          },
-          content: ""
-        },
-        {
-          target: ".v-step-11",
-          header: {
-            title: ""
-          },
-          params: {
-            placement: "bottom",
-            highlight: true
-          },
-          content: ""
-        }
-      ]
+      loading: false
     };
   },
   mounted() {
-    /* Tour labels */
-    this.tourOptions.labels.buttonSkip = this.lang["skip-tour"];
-    this.tourOptions.labels.buttonPrevious = this.lang["previous-step-button"];
-    this.tourOptions.labels.buttonNext = this.lang["next-step-button"];
-    this.tourOptions.labels.buttonStop = this.lang["finish"];
-
-    /* Tour step 0 - Pdf name */
-    this.steps[0].header.title = this.lang["add-new-lesson"];
-    this.steps[0].content = this.lang["tour-course-add-pdf-name"];
-
-    /* Tour step 0 - Pdf file */
-    this.steps[1].header.title = this.lang["add-new-lesson"];
-    this.steps[1].content = this.lang["tour-course-add-pdf-file"];
-
-    /* Tour step 0 - Save */
-    this.steps[2].header.title = this.lang["add-new-lesson"];
-    this.steps[2].content = this.lang["tour-course-pdf-save"];
-
     eventBus.$on(
       "new-pdf",
       function() {
-        this.$tours["second-step-tour-add-content-modal"].finish();
         this.modalCreatePdf = true;
-
-        setTimeout(() => {
-          if (this.$route.query.tour == "true") {
-            this.$tours["pdf-tour"].start();
-          }
-        }, 1500);
       }.bind(this)
     );
   },
@@ -162,7 +84,6 @@ export default {
   methods: {
     /* Create a new lesson */
     create: function() {
-      this.$tours["pdf-tour"].finish();
       this.loading = true;
       var form = document.getElementById("form-lesson-pdf");
       var formData = new FormData(form);
@@ -176,11 +97,6 @@ export default {
           this.successMessage();
           this.actionsToBePerformedAfterRegistration();
           this.loading = false;
-          setTimeout(() => {
-            if (this.$route.query.tour == "true") {
-              this.$tours["tour-3-step"].start();
-            }
-          }, 1000);
         },
         /* Error callback */
         function() {

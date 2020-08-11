@@ -6,19 +6,23 @@
 
         <div class="item-card">
           <div v-if="courseList == null">
-            <h4>{{lang["no-results-course-title"]}}</h4>
+            <h4>{{ lang["no-results-course-title"] }}</h4>
             <br />
-            <a href="newcourse" class="sbr-btn sbr-primary">{{lang["new-course-button"]}}</a>
+            <router-link to="/newcourse">
+              <el-button class="sbr-btn sbr-primary mt-4">{{
+                lang["new-course-button"]
+              }}</el-button>
+            </router-link>
           </div>
           <div v-else>
             <h3>
-              {{lang["courses-already-created"]}}
-              <b
-                class="text-sabiorealm"
-              >{{numberTotalOfCoursesCreated}}</b>
+              {{ lang["courses-already-created"] }}
+              <b class="sbr-text-primary">{{ numberTotalOfCoursesCreated }}</b>
             </h3>
-            <router-link to="newcourse">
-              <el-button class="sbr-btn sbr-primary mt-4">{{ lang["new-course-button"] }}</el-button>
+            <router-link to="/newcourse">
+              <el-button class="sbr-btn sbr-primary mt-4">{{
+                lang["new-course-button"]
+              }}</el-button>
             </router-link>
           </div>
         </div>
@@ -36,8 +40,14 @@
           >
             <span></span>
           </a>
-          <div id="video-overlay" class="video-overlay" :class="videoOverlay == true?'open': ''">
-            <a @click.prevent="videoOverlay = false" class="video-overlay-close">&times;</a>
+          <div
+            id="video-overlay"
+            class="video-overlay"
+            :class="videoOverlay == true ? 'open' : ''"
+          >
+            <a @click.prevent="videoOverlay = false" class="video-overlay-close"
+              >&times;</a
+            >
             <iframe
               width="560"
               height="315"
@@ -106,7 +116,9 @@ export default {
             }.bind(this),
             1000
           );
-          if (response.data.length) {
+          if (response.data == null) {
+            this.numberTotalOfCoursesCreated = 0;
+          } else {
             this.numberTotalOfCoursesCreated = response.data.length;
           }
         },
