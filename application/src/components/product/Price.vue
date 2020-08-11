@@ -9,11 +9,26 @@
           alt="7.jpg"
         />
         <div class="overlay_icon">
-          <div class="bb-video-box">
-            <div class="bb-video-box-inner">
-              <div class="bb-video-box-innerup">
-                <i :style="primaryColor" class="ti-control-play"></i>
-              </div>
+          <a
+            v-if="preview"
+            id="play-video"
+            class="video-play-button"
+            @click.prevent="videoOverlay = true"
+            href="#"
+          >
+            <span></span>
+          </a>
+          <div
+            v-if="preview != null"
+            id="video-overlay"
+            class="video-overlay"
+            :class="videoOverlay == true?'open': ''"
+          >
+            <a @click.prevent="closeVideo()" class="video-overlay-close">&times;</a>
+            <div id="player-container" class="player-container">
+              <video id="preview" v-if="preview" controls>
+                <source :src="getUrlToContents() + 'preview/'+preview+''" type="video/mp4" />
+              </video>
             </div>
           </div>
         </div>
@@ -22,12 +37,16 @@
 
     <div class="ed_view_price pl-4">
       <span>Acctual Price</span>
-      <span v-if="price == null" class="facts-1">{{lang["free-course"]}}</span>
-      <h2 v-else :style="primaryColor" class="theme-cl">$ {{price}}</h2>
+      <span v-if="price == null" class="facts-1">
+        {{
+        lang["free-course"]
+        }}
+      </span>
+      <h2 v-else :style="primaryColor" class="theme-cl">$ {{ price }}</h2>
     </div>
 
     <div class="ed_view_short pl-4 pr-4 pb-2">
-      <p>{{lang["description"]}}</p>
+      <p v-html="description"></p>
     </div>
 
     <div class="ed_view_link">
@@ -38,15 +57,15 @@
         <!-- Active session -->
         <div v-if="session == true">
           <!-- Already registered -->
-          <div v-if="registeredUser == true ">
-            <a
+          <div v-if="registeredUser == true">
+            <router-link
               :style="primaryColorBg"
-              :href="'viewcourse/'+courseId"
               class="btn btn-theme enroll-btn"
+              :to="'/viewcourse/'+courseId"
             >
-              {{lang["go-to-course"]}}
+              {{ lang["go-to-course"] }}
               <i class="ti-angle-right"></i>
-            </a>
+            </router-link>
           </div>
 
           <!-- Unregistered user -->
@@ -57,7 +76,7 @@
               @click.prevent="enrollFreeCourse()"
               class="btn btn-theme enroll-btn"
             >
-              {{lang["enroll-now"]}}
+              {{ lang["enroll-now"] }}
               <i class="ti-angle-right"></i>
             </a>
           </div>
@@ -71,7 +90,7 @@
             @click.prevent="openLeadModal()"
             class="btn btn-theme enroll-btn"
           >
-            {{lang["enroll-now"]}}
+            {{ lang["enroll-now"] }}
             <i class="ti-angle-right"></i>
           </a>
         </div>
@@ -85,14 +104,14 @@
         <div v-if="session == true">
           <!-- Already registered -->
           <div v-if="registeredUser == true">
-            <a
+            <router-link
               :style="primaryColorBg"
-              :href="'viewcourse/'+courseId"
               class="btn btn-theme enroll-btn"
+              :to="'/viewcourse/'+courseId"
             >
-              {{lang["go-to-course"]}}
+              {{ lang["go-to-course"] }}
               <i class="ti-angle-right"></i>
-            </a>
+            </router-link>
           </div>
 
           <!-- Unregistered user -->
@@ -120,7 +139,7 @@
             href="javascript:void(0)"
             class="btn btn-theme enroll-btn"
           >
-            {{lang["enroll-now"]}}
+            {{ lang["enroll-now"] }}
             <i class="ti-angle-right"></i>
           </a>
         </div>
@@ -132,7 +151,7 @@
     ----------------------->
     <el-dialog :visible.sync="modal" :title="lang['create-account']" center top="5vh">
       <div v-if="createAnAccount" class="fade-in">
-        <el-alert :title="lang['create-account-to-continue']" type="info"></el-alert>
+        <el-alert show-icon :title="lang['create-account-to-continue']" type="info"></el-alert>
         <form
           id="form-account"
           @submit.prevent="createNewAccount()"
@@ -173,15 +192,18 @@
             :style="primaryColorBg"
             class="btn btn-theme account-btn"
             type="submit"
-          >{{lang['create-account']}}</button>
+          >{{ lang["create-account"] }}</button>
 
           <div class="options text-center">
             <p class="pt-1">
-              {{lang["already-have-account"]}}
+              {{ lang["already-have-account"] }}
               <a
                 :style="primaryColor"
                 href="javascript:void(0)"
-                @click="createAnAccount = false; login = true;"
+                @click="
+                  createAnAccount = false;
+                  login = true;
+                "
               >Log In</a>
             </p>
           </div>
@@ -237,12 +259,15 @@
 
           <!-- Register -->
           <p>
-            {{lang["not-a-member"]}}
+            {{ lang["not-a-member"] }}
             <a
               :style="primaryColor"
-              @click="login = false; createAnAccount = true"
+              @click="
+                login = false;
+                createAnAccount = true;
+              "
               href="javascript:void(0)"
-            >{{lang["register"]}}</a>
+            >{{ lang["register"] }}</a>
           </p>
         </form>
       </div>
@@ -250,8 +275,8 @@
       <div v-if="proceedToPayment" class="fade-in">
         <div class="row">
           <div class="col-8 mt-3">
-            <h2 class="text-sabiorealm">{{lang["congratulations"]}}</h2>
-            <h3>{{lang["you-are-logged-in-now"]}}</h3>
+            <h2 class="fw-600" :style="primaryColor">{{ lang["congratulations"] }}</h2>
+            <h5 class="fw-600">{{ lang["you-are-logged-in-now"] }}</h5>
             <form
               v-if="preferenceId != null"
               :action="this.getCurrentDomainName() + 'payment/process'"
@@ -276,7 +301,7 @@
         </div>
       </div>
     </el-dialog>
-    <lead-create></lead-create>
+    <lead-create :course-id="this.courseId"></lead-create>
   </div>
 </template>
 
@@ -321,6 +346,8 @@ export default {
       confirmPassword: "",
       proceedToPayment: false,
 
+      videoOverlay: false,
+
       preferenceId: null,
       wrongPasswordOrUser: false,
       mpAccessToken: "",
@@ -331,7 +358,14 @@ export default {
   components: {
     LeadCreate
   },
-  props: ["description", "color", "price", "course-id", "course-title"],
+  props: [
+    "description",
+    "color",
+    "price",
+    "course-id",
+    "course-title",
+    "preview"
+  ],
   mounted() {
     this.checkEnrolledUser();
     this.checkActiveSession();
@@ -339,9 +373,28 @@ export default {
     this.priceCardSticky();
   },
   methods: {
+    enrollFreeCourse: function() {
+      var formData = new FormData();
+      formData.set("courseId", this.courseId);
+      formData.set("userId", this.userId);
+      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+        "course",
+        "enrollUserIntoCourse"
+      );
+      axios.post(urlToBeUsedInTheRequest, formData).then(
+        () => {
+          this.$router.push("/viewcourse/" + this.courseId + "");
+        },
+        /* Error callback */
+        function() {
+          this.errorMessage();
+        }.bind(this)
+      );
+    },
     priceCardSticky: function() {
       window.addEventListener("scroll", function() {
         let header = document.getElementById("price-card");
+        let playerContainer = document.getElementById("player-container");
         let h = document.documentElement,
           b = document.body,
           st = "scrollTop",
@@ -349,6 +402,9 @@ export default {
         let percent =
           ((h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight)) * 100;
         header.classList.toggle("sticky", percent > 20);
+        if (playerContainer) {
+          playerContainer.classList.toggle("sticky", percent > 20);
+        }
       });
     },
     createMpPreference: async function(courseTitle, coursePrice, courseId) {
@@ -382,7 +438,13 @@ export default {
         items: [
           {
             title: courseTitle,
-            unit_price: coursePrice,
+            unit_price: parseInt(
+              coursePrice
+                .split(".")
+                .join("")
+                .split(",")
+                .join(".")
+            ),
             quantity: 1
           }
         ],
@@ -448,9 +510,7 @@ export default {
             this.preferenceId = res.response.id;
             this.savePreferenceId(md5(res.response.id));
           }.bind(this),
-          function(error) {
-            console.log(error);
-          }
+          function() {}
         )
         .catch(function() {});
 
@@ -524,6 +584,11 @@ export default {
         }.bind(this)
       );
     },
+    closeVideo: function() {
+      this.videoOverlay = false;
+      let video = document.getElementById("preview");
+      video.pause();
+    },
     doLogin: function() {
       this.loading = true;
       var form = document.getElementById("form-login");
@@ -561,7 +626,9 @@ export default {
       var style = document.createElement("style");
       style.type = "text/css";
       style.innerHTML =
-        ".mercadopago-button{background-color: " +
+        ".video-play-button span {display: block;position: relative;z-index: 3;width: 0;height: 0;border-left: 32px solid " +
+        this.color +
+        ";border-top: 22px solid transparent;border-bottom: 22px solid transparent;}.mercadopago-button{background-color: " +
         this.color +
         " !important;text-transform:uppercase !important;}.property_video:before {background: " +
         this.color +
@@ -614,36 +681,13 @@ export default {
       );
     }
   },
-  enrollFreeCourse: function() {
-    var formData = new FormData();
-    formData.set("courseId", this.courseId);
-    formData.set("userId", this.userId);
-    var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-      "course",
-      "enrollUserIntoCourse"
-    );
-    axios.post(urlToBeUsedInTheRequest, formData).then(
-      () => {
-        sessionStorage.setItem("sbr_course_id", "" + this.courseId + "");
-        window.location.href = "viewcourse/" + this.courseId;
-      },
-      /* Error callback */
-      function() {
-        this.errorMessage();
-      }.bind(this)
-    );
-  },
   watch: {
     color: function() {
       this.createCustomClass();
     },
     courseId: function() {
       this.checkEnrolledUser();
-      this.createMpPreference(
-        this.courseTitle,
-        parseInt(this.price),
-        this.courseId
-      );
+      this.createMpPreference(this.courseTitle, this.price, this.courseId);
     }
   },
 
@@ -670,6 +714,7 @@ export default {
     - Layout
 		- Fonts
 		- Mobile	
+    - Video overlay
 
 ============= */
 
@@ -690,6 +735,7 @@ export default {
 }
 
 .ed_view_box {
+  border: 4px solid #f4f8fa;
   display: block;
   position: relative;
   border-radius: 0.5rem;
@@ -738,30 +784,6 @@ export default {
   object-fit: cover;
 }
 
-.property_video .bb-video-box {
-  width: 50px;
-  height: 50px;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px dashed #fff;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.bb-video-box-inner {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 1);
-}
 @keyframes smoothScroll {
   0% {
     transform: translateY(100%);
@@ -839,24 +861,17 @@ ed_view_box.style_3 .property_video .thumb,
   font-size: 0.8rem !important;
 }
 
-.ti-control-play::before {
-  font-size: 20px;
-}
-
 span.facts-1 {
   background: rgba(33, 177, 124, 0.13);
   color: #21b17c;
 }
 
-span {
+.ed_view_price span {
   padding: 3px 8px;
   font-size: 13px;
   position: relative;
   background: #f4f5f7;
   border-radius: 0 2px 2px 0;
-}
-
-span {
   display: inline-block;
   margin-right: 0.8rem;
 }
@@ -865,7 +880,7 @@ span.facts-1:before {
   border-left-color: rgba(33, 177, 124, 0.13);
 }
 
-span:before {
+.ed_view_price span:before {
   border-top: 12px solid transparent;
   border-left: 10px solid #eaedf3;
   border-bottom: 13px solid transparent;
@@ -877,7 +892,7 @@ span:before {
   width: 0;
 }
 
-span:after {
+.ed_view_price span:after {
   background-color: #fff;
   border-radius: 50%;
   content: "";
@@ -930,6 +945,144 @@ a {
 }
 
 /* =============
+  video overlay
+============= */
+
+.player-container {
+  width: 560px;
+  display: block;
+  margin: 0 auto;
+  margin-top: 10%;
+}
+
+.player-container.sticky {
+  max-width: 100%;
+  display: block;
+  margin: 0 auto;
+  margin-top: 0%;
+}
+
+.player-container video {
+  max-width: 100%;
+}
+
+.video-play-button {
+  position: absolute;
+  z-index: 10;
+  margin-top: 0%;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  box-sizing: content-box;
+  display: block;
+  width: 32px;
+  height: 44px;
+  /* background: #fa183d; */
+  border-radius: 50%;
+  padding: 18px 20px 18px 28px;
+}
+
+.video-play-button:before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  display: block;
+  width: 80px;
+  height: 80px;
+  background: white;
+  opacity: 0.5;
+  border-radius: 50%;
+  animation: pulse-border 1500ms ease-out infinite;
+}
+
+.video-play-button:after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  display: block;
+  width: 80px;
+  height: 80px;
+  background: white;
+  border-radius: 50%;
+  transition: all 200ms;
+}
+
+.video-play-button:hover:after {
+  background-color: darken(#09aec7, 10%);
+}
+
+.video-play-button img {
+  position: relative;
+  z-index: 3;
+  max-width: 100%;
+  width: auto;
+  height: auto;
+}
+
+@keyframes pulse-border {
+  0% {
+    transform: translateX(-50%) translateY(-50%) translateZ(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-50%) translateY(-50%) translateZ(0) scale(1.5);
+    opacity: 0;
+  }
+}
+
+.video-overlay {
+  position: fixed;
+  z-index: -1;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.8);
+  opacity: 0;
+  transition: all ease 500ms;
+}
+
+.video-overlay.open {
+  position: fixed;
+  z-index: 1000;
+  opacity: 1;
+}
+
+.video-overlay-close {
+  position: absolute;
+  z-index: 1000;
+  top: 20%;
+  right: 10%;
+  font-size: 36px;
+  line-height: 1;
+  font-weight: 400;
+  color: #fff;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 200ms;
+}
+
+.video-overlay-close:hover {
+  color: #09aec7;
+}
+
+.video-overlay iframe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  /* width: 90%; */
+  /* height: auto; */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.75);
+}
+
+/* =============
   Mobile
 ============= */
 @media only screen and (max-width: 600px) {
@@ -942,6 +1095,10 @@ a {
     margin-bottom: 30px;
     margin-top: 0%;
     transition: 1s;
+  }
+
+  .player-container {
+    width: 100%;
   }
 }
 </style>

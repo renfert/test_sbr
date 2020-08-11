@@ -2,7 +2,6 @@
   <div class="left side-menu" :class="mobile">
     <!--- Sidemenu student role -->
     <el-menu
-      v-if="roleId == 3"
       style="width:230px"
       :collapse="collapse"
       background-color="#373A43"
@@ -10,55 +9,65 @@
       active-text-color="#00C0FD"
       class="el-menu-vertical-demo"
     >
-      <el-menu-item index="1">
-        <i class="dripicons-home"></i>
-        <a href="home" class="waves-effect">
-          <span class="menuMain">{{ lang["home-nav"] }}</span>
-        </a>
+      <!-- Logo -->
+      <el-menu-item index="0" class="logo">
+        <el-row>
+          <!-- Profile -->
+          <router-link to="/">
+            <img :src="getUrlToContents() + 'settings/'+logo+''" />
+          </router-link>
+        </el-row>
       </el-menu-item>
 
       <el-menu-item index="1">
-        <i class="dripicons-graph-bar"></i>
-        <a :href="getDomainNameToNavigation() + 'dashboard'" class="waves-effect">
-          <span class="menuMain">{{ lang["dashboard-nav"] }}</span>
-        </a>
+        <i class="dripicons-home"></i>
+        <router-link to="/home">
+          <span class="menuMain">{{ lang["home-nav"] }}</span>
+        </router-link>
       </el-menu-item>
 
       <el-menu-item index="2">
+        <i class="dripicons-graph-bar"></i>
+        <router-link to="/dashboard">
+          <span class="menuMain">{{ lang["dashboard-nav"] }}</span>
+        </router-link>
+      </el-menu-item>
+
+      <el-menu-item index="3">
         <i class="dripicons-media-next"></i>
-        <a :href="getDomainNameToNavigation() + 'courses'" class="waves-effect">
+        <router-link to="/courses">
           <span class="menuMain">{{ lang["courses-nav"] }}</span>
-        </a>
+        </router-link>
       </el-menu-item>
 
-      <el-menu-item index="3" v-if="plan != 'starter'">
+      <el-menu-item index="4" v-if="plan != 'starter'">
         <i class="dripicons-to-do"></i>
-        <a :href="getDomainNameToNavigation() + 'programs'" class="waves-effect">
+        <router-link to="/programs">
           <span class="menuMain">{{ lang["programs-nav"] }}</span>
-        </a>
+        </router-link>
       </el-menu-item>
 
-      <el-menu-item index="3" v-if="plan != 'starter'">
+      <el-menu-item index="5" v-if="plan != 'starter'">
         <i class="dripicons-copy"></i>
-        <a :href="getDomainNameToNavigation() + 'records'" class="waves-effect">
+        <router-link to="/records">
           <span class="menuMain">{{ lang["school-records"] }}</span>
-        </a>
+        </router-link>
       </el-menu-item>
 
-      <el-menu-item index="3" v-if="plan != 'starter'">
+      <el-menu-item index="6" v-if="plan != 'starter'">
         <i class="dripicons-star"></i>
-        <a :href="getDomainNameToNavigation() + 'certificates'" class="waves-effect">
+        <router-link to="/certificates">
           <span class="menuMain">{{ lang["certificates-nav"] }}</span>
-        </a>
+        </router-link>
       </el-menu-item>
 
       <!-- User information -->
-      <el-menu-item index="17" class="menu-item-user">
+      <el-menu-item index="7" class="menu-item-user">
         <el-row>
           <!-- Profile -->
-          <a :href="getDomainNameToNavigation() + 'profile'" class="pr-4">
+          <router-link class="pr-4" to="/profile">
             <el-avatar :src="getUrlToContents() + 'avatar/' + userAvatar + ''"></el-avatar>
-          </a>
+          </router-link>
 
           <!-- Notification -->
           <a href="#">
@@ -66,10 +75,9 @@
           </a>
 
           <!-- Calendar -->
-          <a :href="getDomainNameToNavigation() + 'calendar'">
+          <router-link to="/calendar">
             <i class="mdi mdi-calendar mdi-18px pr-3 mr-0"></i>
-          </a>
-
+          </router-link>
           <!-- Lofoff -->
           <a href="javascript:void(0)" @click="confirmLogout">
             <i class="mdi mdi-power-settings mdi-18px ml-0 pl-0"></i>
@@ -85,31 +93,25 @@
 import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
-import { mapState } from "vuex";
-import { eventBus } from "@/components/profile/App";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
 
-export const eventTemplate = new Vue();
+import { eventBus } from "@/components/profile/App";
+import { mapState } from "vuex";
+import { eventTemplate } from "@/components/template/TheTopBar";
 
 Vue.use(VueAxios, axios);
+
 export default {
   mixins: [domains, alerts],
-  props: ["collapse"],
+  props: ["collapse", "logo", "user-name", "user-avatar", "user-id", "plan"],
   data: () => {
     return {
-      userName: "",
-      userAvatar: "",
-      plan: "",
       mobile: "retracted"
     };
   },
   computed: {
     ...mapState(["lang"])
-  },
-  created: function() {
-    this.getCompanyInformation();
-    this.getUserProfile();
   },
   mounted() {
     eventBus.$on(
@@ -139,17 +141,6 @@ export default {
           this.roleId = response.data["myrole_id"];
           this.userName = response.data["name"];
           this.userAvatar = response.data["avatar"];
-        }.bind(this)
-      );
-    },
-    getCompanyInformation() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "company",
-        "getCompanyInformation"
-      );
-      axios.get(urlToBeUsedInTheRequest).then(
-        function(response) {
-          this.plan = response.data["plan"];
         }.bind(this)
       );
     },
@@ -230,5 +221,17 @@ a {
 
 .side-menu {
   overflow: overlay !important;
+}
+
+.logo {
+  margin: 0 0 2rem 0;
+}
+
+.logo img {
+  margin-left: 15%;
+  padding: 0px;
+  width: 120px;
+  max-height: 100%;
+  position: relative;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="headerArray != null">
     <div v-for="element in headerArray" :key="element.id">
       <el-submenu index="1">
         <template slot="title">
@@ -24,7 +24,7 @@
           <el-menu-item-group title="Logo sticker (150 x 50 px)">
             <el-menu-item index="1-1">
               <upload
-                :src-name="element.logoSticky"
+                :src-name="element.logo_sticky"
                 :src-img="getUrlToContents() + 'builder/header/'+element.logo_sticky+''"
                 do-upload="true"
                 box-height="100"
@@ -99,8 +99,7 @@ export default {
       lang: {},
       logoSize: 0,
       logo: "",
-      logoSticky: "",
-      headerArray: [],
+      headerArray: null,
       headerColor: "",
       transparentHeader: false
     };

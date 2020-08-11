@@ -1,255 +1,255 @@
 <template>
+  <div>
     <div>
-        <div>   
-            <div class="row">
-                <div class="img-container">
-                    <div class="text-container">
-                        <h4>{{lang["program-created-successfully"]}}</h4>
-                        <h1>{{programName}}</h1>
-                    </div>
-            
-                    <img  src="@/assets/img/general/ux/course_completed.png">
-                </div>
-            </div>
+      <div class="row">
+        <div class="img-container">
+          <div class="text-container">
+            <h4>{{lang["program-created-successfully"]}}</h4>
+            <h1>{{programName}}</h1>
+          </div>
 
-            <div class="row mt-3 ml-5 mr-5">
-                <div class="col-12 col-md-4">
-                    <a href="javascript:void(0)" @click.prevent="viewProgram()">
-                        <div class="card-box">
-                            <h5>{{lang["view-program"]}}</h5>
-                            <img src="@/assets/img/general/ux/view_course.png" alt="">
-                        </div>
-                    </a>
-                </div>
-
-                <div class="col-12 col-md-4">
-                    <a href="javascript:void(0)" @click.prevent="modal = true">
-                        <div class="card-box">
-                            <h5>{{lang["join-persons"]}}</h5>
-                            <img src="@/assets/img/general/ux/join_persons.png" alt="">
-                        </div>
-                    </a>
-                </div>
-
-                <div class="col-12 col-md-4">
-                    <a href="javascript:void(0)" @click.prevent="reloadPage()">
-                        <div class="card-box">
-                            <h5>{{lang["create-new-program"]}}</h5>
-                            <img src="@/assets/img/general/ux/create_new_course.png" alt="">
-                        </div>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Join users -->
-            <el-dialog  :visible.sync="modal" :title="lang['join-persons']" center  top="5vh">
-                <div v-if="usersList != null" v-loading="loading">
-                    <template>
-                        <el-transfer
-                            filterable
-                            :titles="['Persons', 'Course']"
-                            v-model="users"
-                            :data="usersList">
-                        </el-transfer>
-                    </template>
-                    <br>
-                    <el-button   
-                        @click="enrollUsers()"
-                        type="primary"  
-                        size="medium">
-                        {{lang["save-button"]}}
-                    </el-button>
-                </div>
-
-                <!-- No persons found content -->
-                <div class="card-box box-no-results" v-else>
-                    <div class="row">
-                        <div class="col-1"></div>
-                        <div class="col-5">
-                            <div class="text-no-results">
-                                <h5>{{lang["all-students-already-added"]}}</h5>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <img class="image-no-results" src="@/assets/img/general/ux/no_persons.png" alt="">
-                        </div>
-                    </div>
-                </div>
-                <!-- No users found content end -->
-            </el-dialog>
+          <img src="@/assets/img/general/ux/course_completed.png" />
         </div>
-    </div>
+      </div>
 
+      <div class="row mt-3 ml-5 mr-5">
+        <div class="col-12 col-md-4">
+          <router-link :to="'/viewprogram/'+programId">
+            <div class="card-box">
+              <h5>{{lang["view-program"]}}</h5>
+              <img src="@/assets/img/general/ux/view_course.png" alt />
+            </div>
+          </router-link>
+        </div>
+
+        <div class="col-12 col-md-4">
+          <a href="javascript:void(0)" @click.prevent="modal = true">
+            <div class="card-box">
+              <h5>{{lang["join-persons"]}}</h5>
+              <img src="@/assets/img/general/ux/join_persons.png" alt />
+            </div>
+          </a>
+        </div>
+
+        <div class="col-12 col-md-4">
+          <a href="javascript:void(0)" @click.prevent="reloadPage()">
+            <div class="card-box">
+              <h5>{{lang["create-new-program"]}}</h5>
+              <img src="@/assets/img/general/ux/create_new_course.png" alt />
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Join users -->
+      <el-dialog :visible.sync="modal" :title="lang['join-persons']" center top="5vh">
+        <div v-if="usersList != null" v-loading="loading">
+          <template>
+            <el-transfer
+              filterable
+              :titles="['Persons', 'Course']"
+              v-model="users"
+              :data="usersList"
+            ></el-transfer>
+          </template>
+          <br />
+          <el-button @click="enrollUsers()" type="primary" size="medium">{{lang["save-button"]}}</el-button>
+        </div>
+
+        <!-- No persons found content -->
+        <div class="card-box box-no-results" v-else>
+          <div class="row">
+            <div class="col-1"></div>
+            <div class="col-5">
+              <div class="text-no-results">
+                <h5>{{lang["all-students-already-added"]}}</h5>
+              </div>
+            </div>
+            <div class="col-6">
+              <img class="image-no-results" src="@/assets/img/general/ux/no_persons.png" alt />
+            </div>
+          </div>
+        </div>
+        <!-- No users found content end -->
+      </el-dialog>
+    </div>
+  </div>
 </template>
 
 <script>
-import Vue from 'vue'
-import axios from 'axios'
-import VueAxios from 'vue-axios'
-import {eventLang} from '@/components/helper/HelperLang'
-import domains from '@/mixins/domains'
-import alerts from '@/mixins/alerts'
-import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
-import lang from 'element-ui/lib/locale/lang/en'
-import locale from 'element-ui/lib/locale'
+import Vue from "vue";
+import axios from "axios";
+import VueAxios from "vue-axios";
+import { eventLang } from "@/components/helper/HelperLang";
+import domains from "@/mixins/domains";
+import alerts from "@/mixins/alerts";
+import ElementUI from "element-ui";
+import "element-ui/lib/theme-chalk/index.css";
+import lang from "element-ui/lib/locale/lang/en";
+import locale from "element-ui/lib/locale";
 
-
-locale.use(lang)
-Vue.use(ElementUI)
-Vue.use(VueAxios, axios)
+locale.use(lang);
+Vue.use(ElementUI);
+Vue.use(VueAxios, axios);
 export default {
-    mixins: [domains,alerts],
-    data: function() {
-        return {
-            lang: {},
-            loading: false,
-            modal: false,
-            usersList : [],
-            users: [],
-        }
-    },
-    props:['program-id', 'program-name'],
-    created(){
-        eventLang.$on('lang', function(response){
-            this.lang = response;
-        }.bind(this));
-    },
-    methods: {
-        viewProgram: function(){
-            sessionStorage.setItem('sbr_program_id', ''+this.programId+'');
-            if(process.env.NODE_ENV === 'production'){
-                window.location.href="pages/viewprogram";
-            }else{
-                window.location.href="viewprogram";
-            }
-        },
-        enrollUsers: function(){
-            this.loading = true;
-            var formData = new FormData();
-            formData.set("programId", this.programId);
-            formData.set("users", this.users);
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("program", "enrollUsersIntoProgram");
-            axios.post(urlToBeUsedInTheRequest, formData).then(() => {
-                // success callback
-                this.loading = false;
-                this.modal = false;
-                this.getPersonsOutsideTheProgram(this.programId);
-                this.users = [];
-                this.successMessage();
-            }, 
-                // Failure callback
-                function(){
-                    this.errorMessage();
-                }.bind(this)
-            );
-        },
-        getPersonsOutsideTheProgram(){
-            var formData = new FormData();
-            formData.set("programId", this.programId);
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("program", "getPersonsOutsideTheProgram");
-            axios.post(urlToBeUsedInTheRequest, formData).then((response) => {
-                // success callback
-                this.usersList = response.data; 
-            }, 
-                // Failure callback
-                function(){
-                    this.errorMessage();
-                }.bind(this)
-            );
-        },
-        reloadPage: function(){
-           location.reload();
-        }
-    },
-    watch: {
-        programId: function () {
-            this.getPersonsOutsideTheProgram();
-        }
+  mixins: [domains, alerts],
+  data: function() {
+    return {
+      lang: {},
+      loading: false,
+      modal: false,
+      usersList: [],
+      users: []
+    };
   },
-}
+  props: ["program-id", "program-name"],
+  created() {
+    eventLang.$on(
+      "lang",
+      function(response) {
+        this.lang = response;
+      }.bind(this)
+    );
+  },
+  methods: {
+    enrollUsers: function() {
+      this.loading = true;
+      var formData = new FormData();
+      formData.set("programId", this.programId);
+      formData.set("users", this.users);
+      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+        "program",
+        "enrollUsersIntoProgram"
+      );
+      axios.post(urlToBeUsedInTheRequest, formData).then(
+        () => {
+          // success callback
+          this.loading = false;
+          this.modal = false;
+          this.getPersonsOutsideTheProgram(this.programId);
+          this.users = [];
+          this.successMessage();
+        },
+        // Failure callback
+        function() {
+          this.errorMessage();
+        }.bind(this)
+      );
+    },
+    getPersonsOutsideTheProgram() {
+      var formData = new FormData();
+      formData.set("programId", this.programId);
+      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+        "program",
+        "getPersonsOutsideTheProgram"
+      );
+      axios.post(urlToBeUsedInTheRequest, formData).then(
+        response => {
+          // success callback
+          this.usersList = response.data;
+        },
+        // Failure callback
+        function() {
+          this.errorMessage();
+        }.bind(this)
+      );
+    },
+    reloadPage: function() {
+      location.reload();
+    }
+  },
+  watch: {
+    programId: function() {
+      this.getPersonsOutsideTheProgram();
+    }
+  }
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-.img-course{
-  width:40%;
+.img-course {
+  width: 40%;
 }
 
-.card-box{
-    text-align:center;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: grey !important;
+.card-box {
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: grey !important;
 }
 
-.card-box:hover{
-    -webkit-box-shadow: 0px 0px 5px 0px #00A9B4;
-    box-shadow: 0px 0px 5px 0px #00A9B4;
+.card-box:hover {
+  -webkit-box-shadow: 0px 0px 5px 0px #00a9b4;
+  box-shadow: 0px 0px 5px 0px #00a9b4;
 }
 
-.course-name{
-    text-transform: uppercase;
-    letter-spacing: 1px;
+.card-box img {
+  width: 50px;
 }
 
-
-.img-container{
-    width:100%;
-    height:380px;
-    overflow:hidden;
-    margin: 0px !important;
+.course-name {
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
-.img-container img{
-    width:inherit !important;
+.img-container {
+  width: 100%;
+  height: 380px;
+  overflow: hidden;
+  margin: 0px !important;
 }
 
-
-.text-container{
-    color:white;
-    position:absolute;
-    width:400px;
-    margin-left:50%;
-    margin-top:14%;
-    left: -200px;
-    text-align:center;  
+.img-container img {
+  width: inherit !important;
 }
 
-.text-container h4{
-    text-transform:uppercase;
-    font-family: 'Poppins', sans-serif;
-    letter-spacing: 1px;    
+.text-container {
+  color: white;
+  position: absolute;
+  width: 400px;
+  margin-left: 50%;
+  margin-top: 14%;
+  left: -200px;
+  text-align: center;
 }
 
-.text-container h1{
-    text-transform:uppercase;
+.text-container h4 {
+  text-transform: uppercase;
+  font-family: "Poppins", sans-serif;
+  letter-spacing: 1px;
+  color: white;
 }
 
-.content{
-    padding: 0px !important;
+.text-container h1 {
+  text-transform: uppercase;
+  color: white;
 }
 
+.content {
+  padding: 0px !important;
+}
 
 /* Default sizes */
-.form-row>.col, .form-row>[class*=col-]{
-    padding-right:20px !important;
-    padding-left:20px !important;
+.form-row > .col,
+.form-row > [class*="col-"] {
+  padding-right: 20px !important;
+  padding-left: 20px !important;
 }
 
-.form-row{
-    padding:0px !important;
+.form-row {
+  padding: 0px !important;
 }
 .editr {
-    height:200px;
-    border-radius: 4px;
-    border: 2px solid #ccc;
-    transition: border-color .15s linear !important;
+  height: 200px;
+  border-radius: 4px;
+  border: 2px solid #ccc;
+  transition: border-color 0.15s linear !important;
 }
 
-.editr--content{
-    font-family: 'Poppins', sans-serif !important;
-    font-size:15px !important;
+.editr--content {
+  font-family: "Poppins", sans-serif !important;
+  font-size: 15px !important;
 }
 
 .form-wizard-wrapper .form-wizard-content {
@@ -263,13 +263,10 @@ export default {
 
 /* End default sizes */
 
-
 /* ------------- Max 1024px ---------------- */
 @media only screen and (max-width: 1024px) {
-    .editr--toolbar {
-        display:none !important;
-    }
+  .editr--toolbar {
+    display: none !important;
+  }
 }
-
-
 </style>

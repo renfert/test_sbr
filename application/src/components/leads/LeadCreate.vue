@@ -135,8 +135,7 @@ export default {
               this.userAlreadyExists();
               this.loading = false;
             } else {
-              window.location.href =
-                this.getDomainNameToNavigation() + "courses";
+              this.$router.push("/courses");
             }
           },
           function() {

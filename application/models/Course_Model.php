@@ -42,29 +42,36 @@ class Course_Model extends CI_Model {
             T0.id,
             T0.title,
             T0.photo,
+            T0.validity,
+            T2.enroll_date,
             DATE_FORMAT(T0.release_date, '%d/%m/%Y') as release_date, 
             DATE_FORMAT(T0.expiration_date, '%d/%m/%Y') as expiration_date, 
             DATEDIFF(T0.expiration_date, '$currentDate') as expirationDays,
             DATEDIFF(T0.release_date, '$currentDate') as releaseDays,
+            DATEDIFF(DATE_ADD(T2.enroll_date, INTERVAL T0.validity DAY), '$currentDate' ) as validityDays,
             (SELECT count(DISTINCT mylesson_id ) - 1 FROM relationship WHERE mycourse_id = T0.id ) as lessons,
             (SELECT count(DISTINCT mylesson_id) FROM lesson_status WHERE mycourse_id = T0.id AND myuser_id = ".getUserId()." AND status = 'finished') as finishedLessons
         ");
         $this->db->distinct();
         $this->db->from("mycourse T0");
         $this->db->join("relationship T1", "T0.id = T1.mycourse_id");
+        $this->db->join("course_helper T2", "T0.id = T2.mycourse_id");
         $this->db->where("T1.myuser_id" , getUserId() );
         $this->db->where("T0.id !=", 1);
+        $this->db->where("T2.myuser_id", getUserId());
         $this->db->order_by("T0.id", "DESC");
         $query = $this->db->get();
-       
         if($query->num_rows() > 0){
+            foreach($query->result() as $row){
+              if($row->validityDays <= 0 && $row->validity != null && getUserId() != 1 ){
+                $this->removeUserFromCourse(getUserId(), $row->id);
+              }
+            }
             return $query->result();
         }
     }
 
-    public function listingAll($categories, $price, $title){    
-
-        
+    public function listingAll($categories, $price, $title){            
         $price = $this->Filters_Model->filtercoursesByPrice($price);
         $categories = $this->Filters_Model->filterCoursesByCategories($categories);
         $title = $this->Filters_Model->filterCoursesByTitle($title);
@@ -117,6 +124,16 @@ class Course_Model extends CI_Model {
         if($query->num_rows() > 0){
             return $query->row();
         }
+    }
+
+    public function getEnrollDate($courseId){
+      $this->db->select("*");
+      $this->db->from("course_helper");
+      $this->db->where("mycourse_id", $courseId);
+      $query = $this->db->get();
+      if($query->num_rows() > 0){
+        return $query->result();
+      }
     }
 
     public function getCourseByTitle($courseTitle){
@@ -308,6 +325,11 @@ class Course_Model extends CI_Model {
         $this->db->where('program_id', 1);
         $this->db->delete("relationship"); 
 
+        /* Remove user from course_helper */
+        $this->db->where("myuser_id", $userId);
+        $this->db->where("mycourse_id", $courseId);
+        $this->db->delete("course_helper");
+
         /* Remove user from all lessons of this course */
         $lessons = $this->getLessonsListFromCourse($courseId);
         foreach($lessons["lessons"] as $lesson){
@@ -411,7 +433,7 @@ class Course_Model extends CI_Model {
     }
 
 
-    public function updateCourseStatus($courseId,$status){
+    public function updateCourseStatus($courseId,$studentId,$status){
         if($status == "finished"){
             $data = array(
                 "status" => "finished",
@@ -423,7 +445,7 @@ class Course_Model extends CI_Model {
             );
         }
 
-        $this->db->where("myuser_id", getUserId());
+        $this->db->where("myuser_id", $studentId);
         $this->db->where("mycourse_id", $courseId);
         $this->db->update("course_helper", $data);
     }

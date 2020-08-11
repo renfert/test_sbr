@@ -7,8 +7,7 @@
         width="700"
         primaryColor="#f0f0f0"
         secondaryColor="#d9d9d9"
-      >
-      </facebook-loader>
+      ></facebook-loader>
 
       <div v-else>
         <div>
@@ -18,21 +17,13 @@
           <div style="margin-bottom: 10px">
             <el-row>
               <el-col :span="6">
-                <el-input
-                  v-model="filters[0].value"
-                  placeholder="Search"
-                ></el-input>
+                <el-input v-model="filters[0].value" placeholder="Search"></el-input>
               </el-col>
               <el-col v-if="userList != null" :span="6">
                 <export-excel :data="userList" name="users.xls">
-                  <el-tooltip
-                    class="item"
-                    effect="dark"
-                    :content="lang['export']"
-                    placement="top"
-                  >
+                  <el-tooltip class="item" effect="dark" :content="lang['export']" placement="top">
                     <el-button
-                      class="sbr-btn sbr-purple ml-3"
+                      class="sbr-purple ml-3"
                       type="primary"
                       icon="el-icon-download"
                       circle
@@ -53,18 +44,14 @@
               :prop="title.prop"
               :label="title.label"
               :key="title.label"
-            >
-            </el-table-column>
+            ></el-table-column>
 
             <el-table-column label="Actions" align="center">
               <template slot-scope="scope">
                 <!-- Manage user -->
-                <el-button
-                  @click="viewUser(scope.row.id)"
-                  class="sbr-btn sbr-primary"
-                  icon="el-icon-user"
-                  circle
-                ></el-button>
+                <router-link :to="'/user/'+scope.row.id">
+                  <el-button class="sbr-primary" icon="el-icon-user" circle></el-button>
+                </router-link>
 
                 <!-- Delete User -->
                 <el-popconfirm
@@ -74,12 +61,7 @@
                   :title="lang['question-delete-user'] + scope.row.name + '?'"
                   @onConfirm="deleteUser(scope.row.id)"
                 >
-                  <el-button
-                    class="sbr-btn sbr-danger ml-1"
-                    slot="reference"
-                    icon="el-icon-delete"
-                    circle
-                  ></el-button>
+                  <el-button class="sbr-danger ml-1" slot="reference" icon="el-icon-delete" circle></el-button>
                 </el-popconfirm>
               </template>
             </el-table-column>
@@ -91,11 +73,7 @@
 
     <div class="row mb-5 mt-5" v-else>
       <div class="col-12 text-center">
-        <img
-          class="no-results-img"
-          src="@/assets/img/general/ux/no_persons.png"
-          alt="No persons"
-        />
+        <img class="no-results-img" src="@/assets/img/general/ux/no_persons.png" alt="No persons" />
         <h4 class="no-results-text">{{ lang["no-results-user-title"] }}</h4>
       </div>
     </div>
@@ -176,10 +154,6 @@ export default {
           this.errorMessage();
         }.bind(this)
       );
-    },
-    viewUser: function(id) {
-      sessionStorage.setItem("sbr_user_id", "" + id + "");
-      window.location.href = "user";
     },
     getUsers() {
       this.loadingContent = true;

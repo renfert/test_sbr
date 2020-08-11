@@ -267,8 +267,6 @@ class Question_Model extends CI_Model {
         $examApproval = $exam[0]->approval;
 
         if($userScore >= $examApproval){
-            echo $examId;
-            echo $dataReceiveFromPost["studentId"];
             $this->Lesson_Model->finish($examId, $dataReceiveFromPost["studentId"]);
         }
 

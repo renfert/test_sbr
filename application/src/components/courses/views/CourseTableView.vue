@@ -9,12 +9,7 @@
         <el-col v-if="courseList != null" :span="6">
           <export-excel :data="courseList" name="courses.xls">
             <el-tooltip class="item" effect="dark" :content="lang['export']" placement="top">
-              <el-button
-                class="sbr-btn sbr-purple ml-3"
-                type="primary"
-                icon="el-icon-download"
-                circle
-              ></el-button>
+              <el-button class="sbr-purple ml-3" type="primary" icon="el-icon-download" circle></el-button>
             </el-tooltip>
           </export-excel>
         </el-col>
@@ -35,31 +30,18 @@
 
       <el-table-column label="Actions" align="center">
         <template slot-scope="scope">
-          <el-button
-            class="sbr-btn sbr-primary"
-            v-if="roleId != 3"
-            @click.prevent="editCourse(scope.row.id)"
-            type="primary"
-            size="medium"
-            icon="el-icon-edit"
-            circle
-          ></el-button>
-          <el-button
-            class="sbr-btn sbr-danger"
-            v-if="roleId != 3"
-            type="danger"
-            size="medium"
-            icon="el-icon-delete"
-            circle
-          ></el-button>
-          <el-button
-            class="sbr-btn sbr-secondary"
-            @click.prevent="viewCourse(scope.row.id)"
-            type="success"
-            size="medium"
-            icon="el-icon-video-play"
-            circle
-          ></el-button>
+          <router-link :to="'/editcourse/'+scope.row.id">
+            <el-button
+              class="sbr-primary"
+              v-if="roleId != 3"
+              type="primary"
+              icon="el-icon-edit"
+              circle
+            ></el-button>
+          </router-link>
+          <router-link :to="'/viewcourse/'+scope.row.id">
+            <el-button class="sbr-secondary" type="success" icon="el-icon-video-play" circle></el-button>
+          </router-link>
         </template>
       </el-table-column>
     </data-tables>
@@ -109,14 +91,6 @@ export default {
     this.getUserProfile();
   },
   methods: {
-    editCourse: function(id) {
-      sessionStorage.setItem("sbr_course_id", "" + id + "");
-      window.location.href = "editcourse";
-    },
-    viewCourse: function(id) {
-      sessionStorage.setItem("sbr_course_id", "" + id + "");
-      window.location.href = "viewcourse";
-    },
     updateCourseListArray() {
       this.loading = true;
       var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(

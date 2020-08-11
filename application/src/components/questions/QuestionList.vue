@@ -14,10 +14,7 @@
       <div v-if="questionList != null">
         <div class="card-box">
           <el-row class="mb-5">
-            <el-col :span="5">
-              <h4>{{lang["question-list"]}}</h4>
-            </el-col>
-            <el-col :span="1">
+            <el-col :span="4">
               <el-tooltip
                 class="item"
                 effect="dark"
@@ -26,11 +23,14 @@
               >
                 <el-button
                   @click.prevent="createNewQuestionEvent()"
-                  class="sbr-btn sbr-purple ml-3"
+                  class="sbr-purple ml-3"
                   icon="el-icon-plus"
                   circle
                 ></el-button>
               </el-tooltip>
+            </el-col>
+            <el-col :span="5">
+              <h4>{{lang["question-list"]}}</h4>
             </el-col>
           </el-row>
 
@@ -41,7 +41,7 @@
                   <div class="question-box">
                     <!-- Edit question -->
                     <el-button
-                      class="sbr-btn sbr-primary mr-1"
+                      class="sbr-primary mr-1"
                       @click.prevent="openEditQuestionModal(element.id,element.question,element.type_question_id, element.weight, element.feedback,element.image)"
                       size="mini"
                       icon="el-icon-edit"
@@ -58,8 +58,9 @@
                         @onConfirm="deleteQuestion(element.id)"
                       >
                         <el-button
-                          class="sbr-btn sbr-danger mr-1"
+                          class="sbr-danger mr-1"
                           slot="reference"
+                          size="mini"
                           icon="el-icon-delete"
                           circle
                         ></el-button>
@@ -67,7 +68,12 @@
                     </template>
 
                     <!-- Move question -->
-                    <el-button class="handle sbr-btn sbr-neutral mr-1" icon="el-icon-rank" circle></el-button>
+                    <el-button
+                      size="mini"
+                      class="handle sbr-neutral mr-1"
+                      icon="el-icon-rank"
+                      circle
+                    ></el-button>
 
                     <el-divider direction="vertical"></el-divider>
 
@@ -130,7 +136,6 @@ export default {
   props: ["exam-id"],
   data: () => {
     return {
-      lang: {},
       questionList: null,
       moduleId: "",
       moduleTitle: "",

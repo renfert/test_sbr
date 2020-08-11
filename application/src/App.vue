@@ -7,7 +7,18 @@
     <!-------- 
     Template base
     ---------->
-
+    <top-bar
+      v-if="currentRoute != null &&
+      currentRoute != 'marketplace' && 
+      currentRoute != 'products' && 
+      currentRoute != 'product' && 
+      currentRoute != 'viewcourse' &&
+      currentRoute != 'invalidsession' &&
+      currentRoute != 'purchase' &&
+      currentRoute != 'site' &&
+      currentRoute != '404' 
+      "
+    ></top-bar>
     <div
       v-if="
           currentRoute != null &&
@@ -16,13 +27,35 @@
           currentRoute != 'product' && 
           currentRoute != 'viewcourse' &&
           currentRoute != 'invalidsession' &&
+          currentRoute != 'purchase' &&
+          currentRoute != 'site' &&
           currentRoute != '404'
       "
     >
-      <top-bar></top-bar>
-      <admin-left-bar v-if="userRoleId == 1"></admin-left-bar>
-      <instructor-left-bar v-if="userRoleId == 2"></instructor-left-bar>
-      <student-left-bar v-if="userRoleId == 3"></student-left-bar>
+      <admin-left-bar
+        :user-name="userName"
+        :user-avatar="userAvatar"
+        :user-id="userId"
+        :plan="plan"
+        :logo="logo"
+        v-if="userRoleId == 1"
+      ></admin-left-bar>
+      <instructor-left-bar
+        :user-name="userName"
+        :user-avatar="userAvatar"
+        :user-id="userId"
+        :logo="logo"
+        :plan="plan"
+        v-if="userRoleId == 2"
+      ></instructor-left-bar>
+      <student-left-bar
+        :user-name="userName"
+        :user-avatar="userAvatar"
+        :user-id="userId"
+        :plan="plan"
+        :logo="logo"
+        v-if="userRoleId == 3"
+      ></student-left-bar>
     </div>
 
     <transition name="fade" mode="out-in">
@@ -30,7 +63,6 @@
     </transition>
     <upgrade-plan></upgrade-plan>
     <the-trial-expired></the-trial-expired>
-    <div v-if="overlay" class="overlay open"></div>
   </div>
 </template>
 
@@ -43,7 +75,7 @@ import TheTrialExpired from "@/components/template/TheTrialExpired";
 import AdminLeftBar from "@/components/template/TheLeftBar/Admin";
 import InstructorLeftBar from "@/components/template/TheLeftBar/Instructor";
 import StudentLeftBar from "@/components/template/TheLeftBar/Student";
-import TopBar from "@/components/template/TheTopBar.vue";
+import TopBar from "@/components/template/TheTopBar";
 import Lang from "@/components/helper/HelperLang.vue";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
@@ -58,9 +90,13 @@ export default {
   mixins: [domains, alerts, headerTags, integrations, verify],
   data: () => {
     return {
-      overlay: false,
       userRoleId: null,
-      currentRoute: null
+      currentRoute: null,
+      logo: "",
+      userName: "",
+      userAvatar: "",
+      userId: "",
+      plan: ""
     };
   },
   components: {
@@ -75,7 +111,8 @@ export default {
   watch: {
     $route() {
       this.currentRoute = this.$route.name;
-
+      this.getCompanyInformation();
+      this.getUserProfile();
       if (
         this.$route.name != "marketplace" &&
         this.$route.name != "invalidsession" &&
@@ -93,7 +130,7 @@ export default {
     this.createFavicon();
   },
   mounted() {
-    this.addClassNameListener();
+    this.getCompanyInformation();
     this.getUserProfile();
   },
   methods: {
@@ -105,10 +142,22 @@ export default {
       );
       axios.get(urlToBeUsedInTheRequest).then(
         function(response) {
+          this.logo = response.data["logo"];
           let lang = require("../language/" +
             response.data["lang"] +
             "/lang.json");
           this.setLang(lang);
+        }.bind(this)
+      );
+    },
+    getCompanyInformation() {
+      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+        "company",
+        "getCompanyInformation"
+      );
+      axios.get(urlToBeUsedInTheRequest).then(
+        function(response) {
+          this.plan = response.data["plan"];
         }.bind(this)
       );
     },
@@ -119,26 +168,11 @@ export default {
       );
       axios.get(urlToBeUsedInTheRequest).then(
         function(response) {
+          this.userName = response.data["name"];
+          this.userAvatar = response.data["avatar"];
+          this.userId = response.data["id"];
           this.userRoleId = response.data["myrole_id"];
         }.bind(this)
-      );
-    },
-    addClassNameListener: function() {
-      var el = document.querySelector("body");
-      var lastClassName = el.className;
-      window.setInterval(
-        function() {
-          var className = el.className;
-          if (className !== lastClassName) {
-            if (el.className == "v-tour--active") {
-              this.overlay = true;
-            } else {
-              this.overlay = false;
-            }
-            lastClassName = className;
-          }
-        }.bind(this),
-        10
       );
     }
   }

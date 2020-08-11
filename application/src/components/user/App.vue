@@ -8,7 +8,7 @@
         <div class="container-fluid">
           <div class="row mt-5 text-center">
             <!-- Group tabs -->
-            <div class="col-12">
+            <div class="col-12" id="tabs">
               <el-tabs type="border-card">
                 <el-tab-pane>
                   <span slot="label">
@@ -80,11 +80,11 @@ export default {
     };
   },
   created() {
+    this.userId = this.$route.params.id;
     this.verifySession();
     this.verifyAdministratorPrivileges();
     this.loadIntegrations();
     this.createFavicon();
-    this.userId = sessionStorage.getItem("sbr_user_id");
     this.getUser();
   },
   methods: {

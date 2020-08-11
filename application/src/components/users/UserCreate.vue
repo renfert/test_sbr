@@ -1,7 +1,7 @@
 <template>
   <div class="col-12">
     <div class="card-box">
-      <div class="text-center v-step-5" style="visibility:hidden;"></div>
+      <div class="text-center" style="visibility:hidden;"></div>
       <div class="float-right">
         <!-- Massive import button -->
         <el-button
@@ -10,8 +10,7 @@
           @click.prevent="modal = true"
           type="primary"
           size="medium"
-          >{{ lang["massive-import"] }}</el-button
-        >
+        >{{ lang["massive-import"] }}</el-button>
 
         <el-button
           @click.prevent="upgradePlanFeature()"
@@ -20,8 +19,9 @@
           type="primary"
           size="medium"
         >
-          <i class="el-icon-lock"></i> {{ lang["massive-import"] }}</el-button
-        >
+          <i class="el-icon-lock"></i>
+          {{ lang["massive-import"] }}
+        </el-button>
       </div>
       <h4>{{ lang["create-user"] }}</h4>
       <br />
@@ -29,16 +29,11 @@
         <div class="row">
           <div class="col-xl-4 col-md-4">
             <!-- Username -->
-            <div class="form-group v-step-0">
-              <el-input
-                required
-                name="name"
-                :placeholder="lang['name']"
-                v-model="name"
-              ></el-input>
+            <div class="form-group">
+              <el-input required name="name" :placeholder="lang['name']" v-model="name"></el-input>
             </div>
             <!-- Password -->
-            <div class="form-group v-step-2">
+            <div class="form-group">
               <el-input
                 required
                 type="password"
@@ -51,17 +46,15 @@
             <div class="form-group">
               <el-button
                 v-loading="loadingButton"
-                class="sbr-btn sbr-primary v-step-4"
+                class="sbr-btn sbr-primary"
                 native-type="submit"
-              >
-                {{ lang["save-button"] }}
-              </el-button>
+              >{{ lang["save-button"] }}</el-button>
             </div>
           </div>
 
           <div class="col-xl-4 col-md-4">
             <!-- Email -->
-            <div class="form-group v-step-1">
+            <div class="form-group">
               <el-input
                 required
                 type="email"
@@ -71,28 +64,19 @@
               ></el-input>
             </div>
             <!-- Role -->
-            <div class="form-group v-step-3">
+            <div class="form-group">
               <template>
-                <el-select
-                  required
-                  name="role"
-                  v-model="role"
-                  :placeholder="lang['select-role']"
-                >
+                <el-select required name="role" v-model="role" :placeholder="lang['select-role']">
                   <el-option
                     style="pointer-events: auto !important;z-index: 9999 !important;"
                     value="2"
                     :label="lang['instructor']"
-                  >
-                    {{ lang["instructor"] }}
-                  </el-option>
+                  >{{ lang["instructor"] }}</el-option>
                   <el-option
                     style="pointer-events: auto !important;z-index: 9999 !important;"
                     value="3"
                     :label="lang['student']"
-                  >
-                    {{ lang["student"] }}
-                  </el-option>
+                  >{{ lang["student"] }}</el-option>
                 </el-select>
               </template>
             </div>
@@ -115,32 +99,26 @@
                 download
                 href="https://cdn.eadtools.com/files/import_user.xlsx"
                 class="sbr-btn sbr-purple"
-                >{{ lang["download-template"] }}</a
-              >
+              >{{ lang["download-template"] }}</a>
             </div>
           </div>
           <br />
           <div class="row">
             <div class="col-xl-12 col-md-12 center">
-              <h3 v-if="loadingMassiveImport" class="sbr-text-grey">
-                {{ lang["please-wait"] }}
-              </h3>
+              <h3 v-if="loadingMassiveImport" class="sbr-text-grey">{{ lang["please-wait"] }}</h3>
               <form
                 v-loading="loadingMassiveImport"
                 id="form-massive"
                 @submit.prevent="massivelyCreateUsers"
               >
-                <upload input-name="file" acceptable=".xlsx" box-height="200">
-                </upload>
+                <upload input-name="file" acceptable=".xlsx" box-height="200"></upload>
                 <br />
                 <el-button
                   v-loading="loadingButton"
                   class="sbr-btn sbr-primary"
                   native-type="submit"
                   type="primary"
-                >
-                  {{ lang["save-button"] }}
-                </el-button>
+                >{{ lang["save-button"] }}</el-button>
               </form>
             </div>
           </div>
@@ -148,16 +126,6 @@
       </div>
       <!-- End massive import -->
     </div>
-
-    <!-------- 
-            Tour
-        ---------->
-    <v-tour
-      name="user-tour"
-      :options="tourOptions"
-      :callbacks="tourCallbacks"
-      :steps="steps"
-    ></v-tour>
   </div>
 </template>
 
@@ -178,10 +146,6 @@ import locale from "element-ui/lib/locale";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
 
-import VueTour from "vue-tour";
-require("vue-tour/dist/vue-tour.css");
-Vue.use(VueTour);
-
 locale.use(lang);
 Vue.use(ElementUI);
 Vue.use(VueTheMask);
@@ -200,86 +164,6 @@ export default {
       password: "",
       lang: {},
       plan: "",
-      tourCallbacks: {
-        onFinish: this.finishTour
-      },
-      tourOptions: {
-        useKeyboardNavigation: true,
-        labels: {
-          buttonSkip: "",
-          buttonPrevious: "",
-          buttonNext: "",
-          buttonStop: ""
-        }
-      },
-      steps: [
-        {
-          target: ".v-step-0",
-          header: {
-            title: ""
-          },
-          params: {
-            placement: "bottom",
-            highlight: true
-          },
-          content: ""
-        },
-        {
-          target: ".v-step-1",
-          header: {
-            title: ""
-          },
-          params: {
-            placement: "right",
-            highlight: true
-          },
-          content: ""
-        },
-        {
-          target: ".v-step-2",
-          header: {
-            title: ""
-          },
-          params: {
-            placement: "right",
-            highlight: true
-          },
-          content: ""
-        },
-        {
-          target: ".v-step-3",
-          header: {
-            title: ""
-          },
-          params: {
-            placement: "right",
-            highlight: true
-          },
-          content: ""
-        },
-        {
-          target: ".v-step-4",
-          header: {
-            title: ""
-          },
-          params: {
-            placement: "right",
-            highlight: true
-          },
-          content: ""
-        },
-        {
-          target: ".v-step-5",
-          header: {
-            title: ""
-          },
-          params: {
-            placement: "bottom",
-            highlight: true
-          },
-          content: ""
-        }
-      ],
       loadingButton: false,
       loadingMassiveImport: false
     };
@@ -292,54 +176,13 @@ export default {
       "lang",
       function(response) {
         this.lang = response;
-
-        /* Tour labels */
-        this.tourOptions.labels.buttonSkip = this.lang["skip-tour"];
-        this.tourOptions.labels.buttonPrevious = this.lang[
-          "previous-step-button"
-        ];
-        this.tourOptions.labels.buttonNext = this.lang["next-step-button"];
-        this.tourOptions.labels.buttonStop = this.lang["finish"];
-
-        /* Tour step 0 - Username */
-        this.steps[0].header.title = this.lang["name"];
-        this.steps[0].content = this.lang["tour-user-name-message"];
-
-        /* Tour step 1 - Email */
-        this.steps[1].header.title = this.lang["email"];
-        this.steps[1].content = this.lang["tour-user-email-message"];
-
-        /* Tour step 2 - Password */
-        this.steps[2].header.title = this.lang["password"];
-        this.steps[2].content = this.lang["tour-user-password-message"];
-
-        /* Tour step 3 - Role */
-        this.steps[3].header.title = this.lang["select-role"];
-        this.steps[3].content = this.lang["tour-user-role-message"];
-
-        /* Tour step 4 - Save */
-        this.steps[4].header.title = this.lang["save-button"];
-        this.steps[4].content = this.lang["tour-user-save-message"];
-
-        /* Tour step 5 - finish */
-        this.steps[5].header.title = this.lang["tour-done"];
-        this.steps[5].content = this.lang["tour-user-done-message"];
       }.bind(this)
     );
-
-    setTimeout(() => {
-      if (this.$route.query.tour == "true") {
-        this.$tours["user-tour"].start();
-      }
-    }, 2000);
   },
   created: function() {
     this.getCompanyInformation();
   },
   methods: {
-    finishTour() {
-      window.location.href = "/home";
-    },
     upgradePlanFeature: function() {
       eventPlan.$emit("upgrade-plan", "feature");
     },

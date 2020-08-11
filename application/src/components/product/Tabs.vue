@@ -5,11 +5,11 @@
       <li class="nav-item">
         <a
           @click="
-						tabDescription = true;
-						tabCurriculum = false;
-						tabInstructor = false;
-						tabReviews = false;
-					"
+            tabDescription = true;
+            tabCurriculum = false;
+            tabInstructor = false;
+            tabReviews = false;
+          "
           class="nav-link"
           :class="tabDescription == true ? 'active' : ''"
           id="overview-tab"
@@ -23,11 +23,11 @@
       <li class="nav-item">
         <a
           @click="
-						tabDescription = false;
-						tabCurriculum = true;
-						tabInstructor = false;
-						tabReviews = false;
-					"
+            tabDescription = false;
+            tabCurriculum = true;
+            tabInstructor = false;
+            tabReviews = false;
+          "
           class="nav-link"
           :class="tabCurriculum == true ? 'active' : ''"
           id="curriculum-tab"
@@ -41,11 +41,11 @@
       <li class="nav-item">
         <a
           @click="
-						tabDescription = false;
-						tabCurriculum = false;
-						tabInstructor = true;
-						tabReviews = false;
-					"
+            tabDescription = false;
+            tabCurriculum = false;
+            tabInstructor = true;
+            tabReviews = false;
+          "
           class="nav-link"
           :class="tabInstructor == true ? 'active' : ''"
           id="instructor-tab"
@@ -56,14 +56,14 @@
           aria-expanded="false"
         >{{ lang["instructor"] }}</a>
       </li>
-      <li class="nav-item">
+      <li v-if="reviews == 'on' " class="nav-item">
         <a
           @click="
-						tabDescription = false;
-						tabCurriculum = false;
-						tabInstructor = false;
-						tabReviews = true;
-					"
+            tabDescription = false;
+            tabCurriculum = false;
+            tabInstructor = false;
+            tabReviews = true;
+          "
           class="nav-link"
           :class="tabReviews == true ? 'active' : ''"
           id="reviews-tab"
@@ -88,7 +88,7 @@
       >
         <div class="edu_wraper">
           <h4 class="edu_title">{{ lang["description"] }}</h4>
-          {{ description }}
+          <div v-html="description"></div>
         </div>
       </div>
 
@@ -110,16 +110,16 @@
                 <h6 class="mb-0 accordion_title">
                   <a
                     @click="
-											collapsePanelId == element.id
-												? (collapsePanelId = 0)
-												: (collapsePanelId = element.id)
-										"
+                      collapsePanelId == element.id
+                        ? (collapsePanelId = 0)
+                        : (collapsePanelId = element.id)
+                    "
                     data-toggle="collapse"
                     :aria-expanded="
-											collapsePanelId == element.id ? true : false
-										"
+                      collapsePanelId == element.id ? true : false
+                    "
                     :aria-controls="'collapse' + element.id"
-                    class="d-block position-relative text-dark collapsible-link py-2 collapsed"
+                    class="d-block position-relative text-dark text-module collapsible-link py-2 collapsed"
                   >{{ element.title }}</a>
                 </h6>
               </div>
@@ -158,7 +158,7 @@
             <h4>
               <a href="#">{{ instructorName }}</a>
             </h4>
-            <p>{{instructorDescription}}</p>
+            <p>{{ instructorDescription }}</p>
           </div>
         </div>
       </div>
@@ -175,52 +175,90 @@
         <!-- Overall Reviews -->
         <div class="rating-overview">
           <div class="rating-overview-box">
-            <span class="rating-overview-box-total">4.2</span>
-            <span class="rating-overview-box-percent">out of 5.0</span>
-            <div class="star-rating" data-rating="5">
-              <i class="ti-star"></i>
-              <i class="ti-star"></i>
-              <i class="ti-star"></i>
-              <i class="ti-star"></i>
-              <i class="ti-star"></i>
-            </div>
+            <span class="rating-overview-box-total mb-2">{{ rate }}</span>
+            <span class="mb-2">{{lang["average-rating"]}}</span>
+            <el-rate v-model="rate" disabled show-score text-color="#ff9900"></el-rate>
           </div>
 
           <div class="rating-bars">
-            <div class="rating-bars-item">
-              <span class="rating-bars-name">5 Star</span>
-              <span class="rating-bars-inner">
-                <span class="rating-bars-rating high" data-rating="4.7">
-                  <span class="rating-bars-rating-inner" style="width: 85%;"></span>
-                </span>
-                <strong>85%</strong>
-              </span>
-            </div>
-            <div class="rating-bars-item">
-              <span class="rating-bars-name">4 Star</span>
-              <span class="rating-bars-inner">
-                <span class="rating-bars-rating good" data-rating="3.9">
-                  <span class="rating-bars-rating-inner" style="width: 75%;"></span>
-                </span>
-                <strong>75%</strong>
-              </span>
-            </div>
-            <div class="rating-bars-item">
-              <span class="rating-bars-name">3 Star</span>
-              <span class="rating-bars-inner">
-                <span class="rating-bars-rating mid" data-rating="3.2">
-                  <span class="rating-bars-rating-inner" style="width: 52.2%;"></span>
-                </span>
-                <strong>53%</strong>
-              </span>
-            </div>
+            <!-- 1 Star -->
             <div class="rating-bars-item">
               <span class="rating-bars-name">1 Star</span>
               <span class="rating-bars-inner">
-                <span class="rating-bars-rating poor" data-rating="2.0">
-                  <span class="rating-bars-rating-inner" style="width:20%;"></span>
+                <span class="rating-bars-rating poor" data-rating="4.7">
+                  <span
+                    class="rating-bars-rating-inner"
+                    :style="totalReviews == 0 ? 'width:0%' : 'width:'+parseInt((100 * reviewWithOneStar / totalReviews)) + '%' "
+                  ></span>
                 </span>
-                <strong>20%</strong>
+                <strong
+                  v-if="totalReviews"
+                >{{ totalReviews == 0 ? '0%' : parseInt((100 * reviewWithOneStar / totalReviews)) + '%' }}</strong>
+              </span>
+            </div>
+
+            <!-- 2 Star -->
+            <div class="rating-bars-item">
+              <span class="rating-bars-name">2 Star</span>
+              <span class="rating-bars-inner">
+                <span class="rating-bars-rating mid" data-rating="3.9">
+                  <span
+                    class="rating-bars-rating-inner"
+                    :style="totalReviews == 0 ? 'width:0%' : 'width:'+parseInt((100 * reviewWithTwoStars / totalReviews)) + '%' "
+                  ></span>
+                </span>
+                <strong
+                  v-if="totalReviews"
+                >{{ totalReviews == 0 ? '0%' : parseInt((100 * reviewWithTwoStars / totalReviews)) + '%' }}</strong>
+              </span>
+            </div>
+
+            <!-- 3 Star -->
+            <div class="rating-bars-item">
+              <span class="rating-bars-name">3 Star</span>
+              <span class="rating-bars-inner">
+                <span class="rating-bars-rating good" data-rating="3.9">
+                  <span
+                    class="rating-bars-rating-inner"
+                    :style="totalReviews == 0 ? 'width:0%' : 'width:'+parseInt((100 * reviewWithTreeStars / totalReviews)) + '%' "
+                  ></span>
+                </span>
+                <strong
+                  v-if="totalReviews"
+                >{{ totalReviews == 0 ? '0%' : parseInt((100 * reviewWithTreeStars / totalReviews)) + '%' }}</strong>
+              </span>
+            </div>
+
+            <!-- 4 Star -->
+            <div class="rating-bars-item">
+              <span class="rating-bars-name">4 Star</span>
+              <span class="rating-bars-inner">
+                <span class="rating-bars-rating good" data-rating="3.2">
+                  <span
+                    class="rating-bars-rating-inner"
+                    :style="totalReviews == 0 ? 'width:0%' : 'width:'+parseInt((100 * reviewWithFourStars / totalReviews)) + '%' "
+                  ></span>
+                </span>
+                <strong
+                  v-if="totalReviews"
+                >{{ totalReviews == 0 ? '0%' : parseInt((100 * reviewWithFourStars / totalReviews)) + '%' }}</strong>
+              </span>
+            </div>
+
+            <!-- 5 Star -->
+            <div class="rating-bars-item">
+              <span class="rating-bars-name">5 Star</span>
+              <span class="rating-bars-inner">
+                <span class="rating-bars-rating high" data-rating="2.0">
+                  <span
+                    v-if="totalReviews"
+                    class="rating-bars-rating-inner"
+                    :style="totalReviews == 0 ? 'width:0%' : 'width:'+parseInt((100 * reviewWithFiveStars / totalReviews)) + '%' "
+                  ></span>
+                </span>
+                <strong
+                  v-if="totalReviews"
+                >{{ totalReviews == 0 ? '0%' : parseInt((100 * reviewWithFiveStars / totalReviews)) + '%' }}</strong>
               </span>
             </div>
           </div>
@@ -228,138 +266,37 @@
 
         <!-- Reviews -->
         <div class="list-single-main-item fl-wrap">
-          <div class="list-single-main-item-title fl-wrap">
-            <h3>
-              Item Reviews -
-              <span>3</span>
-            </h3>
-          </div>
           <div class="reviews-comments-wrap">
             <!-- reviews-comments-item -->
-            <div class="reviews-comments-item">
+            <div
+              class="reviews-comments-item"
+              v-for="element in usersReviews"
+              :key="element.comment"
+            >
               <div class="review-comments-avatar">
-                <img src="assets/img/user-1.jpg" class="img-fluid" alt />
+                <img
+                  :src="getUrlToContents() + 'avatar/' + element.avatar + ''"
+                  class="img-fluid"
+                  alt
+                />
               </div>
               <div class="reviews-comments-item-text">
                 <h4>
-                  <a href="#">Josaph Manrty</a>
+                  <a href="javascript:void(0)">{{element.name}}</a>
                   <span class="reviews-comments-item-date">
-                    <i class="ti-calendar theme-cl"></i>27 Oct 2019
+                    <i :style="primaryColor" class="ti-calendar theme-cl"></i>
+                    {{element.date}}
                   </span>
                 </h4>
 
                 <div class="listing-rating high" data-starrating2="5">
-                  <i class="ti-star active"></i>
-                  <i class="ti-star active"></i>
-                  <i class="ti-star active"></i>
-                  <i class="ti-star active"></i>
-                  <i class="ti-star active"></i>
-                  <span class="review-count">4.9</span>
+                  <el-rate :value="parseInt(element.rate)" disabled show-score text-color="#ff9900"></el-rate>
                 </div>
                 <div class="clearfix"></div>
                 <p>
-                  " Commodo est luctus eget. Proin in nunc laoreet justo
-                  volutpat blandit enim. Sem felis, ullamcorper vel aliquam non,
-                  varius eget justo. Duis quis nunc tellus sollicitudin mauris.
+                  " {{element.comment}}
                   "
                 </p>
-                <div class="pull-left reviews-reaction">
-                  <a href="#" class="comment-like active">
-                    <i class="ti-thumb-up"></i> 12
-                  </a>
-                  <a href="#" class="comment-dislike active">
-                    <i class="ti-thumb-down"></i> 1
-                  </a>
-                  <a href="#" class="comment-love active">
-                    <i class="ti-heart"></i> 07
-                  </a>
-                </div>
-              </div>
-            </div>
-            <!--reviews-comments-item end-->
-
-            <!-- reviews-comments-item -->
-            <div class="reviews-comments-item">
-              <div class="review-comments-avatar">
-                <img src="assets/img/user-2.jpg" class="img-fluid" alt />
-              </div>
-              <div class="reviews-comments-item-text">
-                <h4>
-                  <a href="#">Rita Chawla</a>
-                  <span class="reviews-comments-item-date">
-                    <i class="ti-calendar theme-cl"></i>2 Nov May 2019
-                  </span>
-                </h4>
-
-                <div class="listing-rating mid" data-starrating2="5">
-                  <i class="ti-star active"></i>
-                  <i class="ti-star active"></i>
-                  <i class="ti-star active"></i>
-                  <i class="ti-star active"></i>
-                  <i class="ti-star"></i>
-                  <span class="review-count">3.7</span>
-                </div>
-                <div class="clearfix"></div>
-                <p>
-                  " Commodo est luctus eget. Proin in nunc laoreet justo
-                  volutpat blandit enim. Sem felis, ullamcorper vel aliquam non,
-                  varius eget justo. Duis quis nunc tellus sollicitudin mauris.
-                  "
-                </p>
-                <div class="pull-left reviews-reaction">
-                  <a href="#" class="comment-like active">
-                    <i class="ti-thumb-up"></i> 12
-                  </a>
-                  <a href="#" class="comment-dislike active">
-                    <i class="ti-thumb-down"></i> 1
-                  </a>
-                  <a href="#" class="comment-love active">
-                    <i class="ti-heart"></i> 07
-                  </a>
-                </div>
-              </div>
-            </div>
-            <!--reviews-comments-item end-->
-
-            <!-- reviews-comments-item -->
-            <div class="reviews-comments-item">
-              <div class="review-comments-avatar">
-                <img src="assets/img/user-3.jpg" class="img-fluid" alt />
-              </div>
-              <div class="reviews-comments-item-text">
-                <h4>
-                  <a href="#">Adam Wilsom</a>
-                  <span class="reviews-comments-item-date">
-                    <i class="ti-calendar theme-cl"></i>10 Nov 2019
-                  </span>
-                </h4>
-
-                <div class="listing-rating good" data-starrating2="5">
-                  <i class="ti-star active"></i>
-                  <i class="ti-star active"></i>
-                  <i class="ti-star active"></i>
-                  <i class="ti-star active"></i>
-                  <i class="ti-star"></i>
-                  <span class="review-count">4.2</span>
-                </div>
-                <div class="clearfix"></div>
-                <p>
-                  " Commodo est luctus eget. Proin in nunc laoreet justo
-                  volutpat blandit enim. Sem felis, ullamcorper vel aliquam non,
-                  varius eget justo. Duis quis nunc tellus sollicitudin mauris.
-                  "
-                </p>
-                <div class="pull-left reviews-reaction">
-                  <a href="#" class="comment-like active">
-                    <i class="ti-thumb-up"></i> 12
-                  </a>
-                  <a href="#" class="comment-dislike active">
-                    <i class="ti-thumb-down"></i> 1
-                  </a>
-                  <a href="#" class="comment-love active">
-                    <i class="ti-heart"></i> 07
-                  </a>
-                </div>
               </div>
             </div>
             <!--reviews-comments-item end-->
@@ -393,7 +330,17 @@ export default {
       tabCurriculum: false,
       tabInstructor: false,
       tabReviews: false,
-      collapsePanelId: ""
+      collapsePanelId: "",
+
+      rate: 0,
+
+      reviewWithOneStar: 0,
+      reviewWithTwoStars: 0,
+      reviewWithTreeStars: 0,
+      reviewWithFourStars: 0,
+      reviewWithFiveStars: 0,
+
+      usersReviews: []
     };
   },
   props: [
@@ -409,12 +356,52 @@ export default {
     "modules",
     "instructor-name",
     "instructor-photo",
-    "instructor-description"
+    "instructor-description",
+    "total-reviews",
+    "total-rate"
   ],
   mounted() {
     this.createCustomClass();
   },
   methods: {
+    listingReviews: function() {
+      var formData = new FormData();
+      formData.set("courseId", this.courseId);
+      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+        "reviews",
+        "listing"
+      );
+      axios.post(urlToBeUsedInTheRequest, formData).then(
+        response => {
+          // success callback
+          this.usersReviews = response.data;
+          if (response.data) {
+            response.data.forEach(element => {
+              let rate = element.rate;
+              if (rate == 1) {
+                this.reviewWithOneStars++;
+              }
+              if (rate == 2) {
+                this.reviewWithTwoStars++;
+              }
+              if (rate == 3) {
+                this.reviewWithTreeStars++;
+              }
+              if (rate == 4) {
+                this.reviewWithFourStars++;
+              }
+              if (rate == 5) {
+                this.reviewWithFiveStars++;
+              }
+            });
+          }
+        },
+        // Failure callback
+        function() {
+          this.errorMessage();
+        }.bind(this)
+      );
+    },
     createCustomClass: function() {
       /* Create custom classes */
       var style = document.createElement("style");
@@ -440,32 +427,31 @@ export default {
   watch: {
     color: function() {
       this.createCustomClass();
+    },
+    totalRate: function() {
+      this.rate = parseInt((this.totalRate / this.totalReviews).toFixed(0));
+    },
+    courseId: function() {
+      this.listingReviews();
     }
   }
 };
 </script>
 
-<style>
+<style scoped>
 /* =============
   == Products page style==
 
     - Layout
-		- Fonts
-		- Mobile	
+    - Fonts
+    - Reviews tab
+    - Mobile	
 
 ============= */
 
 /* =============
    Layout
 ============= */
-
-body {
-  background-color: #f4f8fa;
-}
-
-html {
-  background-color: #f4f8fa;
-}
 
 .mt-4 {
   margin-top: 1.5rem !important;
@@ -510,6 +496,7 @@ html {
 }
 
 .edu_wraper {
+  border: 2px solid #f4f8fa;
   width: 100%;
   padding: 2rem;
   background: #fff;
@@ -610,63 +597,8 @@ html {
   padding-top: 0;
 }
 
-ul.lectures_lists {
-  padding: 0;
-  margin: 0;
-  border-radius: 2px;
-  overflow: hidden;
-}
-
-.edu_wraper ul.lectures_lists li {
-  background: #fff;
-}
-
-ul.lectures_lists li {
-  padding: 17px 15px;
-  background: #f1f4fb;
-  color: #24394e;
-  border-bottom: 1px solid #e5e8ef;
-  position: relative;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.lectures_lists_title {
-  margin-right: 2rem;
-  font-weight: 400;
-  font-size: 14px;
-  color: #647b9c;
-}
-
-.lectures_lists_title i {
-  margin-right: 5px;
-}
-
 .collapse.show {
   display: block;
-}
-
-.edu_wraper ul.lectures_lists li {
-  background: #fff;
-  font-weight: 500;
-  font-size: 14px;
-  color: #647b9c;
-}
-
-[class*=" ti-"],
-[class^="ti-"] {
-  font-family: themify;
-  speak: none;
-  font-style: normal;
-  font-weight: 400;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 .ed_view_box {
@@ -762,6 +694,7 @@ ed_view_box.style_3 .property_video .thumb,
 }
 
 .single_instructor {
+  border: 2px solid #f4f8fa;
   display: flex;
   align-items: center;
   width: 100%;
@@ -850,6 +783,230 @@ a {
   -webkit-text-decoration-skip: objects;
 }
 
+.text-module {
+  font-weight: 700;
+  font-size: 14px;
+  color: #647b9c !important;
+}
+
+.text-module:hover {
+  color: #647b9c !important;
+}
+
+/* =============
+  Reviews tab
+============= */
+
+.rating-overview {
+  display: flex;
+  margin: 35px 0 25px;
+  background: #fff;
+  padding: 30px;
+  padding-right: 20px;
+  border-radius: 0.5rem;
+}
+
+.rating-overview-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  border: #ffdead;
+  width: 200px;
+  margin-right: 20px;
+  text-align: center;
+  border-radius: 0;
+  border-right: 1px solid #e8e8e8;
+  padding-right: 27px;
+}
+
+.rating-overview-box-total {
+  font-size: 58px;
+  font-weight: 700;
+  line-height: 1em;
+  display: block;
+  color: #2a2f3a;
+}
+
+.rating-overview-box-percent {
+  font-size: 15px;
+  margin-bottom: 0;
+  display: block;
+}
+
+.rating-overview-box .star-rating {
+  font-size: 16px;
+  margin: 0;
+  display: block;
+  letter-spacing: -0.5px;
+}
+
+.rating-overview-box .star-rating i {
+  color: #ff9500;
+}
+
+[class*=" ti-"],
+[class^="ti-"] {
+  font-family: themify;
+  speak: none;
+  font-style: normal;
+  font-weight: 400;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.rating-bars {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  flex-basis: 100%;
+  margin: 0;
+  padding: 0;
+  margin-top: 0;
+  align-items: center;
+}
+
+.rating-bars-item {
+  margin: 10px 15px;
+  width: calc(50% - 30px);
+  justify-content: flex-end;
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+}
+
+.rating-bars-name {
+  font-weight: 600;
+  color: #4c4f5a;
+  display: block;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.rating-bars-inner {
+  display: flex;
+  width: 100%;
+}
+
+.rating-bars-rating {
+  display: inline-block;
+  vertical-align: baseline;
+  background: #f4f5f7;
+  width: 100%;
+  height: 6px;
+  margin-right: 10px;
+  border-radius: 3px;
+  overflow: hidden;
+  background-color: #f4f5f7;
+  align-self: center;
+}
+
+.rating-bars-rating-inner {
+  height: 6px;
+  display: block;
+  background-color: #f4f5f7;
+  position: relative;
+  width: 0;
+  transition: width 0.5s;
+}
+
+.rating-bars-rating.high .rating-bars-rating-inner {
+  background-color: #00ba74;
+}
+
+.rating-bars-rating.good .rating-bars-rating-inner {
+  background-color: #83ce36;
+}
+
+.rating-bars-rating.mid .rating-bars-rating-inner {
+  background-color: #fbb851;
+}
+
+.rating-bars-rating.poor .rating-bars-rating-inner {
+  background-color: #e6453c;
+}
+
+.list-single-main-item {
+  padding: 30px;
+  border-radius: 100%;
+  background: #fff;
+  border-radius: 0.5rem;
+  margin-bottom: 20px;
+}
+
+.list-single-main-item-title {
+  margin: 0 0 20px;
+}
+
+.list-single-main-item-title h3 {
+  color: #334e6f;
+  text-align: left;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.reviews-comments-wrap {
+  display: inline-table;
+  margin-top: 30px;
+}
+
+.reviews-comments-item {
+  padding: 0 0 30px 110px;
+  position: relative;
+  float: left;
+  margin-bottom: 40px;
+  width: 100%;
+  border-bottom: 1px solid #eee;
+}
+
+.review-comments-avatar {
+  position: absolute;
+  top: 0;
+  left: 20px;
+  width: 80px;
+  height: 80px;
+  overflow: hidden;
+  border-radius: 100%;
+}
+
+.reviews-comments-item-text {
+  float: left;
+  width: 100%;
+  position: relative;
+  padding: 0 20px;
+}
+
+.reviews-comments-item-text h4 {
+  text-align: left;
+  padding-bottom: 0;
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.reviews-comments-item-date {
+  float: right;
+  font-weight: 500;
+  color: #86889a;
+  font-size: 14px;
+}
+
+.reviews-comments-item-date i {
+  margin-right: 10px;
+}
+
+.listing-rating {
+  margin-bottom: 1rem;
+}
+
+.reviews-comments-item-text p {
+  text-align: left;
+}
+
 /* =============
   Mobile
 ============= */
@@ -863,6 +1020,28 @@ a {
     margin-bottom: 30px;
     margin-top: 0%;
     transition: 1s;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .single_instructor {
+    display: block;
+  }
+  .single_instructor_caption {
+    flex: auto;
+    padding-left: 0;
+    padding-top: 1rem;
+  }
+  .rating-overview-box {
+    border-right: 0px;
+  }
+
+  .rating-overview {
+    flex-wrap: wrap;
+  }
+
+  .reviews-comments-item-text p {
+    margin-top: 50px;
   }
 }
 </style>

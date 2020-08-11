@@ -25,7 +25,7 @@
                       placement="top-start"
                     >
                       <el-button
-                        class="sbr-btn sbr-primary mr-1"
+                        class="sbr-primary mr-1"
                         @click.prevent="editLesson(element.id,element.title,element.path,element.ext, element.real_name, element.date, element.time,element.description,element.url,element.approval,element.retest,element.type_mylesson_id,element.status)"
                         type="primary"
                         size="mini"
@@ -44,7 +44,7 @@
                         @onConfirm="deleteLesson(element.id)"
                       >
                         <el-button
-                          class="sbr-btn sbr-danger mr-1"
+                          class="sbr-danger mr-1"
                           slot="reference"
                           type="danger"
                           size="mini"
@@ -62,7 +62,7 @@
                       placement="top-start"
                     >
                       <el-button
-                        class="handle sbr-btn sbr-neutral mr-1"
+                        class="handle sbr-neutral mr-1"
                         type="purple"
                         size="mini"
                         icon="el-icon-rank"

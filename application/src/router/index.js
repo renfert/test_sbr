@@ -68,7 +68,7 @@ const routes = [
   },
   {
     name: "editcourse",
-    path: "/editcourse",
+    path: "/editcourse/:id",
     component: () =>
       import(/* webpackChunkName: "editcourse" */ "@/components/editcourse/App")
   },
@@ -148,7 +148,7 @@ const routes = [
   },
   {
     name: "purchase",
-    path: "/purchase",
+    path: "/purchase/:status/:id",
     component: () =>
       import(
         /* webpackChunkName: "purchaseinprocess" */ "@/components/purchase/App"
@@ -174,7 +174,7 @@ const routes = [
   },
   {
     name: "user",
-    path: "/user",
+    path: "/user/:id",
     component: () =>
       import(/* webpackChunkName: "user" */ "@/components/user/App")
   },
@@ -186,13 +186,13 @@ const routes = [
   },
   {
     name: "viewcourse",
-    path: "/viewcourse",
+    path: "/viewcourse/:id",
     component: () =>
       import(/* webpackChunkName: "viewcourse" */ "@/components/viewcourse/App")
   },
   {
     name: "viewprogram",
-    path: "/viewprogram",
+    path: "/viewprogram/:id",
     component: () =>
       import(
         /* webpackChunkName: "viewprogram" */ "@/components/viewprogram/App"
@@ -206,5 +206,11 @@ const routes = [
   }
 ];
 
-const router = new Router({ routes, mode: "history" });
+const router = new Router({
+  routes,
+  mode: "history",
+  scrollBehavior() {
+    return { x: 0, y: 0 };
+  }
+});
 export default router;

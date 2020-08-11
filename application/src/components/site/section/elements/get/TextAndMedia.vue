@@ -1,5 +1,5 @@
 <template>
-  <div class="container-site top-10">
+  <div class="container-site top-13">
     <div v-for="element in textAndMediaArray" :key="element.id">
       <!-- Left side media position -->
 
@@ -21,7 +21,7 @@
           <h3>{{element.subheader}}</h3>
           <p class="mb-4 mt-4">{{element.content}}</p>
           <a :href="element.url" :target="element.target">
-            <span class="link-button" :style="styleButton">{{element.title}}</span>
+            <span class="btn text-btn" :style="styleButton">{{element.title}}</span>
           </a>
         </div>
       </div>
@@ -35,7 +35,7 @@
           <h3>{{element.subheader}}</h3>
           <p class="mb-4 mt-4">{{element.content}}</p>
           <a :href="element.url" :target="element.target">
-            <span class="link-button" :style="styleButton">{{element.title}}</span>
+            <span class="btn text-btn" :style="styleButton">{{element.title}}</span>
           </a>
         </div>
         <div class="col-md-6 col-12">
@@ -75,7 +75,7 @@
             <h3>{{element.subheader}}</h3>
             <p class="mb-4 mt-4">{{element.content}}</p>
             <a :href="element.url" :target="element.target">
-              <span class="link-button" :style="styleButton">{{element.title}}</span>
+              <span class="btn text-btn" :style="styleButton">{{element.title}}</span>
             </a>
           </div>
         </div>
@@ -90,7 +90,7 @@
             <h3>{{element.subheader}}</h3>
             <p class="mb-4 mt-4">{{element.content}}</p>
             <a :href="element.url" :target="element.target">
-              <span class="link-button" :style="styleButton">{{element.title}}</span>
+              <span class="btn text-btn" :style="styleButton">{{element.title}}</span>
             </a>
           </div>
         </div>
@@ -253,8 +253,8 @@ export default {
   padding-bottom: 30px !important;
 }
 
-.top-10 {
-  margin-top: 10%;
+.top-13 {
+  margin-top: 13%;
 }
 
 /* =============
@@ -301,13 +301,35 @@ a {
 /* =============
    Button
 ============= */
-.link-button {
-  font-weight: 500;
-  color: white;
-  font-size: 1.3em;
-  font-family: "Poppins", sans-serif;
-  border-radius: 5px;
-  padding: 8px 18px 8px 18px;
+
+.btn {
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border: 1px solid transparent;
+  padding: 12px 25px;
+  line-height: 1;
+  transition: all 0.15s ease-in-out;
+  border: 2px solid transparent;
+  cursor: pointer;
+}
+
+.text-btn {
+  margin: 1.5rem auto 0;
+  display: flex;
+  height: 14px;
+  font-weight: 600;
+  color: #fff !important;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem !important;
+  border-radius: 10px;
 }
 
 /* =============
@@ -347,17 +369,6 @@ a {
   h4 {
     line-height: 14px;
     font-size: 12px;
-  }
-
-  .link-button[data-v-059bd9ee] {
-    font-weight: 500;
-    -webkit-transition: 0.5s;
-    transition: 0.5s;
-    color: white;
-    font-size: 1em;
-    font-family: "Poppins", sans-serif;
-    border-radius: 5px;
-    padding: 8px 18px 8px 18px;
   }
 
   .content-left {

@@ -73,6 +73,12 @@ class Lesson extends CI_Controller {
         echo json_encode($lessonList);
     }
 
+    public function listingToProductPage(){
+        $moduleId = $this->input->post("moduleId");
+        $lessonList = $this->Lesson_Model->listingToProductPage($moduleId);
+        echo json_encode($lessonList);
+    }
+
      /* 
     =============================================
     Returns: Object

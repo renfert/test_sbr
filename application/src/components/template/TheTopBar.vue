@@ -1,31 +1,17 @@
 <template>
   <div class="topbar">
     <lang></lang>
-    <!-- Logo -->
-    <div class="topbar-left">
-      <a :href="getDomainNameToNavigation()" class="logo">
-        <span>
-          <img :src="getUrlToContents() + 'settings/'+logo+''" />
-        </span>
-        <i class="mdi mdi-layers"></i>
-      </a>
-    </div>
-
-    <!-- Button mobile view to collapse sidebar menu -->
-    <div class="navbar navbar-default" role="navigation">
-      <div class="container-fluid">
-        <ul class="nav navbar-nav list-inline navbar-left">
-          <li class="list-inline-item">
-            <button @click="changeLeftBarClass()" class="button-menu-mobile open-left">
-              <i class="mdi mdi-menu"></i>
-            </button>
-          </li>
-          <li class="list-inline-item"></li>
-        </ul>
-      </div>
-      <!-- end container -->
-    </div>
-    <!-- end navbar -->
+    <header>
+      <router-link to="/"></router-link>
+      <!-- Icon menu for mobile -->
+      <ul class="ul-mobile">
+        <li>
+          <a @click.prevent="toogleSidebar" href="javascript:void(0)">
+            <i class="ti-menu"></i>
+          </a>
+        </li>
+      </ul>
+    </header>
 
     <div
       class="top-trial"
@@ -53,10 +39,11 @@ import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
 import { eventLang } from "@/components/helper/HelperLang";
-import Lang from "@/components/helper/HelperLang";
 import { eventPlan } from "@/components/plans/UpgradePlan";
+import Lang from "@/components/helper/HelperLang";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
+export const eventTemplate = new Vue();
 
 Vue.use(VueAxios, axios);
 export default {
@@ -90,6 +77,9 @@ export default {
     );
   },
   methods: {
+    toogleSidebar: function() {
+      eventTemplate.$emit("change-leftbar-class");
+    },
     upgradePlan: function() {
       eventPlan.$emit("upgrade-plan", "trial-topbar");
     },
@@ -173,34 +163,53 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-@media only screen and (min-width: 1024px) {
-  .navbar {
-    display: none;
-  }
+/* =============
+Header
+============= */
+header {
+  background-color: #2a2d35;
+  position: relative;
+  top: 0;
+  width: 100%;
+  height: 70px;
+  display: none;
+  justify-content: space-between;
+  align-items: center;
+  transform: 0.4s;
+  padding: 0px 15%;
+  z-index: 2000;
+  transition: 0.2s;
 }
 
-.navbar-custom {
-  max-width: 500px;
+header a {
+  flex: 0 0 20%;
 }
 
-ul.list-unstyled {
-  width: 70px;
+header ul {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin: 0px !important;
 }
 
-li.dropdown.notification-list {
-  margin-right: 5%;
+header ul li {
+  position: relative;
+  list-style: none;
 }
-.view-title {
-  text-align: center;
-  text-transform: uppercase;
-  background-color: #3bb6b6;
-  color: white !important;
+
+header ul li a {
+  position: relative;
+  margin: 0 15px;
+  font-weight: 500;
+  transition: 0.5s;
+  color: white;
+  font-size: 1.3em;
+  font-family: "Poppins", sans-serif;
 }
-.dropdown-menu {
-  padding: 0px 0 !important;
-  font-size: 14px;
-  -webkit-box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+
+.logo-nav {
+  width: 80px !important;
 }
 
 .top-trial {
@@ -229,6 +238,9 @@ li.dropdown.notification-list {
 }
 
 @media only screen and (max-width: 600px) {
+  header {
+    display: flex;
+  }
   .top-trial span {
     font-size: 1.2em;
     margin-left: 0;

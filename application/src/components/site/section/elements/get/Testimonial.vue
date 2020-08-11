@@ -1,5 +1,5 @@
 <template>
-  <div class="container-site top-10" v-loading="loading">
+  <div class="container-site top-13" v-loading="loading">
     <div class="text-center mb-5">
       <h1>{{header}}</h1>
       <h3>{{subheader}}</h3>
@@ -135,8 +135,8 @@ export default {
    Layout
 ============= */
 
-.top-10 {
-  margin-top: 10%;
+.top-13 {
+  margin-top: 13%;
 }
 
 /* =============

@@ -25,12 +25,20 @@ class Payment extends CI_Controller {
                 if($paymentStatus == "approved"){
                     $this->Payment_Model->savePurchaseRequisition($courseId,$paymentId,$paymentStatus);
                     $this->Course_Model->enrollUserIntoCourse($courseId,getUserId());
-                    header('Location: '.base_url().'purchasesuccess');
+                    if(production()){
+                        header('Location: '.base_url().'purchase/success/'.$courseId.'');
+                    }else{
+                        header('Location: http://localhost:8080/purchase/success/'.$courseId.'');
+                    }
                 }
 
                 if($paymentStatus == "in_process" OR $paymentStatus == "pending"){
                     $this->Payment_Model->savePurchaseRequisition($courseId,$paymentId,$paymentStatus);
-                    header('Location: '.base_url().'purchaseinprocess');
+                    if(production()){
+                        header('Location: '.base_url().'purchase/peding/'.$courseId.'');
+                    }else{
+                        header('Location: http://localhost:8080/purchase/pending/'.$courseId.'');
+                    }
                 }
 
 

@@ -16,26 +16,24 @@
               <ul>
                 <li>
                   <i class="ti-agenda mr-2"></i>
-                  Modules: {{ modules }}
+                  {{lang["modules"]}}: {{ modules }}
                 </li>
                 <li>
                   <i class="ti-control-forward"></i>
-                  Lessons: {{ lessons }}
+                  {{lang["lessons"]}}: {{ lessons }}
                 </li>
               </ul>
             </div>
 
             <div v-if="reviews != null" class="ed_rate_info">
               <div class="star_info">
-                <i class="fas fa-star filled"></i>
-                <i class="fas fa-star filled"></i>
-                <i class="fas fa-star filled"></i>
-                <i class="fas fa-star filled"></i>
-                <i class="fas fa-star"></i>
-              </div>
-              <div class="review_counter">
-                <strong :style="primaryColor" class="good">4.5</strong> 3572
-                Reviews
+                <el-rate
+                  v-model="rate"
+                  disabled
+                  show-score
+                  text-color="#ff9900"
+                  :score-template="totalReviews + ' Reviews'"
+                ></el-rate>
               </div>
             </div>
           </div>
@@ -51,18 +49,43 @@ import axios from "axios";
 import VueAxios from "vue-axios";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
+import ElementUI from "element-ui";
+import "element-ui/lib/theme-chalk/index.css";
+
+import { mapState } from "vuex";
 
 Vue.use(VueAxios, axios);
+Vue.use(ElementUI);
 
 export default {
   mixins: [domains, alerts],
-  props: ["title", "category", "modules", "lessons", "color", "reviews"],
+  props: [
+    "title",
+    "category",
+    "modules",
+    "lessons",
+    "color",
+    "reviews",
+    "total-reviews",
+    "total-rate"
+  ],
+  data: () => {
+    return {
+      rate: 0
+    };
+  },
+  watch: {
+    totalRate: function() {
+      this.rate = parseInt((this.totalRate / this.totalReviews).toFixed(0));
+    }
+  },
   computed: {
     primaryColor: function() {
       return {
         color: this.color
       };
-    }
+    },
+    ...mapState(["lang"])
   }
 };
 </script>
@@ -246,45 +269,6 @@ li {
   content: "\e6af";
 }
 
-.ed_rate_info {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  width: 100%;
-}
-
-.ed_rate_info .star_info {
-  margin-right: 10px;
-  position: relative;
-}
-
-.ed_rate_info .star_info i.filled {
-  color: #f1992c;
-}
-
-.ed_rate_info .star_info i {
-  font-size: 11px;
-  color: #ced7e8;
-  margin-right: 1px;
-}
-
-.fa,
-.fas {
-  font-family: "Font Awesome 5 Free";
-  font-weight: 900;
-}
-
-.fa-star:before {
-  content: "\f005";
-}
-
-.review_counter {
-  font-size: 12.5px;
-}
-
-.review_counter strong {
-  font-size: 16px;
-}
 /* =============
    Fonts
 ============= */

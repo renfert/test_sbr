@@ -2,7 +2,7 @@
   <div class="main">
     <lang></lang>
     <div>
-      <el-dialog :visible.sync="modal" title="Banner" center width="40%" top="5vh">
+      <el-dialog :visible.sync="modal" title="Text and media" center width="40%" top="5vh">
         <form id="form-text-and-media" @submit.prevent="editTextAndMedia()" v-loading="loading">
           <!-- Text and media id -->
           <input type="number" name="textAndMediaId" class="hide" :value="textAndMediaId" />

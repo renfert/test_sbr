@@ -3,6 +3,7 @@
     <lang></lang>
     <nav-bar></nav-bar>
     <products-list></products-list>
+    <the-footer class="top-10"></the-footer>
   </div>
   <!-- End of wrapper -->
 </template>
@@ -20,6 +21,7 @@ import NavBar from "@/components/template/TheNavBar";
 import ProductsList from "@/components/products/ProductsList";
 import headerTags from "@/mixins/headerTags";
 import integrations from "@/mixins/integrations";
+import TheFooter from "@/components/template/TheFooter";
 export const eventBus = new Vue();
 
 Vue.use(VueAxios, axios);
@@ -36,7 +38,8 @@ export default {
   components: {
     Lang,
     NavBar,
-    ProductsList
+    ProductsList,
+    TheFooter
   },
   created() {
     this.loadIntegrations();
@@ -63,7 +66,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .main ol {
   padding-left: 70px;
 }
@@ -88,6 +91,10 @@ export default {
   font-family: "Poppins", sans-serif;
   font-size: 30px;
   padding: 5px;
+}
+
+.top-10 {
+  margin-top: 10%;
 }
 
 body,

@@ -26,6 +26,18 @@
 
   "enroll-now": "Inscreva-se agora",
 
+  "average-rating": "Classificação média",
+
+  "user-already-exists": "Este usuário já existe, escolha outro e-mail.",
+
+  "course-validity": "Este curso é válido por:",
+
+  "days": "dias",
+
+  "lesson": "Lição",
+
+  "modules": "Módulos",
+
   "trial-expiration-date-info-pt1": "Você tem",
   "trial-expiration-date-info-pt2": "dias para provar a plataforma",
 
@@ -307,7 +319,6 @@
 
   "create-user": "Criar novo usuário",
   "list-users": "Lista de usuários",
-  "user-already-exists": "Esse usuário já existe",
   "massive-import": "Importação massiva",
   "massive-import-success": "Importação realizada com sucesso!",
   "question-delete-user": "Apagar usuário: ",
@@ -507,7 +518,7 @@
   "photo": "Foto",
   "language": "Idioma",
   "marketplace": "Marketplace",
-  "logo": "Logo (150x150 px)",
+  "logo": "Logo (150x50 px)",
   "favicon": "Favicon (50x50 px)",
 
   "advanced-settings": "Configurações avançadas",

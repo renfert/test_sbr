@@ -74,6 +74,12 @@ class Course extends CI_Controller {
         echo json_encode($course);
     }
 
+    public function getEnrollDate(){
+        $courseId = $this->input->post("courseId");
+        $result = $this->Course_Model->getEnrollDate($courseId);
+        echo json_encode($courseId);
+    }
+
     public function getCourseByTitle(){
         $courseTitle = $this->input->post("courseTitle");
         $course = $this->Course_Model->getCourseByTitle($courseTitle);
@@ -135,6 +141,7 @@ class Course extends CI_Controller {
         $result = $this->Course_Model->enrollUserIntoCourse($courseId,$userId);
         echo json_encode($result);
     }
+
 
     public function getCourseCreator(){
         $courseId = $this->input->post("courseId");

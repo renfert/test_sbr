@@ -6,7 +6,6 @@
         <div class="container-fluid">
           <div class="row gap5">
             <div class="col-12">
-              <lang></lang>
               <admin v-if="roleId == 1"></admin>
               <instructor v-if="roleId == 2"></instructor>
               <student v-if="roleId == 3"></student>

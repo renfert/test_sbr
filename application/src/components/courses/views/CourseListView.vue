@@ -13,68 +13,76 @@
       <div class="col-12 col-md-4 list-courses" v-for="element in courseList" :key="element.id">
         <!-- Card -->
         <div class="card">
-          <a
-            @click.prevent="viewCourse(element.id,element.expirationDays,element.releaseDays)"
-            v-if="element.photo != '' && element.photo != null"
-          >
+          <!-- Card image -->
+          <img
+            v-if="element.expirationDays < 0 || element.releaseDays > 0"
+            v-lazy="getUrlToContents() + 'course/'+element.photo+''"
+            style="height:200px;cursor:not-allowed;"
+            class="card-img-top"
+          />
+          <router-link v-else :to="'/viewcourse/'+element.id">
             <!-- Card image -->
             <img
-              :src="getUrlToContents() + 'course/'+element.photo+''"
+              v-lazy="getUrlToContents() + 'course/'+element.photo+''"
               style="height:200px;"
               class="card-img-top"
             />
-          </a>
-
-          <a
-            @click.prevent="viewCourse(element.id,element.expirationDays,element.releaseDays)"
-            v-else
-          >
-            <img
-              style="height:200px;"
-              class="card-img-top"
-              src="@/assets/img/general/ux/course_image_default.jpg"
-              alt="Card image cap"
-            />
-          </a>
+          </router-link>
 
           <!-- Card content -->
           <div class="card-body">
             <!-- Title -->
-            <h4 class="card-title">
-              <a
-                @click.prevent="viewCourse(element.id,element.expirationDays,element.releaseDays)"
-              >{{element.title}}</a>
+            <h4
+              style="cursor:not-allowed"
+              v-if="element.expirationDays < 0 || element.releaseDays > 0"
+              class="card-title"
+            >{{element.title}}</h4>
+
+            <!-- Title -->
+            <h4 v-else class="card-title">
+              <router-link :to="'/viewcourse/'+element.id">{{element.title}}</router-link>
             </h4>
             <el-progress
               v-if="parseInt(((100 * element.finishedLessons) /  element.lessons )) >=0 "
               :percentage="parseInt(((100 * element.finishedLessons) /  element.lessons ))"
             ></el-progress>
 
-            <el-progress v-else percentage="0"></el-progress>
+            <el-progress v-else :percentage="parseInt(0)"></el-progress>
 
+            <!----------------- 
+              Course expired 
+            ------------------->
             <el-tag
               class="mt-2"
               v-if="element.expirationDays < 0"
               type="danger"
             >{{lang["course-expired"]}} {{element.expiration_date}}</el-tag>
 
+            <!----------------- 
+              Course not released 
+            ------------------->
             <el-tag
               class="mt-2"
               v-if="element.releaseDays > 0"
               type="primary"
             >{{lang["course-avaiable-in"]}} {{element.release_date}}</el-tag>
 
+            <!----------------- 
+              Course validity 
+            ------------------->
+            <el-tag type="primary" v-if="element.validity != null" class="mt-2">
+              {{lang["course-validity"]}}
+              <b class="fw-700">{{element.validityDays}}</b>
+              {{lang["days"]}}
+            </el-tag>
+
             <el-divider v-if="roleId != 3">
               <i class="el-icon-more-outline"></i>
             </el-divider>
             <el-row v-if="roleId != 3">
-              <el-button
-                class="sbr-btn sbr-primary"
-                @click.prevent="editCourse(element.id)"
-                type="primary"
-                icon="el-icon-edit"
-                circle
-              ></el-button>
+              <router-link :to="'/editcourse/'+element.id">
+                <el-button class="sbr-primary" type="primary" icon="el-icon-edit" circle></el-button>
+              </router-link>
               <template>
                 <el-popconfirm
                   confirmButtonText="Ok"
@@ -83,12 +91,7 @@
                   :title="lang['question-delete-course'] + element.title  + '?'"
                   @onConfirm="deleteCourse(element.id)"
                 >
-                  <el-button
-                    slot="reference"
-                    class="sbr-btn sbr-danger"
-                    icon="el-icon-delete"
-                    circle
-                  ></el-button>
+                  <el-button slot="reference" class="sbr-danger" icon="el-icon-delete" circle></el-button>
                 </el-popconfirm>
               </template>
             </el-row>
@@ -109,6 +112,7 @@ import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
+import VueLazyload from "vue-lazyload";
 
 import { FacebookLoader } from "vue-content-loader";
 import { eventBus } from "@/components/courses/App";
@@ -116,6 +120,12 @@ import { mapState } from "vuex";
 
 Vue.use(ElementUI);
 Vue.use(VueAxios, axios);
+Vue.use(VueLazyload, {
+  preLoad: 1.3,
+  error: "https://sbrfiles.s3.amazonaws.com/images/image-not-available.png",
+  loading: "https://sbrfiles.s3.amazonaws.com/gifs/loading7.gif",
+  attempt: 1
+});
 
 export default {
   components: {
@@ -126,13 +136,16 @@ export default {
     return {
       courseList: [],
       loadingContent: false,
-      roleId: ""
+      roleId: "",
+      enrollDate: "",
+      currentDate: ""
     };
   },
   computed: {
     ...mapState(["lang"])
   },
   created() {
+    this.getCurrentDate();
     this.getCourses();
     this.getUserProfile();
   },
@@ -141,7 +154,17 @@ export default {
       sessionStorage.setItem("sbr_course_id", "" + id + "");
       window.location.href = "editcourse";
     },
-
+    getCurrentDate: function() {
+      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+        "verify",
+        "getCurrentDate"
+      );
+      axios.get(urlToBeUsedInTheRequest).then(
+        function(response) {
+          this.currentDate = response.data;
+        }.bind(this)
+      );
+    },
     deleteCourse: function(id) {
       var formData = new FormData();
       formData.set("courseId", id);
@@ -161,20 +184,6 @@ export default {
         }
       );
     },
-    viewCourse: function(id, expirationDays, releaseDays) {
-      if (releaseDays == null) {
-        releaseDays = -1;
-      }
-
-      if (expirationDays == null) {
-        expirationDays = 1;
-      }
-
-      if (expirationDays > 0 && releaseDays <= 0) {
-        sessionStorage.setItem("sbr_course_id", "" + id + "");
-        window.location.href = "viewcourse";
-      }
-    },
     getCourses() {
       this.loadingContent = true;
       var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
@@ -183,7 +192,6 @@ export default {
       );
       axios.get(urlToBeUsedInTheRequest).then(
         response => {
-          // success callback
           this.courseList = response.data;
           setTimeout(
             function() {
@@ -217,5 +225,9 @@ export default {
 <style lang="scss" scoped>
 .list-courses {
   margin-bottom: 50px !important;
+}
+
+.card a {
+  color: #647b9c !important;
 }
 </style>

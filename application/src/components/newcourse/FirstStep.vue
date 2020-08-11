@@ -10,12 +10,7 @@
 
               <!-- Course name -->
               <label class="col-form-label">{{lang["name"]}} *</label>
-              <el-input
-                class="v-step-0"
-                name="title"
-                :class="invalidField ? 'invalid-field' : '' "
-                v-model="name"
-              ></el-input>
+              <el-input name="title" :class="invalidField ? 'invalid-field' : '' " v-model="name"></el-input>
 
               <br />
               <br />
@@ -42,7 +37,7 @@
             <div class="form-group col-xl-6 col-md-6">
               <textarea class="hide" v-model="description" name="description"></textarea>
               <label class="col-form-label">{{lang["description"]}}</label>
-              <wysiwyg class="v-step-1" v-model="description" />
+              <wysiwyg v-model="description" />
             </div>
           </div>
 
@@ -51,7 +46,6 @@
             <div class="form-group col-xl-6 col-md-6">
               <label class="col-form-label">{{lang["image"]}} (1900x1200 px)</label>
               <upload
-                class="v-step-2"
                 do-upload="true"
                 box-height="200"
                 return-name="photo"
@@ -117,7 +111,11 @@
         <div class="form-group">
           <label class="col-form-label">{{lang["validity-time"]}}</label>
           <div class="input-group">
-            <el-input-number name="validity" v-model="validity"></el-input-number>
+            <div style="display:flex;flex-direction:column;">
+              <el-switch v-model="validityAllowed" active-color="#009CD8" inactive-color="#9E9C9C"></el-switch>
+              <br />
+              <el-input-number v-if="validityAllowed" :min="1" name="validity" v-model="validity"></el-input-number>
+            </div>
           </div>
         </div>
 
@@ -216,10 +214,6 @@
       </el-dialog>
     </form>
     <helper-progress></helper-progress>
-    <!-------- 
-        Tour
-    ---------->
-    <v-tour name="first-step-tour" :options="tourOptions" :steps="steps"></v-tour>
   </div>
 </template>
 
@@ -232,7 +226,7 @@ import Upload from "@/components/helper/HelperUpload";
 import HelperProgress from "@/components/helper/HelperProgress.vue";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
-import VueTour from "vue-tour";
+import ElementUI from "element-ui";
 
 import { Money } from "v-money";
 import { eventBus } from "@/components/newcourse/App";
@@ -241,10 +235,9 @@ import { mapState } from "vuex";
 Vue.use(wysiwyg, {
   hideModules: { image: true }
 });
-Vue.use(VueTour);
-Vue.use(VueAxios, axios);
 
-require("vue-tour/dist/vue-tour.css");
+Vue.use(VueAxios, axios);
+Vue.use(ElementUI);
 
 export default {
   mixins: [domains, alerts],
@@ -268,6 +261,7 @@ export default {
       releaseDate: "",
       expirationDate: "",
       validity: "",
+      validityAllowed: false,
       category: "",
       contentShow: true,
       courseMode: "create", // Course mode can be create or edit mode
@@ -279,62 +273,7 @@ export default {
         suffix: " ",
         precision: 2,
         masked: false
-      },
-      tourOptions: {
-        useKeyboardNavigation: true,
-        labels: {
-          buttonSkip: "",
-          buttonPrevious: "",
-          buttonNext: "",
-          buttonStop: ""
-        }
-      },
-      steps: [
-        {
-          target: ".v-step-0",
-          header: {
-            title: ""
-          },
-          params: {
-            placement: "bottom",
-            highlight: true
-          },
-          content: ""
-        },
-        {
-          target: ".v-step-1",
-          header: {
-            title: ""
-          },
-          params: {
-            placement: "right",
-            highlight: true
-          },
-          content: ""
-        },
-        {
-          target: ".v-step-2",
-          header: {
-            title: ""
-          },
-          params: {
-            placement: "right",
-            highlight: true
-          },
-          content: ""
-        },
-        {
-          target: ".v-step-3",
-          header: {
-            title: ""
-          },
-          params: {
-            placement: "left",
-            highlight: true
-          },
-          content: ""
-        }
-      ]
+      }
     };
   },
   computed: {
@@ -344,34 +283,6 @@ export default {
     this.getCategories();
   },
   mounted() {
-    /* Tour labels */
-    this.tourOptions.labels.buttonSkip = this.lang["skip-tour"];
-    this.tourOptions.labels.buttonPrevious = this.lang["previous-step-button"];
-    this.tourOptions.labels.buttonNext = this.lang["next-step-button"];
-    this.tourOptions.labels.buttonStop = this.lang["finish"];
-
-    /* Tour step 0 - Course name */
-    this.steps[0].header.title = this.lang["name"];
-    this.steps[0].content = this.lang["tour-course-name-message"];
-
-    /* Tour step 1 - Course description */
-    this.steps[1].header.title = this.lang["description"];
-    this.steps[1].content = this.lang["tour-course-description-message"];
-
-    /* Tour step 2 - Course image */
-    this.steps[2].header.title = this.lang["image"];
-    this.steps[2].content = this.lang["tour-course-image-message"];
-
-    /* Tour step 3 - Second step */
-    this.steps[3].header.title = this.lang["next-step-button"];
-    this.steps[3].content = this.lang["tour-course-step2-message"];
-
-    setTimeout(() => {
-      if (this.$route.query.tour == "true") {
-        this.$tours["first-step-tour"].start();
-      }
-    }, 2000);
-
     /* Show this content */
     eventBus.$on(
       "access-first-step",

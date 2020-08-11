@@ -182,6 +182,23 @@ class Lesson_Model extends CI_Model {
         }
     }
 
+    public function listingToProductPage($moduleId){
+      $this->db->select("T1.id,T1.title,T1.position,T1.path,T1.ext,T1.real_name,T1.date,T1.time,T1.description,T1.url,T1.approval,T1.retest,T1.type_mylesson_id,T1.status, T2.status as lessonStatus");  
+        $this->db->distinct();
+        $this->db->from("relationship T0");
+        $this->db->join('mylesson T1', 'T0.mylesson_id = T1.id');
+        $this->db->join('lesson_status T2', 'T1.id = T2.mylesson_id');
+        $this->db->where("T0.mymodule_id", $moduleId);
+        $this->db->where("T1.id !=", 1);
+        $this->db->group_by("T1.id");
+        $this->db->order_by('position', 'ASC');
+      
+        $query = $this->db->get();
+        if($query->num_rows() > 0){
+            return $query->result();
+        }
+    }
+
    
     public function get($lessonId){
         $this->db->select("*");  
@@ -225,11 +242,11 @@ class Lesson_Model extends CI_Model {
         $courseProgress = $this->Course_Model->userProgress($courseId,$studentId);
         $this->Activity_Model->save("lesson-finished", $courseId, $lessonId, null, 1, null,null,null,null);
         if($courseProgress  >= 99){
-            $this->Activity_Model->save("course-finished", $courseId,1, null, 1, null,null,null,null);
-            $this->Course_Model->updateCourseStatus($courseId,"finished");
+            $this->Course_Model->updateCourseStatus($courseId,$studentId,"finished");
             $this->Course_Model->generateCertificate($courseId,$studentId);
+            $this->Activity_Model->save("course-finished", $courseId,1, null, 1, null,null,null,null);
         }else{
-            $this->Course_Model->updateCourseStatus($courseId,"in-progress");
+            $this->Course_Model->updateCourseStatus($courseId, $studentId, "in-progress");
         }
     }
 

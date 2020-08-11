@@ -6,11 +6,11 @@
         <ul class="edu_inline_info">
           <li>
             <i class="ti-agenda mr-2"></i>
-            Modules: {{ modulesTotal }}
+            {{lang["modules"]}}: {{ modulesTotal }}
           </li>
           <li>
             <i class="ti-control-forward"></i>
-            Lessons: {{ lessonsTotal }}
+            {{lang["lessons"]}}: {{ lessonsTotal }}
           </li>
         </ul>
       </div>
@@ -34,20 +34,19 @@
             </div>
           </li>
           <li v-if="category != 'default'">
-            <span>Category</span>
+            <span>{{lang["category"]}}</span>
             {{ category }}
           </li>
           <li v-if="reviews != null">
             <span>Reviews</span>
             <div class="eds_rate">
-              4.2
-              <div class="eds_rating">
-                <i class="fas fa-star filled"></i>
-                <i class="fas fa-star filled"></i>
-                <i class="fas fa-star filled"></i>
-                <i class="fas fa-star filled"></i>
-                <i class="fas fa-star"></i>
-              </div>
+              <el-rate
+                v-model="rate"
+                disabled
+                show-score
+                text-color="#ff9900"
+                :score-template="totalReviews"
+              ></el-rate>
             </div>
           </li>
         </ul>
@@ -63,10 +62,13 @@ import VueAxios from "vue-axios";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
 import VueLazyload from "vue-lazyload";
+import ElementUI from "element-ui";
+import "element-ui/lib/theme-chalk/index.css";
 
 import { mapState } from "vuex";
 
 Vue.use(VueAxios, axios);
+Vue.use(ElementUI);
 Vue.use(VueLazyload, {
   preLoad: 1.3,
   error: "https://sbrfiles.s3.amazonaws.com/images/image-not-available.png",
@@ -84,11 +86,23 @@ export default {
     "reviews",
     "photo",
     "instructor-name",
-    "instructor-photo"
+    "instructor-photo",
+    "total-reviews",
+    "total-rate"
   ],
+  data: () => {
+    return {
+      rate: 0
+    };
+  },
 
   computed: {
     ...mapState(["lang"])
+  },
+  watch: {
+    totalRate: function() {
+      this.rate = parseInt((this.totalRate / this.totalReviews).toFixed(0));
+    }
   }
 };
 </script>
@@ -274,20 +288,6 @@ img {
   align-items: center;
   color: #fff;
   font-weight: 600;
-}
-
-.eds_rating {
-  margin-left: 5px;
-  font-size: 13px;
-}
-
-.eds_rating i.filled {
-  color: #f1992c;
-}
-
-.eds_rating i {
-  margin-right: 2px;
-  font-size: 10px;
 }
 
 /* =============
