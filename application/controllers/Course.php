@@ -14,34 +14,20 @@ class Course extends CI_Controller {
 	public function create(){
         $this->input->post("mycategory_id") == '' ? $category = 1 : $category =  $this->input->post("mycategory_id");
         $dateCreate = getCurrentDate("Y-m-d");
-        
-        /* Empty image */
-        if($this->input->post("photo") == ''){
-            $coursePhoto = null;
-        }else{
-            $coursePhoto  = $this->input->post("photo");
-        }
 
-        /* Empty video preview */
-        if($this->input->post("preview") == ''){
-            $coursePreview = null;
-        }else{
-            $coursePreview  = $this->input->post("preview");
-        }
     
-
         $dataReceiveFromPost = array(
             'title' => applySecurityFunctions($this->input->post("title")),
             'mycategory_id' => $category,
-            'release_date' => $this->input->post("release_date"),
-            'expiration_date' => $this->input->post("expiration_date"),
-            'validity' => $this->input->post("validity"),
+            'release_date' => $this->Filters_Model->filterEmptyFields($this->input->post("release_date"), array("")),
+            'expiration_date' => $this->Filters_Model->filterEmptyFields($this->input->post("expiration_date"), array("")),
+            'validity' => $this->Filters_Model->filterEmptyFields($this->input->post("validity"), array("")),
             'reviews' => $this->input->post("reviews"),
             'spotlight' => $this->input->post("spotlight"),
-            'photo' =>  $coursePhoto,
-            'preview' =>  $coursePreview,
+            'photo' => $this->Filters_Model->filterEmptyFields($this->input->post("photo"), array("")),
+            'preview' =>  $this->Filters_Model->filterEmptyFields($this->input->post("preview"), array("")),
             'certificate' => $this->input->post("certificate"),
-            'price' => $this->input->post("price"),
+            'price' => $this->Filters_Model->filterEmptyFields($this->input->post("price"), array(" 0,00 ")),
             'creation_date' => $dateCreate,
             'creation_user' => getUserId(),
             'description' => $this->input->post("description"),

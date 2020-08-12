@@ -7,6 +7,7 @@ class Program extends CI_Controller {
     function __construct(){
         parent::__construct();
         $this->load->model('Program_Model');
+        $this->load->model("Filters_Model");
     }
 
    
@@ -18,14 +19,35 @@ class Program extends CI_Controller {
         $dataReceiveFromPost = array(
             'title' => applySecurityFunctions($this->input->post('title')),
             'description' => $this->input->post('description'),
-            'photo' => $this->input->post('photo'),
-            'release_date' => $this->input->post('release_date'),
-            'expiration_date' => $this->input->post('expiration_date'),
+            'photo' => $this->Filters_Model->filterEmptyFields($this->input->post("photo"), array("")),
+            'release_date' => $this->Filters_Model->filterEmptyFields($this->input->post("release_date"), array("")),
+            'expiration_date' => $this->Filters_Model->filterEmptyFields($this->input->post("expiration_date"), array("")),
             'creation_date' => $creationDate,
             'creation_user' => getUserId()
         );
         $result = $this->Program_Model->create($dataReceiveFromPost, $coursesArray);
         echo json_encode($result);
+    }
+
+    public function edit(){
+        $courses = $this->input->post("courses");
+        $coursesArray = explode (",", $courses);
+        $programId = $this->input->post("programId");
+        $dataReceiveFromPost = array(
+            'title' => applySecurityFunctions($this->input->post('title')),
+            'description' => $this->input->post('description'),
+            'photo' => $this->Filters_Model->filterEmptyFields($this->input->post("photo"), array("")),
+            'release_date' => $this->Filters_Model->filterEmptyFields($this->input->post("release_date"), array("")),
+            'expiration_date' => $this->Filters_Model->filterEmptyFields($this->input->post("expiration_date"), array("")),
+        );
+        $result = $this->Program_Model->edit($dataReceiveFromPost, $coursesArray, $programId);
+        echo json_encode($result);
+    }
+
+    public function get(){
+      $programId = $this->input->post("programId");
+      $result = $this->Program_Model->get($programId);
+      echo json_encode($result);
     }
     
 
@@ -45,6 +67,12 @@ class Program extends CI_Controller {
     public function getCourses(){
         $courses = $this->Program_Model->getCourses();
         echo json_encode($courses);
+    }
+
+    public function getProgramCourses(){
+        $programId = $this->input->post("programId");
+        $result = $this->Program_Model->getProgramCourses($programId);
+        echo json_encode($result);
     }
 
     public function delete(){

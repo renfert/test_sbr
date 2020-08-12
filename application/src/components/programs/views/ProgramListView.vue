@@ -29,7 +29,7 @@
             >{{element.title}}</h4>
 
             <h4 v-else>
-              <router-link :to="'/viewprogram/'+element.id">{{element.title}}</router-link>
+              <router-link class="sbr-text-grey" :to="'/viewprogram/'+element.id">{{element.title}}</router-link>
             </h4>
 
             <el-progress
@@ -55,13 +55,9 @@
               <i class="el-icon-more-outline"></i>
             </el-divider>
             <el-row v-if="roleId != 3">
-              <el-button
-                class="sbr-primary"
-                @click.prevent="editProgram(element.id)"
-                type="primary"
-                icon="el-icon-edit"
-                circle
-              ></el-button>
+              <router-link :to="'/editprogram/'+element.id">
+                <el-button class="sbr-primary" type="primary" icon="el-icon-edit" circle></el-button>
+              </router-link>
               <template>
                 <el-popconfirm
                   confirmButtonText="Ok"
@@ -93,8 +89,6 @@
 import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
-import { DataTables, DataTablesServer } from "vue-data-tables";
-import { eventLang } from "@/components/helper/HelperLang";
 import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 import lang from "element-ui/lib/locale/lang/en";
@@ -103,6 +97,9 @@ import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
 import VueLazyload from "vue-lazyload";
 import "element-ui/lib/theme-chalk/index.css";
+
+import { DataTables, DataTablesServer } from "vue-data-tables";
+import { mapState } from "vuex";
 
 locale.use(lang);
 Vue.use(VueLazyload, {
@@ -115,6 +112,7 @@ Vue.use(DataTables);
 Vue.use(DataTablesServer);
 Vue.use(ElementUI);
 Vue.use(VueAxios, axios);
+
 export default {
   mixins: [domains, alerts],
   data: function() {
@@ -123,7 +121,6 @@ export default {
       programList: [],
       filters: [{ prop: "title", value: "" }],
       tableProps: { defaultSort: { prop: "title", order: "descending" } },
-      lang: {},
       modal: false,
       loading: false,
       roleId: ""
@@ -133,23 +130,10 @@ export default {
     this.getProgram();
     this.getUserProfile();
   },
-  mounted() {
-    eventLang.$on(
-      "lang",
-      function(response) {
-        this.lang = response;
-      }.bind(this)
-    );
+  computed: {
+    ...mapState(["lang"])
   },
   methods: {
-    editProgram: function(id) {
-      if (process.env.NODE_ENV === "production") {
-        window.location.href = "pages/editprogram/" + id + "";
-      } else {
-        window.location.href = "editprogram/" + id + "";
-      }
-    },
-
     deleteProgram: function(id) {
       var formData = new FormData();
       formData.set("programId", id);
@@ -166,20 +150,6 @@ export default {
           this.errorMessage();
         }.bind(this)
       );
-    },
-    viewProgram: function(id, expirationDays, releaseDays) {
-      if (releaseDays == null) {
-        releaseDays = -1;
-      }
-
-      if (expirationDays == null) {
-        expirationDays = 1;
-      }
-
-      if (expirationDays > 0 && releaseDays <= 0) {
-        sessionStorage.setItem("sbr_program_id", "" + id + "");
-        window.location.href = "viewprogram";
-      }
     },
     getProgram() {
       this.loading = true;

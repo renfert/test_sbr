@@ -1,42 +1,42 @@
 <template>
   <div class="col-12">
-    <div class="card-box" v-if="loadingContent == true">
-      <facebook-loader
-        :speed="2"
-        width="700"
-        height="200"
-        primaryColor="#f0f0f0"
-        secondaryColor="#d9d9d9"
-      ></facebook-loader>
-    </div>
+    <div>
+      <div class="two-column-card mt-5">
+        <!-- Create a new course --->
 
-    <div class="box-programs" v-else>
-      <div class="row">
-        <div class="col-1"></div>
-        <div class="col-xl-4 col-md-4" v-if="programList == null">
-          <div class="text-programs">
-            <h4>{{lang["no-results-program-title"]}}</h4>
+        <div class="item-card">
+          <div v-if="programList == null">
+            <h4>{{ lang["no-results-program-title"] }}</h4>
             <br />
-            <router-link class="sbr-btn sbr-primary" to="/newprogram">{{lang["new-program-button"]}}</router-link>
+            <router-link to="/newprogram">
+              <el-button class="sbr-btn sbr-primary mt-3">
+                {{
+                lang["new-program-button"]
+                }}
+              </el-button>
+            </router-link>
           </div>
-        </div>
-
-        <div class="col-12 col-md-4" v-else>
-          <div class="text-programs">
+          <div v-else>
             <h3>
-              {{lang["programs-already-created"]}}
+              {{ lang["courses-already-created"] }}
               <b
-                class="text-eadtools"
-              >{{numberTotalOfProgramsCreated}}</b>
+                class="sbr-text-primary"
+              >{{ numberTotalOfProgramsCreated }}</b>
             </h3>
-            <br />
-            <router-link class="sbr-btn sbr-primary" to="/newprogram">{{lang["new-program-button"]}}</router-link>
+            <router-link to="/newprogram">
+              <el-button class="sbr-btn sbr-primary mt-3">
+                {{
+                lang["new-program-button"]
+                }}
+              </el-button>
+            </router-link>
           </div>
         </div>
 
-        <el-divider style="height:auto;" direction="vertical"></el-divider>
-        <div class="col-1"></div>
-        <div class="col-12 col-md-5 text-center">
+        <div class="divider"></div>
+
+        <!-- See how to create a program --->
+        <div class="item-card item-video-course">
           <h3 class="text-box">See how is easy to create a program</h3>
           <a
             id="play-video"
@@ -46,7 +46,7 @@
           >
             <span></span>
           </a>
-          <div id="video-overlay" class="video-overlay" :class="videoOverlay == true?'open': ''">
+          <div id="video-overlay" class="video-overlay" :class="videoOverlay == true ? 'open' : ''">
             <a @click.prevent="videoOverlay = false" class="video-overlay-close">&times;</a>
             <iframe
               width="560"
@@ -64,7 +64,6 @@
 </template>
 
 <script>
-import { eventLang } from "@/components/helper/HelperLang";
 import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
@@ -72,38 +71,28 @@ import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
-import { FacebookLoader } from "vue-content-loader";
+
+import { mapState } from "vuex";
 
 Vue.use(ElementUI);
 Vue.use(VueAxios, axios);
 export default {
-  components: {
-    FacebookLoader
-  },
   mixins: [domains, alerts],
   data: () => {
     return {
-      lang: {},
       programList: [],
       numberTotalOfProgramsCreated: "",
-      videoOverlay: false,
-      loadingContent: false
+      videoOverlay: false
     };
   },
   created() {
     this.getProgram();
   },
-  mounted() {
-    eventLang.$on(
-      "lang",
-      function(response) {
-        this.lang = response;
-      }.bind(this)
-    );
+  computed: {
+    ...mapState(["lang"])
   },
   methods: {
     getProgram() {
-      this.loadingContent = true;
       var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
         "program",
         "listing"
@@ -111,12 +100,6 @@ export default {
       axios.get(urlToBeUsedInTheRequest).then(
         response => {
           // success callback
-          setTimeout(
-            function() {
-              this.loadingContent = false;
-            }.bind(this),
-            1000
-          );
           this.programList = response.data;
           this.numberTotalOfProgramsCreated = response.data.length;
         },
@@ -132,6 +115,40 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
+.two-column-card {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  flex-wrap: wrap;
+  margin: 0 -8px;
+  justify-content: space-around;
+  align-items: baseline;
+}
+
+.two-column-card > * {
+  margin: 0 8px;
+}
+
+.divider {
+  width: 2px;
+  margin: 6px 0;
+  background: #ebe5e5;
+  align-self: stretch;
+}
+
+.item-card {
+  flex: 1;
+  text-align: center;
+}
+
+.img-box {
+  width: 70%;
+}
+
+.text-box {
+  font-size: 17px;
+}
+
 .image-new-program {
   width: 50%;
 }
@@ -144,19 +161,22 @@ export default {
   height: auto !important;
 }
 
+/* =============
+  Play button
+============= */
 .video-play-button {
   position: relative;
   z-index: 10;
-  margin-top: 15%;
+  margin-top: 10%;
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
   box-sizing: content-box;
   display: block;
-  width: 32px;
-  height: 44px;
+  width: 22px;
+  height: 34px;
   /* background: #fa183d; */
   border-radius: 50%;
-  padding: 18px 20px 18px 28px;
+  padding: 30px 18px 18px 28px;
 }
 
 .video-play-button:before {
@@ -167,8 +187,8 @@ export default {
   top: 50%;
   transform: translateX(-50%) translateY(-50%);
   display: block;
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
   background: #009cd8;
   border-radius: 50%;
   animation: pulse-border 1500ms ease-out infinite;
@@ -182,8 +202,8 @@ export default {
   top: 50%;
   transform: translateX(-50%) translateY(-50%);
   display: block;
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
   background: #009cd8;
   border-radius: 50%;
   transition: all 200ms;
@@ -207,9 +227,9 @@ export default {
   z-index: 3;
   width: 0;
   height: 0;
-  border-left: 32px solid #fff;
-  border-top: 22px solid transparent;
-  border-bottom: 22px solid transparent;
+  border-left: 18px solid #fff;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
 }
 
 @keyframes pulse-border {

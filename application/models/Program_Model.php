@@ -17,7 +17,6 @@ class Program_Model extends CI_Model {
         $this->db->insert("program", $dataReceiveFromPost);
         $programId =  $this->db->insert_id();
 
-    
         /* Save courses into a program */
         $this->saveCoursesIntoProgram($programId, $courses);
 
@@ -29,8 +28,22 @@ class Program_Model extends CI_Model {
 
         $this->Activity_Model->save("program-created", 1, 1, null, $programId, null,null,null,null);
 
-
         return $programId;
+    }
+
+    public function edit($dataReceiveFromPost,$courses, $programId){
+        $this->db->where("id", $programId);
+        $this->db->update("program", $dataReceiveFromPost);
+    }
+
+    public function get($programId){
+      $this->db->select("*");
+      $this->db->from("program");
+      $this->db->where("id", $programId);
+      $query = $this->db->get();
+      if($query->num_rows() > 0){
+        return $query->result();
+      }
     }
 
     public function saveCoursesIntoProgram($programId, $courses){
@@ -153,6 +166,20 @@ class Program_Model extends CI_Model {
         $this->db->join("relationship T1", "T0.id = T1.mycourse_id");
         $this->db->where("T1.myuser_id ", getUserId());
         $this->db->where("T1.mycourse_id !=", 1);
+        $query = $this->db->get();
+        if($query->num_rows() > 0){
+            return $query->result();
+        }
+    }
+
+    public function getProgramCourses($programId){
+        $this->db->select("T1.id");
+        $this->db->distinct();
+        $this->db->from("program_has_mycourse T0 ");
+        $this->db->join("mycourse T1", "T0.mycourse_id = T1.id");
+        $this->db->where("T0.program_id", $programId);
+        $this->db->where("T0.mycourse_id !=", 1);
+        $this->db->order_by("T0.position", "asc");
         $query = $this->db->get();
         if($query->num_rows() > 0){
             return $query->result();

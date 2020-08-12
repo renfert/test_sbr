@@ -73,6 +73,14 @@ const routes = [
       import(/* webpackChunkName: "editcourse" */ "@/components/editcourse/App")
   },
   {
+    name: "editprogram",
+    path: "/editprogram/:id",
+    component: () =>
+      import(
+        /* webpackChunkName: "editprogram" */ "@/components/editprogram/App"
+      )
+  },
+  {
     name: "group",
     path: "/group",
     component: () =>
