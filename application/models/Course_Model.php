@@ -63,7 +63,7 @@ class Course_Model extends CI_Model {
         $query = $this->db->get();
         if($query->num_rows() > 0){
             foreach($query->result() as $row){
-              if($row->validityDays <= 0 && $row->validity != null && getUserId() != 1 ){
+              if($row->validityDays <= 0 && $row->validity != null && $row->validity != 0 && getUserId() != 1 ){
                 $this->removeUserFromCourse(getUserId(), $row->id);
               }
             }

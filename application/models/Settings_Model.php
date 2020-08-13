@@ -14,9 +14,10 @@ class Settings_Model extends CI_Model {
     */
 	public function getSettingsInformation(){
 		$this->db->select("*");
-		$result=$this->db->get("settings");
-		if($result->num_rows()>0){
-			return $result->row();
+		$this->db->from("settings");
+		$query = $this->db->get();
+		if($query->num_rows() > 0){
+			return $query->row();
 		}
 		else{
 			return false;

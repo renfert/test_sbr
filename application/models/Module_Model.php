@@ -118,13 +118,7 @@ class Module_Model extends CI_Model {
         $query = $this->db->get();
         if($query->num_rows() > 0){
             foreach($query->result() as $row){
-                
-                if($row->required_to_next == null){
-                    $disable = 0;
-                }else{
-                    $disable = $this->checkModuleAvailability($row->id, $courseId);
-                }
-               
+              $disable = $this->checkModuleAvailability($row->id, $courseId);
                 $ar = array(
                     'id' =>  $row->id,
                     'totalLessons' =>  $row->totalLessons,
@@ -132,7 +126,7 @@ class Module_Model extends CI_Model {
                     'position' => $row->position,
                     'required_to_next' => $row->required_to_next,
                     'release_date' => $row->release_date,
-                    'disable' => $disable < 1 ? false : true,
+                    'disable' => $disable,
                     'daysDiff' => $row->daysDiff
                 );
                 
@@ -144,18 +138,39 @@ class Module_Model extends CI_Model {
     }
 
     public function checkModuleAvailability($moduleId,$courseId){
-        $userId = getUserId();
-        $sql = "
-        SELECT DISTINCT T3.mylesson_id,T3.status 
-        FROM relationship T0 
-        INNER JOIN mymodule T1 ON T0.mymodule_id = T1.id 
-        INNER JOIN mylesson T2 ON T0.mylesson_id = T2.id 
-        INNER JOIN lesson_status T3 ON T2.id = T3.mylesson_id 
-        WHERE T0.mycourse_id = $courseId AND T2.id != 1 AND T3.myuser_id = $userId AND T3.status IS NULL AND T1.id = (SELECT DISTINCT max(mymodule_id) FROM relationship T0 INNER join mymodule T1 ON T0.mymodule_id = T1.id WHERE mycourse_id = $courseId AND mymodule_id != 1 AND mymodule_id < $moduleId  AND T1.required_to_next IS NOT NULL)";
-        if($query = $this->db->query($sql)){
-            return $query->num_rows();
+        /* Get module with previous position */
+        $this->db->select("*");
+        $this->db->from("mymodule T0");
+        $this->db->join("relationship T1", "T0.id = T1.mymodule_id");
+        $this->db->where("position < (select position from mymodule where id=$moduleId) AND T1.mycourse_id = $courseId");
+        $this->db->order_by("T0.position", "desc");
+        $this->db->limit(1);
+        $query = $this->db->get();
+        if($query->num_rows() > 0){
+          if($query->result()[0]->required_to_next == null){
+            return false;
+          }else{
+            $moduleId = $query->result()[0]->id;
+            return $this->checkCompletedLessonsInModule($moduleId);
+          }
         }else{
-            return 0;
+          return false;
         }
+    }
+
+    private function checkCompletedLessonsInModule($moduleId){
+      $this->db->select("COUNT(DISTINCT T1.mylesson_id) as total");
+      $this->db->from("relationship T0"); 
+      $this->db->join("lesson_status T1", "T0.mylesson_id = T1.mylesson_id");
+      $this->db->where("T0.mymodule_id", $moduleId);
+      $this->db->where("T0.mylesson_id !=", 1);
+      $this->db->where("T1.myuser_id", getUserId());
+      $this->db->where("T1.status IS NULL");
+      $query = $this->db->get();
+      if($query->result()[0]->total > 0){
+        return true;
+      } else{
+        return false;
+      }
     }
 }

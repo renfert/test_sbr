@@ -193,6 +193,7 @@ export default {
     edit: function() {
       var form = document.getElementById("form-program");
       var formData = new FormData(form);
+      formData.set("courses", this.coursesProgram);
       var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("program", "edit");
       axios.post(urlToBeUsedInTheRequest, formData).then(
         function() {

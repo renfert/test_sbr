@@ -1,7 +1,7 @@
 <template>
   <div class="col-auto" v-loading="loading">
     <div class="row gap5">
-      <div class="col-12 col-md-4 list-courses" v-for="element in programList" :key="element.id">
+      <div class="col-12 col-md-4 list-programs" v-for="element in programList" :key="element.id">
         <!-- Card -->
         <div class="card">
           <!-- Card image -->
@@ -14,7 +14,7 @@
           <router-link v-else :to="'/viewprogram/'+element.id">
             <!-- Card image -->
             <img
-              v-lazy="getUrlToContents() + 'course/'+element.photo+''"
+              v-lazy="getUrlToContents() + 'program/'+element.photo+''"
               style="height:200px;"
               class="card-img-top"
             />
@@ -186,7 +186,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-.list-courses {
+.list-programs {
   margin-bottom: 50px !important;
 }
 </style>
