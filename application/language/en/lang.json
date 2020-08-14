@@ -617,6 +617,12 @@
 
   "please-wait": "Please wait, this may take a few minutes ...",
 
+  "invalid-access-token": "Invalid credentials, please review your information.",
+
+  "mercado-pago-success": "Your mercado pago account has been successfully set up!",
+  "ready-for-sales": "Everything ready for sales!",
+  "course-currency": "Your courses will be sold at",
+
   "name": "Name",
   "password": "Password",
   "email": "Email",

@@ -26,6 +26,12 @@
 
   "edit-program": "Editar programa",
 
+  "invalid-access-token": "Credenciales no válidas, revise su información.",
+
+  "mercado-pago-success": "¡Su cuenta de mercado pago se ha configurado correctamente!",
+  "ready-for-sales": "¡Todo listo para las ventas!",
+  "course-currency": "Sus cursos se venderán en",
+
   "days": "dias",
 
   "enroll-now": "Enlístate ahora",

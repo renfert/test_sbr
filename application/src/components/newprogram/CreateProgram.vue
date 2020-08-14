@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="showContent == true">
-      <h4>{{lang["create-program"]}}</h4>
+      <h4 class="fw-700">{{ lang["create-program"] }}</h4>
       <br />
       <form @submit.prevent="createProgram()" id="form-program">
         <el-tabs tab-position="top">
@@ -12,11 +12,16 @@
             <div class="row mt-5">
               <div class="col-10">
                 <div class="form-group">
-                  <label>{{lang['name']}}</label>
-                  <el-input required name="title" :placeholder="lang['name']" v-model="programName"></el-input>
+                  <label>{{ lang["name"] }}</label>
+                  <el-input
+                    required
+                    name="title"
+                    :placeholder="lang['name']"
+                    v-model="programName"
+                  ></el-input>
                 </div>
                 <div class="form-group">
-                  <label>{{lang['start-date']}}</label>
+                  <label>{{ lang["start-date"] }}</label>
                   <br />
                   <el-date-picker
                     name="release_date"
@@ -28,7 +33,7 @@
                   ></el-date-picker>
                 </div>
                 <div class="form-group">
-                  <label>{{lang['end-date']}}</label>
+                  <label>{{ lang["end-date"] }}</label>
                   <br />
                   <el-date-picker
                     name="expiration_date"
@@ -41,8 +46,14 @@
                 </div>
                 <div class="form-group">
                   <!-- Program description -->
-                  <textarea class="hide" v-model="programDescription" name="description"></textarea>
-                  <label class="col-form-label">{{lang["description"]}}</label>
+                  <textarea
+                    class="hide"
+                    v-model="programDescription"
+                    name="description"
+                  ></textarea>
+                  <label class="col-form-label">{{
+                    lang["description"]
+                  }}</label>
                   <wysiwyg v-model="programDescription" />
                 </div>
               </div>
@@ -70,7 +81,8 @@
                       class="sbr-btn sbr-secondary"
                       @click.prevent="addCourse()"
                       type="primary"
-                    >{{lang["add-course"]}}</el-button>
+                      >{{ lang["add-course"] }}</el-button
+                    >
                   </el-form-item>
                 </el-form>
                 <div class="mb-5">
@@ -110,7 +122,9 @@
           </el-tab-pane>
         </el-tabs>
         <br />
-        <el-button native-type="submit" class="sbr-btn sbr-primary">{{lang["save-button"]}}</el-button>
+        <el-button native-type="submit" class="sbr-btn sbr-primary">{{
+          lang["save-button"]
+        }}</el-button>
       </form>
     </div>
     <helper-progress></helper-progress>
