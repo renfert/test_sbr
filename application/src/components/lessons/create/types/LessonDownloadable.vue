@@ -28,7 +28,7 @@
               return-name="path"
               input-name="file"
               bucket-key="uploads/content"
-              acceptable=".*"
+              acceptable=".jpg,.png,.docx,.xlsx,.doc,.pptx,.pdf,.zip,.mp4,.mp3,.mov"
             ></upload>
           </div>
         </div>

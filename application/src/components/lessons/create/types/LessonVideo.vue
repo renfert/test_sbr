@@ -29,7 +29,7 @@
               return-name="path"
               input-name="file"
               bucket-key="uploads/content"
-              acceptable=".mp4,.mov"
+              acceptable=".mp4,.mov,.avi"
             ></upload>
           </div>
         </div>
