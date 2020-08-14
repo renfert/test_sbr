@@ -1,78 +1,75 @@
 <template>
-  <div>
+  <div class="creation-content">
     <div>
-      <div class="row">
-        <div class="img-container">
-          <div class="text-container">
-            <h4>{{lang["program-created-successfully"]}}</h4>
-            <h1>{{programName}}</h1>
-          </div>
-
-          <img src="@/assets/img/general/ux/course_completed.png" />
+      <div class="img-container">
+        <div class="text-container">
+          <h4>{{lang["program-created-successfully"]}}</h4>
+          <h1>{{programName}}</h1>
         </div>
+        <img src="@/assets/img/general/ux/course_completed.png" />
       </div>
-
-      <div class="row mt-3 ml-5 mr-5">
-        <div class="col-12 col-md-4">
-          <router-link :to="'/viewprogram/'+programId">
-            <div class="card-box">
-              <h5>{{lang["view-program"]}}</h5>
-              <img src="@/assets/img/general/ux/view_course.png" alt />
-            </div>
-          </router-link>
-        </div>
-
-        <div class="col-12 col-md-4">
-          <a href="javascript:void(0)" @click.prevent="modal = true">
-            <div class="card-box">
-              <h5>{{lang["join-persons"]}}</h5>
-              <img src="@/assets/img/general/ux/join_persons.png" alt />
-            </div>
-          </a>
-        </div>
-
-        <div class="col-12 col-md-4">
-          <a href="javascript:void(0)" @click.prevent="reloadPage()">
-            <div class="card-box">
-              <h5>{{lang["create-new-program"]}}</h5>
-              <img src="@/assets/img/general/ux/create_new_course.png" alt />
-            </div>
-          </a>
-        </div>
-      </div>
-
-      <!-- Join users -->
-      <el-dialog :visible.sync="modal" :title="lang['join-persons']" center top="5vh">
-        <div v-if="usersList != null" v-loading="loading">
-          <template>
-            <el-transfer
-              filterable
-              :titles="['Persons', 'Course']"
-              v-model="users"
-              :data="usersList"
-            ></el-transfer>
-          </template>
-          <br />
-          <el-button @click="enrollUsers()" type="primary" size="medium">{{lang["save-button"]}}</el-button>
-        </div>
-
-        <!-- No persons found content -->
-        <div class="card-box box-no-results" v-else>
-          <div class="row">
-            <div class="col-1"></div>
-            <div class="col-5">
-              <div class="text-no-results">
-                <h5>{{lang["all-students-already-added"]}}</h5>
-              </div>
-            </div>
-            <div class="col-6">
-              <img class="image-no-results" src="@/assets/img/general/ux/no_persons.png" alt />
-            </div>
-          </div>
-        </div>
-        <!-- No users found content end -->
-      </el-dialog>
     </div>
+
+    <div class="row mt-3 ml-5 mr-5 row-actions">
+      <div class="col-12 col-md-4">
+        <router-link :to="'/viewprogram/'+programId">
+          <div class="card-box card-action">
+            <h5>{{lang["view-program"]}}</h5>
+            <img src="@/assets/img/general/ux/view_course.png" alt />
+          </div>
+        </router-link>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <a href="javascript:void(0)" @click.prevent="modal = true">
+          <div class="card-box card-action">
+            <h5>{{lang["join-persons"]}}</h5>
+            <img src="@/assets/img/general/ux/join_persons.png" alt />
+          </div>
+        </a>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <a href="javascript:void(0)" @click.prevent="reloadPage()">
+          <div class="card-box card-action">
+            <h5>{{lang["create-new-program"]}}</h5>
+            <img src="@/assets/img/general/ux/create_new_course.png" alt />
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Join users -->
+    <el-dialog :visible.sync="modal" :title="lang['join-persons']" center top="5vh">
+      <div v-if="usersList != null" v-loading="loading">
+        <template>
+          <el-transfer filterable :titles="['Persons', 'Course']" v-model="users" :data="usersList"></el-transfer>
+        </template>
+        <br />
+        <el-button
+          class="sbr-btn sbr-primary"
+          @click="enrollUsers()"
+          type="primary"
+          size="medium"
+        >{{lang["save-button"]}}</el-button>
+      </div>
+
+      <!-- No persons found content -->
+      <div class="card-box box-no-results" v-else>
+        <div class="row">
+          <div class="col-1"></div>
+          <div class="col-5">
+            <div class="text-no-results">
+              <h5>{{lang["all-students-already-added"]}}</h5>
+            </div>
+          </div>
+          <div class="col-6">
+            <img class="image-no-results" src="@/assets/img/general/ux/no_persons.png" alt />
+          </div>
+        </div>
+      </div>
+      <!-- No users found content end -->
+    </el-dialog>
   </div>
 </template>
 
@@ -80,22 +77,19 @@
 import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
-import { eventLang } from "@/components/helper/HelperLang";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
 import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
-import lang from "element-ui/lib/locale/lang/en";
-import locale from "element-ui/lib/locale";
 
-locale.use(lang);
+import { mapState } from "vuex";
+
 Vue.use(ElementUI);
 Vue.use(VueAxios, axios);
+
 export default {
   mixins: [domains, alerts],
   data: function() {
     return {
-      lang: {},
       loading: false,
       modal: false,
       usersList: [],
@@ -103,13 +97,8 @@ export default {
     };
   },
   props: ["program-id", "program-name"],
-  created() {
-    eventLang.$on(
-      "lang",
-      function(response) {
-        this.lang = response;
-      }.bind(this)
-    );
+  computed: {
+    ...mapState(["lang"])
   },
   methods: {
     enrollUsers: function() {
@@ -168,23 +157,40 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-.img-course {
-  width: 40%;
+/* =============
+    - Layout
+    - Font
+    - Mobile
+============= */
+
+/* =============
+   Layout
+============= */
+
+.creation-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
 }
 
-.card-box {
+.row-actions {
+  padding-left: 230px;
+}
+
+.card-action {
   text-align: center;
   text-transform: uppercase;
   letter-spacing: 1px;
   color: grey !important;
 }
 
-.card-box:hover {
+.card-action:hover {
   -webkit-box-shadow: 0px 0px 5px 0px #00a9b4;
   box-shadow: 0px 0px 5px 0px #00a9b4;
 }
 
-.card-box img {
+.card-action img {
   width: 50px;
 }
 
@@ -207,12 +213,15 @@ export default {
 .text-container {
   color: white;
   position: absolute;
-  width: 400px;
-  margin-left: 50%;
-  margin-top: 14%;
-  left: -200px;
+  width: 100%;
+  margin-top: 10%;
+  padding-left: 230px;
   text-align: center;
 }
+
+/* =============
+   Font
+============= */
 
 .text-container h4 {
   text-transform: uppercase;
@@ -226,47 +235,38 @@ export default {
   color: white;
 }
 
-.content {
-  padding: 0px !important;
-}
+/* =============
+   Mobile
+============= */
 
-/* Default sizes */
-.form-row > .col,
-.form-row > [class*="col-"] {
-  padding-right: 20px !important;
-  padding-left: 20px !important;
-}
+@media only screen and (max-width: 600px) {
+  .text-container {
+    color: white;
+    position: absolute;
+    width: 100%;
+    margin-top: 25%;
+    padding-left: 0px;
+    text-align: center;
+  }
+  .text-container h4 {
+    font-size: 0.8em;
+    text-transform: uppercase;
+    font-family: "Poppins", sans-serif;
+    letter-spacing: 1px;
+    color: white;
+  }
 
-.form-row {
-  padding: 0px !important;
-}
-.editr {
-  height: 200px;
-  border-radius: 4px;
-  border: 2px solid #ccc;
-  transition: border-color 0.15s linear !important;
-}
-
-.editr--content {
-  font-family: "Poppins", sans-serif !important;
-  font-size: 15px !important;
-}
-
-.form-wizard-wrapper .form-wizard-content {
-  background-color: white;
-  color: #777777;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  top: 0;
-}
-
-/* End default sizes */
-
-/* ------------- Max 1024px ---------------- */
-@media only screen and (max-width: 1024px) {
-  .editr--toolbar {
-    display: none !important;
+  .text-container h1 {
+    font-size: 1.5em;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: white;
+  }
+  .row-actions {
+    padding-left: 0px;
+  }
+  .img-container {
+    height: 280px;
   }
 }
 </style>

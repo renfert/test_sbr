@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="card-box mt-5 text-center card-program">
+    <div class="mt-5 text-center card-program">
       <h2>{{programName}}</h2>
       <h3>
         {{lang["total-courses-completed"]}}

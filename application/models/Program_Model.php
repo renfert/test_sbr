@@ -46,12 +46,14 @@ class Program_Model extends CI_Model
 
     foreach ($programCoursesArray as $courseId) {
       if (!in_array($courseId, $courses)) {
-        foreach ($personsEnrolledIntoProgram as $userId) {
-          $this->Course_Model->removeUserFromCourse($userId, $courseId);
-          $this->db->where("program_id", $programId);
-          $this->db->where("mycourse_id", $courseId);
-          $this->db->delete("program_has_mycourse");
+        if ($personsEnrolledIntoProgram != null) {
+          foreach ($personsEnrolledIntoProgram as $userId) {
+            $this->Course_Model->removeUserFromCourse($userId, $courseId);
+          }
         }
+        $this->db->where("program_id", $programId);
+        $this->db->where("mycourse_id", $courseId);
+        $this->db->delete("program_has_mycourse");
       }
     }
 
@@ -62,20 +64,30 @@ class Program_Model extends CI_Model
 
     foreach ($courses as $courseId) {
       if (!in_array($courseId, $programCoursesArray)) {
-        foreach ($personsEnrolledIntoProgram as $userId) {
-          $this->Course_Model->enrollUserIntoCourse($courseId, $userId);
-          $data = array(
-            'program_id' => $programId,
-            'mycourse_id' => $courseId,
-            'position' => 999
-          );
-          $this->db->insert("program_has_mycourse", $data);
+        if ($personsEnrolledIntoProgram != null) {
+          foreach ($personsEnrolledIntoProgram as $userId) {
+            $this->Course_Model->enrollUserIntoCourse($courseId, $userId);
+          }
         }
+        $data = array(
+          'program_id' => $programId,
+          'mycourse_id' => $courseId,
+          'position' => 999
+        );
+        $this->db->insert("program_has_mycourse", $data);
       }
     }
 
     $this->db->where("id", $programId);
     $this->db->update("program", $dataReceiveFromPost);
+
+    foreach ($courses as $index => $course) {
+      $data = array(
+        "position" => $index
+      );
+      $this->db->where("mycourse_id", $course);
+      $this->db->update("program_has_mycourse", $data);
+    }
 
     return true;
   }
@@ -252,6 +264,7 @@ class Program_Model extends CI_Model
     $this->db->join("mycourse T1", "T0.mycourse_id = T1.id");
     $this->db->join("program T2", "T0.program_id = T2.id");
     $this->db->where("T0.program_id", $programId);
+    $this->db->order_by("T0.position", "asc");
     $query = $this->db->get();
     if ($query->num_rows() > 0) {
       return $query->result();
@@ -283,7 +296,7 @@ class Program_Model extends CI_Model
   ==============================================  */
   public function getProgramCourses($programId)
   {
-    $this->db->select("T1.id");
+    $this->db->select("T1.id, T1.title, T0.position");
     $this->db->distinct();
     $this->db->from("program_has_mycourse T0 ");
     $this->db->join("mycourse T1", "T0.mycourse_id = T1.id");

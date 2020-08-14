@@ -1,6 +1,6 @@
 <template>
-  <div class="col-auto" v-loading="loading">
-    <div class="row gap5">
+  <div>
+    <div class="row mt-5">
       <div class="col-12 col-md-4 list-programs" v-for="element in programList" :key="element.id">
         <!-- Card -->
         <div class="card">
@@ -51,12 +51,18 @@
               type="primary"
             >{{lang["program-avaiable-in"]}} {{element.release_date}}</el-tag>
 
-            <el-divider v-if="roleId != 3">
+            <el-divider v-if="userRole != 3">
               <i class="el-icon-more-outline"></i>
             </el-divider>
-            <el-row v-if="roleId != 3">
+            <el-row v-if="userRole != 3">
               <router-link :to="'/editprogram/'+element.id">
-                <el-button class="sbr-primary" type="primary" icon="el-icon-edit" circle></el-button>
+                <el-button
+                  size="small"
+                  class="sbr-primary mr-2"
+                  type="primary"
+                  icon="el-icon-edit"
+                  circle
+                ></el-button>
               </router-link>
               <template>
                 <el-popconfirm
@@ -70,6 +76,7 @@
                     class="sbr-danger"
                     slot="reference"
                     type="danger"
+                    size="small"
                     icon="el-icon-delete"
                     circle
                   ></el-button>
@@ -90,48 +97,36 @@ import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
 import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
-import lang from "element-ui/lib/locale/lang/en";
-import locale from "element-ui/lib/locale";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
 import VueLazyload from "vue-lazyload";
-import "element-ui/lib/theme-chalk/index.css";
+import { eventBus } from "@/components/programs/App";
 
-import { DataTables, DataTablesServer } from "vue-data-tables";
 import { mapState } from "vuex";
 
-locale.use(lang);
 Vue.use(VueLazyload, {
   preLoad: 1.3,
   error: "https://sbrfiles.s3.amazonaws.com/images/image-not-available.png",
   loading: "https://sbrfiles.s3.amazonaws.com/gifs/loading7.gif",
   attempt: 1
 });
-Vue.use(DataTables);
-Vue.use(DataTablesServer);
+
 Vue.use(ElementUI);
 Vue.use(VueAxios, axios);
 
 export default {
   mixins: [domains, alerts],
+  props: ["program-list"],
   data: function() {
     return {
       titles: [{ prop: "title", label: "Title" }],
-      programList: [],
       filters: [{ prop: "title", value: "" }],
       tableProps: { defaultSort: { prop: "title", order: "descending" } },
-      modal: false,
-      loading: false,
-      roleId: ""
+      modal: false
     };
   },
-  created() {
-    this.getProgram();
-    this.getUserProfile();
-  },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(["lang", "userRole"])
   },
   methods: {
     deleteProgram: function(id) {
@@ -144,49 +139,13 @@ export default {
       axios.post(urlToBeUsedInTheRequest, formData).then(
         () => {
           this.successMessage();
-          this.getProgram();
+          eventBus.$emit("program-deleted");
         },
         function() {
           this.errorMessage();
-        }.bind(this)
-      );
-    },
-    getProgram() {
-      this.loading = true;
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "program",
-        "listing"
-      );
-      axios.get(urlToBeUsedInTheRequest).then(
-        response => {
-          // success callback
-          this.programList = response.data;
-          this.loading = false;
-        },
-        // Failure callback
-        function() {
-          this.errorMessage();
-        }
-      );
-    },
-    getUserProfile() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "user",
-        "getUserProfile"
-      );
-      axios.get(urlToBeUsedInTheRequest).then(
-        function(response) {
-          this.roleId = response.data["myrole_id"];
         }.bind(this)
       );
     }
   }
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
-.list-programs {
-  margin-bottom: 50px !important;
-}
-</style>

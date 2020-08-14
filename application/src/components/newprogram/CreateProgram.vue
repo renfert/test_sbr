@@ -1,25 +1,26 @@
 <template>
   <div>
-    <div class="card-program" v-if="showContent == true">
+    <div v-if="showContent == true">
       <h4>{{lang["create-program"]}}</h4>
       <br />
-      <form @submit.prevent="create()" id="form-program" v-loading="loading">
+      <form @submit.prevent="createProgram()" id="form-program">
         <el-tabs tab-position="top">
+          <!--------------------
+            Basic information tab
+          ----------------------->
           <el-tab-pane label="Basic information">
-            <div class="row gap5">
+            <div class="row mt-5">
               <div class="col-10">
                 <div class="form-group">
-                  <!-- Program name -->
                   <label>{{lang['name']}}</label>
-                  <el-input required name="title" :placeholder="lang['name']" v-model="name"></el-input>
+                  <el-input required name="title" :placeholder="lang['name']" v-model="programName"></el-input>
                 </div>
                 <div class="form-group">
-                  <!-- Program release date -->
                   <label>{{lang['start-date']}}</label>
                   <br />
                   <el-date-picker
                     name="release_date"
-                    v-model="release"
+                    v-model="programRelease"
                     type="date"
                     format="yyyy/MM/dd"
                     value-format="yyyy-MM-dd"
@@ -27,12 +28,11 @@
                   ></el-date-picker>
                 </div>
                 <div class="form-group">
-                  <!-- Program expiration date -->
                   <label>{{lang['end-date']}}</label>
                   <br />
                   <el-date-picker
                     name="expiration_date"
-                    v-model="expiration"
+                    v-model="programExpiration"
                     type="date"
                     format="yyyy/MM/dd"
                     value-format="yyyy-MM-dd"
@@ -41,28 +41,62 @@
                 </div>
                 <div class="form-group">
                   <!-- Program description -->
-                  <textarea class="hide" v-model="description" name="description"></textarea>
+                  <textarea class="hide" v-model="programDescription" name="description"></textarea>
                   <label class="col-form-label">{{lang["description"]}}</label>
-                  <wysiwyg v-model="description" />
+                  <wysiwyg v-model="programDescription" />
                 </div>
               </div>
             </div>
           </el-tab-pane>
+          <!--------------------
+          Courses tab
+          ----------------------->
           <el-tab-pane label="Courses">
-            <div class="row gap5">
-              <div class="col-12">
-                <el-transfer
-                  filterable
-                  :titles="['Courses', 'Program']"
-                  v-model="courses"
-                  :data="coursesList"
-                ></el-transfer>
+            <div class="mt-5">
+              <div>
+                <el-form :inline="true" class="demo-form-inline">
+                  <el-form-item>
+                    <el-select v-model="course" placeholder="Course">
+                      <el-option
+                        v-for="element in coursesList"
+                        :key="element.key"
+                        :label="element.label"
+                        :value="element.key"
+                      ></el-option>
+                    </el-select>
+                  </el-form-item>
+                  <el-form-item>
+                    <el-button
+                      class="sbr-btn sbr-secondary"
+                      @click.prevent="addCourse()"
+                      type="primary"
+                    >{{lang["add-course"]}}</el-button>
+                  </el-form-item>
+                </el-form>
+                <div class="mb-5">
+                  <ul class="list-group">
+                    <draggable ghost-class="ghost" @end="repositioning">
+                      <transition-group type="transition" name="flip-list">
+                        <li
+                          class="list-group-item d-flex justify-content-between align-items-center sortable"
+                          v-for="element in selectedCourses"
+                          :key="element.id"
+                        >
+                          <div v-html="element.text"></div>
+                        </li>
+                      </transition-group>
+                    </draggable>
+                  </ul>
+                </div>
               </div>
             </div>
           </el-tab-pane>
+          <!--------------------
+          Image tab
+          ----------------------->
           <el-tab-pane label="Image">
-            <div class="row gap5">
-              <div class="col-6">
+            <div class="row mt-5">
+              <div class="col-md-6 col-12">
                 <upload
                   do-upload="true"
                   box-height="200"
@@ -81,8 +115,8 @@
     </div>
     <helper-progress></helper-progress>
     <program-created
-      :class="programId == '' ? 'hide' : 'main'"
-      :program-name="name"
+      :class="programId == '' ? 'hide' : ''"
+      :program-name="programName"
       :program-id="programId"
     ></program-created>
   </div>
@@ -92,59 +126,95 @@
 import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
-import { eventLang } from "@/components/helper/HelperLang";
+import draggable from "vuedraggable";
 import ProgramCreated from "@/components/newprogram/ProgramCreated";
 import HelperProgress from "@/components/helper/HelperProgress.vue";
 import wysiwyg from "vue-wysiwyg";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
 import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
-import lang from "element-ui/lib/locale/lang/en";
-import locale from "element-ui/lib/locale";
 import Upload from "@/components/helper/HelperUpload";
+import $ from "jquery";
 
 Vue.use(wysiwyg, {
   hideModules: { image: true, code: true, table: true, hyperlink: true }
 });
 
-locale.use(lang);
 Vue.use(ElementUI);
 Vue.use(VueAxios, axios);
+
+import { mapState } from "vuex";
+
 export default {
   mixins: [domains, alerts],
   data: function() {
     return {
-      lang: {},
-      name: "",
-      release: "",
-      expiration: "",
-      description: "",
-      courses: [],
-      coursesList: [],
-      loading: false,
-      modal: false,
       programId: "",
       programName: "",
-      showContent: true
+      programDescription: "",
+      programRelease: "",
+      programExpiration: "",
+
+      course: "",
+      coursesList: [],
+      selectedCourses: [],
+
+      modal: false,
+      showContent: true,
+
+      cont: 0
     };
   },
   components: {
     Upload,
+    draggable,
     ProgramCreated,
     HelperProgress
   },
   mounted() {
-    eventLang.$on(
-      "lang",
-      function(response) {
-        this.lang = response;
-      }.bind(this)
-    );
-
+    this.removeCourse();
     this.getCourses();
   },
+  computed: {
+    ...mapState(["lang"])
+  },
   methods: {
+    removeCourse: function() {
+      $(document).ready(function() {
+        $(document).on("click", ".remove-course", function() {
+          let el = $(this)
+            .parent()
+            .parent();
+          el.remove();
+        });
+      });
+    },
+    repositioning: function() {
+      $(".courses-position").each(function(index) {
+        $(this).attr("name", "courses[" + index + "]");
+      });
+    },
+    addCourse: function() {
+      let course = this.coursesList.find(element => element.key == this.course);
+
+      let obj = {
+        id: this.course,
+        text:
+          "\
+            <i style='cursor:pointer !important;' class='remove-course el-icon-delete sbr-text-danger mr-5'></i>\
+            <input class='courses-position hide' name='courses[" +
+          this.cont +
+          "]' value='" +
+          this.course +
+          "'>\
+            " +
+          course.label +
+          "\
+          "
+      };
+      this.cont++;
+      this.selectedCourses.push(obj);
+    },
     getCourses: function() {
       var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
         "program",
@@ -161,11 +231,9 @@ export default {
         }.bind(this)
       );
     },
-    create: function() {
-      this.loading = true;
+    createProgram: function() {
       var form = document.getElementById("form-program");
       var formData = new FormData(form);
-      formData.set("courses", this.courses);
       var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
         "program",
         "create"
@@ -173,7 +241,6 @@ export default {
       axios.post(urlToBeUsedInTheRequest, formData).then(
         response => {
           this.programId = response.data;
-          this.loading = false;
           this.showContent = false;
         },
         // Failure callback
@@ -181,10 +248,6 @@ export default {
           this.errorMessage();
         }.bind(this)
       );
-    },
-
-    reloadPage: function() {
-      location.reload();
     }
   }
 };
@@ -192,11 +255,21 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-.img-program {
-  width: 30%;
-  margin-left: 35%;
+li {
+  cursor: grab;
 }
-.card-program {
-  padding: 5%;
+
+.sortable-drag {
+  opacity: 0;
+}
+
+.flip-list-move {
+  transition: transform 0.5s;
+}
+
+.ghost {
+  border-left: 6px solid rgb(0, 183, 255);
+  border-radius: 5px;
+  opacity: 0.5;
 }
 </style>

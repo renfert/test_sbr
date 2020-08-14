@@ -472,7 +472,9 @@ a:focus {
 
 .card-box .card-drop {
   color: #98a6ad;
-  font-size: 20px;
+  line-height: 30px;
+  font-size: 1.1em;
+  font-weight: 700;
   height: 20px;
   line-height: 1px;
   display: inline-block;
@@ -5846,7 +5848,7 @@ File: Menu
 .content-page {
   margin-left: 230px;
   height:100%;
-  
+  padding: 5%;
 }
 
 
@@ -7198,6 +7200,7 @@ input[type=radio]:checked.mxn + label {
 
 
 
+
 $primary-color: #009CD8;
 $secondary-color: #29277F;
 $danger-color: #DC143C;
@@ -7536,7 +7539,9 @@ $baby-blue: #f8faff;
 }
 
 
-
+.el-tabs__active-bar{
+  background-color:$secondary-color !important;
+}
 
 .el-tabs__item.is-active{
   color: #3734A9 !important;
@@ -7737,6 +7742,10 @@ a.a-light:hover{
   font-family: 'Lato', sans-serif;
 }
 
+.el-menu{
+  border-right: none !important;
+}
+
 .el-menu-item-group__title {
   font-family: 'Lato', sans-serif;
   line-height: 30px;
@@ -7757,8 +7766,24 @@ a.a-light:hover{
     background: #009CD8 !important;
 }
 
+.el-select-dropdown__item {
+  font-size: 14px;
+  padding: 0 20px;
+  position: relative;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color:#647b9c;
+  font-weight: 700;
+  height: 34px;
+  line-height: 34px;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
 .el-select-dropdown__item.selected{
-  color:#09aec7;
+  color:#647b9c;
 }
 
 .el-select-dropdown__wrap.el-scrollbar__wrap{

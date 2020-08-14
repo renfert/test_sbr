@@ -1,31 +1,21 @@
 <template >
-  <div id="wrapper">
-    <div class="content-page">
-      <edit-program></edit-program>
-    </div>
+  <div class="content-page">
+    <edit-program></edit-program>
   </div>
 </template>
 
 <script>
 import Vue from "vue";
 import VueHead from "vue-head";
-import axios from "axios";
-import VueAxios from "vue-axios";
 import EditProgram from "@/components/editprogram/EditProgram";
+import verify from "@/mixins/verify";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
-import verify from "@/mixins/verify";
 
-Vue.use(VueAxios, axios);
 Vue.use(VueHead);
 
 export default {
-  mixins: [domains, alerts, verify],
-  data: () => {
-    return {
-      lang: {}
-    };
-  },
+  mixins: [verify, alerts, domains],
   components: {
     EditProgram
   },

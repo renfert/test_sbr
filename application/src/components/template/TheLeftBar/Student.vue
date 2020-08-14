@@ -170,10 +170,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-.el-menu {
-  border-right: solid 0px #e6e6e6 !important;
-}
-
 .el-menu-item i {
   margin-right: 15%;
 }

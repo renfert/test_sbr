@@ -181,10 +181,6 @@ export default {
   position: relative;
 }
 
-.el-menu {
-  border-right: solid 0px #e6e6e6 !important;
-}
-
 .el-menu-item i {
   margin-right: 15%;
 }

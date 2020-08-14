@@ -134,7 +134,7 @@ export default {
     this.getUserProfile();
   },
   methods: {
-    ...mapMutations(["setLang"]),
+    ...mapMutations(["setLang", "setUser"]),
     getLanguage: function() {
       var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
         "settings",
@@ -172,6 +172,12 @@ export default {
           this.userAvatar = response.data["avatar"];
           this.userId = response.data["id"];
           this.userRoleId = response.data["myrole_id"];
+
+          let userObj = {
+            id: response.data["id"],
+            role: response.data["myrole_id"]
+          };
+          this.setUser(userObj);
         }.bind(this)
       );
     }

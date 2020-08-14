@@ -1,120 +1,83 @@
 <template>
-  <div class="col-12">
-    <div>
-      <div class="two-column-card mt-5">
-        <!-- Create a new course --->
-
-        <div class="item-card">
-          <div v-if="programList == null">
-            <h4>{{ lang["no-results-program-title"] }}</h4>
-            <br />
-            <router-link to="/newprogram">
-              <el-button class="sbr-btn sbr-primary mt-3">
-                {{
-                lang["new-program-button"]
-                }}
-              </el-button>
-            </router-link>
-          </div>
-          <div v-else>
-            <h3>
-              {{ lang["courses-already-created"] }}
-              <b
-                class="sbr-text-primary"
-              >{{ numberTotalOfProgramsCreated }}</b>
-            </h3>
-            <router-link to="/newprogram">
-              <el-button class="sbr-btn sbr-primary mt-3">
-                {{
-                lang["new-program-button"]
-                }}
-              </el-button>
-            </router-link>
-          </div>
+  <div>
+    <div class="two-column-card mt-5">
+      <div class="item-card">
+        <div v-if="programList == null">
+          <h4>{{ lang["no-results-program-title"] }}</h4>
+          <br />
+          <router-link to="/newprogram">
+            <el-button class="sbr-btn sbr-primary mt-3">
+              {{
+              lang["new-program-button"]
+              }}
+            </el-button>
+          </router-link>
         </div>
+        <div v-else>
+          <h3>
+            {{ lang["courses-already-created"] }}
+            <b class="sbr-text-primary">{{ totalPrograms }}</b>
+          </h3>
+          <router-link to="/newprogram">
+            <el-button class="sbr-btn sbr-primary mt-3">
+              {{
+              lang["new-program-button"]
+              }}
+            </el-button>
+          </router-link>
+        </div>
+      </div>
 
-        <div class="divider"></div>
+      <div class="divider"></div>
 
-        <!-- See how to create a program --->
-        <div class="item-card item-video-course">
-          <h3 class="text-box">See how is easy to create a program</h3>
-          <a
-            id="play-video"
-            class="video-play-button"
-            @click.prevent="videoOverlay = true"
-            href="#"
-          >
-            <span></span>
-          </a>
-          <div id="video-overlay" class="video-overlay" :class="videoOverlay == true ? 'open' : ''">
-            <a @click.prevent="videoOverlay = false" class="video-overlay-close">&times;</a>
-            <iframe
-              width="560"
-              height="315"
-              src="https://www.youtube.com/embed/lQyl0PUle5E"
-              frameborder="0"
-              allowfullscreen
-            ></iframe>
-          </div>
+      <!-- See how to create a program --->
+      <div class="item-card item-video-course">
+        <h3 class="text-box">See how is easy to create a program</h3>
+        <a id="play-video" class="video-play-button" @click.prevent="videoOverlay = true" href="#">
+          <span></span>
+        </a>
+        <div id="video-overlay" class="video-overlay" :class="videoOverlay == true ? 'open' : ''">
+          <a @click.prevent="videoOverlay = false" class="video-overlay-close">&times;</a>
+          <iframe
+            width="560"
+            height="315"
+            src="https://www.youtube.com/embed/lQyl0PUle5E"
+            frameborder="0"
+            allowfullscreen
+          ></iframe>
         </div>
       </div>
     </div>
   </div>
-  <!-- End col-12 -->
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-
 import { mapState } from "vuex";
 
-Vue.use(ElementUI);
-Vue.use(VueAxios, axios);
 export default {
-  mixins: [domains, alerts],
+  props: ["total-programs", "program-list"],
   data: () => {
     return {
-      programList: [],
-      numberTotalOfProgramsCreated: "",
       videoOverlay: false
     };
   },
-  created() {
-    this.getProgram();
-  },
   computed: {
     ...mapState(["lang"])
-  },
-  methods: {
-    getProgram() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "program",
-        "listing"
-      );
-      axios.get(urlToBeUsedInTheRequest).then(
-        response => {
-          // success callback
-          this.programList = response.data;
-          this.numberTotalOfProgramsCreated = response.data.length;
-        },
-        // Failure callback
-        function() {
-          this.errorMessage();
-        }.bind(this)
-      );
-    }
   }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
+/* =============
+    - Layout
+    - Play button
+    - Mobile
+============= */
+
+/* =============
+   Layout
+============= */
 .two-column-card {
   display: flex;
   flex-direction: row;
@@ -287,5 +250,25 @@ export default {
   /* width: 90%; */
   /* height: auto; */
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.75);
+}
+
+/* =============
+  Mobile  
+============= */
+
+@media only screen and (max-width: 600px) {
+  .divider {
+    display: none;
+  }
+
+  .item-card {
+    flex: initial;
+    text-align: center;
+    margin-top: 25%;
+  }
+
+  .item-video-course {
+    display: none;
+  }
 }
 </style>

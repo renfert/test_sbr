@@ -1,66 +1,66 @@
 <template >
-  <div id="wrapper">
-    <lang></lang>
-    <!-- Content page -->
-    <div class="content-page">
-      <div class="content">
-        <div class="container-fluid">
-          <!-- Create category  -->
-          <div class="row gap-5" v-if="roleId != 3">
-            <program-create></program-create>
-          </div>
-
-          <!-- List category  -->
-          <div class="row">
-            <program-list></program-list>
-          </div>
-        </div>
-      </div>
+  <div class="content-page">
+    <div v-if="userRole != 3">
+      <program-create :program-list="programList" :total-programs="numberTotalOfProgramsCreated"></program-create>
     </div>
-    <!-- End of content page -->
+
+    <div>
+      <program-list :program-list="programList"></program-list>
+    </div>
   </div>
-  <!-- End of wrapper -->
 </template>
 
 <script>
-import Lang from "@/components/helper/HelperLang.vue";
 import ProgramCreate from "@/components/programs/ProgramCreate.vue";
 import ProgramList from "@/components/programs/ProgramList.vue";
 import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
-import VueHead from "vue-head";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
-import headerTags from "@/mixins/headerTags";
-import integrations from "@/mixins/integrations";
-import verify from "@/mixins/verify";
+import VueHead from "vue-head";
 export const eventBus = new Vue();
 
-Vue.use(VueAxios, axios);
+import { mapState } from "vuex";
+
 Vue.use(VueHead);
+Vue.use(VueAxios, axios);
+
 export default {
-  mixins: [domains, alerts, integrations, headerTags, verify],
+  mixins: [domains, alerts],
   data: () => {
     return {
-      roleId: ""
+      programList: null,
+      numberTotalOfProgramsCreated: ""
     };
   },
-  created() {
-    this.verifySession();
-    this.loadIntegrations();
-    this.createFavicon();
-    this.getUserProfile();
+  computed: {
+    ...mapState(["userRole"])
+  },
+  mounted() {
+    this.getPrograms();
+    eventBus.$on(
+      "program-deleted",
+      function() {
+        this.getPrograms();
+      }.bind(this)
+    );
   },
   methods: {
-    getUserProfile() {
+    getPrograms: function() {
       var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "user",
-        "getUserProfile"
+        "program",
+        "listing"
       );
       axios.get(urlToBeUsedInTheRequest).then(
-        function(response) {
-          this.roleId = response.data["myrole_id"];
+        response => {
+          // success callback
+          this.programList = response.data;
+          this.numberTotalOfProgramsCreated = response.data.length;
+        },
+        // Failure callback
+        function() {
+          this.errorMessage();
         }.bind(this)
       );
     }
@@ -77,11 +77,10 @@ export default {
   },
   components: {
     ProgramCreate,
-    ProgramList,
-    Lang
+    ProgramList
   }
 };
 </script>
 
-<style>
+<style scoped>
 </style>

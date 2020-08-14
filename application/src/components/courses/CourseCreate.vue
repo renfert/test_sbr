@@ -9,20 +9,26 @@
             <h4>{{ lang["no-results-course-title"] }}</h4>
             <br />
             <router-link to="/newcourse">
-              <el-button class="sbr-btn sbr-primary mt-4">{{
+              <el-button class="sbr-btn sbr-primary mt-4">
+                {{
                 lang["new-course-button"]
-              }}</el-button>
+                }}
+              </el-button>
             </router-link>
           </div>
           <div v-else>
             <h3>
               {{ lang["courses-already-created"] }}
-              <b class="sbr-text-primary">{{ numberTotalOfCoursesCreated }}</b>
+              <b
+                class="sbr-text-primary"
+              >{{ numberTotalOfCoursesCreated }}</b>
             </h3>
             <router-link to="/newcourse">
-              <el-button class="sbr-btn sbr-primary mt-4">{{
+              <el-button class="sbr-btn sbr-primary mt-4">
+                {{
                 lang["new-course-button"]
-              }}</el-button>
+                }}
+              </el-button>
             </router-link>
           </div>
         </div>
@@ -40,14 +46,8 @@
           >
             <span></span>
           </a>
-          <div
-            id="video-overlay"
-            class="video-overlay"
-            :class="videoOverlay == true ? 'open' : ''"
-          >
-            <a @click.prevent="videoOverlay = false" class="video-overlay-close"
-              >&times;</a
-            >
+          <div id="video-overlay" class="video-overlay" :class="videoOverlay == true ? 'open' : ''">
+            <a @click.prevent="videoOverlay = false" class="video-overlay-close">&times;</a>
             <iframe
               width="560"
               height="315"
@@ -134,7 +134,6 @@ export default {
 
 <style lang="scss" scoped>
 /* =============
-  == Products page style==
 
     - Layout
     - Play button
