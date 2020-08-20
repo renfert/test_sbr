@@ -106,7 +106,9 @@ export default {
     eventUpload.$on(
       "finish-upload",
       function() {
-        this.editHeader();
+        if (this.$route.name == "site") {
+          this.editHeader();
+        }
       }.bind(this)
     );
     this.listHeader();

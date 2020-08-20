@@ -4,10 +4,10 @@
       <el-aside class="fixed-aside">
         <el-menu class="el-menu-vertical-demo">
           <div class="back mt-5">
-            <a href="javascript:history.back()">
+            <router-link to="/home">
               <i class="el-icon-back"></i>
               {{lang['back']}}
-            </a>
+            </router-link>
           </div>
           <toolbar-general></toolbar-general>
           <toolbar-header></toolbar-header>

@@ -222,56 +222,47 @@ export default {
       );
     },
     upload: function(event) {
-      if (this.bucketKey == "uploads/html") {
-        this.uploadHtml(event);
-      } else {
-        var file = event.target.files[0];
-        var fileName = file.name;
-        var fileExt = fileName.split(".").pop();
-        var newFileName = this.generateFileName(40) + "." + fileExt;
-        eventProgress.$emit("new-progress");
+      var file = event.target.files[0];
+      var fileName = file.name;
+      var fileExt = fileName.split(".").pop();
+      var newFileName = this.generateFileName(40) + "." + fileExt;
+      eventProgress.$emit("new-progress");
 
-        AWS.config.update({
-          accessKeyId: "AKIA5AQZS5JMAWUELDG7",
-          secretAccessKey: "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",
-          region: "us-east-1"
+      AWS.config.update({
+        accessKeyId: "AKIA5AQZS5JMAWUELDG7",
+        secretAccessKey: "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",
+        region: "us-east-1"
+      });
+
+      var bucket = new S3({ params: { Bucket: "sabiorealm" } });
+      var params = {
+        Key:
+          "" +
+          this.subDomainName +
+          "/" +
+          this.bucketKey +
+          "/" +
+          newFileName +
+          "",
+        ContentType: file.type,
+        Body: file
+      };
+
+      bucket
+        .upload(params)
+        .on("httpUploadProgress", function(evt) {
+          var percentCompleted = Math.round(
+            parseInt((evt.loaded * 100) / evt.total)
+          );
+          eventProgress.$emit("new-percent", percentCompleted);
+        })
+        .send(function() {
+          event.target.value = null;
+          var el = event.target.parentElement.children[0];
+          el.value = newFileName;
+          eventProgress.$emit("finish-progress");
+          eventUpload.$emit("finish-upload");
         });
-
-        var bucket = new S3({ params: { Bucket: "sabiorealm" } });
-        var params = {
-          Key:
-            "" +
-            this.subDomainName +
-            "/" +
-            this.bucketKey +
-            "/" +
-            newFileName +
-            "",
-          ContentType: file.type,
-          Body: file
-        };
-
-        bucket
-          .upload(params)
-          .on("httpUploadProgress", function(evt) {
-            var percentCompleted = Math.round(
-              parseInt((evt.loaded * 100) / evt.total)
-            );
-            eventProgress.$emit("new-percent", percentCompleted);
-          })
-          .send(function() {
-            event.target.value = null;
-            var el = event.target.parentElement.children[0];
-            el.value = newFileName;
-            eventProgress.$emit("finish-progress");
-            eventUpload.$emit("finish-upload");
-          });
-      }
-    },
-    uploadHtml: function(event) {
-      this.extractFilesFromTmpFolder(event);
-      this.createFolder();
-      this.moveTmpFilesTos3();
     },
     createFolder: function() {
       /* Create new folder into bucket */
@@ -303,22 +294,6 @@ export default {
       });
 
       //return folderName;
-    },
-    extractFilesFromTmpFolder: function(event) {
-      /* Extract zip files into tmp folder */
-      var file = event.target.files[0];
-      var formData = new FormData();
-      formData.set("html", file);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "upload",
-        "uploadHtml"
-      );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        () => {},
-        function() {
-          this.errorMessage();
-        }.bind(this)
-      );
     },
     getSubDomainName: function() {
       var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(

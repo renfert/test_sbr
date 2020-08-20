@@ -14,7 +14,7 @@
       <div class="col-12 col-md-3">
         <router-link :to="'/viewcourse/'+courseId">
           <div class="card-box card-action">
-            <h4 class="fw-700">{{lang["view-course"]}}</h4>
+            <h5 class="fw-700">{{lang["view-course"]}}</h5>
             <img src="@/assets/img/general/ux/view_course.png" alt />
           </div>
         </router-link>
@@ -23,7 +23,7 @@
       <div class="col-12 col-md-3">
         <a href="javascript:void(0)" @click.prevent="modal = true">
           <div class="card-box card-action">
-            <h4 class="fw-700">{{lang["join-persons"]}}</h4>
+            <h5 class="fw-700">{{lang["join-persons"]}}</h5>
             <img src="@/assets/img/general/ux/join_persons.png" alt />
           </div>
         </a>
@@ -32,7 +32,7 @@
       <div class="col-12 col-md-3">
         <a href="javascript:void(0)" @click.prevent="reloadPage()">
           <div class="card-box card-action">
-            <h4 class="fw-700">{{lang["create-new-course"]}}</h4>
+            <h5 class="fw-700">{{lang["create-new-course"]}}</h5>
             <img src="@/assets/img/general/ux/create_new_course.png" alt />
           </div>
         </a>
@@ -41,7 +41,7 @@
       <div class="col-12 col-md-3">
         <a href="javascript:void(0)" @click.prevent="share = true">
           <div class="card-box card-action">
-            <h4 class="fw-700">{{lang["share"]}}</h4>
+            <h5 class="fw-700">{{lang["share"]}}</h5>
             <img src="@/assets/img/general/ux/share.png" alt />
           </div>
         </a>
