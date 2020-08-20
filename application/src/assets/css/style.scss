@@ -82,18 +82,18 @@ h1, h2, h3, h4, h5, h6,p {
 }
 
 h1 {
-  line-height: 43px;
-  font-size: 36px;
-}
-
-h2 {
-  line-height: 35px;
+  line-height: 36px;
   font-size: 30px;
 }
 
-h3 {
+h2 {
   line-height: 30px;
-  font-size: 16px;
+  font-size: 24px;
+}
+
+h3 {
+  line-height: 24px;
+  font-size: 18px;
 }
 
 h3 small {
@@ -101,7 +101,7 @@ h3 small {
 }
 
 h4 {
-  line-height: 22px;
+  line-height: 18px;
   font-size: 14px;
 }
 
@@ -110,7 +110,8 @@ h4 small {
 }
 
 h5 {
-  font-size: 13px;
+  line-height: 14px;
+  font-size: 10px;
 }
 
 h5 small {
@@ -5851,6 +5852,12 @@ File: Menu
   padding: 5%;
 }
 
+@media only screen and (max-width: 600px) {
+  .content-page {
+    margin-top:25%;
+  }
+}
+
 
 
 
@@ -7298,24 +7305,29 @@ $baby-blue: #f8faff;
 }
 
 .sbr-primary{
+    color: white !important;
     background-color: $button-bg !important; 
     box-shadow: 0 2px 10px  rgba(0, 225, 240, 0.5) !important;
 }
 
 .sbr-secondary{
+    color: white !important;
     background-color: $button-bg-secondary !important; 
     box-shadow: 0 2px 10px  rgba(0, 0, 205, 0.5) !important;
 }
 
 
 .sbr-danger{
+    color: white !important;
     background-color: $button-bg-danger !important; 
     box-shadow: 0 2px 10px  rgba(255, 0, 0, 0.5);
 }
 
 .sbr-purple{
+    color: white !important;
     background-color: $button-bg-purple !important; 
-    box-shadow: 0 2px 10px  rgba(131, 111, 255, 0.5) !important;
+    box-shadow: 0 2px 10px  #6A5ACD  !important;
+    border-color: #6A5ACD !important;
 }
 
 .sbr-neutral{
@@ -7343,6 +7355,13 @@ $baby-blue: #f8faff;
 .sbr-shadow-primary{
   box-shadow: 0px 0px 3px 0px $primary-color;
 }
+
+.el-select-dropdown {
+  z-index: 20000 !important;
+  position: absolute;
+}
+
+
 
 /* ***********************
   External page styles
@@ -7531,7 +7550,7 @@ $baby-blue: #f8faff;
 }
 
 .el-badge__content--primary{
-  background-color:#00A9B4 !important;
+  background-color:#009CD8 !important;
 }
 
 .cell{

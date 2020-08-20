@@ -81,7 +81,13 @@
             </el-divider>
             <el-row v-if="roleId != 3">
               <router-link :to="'/editcourse/'+element.id">
-                <el-button class="sbr-primary" type="primary" icon="el-icon-edit" circle></el-button>
+                <el-button
+                  size="small"
+                  class="sbr-primary mr-2"
+                  type="primary"
+                  icon="el-icon-edit"
+                  circle
+                ></el-button>
               </router-link>
               <template>
                 <el-popconfirm
@@ -91,7 +97,13 @@
                   :title="lang['question-delete-course'] + element.title  + '?'"
                   @onConfirm="deleteCourse(element.id)"
                 >
-                  <el-button slot="reference" class="sbr-danger" icon="el-icon-delete" circle></el-button>
+                  <el-button
+                    size="small"
+                    slot="reference"
+                    class="sbr-danger"
+                    icon="el-icon-delete"
+                    circle
+                  ></el-button>
                 </el-popconfirm>
               </template>
             </el-row>

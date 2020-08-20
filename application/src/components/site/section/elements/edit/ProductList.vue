@@ -1,9 +1,8 @@
 <template>
-  <div class="main">
-    <lang></lang>
+  <div>
     <div>
       <el-dialog :visible.sync="modal" title="Edit product list" center width="40%" top="5vh">
-        <form v-loading="loading">
+        <form @submit.prevent="editProductList()">
           <input type="number" class="hide" v-model="productListId" />
           <el-tabs type="border-card">
             <!-- Header -->
@@ -71,12 +70,9 @@
           <div class="form-row">
             <div class="form-group col-xl-6 col-md-6">
               <el-button
-                class="sbr-btn sbr-primary"
+                class="sbr-primary"
                 v-loading="loadingButton"
-                @click.prevent="editProductList()"
                 native-type="submit"
-                type="primary"
-                size="medium"
               >{{lang["save-button"]}}</el-button>
             </div>
           </div>
@@ -90,33 +86,22 @@
 import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
-import VueTheMask from "vue-the-mask";
 import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
-import Lang from "@/components/helper/HelperLang.vue";
-import lang from "element-ui/lib/locale/lang/en";
-import locale from "element-ui/lib/locale";
-import { eventLang } from "@/components/helper/HelperLang";
-import { eventBus } from "@/components/site/App";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
 
-locale.use(lang);
-Vue.use(VueTheMask);
+import { eventBus } from "@/components/site/App";
+import { mapState } from "vuex";
+
 Vue.use(VueAxios, axios);
 Vue.use(ElementUI);
 
 export default {
-  components: {
-    Lang
-  },
   mixins: [domains, alerts],
   data: () => {
     return {
-      loading: false,
       modal: false,
       loadingButton: false,
-      lang: {},
       header: "",
       subHeader: "",
       productListId: "",
@@ -126,13 +111,6 @@ export default {
     };
   },
   mounted() {
-    eventLang.$on(
-      "lang",
-      function(response) {
-        this.lang = response;
-      }.bind(this)
-    );
-
     eventBus.$on(
       "edit-product-list",
       function(sectionId) {
@@ -140,6 +118,9 @@ export default {
         this.modal = true;
       }.bind(this)
     );
+  },
+  computed: {
+    ...mapState(["lang"])
   },
   methods: {
     editProductList: function() {
@@ -156,7 +137,8 @@ export default {
       axios.post(urlToBeUsedInTheRequest, formData).then(
         () => {
           this.successMessage();
-          this.actionsToBePerformedAfterEdit();
+          eventBus.$emit("new-product-list-change");
+          this.modal = false;
           this.loadingButton = false;
         },
         function() {
@@ -176,7 +158,6 @@ export default {
     },
 
     getProductList: function(sectionId) {
-      this.loading = true;
       var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
         "site-elements/productList",
         "get"
@@ -185,7 +166,6 @@ export default {
       formData.set("sectionId", sectionId);
       axios.post(urlToBeUsedInTheRequest, formData).then(
         response => {
-          this.loading = false;
           this.productListId = response.data["productList"][0]["id"];
           this.header = response.data["productList"][0]["header"];
           this.subHeader = response.data["productList"][0]["subheader"];
@@ -205,10 +185,6 @@ export default {
           this.errorMessage();
         }.bind(this)
       );
-    },
-    actionsToBePerformedAfterEdit() {
-      this.modal = false;
-      eventBus.$emit("new-change-product-list");
     }
   }
 };

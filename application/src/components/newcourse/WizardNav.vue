@@ -176,14 +176,13 @@ export default {
 /* ----------------- Default sizes ----------- */
 
 .form-wizard-wrapper ul {
-  z-index: 1;
+  z-index: 1 !important;
   position: relative;
   width: 100%;
   border-radius: 0px 0px;
   display: flex;
   justify-content: center;
   padding: 0;
-  margin-top: 5%;
   z-index: 300;
   margin-left: -2%;
 }
@@ -270,6 +269,12 @@ export default {
 @media only screen and (min-width: 1400px) {
   .form-wizard-wrapper ul {
     width: 100%;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  #container {
+    display: none;
   }
 }
 

@@ -13,12 +13,7 @@
               <div class="col-10">
                 <div class="form-group">
                   <label>{{ lang["name"] }}</label>
-                  <el-input
-                    required
-                    name="title"
-                    :placeholder="lang['name']"
-                    v-model="programName"
-                  ></el-input>
+                  <el-input required name="title" :placeholder="lang['name']" v-model="programName"></el-input>
                 </div>
                 <div class="form-group">
                   <label>{{ lang["start-date"] }}</label>
@@ -46,14 +41,12 @@
                 </div>
                 <div class="form-group">
                   <!-- Program description -->
-                  <textarea
-                    class="hide"
-                    v-model="programDescription"
-                    name="description"
-                  ></textarea>
-                  <label class="col-form-label">{{
+                  <textarea class="hide" v-model="programDescription" name="description"></textarea>
+                  <label class="col-form-label">
+                    {{
                     lang["description"]
-                  }}</label>
+                    }}
+                  </label>
                   <wysiwyg v-model="programDescription" />
                 </div>
               </div>
@@ -78,11 +71,10 @@
                   </el-form-item>
                   <el-form-item>
                     <el-button
-                      class="sbr-btn sbr-secondary"
+                      class="sbr-purple"
                       @click.prevent="addCourse()"
                       type="primary"
-                      >{{ lang["add-course"] }}</el-button
-                    >
+                    >{{ lang["add-course"] }}</el-button>
                   </el-form-item>
                 </el-form>
                 <div class="mb-5">
@@ -122,9 +114,11 @@
           </el-tab-pane>
         </el-tabs>
         <br />
-        <el-button native-type="submit" class="sbr-btn sbr-primary">{{
+        <el-button native-type="submit" class="sbr-primary">
+          {{
           lang["save-button"]
-        }}</el-button>
+          }}
+        </el-button>
       </form>
     </div>
     <helper-progress></helper-progress>

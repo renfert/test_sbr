@@ -44,10 +44,10 @@
               <answer-list :question-id="questionId"></answer-list>
               <br />
               <el-button
-                class="sbr-btn sbr-primary"
+                class="sbr-purple"
                 type="primary"
                 @click.prevent="createNewAnswerEvent()"
-                size="medium"
+                size="small"
               >{{lang["add-new-answer"]}}</el-button>
             </div>
           </div>
@@ -82,7 +82,7 @@
         <div class="form-row">
           <div class="form-group col-xl-6 col-md-6">
             <el-button
-              class="sbr-btn sbr-primary"
+              class="sbr-primary"
               v-loading="loading"
               native-type="submit"
             >{{lang["save-button"]}}</el-button>

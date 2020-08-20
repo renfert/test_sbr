@@ -1,9 +1,8 @@
 <template>
-  <div class="main">
-    <lang></lang>
+  <div>
     <div v-for="element in banner" :key="element.id">
       <el-dialog :visible.sync="modal" title="Banner" center width="40%" top="5vh">
-        <form id="form-banner" @submit.prevent="editBanner()" v-loading="loading">
+        <form id="form-banner" @submit.prevent="editBanner()">
           <!-- Banner id -->
           <input type="number" name="bannerId" class="hide" :value="element.id" />
           <!-- Cta id -->
@@ -116,18 +115,18 @@
                 <div class="form-group col-xl-6 col-md-6">
                   <!-- Cta target -->
                   <label class="col-form-label">{{lang["button-target"]}} *</label>
-                  <select class="form-select" name="buttonTarget" v-model="buttonTarget">
-                    <option value="_self">Same window</option>
-                    <option value="_blank">New window</option>
-                  </select>
+                  <el-select name="buttonTarget" v-model="buttonTarget">
+                    <el-option value="_self" label="Same window"></el-option>
+                    <el-option value="_blank" label="New window"></el-option>
+                  </el-select>
                 </div>
                 <div class="form-group col-xl-6 col-md-6">
                   <!-- Cta style -->
                   <label class="col-form-label">{{lang["button-style"]}} *</label>
-                  <select class="form-select" name="buttonStyle" v-model="buttonStyle">
-                    <option value="plain">Plain</option>
-                    <option value="rounded">Rounded</option>
-                  </select>
+                  <el-select name="buttonStyle" v-model="buttonStyle">
+                    <el-option value="plain" label="Plain"></el-option>
+                    <el-option value="rounded" label="Rounded"></el-option>
+                  </el-select>
                 </div>
               </div>
               <hr />
@@ -164,11 +163,9 @@
           <div class="form-row">
             <div class="form-group col-xl-12 col-md-12">
               <el-button
-                class="sbr-btn sbr-primary"
+                class="sbr-primary"
                 native-type="submit"
                 v-loading="loadingButton"
-                type="primary"
-                size="medium"
               >{{lang["save-button"]}}</el-button>
             </div>
           </div>
@@ -183,41 +180,32 @@
 import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
-import VueTheMask from "vue-the-mask";
 import ElementUI from "element-ui";
 import Upload from "@/components/helper/HelperUpload";
-import "element-ui/lib/theme-chalk/index.css";
-import Lang from "@/components/helper/HelperLang.vue";
-import lang from "element-ui/lib/locale/lang/en";
-import locale from "element-ui/lib/locale";
-import { eventLang } from "@/components/helper/HelperLang";
 import HelperProgress from "@/components/helper/HelperProgress.vue";
-import { eventBus } from "@/components/site/App";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
 
-locale.use(lang);
-Vue.use(VueTheMask);
+import { eventBus } from "@/components/site/App";
+import { mapState } from "vuex";
+
 Vue.use(VueAxios, axios);
 Vue.use(ElementUI);
 
 export default {
   mixins: [domains, alerts],
   components: {
-    Lang,
     Upload,
     HelperProgress
   },
   data: () => {
     return {
       banner: [],
-      lang: {},
       modules: null,
       header: "",
       subHeader: "",
       headerColor: "",
       subHeaderColor: "",
-      loading: false,
       loadingButton: false,
       modal: false,
       buttonTitle: "",
@@ -234,13 +222,6 @@ export default {
     };
   },
   mounted() {
-    eventLang.$on(
-      "lang",
-      function(response) {
-        this.lang = response;
-      }.bind(this)
-    );
-
     eventBus.$on(
       "edit-banner",
       function(sectionId) {
@@ -248,6 +229,9 @@ export default {
         this.modal = true;
       }.bind(this)
     );
+  },
+  computed: {
+    ...mapState(["lang"])
   },
   methods: {
     editBanner: function() {
@@ -260,8 +244,9 @@ export default {
       );
       axios.post(urlToBeUsedInTheRequest, formData).then(
         () => {
+          eventBus.$emit("new-banner-change");
           this.successMessage();
-          this.actionsToBePerformedAfterEdit();
+          this.modal = false;
           this.loadingButton = false;
         },
         function() {
@@ -287,7 +272,6 @@ export default {
     },
 
     getBanner: function(sectionId) {
-      this.loading = true;
       var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
         "site-elements/banner",
         "getBanner"
@@ -297,7 +281,6 @@ export default {
       axios.post(urlToBeUsedInTheRequest, formData).then(
         response => {
           this.banner = response.data;
-          this.loading = false;
           this.buttonTitle = response.data[0]["title"];
           this.buttonColor = response.data[0]["color"];
           this.buttonColorHover = response.data[0]["color_hover"];
@@ -335,11 +318,6 @@ export default {
       this.moduleRequired = required;
       this.moduleReleaseDate = date;
       this.modal = true;
-    },
-
-    actionsToBePerformedAfterEdit() {
-      this.modal = false;
-      eventBus.$emit("new-change-banner");
     }
   }
 };

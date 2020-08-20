@@ -1,28 +1,15 @@
 <template >
-  <div id="wrapper" class="forced enlarged">
-    <lang></lang>
-    <!-- Content page -->
-    <div class="content-page">
-      <div class="content">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-md-3 col-12" v-if="fullScreen == false">
-              <toolbar></toolbar>
-            </div>
-            <div :class="fullScreen == false ? 'col-xl-9 col-12' : 'col-xl-12'">
-              <site-preview class="preview" :full-screen-button="true"></site-preview>
-            </div>
-          </div>
-        </div>
-      </div>
+  <div class="row">
+    <div class="col-md-3 col-12" v-if="fullScreen == false">
+      <toolbar></toolbar>
     </div>
-    <!-- End of content page -->
+    <div :class="fullScreen == false ? 'col-xl-9 col-12' : 'col-12'">
+      <site-preview class="preview" :full-screen-button="true"></site-preview>
+    </div>
   </div>
-  <!-- End of wrapper -->
 </template>
 
 <script>
-import Lang from "@/components/helper/HelperLang.vue";
 import Toolbar from "@/components/site/toolbar/Toolbar.vue";
 import SitePreview from "@/components/site/SitePreview.vue";
 import Vue from "vue";
@@ -31,15 +18,14 @@ import VueAxios from "vue-axios";
 import VueHead from "vue-head";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
-import headerTags from "@/mixins/headerTags";
-import integrations from "@/mixins/integrations";
 import verify from "@/mixins/verify";
+
 export const eventBus = new Vue();
 
 Vue.use(VueAxios, axios);
 Vue.use(VueHead);
 export default {
-  mixins: [domains, alerts, integrations, headerTags, verify],
+  mixins: [domains, alerts, verify],
   data: () => {
     return {
       fullScreen: false
@@ -56,10 +42,7 @@ export default {
         }
       }.bind(this)
     );
-    this.verifySession();
     this.verifyAdministratorPrivileges();
-    this.loadIntegrations();
-    this.createFavicon();
   },
   head: {
     title: {
@@ -72,7 +55,6 @@ export default {
     ]
   },
   components: {
-    Lang,
     Toolbar,
     SitePreview
   }

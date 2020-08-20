@@ -74,7 +74,7 @@
         <question-list :exam-id="lessonId"></question-list>
         <el-button
           @click.prevent="modalEditExam = false"
-          class="sbr-btn sbr-primary"
+          class="sbr-primary"
         >{{lang["save-button"]}}</el-button>
       </div>
     </el-dialog>

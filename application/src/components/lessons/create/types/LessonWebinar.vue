@@ -71,7 +71,7 @@
         <div class="form-row">
           <div class="form-group col-xl-6 col-md-6">
             <el-button
-              class="sbr-btn sbr-primary"
+              class="sbr-primary"
               v-loading="loading"
               native-type="submit"
             >{{lang["save-button"]}}</el-button>

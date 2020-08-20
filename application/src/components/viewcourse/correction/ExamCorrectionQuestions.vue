@@ -1,6 +1,5 @@
 <template>
   <div>
-    <lang></lang>
     <el-divider class="mb-5">
       <i class="el-icon-edit"></i>
     </el-divider>
@@ -110,24 +109,19 @@ import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
 import ElementUI from "element-ui";
-import Lang from "@/components/helper/HelperLang";
-import { eventLang } from "@/components/helper/HelperLang";
-import { eventCorrection } from "@/components/viewcourse/correction/ExamCorrection";
-import "element-ui/lib/theme-chalk/index.css";
-import lang from "element-ui/lib/locale/lang/en";
-import locale from "element-ui/lib/locale";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
 import ExamCorrectionStudentAnswer from "@/components/viewcourse/correction/ExamCorrectionStudentAnswer";
-import { FacebookLoader } from "vue-content-loader";
 
-locale.use(lang);
+import { eventCorrection } from "@/components/viewcourse/correction/ExamCorrection";
+import { FacebookLoader } from "vue-content-loader";
+import { mapState } from "vuex";
+
 Vue.use(VueAxios, axios);
 Vue.use(ElementUI);
 
 export default {
   components: {
-    Lang,
     ExamCorrectionStudentAnswer,
     FacebookLoader
   },
@@ -135,7 +129,6 @@ export default {
   mixins: [domains, alerts],
   data: () => {
     return {
-      lang: {},
       questions: [],
       counter: 0,
       modal: false,
@@ -147,15 +140,11 @@ export default {
     };
   },
   mounted() {
-    eventLang.$on(
-      "lang",
-      function(response) {
-        this.lang = response;
-      }.bind(this)
-    );
-
     this.getExamQuestions();
     this.getUserProfile();
+  },
+  computed: {
+    ...mapState(["lang"])
   },
   methods: {
     getExamQuestions: function() {

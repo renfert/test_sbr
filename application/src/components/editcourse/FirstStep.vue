@@ -19,30 +19,20 @@
                     v-model="name"
                   ></el-input>
 
-                  <br />
-                  <br />
                   <!-- Course category -->
                   <label class="col-form-label">{{ lang["category"] }}</label>
-                  <br />
-                  <select
-                    @change="editCourse(false)"
-                    class="form-control"
-                    name="mycategory_id"
-                    v-model="category"
-                  >
-                    <option value="1">{{ lang["without-category"] }}</option>
-                    <option
+                  <el-select class="mb-5" v-model="category">
+                    <el-option value="1" :label="lang['without-category']"></el-option>
+                    <el-option
                       v-for="item in categories"
-                      :value="item.id"
                       :key="item.id"
-                    >{{ item.name }}</option>
-                  </select>
-                  <br />
-                  <br />
-                  <br />
+                      :label="item.name"
+                      :value="item.id"
+                    ></el-option>
+                  </el-select>
 
                   <!-- Advanced configurations button -->
-                  <el-button @click.prevent="modal = true" class="sbr-btn sbr-primary">
+                  <el-button @click.prevent="modal = true" size="small" class="sbr-purple">
                     {{ lang["advanced-settings"] }}
                     <i class="el-icon-setting"></i>
                   </el-button>
@@ -84,7 +74,7 @@
                     }}
                   </label>
                   <upload
-                    v-if="srcPreview != ''"
+                    v-if="srcPreviewName != ''"
                     :src-img="srcPreview"
                     :src-name="srcPreviewName"
                     do-upload="true"
@@ -258,7 +248,7 @@
             modal = false;
             editCourse(false);
           "
-          class="sbr-btn sbr-primary mt-3"
+          class="sbr-primary mt-5"
         >{{ lang["save-button"] }}</el-button>
       </el-dialog>
     </form>
@@ -481,6 +471,7 @@ export default {
         function() {
           var form = document.getElementById("form-first-step");
           var formData = new FormData(form);
+          formData.set("mycategory_id", this.category);
           var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
             "course",
             "edit"

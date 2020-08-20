@@ -1,7 +1,9 @@
 <template>
-  <div class="col-12">
+  <div>
     <exam-correction></exam-correction>
-    <!-- Corrections list -->
+    <!----------------- 
+      Corrections list 
+    ------------------->
     <div class="card-box table-responsive" v-if="correctionsList != null">
       <h4>
         {{lang["list-corrections"]}}
@@ -84,24 +86,20 @@
 import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
-import VueTheMask from "vue-the-mask";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
-import { DataTables, DataTablesServer } from "vue-data-tables";
-import { eventLang } from "@/components/helper/HelperLang";
-import { eventCorrection } from "@/components/viewcourse/correction/ExamCorrection";
 import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
-import lang from "element-ui/lib/locale/lang/en";
-import locale from "element-ui/lib/locale";
 import ExamCorrection from "@/components/viewcourse/correction/ExamCorrection";
 
-locale.use(lang);
+import { eventCorrection } from "@/components/viewcourse/correction/ExamCorrection";
+import { DataTables, DataTablesServer } from "vue-data-tables";
+import { mapState } from "vuex";
+
 Vue.use(DataTables);
 Vue.use(DataTablesServer);
 Vue.use(ElementUI);
-Vue.use(VueTheMask);
 Vue.use(VueAxios, axios);
+
 export default {
   mixins: [domains, alerts],
   components: {
@@ -121,27 +119,22 @@ export default {
         { prop: "exam", value: "" },
         { prop: "status", value: "" }
       ],
-      tableProps: { defaultSort: { prop: "status", order: "descending" } },
-      lang: {}
+      tableProps: { defaultSort: { prop: "status", order: "descending" } }
     };
   },
   created() {
     this.getCorrections();
   },
   mounted() {
-    eventLang.$on(
-      "lang",
-      function(response) {
-        this.lang = response;
-      }.bind(this)
-    );
-
     eventCorrection.$on(
       "finish-correction",
       function() {
         this.getCorrections();
       }.bind(this)
     );
+  },
+  computed: {
+    ...mapState(["lang"])
   },
   methods: {
     getCorrections() {
@@ -169,16 +162,3 @@ export default {
   }
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
-.image-no-results {
-  width: 40%;
-}
-.box-no-results {
-  background-color: #f6f9fa;
-}
-.text-no-results {
-  margin-top: 15%;
-}
-</style>

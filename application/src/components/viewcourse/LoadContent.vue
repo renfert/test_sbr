@@ -22,7 +22,9 @@
           </vue-plyr>
         </div>
 
-        <!-- Audio -->
+        <!-------- 
+        Audio 
+        ---------->
         <div class="player-container" v-if="showAudio">
           <vue-plyr>
             <video
@@ -33,86 +35,96 @@
           </vue-plyr>
         </div>
 
-        <!-- Videoconference -->
+        <!------------------ 
+          Videoconference
+        ----------------->
         <div class="videoconference-container" v-if="showVideoConf">
           <!-- Title -->
-          <h2 class="card-title h2 text-center">{{title}}</h2>
+          <h2 class="card-title text-center">{{title}}</h2>
           <h3 class="card-title h6 pl-5 pr-5 text-center">{{description}}</h3>
           <hr class="my-4 rgba-white-light" />
 
           <div class="row gap-10">
             <div class="col-12 col-md-4 text-center">
               <div>
-                <img src="@/assets/img/general/ux/calendar.png" alt="calendar" />
-                <h3>{{lang["date"]}}: {{date}}</h3>
+                <img src="@/assets/img/general/ux/calendar.png" class="content-icons mb-3" />
+                <h4>{{lang["date"]}}: {{date}}</h4>
               </div>
             </div>
 
             <div class="col-12 col-md-4 text-center">
               <div>
-                <img src="@/assets/img/general/ux/webinar.png" />
+                <img src="@/assets/img/general/ux/webinar.png" class="content-icons" />
                 <br />
                 <br />
-                <a
-                  @click="finishLesson()"
-                  :href="url"
-                  target="_blank"
-                  class="btn-ead btn-sabiorealm"
-                >{{lang["enter"]}}</a>
+                <el-button class="sbr-primary" size="medium">
+                  <a
+                    @click="finishLesson()"
+                    :href="url"
+                    target="_blank"
+                    class="text-white"
+                  >{{lang["enter"]}}</a>
+                </el-button>
               </div>
             </div>
 
             <div class="col-12 col-md-4 text-center">
               <div>
-                <img class="content-icons" src="@/assets/img/general/ux/clock.png" />
-                <h3>{{lang["schedule"]}}: {{time}}</h3>
+                <img class="content-icons mb-3" src="@/assets/img/general/ux/clock.png" />
+                <h4>{{lang["schedule"]}}: {{time}}</h4>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Webinar -->
+        <!---------- 
+          Webinar 
+        ------------->
         <div class="webinar-container" v-if="showWebinar">
           <!-- Title -->
-          <h2 class="card-title h2 text-center">{{title}}</h2>
+          <h2 class="card-title text-center">{{title}}</h2>
           <h3 class="card-title h6 pl-5 pr-5 text-center">{{description}}</h3>
           <hr class="my-4 rgba-white-light" />
 
           <div class="row gap-10">
             <div class="col-12 col-md-4 text-center">
               <div>
-                <img src="@/assets/img/general/ux/calendar.png" alt="calendar" />
-                <h3>{{lang["date"]}}: {{date}}</h3>
+                <img src="@/assets/img/general/ux/calendar.png" class="content-icons mb-3" />
+                <h4>{{lang["date"]}}: {{date}}</h4>
               </div>
             </div>
 
             <div class="col-12 col-md-4 text-center">
               <div>
-                <img src="@/assets/img/general/ux/webinar.png" alt="clock" />
+                <img src="@/assets/img/general/ux/webinar.png" class="content-icons" alt="clock" />
                 <br />
                 <br />
-                <a
-                  @click="finishLesson()"
-                  :href="url"
-                  target="_blank"
-                  class="btn-ead btn-sabiorealm"
-                >{{lang["enter"]}}</a>
+                <el-button class="sbr-primary" size="medium">
+                  <a
+                    class="text-white"
+                    @click="finishLesson()"
+                    :href="url"
+                    target="_blank"
+                  >{{lang["enter"]}}</a>
+                </el-button>
               </div>
             </div>
 
             <div class="col-12 col-md-4 text-center">
               <div>
-                <img src="@/assets/img/general/ux/clock.png" alt="clock" />
-                <h3>{{lang["schedule"]}}: {{time}}</h3>
+                <img src="@/assets/img/general/ux/clock.png" class="content-icons mb-3" />
+                <h4>{{lang["schedule"]}}: {{time}}</h4>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Downloadable content -->
+        <!--------------------- 
+          Downloadable content 
+        ----------------------->
         <div class="webinar-container" v-if="showDownloadable">
           <!-- Title -->
-          <h2 class="card-title h2 text-center">{{title}}</h2>
+          <h2 class="card-title text-center">{{title}}</h2>
           <hr class="my-4 rgba-white-light" />
 
           <div class="text-center gap-10">
@@ -127,7 +139,9 @@
           </div>
         </div>
 
-        <!-- Html content -->
+        <!--------------- 
+          Html content 
+        ------------------>
         <div class="html-container" v-if="showHtml">
           <!-- Title -->
           <h2 class="card-title h2 text-center">{{title}}</h2>
@@ -139,7 +153,9 @@
           ></iframe>
         </div>
 
-        <!-- Pdf content -->
+        <!-------------- 
+          Pdf content 
+        ---------------->
         <div class="pdf-container" v-if="showPDf">
           <iframe
             width="100%"
@@ -152,10 +168,12 @@
           ></iframe>
         </div>
 
-        <!-- Exam -->
+        <!--------- 
+          Exam 
+        ----------->
         <div v-if="showExam">
           <!-- Title -->
-          <h2 class="card-title h2 text-center">{{title}}</h2>
+          <h2 class="card-title text-center">{{title}}</h2>
           <div class="row d-flex justify-content-center text-center">
             <div class="col-xl-7 pb-2">
               <el-tag
@@ -179,14 +197,18 @@
           <div class="row gap-10">
             <div class="col-12 col-md-4 text-center">
               <div>
-                <img class="content-icons" src="@/assets/img/general/ux/clock.png" alt="clock" />
-                <h3>{{lang["exam-duration"]}}: {{time}}</h3>
+                <img class="content-icons mb-3" src="@/assets/img/general/ux/clock.png" alt="clock" />
+                <h4>{{lang["exam-duration"]}}: {{time}}</h4>
               </div>
             </div>
 
             <div class="col-12 col-md-4 text-center">
               <div>
-                <img src="@/assets/img/general/ux/pencil.png" v-if="parseInt(userRetests) == 0" />
+                <img
+                  class="content-icons"
+                  src="@/assets/img/general/ux/pencil.png"
+                  v-if="parseInt(userRetests) == 0"
+                />
 
                 <img
                   class="content-icons"
@@ -205,24 +227,24 @@
 
                 <!-- Start exam button -->
                 <el-button
-                  size="small"
-                  class="sbr-btn sbr-primary mt-2"
+                  size="medium"
+                  class="sbr-primary mt-3"
                   v-if="parseInt(userRetests) == 0"
                   @click="openExamModal(lessonId)"
                 >{{lang["start-exam"]}}</el-button>
 
                 <!-- Start retest button -->
                 <el-button
-                  size="small"
-                  class="sbr-btn sbr-primary mt-2"
+                  size="medium"
+                  class="sbr-primary mt-3"
                   v-if="parseInt(userRetests) < parseInt(retest) && parseInt(userRetests) != 0 && parseInt(overview['yourScore']) < parseInt(approval) && parseInt(overview['waitingEvaluationQuestions']) == 0"
                   @click="openExamModal(lessonId)"
                 >{{lang["start-retest"]}}</el-button>
 
                 <!-- Correction button -->
                 <el-button
-                  size="small"
-                  class="sbr-btn sbr-primary mt-2"
+                  size="medium"
+                  class="sbr-primary mt-3"
                   v-if="parseInt(userRetests) == parseInt(retest) || parseInt(overview['yourScore']) >= parseInt(approval)"
                   @click="openCorrection(lessonId)"
                 >{{lang["see-exam-correction"]}}</el-button>
@@ -231,8 +253,8 @@
 
             <div class="col-12 col-md-4 text-center">
               <div>
-                <img class="content-icons" src="@/assets/img/general/ux/attempts.png" />
-                <h3>{{lang["attempts"]}}: {{userRetests}} / {{retest}}</h3>
+                <img class="content-icons mb-3" src="@/assets/img/general/ux/attempts.png" />
+                <h4>{{lang["attempts"]}}: {{userRetests}} / {{retest}}</h4>
               </div>
             </div>
           </div>
@@ -261,8 +283,7 @@
               <el-button
                 @click.prevent="openCorrection(lessonId)"
                 href="javascript:void(0)"
-                size="small"
-                class="sbr-btn sbr-primary"
+                class="sbr-primary"
               >{{lang["see-result"]}}</el-button>
             </div>
           </el-dialog>
@@ -277,21 +298,18 @@ import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
 import ElementUI from "element-ui";
-import { eventLang } from "@/components/helper/HelperLang";
-import { eventBus } from "@/components/viewcourse/App";
-import { eventCorrection } from "@/components/viewcourse/correction/ExamCorrection";
-import "element-ui/lib/theme-chalk/index.css";
-import lang from "element-ui/lib/locale/lang/en";
-import locale from "element-ui/lib/locale";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
 import VuePlyr from "vue-plyr";
 import Exam from "@/components/viewcourse/Exam";
 import ExamCorrection from "@/components/viewcourse/correction/ExamCorrection";
 import verify from "@/mixins/verify";
-import { FacebookLoader } from "vue-content-loader";
 
-locale.use(lang);
+import { eventCorrection } from "@/components/viewcourse/correction/ExamCorrection";
+import { eventBus } from "@/components/viewcourse/App";
+import { FacebookLoader } from "vue-content-loader";
+import { mapState } from "vuex";
+
 Vue.use(VueAxios, axios);
 Vue.use(ElementUI);
 Vue.use(VuePlyr, {
@@ -300,11 +318,11 @@ Vue.use(VuePlyr, {
   },
   emit: ["ended"]
 });
+
 export default {
   mixins: [domains, alerts, verify],
   data: () => {
     return {
-      lang: {},
       title: "",
       path: "",
       date: "",
@@ -349,13 +367,6 @@ export default {
   mounted() {
     this.getUserProfile();
 
-    eventLang.$on(
-      "lang",
-      function(response) {
-        this.lang = response;
-      }.bind(this)
-    );
-
     eventBus.$on(
       "load-lesson",
       function(data) {
@@ -378,7 +389,9 @@ export default {
       }.bind(this)
     );
   },
-
+  computed: {
+    ...mapState(["lang"])
+  },
   methods: {
     finishLesson: function() {
       if (this.lessonStatus != "finished") {

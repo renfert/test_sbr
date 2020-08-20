@@ -59,7 +59,7 @@
           <div class="list-block">
             <link-list></link-list>
             <br />
-            <el-button class="sbr-btn sbr-primary" @click.prevent="openLinksModal()">
+            <el-button size="small" class="sbr-primary" @click.prevent="openLinksModal()">
               {{lang["add-new-link"]}}
               <i class="el-icon-circle-plus-outline"></i>
             </el-button>
@@ -75,19 +75,18 @@ import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
 import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
-import lang from "element-ui/lib/locale/lang/en";
-import locale from "element-ui/lib/locale";
-import { eventLang } from "@/components/helper/HelperLang";
-import { eventUpload } from "@/components/helper/HelperUpload";
-import { eventBus } from "@/components/site/App";
 import Upload from "@/components/helper/HelperUpload";
 import LinkList from "@/components/links/LinkList";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
-locale.use(lang);
+
+import { eventBus } from "@/components/site/App";
+import { eventUpload } from "@/components/helper/HelperUpload";
+import { mapState } from "vuex";
+
 Vue.use(VueAxios, axios);
 Vue.use(ElementUI);
+
 export default {
   mixins: [domains, alerts],
   components: {
@@ -96,7 +95,6 @@ export default {
   },
   data: () => {
     return {
-      lang: {},
       logoSize: 0,
       logo: "",
       headerArray: null,
@@ -105,12 +103,6 @@ export default {
     };
   },
   mounted() {
-    eventLang.$on(
-      "lang",
-      function(response) {
-        this.lang = response;
-      }.bind(this)
-    );
     eventUpload.$on(
       "finish-upload",
       function() {
@@ -118,6 +110,9 @@ export default {
       }.bind(this)
     );
     this.listHeader();
+  },
+  computed: {
+    ...mapState(["lang"])
   },
   methods: {
     changeHeaderColor: function() {

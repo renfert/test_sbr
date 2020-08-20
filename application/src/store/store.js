@@ -10,7 +10,8 @@ export default new Vuex.Store({
     lang: {},
     userRole: "",
     userId: "",
-    courseId: ""
+    courseId: "",
+    plan: ""
   },
   mutations: {
     setLang: (state, obj) => {
@@ -19,6 +20,9 @@ export default new Vuex.Store({
     setUser: (state, obj) => {
       state.userId = obj.id;
       state.userRole = obj.role;
+    },
+    setPlan: (state, obj) => {
+      state.plan = obj;
     }
   }
 });

@@ -1,9 +1,8 @@
 <template>
-  <div class="main">
-    <lang></lang>
+  <div>
     <div v-for="element in testimonialArray" :key="element.id">
       <el-dialog :visible.sync="modal" :title="lang['testimonial']" center width="40%" top="5vh">
-        <form v-loading="loading">
+        <form>
           <input type="number" class="hide" v-model="testimonialId" />
           <el-tabs type="border-card">
             <!-- Header -->
@@ -72,10 +71,10 @@
                 v-loading="loadingButton"
                 @click.prevent="editTestimonial()"
                 native-type="submit"
-                class="sbr-btn sbr-primary"
+                class="sbr-primary"
               >{{lang["save-button"]}}</el-button>
               <el-button
-                class="sbr-btn sbr-purple"
+                class="sbr-purple"
                 v-loading="loadingButton"
                 @click.prevent="addNewPerson(element.id)"
                 native-type="submit"
@@ -92,26 +91,19 @@
 import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
-import VueTheMask from "vue-the-mask";
 import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
-import Lang from "@/components/helper/HelperLang.vue";
-import lang from "element-ui/lib/locale/lang/en";
-import locale from "element-ui/lib/locale";
-import { eventLang } from "@/components/helper/HelperLang";
-import { eventBus } from "@/components/site/App";
 import PersonsListToEdit from "@/components/persons/PersonsListToEdit";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
 
-locale.use(lang);
-Vue.use(VueTheMask);
+import { eventBus } from "@/components/site/App";
+import { mapState } from "vuex";
+
 Vue.use(VueAxios, axios);
 Vue.use(ElementUI);
 
 export default {
   components: {
-    Lang,
     PersonsListToEdit
   },
   mixins: [domains, alerts],
@@ -119,25 +111,16 @@ export default {
     return {
       loadingButton: false,
       banner: [],
-      lang: {},
       header: "",
       subHeader: "",
       testimonialArray: [],
       testimonialId: "",
-      loading: false,
       modal: false,
       activeHeader: true,
       activeSubHeader: true
     };
   },
   mounted() {
-    eventLang.$on(
-      "lang",
-      function(response) {
-        this.lang = response;
-      }.bind(this)
-    );
-
     eventBus.$on(
       "edit-testimonial",
       function(sectionId) {
@@ -145,6 +128,9 @@ export default {
         this.modal = true;
       }.bind(this)
     );
+  },
+  computed: {
+    ...mapState(["lang"])
   },
   methods: {
     editTestimonial: function() {
@@ -160,7 +146,8 @@ export default {
       axios.post(urlToBeUsedInTheRequest, formData).then(
         () => {
           this.successMessage();
-          this.actionsToBePerformedAfterEdit();
+          eventBus.$emit("new-testimonial-change");
+          this.modal = false;
           this.loadingButton = false;
         },
         function() {
@@ -199,7 +186,6 @@ export default {
     },
 
     getTestimonial: function(sectionId) {
-      this.loading = true;
       var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
         "site-elements/testimonial",
         "get"
@@ -208,7 +194,6 @@ export default {
       formData.set("sectionId", sectionId);
       axios.post(urlToBeUsedInTheRequest, formData).then(
         response => {
-          this.loading = false;
           this.testimonialArray = response.data;
           this.header = response.data[0]["header"];
           this.subHeader = response.data[0]["subheader"];
@@ -227,10 +212,6 @@ export default {
           this.errorMessage();
         }.bind(this)
       );
-    },
-    actionsToBePerformedAfterEdit() {
-      this.modal = false;
-      eventBus.$emit("new-change-testimonial");
     }
   }
 };

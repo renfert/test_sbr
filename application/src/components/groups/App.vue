@@ -1,29 +1,11 @@
 <template >
-  <div id="wrapper">
-    <lang></lang>
-
-    <!-- Content page -->
-    <div class="content-page">
-      <div class="content">
-        <div class="container-fluid">
-          <!-- Create category  -->
-          <div class="row gap5">
-            <group-create></group-create>
-          </div>
-          <!-- List category  -->
-          <div class="row">
-            <group-list></group-list>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- End of content page -->
+  <div class="content-page">
+    <group-create></group-create>
+    <group-list></group-list>
   </div>
-  <!-- End of wrapper -->
 </template>
 
 <script>
-import Lang from "@/components/helper/HelperLang.vue";
 import GroupCreate from "@/components/groups/GroupCreate.vue";
 import GroupList from "@/components/groups/GroupList.vue";
 import Vue from "vue";
@@ -32,8 +14,6 @@ import VueAxios from "vue-axios";
 import VueHead from "vue-head";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
-import headerTags from "@/mixins/headerTags";
-import integrations from "@/mixins/integrations";
 import verify from "@/mixins/verify";
 
 export const eventBus = new Vue();
@@ -41,17 +21,13 @@ export const eventBus = new Vue();
 Vue.use(VueAxios, axios);
 Vue.use(VueHead);
 export default {
-  mixins: [domains, alerts, integrations, headerTags, verify],
+  mixins: [domains, alerts, verify],
   components: {
     GroupCreate,
-    GroupList,
-    Lang
+    GroupList
   },
   created: function() {
-    this.verifySession();
     this.verifyAdministratorPrivileges();
-    this.loadIntegrations();
-    this.createFavicon();
   },
   head: {
     title: {
@@ -65,6 +41,3 @@ export default {
   }
 };
 </script>
-
-<style>
-</style>

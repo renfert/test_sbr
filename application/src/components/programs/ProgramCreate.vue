@@ -6,7 +6,7 @@
           <h4>{{ lang["no-results-program-title"] }}</h4>
           <br />
           <router-link to="/newprogram">
-            <el-button class="sbr-btn sbr-primary mt-3">
+            <el-button class="sbr-primary mt-3">
               {{
               lang["new-program-button"]
               }}
@@ -19,7 +19,7 @@
             <b class="sbr-text-primary">{{ totalPrograms }}</b>
           </h3>
           <router-link to="/newprogram">
-            <el-button class="sbr-btn sbr-primary mt-3">
+            <el-button class="sbr-primary mt-3">
               {{
               lang["new-program-button"]
               }}

@@ -87,24 +87,17 @@
       </div>
       <!-- End accordion -->
 
-      <div class="card-box box-no-results" v-else>
-        <div class="row">
-          <div class="col-1"></div>
-          <div class="col-6">
-            <div class="text-no-results">
-              <el-button
-                class="sbr-btn sbr-purple"
-                @click.prevent="createNewQuestionEvent()"
-                type="primary"
-                size="medium"
-              >{{lang["create-first-question"]}}</el-button>
-            </div>
-          </div>
-          <div class="col-4">
-            <img class="image-no-results" src="@/assets/img/general/ux/no_questions.png" alt />
-          </div>
-        </div>
+      <div class="text-center mt-5" v-else>
+        <img class="image-no-results mb-4" src="@/assets/img/general/ux/not_found.png" alt />
+        <br />
+        <el-button
+          size="small"
+          class="sbr-purple"
+          @click.prevent="createNewQuestionEvent()"
+          type="primary"
+        >{{lang["create-first-question"]}}</el-button>
       </div>
+      <hr class="mb-5 mt-5" />
     </div>
   </div>
 </template>
@@ -304,7 +297,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 .image-no-results {
-  margin-top: 15%;
+  width: 15%;
 }
 
 .question-box {

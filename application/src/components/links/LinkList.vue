@@ -1,6 +1,5 @@
 <template>
-  <div class="main" v-loading="loading">
-    <lang></lang>
+  <div v-loading="loading">
     <div>
       <ul class="list-group">
         <draggable v-model="links" ghost-class="ghost" @end="finishRepositioning">
@@ -24,7 +23,6 @@
         </draggable>
       </ul>
     </div>
-    <!-- End accordion -->
   </div>
 </template>
 
@@ -32,46 +30,30 @@
 import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
-import VueTheMask from "vue-the-mask";
 import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
-import Lang from "@/components/helper/HelperLang.vue";
 import draggable from "vuedraggable";
-import lang from "element-ui/lib/locale/lang/en";
-import locale from "element-ui/lib/locale";
-import { eventLang } from "@/components/helper/HelperLang";
-import { eventBus } from "@/components/site/App";
 import $ from "jquery";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
 
-locale.use(lang);
-Vue.use(VueTheMask);
-Vue.use(VueTheMask);
+import { eventBus } from "@/components/site/App";
+import { mapState } from "vuex";
+
 Vue.use(VueAxios, axios);
 Vue.use(ElementUI);
 
 export default {
   mixins: [domains, alerts],
   components: {
-    draggable,
-    Lang
+    draggable
   },
   data: () => {
     return {
-      lang: {},
       links: null,
       loading: false
     };
   },
   mounted() {
-    eventLang.$on(
-      "lang",
-      function(response) {
-        this.lang = response;
-      }.bind(this)
-    );
-
     eventBus.$on(
       "link-list-update",
       function() {
@@ -79,6 +61,9 @@ export default {
       }.bind(this)
     );
     this.updateLinkListArray();
+  },
+  computed: {
+    ...mapState(["lang"])
   },
   methods: {
     openEditLinkModal: function(id, title, url, target) {
@@ -158,67 +143,13 @@ export default {
   cursor: pointer;
 }
 
-.custom-control-label {
-  padding-top: 4px !important;
-}
-
-#accordion > .card {
-  margin-bottom: 2%;
-}
-
-.btn-link {
-  padding: 0px !important;
-  font-size: 13px;
-  font-family: "Poppins", sans-serif;
-  font-weight: 600;
-}
-
-.btn.link:hover {
-  text-decoration: none !important;
-}
-
-.card-header {
-  padding: 10px !important;
-}
-
-.btn-eadtools-rounded {
-  border-radius: 50%;
-  cursor: pointer;
-  display: inline-block;
-  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
-  position: relative;
-  height: 40px;
-  width: 40px;
-  background-color: #d696ef;
-  z-index: 2;
-  border: none;
-  color: white;
-  margin: 0 0.2rem;
-}
-
-.sortable-drag {
-  opacity: 0;
-}
-
-.flip-list-move {
-  transition: transform 0.5s;
-}
-
 .ghost {
   border-left: 6px solid rgb(0, 183, 255);
   border-radius: 5px;
   opacity: 0.5;
 }
 
-.card {
-  margin-bottom: 15px;
-}
-
 .handle {
   cursor: move;
-}
-
-li {
-  list-style-type: none;
 }
 </style>

@@ -115,7 +115,7 @@
           <div class="col-1"></div>
           <div class="col-xl-6 col-md-6">
             <div class="text-no-results">
-              <h4>{{lang["no-results-module-title"]}}</h4>
+              <h3>{{lang["no-results-module-title"]}}</h3>
               <p>
                 {{lang["no-results-module-subtitle"]}}
                 <span
@@ -123,10 +123,9 @@
                 >{{lang["no-results-module-subtitle-highlight"]}}</span>
               </p>
               <el-button
-                class="sbr-btn sbr-primary mt-3"
+                class="sbr-purple mt-3"
                 @click.prevent="openModuleModal()"
                 type="primary"
-                size="medium"
               >{{lang["new-module"]}}</el-button>
             </div>
           </div>
@@ -137,10 +136,9 @@
       </div>
       <el-button
         v-if="modules != null"
-        class="sbr-btn sbr-primary mt-5"
+        class="sbr-purple mt-5"
         @click.prevent="openModuleModal()"
         type="primary"
-        size="medium"
       >{{lang["new-module"]}}</el-button>
     </div>
 
@@ -184,7 +182,7 @@
             <div class="form-group col-xl-6 col-md-6">
               <el-button
                 v-loading="loadingButton"
-                class="sbr-btn sbr-primary"
+                class="sbr-primary"
                 type="primary"
                 @click.prevent="editModule()"
                 size="medium"

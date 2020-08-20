@@ -9,7 +9,7 @@
             <h4>{{ lang["no-results-course-title"] }}</h4>
             <br />
             <router-link to="/newcourse">
-              <el-button class="sbr-btn sbr-primary mt-4">
+              <el-button class="sbr-primary mt-4">
                 {{
                 lang["new-course-button"]
                 }}
@@ -24,7 +24,7 @@
               >{{ numberTotalOfCoursesCreated }}</b>
             </h3>
             <router-link to="/newcourse">
-              <el-button class="sbr-btn sbr-primary mt-4">
+              <el-button class="sbr-primary mt-4">
                 {{
                 lang["new-course-button"]
                 }}

@@ -1,6 +1,6 @@
 <template>
   <div :class="contentShow == false ? 'hide' : 'main'">
-    <div class="row mt-5">
+    <div class="creation-content">
       <div class="img-container">
         <div class="text-container">
           <h4>{{ lang["course-created-successfully"] }}</h4>
@@ -11,11 +11,11 @@
       </div>
     </div>
 
-    <div class="row mb-5 mt-5 ml-5 mr-5 mb-5">
+    <div class="row row-actions">
       <div class="col-12 col-md-3">
         <router-link :to="'/viewcourse/'+this.courseId">
-          <div class="card-box">
-            <h5 class="fw-700">{{ lang["view-course"] }}</h5>
+          <div class="card-box card-action">
+            <h4 class="fw-700">{{ lang["view-course"] }}</h4>
             <img src="@/assets/img/general/ux/view_course.png" alt />
           </div>
         </router-link>
@@ -23,8 +23,8 @@
 
       <div class="col-12 col-md-3">
         <a href="javascript:void(0)" @click.prevent="modal = true">
-          <div class="card-box">
-            <h5 class="fw-700">{{ lang["join-persons"] }}</h5>
+          <div class="card-box card-action">
+            <h4 class="fw-700">{{ lang["join-persons"] }}</h4>
             <img src="@/assets/img/general/ux/join_persons.png" alt />
           </div>
         </a>
@@ -32,8 +32,8 @@
 
       <div class="col-12 col-md-3">
         <a href="javascript:void(0)" @click.prevent="reloadPage()">
-          <div class="card-box">
-            <h5 class="fw-700">{{ lang["create-new-course"] }}</h5>
+          <div class="card-box card-action">
+            <h4 class="fw-700">{{ lang["create-new-course"] }}</h4>
             <img src="@/assets/img/general/ux/create_new_course.png" alt />
           </div>
         </a>
@@ -41,8 +41,8 @@
 
       <div class="col-12 col-md-3">
         <a href="javascript:void(0)" @click.prevent="share = true">
-          <div class="card-box">
-            <h5 class="fw-700">{{ lang["share"] }}</h5>
+          <div class="card-box card-action">
+            <h4 class="fw-700">{{ lang["share"] }}</h4>
             <img src="@/assets/img/general/ux/share.png" alt />
           </div>
         </a>
@@ -65,7 +65,7 @@
           <el-transfer filterable :titles="['Persons', 'Course']" v-model="users" :data="usersList"></el-transfer>
         </template>
         <br />
-        <el-button @click="enrollUsers()" type="primary" size="medium">
+        <el-button class="sbr-primary" @click="enrollUsers()">
           {{
           lang["save-button"]
           }}
@@ -125,8 +125,6 @@ export default {
       "new-course",
       function(response) {
         this.courseId = response;
-        this.linkToShare = this.getCurrentDomainName() + "product/" + response;
-        sessionStorage.setItem("sbr_course_id", "" + response + "");
         this.getUsersOutsideTheCourse(response);
       }.bind(this)
     );
@@ -162,6 +160,10 @@ export default {
     ...mapState(["lang"])
   },
   methods: {
+    formatTitleParameter: function(title) {
+      var newTitle = title.split(" ").join("-");
+      return newTitle.toLowerCase();
+    },
     copyToClipboard: function() {
       /* Get the text field */
       var copyText = document.getElementById("shareLink");
@@ -179,10 +181,6 @@ export default {
     reloadPage: function() {
       location.reload();
     },
-    viewCourse: function() {
-      sessionStorage.setItem("sbr_course_id", "" + this.courseId + "");
-      window.location.href = "viewcourse";
-    },
     getCourse: function() {
       var formData = new FormData();
       formData.set("courseId", this.courseId);
@@ -192,6 +190,11 @@ export default {
           // success callback
           this.courseName = response.data["title"];
           this.courseImage = response.data["photo"];
+
+          this.linkToShare =
+            this.getCurrentDomainName() +
+            "product/" +
+            this.formatTitleParameter(response.data["title"]);
         },
         // Failure callback
         function() {
@@ -247,24 +250,42 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-.img-course {
-  width: 40%;
+/* =============
+    - Layout
+    - Font
+    - Mobile
+============= */
+
+/* =============
+   Layout
+============= */
+
+.creation-content {
+  position: fixed;
+  z-index: 9;
+  top: 0;
+  left: 0;
+  right: 0;
 }
 
-.card-box {
+.row-actions {
+  margin-top: 23%;
+}
+
+.card-action {
   text-align: center;
   text-transform: uppercase;
   letter-spacing: 1px;
   color: grey !important;
 }
 
-.card-box img {
-  width: 50px;
+.card-action:hover {
+  -webkit-box-shadow: 0px 0px 5px 0px #00a9b4;
+  box-shadow: 0px 0px 5px 0px #00a9b4;
 }
 
-.card-box:hover {
-  -webkit-box-shadow: 0px 0px 5px 0px #009cd8;
-  box-shadow: 0px 0px 5px 0px #009cd8;
+.card-action img {
+  width: 50px;
 }
 
 .course-name {
@@ -279,129 +300,67 @@ export default {
   margin: 0px !important;
 }
 
+.img-container img {
+  width: inherit !important;
+}
+
 .text-container {
   color: white;
   position: absolute;
-  width: 400px;
-  margin-left: 50%;
+  width: 100%;
   margin-top: 10%;
-  left: -200px;
+  padding-left: 230px;
   text-align: center;
 }
+
+/* =============
+   Font
+============= */
 
 .text-container h4 {
   text-transform: uppercase;
   font-family: "Poppins", sans-serif;
   letter-spacing: 1px;
-  color: white !important;
+  color: white;
 }
 
 .text-container h1 {
   text-transform: uppercase;
-  color: white !important;
+  color: white;
 }
 
-.img-container img {
-  width: inherit !important;
-}
+/* =============
+   Mobile
+============= */
 
-.content {
-  padding: 0px !important;
-}
-
-/* Default sizes */
-.form-row > .col,
-.form-row > [class*="col-"] {
-  padding-right: 20px !important;
-  padding-left: 20px !important;
-}
-
-.form-row {
-  padding: 0px !important;
-}
-.editr {
-  height: 200px;
-  border-radius: 4px;
-  border: 2px solid #ccc;
-  transition: border-color 0.15s linear !important;
-}
-
-.editr--content {
-  font-family: "Poppins", sans-serif !important;
-  font-size: 15px !important;
-}
-
-.form-wizard-wrapper .form-wizard-content {
-  background-color: white;
-  color: #777777;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  top: 0;
-}
-
-/* End default sizes */
-
-/* ------------- Max 1024px ---------------- */
-@media only screen and (max-width: 1024px) {
-  .editr--toolbar {
-    display: none !important;
+@media only screen and (max-width: 600px) {
+  .text-container {
+    color: #ffffff;
+    position: absolute;
+    width: 100%;
+    margin-top: 15%;
+    padding-left: 0px;
+    text-align: center;
   }
-}
+  .text-container h4 {
+    font-size: 0.8em;
+    text-transform: uppercase;
+    font-family: "Poppins", sans-serif;
+    letter-spacing: 1px;
+    color: white;
+  }
 
-.container-fluid {
-  padding-left: 0px !important;
-}
-
-#share {
-  width: 100%;
-  text-align: center;
-}
-
-/* buttons */
-
-#share a {
-  width: 50px;
-  height: 50px;
-  display: inline-block;
-  margin: 8px;
-  border-radius: 50%;
-  font-size: 24px;
-  color: #fff;
-  transition: opacity 0.15s linear;
-}
-
-#share a:hover {
-  opacity: 0.75;
-}
-
-/* icons */
-
-#share i {
-  position: relative;
-  top: 40%;
-  transform: translateY(-50%);
-}
-
-/* colors */
-
-.facebook {
-  background: #3b5998;
-}
-
-.twitter {
-  background: #55acee;
-}
-
-.googleplus {
-  background: #dd4b39;
-}
-
-.linkedin {
-  background: #0077b5;
-}
-
-.pinterest {
-  background: #cb2027;
+  .text-container h1 {
+    font-size: 1.5em;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: white;
+  }
+  .row-actions {
+    padding-left: 0px;
+  }
+  .img-container {
+    height: 280px;
+  }
 }
 </style>

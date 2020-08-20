@@ -7,29 +7,26 @@
             <div class="form-group col-12 col-md-6">
               <!-- Course id -->
               <input class="hide" type="text" v-model="courseId" name="id" />
-
               <!-- Course name -->
               <label class="col-form-label">{{lang["name"]}} *</label>
               <el-input name="title" :class="invalidField ? 'invalid-field' : '' " v-model="name"></el-input>
-
-              <br />
-              <br />
               <!-- Course category -->
               <label class="col-form-label">{{lang["category"]}}</label>
-              <br />
-              <select class="form-control" name="mycategory_id">
-                <option value="1">{{lang['default-category']}}</option>
-                <option v-for="item in categories" :value="item.id" :key="item.id">{{item.name}}</option>
-              </select>
-              <br />
-              <br />
-              <br />
+              <el-select class="mb-5" v-model="category">
+                <el-option :value="1" :label="lang['default-category']"></el-option>
+                <el-option
+                  v-for="item in categories"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id"
+                ></el-option>
+              </el-select>
 
               <!-- Advanced configurations button -->
               <el-button
-                class="sbr-btn sbr-primary"
+                class="sbr-purple"
+                size="small"
                 @click.prevent="modal = true"
-                native-type="submit"
               >{{lang["advanced-settings"]}}</el-button>
             </div>
 
@@ -51,7 +48,7 @@
                 return-name="photo"
                 input-name="file"
                 bucket-key="uploads/course"
-                acceptable=".png,.jpg"
+                acceptable=".png,.jpg,.jpeg"
               ></upload>
             </div>
             <!-- Course video preview -->
@@ -206,7 +203,7 @@
         </div>
 
         <el-button
-          class="sbr-btn sbr-primary mt-5"
+          class="sbr-primary mt-5"
           @click.prevent="modal = false"
           type="primary"
           size="medium"
@@ -262,7 +259,7 @@ export default {
       expirationDate: "",
       validity: "",
       validityAllowed: false,
-      category: "",
+      category: 1,
       contentShow: true,
       courseMode: "create", // Course mode can be create or edit mode
       courseId: "",
@@ -325,6 +322,7 @@ export default {
     createCourse: function() {
       var form = document.getElementById("form-first-step");
       var formData = new FormData(form);
+      formData.set("mycategory_id", this.category);
       var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
         "course",
         "create"
@@ -404,9 +402,5 @@ export default {
   right: 0;
   bottom: 0;
   top: 0;
-}
-
-.card-course {
-  padding: 5%;
 }
 </style>

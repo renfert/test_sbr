@@ -1,38 +1,20 @@
 <template>
-  <div class="col-12">
-    <div class="card-box table-responsive">
-      <h4>{{ lang["create-category"] }}</h4>
-      <br />
-      <form @submit.prevent="createCategory()" id="form-category">
-        <div class="row">
-          <div class="col-xl-4 col-md-4">
-            <!-- Category name -->
-            <div class="form-group">
-              <el-input
-                required
-                name="name"
-                :placeholder="lang['name']"
-                v-model="categoryName"
-              ></el-input>
-            </div>
-          </div>
-
-          <div class="col-xl-4 col-md-4">
-            <!-- Save button -->
-            <div class="form-group">
-              <el-button
-                v-loading="loadingButton"
-                class="sbr-btn sbr-primary"
-                native-type="submit"
-                type="primary"
-              >
-                {{ lang["save-button"] }}
-              </el-button>
-            </div>
-          </div>
-        </div>
-      </form>
-    </div>
+  <div class="card-box table-responsive">
+    <h4>{{ lang["create-category"] }}</h4>
+    <el-form id="form-category" :inline="true">
+      <el-form-item>
+        <el-input required name="name" :placeholder="lang['name']" v-model="categoryName"></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button
+          @click.prevent="createCategory()"
+          v-loading="loadingButton"
+          class="sbr-primary"
+          native-type="submit"
+          type="primary"
+        >{{ lang["save-button"] }}</el-button>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 
@@ -103,4 +85,5 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+</style>

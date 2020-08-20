@@ -119,16 +119,13 @@ import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
 import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
-import lang from "element-ui/lib/locale/lang/en";
-import locale from "element-ui/lib/locale";
-import { eventLang } from "@/components/helper/HelperLang";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
 import VuePlyr from "vue-plyr";
+
+import { mapState } from "vuex";
 import { eventBus } from "@/components/site/App";
 
-locale.use(lang);
 Vue.use(VueAxios, axios);
 Vue.use(ElementUI);
 Vue.use(VuePlyr, {
@@ -137,12 +134,12 @@ Vue.use(VuePlyr, {
   },
   emit: ["ended"]
 });
+
 export default {
   mixins: [domains, alerts],
   props: ["section-id"],
   data: () => {
     return {
-      lang: {},
       primaryColor: "",
       textAndMediaArray: [],
       mediaExtension: "",
@@ -152,21 +149,14 @@ export default {
     };
   },
   mounted() {
-    eventLang.$on(
-      "lang",
-      function(response) {
-        this.lang = response;
-      }.bind(this)
-    );
-
+    this.getPrimaryColor();
+    this.getTextAndMedia();
     eventBus.$on(
-      "new-change-text-and-media",
+      "new-text-and-media-change",
       function() {
         this.getTextAndMedia();
       }.bind(this)
     );
-    this.getPrimaryColor();
-    this.getTextAndMedia();
   },
   methods: {
     getTextAndMedia: function() {
@@ -211,6 +201,7 @@ export default {
     }
   },
   computed: {
+    ...mapState(["lang"]),
     styleButton: function() {
       return {
         "background-color": this.buttonColor,

@@ -1,22 +1,9 @@
 <template>
-  <div id="wrapper">
-    <!-- Content page -->
-    <div class="content-page">
-      <div class="content">
-        <div class="container-fluid">
-          <div class="row gap5">
-            <div class="col-12">
-              <admin v-if="roleId == 1"></admin>
-              <instructor v-if="roleId == 2"></instructor>
-              <student v-if="roleId == 3"></student>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- End of content page -->
+  <div class="content-page">
+    <admin v-if="roleId == 1"></admin>
+    <instructor v-if="roleId == 2"></instructor>
+    <student v-if="roleId == 3"></student>
   </div>
-  <!-- End of wrapper -->
 </template>
 
 <script>

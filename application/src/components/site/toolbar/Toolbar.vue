@@ -3,9 +3,7 @@
     <el-container>
       <el-aside class="fixed-aside">
         <el-menu class="el-menu-vertical-demo">
-          <br />
-          <br />
-          <div class="back">
+          <div class="back mt-5">
             <a href="javascript:history.back()">
               <i class="el-icon-back"></i>
               {{lang['back']}}
@@ -34,10 +32,6 @@ import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
 import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
-import lang from "element-ui/lib/locale/lang/en";
-import locale from "element-ui/lib/locale";
-import { eventLang } from "@/components/helper/HelperLang";
 import ToolbarHeader from "@/components/site/toolbar/ToolbarHeader";
 import ToolbarBody from "@/components/site/toolbar/ToolbarBody";
 import ToolbarFooter from "@/components/site/toolbar/ToolbarFooter";
@@ -51,9 +45,11 @@ import LinkEdit from "@/components/links/LinkEdit";
 import SocialMediaCreate from "@/components/social/SocialMediaCreate";
 import SocialMediaEdit from "@/components/social/SocialMediaEdit";
 
-locale.use(lang);
+import { mapState } from "vuex";
+
 Vue.use(VueAxios, axios);
 Vue.use(ElementUI);
+
 export default {
   components: {
     ToolbarHeader,
@@ -69,19 +65,8 @@ export default {
     SocialMediaCreate,
     SocialMediaEdit
   },
-  data: () => {
-    return {
-      lang: {},
-      value1: 0
-    };
-  },
-  mounted() {
-    eventLang.$on(
-      "lang",
-      function(response) {
-        this.lang = response;
-      }.bind(this)
-    );
+  computed: {
+    ...mapState(["lang"])
   }
 };
 </script>
@@ -95,6 +80,7 @@ export default {
   top: 0;
   bottom: 0;
   background: #fff;
+  border-right: 1px solid #dbd3d3;
 }
 
 .fixed-aside ul {
@@ -105,14 +91,6 @@ export default {
   left: 0;
   background: white;
   width: 280px;
-}
-
-.content-page.content {
-  padding: 0px !important;
-}
-
-.ead {
-  margin: 0px !important;
 }
 
 .el-menu {
