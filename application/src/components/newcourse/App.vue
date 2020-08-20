@@ -1,23 +1,14 @@
 <template >
-  <div id="wrapper">
-    <!-- Content page -->
-    <div class="content-page">
-      <div class="content">
-        <div class="container-fluid">
-          <div class="form-wizard-wrapper">
-            <wizard-nav></wizard-nav>
-            <div class="form-wizard-content-wrapper">
-              <first-step></first-step>
-              <second-step></second-step>
-              <third-step></third-step>
-            </div>
-          </div>
-        </div>
+  <div class="content-page">
+    <div class="form-wizard-wrapper">
+      <wizard-nav></wizard-nav>
+      <div class="form-wizard-content-wrapper">
+        <first-step></first-step>
+        <second-step></second-step>
+        <third-step></third-step>
       </div>
     </div>
-    <!-- End of content page -->
   </div>
-  <!-- End of wrapper -->
 </template>
 
 <script>

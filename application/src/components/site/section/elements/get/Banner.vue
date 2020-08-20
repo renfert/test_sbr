@@ -1,5 +1,5 @@
 <template>
-  <div class="section" v-loading="loading">
+  <div class="section">
     <div class="banner" :style="styleHeader">
       <h1 :style="styleBannerHeader" class="banner-text">{{ banner["header"] }}</h1>
       <p :style="styleBannerSubHeader">{{ banner["subheader"] }}</p>
@@ -18,23 +18,20 @@ import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
 import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
-import lang from "element-ui/lib/locale/lang/en";
-import locale from "element-ui/lib/locale";
-import { eventLang } from "@/components/helper/HelperLang";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
+
 import { eventBus } from "@/components/site/App";
-locale.use(lang);
+import { mapState } from "vuex";
+
 Vue.use(VueAxios, axios);
 Vue.use(ElementUI);
+
 export default {
   mixins: [domains, alerts],
   props: ["section-id"],
   data: () => {
     return {
-      lang: {},
-      loading: false,
       banner: [],
       image: "",
       buttonColor: "",
@@ -47,25 +44,16 @@ export default {
     };
   },
   mounted() {
-    eventLang.$on(
-      "lang",
-      function(response) {
-        this.lang = response;
-      }.bind(this)
-    );
-
+    this.getBanner();
     eventBus.$on(
-      "new-change-banner",
+      "new-banner-change",
       function() {
         this.getBanner();
       }.bind(this)
     );
-
-    this.getBanner();
   },
   methods: {
     getBanner: function() {
-      this.loading = true;
       var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
         "site-elements/banner",
         "getBanner"
@@ -75,7 +63,6 @@ export default {
       axios.post(urlToBeUsedInTheRequest, formData).then(
         response => {
           this.banner = response.data[0];
-          this.loading = false;
           this.image =
             this.getUrlToContents() +
             "builder/body/" +
@@ -97,6 +84,7 @@ export default {
     }
   },
   computed: {
+    ...mapState(["lang"]),
     styleButton: function() {
       return {
         "background-color": this.buttonColor,

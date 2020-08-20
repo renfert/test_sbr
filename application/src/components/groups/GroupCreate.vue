@@ -1,30 +1,19 @@
 <template>
-  <div class="col-12">
-    <div class="card-box">
-      <h4>{{lang["create-group"]}}</h4>
-      <br />
-      <form @submit.prevent="createGroup()" id="form-group">
-        <div class="row">
-          <div class="col-xl-4 col-md-4">
-            <!-- Group name -->
-            <div class="form-group">
-              <el-input required name="name" :placeholder="lang['name']" v-model="groupName"></el-input>
-            </div>
-          </div>
-
-          <div class="col-xl-4 col-md-4">
-            <!-- Save button -->
-            <div class="form-group">
-              <el-button
-                v-loading="loadingButton"
-                class="sbr-btn sbr-primary"
-                native-type="submit"
-              >{{lang["save-button"]}}</el-button>
-            </div>
-          </div>
-        </div>
-      </form>
-    </div>
+  <div class="card-box">
+    <h4>{{lang["create-group"]}}</h4>
+    <el-form id="form-group" :inline="true">
+      <el-form-item>
+        <el-input required name="name" :placeholder="lang['name']" v-model="groupName"></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button
+          @click.prevent="createGroup()"
+          v-loading="loadingButton"
+          class="sbr-primary"
+          native-type="submit"
+        >{{lang["save-button"]}}</el-button>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 
@@ -32,32 +21,26 @@
 import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
-import VueTheMask from "vue-the-mask";
 import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
-import { eventBus } from "@/components/groups/App";
-import { eventLang } from "@/components/helper/HelperLang";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
+
+import { eventBus } from "@/components/groups/App";
+import { mapState } from "vuex";
+
 Vue.use(ElementUI);
-Vue.use(VueTheMask);
 Vue.use(VueAxios, axios);
+
 export default {
   mixins: [domains, alerts],
   data: function() {
     return {
       groupName: "",
-      lang: {},
       loadingButton: false
     };
   },
-  mounted() {
-    eventLang.$on(
-      "lang",
-      function(response) {
-        this.lang = response;
-      }.bind(this)
-    );
+  computed: {
+    ...mapState(["lang"])
   },
   methods: {
     createGroup: function() {
@@ -97,10 +80,3 @@ export default {
   }
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
-.ead-md {
-  margin-left: 0.8em;
-}
-</style>

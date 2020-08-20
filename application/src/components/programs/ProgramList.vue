@@ -13,9 +13,6 @@
           <i v-else class="mdi mdi-table mdi-36px"></i>
         </a>
       </div>
-      <div class="dropdown pull-left">
-        <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop">Lista de programas</a>
-      </div>
 
       <program-list-view :program-list="programList" v-if="programVisualization == 'list'"></program-list-view>
       <program-table-view v-else></program-table-view>

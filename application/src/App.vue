@@ -1,10 +1,6 @@
 <template>
   <div>
     <!-------- 
-    Language
-    ---------->
-    <lang></lang>
-    <!-------- 
     Template base
     ---------->
     <top-bar
@@ -76,7 +72,6 @@ import AdminLeftBar from "@/components/template/TheLeftBar/Admin";
 import InstructorLeftBar from "@/components/template/TheLeftBar/Instructor";
 import StudentLeftBar from "@/components/template/TheLeftBar/Student";
 import TopBar from "@/components/template/TheTopBar";
-import Lang from "@/components/helper/HelperLang.vue";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
 import headerTags from "@/mixins/headerTags";
@@ -105,8 +100,7 @@ export default {
     AdminLeftBar,
     InstructorLeftBar,
     StudentLeftBar,
-    TopBar,
-    Lang
+    TopBar
   },
   watch: {
     $route() {
@@ -134,7 +128,7 @@ export default {
     this.getUserProfile();
   },
   methods: {
-    ...mapMutations(["setLang", "setUser"]),
+    ...mapMutations(["setLang", "setUser", "setPlan"]),
     getLanguage: function() {
       var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
         "settings",
@@ -158,6 +152,7 @@ export default {
       axios.get(urlToBeUsedInTheRequest).then(
         function(response) {
           this.plan = response.data["plan"];
+          this.setPlan(response.data["plan"]);
         }.bind(this)
       );
     },

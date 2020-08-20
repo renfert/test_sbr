@@ -1,70 +1,67 @@
 <template>
-  <div class="main" v-loading="loading">
-    <lang></lang>
-    <div>
-      <ul class="list-group">
-        <draggable v-model="sections" ghost-class="ghost" @end="finishRepositioning">
-          <transition-group type="transition" name="flip-list">
-            <li
-              v-for="element in sections"
-              :key="element.id"
-              class="list-group-item d-flex justify-content-between align-items-center sortable"
-            >
-              <!-- Banner -->
-              <span class="text-sabiorealm" v-if="element.banner_id != 1">Banner</span>
-              <!-- Product list -->
-              <span class="text-sabiorealm" v-if="element.product_list_id != 1">Product list</span>
-              <!-- Testimonial list -->
-              <span class="text-sabiorealm" v-if="element.testimonial_id != 1">Testimonial</span>
-              <!-- Text and media list -->
-              <span class="text-sabiorealm" v-if="element.text_and_media_id != 1">Text and media</span>
+  <div>
+    <ul class="list-group">
+      <draggable v-model="sections" ghost-class="ghost" @end="finishRepositioning">
+        <transition-group type="transition" name="flip-list">
+          <li
+            v-for="element in sections"
+            :key="element.id"
+            class="list-group-item d-flex justify-content-between align-items-center sortable"
+          >
+            <!-- Banner -->
+            <span class="sbr-text-primary" v-if="element.banner_id != 1">Banner</span>
+            <!-- Product list -->
+            <span class="sbr-text-primary" v-if="element.product_list_id != 1">Product list</span>
+            <!-- Testimonial list -->
+            <span class="sbr-text-primary" v-if="element.testimonial_id != 1">Testimonial</span>
+            <!-- Text and media list -->
+            <span class="sbr-text-primary" v-if="element.text_and_media_id != 1">Text and media</span>
 
-              <div class="action-icons">
-                <!-- Edit banner -->
-                <i
-                  v-if="element.banner_id != 1"
-                  @click.prevent="openEditSectionModal(element.id,'banner')"
-                  class="el-icon-edit text-sabiorealm links"
-                ></i>
+            <div class="action-icons">
+              <!-- Edit banner -->
+              <i
+                v-if="element.banner_id != 1"
+                @click.prevent="openEditSectionModal(element.id,'banner')"
+                class="el-icon-edit sbr-text-primary links"
+              ></i>
 
-                <!-- Edit product list -->
-                <i
-                  v-if="element.product_list_id != 1"
-                  @click.prevent="openEditSectionModal(element.id,'product-list')"
-                  class="el-icon-edit text-sabiorealm links"
-                ></i>
+              <!-- Edit product list -->
+              <i
+                v-if="element.product_list_id != 1"
+                @click.prevent="openEditSectionModal(element.id,'product-list')"
+                class="el-icon-edit sbr-text-primary links"
+              ></i>
 
-                <!-- Edit testimonial -->
-                <i
-                  v-if="element.testimonial_id != 1"
-                  @click.prevent="openEditSectionModal(element.id,'testimonial')"
-                  class="el-icon-edit text-sabiorealm links"
-                ></i>
+              <!-- Edit testimonial -->
+              <i
+                v-if="element.testimonial_id != 1"
+                @click.prevent="openEditSectionModal(element.id,'testimonial')"
+                class="el-icon-edit sbr-text-primary links"
+              ></i>
 
-                <!-- Edit text and media list -->
-                <i
-                  v-if="element.text_and_media_id != 1"
-                  @click.prevent="openEditSectionModal(element.id,'text-and-media')"
-                  class="el-icon-edit text-sabiorealm links"
-                ></i>
+              <!-- Edit text and media list -->
+              <i
+                v-if="element.text_and_media_id != 1"
+                @click.prevent="openEditSectionModal(element.id,'text-and-media')"
+                class="el-icon-edit sbr-text-primary links"
+              ></i>
 
-                <!-- Delete section -->
-                <el-popconfirm
-                  confirmButtonText="Ok"
-                  cancelButtonText="No, Thanks"
-                  placement="right"
-                  :title="lang['question-delete-section']"
-                  @onConfirm="deleteSection(element.id)"
-                >
-                  <i slot="reference" class="el-icon-delete text-danger links"></i>
-                </el-popconfirm>
-                <i class="el-icon-rank handle sectionPosition" :id="element.id"></i>
-              </div>
-            </li>
-          </transition-group>
-        </draggable>
-      </ul>
-    </div>
+              <!-- Delete section -->
+              <el-popconfirm
+                confirmButtonText="Ok"
+                cancelButtonText="No, Thanks"
+                placement="right"
+                :title="lang['question-delete-section']"
+                @onConfirm="deleteSection(element.id)"
+              >
+                <i slot="reference" class="el-icon-delete text-danger links"></i>
+              </el-popconfirm>
+              <i class="el-icon-rank handle sectionPosition" :id="element.id"></i>
+            </div>
+          </li>
+        </transition-group>
+      </draggable>
+    </ul>
   </div>
 </template>
 
@@ -72,54 +69,41 @@
 import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
-import VueTheMask from "vue-the-mask";
 import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
-import Lang from "@/components/helper/HelperLang.vue";
 import draggable from "vuedraggable";
-import lang from "element-ui/lib/locale/lang/en";
-import locale from "element-ui/lib/locale";
-import { eventLang } from "@/components/helper/HelperLang";
-import { eventBus } from "@/components/site/App";
 import $ from "jquery";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
 
-locale.use(lang);
-Vue.use(VueTheMask);
-Vue.use(VueTheMask);
+import { eventBus } from "@/components/site/App";
+import { mapState } from "vuex";
+
 Vue.use(VueAxios, axios);
 Vue.use(ElementUI);
 
 export default {
   mixins: [domains, alerts],
   components: {
-    draggable,
-    Lang
+    draggable
   },
   data: () => {
     return {
-      lang: {},
       sections: null,
-      modal: false,
-      loading: false
+      modal: false
     };
   },
-  mounted() {
-    eventLang.$on(
-      "lang",
-      function(response) {
-        this.lang = response;
-      }.bind(this)
-    );
+  computed: {
+    ...mapState(["lang"])
+  },
+  created() {
+    this.getSections();
 
     eventBus.$on(
       "new-section",
       function() {
-        this.updateSectionListArray();
+        this.getSections();
       }.bind(this)
     );
-    this.updateSectionListArray();
   },
   methods: {
     openEditSectionModal: function(sectionId, sectionType) {
@@ -134,7 +118,9 @@ export default {
       );
       axios.post(urlToBeUsedInTheRequest, formData).then(
         () => {
-          this.actionsToBePerformedAfterDelete();
+          this.successMessage();
+          this.getSections();
+          eventBus.$emit("delete-section");
         },
         function() {
           this.errorMessage();
@@ -161,16 +147,15 @@ export default {
       axios.post(urlToBeUsedInTheRequest, formData).then(
         () => {
           /* Success callback */
-          this.updateSectionListArray();
-          eventBus.$emit("new-change-body");
+          this.getSections();
+          eventBus.$emit("reorder-section");
         },
         function() {
           this.errorMessage();
         }.bind(this)
       );
     },
-    updateSectionListArray: function() {
-      this.loading = true;
+    getSections: function() {
       var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
         "section",
         "listing"
@@ -178,18 +163,12 @@ export default {
       axios.post(urlToBeUsedInTheRequest).then(
         response => {
           this.sections = response.data;
-          this.loading = false;
         },
         /* Error callback */
         function() {
           this.errorMessage();
         }.bind(this)
       );
-    },
-    actionsToBePerformedAfterDelete() {
-      this.successMessage();
-      this.updateSectionListArray();
-      eventBus.$emit("new-section");
     }
   }
 };
@@ -214,34 +193,8 @@ export default {
   margin-bottom: 2%;
 }
 
-.btn-link {
-  padding: 0px !important;
-  font-size: 13px;
-  font-family: "Poppins", sans-serif;
-  font-weight: 600;
-}
-
-.btn.link:hover {
-  text-decoration: none !important;
-}
-
 .card-header {
   padding: 10px !important;
-}
-
-.btn-eadtools-rounded {
-  border-radius: 50%;
-  cursor: pointer;
-  display: inline-block;
-  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
-  position: relative;
-  height: 40px;
-  width: 40px;
-  background-color: #d696ef;
-  z-index: 2;
-  border: none;
-  color: white;
-  margin: 0 0.2rem;
 }
 
 .sortable-drag {
@@ -258,15 +211,7 @@ export default {
   opacity: 0.5;
 }
 
-.card {
-  margin-bottom: 15px;
-}
-
 .handle {
   cursor: move;
-}
-
-li {
-  list-style-type: none;
 }
 </style>

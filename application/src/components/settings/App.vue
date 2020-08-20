@@ -1,45 +1,27 @@
 <template >
-  <div id="wrapper">
-    <lang></lang>
-    <!-- Content page -->
-    <div class="content-page">
-      <div class="content">
-        <div class="container-fluid">
-          <!-- Settings  -->
-          <div class="row mt-5">
-            <settings-edit></settings-edit>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- End of content page -->
+  <div class="content-page">
+    <settings-edit></settings-edit>
   </div>
   <!-- End of wrapper -->
 </template>
 
 <script>
-import Lang from "@/components/helper/HelperLang.vue";
-import SettingsEdit from "@/components/settings/SettingsEdit.vue";
 import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
 import VueHead from "vue-head";
 import domains from "@/mixins/domains";
+import SettingsEdit from "@/components/settings/SettingsEdit.vue";
 import alerts from "@/mixins/alerts";
-import headerTags from "@/mixins/headerTags";
-import integrations from "@/mixins/integrations";
 import verify from "@/mixins/verify";
-export const eventBus = new Vue();
 
 Vue.use(VueAxios, axios);
 Vue.use(VueHead);
+
 export default {
-  mixins: [domains, alerts, integrations, headerTags, verify],
+  mixins: [domains, alerts, verify],
   created() {
-    this.verifySession();
     this.verifyAdministratorPrivileges();
-    this.loadIntegrations();
-    this.createFavicon();
   },
   head: {
     title: {
@@ -52,8 +34,7 @@ export default {
     ]
   },
   components: {
-    SettingsEdit,
-    Lang
+    SettingsEdit
   }
 };
 </script>

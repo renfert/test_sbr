@@ -1,6 +1,5 @@
 <template>
   <div class="top-13">
-    <lang></lang>
     <div class="container-site">
       <div class="text-center mb-5">
         <h1>{{ header }}</h1>
@@ -17,9 +16,9 @@
           <!-- Cource Grid  -->
           <div class="p-1">
             <div class="education_block_grid style_2">
-              <a :href="'product/' + element.id">
+              <router-link :to="'product/' + formatTitleParameter(element.title)">
                 <div class="education_block_thumb">
-                  <a href="course-detail.html">
+                  <a href="#">
                     <img
                       v-lazy="
                                                 getUrlToContents() +
@@ -43,15 +42,15 @@
                     ({{ element.totalReviews }})
                   </div>
                 </div>
-              </a>
+              </router-link>
 
               <div class="education_block_body">
                 <h4 class="bl-title">
-                  <a :href="'product/' + element.id">
+                  <router-link :to="'product/' + formatTitleParameter(element.title)">
                     {{
                     element.title
                     }}
-                  </a>
+                  </router-link>
                 </h4>
               </div>
 
@@ -114,17 +113,13 @@ import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
 import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
-import lang from "element-ui/lib/locale/lang/en";
-import locale from "element-ui/lib/locale";
-import { eventLang } from "@/components/helper/HelperLang";
-import Lang from "@/components/helper/HelperLang";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
-import { eventBus } from "@/components/site/App";
-import { Carousel, Slide } from "vue-carousel";
 import VueLazyload from "vue-lazyload";
-import "element-ui/lib/theme-chalk/index.css";
+
+import { Carousel, Slide } from "vue-carousel";
+import { mapState } from "vuex";
+import { eventBus } from "@/components/site/App";
 
 Vue.use(VueLazyload, {
   preLoad: 1.3,
@@ -133,20 +128,18 @@ Vue.use(VueLazyload, {
   attempt: 1
 });
 
-locale.use(lang);
 Vue.use(VueAxios, axios);
 Vue.use(ElementUI);
+
 export default {
   mixins: [domains, alerts],
   props: ["section-id"],
   components: {
     Carousel,
-    Slide,
-    Lang
+    Slide
   },
   data: () => {
     return {
-      lang: {},
       courses: [],
       title: "",
       description: "",
@@ -161,34 +154,33 @@ export default {
   },
   mounted() {
     /****************** 
-        Fix carousel bug 
-        ********************/
-
+    Fix carousel bug 
+    ********************/
     setTimeout(function() {
       window.dispatchEvent(new Event("resize"));
     }, 5000);
 
-    eventLang.$on(
-      "lang",
-      function(response) {
-        this.lang = response;
-      }.bind(this)
-    );
+    if (window.screen.width <= 800) {
+      this.mobile = true;
+    }
 
     eventBus.$on(
-      "new-change-product-list",
+      "new-product-list-change",
       function() {
         this.getCourses();
       }.bind(this)
     );
 
     this.getCourses();
-
-    if (window.screen.width <= 800) {
-      this.mobile = true;
-    }
+  },
+  computed: {
+    ...mapState(["lang"])
   },
   methods: {
+    formatTitleParameter: function(title) {
+      var newTitle = title.split(" ").join("-");
+      return newTitle.toLowerCase();
+    },
     rateAverage: function(totalRate, totalReviews) {
       if (totalRate == null) {
         return 0;
@@ -214,34 +206,6 @@ export default {
           this.errorMessage();
         }.bind(this)
       );
-    },
-    viewProduct: function(id, expirationDays, releaseDays) {
-      if (releaseDays == null) {
-        releaseDays = -1;
-      }
-
-      if (expirationDays == null) {
-        expirationDays = 1;
-      }
-
-      if (expirationDays > 0 && releaseDays <= 0) {
-        sessionStorage.setItem("sbr_product_id", "" + id + "");
-        window.location.href = "product";
-      }
-    },
-    formatExpirationDays: function(expirationDays) {
-      if (expirationDays == null) {
-        return 1;
-      } else {
-        return expirationDays;
-      }
-    },
-    formatReleasedDays: function(releasedDays) {
-      if (releasedDays == null) {
-        return -1;
-      } else {
-        return releasedDays;
-      }
     }
   }
 };
@@ -298,6 +262,10 @@ h3 {
 h4 {
   line-height: 24px;
   font-size: 18px;
+}
+
+h5 {
+  font-size: 10px;
 }
 
 a {

@@ -178,7 +178,7 @@ class Program_Model extends CI_Model
     /* Remove user from all courses of this program */
     $courses = $this->getAllCoursesIntoProgram($programId);
     foreach ($courses as $course) {
-      $courseId  = $course->id;
+      $courseId  = $course->mycourse_id;
       $deleteResult = $this->Course_Model->removeUserFromCourse($userId, $courseId);
     }
 

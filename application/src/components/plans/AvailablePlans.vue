@@ -1,6 +1,5 @@
 <template>
-  <div class="col-12">
-    <lang></lang>
+  <div>
     <h3 class="mb-5">
       {{lang['current-plan']}}
       <b class="sbr-text-primary">{{plan}}</b>
@@ -8,7 +7,7 @@
 
     <div class="row text-center">
       <!-- Basic plan -->
-      <div class="col-md-3 col-12">
+      <div class="col-md-6 col-12">
         <article class="pricing-column">
           <div class="inner-box card-box" :class="plan == 'basic' ? 'sbr-shadow-primary': '' ">
             <div class="plan-header text-center">
@@ -130,7 +129,7 @@
       <!-- End basic plan -->
 
       <!-- Pro plan -->
-      <div class="col-md-3 col-12">
+      <div class="col-md-6 col-12">
         <article class="pricing-column">
           <div class="inner-box card-box" :class="plan == 'pro' ? 'sbr-shadow-primary': '' ">
             <div class="plan-header text-center">
@@ -252,7 +251,7 @@
       <!-- End pro plan -->
 
       <!-- Growt plan -->
-      <div class="col-md-3 col-12">
+      <div class="col-md-6 col-12">
         <article class="pricing-column">
           <div class="inner-box card-box" :class="plan == 'pro' ? 'sbr-shadow-primary': '' ">
             <div class="plan-header text-center">
@@ -374,7 +373,7 @@
       <!-- End pro plan -->
 
       <!-- Bussiness plan -->
-      <div class="col-md-3 col-12">
+      <div class="col-md-6 col-12">
         <article class="pricing-column">
           <div class="inner-box card-box" :class="plan == 'bussiness' ? 'sbr-shadow-primary': '' ">
             <div class="plan-header text-center">
@@ -502,10 +501,10 @@
 import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
-import { eventLang } from "@/components/helper/HelperLang";
-import Lang from "@/components/helper/HelperLang";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
+
+import { mapState } from "vuex";
 
 Vue.use(VueAxios, axios);
 export default {
@@ -514,7 +513,6 @@ export default {
     return {
       plan: "",
       country: "",
-      lang: {},
       periodBasic: true,
       periodGrowt: true,
       periodBussiness: true,
@@ -522,17 +520,10 @@ export default {
     };
   },
   mounted() {
-    eventLang.$on(
-      "lang",
-      function(response) {
-        this.lang = response;
-      }.bind(this)
-    );
-
     this.getCompanyInformation();
   },
-  components: {
-    Lang
+  computed: {
+    ...mapState(["lang"])
   },
   methods: {
     getCompanyInformation() {

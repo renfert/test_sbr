@@ -1,22 +1,14 @@
 <template >
-  <div id="wrapper">
-    <!-- Content page -->
-    <div class="content-page">
-      <div class="content">
-        <div class="container-fluid">
-          <div v-if="roleId != 3" class="row mt-5">
-            <course-create></course-create>
-          </div>
-
-          <div class="row mb-5">
-            <course-list></course-list>
-          </div>
-        </div>
-      </div>
+  <div class="content-page">
+    <div v-if="roleId != 3" class="row">
+      <course-create></course-create>
     </div>
-    <!-- End of content page -->
+
+    <div class="row mb-5">
+      <course-list></course-list>
+    </div>
   </div>
-  <!-- End of wrapper -->
+  <!-- End of content page -->
 </template>
 
 <script>

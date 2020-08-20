@@ -1,131 +1,116 @@
 <template>
-  <div class="col-12">
-    <div class="card-box">
-      <div class="text-center" style="visibility:hidden;"></div>
-      <div class="float-right">
-        <!-- Massive import button -->
-        <el-button
-          class="sbr-btn sbr-primary"
-          v-if="plan == 'bussiness'"
-          @click.prevent="modal = true"
-          type="primary"
-          size="medium"
-        >{{ lang["massive-import"] }}</el-button>
+  <div class="card-box">
+    <!---------------------- 
+      Massive import button
+    ------------------------>
+    <div class="float-right">
+      <el-button
+        class="sbr-purple"
+        v-if="plan == 'bussiness'"
+        @click.prevent="modal = true"
+        type="primary"
+        size="small"
+      >{{ lang["massive-import"] }}</el-button>
 
-        <el-button
-          @click.prevent="upgradePlanFeature()"
-          v-else
-          class="sbr-btn sbr-primary"
-          type="primary"
-          size="medium"
-        >
-          <i class="el-icon-lock"></i>
-          {{ lang["massive-import"] }}
-        </el-button>
-      </div>
-      <h4>{{ lang["create-user"] }}</h4>
-      <br />
-      <form id="form-user" @submit.prevent="createUser">
-        <div class="row">
-          <div class="col-xl-4 col-md-4">
-            <!-- Username -->
-            <div class="form-group">
-              <el-input required name="name" :placeholder="lang['name']" v-model="name"></el-input>
-            </div>
-            <!-- Password -->
-            <div class="form-group">
-              <el-input
-                required
-                type="password"
-                name="password"
-                :placeholder="lang['password']"
-                v-model="password"
-              ></el-input>
-            </div>
-
-            <div class="form-group">
-              <el-button
-                v-loading="loadingButton"
-                class="sbr-btn sbr-primary"
-                native-type="submit"
-              >{{ lang["save-button"] }}</el-button>
-            </div>
-          </div>
-
-          <div class="col-xl-4 col-md-4">
-            <!-- Email -->
-            <div class="form-group">
-              <el-input
-                required
-                type="email"
-                name="email"
-                :placeholder="lang['email']"
-                v-model="email"
-              ></el-input>
-            </div>
-            <!-- Role -->
-            <div class="form-group">
-              <template>
-                <el-select required name="role" v-model="role" :placeholder="lang['select-role']">
-                  <el-option
-                    style="pointer-events: auto !important;z-index: 9999 !important;"
-                    value="2"
-                    :label="lang['instructor']"
-                  >{{ lang["instructor"] }}</el-option>
-                  <el-option
-                    style="pointer-events: auto !important;z-index: 9999 !important;"
-                    value="3"
-                    :label="lang['student']"
-                  >{{ lang["student"] }}</el-option>
-                </el-select>
-              </template>
-            </div>
-          </div>
-        </div>
-      </form>
-
-      <!-- Massive import -->
-      <div>
-        <el-dialog
-          :visible.sync="modal"
-          :title="lang['massive-import']"
-          center
-          width="40%"
-          top="5vh"
-        >
-          <div class="row">
-            <div class="col-xl-12 col-md-12 text-center">
-              <a
-                download
-                href="https://cdn.eadtools.com/files/import_user.xlsx"
-                class="sbr-btn sbr-purple"
-              >{{ lang["download-template"] }}</a>
-            </div>
-          </div>
-          <br />
-          <div class="row">
-            <div class="col-xl-12 col-md-12 center">
-              <h3 v-if="loadingMassiveImport" class="sbr-text-grey">{{ lang["please-wait"] }}</h3>
-              <form
-                v-loading="loadingMassiveImport"
-                id="form-massive"
-                @submit.prevent="massivelyCreateUsers"
-              >
-                <upload input-name="file" acceptable=".xlsx" box-height="200"></upload>
-                <br />
-                <el-button
-                  v-loading="loadingButton"
-                  class="sbr-btn sbr-primary"
-                  native-type="submit"
-                  type="primary"
-                >{{ lang["save-button"] }}</el-button>
-              </form>
-            </div>
-          </div>
-        </el-dialog>
-      </div>
-      <!-- End massive import -->
+      <el-button
+        @click.prevent="upgradePlanFeature()"
+        v-else
+        class="sbr-purple"
+        type="primary"
+        size="small"
+      >
+        <i class="el-icon-lock"></i>
+        {{ lang["massive-import"] }}
+      </el-button>
     </div>
+
+    <!---------------------- 
+     Create user form
+    ------------------------>
+    <h4>{{ lang["create-user"] }}</h4>
+    <br />
+    <form @submit.prevent="createUser()" id="form-user" :inline="false" class="demo-form-inline">
+      <el-row>
+        <!-- Username -->
+        <el-col :md="8" class="mr-5 mb-3">
+          <el-input required name="name" :placeholder="lang['name']" v-model="name"></el-input>
+        </el-col>
+
+        <!-- Email -->
+        <el-col :md="8" class="mr-5 mb-3">
+          <el-input required type="email" name="email" :placeholder="lang['email']" v-model="email"></el-input>
+        </el-col>
+      </el-row>
+
+      <el-row>
+        <!-- Password -->
+        <el-col :md="8" class="mr-5 mb-3">
+          <el-input
+            required
+            type="password"
+            name="password"
+            :placeholder="lang['password']"
+            v-model="password"
+          ></el-input>
+        </el-col>
+
+        <!-- Role -->
+        <el-col :md="8" class="mr-5 mb-3">
+          <el-select required name="role" v-model="role" :placeholder="lang['select-role']">
+            <el-option
+              style="pointer-events: auto !important;z-index: 9999 !important;"
+              value="2"
+              :label="lang['instructor']"
+            >{{ lang["instructor"] }}</el-option>
+            <el-option
+              style="pointer-events: auto !important;z-index: 9999 !important;"
+              value="3"
+              :label="lang['student']"
+            >{{ lang["student"] }}</el-option>
+          </el-select>
+        </el-col>
+      </el-row>
+
+      <el-button
+        v-loading="loadingButton"
+        class="sbr-primary"
+        native-type="submit"
+      >{{ lang["save-button"] }}</el-button>
+    </form>
+
+    <!---------------------- 
+      Massive import modal
+    ------------------------>
+    <div>
+      <el-dialog :visible.sync="modal" :title="lang['massive-import']" center width="40%" top="5vh">
+        <div class="text-center">
+          <a
+            download
+            href="https://cdn.eadtools.com/files/import_user.xlsx"
+            class="sbr-btn sbr-purple mb-5"
+          >{{ lang["download-template"] }}</a>
+        </div>
+
+        <div class="center">
+          <h3 v-if="loadingMassiveImport" class="sbr-text-grey">{{ lang["please-wait"] }}</h3>
+          <form
+            v-loading="loadingMassiveImport"
+            id="form-massive"
+            @submit.prevent="massivelyCreateUsers"
+          >
+            <upload input-name="file" acceptable=".xlsx" box-height="200"></upload>
+            <br />
+            <el-button
+              v-loading="loadingButton"
+              class="sbr-primary"
+              native-type="submit"
+              type="primary"
+            >{{ lang["save-button"] }}</el-button>
+          </form>
+        </div>
+      </el-dialog>
+    </div>
+    <!-- End massive import -->
   </div>
 </template>
 
@@ -133,37 +118,28 @@
 import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
-import { eventBus } from "@/components/users/App";
-import { eventLang } from "@/components/helper/HelperLang";
-import { eventPlan } from "@/components/plans/UpgradePlan";
-import { eventUpload } from "@/components/helper/HelperUpload";
 import ElementUI from "element-ui";
-import VueTheMask from "vue-the-mask";
 import Upload from "@/components/helper/HelperUpload";
-import "element-ui/lib/theme-chalk/index.css";
-import lang from "element-ui/lib/locale/lang/en";
-import locale from "element-ui/lib/locale";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
 
-locale.use(lang);
+import { eventBus } from "@/components/users/App";
+import { eventPlan } from "@/components/plans/UpgradePlan";
+import { eventUpload } from "@/components/helper/HelperUpload";
+import { mapState } from "vuex";
+
 Vue.use(ElementUI);
-Vue.use(VueTheMask);
 Vue.use(VueAxios, axios);
+
 export default {
   mixins: [domains, alerts],
   data: function() {
     return {
       modal: false,
-      url: "",
-      target: "",
-      title: "",
       name: "",
       email: "",
       role: "",
       password: "",
-      lang: {},
-      plan: "",
       loadingButton: false,
       loadingMassiveImport: false
     };
@@ -171,31 +147,12 @@ export default {
   components: {
     Upload
   },
-  mounted() {
-    eventLang.$on(
-      "lang",
-      function(response) {
-        this.lang = response;
-      }.bind(this)
-    );
-  },
-  created: function() {
-    this.getCompanyInformation();
+  computed: {
+    ...mapState(["lang", "plan"])
   },
   methods: {
     upgradePlanFeature: function() {
       eventPlan.$emit("upgrade-plan", "feature");
-    },
-    getCompanyInformation() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "company",
-        "getCompanyInformation"
-      );
-      axios.get(urlToBeUsedInTheRequest).then(
-        function(response) {
-          this.plan = response.data["plan"];
-        }.bind(this)
-      );
     },
     createUser: function() {
       this.loadingButton = true;
@@ -209,7 +166,7 @@ export default {
             eventPlan.$emit("upgrade-plan", "users");
           } else {
             if (response.data == false) {
-              this.userAlreadyExistsMessage();
+              this.userAlreadyExists();
             } else {
               this.successMessage();
               this.actionsToBePerformedAfterRegistration();
@@ -249,14 +206,6 @@ export default {
             this.errorMessage();
           }.bind(this)
         );
-    },
-    userAlreadyExistsMessage() {
-      this.$notify({
-        title: this.lang["error"],
-        message: this.lang["user-already-exists"],
-        type: "warning",
-        duration: 3500
-      });
     },
     actionsToBePerformedAfterRegistration() {
       eventBus.$emit("new-user");

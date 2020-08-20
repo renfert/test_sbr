@@ -155,12 +155,6 @@ import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
 import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
-import lang from "element-ui/lib/locale/lang/en";
-import locale from "element-ui/lib/locale";
-import { eventBus } from "@/components/site/App";
-import { eventLang } from "@/components/helper/HelperLang";
-import { eventLogin } from "@/components/login/Login";
 import Banner from "@/components/site/section/elements/get/Banner";
 import Testimonial from "@/components/site/section/elements/get/Testimonial";
 import ProductList from "@/components/site/section/elements/get/ProductList";
@@ -168,9 +162,13 @@ import TextAndMedia from "@/components/site/section/elements/get/TextAndMedia";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
 
-locale.use(lang);
+import { eventLogin } from "@/components/login/Login";
+import { eventBus } from "@/components/site/App";
+import { mapState } from "vuex";
+
 Vue.use(VueAxios, axios);
 Vue.use(ElementUI);
+
 export default {
   mixins: [domains, alerts],
   props: ["full-screen-button"],
@@ -182,7 +180,6 @@ export default {
   },
   data: () => {
     return {
-      lang: {},
       logo: null,
       logoSticky: "",
       logoSize: "",
@@ -198,68 +195,82 @@ export default {
       showMobile: false,
       stickyMode: false,
 
+      key: 0,
+
       fullScreenMode: false
     };
   },
+  created() {
+    this.navBarSticky();
+    this.getPrimaryColor();
+    this.getSession();
+  },
   mounted() {
-    eventLang.$on(
-      "lang",
-      function(response) {
-        this.lang = response;
-      }.bind(this)
-    );
+    this.getHeader();
+    this.getBody();
+    this.getFooter();
 
+    // When link`s change
     eventBus.$on(
       "link-list-update",
       function() {
-        this.listHeader();
+        this.getLinks();
       }.bind(this)
     );
 
+    // When change header
     eventBus.$on(
       "new-change-header",
       function() {
-        this.listHeader();
+        this.getHeader();
       }.bind(this)
     );
 
-    eventBus.$on(
-      "new-change-body",
-      function() {
-        this.updateSectionListArray();
-      }.bind(this)
-    );
-
-    eventBus.$on(
-      "new-change-footer",
-      function() {
-        this.listFooter();
-      }.bind(this)
-    );
-
+    // When new section
     eventBus.$on(
       "new-section",
       function() {
-        this.updateSectionListArray();
+        this.getBody();
       }.bind(this)
     );
 
-    this.navBarSticky();
-    this.getPrimaryColor();
-    this.listHeader();
-    this.listFooter();
-    this.updateSectionListArray();
-    this.getSession();
+    // When delete section
+    eventBus.$on(
+      "delete-section",
+      function() {
+        this.getBody();
+      }.bind(this)
+    );
+
+    // When reorder section
+    eventBus.$on(
+      "reorder-section",
+      function() {
+        this.getBody();
+      }.bind(this)
+    );
   },
   computed: {
+    ...mapState(["lang"]),
     styleHeader: function() {
-      return {
-        "background-color": this.headerColor,
-        width:
-          this.fullScreenButton == true && this.fullScreenMode == false
-            ? "80%"
-            : "100%;"
-      };
+      if (this.$route.name == "site") {
+        if (this.fullScreenMode == true) {
+          return {
+            "background-color": this.headerColor,
+            width: "100%"
+          };
+        } else {
+          return {
+            "background-color": this.headerColor,
+            width: "80%"
+          };
+        }
+      } else {
+        return {
+          "background-color": this.headerColor,
+          width: "100%"
+        };
+      }
     },
     styleBorder: function() {
       return {
@@ -317,7 +328,7 @@ export default {
     openLoginModal: function() {
       eventLogin.$emit("open-login-modal");
     },
-    listHeader: function() {
+    getHeader: function() {
       this.loading = true;
       var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
         "builder",
@@ -338,7 +349,7 @@ export default {
           this.logoSize = response.data[0].logo_size + "%";
           this.headerColor = response.data[0].color;
           this.loading = false;
-          this.updateLinkListArray();
+          this.getLinks();
         },
         /* Error callback */
         function() {
@@ -346,7 +357,7 @@ export default {
         }.bind(this)
       );
     },
-    listFooter: function() {
+    getFooter: function() {
       this.loading = true;
       var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
         "builder",
@@ -366,12 +377,14 @@ export default {
       );
     },
     fullScreen: function() {
-      this.fullScreenMode == false
-        ? (this.fullScreenMode = true)
-        : (this.fullScreenMode = false);
+      if (this.fullScreenMode == false) {
+        this.fullScreenMode = true;
+      } else {
+        this.fullScreenMode = false;
+      }
       eventBus.$emit("full-screen");
     },
-    updateSectionListArray: function() {
+    getBody: function() {
       this.loading = true;
       var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
         "section",
@@ -388,7 +401,7 @@ export default {
         }.bind(this)
       );
     },
-    updateLinkListArray: function() {
+    getLinks: function() {
       var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("link", "listing");
       axios.post(urlToBeUsedInTheRequest).then(
         response => {

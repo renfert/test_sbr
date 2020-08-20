@@ -20,17 +20,13 @@
 import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
-import VueTheMask from "vue-the-mask";
 import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
-import lang from "element-ui/lib/locale/lang/en";
-import locale from "element-ui/lib/locale";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
-import { eventBus } from "@/components/site/App.vue";
 
-locale.use(lang);
-Vue.use(VueTheMask);
+import { eventBus } from "@/components/site/App.vue";
+import { mapState } from "vuex";
+
 Vue.use(VueAxios, axios);
 Vue.use(ElementUI);
 
@@ -47,12 +43,15 @@ export default {
     eventBus.$on(
       "edit-person",
       function() {
-        this.updatePersonsListArray();
+        this.getPersons();
       }.bind(this)
     );
 
-    this.updatePersonsListArray();
+    this.getPersons();
     this.getPrimaryColor();
+  },
+  computed: {
+    ...mapState(["lang"])
   },
   methods: {
     getPrimaryColor() {
@@ -77,7 +76,7 @@ export default {
         }.bind(this)
       );
     },
-    updatePersonsListArray: function() {
+    getPersons: function() {
       this.loading = true;
       var formData = new FormData();
       formData.set("testimonialId", this.testimonialId);

@@ -66,10 +66,9 @@
         <question-list :exam-id="this.examId"></question-list>
         <el-button
           v-loading="loading"
-          class="sbr-btn sbr-primary"
+          class="sbr-primary"
           @click.prevent="changeExamStatus()"
           type="primary"
-          size="medium"
         >{{lang["save-button"]}}</el-button>
       </div>
     </el-dialog>
@@ -290,7 +289,7 @@ export default {
   font-size: 1em;
   line-height: 2;
   font-family: "Poppins", sans-serif;
-  background-color: #00a9b4;
+  background-color: #009cd8;
   -webkit-transition: all 0.5s cubic-bezier(0.29, 1.42, 0.79, 1) 0s;
   -moz-transition: all 0.5s cubic-bezier(0.29, 1.42, 0.79, 1) 0s;
   -ms-transition: all 0.5s cubic-bezier(0.29, 1.42, 0.79, 1) 0s;

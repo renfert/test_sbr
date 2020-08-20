@@ -1,22 +1,13 @@
 <template>
-  <div id="wrapper">
-    <!-- Content page -->
-    <div class="content-page">
-      <div class="content">
-        <div class="container-fluid">
-          <div class="row gap-5">
-            <category-create></category-create>
-          </div>
-
-          <div class="row">
-            <category-list></category-list>
-          </div>
-        </div>
-      </div>
+  <div class="content-page">
+    <div>
+      <category-create></category-create>
     </div>
-    <!-- End of content page -->
+
+    <div>
+      <category-list></category-list>
+    </div>
   </div>
-  <!-- End of wrapper -->
 </template>
 
 <script>

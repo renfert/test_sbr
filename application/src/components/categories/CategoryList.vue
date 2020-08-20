@@ -1,5 +1,5 @@
 <template>
-  <div class="col-12">
+  <div>
     <div class="card-box" v-if="loadingContent == true">
       <facebook-loader
         :speed="2"
@@ -37,6 +37,7 @@
             <template slot-scope="scope">
               <!-- Edit category -->
               <el-button
+                size="small"
                 class="sbr-primary"
                 @click="openModalToEditCategory(scope.row.id, scope.row.name)"
                 icon="el-icon-edit"
@@ -51,7 +52,13 @@
                 :title="lang['question-delete-category'] + scope.row.name + '?'"
                 @onConfirm="deleteCategory(scope.row.id)"
               >
-                <el-button class="sbr-danger ml-1" slot="reference" icon="el-icon-delete" circle></el-button>
+                <el-button
+                  size="small"
+                  class="sbr-danger ml-1"
+                  slot="reference"
+                  icon="el-icon-delete"
+                  circle
+                ></el-button>
               </el-popconfirm>
             </template>
           </el-table-column>

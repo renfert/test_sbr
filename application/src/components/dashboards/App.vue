@@ -1,18 +1,8 @@
 <template>
-  <div id="wrapper">
-    <!-- Content page -->
-    <div class="content-page">
-      <div class="content">
-        <div class="container-fluid">
-          <div class="row gap5">
-            <dashboards></dashboards>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- End of content page -->
+  <div class="content-page">
+    <dashboards></dashboards>
   </div>
-  <!-- End of wrapper -->
+  <!-- End of content page -->
 </template>
 
 <script>

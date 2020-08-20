@@ -66,7 +66,7 @@
                 </el-form-item>
                 <el-form-item>
                   <el-button
-                    class="sbr-btn sbr-secondary"
+                    class="sbr-purple"
                     @click.prevent="addCourse()"
                     type="primary"
                   >{{lang["add-course"]}}</el-button>
@@ -131,7 +131,7 @@
         </el-tab-pane>
       </el-tabs>
       <br />
-      <el-button native-type="submit" class="sbr-btn sbr-primary">{{lang["save-button"]}}</el-button>
+      <el-button native-type="submit" class="sbr-primary">{{lang["save-button"]}}</el-button>
     </form>
     <helper-progress></helper-progress>
   </div>

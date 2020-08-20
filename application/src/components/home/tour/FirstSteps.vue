@@ -32,9 +32,10 @@
             src="@/assets/img/general/ux/tour/check.png"
           />
           <img class="img-step" v-else src="@/assets/img/general/ux/tour/1.png" />
-          <h3>{{lang['create-user']}}</h3>
-          <div v-if="userStep == null">
-            <router-link to="/users" class="sbr-btn sbr-primary mb-3">{{lang['create']}}</router-link>
+          <div>
+            <h4>
+              <router-link to="/users" class="mb-3 sbr-text-primary">{{lang['create-user']}}</router-link>
+            </h4>
           </div>
         </div>
         <div class="col-md-4 col-12 mb-5">
@@ -44,9 +45,13 @@
             src="@/assets/img/general/ux/tour/check.png"
           />
           <img class="img-step" v-else src="@/assets/img/general/ux/tour/2.png" />
-          <h3>{{lang['new-course-button']}}</h3>
-          <div v-if="courseStep == null">
-            <router-link to="/newcourse" class="sbr-btn sbr-primary mb-3">{{lang['create']}}</router-link>
+          <div>
+            <h4>
+              <router-link
+                to="/newcourse"
+                class="mb-3 sbr-text-primary"
+              >{{lang['new-course-button']}}</router-link>
+            </h4>
           </div>
         </div>
 
@@ -57,9 +62,10 @@
             src="@/assets/img/general/ux/tour/check.png"
           />
           <img class="img-step" v-else src="@/assets/img/general/ux/tour/3.png" />
-          <h3>{{lang['change-settings']}}</h3>
-          <div v-if="settingsStep == null">
-            <router-link to="/settings" class="sbr-btn sbr-primary mb-3">{{lang['to-set-up']}}</router-link>
+          <div>
+            <h4>
+              <router-link to="/settings" class="mb-3 sbr-text-primary">{{lang['change-settings']}}</router-link>
+            </h4>
           </div>
         </div>
       </div>
@@ -151,7 +157,8 @@ export default {
 
 @media only screen and (max-width: 600px) {
   .waiter {
-    width: 90%;
+    width: 60%;
+    margin-top: 0%;
   }
 }
 

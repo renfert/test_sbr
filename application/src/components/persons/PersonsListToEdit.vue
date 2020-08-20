@@ -1,6 +1,5 @@
 <template>
   <div v-loading="loading">
-    <lang></lang>
     <div>
       <ul class="list-group">
         <draggable v-model="personsArray" ghost-class="ghost" @end="finishRepositioning">
@@ -80,7 +79,7 @@
           <el-input type="textarea" name="comment" v-model="comment"></el-input>
         </div>
         <div class="form-group">
-          <el-button native-type="submit" class="sbr-btn sbr-primary">{{lang["save-button"]}}</el-button>
+          <el-button native-type="submit" class="sbr-primary">{{lang["save-button"]}}</el-button>
         </div>
       </form>
     </el-dialog>
@@ -92,16 +91,8 @@
 import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
-import VueTheMask from "vue-the-mask";
 import ElementUI from "element-ui";
 import draggable from "vuedraggable";
-import Lang from "@/components/helper/HelperLang.vue";
-import "element-ui/lib/theme-chalk/index.css";
-import lang from "element-ui/lib/locale/lang/en";
-import locale from "element-ui/lib/locale";
-import { eventLang } from "@/components/helper/HelperLang";
-import { eventBus } from "@/components/site/App";
-import { eventProgress } from "@/components/helper/HelperProgress";
 import $ from "jquery";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
@@ -109,23 +100,22 @@ import HelperProgress from "@/components/helper/HelperProgress.vue";
 import AWS from "aws-sdk/global";
 import S3 from "aws-sdk/clients/s3";
 
-locale.use(lang);
-Vue.use(VueTheMask);
-Vue.use(VueTheMask);
+import { eventProgress } from "@/components/helper/HelperProgress";
+import { eventBus } from "@/components/site/App";
+import { mapState } from "vuex";
+
 Vue.use(VueAxios, axios);
 Vue.use(ElementUI);
 
 export default {
   components: {
     draggable,
-    Lang,
     HelperProgress
   },
   mixins: [domains, alerts],
   props: ["testimonial-id"],
   data: () => {
     return {
-      lang: {},
       modal: false,
       personsArray: [],
       loading: false,
@@ -138,23 +128,19 @@ export default {
       subDomainName: ""
     };
   },
+  computed: {
+    ...mapState(["lang"])
+  },
   mounted() {
+    this.getPersons();
     this.getSubDomainName();
-
-    eventLang.$on(
-      "lang",
-      function(response) {
-        this.lang = response;
-      }.bind(this)
-    );
 
     eventBus.$on(
       "edit-person",
       function() {
-        this.updatePersonsListArray();
+        this.getPersons();
       }.bind(this)
     );
-    this.updatePersonsListArray();
   },
   methods: {
     uploadAvatar: function(event) {
@@ -218,7 +204,7 @@ export default {
       );
       axios.post(urlToBeUsedInTheRequest, formData).then(
         () => {
-          this.updatePersonsListArray();
+          this.getPersons();
           this.successMessage();
           eventBus.$emit("edit-person");
         },
@@ -298,7 +284,7 @@ export default {
       );
       axios.post(urlToBeUsedInTheRequest, formData).then(
         () => {
-          this.updatePersonsListArray();
+          this.getPersons();
           eventBus.$emit("edit-person");
         },
         function() {
@@ -306,7 +292,7 @@ export default {
         }.bind(this)
       );
     },
-    updatePersonsListArray: function() {
+    getPersons: function() {
       this.loading = true;
       var formData = new FormData();
       formData.set("testimonialId", this.testimonialId);
@@ -326,7 +312,7 @@ export default {
       );
     },
     actionsToBePerformedAfterEdit() {
-      this.updatePersonsListArray();
+      this.getPersons();
       this.modal = false;
       eventBus.$emit("edit-person");
     }

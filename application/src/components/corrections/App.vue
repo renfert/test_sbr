@@ -1,23 +1,10 @@
 <template >
-  <div id="wrapper">
-    <lang></lang>
-    <!-- Content page -->
-    <div class="content-page">
-      <div class="content">
-        <div class="container-fluid">
-          <div class="row mt-5">
-            <corrections-list></corrections-list>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- End of content page -->
+  <div class="content-page">
+    <corrections-list></corrections-list>
   </div>
-  <!-- End of wrapper -->
 </template>
 
 <script>
-import Lang from "@/components/helper/HelperLang.vue";
 import CorrectionsList from "@/components/corrections/CorrectionsList.vue";
 import Vue from "vue";
 import axios from "axios";
@@ -25,8 +12,6 @@ import VueAxios from "vue-axios";
 import VueHead from "vue-head";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
-import headerTags from "@/mixins/headerTags";
-import integrations from "@/mixins/integrations";
 import verify from "@/mixins/verify";
 
 export const eventBus = new Vue();
@@ -34,16 +19,12 @@ export const eventBus = new Vue();
 Vue.use(VueAxios, axios);
 Vue.use(VueHead);
 export default {
-  mixins: [domains, alerts, integrations, headerTags, verify],
+  mixins: [domains, alerts, verify],
   components: {
-    CorrectionsList,
-    Lang
+    CorrectionsList
   },
   created() {
     this.verifyInstructorPrivileges();
-    this.loadIntegrations();
-    this.createFavicon();
-    this.verifySession();
   },
   head: {
     title: {
@@ -58,5 +39,3 @@ export default {
 };
 </script>
 
-<style>
-</style>

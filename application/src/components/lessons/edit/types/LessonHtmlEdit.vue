@@ -34,7 +34,7 @@
             <el-button
               v-loading="loading"
               native-type="submit"
-              class="sbr-btn sbr-primary"
+              class="sbr-primary"
             >{{lang["save-button"]}}</el-button>
           </div>
         </div>

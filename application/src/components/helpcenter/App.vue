@@ -1,17 +1,7 @@
 <template >
-  <div id="wrapper">
-    <lang></lang>
-    <!-- Content page -->
-    <div class="content-page">
-      <div class="content">
-        <div class="container-fluid">
-          <construction></construction>
-        </div>
-      </div>
-    </div>
-    <!-- End of content page -->
+  <div class="content-page">
+    <construction></construction>
   </div>
-  <!-- End of wrapper -->
 </template>
 
 <script>
@@ -19,32 +9,16 @@ import Vue from "vue";
 import VueHead from "vue-head";
 import axios from "axios";
 import VueAxios from "vue-axios";
-import Lang from "@/components/helper/HelperLang.vue";
 import Construction from "@/components/helpcenter/Construction.vue";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
-import headerTags from "@/mixins/headerTags";
-import integrations from "@/mixins/integrations";
-import verify from "@/mixins/verify";
-export const eventBus = new Vue();
 
 Vue.use(VueAxios, axios);
 Vue.use(VueHead);
 export default {
-  mixins: [domains, alerts, integrations, headerTags, verify],
-  data: () => {
-    return {
-      lang: {}
-    };
-  },
+  mixins: [domains, alerts],
   components: {
-    Lang,
     Construction
-  },
-  created: function() {
-    this.verifySession();
-    this.loadIntegrations();
-    this.createFavicon();
   },
   head: {
     title: {
@@ -59,14 +33,4 @@ export default {
 };
 </script>
 
-<style>
-.image-no-results {
-  width: 100%;
-}
-.box-construction {
-  background-color: #fcfcfc !important;
-}
-.text-no-results {
-  margin-top: 25%;
-}
-</style>
+

@@ -82,7 +82,7 @@ const routes = [
   },
   {
     name: "group",
-    path: "/group",
+    path: "/group/:id",
     component: () =>
       import(/* webpackChunkName: "group" */ "@/components/group/App")
   },

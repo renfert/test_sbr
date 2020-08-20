@@ -1,6 +1,6 @@
 <template>
   <div :class="contentShow == false ? 'hide' : 'main'">
-    <div class="row">
+    <div class="creation-content">
       <div class="img-container">
         <div class="text-container">
           <h1>{{courseName}}</h1>
@@ -10,11 +10,11 @@
       </div>
     </div>
 
-    <div class="row mb-5 mt-3 ml-5 mr-5">
+    <div class="row row-actions">
       <div class="col-12 col-md-3">
         <router-link :to="'/viewcourse/'+courseId">
-          <div class="card-box">
-            <h5 class="fw-700">{{lang["view-course"]}}</h5>
+          <div class="card-box card-action">
+            <h4 class="fw-700">{{lang["view-course"]}}</h4>
             <img src="@/assets/img/general/ux/view_course.png" alt />
           </div>
         </router-link>
@@ -22,8 +22,8 @@
 
       <div class="col-12 col-md-3">
         <a href="javascript:void(0)" @click.prevent="modal = true">
-          <div class="card-box">
-            <h5 class="fw-700">{{lang["join-persons"]}}</h5>
+          <div class="card-box card-action">
+            <h4 class="fw-700">{{lang["join-persons"]}}</h4>
             <img src="@/assets/img/general/ux/join_persons.png" alt />
           </div>
         </a>
@@ -31,8 +31,8 @@
 
       <div class="col-12 col-md-3">
         <a href="javascript:void(0)" @click.prevent="reloadPage()">
-          <div class="card-box">
-            <h5 class="fw-700">{{lang["create-new-course"]}}</h5>
+          <div class="card-box card-action">
+            <h4 class="fw-700">{{lang["create-new-course"]}}</h4>
             <img src="@/assets/img/general/ux/create_new_course.png" alt />
           </div>
         </a>
@@ -40,8 +40,8 @@
 
       <div class="col-12 col-md-3">
         <a href="javascript:void(0)" @click.prevent="share = true">
-          <div class="card-box">
-            <h5 class="fw-700">{{lang["share"]}}</h5>
+          <div class="card-box card-action">
+            <h4 class="fw-700">{{lang["share"]}}</h4>
             <img src="@/assets/img/general/ux/share.png" alt />
           </div>
         </a>
@@ -65,7 +65,7 @@
         </template>
         <br />
         <el-button
-          class="sbr-btn sbr-primary"
+          class="sbr-primary"
           @click="enrollUsers()"
           type="primary"
           size="medium"
@@ -132,7 +132,6 @@ export default {
       "new-course",
       function(response) {
         this.courseId = response;
-        this.linkToShare = this.getCurrentDomainName() + "product/" + response;
         this.getUsersOutsideTheCourse(response);
       }.bind(this)
     );
@@ -166,6 +165,10 @@ export default {
     );
   },
   methods: {
+    formatTitleParameter: function(title) {
+      var newTitle = title.split(" ").join("-");
+      return newTitle.toLowerCase();
+    },
     copyToClipboard: function() {
       /* Get the text field */
       var copyText = document.getElementById("shareLink");
@@ -231,6 +234,10 @@ export default {
           // success callback
           this.courseName = response.data["title"];
           this.courseImage = response.data["photo"];
+          this.linkToShare =
+            this.getCurrentDomainName() +
+            "product/" +
+            this.formatTitleParameter(response.data["title"]);
         },
         // Failure callback
         function() {
@@ -244,29 +251,47 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-.container-fluid {
-  padding-left: 0px !important;
-  padding-right: 0px !important;
+/* =============
+    - Layout
+    - Font
+    - Mobile
+============= */
+
+/* =============
+   Layout
+============= */
+
+.creation-content {
+  position: fixed;
+  z-index: 9;
+  top: 0;
+  left: 0;
+  right: 0;
 }
 
-.img-course {
-  width: 40%;
+.row-actions {
+  margin-top: 23%;
 }
 
-.card-box {
+.card-action {
   text-align: center;
   text-transform: uppercase;
   letter-spacing: 1px;
   color: grey !important;
 }
 
-.card-box img {
+.card-action:hover {
+  -webkit-box-shadow: 0px 0px 5px 0px #00a9b4;
+  box-shadow: 0px 0px 5px 0px #00a9b4;
+}
+
+.card-action img {
   width: 50px;
 }
 
-.card-box:hover {
-  -webkit-box-shadow: 0px 0px 5px 0px #009cd8;
-  box-shadow: 0px 0px 5px 0px #009cd8;
+.course-name {
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .img-container {
@@ -276,73 +301,67 @@ export default {
   margin: 0px !important;
 }
 
+.img-container img {
+  width: inherit !important;
+}
+
 .text-container {
   color: white;
   position: absolute;
-  width: 400px;
-  margin-left: 50%;
-  margin-top: 14%;
-  left: -200px;
+  width: 100%;
+  margin-top: 10%;
+  padding-left: 230px;
   text-align: center;
 }
+
+/* =============
+   Font
+============= */
 
 .text-container h4 {
   text-transform: uppercase;
   font-family: "Poppins", sans-serif;
   letter-spacing: 1px;
-  color: white !important;
+  color: white;
 }
 
 .text-container h1 {
   text-transform: uppercase;
-  color: white !important;
+  color: white;
 }
 
-.img-container img {
-  width: inherit !important;
-}
+/* =============
+   Mobile
+============= */
 
-.content {
-  padding: 0px !important;
-}
+@media only screen and (max-width: 600px) {
+  .text-container {
+    color: #ffffff;
+    position: absolute;
+    width: 100%;
+    margin-top: 15%;
+    padding-left: 0px;
+    text-align: center;
+  }
+  .text-container h4 {
+    font-size: 0.8em;
+    text-transform: uppercase;
+    font-family: "Poppins", sans-serif;
+    letter-spacing: 1px;
+    color: white;
+  }
 
-/* Default sizes */
-.form-row > .col,
-.form-row > [class*="col-"] {
-  padding-right: 20px !important;
-  padding-left: 20px !important;
-}
-
-.form-row {
-  padding: 0px !important;
-}
-.editr {
-  height: 200px;
-  border-radius: 4px;
-  border: 2px solid #ccc;
-  transition: border-color 0.15s linear !important;
-}
-
-.editr--content {
-  font-family: "Poppins", sans-serif !important;
-  font-size: 15px !important;
-}
-
-.form-wizard-wrapper .form-wizard-content {
-  background-color: white;
-  color: #777777;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  top: 0;
-}
-
-/* End default sizes */
-
-/* ------------- Max 1024px ---------------- */
-@media only screen and (max-width: 1024px) {
-  .editr--toolbar {
-    display: none !important;
+  .text-container h1 {
+    font-size: 1.5em;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: white;
+  }
+  .row-actions {
+    padding-left: 0px;
+  }
+  .img-container {
+    height: 280px;
   }
 }
 </style>

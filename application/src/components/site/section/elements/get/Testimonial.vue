@@ -1,5 +1,5 @@
 <template>
-  <div class="container-site top-13" v-loading="loading">
+  <div class="container-site top-13">
     <div class="text-center mb-5">
       <h1>{{header}}</h1>
       <h3>{{subheader}}</h3>
@@ -19,15 +19,13 @@ import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
 import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
-import lang from "element-ui/lib/locale/lang/en";
-import locale from "element-ui/lib/locale";
-import { eventLang } from "@/components/helper/HelperLang";
-import { eventBus } from "@/components/site/App";
 import PersonsList from "@/components/persons/PersonsList";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
-locale.use(lang);
+
+import { mapState } from "vuex";
+import { eventBus } from "@/components/site/App";
+
 Vue.use(VueAxios, axios);
 Vue.use(ElementUI);
 export default {
@@ -38,40 +36,22 @@ export default {
   props: ["section-id"],
   data: () => {
     return {
-      lang: {},
-      loading: false,
       header: "",
       subheader: "",
       testimonialArray: []
     };
   },
   mounted() {
-    eventLang.$on(
-      "lang",
-      function(response) {
-        this.lang = response;
-      }.bind(this)
-    );
-
-    eventBus.$on(
-      "new-testimonial",
-      function() {
-        this.getTestimonial();
-      }.bind(this)
-    );
-
-    eventBus.$on(
-      "new-change-testimonial",
-      function() {
-        this.getTestimonial();
-      }.bind(this)
-    );
-
     this.getTestimonial();
+    eventBus.$on(
+      "new-testimonial-change",
+      function() {
+        this.getTestimonial();
+      }.bind(this)
+    );
   },
   methods: {
     getTestimonial: function() {
-      this.loading = true;
       var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
         "site-elements/testimonial",
         "get"
@@ -80,7 +60,6 @@ export default {
       formData.set("sectionId", this.sectionId);
       axios.post(urlToBeUsedInTheRequest, formData).then(
         response => {
-          this.loading = false;
           this.testimonialArray = response.data;
           this.header = response.data[0]["header"];
           this.subheader = response.data[0]["subheader"];
@@ -93,6 +72,7 @@ export default {
     }
   },
   computed: {
+    ...mapState(["lang"]),
     styleButtonPlain: function() {
       return {
         "background-color": this.buttonColor,

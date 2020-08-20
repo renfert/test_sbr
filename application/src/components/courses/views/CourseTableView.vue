@@ -32,7 +32,8 @@
         <template slot-scope="scope">
           <router-link :to="'/editcourse/'+scope.row.id">
             <el-button
-              class="sbr-primary"
+              size="small"
+              class="sbr-primary mt-2"
               v-if="roleId != 3"
               type="primary"
               icon="el-icon-edit"
@@ -40,7 +41,13 @@
             ></el-button>
           </router-link>
           <router-link :to="'/viewcourse/'+scope.row.id">
-            <el-button class="sbr-secondary" type="success" icon="el-icon-video-play" circle></el-button>
+            <el-button
+              size="small"
+              class="sbr-secondary"
+              type="success"
+              icon="el-icon-video-play"
+              circle
+            ></el-button>
           </router-link>
         </template>
       </el-table-column>

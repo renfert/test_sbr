@@ -14,7 +14,7 @@
       <div class="col-12 col-md-4">
         <router-link :to="'/viewprogram/'+programId">
           <div class="card-box card-action">
-            <h5>{{lang["view-program"]}}</h5>
+            <h4 class="fw-700">{{lang["view-program"]}}</h4>
             <img src="@/assets/img/general/ux/view_course.png" alt />
           </div>
         </router-link>
@@ -23,7 +23,7 @@
       <div class="col-12 col-md-4">
         <a href="javascript:void(0)" @click.prevent="modal = true">
           <div class="card-box card-action">
-            <h5>{{lang["join-persons"]}}</h5>
+            <h4 class="fw-700">{{lang["join-persons"]}}</h4>
             <img src="@/assets/img/general/ux/join_persons.png" alt />
           </div>
         </a>
@@ -32,7 +32,7 @@
       <div class="col-12 col-md-4">
         <a href="javascript:void(0)" @click.prevent="reloadPage()">
           <div class="card-box card-action">
-            <h5>{{lang["create-new-program"]}}</h5>
+            <h4 class="fw-700">{{lang["create-new-program"]}}</h4>
             <img src="@/assets/img/general/ux/create_new_course.png" alt />
           </div>
         </a>
@@ -46,12 +46,7 @@
           <el-transfer filterable :titles="['Persons', 'Course']" v-model="users" :data="usersList"></el-transfer>
         </template>
         <br />
-        <el-button
-          class="sbr-btn sbr-primary"
-          @click="enrollUsers()"
-          type="primary"
-          size="medium"
-        >{{lang["save-button"]}}</el-button>
+        <el-button class="sbr-primary" @click="enrollUsers()" type="primary">{{lang["save-button"]}}</el-button>
       </div>
 
       <!-- No persons found content -->
