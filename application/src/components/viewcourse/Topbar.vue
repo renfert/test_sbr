@@ -210,7 +210,7 @@ export default {
   data: () => {
     return {
       title: null,
-      reviews: false,
+      reviews: null,
       progress: "",
       certificate: null,
       companyName: "",
@@ -234,9 +234,7 @@ export default {
     this.checkIfCourseHasAlreadyBeenEvaluated(this.courseId);
   },
   mounted() {
-    this.getCourse(this.courseId);
     this.getCourseCreator();
-    this.getCourseProgress(this.courseId);
 
     eventBus.$on(
       "update-progress-bar",
@@ -268,6 +266,9 @@ export default {
       );
     },
     openReviewModal: function(progress) {
+      console.log(progress);
+      console.log(this.courseHasAlreadyBeenEvaluated);
+      console.log(this.reviews);
       if (
         parseInt(progress) > 98 &&
         this.courseHasAlreadyBeenEvaluated == false &&
@@ -363,9 +364,9 @@ export default {
         }.bind(this)
       );
     },
-    getCourse: function(courseId) {
+    getCourse: function() {
       var formData = new FormData();
-      formData.set("courseId", courseId);
+      formData.set("courseId", this.courseId);
       var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("course", "get");
       axios.post(urlToBeUsedInTheRequest, formData).then(
         function(response) {
@@ -373,6 +374,8 @@ export default {
           this.courseId = response.data["id"];
           this.certificate = response.data["certificate"];
           this.reviews = response.data["reviews"];
+
+          this.getCourseProgress(response.data["id"]);
         }.bind(this)
       );
     },
@@ -386,6 +389,7 @@ export default {
       axios.post(urlToBeUsedInTheRequest, formData).then(
         response => {
           this.courseHasAlreadyBeenEvaluated = response.data;
+          this.getCourse();
         },
         /* Error callback */
         function() {
