@@ -266,9 +266,6 @@ export default {
       );
     },
     openReviewModal: function(progress) {
-      console.log(progress);
-      console.log(this.courseHasAlreadyBeenEvaluated);
-      console.log(this.reviews);
       if (
         parseInt(progress) > 98 &&
         this.courseHasAlreadyBeenEvaluated == false &&
