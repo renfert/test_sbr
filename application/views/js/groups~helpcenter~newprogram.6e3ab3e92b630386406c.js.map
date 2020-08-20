@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack:///./src/assets/img/general/ux/no_persons.png"],"names":["module","exports"],"mappings":"mHAAAA,EAAOC,QAAU,IAA0B","file":"js/groups~helpcenter~newprogram.6e3ab3e92b630386406c.js","sourcesContent":["module.exports = __webpack_public_path__ + \"img/no_persons.a86120d4.png\";"],"sourceRoot":""}

@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["categories~dashboard~group~user"],{"000b":function(o,n,p){o.exports=p.p+"img/not_found.766f7e74.png"}}]);
-//# sourceMappingURL=categories~dashboard~group~user.e67879de5046fa8dbc9f.js.map
