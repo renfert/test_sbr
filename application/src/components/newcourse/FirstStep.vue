@@ -361,6 +361,7 @@ export default {
     editCourse: function() {
       var form = document.getElementById("form-first-step");
       var formData = new FormData(form);
+      formData.set("mycategory_id", this.category);
       var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("course", "edit");
       axios.post(urlToBeUsedInTheRequest, formData).then(
         () => {
