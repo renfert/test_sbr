@@ -38,12 +38,22 @@ class Settings_Model extends CI_Model
 
 	public function edit($params)
 	{
+		$data = array(
+			"name" => $params["name"],
+			"email" => $params["email"],
+		);
+
 		finishStep(4);
-		if ($this->db->update("settings", $params)) {
-			return true;
-		} else {
+
+		if (!$this->db->update("settings", $params)) {
 			return false;
 		}
+
+		if (!$this->db->update("mycompany", $data)) {
+			return false;
+		}
+
+		return true;
 	}
 
 

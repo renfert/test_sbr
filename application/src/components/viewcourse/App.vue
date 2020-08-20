@@ -1,17 +1,14 @@
 <template>
-  <div id="wrapper">
-    <lang></lang>
+  <div>
     <topbar></topbar>
     <el-container style="height: 100vh; border: 1px solid #eee">
       <navigation></navigation>
       <load-content></load-content>
     </el-container>
   </div>
-  <!-- End of wrapper -->
 </template>
 
 <script>
-import Lang from "@/components/helper/HelperLang.vue";
 import Topbar from "@/components/viewcourse/Topbar";
 import LoadContent from "@/components/viewcourse/LoadContent";
 import Vue from "vue";
@@ -22,22 +19,17 @@ import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
 import ElementUI from "element-ui";
 import Navigation from "@/components/viewcourse/Navigation";
-import "element-ui/lib/theme-chalk/index.css";
-import lang from "element-ui/lib/locale/lang/en";
-import locale from "element-ui/lib/locale";
-import headerTags from "@/mixins/headerTags";
-import integrations from "@/mixins/integrations";
 import verify from "@/mixins/verify";
+
 export const eventBus = new Vue();
 
-locale.use(lang);
 Vue.use(ElementUI);
 Vue.use(VueAxios, axios);
 Vue.use(VueHead);
+
 export default {
-  mixins: [domains, alerts, integrations, headerTags, verify],
+  mixins: [domains, alerts, verify],
   components: {
-    Lang,
     Navigation,
     Topbar,
     LoadContent

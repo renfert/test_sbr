@@ -192,13 +192,14 @@
 import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
-import { eventLang } from "@/components/helper/HelperLang";
-import { eventBus } from "@/components/viewcourse/App";
-import { eventCertificate } from "@/components/certificates/CertificatePrint";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
 import $ from "jquery";
 import CertificatePrint from "@/components/certificates/CertificatePrint";
+
+import { mapState } from "vuex";
+import { eventCertificate } from "@/components/certificates/CertificatePrint";
+import { eventBus } from "@/components/viewcourse/App";
 
 Vue.use(VueAxios, axios);
 export default {
@@ -208,10 +209,7 @@ export default {
   },
   data: () => {
     return {
-      lang: {},
-
       title: null,
-      logo: "",
       reviews: false,
       progress: "",
       certificate: null,
@@ -234,19 +232,11 @@ export default {
   created: function() {
     this.courseId = this.$route.params.id;
     this.checkIfCourseHasAlreadyBeenEvaluated(this.courseId);
-    this.getCompanyLogo();
-    this.getCourse(this.courseId);
-    this.getCourseProgress(this.courseId);
   },
   mounted() {
+    this.getCourse(this.courseId);
     this.getCourseCreator();
-
-    eventLang.$on(
-      "lang",
-      function(response) {
-        this.lang = response;
-      }.bind(this)
-    );
+    this.getCourseProgress(this.courseId);
 
     eventBus.$on(
       "update-progress-bar",
@@ -276,6 +266,15 @@ export default {
           this.errorMessage();
         }.bind(this)
       );
+    },
+    openReviewModal: function(progress) {
+      if (
+        parseInt(progress) > 98 &&
+        this.courseHasAlreadyBeenEvaluated == false &&
+        this.reviews != null
+      ) {
+        this.modalReview = true;
+      }
     },
     getCourseCreator: function() {
       var formData = new FormData();
@@ -350,17 +349,6 @@ export default {
         prevModuleFirstLesson.click();
       }
     },
-    getCompanyLogo: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "settings",
-        "getSettingsInformation"
-      );
-      axios.get(urlToBeUsedInTheRequest).then(
-        function(response) {
-          this.logo = response.data["logo"];
-        }.bind(this)
-      );
-    },
     getCourseProgress: function(courseId) {
       var formData = new FormData();
       formData.set("courseId", courseId);
@@ -371,13 +359,7 @@ export default {
       axios.post(urlToBeUsedInTheRequest, formData).then(
         function(response) {
           this.progress = response.data;
-          if (
-            response.data == 100 &&
-            this.courseHasAlreadyBeenEvaluated == false &&
-            this.reviews != null
-          ) {
-            this.modalReview = true;
-          }
+          this.openReviewModal(response.data);
         }.bind(this)
       );
     },
@@ -413,6 +395,7 @@ export default {
     }
   },
   computed: {
+    ...mapState(["lang"]),
     style: function() {
       return {
         width: this.progress + "%"
