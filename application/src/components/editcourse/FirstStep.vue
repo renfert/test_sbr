@@ -1,5 +1,5 @@
 <template>
-  <div :class="contentShow == false ? 'hide' : 'main'">
+  <div :class="displayContentFirstStep == false ? 'hide' : 'main'">
     <form id="form-first-step">
       <div class="form-wizard-content show" data-tab-content="info">
         <div class="row">
@@ -283,14 +283,14 @@ export default {
   data: () => {
     return {
       modal: false,
-      name: "", // Course name
+      name: "",
       price: "",
-      invalidField: false, // Control the invalid class to input's
-      categories: {}, // List of categories
-      certificates: {}, // List of certificates
-      description: "", // Course description
-      reviews: false, // Course reviews
-      spotlight: false, // Course spotlight
+      invalidField: false,
+      categories: {},
+      certificates: {},
+      description: "",
+      reviews: false,
+      spotlight: false,
       certificate: false,
       certificateValue: "",
       multiple: false,
@@ -299,8 +299,8 @@ export default {
       validity: "",
       validityAllowed: false,
       category: "",
-      contentShow: true,
-      courseMode: "edit", // Course mode can be create or edit mode
+      displayContentFirstStep: true,
+      courseMode: "edit",
       courseId: "",
       srcImg: "",
       srcName: "",
@@ -319,61 +319,38 @@ export default {
     };
   },
   created() {
-    this.getCategories();
     this.courseId = this.$route.params.id;
+    this.getCategories();
     this.getCourse();
   },
   computed: {
     ...mapState(["lang"])
   },
   mounted() {
-    eventBus.$emit("new-course", this.courseId);
-
-    /* Show this content */
-    eventBus.$on(
-      "access-first-step",
-      function() {
-        this.contentShow = true;
-      }.bind(this)
-    );
+    /* Access first step */
+    eventBus.$on("access-first-step", () => {
+      this.contentShow = true;
+    });
 
     /*  Access second step */
-    eventBus.$on(
-      "access-second-step",
-      function() {
-        if (this.name == "") {
-          this.invalidField = true;
-          this.requiredInputNameMessage();
-          eventBus.$emit("response-access-second-step", false);
-        } else {
-          this.editCourse();
-          eventBus.$emit("response-access-second-step", true);
-        }
-      }.bind(this)
-    );
+    eventBus.$on("access-second-step", () => {
+      this.editCourse();
+    });
 
     /*  Access Third step */
-    eventBus.$on(
-      "access-third-step",
-      function() {
-        if (this.name == "") {
-          this.invalidField = true;
-          this.requiredInputNameMessage();
-          eventBus.$emit("response-access-third-step", false);
-        } else {
-          this.courseMode == "create" ? this.createCourse() : this.editCourse();
-          eventBus.$emit("response-access-third-step", true);
-        }
-      }.bind(this)
-    );
+    eventBus.$on("access-third-step", () => {
+      this.courseMode == "create" ? this.createCourse() : this.editCourse();
+    });
   },
   methods: {
-    getCourse: function() {
+    getCourse() {
       var formData = new FormData();
       formData.set("courseId", this.courseId);
+
       var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("course", "get");
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
+      axios
+        .post(urlToBeUsedInTheRequest, formData)
+        .then(response => {
           // success callback
           this.name = response.data["title"];
           this.category = response.data["mycategory_id"];
@@ -432,77 +409,55 @@ export default {
 
           this.modal = true;
           this.fixAdvancedModal();
-        },
-        /* Error callback */
-        function() {
+        })
+        .catch(() => {
           this.errorMessage();
-        }.bind(this)
-      );
+        });
     },
-    getCategories: function() {
+    getCategories() {
       var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
         "category",
         "listing"
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        response => {
+      axios
+        .get(urlToBeUsedInTheRequest)
+        .then(response => {
           // success callback
           this.categories = response.data;
-        },
-        /* Error callback */
-        function() {
+        })
+        .catch(() => {
           this.errorMessage();
-        }
-      );
+        });
     },
     fixAdvancedModal: function() {
       this.loading = true;
-      setTimeout(
-        function() {
-          this.modal = false;
-          this.loading = false;
-        }.bind(this),
-        500
-      );
+      setTimeout(() => {
+        this.modal = false;
+        this.loading = false;
+      }, 500);
     },
-    editCourse: function(update) {
+    editCourse(update) {
       this.loading = true;
-      setTimeout(
-        function() {
-          var form = document.getElementById("form-first-step");
-          var formData = new FormData(form);
-          formData.set("mycategory_id", this.category);
-          var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-            "course",
-            "edit"
-          );
-          axios.post(urlToBeUsedInTheRequest, formData).then(
-            () => {
-              this.loading = false;
-              if (update != false) {
-                this.actionsToBePerformedAfterEdit();
-              }
-            },
-            /* Error callback */
-            function() {
-              this.errorMessage();
-            }.bind(this)
-          );
-        }.bind(this),
-        2000
-      );
-    },
-    requiredInputNameMessage() {
-      this.$notify({
-        title: this.lang["error"],
-        message: this.lang["required-name"],
-        type: "error",
-        duration: 3500
-      });
-    },
-    actionsToBePerformedAfterEdit() {
-      eventBus.$emit("new-course", this.courseId);
-      this.contentShow = false;
+      setTimeout(() => {
+        var form = document.getElementById("form-first-step");
+        var formData = new FormData(form);
+        formData.set("mycategory_id", this.category);
+        var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+          "course",
+          "edit"
+        );
+        axios
+          .post(urlToBeUsedInTheRequest, formData)
+          .then(() => {
+            this.loading = false;
+            if (update != false) {
+              this.displayContentFirstStep = false;
+            }
+          })
+          .catch(() => {
+            this.errorMessage();
+          });
+      }, 2000);
     }
   }
 };

@@ -1,10 +1,10 @@
 <template>
   <div v-if="displayContentSecondStep">
     <div class="card-box card-course mt-5">
-      <module-list :course-id="courseId"></module-list>
+      <module-list :course-id="this.$route.params.id"></module-list>
     </div>
     <!-- Module create modal -->
-    <module-create :course-id="courseId"></module-create>
+    <module-create :course-id="this.$route.params.id"></module-create>
   </div>
 </template>
 
@@ -29,16 +29,10 @@ export default {
   },
   data: () => {
     return {
-      displayContentSecondStep: false,
-      courseId: ""
+      displayContentSecondStep: false
     };
   },
   mounted() {
-    /* When a new course was created */
-    eventBus.$on("new-course", response => {
-      this.courseId = response;
-    });
-
     /* Access second step */
     eventBus.$on("access-second-step", () => {
       this.displayContentSecondStep = true;

@@ -687,7 +687,9 @@ export default {
     },
     courseId: function() {
       this.checkEnrolledUser();
-      this.createMpPreference(this.courseTitle, this.price, this.courseId);
+      if (this.price != null) {
+        this.createMpPreference(this.courseTitle, this.price, this.courseId);
+      }
     }
   },
 

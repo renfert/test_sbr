@@ -14,7 +14,7 @@
 <script>
 import WizardNav from "@/components/newcourse/WizardNav";
 import FirstStep from "@/components/editcourse/FirstStep";
-import SecondStep from "@/components/newcourse/SecondStep";
+import SecondStep from "@/components/editcourse/SecondStep";
 import ThirdStep from "@/components/editcourse/ThirdStep";
 import Vue from "vue";
 import axios from "axios";

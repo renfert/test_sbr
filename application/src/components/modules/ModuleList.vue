@@ -418,26 +418,15 @@ export default {
       plan: ""
     };
   },
-  props: ["course"],
+  props: ["course-id"],
 
   mounted() {
     this.getCompanyInformation();
+    this.getModules();
 
-    eventBus.$on(
-      "new-module",
-      function() {
-        this.getModules(this.course);
-      }.bind(this)
-    );
-
-    eventBus.$on(
-      "response-access-second-step",
-      function(response) {
-        if (response == true) {
-          this.getModules();
-        }
-      }.bind(this)
-    );
+    eventBus.$on("new-module", () => {
+      this.getModules(this.courseId);
+    });
   },
   computed: {
     ...mapState(["lang"])
@@ -530,7 +519,7 @@ export default {
       );
       axios.post(urlToBeUsedInTheRequest, formData).then(
         () => {
-          this.getModules(this.course);
+          this.getModules(this.courseId);
           this.successMessage();
         },
         function() {
@@ -565,7 +554,7 @@ export default {
     getModules: function() {
       this.loadingContent = true;
       var formData = new FormData();
-      formData.set("courseId", this.course);
+      formData.set("courseId", this.courseId);
       var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
         "module",
         "listing"
@@ -588,7 +577,7 @@ export default {
       );
     },
     actionsToBePerformedAfterEdit() {
-      this.getModules(this.course);
+      this.getModules(this.courseId);
       this.modalEditModule = false;
       this.loadingButton = false;
     }
