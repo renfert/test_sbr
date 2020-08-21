@@ -1,5 +1,5 @@
 <template>
-  <div :class="contentShow == false ? 'hide' : 'main'">
+  <div :class="displayContentThirdStep == false ? 'hide' : 'main'">
     <div class="creation-content">
       <div class="img-container">
         <div class="text-container">
@@ -107,7 +107,7 @@ export default {
   mixins: [domains, alerts],
   data: () => {
     return {
-      contentShow: false,
+      displayContentThirdStep: false,
       modal: false,
       mainModal: false,
       courseName: "",
@@ -127,42 +127,22 @@ export default {
     ...mapState(["lang"])
   },
   mounted() {
-    /* New course */
-    eventBus.$on(
-      "new-course",
-      function(response) {
-        this.courseId = response;
-        this.getUsersOutsideTheCourse(response);
-      }.bind(this)
-    );
-
     /* Access first step */
-    eventBus.$on(
-      "access-first-step",
-      function() {
-        this.contentShow = false;
-      }.bind(this)
-    );
+    eventBus.$on("access-first-step", () => {
+      this.displayContentThirdStep = false;
+    });
 
     /* Access second step */
-    eventBus.$on(
-      "access-second-step",
-      function() {
-        this.contentShow = false;
-      }.bind(this)
-    );
+    eventBus.$on("access-second-step", () => {
+      this.displayContentThirdStep = false;
+    });
 
-    /* Show this content */
-    eventBus.$on(
-      "response-access-third-step",
-      function(response) {
-        if (response == true) {
-          this.contentShow = true;
-          this.mainModal = true;
-          this.getCourse();
-        }
-      }.bind(this)
-    );
+    /* Access third step */
+    eventBus.$on("access-third-step", () => {
+      this.displayContentThirdStep = true;
+      this.mainModal = true;
+      this.getCourse();
+    });
   },
   methods: {
     formatTitleParameter: function(title) {
