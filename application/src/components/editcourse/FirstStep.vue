@@ -300,7 +300,6 @@ export default {
       validityAllowed: false,
       category: "",
       displayContentFirstStep: true,
-      courseMode: "edit",
       courseId: "",
       srcImg: "",
       srcName: "",
@@ -339,7 +338,7 @@ export default {
 
     /*  Access Third step */
     eventBus.$on("access-third-step", () => {
-      this.courseMode == "create" ? this.createCourse() : this.editCourse();
+      this.editCourse();
     });
   },
   methods: {

@@ -278,7 +278,6 @@ export default {
   },
   created() {
     this.getCategories();
-    this.courseMode = "create";
   },
   mounted() {
     /* Access first step */
