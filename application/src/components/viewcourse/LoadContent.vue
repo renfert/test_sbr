@@ -128,14 +128,16 @@
           <hr class="my-4 rgba-white-light" />
 
           <div class="text-center gap-10">
-            <img src="@/assets/img/general/ux/download.png" alt="download" class="mb-3" />
+            <img src="@/assets/img/general/ux/download.png" class="content-icons mb-3" />
             <br />
-            <a
-              @click="finishLesson()"
-              :href="this.getUrlToContents() + 'content/'+path+''"
-              class="btn-ead btn-sabiorealm"
-              download
-            >{{lang["download"]}}</a>
+            <el-button class="sbr-primary" size="medium">
+              <a
+                @click="finishLesson()"
+                :href="this.getUrlToContents() + 'content/'+path+''"
+                download
+                class="text-white"
+              >{{lang["download"]}}</a>
+            </el-button>
           </div>
         </div>
 
@@ -485,7 +487,7 @@ export default {
           this.title = response.data["title"];
           this.description = response.data["description"];
           this.path = response.data["path"];
-          this.date = this.convertDate(response.data["date"]);
+          this.date = response.data["date"];
           this.time = response.data["time"];
           this.url = response.data["url"];
           this.approval = response.data["approval"];
@@ -563,15 +565,6 @@ export default {
       this.showWebinar = false;
       this.showVideoConf = false;
       this.showHtml = false;
-    },
-    convertDate: function(inputFormat) {
-      function pad(s) {
-        return s < 10 ? "0" + s : s;
-      }
-      var d = new Date(inputFormat);
-      return [pad(d.getDate()), pad(d.getMonth() + 1), d.getFullYear()].join(
-        "/"
-      );
     }
   }
 };

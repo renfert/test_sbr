@@ -76,33 +76,21 @@ export default {
       name: "",
       releaseDate: "",
       required: false,
-      courseId: "",
       modalCreateModule: false,
       loading: false
     };
   },
+  props: ["course-id"],
   mounted() {
-    /* Get course id */
-    eventBus.$on(
-      "new-course",
-      function(response) {
-        this.courseId = response;
-      }.bind(this)
-    );
-
-    /* Get new module click event */
-    eventBus.$on(
-      "open-module-modal",
-      function() {
-        this.modalCreateModule = true;
-      }.bind(this)
-    );
+    eventBus.$on("open-module-modal", () => {
+      this.modalCreateModule = true;
+    });
   },
   computed: {
     ...mapState(["lang"])
   },
   methods: {
-    createModule: function() {
+    createModule() {
       this.loading = true;
       var form = document.getElementById("form-create-module");
       var formData = new FormData(form);
@@ -132,6 +120,4 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
-</style>
+
