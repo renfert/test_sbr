@@ -17,7 +17,11 @@
     </div>
     <div class="property_video xl">
       <div class="thumb">
-        <img class="pro_img img-fluid w100" v-lazy="getUrlToContents() + 'course/' + photo + ''" />
+        <img
+          :key="elementKey"
+          class="pro_img img-fluid w100"
+          v-lazy="getUrlToContents() + 'course/' + photo + ''"
+        />
       </div>
 
       <div class="instructor_over_info">
@@ -63,12 +67,12 @@ import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
 import VueLazyload from "vue-lazyload";
 import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
 
 import { mapState } from "vuex";
 
 Vue.use(VueAxios, axios);
 Vue.use(ElementUI);
+
 Vue.use(VueLazyload, {
   preLoad: 1.3,
   error: "https://sbrfiles.s3.amazonaws.com/images/image-not-available.png",
@@ -92,7 +96,8 @@ export default {
   ],
   data: () => {
     return {
-      rate: 0
+      rate: 0,
+      elementKey: 0
     };
   },
 
@@ -102,6 +107,9 @@ export default {
   watch: {
     totalRate: function() {
       this.rate = parseInt((this.totalRate / this.totalReviews).toFixed(0));
+    },
+    photo: function() {
+      this.elementKey++;
     }
   }
 };

@@ -1,5 +1,5 @@
 <template>
-  <div id="wrapper">
+  <div>
     <nav-bar></nav-bar>
     <banner
       :title="courseTitle"
@@ -126,7 +126,7 @@ export default {
     ]
   },
   methods: {
-    getCourse: function() {
+    getCourse() {
       var formData = new FormData();
       formData.set("courseTitle", this.courseTitle);
       var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
@@ -159,7 +159,7 @@ export default {
         }.bind(this)
       );
     },
-    getModules: function(courseId) {
+    getModules(courseId) {
       var formData = new FormData();
       formData.set("courseId", courseId);
       var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
@@ -177,7 +177,7 @@ export default {
         }.bind(this)
       );
     },
-    getColor: function() {
+    getColor() {
       var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
         "settings",
         "getSettingsInformation"
@@ -188,7 +188,7 @@ export default {
         }.bind(this)
       );
     },
-    createMetaTags: function() {
+    createMetaTags() {
       /* Title og metatag */
       var title = document.createElement("meta");
       title.setAttribute("property", "og:title");

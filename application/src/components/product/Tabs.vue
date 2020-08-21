@@ -263,7 +263,7 @@
             </div>
           </div>
         </div>
-
+        <hr />
         <!-- Reviews -->
         <div class="list-single-main-item fl-wrap">
           <div class="reviews-comments-wrap">
@@ -796,6 +796,10 @@ a {
 /* =============
   Reviews tab
 ============= */
+
+#reviews {
+  border: 2px solid #f4f8fa;
+}
 
 .rating-overview {
   display: flex;
