@@ -10,7 +10,6 @@ export default new Vuex.Store({
     lang: {},
     userRole: "",
     userId: "",
-    courseId: "",
     plan: ""
   },
   mutations: {

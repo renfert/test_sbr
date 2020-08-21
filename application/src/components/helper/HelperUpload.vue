@@ -58,7 +58,7 @@ export default {
     FacebookLoader
   },
   mixins: [domains, alerts],
-  data: function() {
+  data: () => {
     return {
       icon: "fas fa-cloud-upload-alt",
       message: "Upload a file",
@@ -85,10 +85,9 @@ export default {
   ],
   created() {
     this.checkStorageAvailability();
+    this.getSubDomainName();
   },
   mounted() {
-    this.getSubDomainName();
-
     if (
       this.srcName != undefined &&
       this.srcName != null &&
@@ -102,19 +101,9 @@ export default {
     if (this.srcImg != undefined && this.srcImg != null && this.srcImg != "") {
       this.loadDefaultImg();
     }
-
-    eventUpload.$on(
-      "clear",
-      function() {
-        this.realName = "";
-        this.message = "Upload a file";
-        this.icon = "fas fa-cloud-upload-alt";
-        this.previewImg = "";
-      }.bind(this)
-    );
   },
   methods: {
-    preview: function(event, upload) {
+    preview(event, upload) {
       if (this.storageAvailability) {
         var ins = this;
         if (upload != undefined) {
@@ -196,7 +185,7 @@ export default {
         this.src = "";
       }
     },
-    render: function(input) {
+    render(input) {
       var reader = new FileReader();
       reader.onload = function(e) {
         var div = input.parentElement;
@@ -205,7 +194,7 @@ export default {
       };
       reader.readAsDataURL(input.files[0]);
     },
-    checkStorageAvailability: function() {
+    checkStorageAvailability() {
       this.loading = true;
       var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
         "verify",
@@ -221,7 +210,7 @@ export default {
         }.bind(this)
       );
     },
-    upload: function(event) {
+    upload(event) {
       var file = event.target.files[0];
       var fileName = file.name;
       var fileExt = fileName.split(".").pop();
@@ -264,7 +253,7 @@ export default {
           eventUpload.$emit("finish-upload");
         });
     },
-    createFolder: function() {
+    createFolder() {
       /* Create new folder into bucket */
       AWS.config.update({
         accessKeyId: "AKIA5AQZS5JMAWUELDG7",
@@ -295,7 +284,7 @@ export default {
 
       //return folderName;
     },
-    getSubDomainName: function() {
+    getSubDomainName() {
       var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
         "verify",
         "getSubDomainName"
@@ -326,7 +315,7 @@ export default {
         }
       }
     },
-    loadIcon: function(extension) {
+    loadIcon(extension) {
       switch (extension) {
         case "mp4":
           this.icon = "fas fa-file-video sbr-text-primary";
@@ -345,8 +334,7 @@ export default {
           break;
       }
     },
-    moveTmpFilesTos3: function() {},
-    generateFileName: function(length) {
+    generateFileName(length) {
       var today = new Date();
       var time = today.getHours() + today.getMinutes() + today.getSeconds();
 

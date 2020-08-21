@@ -1,5 +1,5 @@
 <template>
-  <div :class="contentShow == false ? 'hide' : 'main'">
+  <div :class="displayContentThirdStep == false ? 'hide' : 'main'">
     <div class="creation-content">
       <div class="img-container">
         <div class="text-container">
@@ -107,7 +107,7 @@ export default {
   mixins: [domains, alerts],
   data: function() {
     return {
-      contentShow: false,
+      displayContentThirdStep: false,
       modal: false,
       usersList: [],
       users: [],
@@ -120,41 +120,27 @@ export default {
     };
   },
   mounted() {
-    /* New course */
-    eventBus.$on(
-      "new-course",
-      function(response) {
-        this.courseId = response;
-        this.getUsersOutsideTheCourse(response);
-      }.bind(this)
-    );
+    /* When a new course was created */
+    eventBus.$on("new-course", response => {
+      this.courseId = response;
+      this.getUsersOutsideTheCourse(response);
+    });
 
     /* Access first step */
-    eventBus.$on(
-      "access-first-step",
-      function() {
-        this.contentShow = false;
-      }.bind(this)
-    );
+    eventBus.$on("access-first-step", () => {
+      this.displayContentThirdStep = false;
+    });
 
     /* Access second step */
-    eventBus.$on(
-      "access-second-step",
-      function() {
-        this.contentShow = false;
-      }.bind(this)
-    );
+    eventBus.$on("access-second-step", () => {
+      this.displayContentThirdStep = false;
+    });
 
-    /* Show this content */
-    eventBus.$on(
-      "response-access-third-step",
-      function(response) {
-        if (response == true) {
-          this.contentShow = true;
-          this.getCourse();
-        }
-      }.bind(this)
-    );
+    /* Access third step */
+    eventBus.$on("access-third-step", () => {
+      this.displayContentThirdStep = true;
+      this.getCourse();
+    });
   },
   computed: {
     ...mapState(["lang"])
@@ -185,8 +171,9 @@ export default {
       var formData = new FormData();
       formData.set("courseId", this.courseId);
       var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("course", "get");
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
+      axios
+        .post(urlToBeUsedInTheRequest, formData)
+        .then(response => {
           // success callback
           this.courseName = response.data["title"];
           this.courseImage = response.data["photo"];
@@ -195,12 +182,10 @@ export default {
             this.getCurrentDomainName() +
             "product/" +
             this.formatTitleParameter(response.data["title"]);
-        },
-        // Failure callback
-        function() {
+        })
+        .catch(() => {
           this.errorMessage();
-        }.bind(this)
-      );
+        });
     },
     getUsersOutsideTheCourse(courseId) {
       var formData = new FormData();
@@ -209,16 +194,15 @@ export default {
         "course",
         "getPersonsOutsideTheCourse"
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
+      axios
+        .post(urlToBeUsedInTheRequest, formData)
+        .then(response => {
           // success callback
           this.usersList = response.data;
-        },
-        // Failure callback
-        function() {
+        })
+        .catch(() => {
           this.errorMessage();
-        }.bind(this)
-      );
+        });
     },
     enrollUsers: function() {
       this.loading = true;
@@ -229,20 +213,19 @@ export default {
         "course",
         "enrollUsersIntoCourse"
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        () => {
+      axios
+        .post(urlToBeUsedInTheRequest, formData)
+        .then(() => {
           // success callback
           this.loading = false;
           this.modal = false;
           this.getUsersOutsideTheCourse(this.courseId);
           this.users = [];
           this.successMessage();
-        },
-        // Failure callback
-        function() {
+        })
+        .catch(() => {
           this.errorMessage();
-        }.bind(this)
-      );
+        });
     }
   }
 };

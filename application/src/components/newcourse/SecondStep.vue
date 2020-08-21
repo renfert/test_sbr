@@ -1,13 +1,8 @@
 <template>
-  <div :class="contentShow == false ? 'hide' : 'main'">
-    <div class="row">
-      <div class="col-12">
-        <div class="card-box card-course">
-          <module-list :course="courseId"></module-list>
-        </div>
-      </div>
+  <div v-if="displayContentSecondStep">
+    <div class="card-box card-course mt-5">
+      <module-list :course="courseId"></module-list>
     </div>
-
     <!-- Module create modal -->
     <module-create></module-create>
   </div>
@@ -34,85 +29,30 @@ export default {
   },
   data: () => {
     return {
-      contentShow: false,
+      displayContentSecondStep: false,
       courseId: ""
     };
   },
-  created() {
-    /* New course */
-    eventBus.$on(
-      "new-course",
-      function(response) {
-        this.courseId = response;
-      }.bind(this)
-    );
-  },
   mounted() {
-    /* Show this content */
-    eventBus.$on(
-      "response-access-second-step",
-      function(response) {
-        if (response == true) {
-          this.contentShow = true;
-        }
-      }.bind(this)
-    );
+    /* When a new course was created */
+    eventBus.$on("new-course", response => {
+      this.courseId = response;
+    });
+
+    /* Access second step */
+    eventBus.$on("access-second-step", () => {
+      this.displayContentSecondStep = true;
+    });
 
     /* Access first step */
-    eventBus.$on(
-      "access-first-step",
-      function() {
-        this.contentShow = false;
-      }.bind(this)
-    );
+    eventBus.$on("access-first-step", () => {
+      this.displayContentSecondStep = false;
+    });
 
     /* Access third step */
-    eventBus.$on(
-      "access-third-step",
-      function() {
-        this.contentShow = false;
-      }.bind(this)
-    );
+    eventBus.$on("access-third-step", () => {
+      this.displayContentSecondStep = false;
+    });
   }
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
-.form-wizard-wrapper {
-  max-width: 100%;
-  height: 100%;
-  margin: 0 auto;
-  overflow: hidden;
-  position: relative;
-  padding-top: 8px;
-  z-index: 1;
-}
-
-/* Default sizes */
-.form-row > .col,
-.form-row > [class*="col-"] {
-  padding-right: 20px !important;
-  padding-left: 20px !important;
-}
-
-.form-row {
-  padding: 0px !important;
-}
-.editr {
-  height: 200px;
-}
-
-.card-course {
-  margin: 30px;
-}
-
-/* End default sizes */
-
-/* ------------- Max 1024px ---------------- */
-@media only screen and (max-width: 1024px) {
-  .editr--toolbar {
-    display: none !important;
-  }
-}
-</style>

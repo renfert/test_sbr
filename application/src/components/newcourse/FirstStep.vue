@@ -1,5 +1,5 @@
 <template>
-  <div :class="contentShow == false ? 'hide' : 'main'">
+  <div :class="displayContentFirstStep == false ? 'hide' : 'main'">
     <form id="form-first-step">
       <div class="form-wizard-content show" data-tab-content="info">
         <div class="card-course">
@@ -243,7 +243,7 @@ export default {
     Money,
     HelperProgress
   },
-  data: function() {
+  data: () => {
     return {
       modal: false,
       name: "",
@@ -260,8 +260,8 @@ export default {
       validity: "",
       validityAllowed: false,
       category: 1,
-      contentShow: true,
-      courseMode: "create", // Course mode can be create or edit mode
+      displayContentFirstStep: true,
+      courseMode: "create",
       courseId: "",
       money: {
         decimal: ",",
@@ -278,130 +278,85 @@ export default {
   },
   created() {
     this.getCategories();
+    this.courseMode = "create";
   },
   mounted() {
-    /* Show this content */
-    eventBus.$on(
-      "access-first-step",
-      function() {
-        this.contentShow = true;
-      }.bind(this)
-    );
+    /* Access first step */
+    eventBus.$on("access-first-step", () => {
+      this.displayContentFirstStep = true;
+    });
 
     /*  Access second step */
-    eventBus.$on(
-      "access-second-step",
-      function() {
-        if (this.name == "") {
-          this.invalidField = true;
-          this.requiredInputNameMessage();
-          eventBus.$emit("response-access-second-step", false);
-        } else {
-          this.courseMode == "create" ? this.createCourse() : this.editCourse();
-          eventBus.$emit("response-access-second-step", true);
-        }
-      }.bind(this)
-    );
+    eventBus.$on("access-second-step", () => {
+      this.courseMode == "create" ? this.createCourse() : this.editCourse();
+    });
 
     /*  Access Third step */
-    eventBus.$on(
-      "access-third-step",
-      function() {
-        if (this.name == "") {
-          this.invalidField = true;
-          this.requiredInputNameMessage();
-          eventBus.$emit("response-access-third-step", false);
-        } else {
-          this.courseMode == "create" ? this.createCourse() : this.editCourse();
-          eventBus.$emit("response-access-third-step", true);
-        }
-      }.bind(this)
-    );
+    eventBus.$on("access-third-step", () => {
+      this.courseMode == "create" ? this.createCourse() : this.editCourse();
+    });
   },
   methods: {
-    createCourse: function() {
+    createCourse() {
       var form = document.getElementById("form-first-step");
       var formData = new FormData(form);
       formData.set("mycategory_id", this.category);
+
       var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
         "course",
         "create"
       );
+
       const config = {
         headers: {
           "Content-Type": "text/html"
         }
       };
-      axios.post(urlToBeUsedInTheRequest, formData, config).then(
-        response => {
-          this.actionsToBePerformedAfterRegistration(response.data);
-        },
-        /* Error callback */
-        function() {
+
+      axios
+        .post(urlToBeUsedInTheRequest, formData, config)
+        .then(response => {
+          eventBus.$emit("new-course", response.data);
+          this.displayContentFirstStep = false;
+          this.courseId = response.data;
+          this.courseMode = "edit";
+        })
+        .catch(() => {
           this.errorMessage();
-        }
-      );
+        });
     },
     getCategories() {
       var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
         "category",
         "listing"
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        response => {
+      axios
+        .get(urlToBeUsedInTheRequest)
+        .then(response => {
           // success callback
           this.categories = response.data;
-        },
-        /* Error callback */
-        function() {
+        })
+        .catch(() => {
           this.errorMessage();
-        }
-      );
+        });
     },
-    editCourse: function() {
+    editCourse() {
       var form = document.getElementById("form-first-step");
       var formData = new FormData(form);
       formData.set("mycategory_id", this.category);
+
       var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("course", "edit");
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        () => {
-          this.actionsToBePerformedAfterEdit();
-        },
-        /* Error callback */
-        function() {
+
+      axios
+        .post(urlToBeUsedInTheRequest, formData)
+        .then(() => {
+          this.displayContentFirstStep = false;
+        })
+        .catch(() => {
           this.errorMessage();
-        }
-      );
-    },
-    actionsToBePerformedAfterRegistration(courseId) {
-      eventBus.$emit("new-course", courseId);
-      this.contentShow = false;
-      this.courseId = courseId;
-      this.courseMode = "edit";
-    },
-    requiredInputNameMessage() {
-      this.$notify({
-        title: this.lang["error"],
-        message: this.lang["required-name"],
-        type: "error",
-        duration: 3500
-      });
-    },
-    actionsToBePerformedAfterEdit() {
-      this.contentShow = false;
+        });
     }
   }
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
-.form-wizard-wrapper .form-wizard-content {
-  background-color: #fff;
-  color: #777777;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  top: 0;
-}
-</style>

@@ -20,7 +20,7 @@
       </li>
       <li class="box" @click.prevent="accessThirdStep">
         <a class="form-wizard-link" :class="active3 == true ? 'active' : '' " href="#">
-          <span class="numberCircle v-step-12" :class="active3 == true ? 'active': '' ">3</span>
+          <span class="numberCircle" :class="active3 == true ? 'active': '' ">3</span>
         </a>
       </li>
     </ul>
@@ -52,111 +52,40 @@
         <h3 class="sbr-text-grey">{{lang['publish']}}</h3>
       </div>
     </div>
-
-    <!-------- 
-        Click step 3 tour
-    ---------->
-    <v-tour name="tour-3-step" :options="tourOptions" :steps="steps"></v-tour>
   </div>
 </template>
 
 <script>
 import Vue from "vue";
 import axios from "axios";
-import VueTour from "vue-tour";
 import VueAxios from "vue-axios";
 
 import { eventBus } from "@/components/newcourse/App";
 import { mapState } from "vuex";
 
-require("vue-tour/dist/vue-tour.css");
-
-Vue.use(VueTour);
-
 Vue.use(VueAxios, axios);
 export default {
   data: function() {
     return {
-      firstStep: false,
-      secondStep: false,
-      thirdStep: false,
-
       active1: true,
       active2: false,
-      active3: false,
-
-      color: "",
-      tourOptions: {
-        useKeyboardNavigation: true,
-        labels: {
-          buttonSkip: "",
-          buttonPrevious: "",
-          buttonNext: "",
-          buttonStop: ""
-        }
-      },
-      steps: [
-        {
-          target: ".v-step-12",
-          header: {
-            title: ""
-          },
-          params: {
-            placement: "bottom",
-            highlight: true
-          },
-          content: ""
-        }
-      ]
+      active3: false
     };
   },
   computed: {
     ...mapState(["lang"])
   },
-  mounted() {
-    /* Tour labels */
-    this.tourOptions.labels.buttonSkip = this.lang["skip-tour"];
-    this.tourOptions.labels.buttonPrevious = this.lang["previous-step-button"];
-    this.tourOptions.labels.buttonNext = this.lang["next-step-button"];
-    this.tourOptions.labels.buttonStop = this.lang["finish"];
-
-    /* Tour step 0 - Last step */
-    this.steps[0].header.title = this.lang["third-step-course"];
-    this.steps[0].content = this.lang["tour-last-step"];
-
-    eventBus.$on(
-      "response-access-second-step",
-      function(response) {
-        if (response == true) {
-          this.active1 = false;
-          this.active2 = true;
-          this.active3 = false;
-          this.firstStep = true;
-        }
-      }.bind(this)
-    );
-
-    eventBus.$on(
-      "response-access-third-step",
-      function(response) {
-        if (response == true) {
-          this.active1 = false;
-          this.active2 = false;
-          this.active3 = true;
-          this.firstStep = true;
-          this.secondStep = true;
-        }
-      }.bind(this)
-    );
-  },
   methods: {
-    accessSecondStep: function() {
+    accessSecondStep() {
       // Emit event to inform the attempt to access the second step
       eventBus.$emit("access-second-step");
+      this.active1 = false;
+      this.active2 = true;
+      this.active3 = false;
     },
 
     accessFirstStep: function() {
-      // Emit event to inform the attempt to access the second step
+      // Emit event to inform the attempt to access the first step
       eventBus.$emit("access-first-step");
       this.active1 = true;
       this.active2 = false;
@@ -166,15 +95,15 @@ export default {
     accessThirdStep: function() {
       // Emit event to inform the attempt to access the second step
       eventBus.$emit("access-third-step");
+      this.active1 = false;
+      this.active2 = false;
+      this.active3 = true;
     }
   }
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-/* ----------------- Default sizes ----------- */
-
 .form-wizard-wrapper ul {
   z-index: 1 !important;
   position: relative;
@@ -272,12 +201,6 @@ export default {
   }
 }
 
-@media only screen and (max-width: 600px) {
-  #container {
-    display: none;
-  }
-}
-
 .numberCircle.active {
   color: #009cd8 !important;
   border: 2px solid #009cd8;
@@ -305,9 +228,5 @@ export default {
 
 #container .box.active:nth-child(2)::after {
   border-bottom: 8px solid #009cd8 !important;
-}
-
-.v-tour__target--relative {
-  position: absolute !important;
 }
 </style>
