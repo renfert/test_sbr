@@ -52,6 +52,7 @@ class Builder extends CI_Controller {
     public function editHeader(){
         $dataReceiveFromPost = array(
             'logoName' => $this->input->post("logoName"),
+            'logoStickyName' => $this->input->post("logoStickyName"),
             'logoSize' => $this->input->post("logoSize"),
             'color' => $this->input->post("color"),
         );

@@ -6,27 +6,28 @@ class Course extends CI_Controller {
 
     function __construct(){
         parent::__construct();
-        $this->load->model('Course_Model');
+        $this->load->model("Course_Model");
+        $this->load->model("Filters_Model");
     }
 
    
 	public function create(){
         $this->input->post("mycategory_id") == '' ? $category = 1 : $category =  $this->input->post("mycategory_id");
-        $dateCreate = date('Y-m-d');  /* Course creation date  */
-    
+        $dateCreate = getCurrentDate("Y-m-d");
 
+    
         $dataReceiveFromPost = array(
-            'title' => $this->input->post("title"),
+            'title' => applySecurityFunctions($this->input->post("title")),
             'mycategory_id' => $category,
-            'release_date' => $this->input->post("release_date"),
-            'expiration_date' => $this->input->post("expiration_date"),
-            'validity' => $this->input->post("validity"),
-            'comments' => $this->input->post("comments"),
+            'release_date' => $this->Filters_Model->filterEmptyFields($this->input->post("release_date"), array("")),
+            'expiration_date' => $this->Filters_Model->filterEmptyFields($this->input->post("expiration_date"), array("")),
+            'validity' => $this->Filters_Model->filterEmptyFields($this->input->post("validity"), array("")),
+            'reviews' => $this->input->post("reviews"),
             'spotlight' => $this->input->post("spotlight"),
-            'photo' =>  $this->input->post("photo"),
-            'preview' =>  $this->input->post("preview"),
+            'photo' => $this->Filters_Model->filterEmptyFields($this->input->post("photo"), array("")),
+            'preview' =>  $this->Filters_Model->filterEmptyFields($this->input->post("preview"), array("")),
             'certificate' => $this->input->post("certificate"),
-            'price' => $this->input->post("price"),
+            'price' => $this->Filters_Model->filterEmptyFields($this->input->post("price"), array(" 0,00 ")),
             'creation_date' => $dateCreate,
             'creation_user' => getUserId(),
             'description' => $this->input->post("description"),
@@ -42,8 +43,13 @@ class Course extends CI_Controller {
     }
 
     public function listingAll(){
-        $category = $this->input->post("category");
-        $courseList = $this->Course_Model->listingAll($category);
+        $categories = $this->input->post("categories");
+        $categoriesArray = explode (",", $categories); 
+
+        $title = $this->input->post("title");
+
+        $price = $this->input->post("price");
+        $courseList = $this->Course_Model->listingAll($categoriesArray, $price, $title);
         echo json_encode($courseList);
     }
 
@@ -51,6 +57,18 @@ class Course extends CI_Controller {
     public function get(){
         $courseId = $this->input->post("courseId");
         $course = $this->Course_Model->get($courseId);
+        echo json_encode($course);
+    }
+
+    public function getEnrollDate(){
+        $courseId = $this->input->post("courseId");
+        $result = $this->Course_Model->getEnrollDate($courseId);
+        echo json_encode($courseId);
+    }
+
+    public function getCourseByTitle(){
+        $courseTitle = $this->input->post("courseTitle");
+        $course = $this->Course_Model->getCourseByTitle($courseTitle);
         echo json_encode($course);
     }
 
@@ -63,29 +81,19 @@ class Course extends CI_Controller {
 
     
 	public function edit(){    
-
-        $this->input->post("release_date") == '' ? $releaseDate = null : $releaseDate =  $this->input->post("release_date");
-
-        $this->input->post("expiration_date") == '' ? $expirationDate = null : $expirationDate =  $this->input->post("expiration_date");
-
-        $this->input->post("validity") == '' ? $validity = null : $validity =  $this->input->post("validity");
-
-        $this->input->post("photo") == '' ? $photo = null : $photo =  $this->input->post("photo");
-
-        $this->input->post("preview") == '' ? $preview = null : $preview =  $this->input->post("preview");
-
+    
         $dataReceiveFromPost = array(
-            'title' => $this->input->post("title"),
+            'title' => applySecurityFunctions($this->input->post("title")),
             'mycategory_id' => $this->input->post("mycategory_id"),
-            'release_date' => $releaseDate,
-            'expiration_date' => $expirationDate,
-            'validity' => $validity,
-            'comments' => $this->input->post("comments"),
+            'release_date' => $this->Filters_Model->filterEmptyFields($this->input->post("release_date"), array("")),
+            'expiration_date' => $this->Filters_Model->filterEmptyFields($this->input->post("expiration_date"), array("")),
+            'validity' => $this->Filters_Model->filterEmptyFields($this->input->post("validity"), array("")),
+            'reviews' => $this->input->post("reviews"),
             'spotlight' => $this->input->post("spotlight"),
-            'photo' =>  $photo,
-            'preview' =>  $preview,
+            'photo' =>  $this->Filters_Model->filterEmptyFields($this->input->post("photo"), array("")),
+            'preview' =>  $this->Filters_Model->filterEmptyFields($this->input->post("preview"), array("")),
             'certificate' => $this->input->post("certificate"),
-            'price' => $this->input->post("price"),
+            'price' => $this->Filters_Model->filterEmptyFields($this->input->post("price"), array(" 0,00 ")),
             'description' => $this->input->post("description"),
             'id' => $this->input->post("id")
         );
@@ -117,6 +125,13 @@ class Course extends CI_Controller {
         $courseId = $this->input->post("courseId");
         $userId = $this->input->post("userId");
         $result = $this->Course_Model->enrollUserIntoCourse($courseId,$userId);
+        echo json_encode($result);
+    }
+
+
+    public function getCourseCreator(){
+        $courseId = $this->input->post("courseId");
+        $result = $this->Course_Model->getCourseCreator($courseId);
         echo json_encode($result);
     }
 }

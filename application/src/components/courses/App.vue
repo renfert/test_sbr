@@ -1,0 +1,70 @@
+<template >
+  <div class="content-page">
+    <div v-if="roleId != 3" class="row">
+      <course-create></course-create>
+    </div>
+
+    <div class="row mb-5">
+      <course-list></course-list>
+    </div>
+  </div>
+  <!-- End of content page -->
+</template>
+
+<script>
+import CourseCreate from "@/components/courses/CourseCreate.vue";
+import CourseList from "@/components/courses/CourseList.vue";
+import Vue from "vue";
+import axios from "axios";
+import VueAxios from "vue-axios";
+import VueHead from "vue-head";
+import domains from "@/mixins/domains";
+import alerts from "@/mixins/alerts";
+
+export const eventBus = new Vue();
+
+Vue.use(VueAxios, axios);
+Vue.use(VueHead);
+
+export default {
+  mixins: [domains, alerts],
+  data: () => {
+    return {
+      roleId: ""
+    };
+  },
+  created: function() {
+    this.getUserProfile();
+  },
+  methods: {
+    getUserProfile() {
+      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+        "user",
+        "getUserProfile"
+      );
+      axios.get(urlToBeUsedInTheRequest).then(
+        function(response) {
+          this.roleId = response.data["myrole_id"];
+        }.bind(this)
+      );
+    }
+  },
+  head: {
+    title: {
+      inner: "Courses"
+    },
+    meta: [
+      { name: "charset", content: "utf-8" },
+      { name: "viewport", content: "width=device-width, initial-scale=1.0" },
+      { name: "author", content: "Sabiorealm" }
+    ]
+  },
+  components: {
+    CourseCreate,
+    CourseList
+  }
+};
+</script>
+
+<style>
+</style>

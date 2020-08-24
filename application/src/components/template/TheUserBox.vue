@@ -3,7 +3,7 @@
   <div class="user-box">
     <a href="profile">
       <div class="user-img">
-          <img :src="''+getCurrentDomainName()+'assets/uploads/avatar/' + imageUserProfile" alt="user-img"  class="rounded-circle img-thumbnail img-responsive">
+          <img :src="getUrlToContents() + 'avatar/'+imageUserProfile+''" class="rounded-circle img-thumbnail img-responsive">
       </div>
     </a>
     <h5><a href="profile">{{username}}</a> </h5>

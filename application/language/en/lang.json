@@ -1,524 +1,740 @@
-{   
-    "dashboard-nav" : "Dashboard",
-    "courses-nav": "Courses",
-    "my-courses-nav": "My courses",
-    "categories-nav": "Categories",
-    "programs-nav": "Programs",
-    "certificates-nav": "Certificates",
-    "persons-nav" : "Persons",
-    "users-nav" : "Users",
-    "groups-nav": "Groups",
-    "leads-nav": "Leads",
-    "site-nav": "Site",
-    "performace-nav": "Performace",
-    "assessments-nav": "Assessments",
-    "students-nav": "Students",
-    "corrections-nav": "Corrections",
-    "settings-nav": "Settings",
-    "general-settings-nav": "General",
-    "integrations-nav": "Integrations",
-    "reports-nav": "reports",
-    "plans-nav": "plans",
-    "help-center-nav": "Help center",
-
-    
-
-    "view-topbar-title": "View as",
-    "admin-view-topbar": "Admin",
-    "instructor-view-topbar": "Instructor",
-    "student-view-topbar": "Student",
-    "profile-topbar": "Your profile",
-
-
-    "create-category" : "Create a new category",
-    "list-category" : "List of categories",
-    "category-already-exists": "This category already exists",
-    "category-created-success" : "Category created successfully",
-    "question-delete-category": "Delete category: ",
-    "category-edited-success": "Category edited successfully",
-    "category-deleted-success": "Category deleted successfully",
-    "no-results-category-title": "You haven't created any categories yet",
-    "no-results-category-subtitle" : "This is looking like a",
-    "no-results-category-subtitle-highlight": "desert",
-
-    "question-delete-course": "Delete course: ",
-
-    "pending": "Pending",
-    "done": "Done",
-
-    "list-corrections": "Exams list",
-    "correction-status-information": "The status column indicates whether there are questions without evaluations within the exam.",
-
-    "pending-information": "There are questions to be assessed in this exam.",
-    "done-information": "There are no questions to be assessed in this exam.",
-
-    "start-retest": "Start retest",
-
-    "not-passed": "You have not passed the exam.",
-
-    "passed": "Congratulations! you passed the exam",
-
-    "exam-in-progress": "This exam is in progress",
-
-    "write-your-question": "Write your question",
-    "question-weight": "Question weight",
-    "question-edited-success": "Question edited successfully",
-    "question-delete-question": "Delete question?",
-    "question-deleted-success": "Question deleted successfully",
-    "question-type": "Question type",
-    "question-image": "Question image",
-    "descriptive": "Descriptive",
-    "multiple-choice": "Multiple choice",
-    "free": "Free",
-    "free-course": "Free",
-    "question-created-success": "Question created successfully",
-
-    "take-this-course": "Take this course",
-
-    "unanswered-question": "You must have at least one correct answer.",
-
-    "create-account": "Create your account",
-
-    "create-account-to-continue": "To continue you need to create your account",
-
-    "add-new-link": "Add new link",
-    "new-link": "New link",
-
-    "total-questions": "Total questions",
-    "correct-questions": "Correct questions",
-    "wrong-questions": "Wrong questions",
-    "above-average-questions": "Above average questions",
-    "below-average-questions": "Below average questions",
-    "questions-waiting-evaluation" : "Questions waiting evaluation",
-    "exam-status": "Exam status:",
-    "in-progress": "In progress",
-    "Finished": "Finished",
-    "required-for-approval": "Required for approval",
-    "your-current-score": "Your current score",
-
-    "score": "Score",
-
-    "download-answer": "Download answer",
-    "correct-alternatives": "Correct alternatives",
-    "checked-alternatives": "Checked alternatives",
-
-    "exam-duration": "Exam duration",
-    "attempts": "Attempts",
-    "minutes": "minutes",
-    "number-of-questions": "Number of questions",
-    "start-exam": "Start exam",
-    "your-time-is-over": "Your time is over",
-    "lesson-finished": "Lesson finished",
-    "download": "Download",
-    "students": "Students",
-    "instructors": "Instructors",
-    "programs": "Programs",
-    "add-new-course": "Add new course to this group",
-
-    "exam-finished": "Exam finished",
-
-    "question-delete-lesson": "Delete lesson: ",
-    "course-created": "Course created successfully",
-    "course-edited": "Course edited successfully",
-    "program-created": "Program created successfully",
-    "school-information": "School information",
-    "contact-information": "Contact information",
-    "general-settings": "General settings",
-    "integrations": "Integrations",
-
-    "finish-exam": "Finish exam",
-    "confirm-password": "Confirm your new password",
-    "change-password": "Change password",
-    "new-password": "New password",
-
-    "invalid-confirm-password": "The passwords are different",
-
-    "question-finish-exam": "Do you want to end the exam?",
-
-    "wanna-leave" : "Do you want to leave?",
-
-    "curriculum": "Curriculum",
-
-    "see-exam-correction": "See exam correction",
-    "correction": "Correction",
-    "overview": "Overview",
-
-    "enter": "Enter",
-
-    "no-results-courses-in-group" : "You do not have any courses in this group",
-    "no-results-courses-in-user": "The user is not enrolled in any course.",
-    "this-looks-like-a-desert": "This looks like a desert",
-    "add-course": "Add course",
-    "add-student": "Add student",
-    "add-instructor": "Add instructor",
-    "add-program": "Add program",
-
-
-    "this-email-doesnt-exist": "This email doesn't exist",
-
-    "please-review-your-email": "Please review your email.",
-
-    "recover-password" : "Recover password",
-  
-    "join-courses": "Join courses",
-    "join-instructors": "Join instructors",
-    "join-programs": "Join programs",
-
-    "no-results-question-title": "You haven't created any question yet",
-    "answer" : "Answer",
-    "answer-created-success": "Answer created successfully",
-    "correct-answer-information": "Click the box to mark the answer as correct.",
-    "answer-edited-success": "Answer edited successfully",
-    "question-delete-answer": "Delete answer: ",
-    "answer-deleted-success": "Answer deleted successfully",
-
-    "all-courses-already-added": "All courses have already been added.",
-    "all-students-already-added": "All students have already been added.",
-    "all-instructors-already-added": "All instructors have already been added.",
-    "all-programs-already-added": "All programs have already been added.",
-    
-
-    "remove-course-question": "Remove course: ",
-    "remove-student-question": "Remove student: ",
-    "remove-instructor-question": "Remove instructor: ",
-    "remove-program-question": "Remove program: ",
-
-    "no-results-students-in-group": "You do not have any student in this group",
-    "no-results-instructors-in-group": "You do not have any instructor in this group",
-    "no-results-programs-in-group": "You do not have any program in this group",
-
-    "edit-lesson": "Edit lesson",
-    "edit-exam": "Edit exam",
-
-    "edit-module": "Edit module",
-    "delete-module": "Delete module",
-    "reposition-module" : "Reposition module",
-
-    "delete-lesson": "Delete lesson",
-    "reposition-lesson": "Reposition lesson",
-
-    "course-created-successfully": "Course created successfully",
-
-    "wrong-password" : "Wrong user or password",
-    "congratulations": "Congratulations!",
-    "third-step-message": "your course is already created and well kept in",
-    "third-step-message-edit": "your course is already edited and well kept in",
-    "program-created-message": "Your program is already created and well kept in",
-    "what-would-you-like-to-do": "What would you like to do now?",
-    "view-course": "View course",
-    "view-program": "View program",
-    "create-new-program" : "Create a new program",
-    "share": "Share this course",
-    "join-students": "Join students",
-    "create-new-course": "New course",
-    "select-role": "User role",
-
-    "watch-course": "Watch course",
-
-    "buy-this-course": "Buy this coure",
-
-    "join-persons": "Enroll persons",
-
-    "create-first-question": "Create a new question",
-    "create-new-question": "Create new question",
-    "edit-question": "Edit question",
-    "create-new-answer": "Create new answer",
-    "edit-answer": "Edit answer",
-    "question": "Question",
-    "questions": "Questions",
-    "question-list": "Your questions",
-    "basic-information" : "Basic information",
-    "back": "Back",
-    "automatic-feedback": "Automatic Feedback",
-    "add-new-answer": "Add a new answer",
-    "success": "Success",
-    "error": "Error",
-    "delete": "Delete",
-    "edit": "Edit",
-    "rate-question": "Rate question",
-
-
-    "feedback": "Feedback",
-    "question-in-process-of-evaluation": "This question is still being evaluated",
-    "no-feedbacks": "There are no feedbacks available.",
-
-    "module-created-success" : "Module created successfully",
-    "no-results-module-title": "You can start building your course by creating a module",
-    "no-results-module-subtitle" : "Modules are the most basic structures for organizing and structuring a course. click the button below to create your first",
-    "no-results-module-subtitle-highlight": "module",
-    "module-deleted-success": "Module deleted successfully",
-    "question-delete-module" : "Delete module:",
-    "module-edited-success": "Module edited successfully",
-
-    "all": "All",
-
-
-    "create-certificate": "Create a new certificate",
-    "list-certificate" : "List of certificates",
-    "certificate-teplate": "Template",
-    "certificate-already-exists": "This certificate already exists",
-    "certificate-created-success" : "Certificate created successfully",
-    "question-delete-certificate": "Delete certificate: ",
-    "certificate-edited-success": "Certificate edited successfully",
-    "certificate-deleted-success": "Certificate deleted successfully",
-    "no-results-certificate-title": "You haven't created any certificates yet",
-    "no-results-certificate-subtitle" : "This is looking like a",
-    "no-results-certificate-subtitle-highlight": "desert",
-
-
-    "create-user": "Create a new user",
-    "list-users" : "List of users",
-    "user-already-exists": "This user already exists",
-    "massive-import": "Mass import",
-    "massive-import-success": "Import successfully completed!",
-    "question-delete-user": "Delete user: ",
-    "user-deleted-success": "User deleted successfully",
-    "user-created-success" : "User created successfully",
-    "no-results-user-title": "You haven't created any users yet",
-    "no-results-user-subtitle" : "This is looking like a",
-    "no-results-user-subtitle-highlight": "desert",
-
-    "required-name" : "Name is a required field.",
-    "choose-your-content" : "Choose your content",
-    "lessons":"lessons",
-    "url": "Url",
-    "target": "Target",
-    "same-window": "Same window",
-    "new-window": "New window",
-    "link-created-success": "Link created successfully",
-    "edit-link": "Edit link",
-    "link-edited-success": "Link edited successfully",
-    "link-deleted-success": "Link deleted successfully",
-    "add": "ADD",
-    "header": "Header",
-    "sub-header": "Sub header",
-    "header-color": "Header color",
-    "sub-header-color": "Subheader color",
-    "button": "Button",
-    "button-title": "Button title",
-    "button-url": "Button url",
-    "button-bg-color": "Button color",
-    "button-hover-color": "Button hover color", 
-    "button-target": "Button target",
-    "button-style": "Button style",
-    "disable-section-message": "Puede deshabilitar esta sección si no la usa.",
-    "section-deleted-success": "Section deleted successfully",
-    "question-delete-section": "Delete this section?",
-
-    "question-delete-person": "Delete person: ",
-
-    "search" : "Search...",
-
-    "select-category": "Select a category",
-    
-    "occupation": "Occupation",
-
-    "question-delete-program": "Delete program: ",
-
-    "buy-course": "Buy this course",
-
-    "no-courses-found": "No courses found",
-
-    "no-categories-found": "No categories found",
-
-    "no-leads-found": "No leads found",
-
-    "no-programs-found": "No programs found",
-
-    "export": "Export",
-
-    "no-results-lead-title": "You don't have any lead yet",
+{
+  "dashboard-nav": "Dashboard",
+  "home-nav": "Home",
+  "courses-nav": "Courses",
+  "my-courses-nav": "My courses",
+  "categories-nav": "Categories",
+  "programs-nav": "Programs",
+  "certificates-nav": "Certificates",
+  "persons-nav": "Persons",
+  "users-nav": "Users",
+  "groups-nav": "Groups",
+  "leads-nav": "Leads",
+  "site-nav": "Site",
+  "performace-nav": "Performace",
+  "assessments-nav": "Assessments",
+  "students-nav": "Students",
+  "corrections-nav": "Corrections",
+  "settings-nav": "Settings",
+  "general-settings-nav": "General",
+  "integrations-nav": "Integrations",
+  "reports-nav": "reports",
+  "plans-nav": "plans",
+  "help-center-nav": "Help center",
 
-    "tracking-id": "Tracking Id",
+  "course-validity": "This course is valid for:",
 
-    "no-results-corrections-title": "You have no exam to evaluate.",
-
-    "answer-empty": "The student did not answer this question.",
-
-    "go-to-platform": "Enter",
-
-
-    "no-results-course-title": "You haven't created any course yet",
-    "new-course-button" : "Create a new course",
-    "required-module" : "Required module",
-    "courses-already-created": "Courses already created:",
-    "list-course": "List of courses",
-
-    "no-results-program-title": "You haven't created any program yet",
-    "new-program-button": "Create a new program",
-    "programs-already-created": "Programs already created:",
-
-    "section-created-success" : "Section created successfully",
-    "banner-edited-success": "Banner edited successfully",
-    "select-an-element": "Select an element",
-    "testimonial" : "Testimonial",
-    "persons": "Persons",
-
-
-    "create-group" : "Create a new group",
-    "list-group" : "List of groups",
-    "group-already-exists": "This group already exists",
-    "group-created-success" : "Group created successfully",
-    "question-delete-group": "Delete group: ",
-    "group-edited-success": "Group edited successfully",
-    "group-deleted-success": "Group deleted successfully",
-    "no-results-group-title": "You haven't created any groups yet",
-    "no-results-group-subtitle" : "This is looking like a",
-    "no-results-group-subtitle-highlight": "desert",
-
-    "email-account-created": "Your account was successfully created!",
-
-    "account-successfully-created" : "Account successfully created",
-
-    "proceed-to-payment": "Proceed to payment",
-
-    "already-have-account": "Already have an account?",
-
-    "not-a-member": "Not a member?",
-
-    "register": "Register",
-
-    "you-are-logged-in-now": "You are logged in now",
-
-    "how-get-access-token": "How do I get my access token?",
-
-    "select-your-country": "Select your country",
-
-    "add-new-question": "Add new question",
-
-    "your-settings": "Your settings",
-    "price": "Price",
-    "new-module": "New module",
-    "create-new-module" : "Create a new module",
-
-    "create-new-exam": "Create a new exam",
-    "granted-to": "Is hereby granted to",
-    "certify-completition": "to certify that the course was completed with satisfaction",
-
-    "print-certificate": "Print certificate",
-
-    "school-records": "School records",
-
-    "exams": "Exams",
-
-    "thanks-for-your-avaliation": "Thank's for your avaliation",
-
-    "default-category": "Without category",
-    "your-certificate": "Your certificate",
-
-    "certificate-of-completition": "Certificate of completition",
-
-    "number-of-re-tests": "Number of retries",
-    "re-rest-info" : "Set to 0 if the student has only one opportunity to take the exam.",
-    "next-step-button": "Next step",
-
-    "create-new-lesson" : "Create a new lesson",
-    "lesson-created-success" : "Lesson created successfully",
-
-    "school-name" : "School name",
-    "color" : "Color",
-    "phone": "Phone",
-    "photo": "Photo",
-    "language": "Language",
-    "marketplace": "Marketplace",
-    "logo": "Logo (150x150 px)",
-    "favicon": "Favicon (50x50 px)",
-
-    "advanced-settings" : "Advanced Settings",
-
-
-
-   
-    "empty-fields-warning": "There are fields that need to be filled",
-    "update-plan-title": "This functionality is not available in your plan",
-    "update-plan-subtitle": "But do not worry! you can access this and many other features by performing a plan upgrade.",
-    "update-plan-button": "UPGRADE YOUR PLAN NOW",
-    "download-template": "Download template",
-    "invalid-character": "You are using some invalid character",
-    
-
-
-    "name": "Name",
-    "password": "Password",
-    "email": "Email",
-    "instructor": "Instructor",
-    "student": "Student",
-    "category": "Category",
-    "description": "Description",
-    "image": "Image",
-    "video-preview": "Video preview",
-    "start-date": "Start date",
-    "create-program": "Create program",
-    "end-date": "End date",
-    "validity-time": "Validity Time",
-    "comments": "Comments",
-    "spotlight": "Highlighted",
-    "certificate": "Certificate",
-    "select-certificate": "Select a certificate",
-    "upload-message": "Upload file here",
-    "invalid-extension": "Invalid extension",
-    "new-name"  : "New name",
-    "save-button": "Save",
-    "upgrade-now" : "Upgrade now",
-    "error-callback-message": "Oops, something went wrong!",
-    "success-callback-message": "Operation completed successfully",
-    "logout": "Logout",
-    "saving": "Saving please wait ...",
-    "loading": "Loading ...",
-    "date": "Date",
-    "schedule": "Schedule",
-    "duration": "How many minutes does the exam take?",
-    "approval" : "What is the minimum approval percentage?",
-    "primary-color": "Primary color",
-    "secondary-color": "Secondary color",
-    "copyright": "Copyright",
-    "add-new-social": "Add new social media",
-    "social-medias": "Social medias",
-    "social-media": "Social media",
-
-    "add-new-lesson": "Add a new lesson",
-
-    "person": "Person",
-    "comment": "Comment",
-
-    "number-of-courses-to-be-listed": "Total number of courses to be listed",
-    "text-and-media": "Text and media",
-    "media" : "Media",
-    "media-align": "Media align",
-    "content": "Content",
-    "transparent-header": "Transparent header",
-
-    "courses": "Courses",
-
-    "add-new-testimonial": "Add new person testimonial",
-
-    "banner" : "Banner",
-    "product-list": "Product list",
-
-    "under-construction-title": "This page is under construction",
-    "under-construction-subtitle": "Right now, there are several exceptional people with their coffee cups working on that page, which means that it will be available very soon.",
-
-    "current-plan": "You are currently on the plan:",
-    "without-category": "Without category",
-
-    "feature-plan-1": "Ticket support",
-    "feature-plan-2" : "Google analytics integration",
-    "feature-plan-3" : "Mercadopago integration",
-    "feature-plan-4" : "Compatibility with pdf",
-    "feature-plan-5" : "Compatibility with MP4,AVI AND MOV",
-    "feature-plan-6" : "Compatibility with MP3,WAV AND OGG",
-    "feature-plan-7" : "Unlimited courses",
-    "feature-plan-8" : "Webinars /Videoconferences",
-    "feature-plan-9" : "Certificates",
-    "feature-plan-10" : "Exams",
-    "feature-plan-11" : "Programs",
-    "feature-plan-12" : "Priority support",
-    "feature-plan-13" : "Account Manager",
-    "feature-plan-14" : "API",
-    "feature-plan-15" : "Mass import",
-
-    "first-step-course":  "Step 1 ",
-    "second-step-course": "Step 2",
-    "third-step-course": "Step 3"
+  "days": "days",
 
+  "not-started": "Not started",
+
+  "actual-price": "Actual price",
+
+  "average-rating": "Average rating",
+
+  "lesson": "Lesson",
+
+  "go-to-course": "Go to course",
+
+  "enroll-now": "Enroll now",
+
+  "welcome-to-sabiorealm": "Welcome to Sabiorealm",
+  "welcome-message-pt1": "How about we start with some basic activities so you can get to know our platform a little better?",
+  "welcome-message-pt2": "Do not be shy! if you have any doubts on how to start we will be available in the chat. You can call us!",
+
+  "customize-your-platform": "Customize your platform",
+  "change-settings": "Change settings",
+
+  "view-my-marketplace": "View my marketplace",
+  "view-my-entry-page": "View my entry page",
+
+  "trial-expiration-date-info-pt1": "You have",
+  "trial-expiration-date-info-pt2": "days of trial",
+
+  "upgrade-plan-info-pt1": "Enjoy and choose a",
+  "upgrade-plan-info-pt2": "before the time runs out",
+
+  "plan": "plan",
+
+  "no-data": "There is no data",
+
+  "no-records": "There is no records",
+  "no-certificates": "There is no certificates",
+  "process-exam": "We are processing your exam, please wait a moment ...",
+
+  "functionality-not-available": "Feature not available",
+
+  "functionality-not-available-text-pt1": "This feature is not available in your plan",
+  "functionality-not-available-text-pt2": "To access it you need to perform a PLAN UPGRADE",
+
+  "upgrade-plan-button": "UPGRADE PLAN",
+
+  "view-plan-comparison": "VIEW PLAN COMPARISON",
+
+  "thank-you-title-purchase": "Thank you very much for choosing Sabiorealm!",
+  "thank-you-pt1-purchase": "A notification has already been sent to a specialist consultant and within a maximum of 3 hours this same consultant will be contacting you to help with the following steps of contracting a new plan. The consultant will contact you via email:",
+  "thank-you-pt2-purchase": "or directly via chat within the platform.",
+
+  "have-any-doubt": "Do you have any doubt?",
+  "access": "Access",
+  "or-contact": "Or contact:",
+
+  "skip-tour": "Skip tour",
+
+  "publish": "Publish",
+
+  "create": "Create",
+  "personalize": "Personalize",
+  "to-set-up": "To set up",
+
+  "skip-this-step": "Skip this step",
+
+  "activity-course-created": " created a new course: ",
+  "activity-course-deleted": " deleted a course: ",
+  "activity-course-edited": " edited a course: ",
+  "activity-course-finished": " finished the course: ",
+  "activity-finished-lesson": " finished the lesson: ",
+  "activity-about-time-minute": " About",
+  "activity-about-time-hour": " About ",
+  "activity-time-minute-ago": " minutes ago ",
+  "activity-time-hour-ago": " hours ago ",
+  "activity-few-minutes-ago": " A few minutes ago ",
+  "activity-logout": " left ",
+  "activity-login": " joined ",
+  "in-the-course": " in the course ",
+  "activity-program-created": " created a new program: ",
+
+  "no-activities": "No activities",
+
+  "view-topbar-title": "View as",
+  "admin-view-topbar": "Admin",
+  "instructor-view-topbar": "Instructor",
+  "student-view-topbar": "Student",
+  "profile-topbar": "Your profile",
+
+  "new-purchase-request": "New purchase request",
+
+  "modal-trial-topbar-title": "Is your trial period ending?",
+  "modal-trial-topbar-subtitle": "Do not worry! you can still continue to take advantage of Sabiorealm's resources by performing a plan upgrade.",
+
+  "modal-storage-title": "Your storage is full",
+  "modal-storage-subtitle": "To obtain more storage space, a plan upgrade is required.",
+
+  "trial-expired": "Your trial period is over",
+  "trial-expired-message": "To continue taking advantage of Sabiorealm's resources, it is necessary to perform a plan upgrade",
+
+  "trial-expired-to-another-role": "Página no disponible temporalmente",
+  "trial-expired-message-to-another-role": "Para obtener más información, póngase en contacto:",
+
+  "create-category": "Create a new category",
+  "list-category": "List of categories",
+  "category-already-exists": "This category already exists",
+  "category-created-success": "Category created successfully",
+  "question-delete-category": "Delete category: ",
+  "category-edited-success": "Category edited successfully",
+  "category-deleted-success": "Category deleted successfully",
+  "no-results-category-title": "You haven't created any categories yet",
+  "no-results-category-subtitle": "This is looking like a",
+  "no-results-category-subtitle-highlight": "desert",
+
+  "question-delete-course": "Delete course: ",
+
+  "pending": "Pending",
+  "done": "Done",
+
+  "no-results-exam": "No exams found",
+
+  "list-corrections": "Exams list",
+  "correction-status-information": "The status column indicates whether there are questions without evaluations within the exam.",
+
+  "pending-information": "There are questions to be assessed in this exam.",
+  "done-information": "There are no questions to be assessed in this exam.",
+
+  "start-retest": "Start retest",
+
+  "not-passed": "You have not passed the exam.",
+
+  "passed": "Congratulations! you passed the exam",
+
+  "exam-in-progress": "This exam is in progress",
+
+  "write-your-question": "Write your question",
+  "question-weight": "Question weight",
+  "question-edited-success": "Question edited successfully",
+  "question-delete-question": "Delete question?",
+  "question-deleted-success": "Question deleted successfully",
+  "question-type": "Question type",
+  "question-image": "Question image",
+  "descriptive": "Descriptive",
+  "multiple-choice": "Multiple choice",
+  "free": "Free",
+  "free-course": "Free",
+  "paid-courses": "Paid courses",
+  "question-created-success": "Question created successfully",
+
+  "take-this-course": "Take this course",
+
+  "unanswered-question": "You must have at least one correct answer.",
+
+  "create-account": "Create your account",
+
+  "create-account-to-continue": "To continue you need to create your account",
+
+  "add-new-link": "Add new link",
+  "new-link": "New link",
+
+  "total-questions": "Total questions",
+  "correct-questions": "Correct questions",
+  "wrong-questions": "Wrong questions",
+  "above-average-questions": "Above average questions",
+  "below-average-questions": "Below average questions",
+  "questions-waiting-evaluation": "Questions waiting evaluation",
+  "exam-status": "Exam status:",
+  "in-progress": "In progress",
+  "finished": "Finished",
+  "required-for-approval": "Required for approval",
+  "your-current-score": "Your current score",
+
+  "score": "Score",
+
+  "finalized": "Finalized",
+
+  "download-answer": "Download answer",
+  "correct-alternatives": "Correct alternatives",
+  "checked-alternatives": "Checked alternatives",
+
+  "exam-duration": "Exam duration",
+  "attempts": "Attempts",
+  "minutes": "minutes",
+  "number-of-questions": "Number of questions",
+  "start-exam": "Start exam",
+  "your-time-is-over": "Your time is over",
+  "lesson-finished": "Lesson finished",
+  "download": "Download",
+  "students": "Students",
+  "instructors": "Instructors",
+  "programs": "Programs",
+  "add-new-course": "Add new course to this group",
+
+  "finish": "finish",
+
+  "exam-finished": "Exam finished",
+
+  "question-delete-lesson": "Delete lesson: ",
+  "course-created": "Course created successfully",
+  "course-edited": "Course edited successfully",
+  "program-created": "Program created successfully",
+  "school-information": "School information",
+  "contact-information": "Contact information",
+  "general-settings": "General settings",
+  "integrations": "Integrations",
+
+  "contact": "Contact",
+
+  "finish-exam": "Finish exam",
+  "confirm-password": "Confirm your new password",
+  "change-password": "Change password",
+  "new-password": "New password",
+
+  "invalid-confirm-password": "The passwords are different",
+
+  "question-finish-exam": "Do you want to end the exam?",
+
+  "wanna-leave": "Do you want to leave?",
+
+  "curriculum": "Curriculum",
+
+  "see-exam-correction": "See exam correction",
+  "correction": "Correction",
+  "overview": "Overview",
+
+  "enter": "Enter",
+
+  "no-results-courses-in-group": "You do not have any courses in this group",
+  "no-results-courses-in-user": "The user is not enrolled in any course.",
+  "no-results-programs-in-user": "The user is not enrolled in any program.",
+  "this-looks-like-a-desert": "This looks like a desert",
+  "add-course": "Add course",
+  "add-student": "Add student",
+  "add-instructor": "Add instructor",
+  "add-program": "Add program",
+
+  "profile": "Profile",
+
+  "this-email-doesnt-exist": "This email doesn't exist",
+
+  "please-review-your-email": "Please review your email.",
+
+  "recover-password": "Recover password",
+
+  "join-courses": "Join courses",
+  "join-instructors": "Join instructors",
+  "join-programs": "Join programs",
+
+  "no-results-question-title": "You haven't created any question yet",
+  "answer": "Answer",
+  "answer-created-success": "Answer created successfully",
+  "correct-answer-information": "Click the box to mark the answer as correct.",
+  "answer-edited-success": "Answer edited successfully",
+  "question-delete-answer": "Delete answer: ",
+  "answer-deleted-success": "Answer deleted successfully",
+
+  "all-courses-already-added": "There are no courses to add.",
+  "all-students-already-added": "There are no students to add.",
+  "all-instructors-already-added": "There are no instructors to add.",
+  "all-programs-already-added": "There are no programs to add.",
+
+  "upgrade-your-plan-to-access": "Upgrade your plan to access",
+
+  "see-result": "See result",
+
+  "module-available-in": "Module available in: ",
+
+  "certificate-unavailable": "You must complete the course to receive the certificate",
+
+  "remove-course-question": "Remove course: ",
+  "remove-student-question": "Remove student: ",
+  "remove-instructor-question": "Remove instructor: ",
+  "remove-program-question": "Remove program: ",
+
+  "no-results-students-in-group": "You do not have any student in this group",
+  "no-results-instructors-in-group": "You do not have any instructor in this group",
+  "no-results-programs-in-group": "You do not have any program in this group",
+
+  "edit-lesson": "Edit lesson",
+  "edit-exam": "Edit exam",
+
+  "edit-module": "Edit module",
+  "delete-module": "Delete module",
+  "reposition-module": "Reposition module",
+
+  "delete-lesson": "Delete lesson",
+  "reposition-lesson": "Reposition lesson",
+
+  "course-created-successfully": "Course created successfully",
+  "program-created-successfully": "Program created successfully",
+
+  "wrong-password": "Wrong user or password",
+  "congratulations": "Congratulations!",
+  "third-step-message": "your course is already created and well kept in",
+  "third-step-message-edit": "your course is already edited and well kept in",
+  "program-created-message": "Your program is already created and well kept in",
+  "what-would-you-like-to-do": "What would you like to do now?",
+  "view-course": "View course",
+  "view-program": "View program",
+  "create-new-program": "New program",
+  "share": "Share",
+  "join-students": "Join students",
+  "create-new-course": "New course",
+  "select-role": "User role",
+
+  "program-expired": "The program expired on: ",
+  "program-avaiable-in": "Program available in: ",
+
+  "course-expired": "The course expired on: ",
+  "course-avaiable-in": "Course available in: ",
+
+  "total-courses-completed": "Total courses completed: ",
+
+  "doubts": "For any questions please contact:",
+
+  "purchase-in-process": "Your purchase is currently in process, as soon as the receipt is confirmed, you will receive an email with your purchase details and your course will be released.",
+
+  "watch-course": "Watch course",
+
+  "buy-this-course": "Buy this coure",
+
+  "join-persons": "Enroll persons",
+
+  "create-first-question": "Create a new question",
+  "create-new-question": "Create new question",
+  "edit-question": "Edit question",
+  "create-new-answer": "Create new answer",
+  "edit-answer": "Edit answer",
+  "question": "Question",
+  "questions": "Questions",
+  "question-list": "Your questions",
+  "basic-information": "Basic information",
+  "back": "Go back",
+  "automatic-feedback": "Automatic Feedback",
+  "add-new-answer": "Add a new answer",
+  "success": "Success",
+  "error": "Error",
+  "delete": "Delete",
+  "edit": "Edit",
+  "rate-question": "Rate question",
+
+  "feedback": "Feedback",
+  "question-in-process-of-evaluation": "This question is still being evaluated",
+  "no-feedbacks": "There are no feedbacks available.",
+
+  "module-created-success": "Module created successfully",
+  "no-results-module-title": "You can start building your course by creating a module",
+  "no-results-module-subtitle": "Modules are the most basic structures for organizing and structuring a course. click the button below to create your first",
+  "no-results-module-subtitle-highlight": "module",
+  "module-deleted-success": "Module deleted successfully",
+  "question-delete-module": "Delete module:",
+  "module-edited-success": "Module edited successfully",
+
+  "modules": "Modules",
+
+  "all": "All",
+
+  "create-certificate": "Create a new certificate",
+  "list-certificate": "List of certificates",
+  "certificate-teplate": "Template",
+  "certificate-already-exists": "This certificate already exists",
+  "certificate-created-success": "Certificate created successfully",
+  "question-delete-certificate": "Delete certificate: ",
+  "certificate-edited-success": "Certificate edited successfully",
+  "certificate-deleted-success": "Certificate deleted successfully",
+  "no-results-certificate-title": "You haven't created any certificates yet",
+  "no-results-certificate-subtitle": "This is looking like a",
+  "no-results-certificate-subtitle-highlight": "desert",
+
+  "customize-your-page": "Customize your page",
+
+  "last-activities": "Last activities",
+
+  "shortcuts": "Shortcuts",
+
+  "create-user": "Create a new user",
+  "list-users": "List of users",
+  "user-already-exists": "This user already exists, please choose another email.",
+  "massive-import": "Mass import",
+  "massive-import-success": "Import successfully completed!",
+  "question-delete-user": "Delete user: ",
+  "user-deleted-success": "User deleted successfully",
+  "user-created-success": "User created successfully",
+  "no-results-user-title": "You haven't created any users yet",
+  "no-results-user-subtitle": "This is looking like a",
+  "no-results-user-subtitle-highlight": "desert",
+
+  "users": "Users",
+
+  "storage": "Storage",
+
+  "required-name": "Name is a required field.",
+  "choose-your-content": "Choose your content",
+  "lessons": "lessons",
+  "url": "Url",
+  "target": "Target",
+  "same-window": "Same window",
+  "new-window": "New window",
+  "link-created-success": "Link created successfully",
+  "edit-link": "Edit link",
+  "link-edited-success": "Link edited successfully",
+  "link-deleted-success": "Link deleted successfully",
+  "add": "ADD",
+  "header": "Header",
+  "sub-header": "Sub header",
+  "header-color": "Header color",
+  "sub-header-color": "Subheader color",
+  "button": "Button",
+  "button-title": "Button title",
+  "button-url": "Button url",
+  "button-bg-color": "Button color",
+  "button-hover-color": "Button hover color",
+  "button-target": "Button target",
+  "button-style": "Button style",
+  "disable-section-message": "Puede deshabilitar esta sección si no la usa.",
+  "section-deleted-success": "Section deleted successfully",
+  "question-delete-section": "Delete this section?",
+
+  "question-delete-person": "Delete person: ",
+
+  "search": "Search...",
+
+  "select-category": "Select a category",
+
+  "occupation": "Occupation",
+
+  "question-delete-program": "Delete program: ",
+
+  "buy-course": "Buy this course",
+
+  "no-courses-found": "No courses found",
+
+  "no-categories-found": "No categories found",
+
+  "no-leads-found": "No leads found",
+
+  "no-programs-found": "No programs found",
+
+  "export": "Export",
+
+  "no-results-lead-title": "You don't have any lead yet",
+
+  "tracking-id": "Tracking Id",
+
+  "no-results-corrections-title": "You have no exam to evaluate.",
+
+  "answer-empty": "The student did not answer this question.",
+
+  "go-to-platform": "Enter",
+
+  "we-found": "We found a total of :",
+
+  "no-results-course-title": "You haven't created any course yet",
+  "new-course-button": "Create a new course",
+  "required-module": "Required module",
+  "courses-already-created": "Courses already created:",
+  "list-course": "List of courses",
+
+  "no-results-program-title": "You haven't created any program yet",
+  "new-program-button": "Create a new program",
+  "programs-already-created": "Programs already created:",
+
+  "section-created-success": "Section created successfully",
+  "banner-edited-success": "Banner edited successfully",
+  "select-an-element": "Select an element",
+  "testimonial": "Testimonial",
+  "persons": "Persons",
+
+  "create-group": "Create a new group",
+  "list-group": "List of groups",
+  "group-already-exists": "This group already exists",
+  "group-created-success": "Group created successfully",
+  "question-delete-group": "Delete group: ",
+  "group-edited-success": "Group edited successfully",
+  "group-deleted-success": "Group deleted successfully",
+  "no-results-group-title": "You haven't created any groups yet",
+  "no-results-group-subtitle": "This is looking like a",
+  "no-results-group-subtitle-highlight": "desert",
+
+  "email-account-created": "Your account was successfully created!",
+
+  "account-successfully-created": "Account successfully created",
+
+  "proceed-to-payment": "Proceed to payment",
+
+  "already-have-account": "Already have an account?",
+
+  "not-a-member": "Not a member?",
+
+  "register": "Register",
+
+  "you-are-logged-in-now": "You are logged in now",
+
+  "how-get-access-token": "How do I get my access token?",
+
+  "select-your-country": "Select your country",
+
+  "approved-purchase": "Your purchase has been approved and your course has been released.",
+
+  "add-new-question": "Add new question",
+
+  "your-settings": "Your settings",
+  "price": "Price",
+  "new-module": "New module",
+  "create-new-module": "Create a new module",
+
+  "create-new-exam": "Create a new exam",
+  "granted-to": "Is hereby granted to",
+  "certify-completition": "to certify that the course was completed with satisfaction",
+
+  "print-certificate": "Print certificate",
+
+  "school-records": "School records",
+
+  "exams": "Exams",
+
+  "thanks-for-your-avaliation": "Thank's for your avaliation",
+
+  "default-category": "Without category",
+  "your-certificate": "Your certificate",
+
+  "certificate-of-completition": "Certificate of completition",
+
+  "number-of-re-tests": "Number of retries",
+  "re-rest-info": "Set to 0 if the student has only one opportunity to take the exam.",
+  "next-step-button": "Next step",
+  "previous-step-button": "Previous step",
+
+  "create-new-lesson": "Create a new lesson",
+  "lesson-created-success": "Lesson created successfully",
+
+  "school-name": "School name",
+  "color": "Color",
+  "phone": "Phone",
+  "photo": "Photo",
+  "language": "Language",
+  "marketplace": "Marketplace",
+  "logo": "Logo (150x50 px)",
+  "favicon": "Favicon (50x50 px)",
+
+  "advanced-settings": "Advanced Settings",
+
+  "tour-user-name-message": "Let's start by putting a name for the new user",
+  "tour-user-email-message": "Now it's time to define the user's email, this email will be used so that the user can enter the platform.",
+  "tour-user-password-message": "The password will be used with the email to enter the platform.",
+  "tour-user-role-message": "Choose user role within the platform.</br> Learn more about user roles in the <b> <a style='color:white;' target='_blank' href='helpcenter'> Help center.</a></b>",
+  "tour-user-save-message": "Very well! it's time to save the user, just click <b> save. </b>",
+  "tour-user-done-message": "Very well! here we finish creating the user.</b> How about we go back to the <b><a style='color:white' href='home'> Home <i class='dripicons-home'></i> </a></b> and see if there is any more activity to do?",
+
+  "tour-course-name-message": "Let's start by putting a name for the new course",
+  "tour-course-description-message": "Very well! now we are going to put a good description for the course that briefly explains what the student will find.",
+  "tour-course-image-message": "Now we will put an image for the course, this image will be used as the presentation image of the course. The recommended size is <b> 1900 x 1200 px </b>",
+  "tour-course-step2-message": "Our course is almost ready! now we just need to add some content! to do this, click on step 2",
+
+  "tour-course-new-module-message": "Very well! the time has come to create the content structure for our course. For this we will start by creating a new module.",
+
+  "tour-course-new-module-name-message": "Let's start by putting a name for the new module. Ex: Introduction",
+  "tour-course-save-module-message": "We can now save the module. Click the save button",
+
+  "tour-course-new-content-message": "Now let's add some content to our new module. Click the add icon.",
+
+  "tour-course-new-pdf-message": "Here you will find all types of content available on Sabiorealm. How about if we add a pdf? Click the PDF icon.",
+
+  "tour-course-add-pdf-name": "Let's start by adding a name to our content.",
+
+  "tour-course-add-pdf-file": "Very well! now we are going to add the pdf file.",
+
+  "tour-course-pdf-save": "Now just save by clicking the 'Save' button",
+
+  "tour-last-step": "Now that we have content in our course, let's go to the last step! click on number 3",
+
+  "tour-finish-course-create-message": "Very well! we just created our first course! click on view course to take a look at how it looks.",
+
+  "tour-settings-name-message": "Let's start with the name of your school or project.",
+
+  "tour-settings-description-message": "Now, a brief description.",
+
+  "tour-settings-logo-message": "The time has come to add your logo. We recommend that your logo is <b> 150 x 150 px </b>",
+
+  "tour-settings-favicon-message": "Now let's add your favicon. Don't know what favicon is? Well, they are those little icons that appear at the top of the navigation tabs. </br> <img style='width:50%;' src='https://sbrfiles.s3.amazonaws.com/images/favicon_tour.png'> ",
+
+  "tour-settings-finish": "Very well! now to finish just click save.",
+
+  "tour-done": "Finished!",
+
+  "empty-fields-warning": "There are fields that need to be filled",
+  "update-plan-title": "This functionality is not available in your plan",
+  "update-plan-subtitle": "But do not worry! you can access this and many other features by performing a plan upgrade.",
+  "update-plan-button": "UPGRADE YOUR PLAN NOW",
+  "download-template": "Download template",
+  "invalid-character": "You are using some invalid character",
+
+  "please-wait": "Please wait, this may take a few minutes ...",
+
+  "invalid-access-token": "Invalid credentials, please review your information.",
+
+  "mercado-pago-success": "Your mercado pago account has been successfully set up!",
+  "ready-for-sales": "Everything ready for sales!",
+  "course-currency": "Your courses will be sold at",
+
+  "name": "Name",
+  "password": "Password",
+  "email": "Email",
+  "instructor": "Instructor",
+  "student": "Student",
+  "category": "Category",
+  "description": "Description",
+  "image": "Image",
+  "video-preview": "Video preview",
+  "start-date": "Start date",
+  "create-program": "Create program",
+  "edit-program": "Edit program",
+  "end-date": "End date",
+  "validity-time": "Validity Time",
+  "comments": "Comments",
+  "spotlight": "Highlighted",
+  "certificate": "Certificate",
+  "select-certificate": "Select a certificate",
+  "upload-message": "Upload file here",
+  "invalid-extension": "Invalid extension",
+  "new-name": "New name",
+  "save-button": "Save",
+  "upgrade-now": "Upgrade now",
+  "error-callback-message": "Oops, something went wrong!",
+  "success-callback-message": "Operation completed successfully",
+  "logout": "Logout",
+  "saving": "Saving please wait ...",
+  "loading": "Loading ...",
+  "date": "Date",
+  "schedule": "Schedule",
+  "duration": "How many minutes does the exam take?",
+  "approval": "What is the minimum approval percentage?",
+  "primary-color": "Primary color",
+  "secondary-color": "Secondary color",
+  "copyright": "Copyright",
+  "add-new-social": "Add new social media",
+  "social-medias": "Social medias",
+  "social-media": "Social media",
+
+  "how-would-you-rate-this-course": "How would you rate this course?",
+
+  "leave-a-comment": "Leave a comment",
+
+  "please-rate-my-course": "Please rate my course",
+  "thanks-for-your-feedback": "Thank you for your feedback!",
+
+  "add-new-lesson": "Add a new lesson",
+
+  "person": "Person",
+  "comment": "Comment",
+
+  "number-of-courses-to-be-listed": "Total number of courses to be listed",
+  "text-and-media": "Text and media",
+  "media": "Media",
+  "media-align": "Media align",
+  "content": "Content",
+  "transparent-header": "Transparent header",
+
+  "courses": "Courses",
+  "total-courses": "Total courses",
+
+  "add-new-testimonial": "Add new person testimonial",
+
+  "banner": "Banner",
+  "product-list": "Product list",
+
+  "under-construction-title": "This page is under construction",
+  "under-construction-subtitle": "Right now, there are several exceptional people with their coffee cups working on that page, which means that it will be available very soon.",
+
+  "current-plan": "You are currently on the plan:",
+  "without-category": "Without category",
+
+  "feature-plan-basic-storage": "32 Gb of storage",
+  "feature-plan-pro-storage": "64 Gb of storage",
+  "feature-plan-growt-storage": "128 Gb of storage",
+  "feature-plan-bussiness-storage": "512 Gb of storage",
+
+  "feature-plan-basic-users": "Up to 50 Active users",
+  "feature-plan-pro-users": "Up to 100 Active users",
+  "feature-plan-growt-users": "Up to 300 Active users",
+  "feature-plan-bussiness-users": "More than 300 Active users",
+
+  "reviews": "Reviews",
+
+  "on-request": "On request",
+
+  "feature-plan-programs": "Programs",
+  "feature-plan-content": "Vídeos, Audios and PDFs",
+  "feature-plan-mercadopago": "Mercadopago integration",
+  "feature-plan-google-analytics": "Google Analytics",
+  "feature-plan-tag-manager": "Tag Manager",
+  "feature-plan-facebook-pixel": "Facebook Pixel",
+  "feature-plan-courses": "Unlimited courses",
+  "feature-plan-webinar": "Webinars",
+  "feature-plan-videoconference": "Videoconferences",
+  "feature-plan-mass-import": "Mass import",
+  "feature-plan-certificate": "Certificate",
+  "feature-plan-exams": "Exams",
+
+  "feature-plan-basic-instructors": "Up to 1 instructor",
+  "feature-plan-pro-instructors": "Up to 3 instructor",
+  "feature-plan-growt-instructors": "Up to 5 instructors",
+  "feature-plan-bussiness-instructors": "Up to 100 instructors",
+
+  "included-in-all-plans": "Included in all plans",
+  "multi-languages": "Multi languages",
+  "chat-support": "Chat Support",
+
+  "monthly": "Monthly",
+  "semiannually": "Semiannually",
+
+  "first-step-course": "Step 1 ",
+  "second-step-course": "Step 2",
+  "third-step-course": "Step 3"
 }

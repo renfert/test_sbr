@@ -1,186 +1,123 @@
 <template>
-    <div class="main"  v-loading="loading">
-        <lang></lang> 
-        <div class="row">
-            <!-- Students -->
-            <div class="col-12 col-md-6">
-                <div class="card-box">
-                    <div class="chart">
-                        <line-chart :data="students" smooth  />
-                    </div>
-                </div>
+  <div class="main">
+    <lang></lang>
+    <div class="row">
+      <!-- Students -->
+      <div class="col-12 col-md-6 mb-5">
+        <div class="card-widget chart">
+          <GChart
+            v-if="usersData != null"
+            type="ColumnChart"
+            :data="usersData"
+            :options="usersChartOptions"
+          />
+          <div class="row mb-5" v-else>
+            <div class="col-12 text-center">
+              <img
+                style="width:40%;"
+                src="@/assets/img/general/ux/not_found.png"
+                alt="No activities"
+              />
+              <h4 class="no-results-text">{{ lang["no-data"] }}</h4>
             </div>
+          </div>
+        </div>
+      </div>
 
-            <!-- Sales -->
-            <div class="col-12 col-md-6">
-                <div class="card-box">
-                    <div class="chart">
-                        <bar-chart
-                            :data="sales"
-                            label-rotate
-                            zoom
-                        />
-                    </div>
-                </div>
+      <!-- Courses -->
+      <div class="col-12 col-md-6 mb-5">
+        <div class="card-widget chart">
+          <GChart
+            v-if="coursesData != null"
+            type="PieChart"
+            :data="coursesData"
+            :options="coursesChartOptions"
+          />
+          <div class="row mb-5" v-else>
+            <div class="col-12 text-center">
+              <img
+                style="width:40%;"
+                src="@/assets/img/general/ux/not_found.png"
+                alt="No activities"
+              />
+              <h4 class="no-results-text">{{ lang["no-data"] }}</h4>
             </div>
-
-            <!-- Storage -->
-            <div class="col-12 col-md-6">
-                <div class="card-box">
-                    <div class="chart">
-                        <label>Storage - GB</label>
-                        <pie-chart 
-                            label-position="center"
-                            legend 
-                            :data="storage"
-                            title="Teste"
-                        />
-                    </div>
-                </div>
-            </div>
-
-            <!-- Courses -->
-            <div class="col-12 col-md-6">
-                <div class="card-box">
-                    <div class="chart">
-                        <label>Courses</label>
-                        <pie-chart 
-                            label-position="center"
-                            legend 
-                            :data="courses"/>
-                    </div>
-                </div>
-            </div>
-        </div>    
-    </div> 
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-import Vue from 'vue'
-import axios from 'axios'
-import VueAxios from 'vue-axios'
-import VueTheMask from 'vue-the-mask'
-import ElementUI from 'element-ui'
-import Lang from '@/components/helper/HelperLang.vue'
-import 'element-ui/lib/theme-chalk/index.css'
-import lang from 'element-ui/lib/locale/lang/en'
-import locale from 'element-ui/lib/locale'
-import {eventLang} from '@/components/helper/HelperLang'
-import domains from '@/mixins/domains'
-import alerts from '@/mixins/alerts'
-import DrVueEcharts from 'dr-vue-echarts';
-Vue.use(DrVueEcharts)
+import Vue from "vue";
+import axios from "axios";
+import VueAxios from "vue-axios";
+import domains from "@/mixins/domains";
+import alerts from "@/mixins/alerts";
+import VueGoogleCharts from "vue-google-charts";
 
+import { mapState } from "vuex";
 
-
-
-locale.use(lang)
-Vue.use(VueTheMask)
-Vue.use(VueTheMask)
-Vue.use(VueAxios, axios)
-Vue.use(ElementUI)
-
+Vue.use(VueGoogleCharts);
+Vue.use(VueAxios, axios);
 
 export default {
-    components: {
-        Lang,
-    },
-    mixins: [domains,alerts],
-    data: () => {
-        return {
-            lang: {},
-            loading: false,
-            colors: ['#c3c3c3', '#c7c7c6'],
-            students: [
-                {
-                    name: "Students",
-                    data: [
-                        {
-                        label: "Jan",
-                        value: 3
-                        },
-                        {
-                        label: "Fev",
-                        value: 15
-                        },
-                        {
-                        label: "Mar",
-                        value: 23
-                        },
-                        {
-                        label: "Abr",
-                        value: 58
-                        }
-                    ]
-                }
-            ],
-            sales: [
-                {
-                name: "Sales U$",
-                data: []
-                }
-            ],
-            storage: [
-                {
-                name: 'Total',
-                value: 30,
-                },
-                {
-                name: 'Used',
-                value: 15,
-                },
-            ],
-            courses: [
-                {
-                    name: 'Not started',
-                    value: 3,
-                },
-                {
-                    name: 'In progress',
-                    value: 5,
-                },
-                {
-                    name: 'Finished',
-                    value: 15,
-                },
-            ],
-        }
-    },
-    mounted(){
-        eventLang.$on('lang', function(response){  
-            this.lang = response;
-        }.bind(this));
-
-        this.getStudentsChart();
-        this.getSalesChart();
-    },
-    methods: {
-        getStudentsChart: function(){
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("chart", "getStudentsChart");
-            axios.get(urlToBeUsedInTheRequest).then((response) => {
-                //this.students = response.data;
-                this.students[0].data = response.data;
-            },
-                /* Error callback */
-                function (){
-                   this.errorMessage();
-                }.bind(this)
-            );
+  mixins: [domains, alerts],
+  data: () => {
+    return {
+      usersData: [],
+      coursesData: [],
+      usersChartOptions: {
+        title: "New users",
+        colors: ["#00A9B4", "#29277F"]
+      },
+      coursesChartOptions: {
+        title: "Courses",
+        colors: ["#00A9B4", "#29277F", "#6959CD"]
+      }
+    };
+  },
+  computed: {
+    ...mapState(["lang"])
+  },
+  mounted() {
+    this.getRegisteredUsersPerMonth();
+    this.getCourses();
+  },
+  methods: {
+    getRegisteredUsersPerMonth: function() {
+      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+        "chart",
+        "getRegisteredUsersPerMonth"
+      );
+      axios.get(urlToBeUsedInTheRequest).then(
+        response => {
+          this.usersData = response.data;
         },
-        getSalesChart: function(){
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("chart", "getSalesChart");
-            axios.get(urlToBeUsedInTheRequest).then((response) => {
-                //this.students = response.data;
-                this.sales[0].data = response.data;
-            },
-                /* Error callback */
-                function (){
-                   this.errorMessage();
-                }.bind(this)
-            );
-        }
+        /* Error callback */
+        function() {
+          this.errorMessage();
+        }.bind(this)
+      );
+    },
+    getCourses: function() {
+      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+        "chart",
+        "getCourses"
+      );
+      axios.get(urlToBeUsedInTheRequest).then(
+        response => {
+          this.coursesData = response.data;
+        },
+        /* Error callback */
+        function() {
+          this.errorMessage();
+        }.bind(this)
+      );
     }
-}
+  }
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -188,5 +125,51 @@ export default {
 .chart {
   width: 100%;
   height: 300px;
+  max-height: 100%;
+}
+
+@media only screen and (max-width: 600px) {
+  .chart {
+    height: 100%;
+  }
+}
+
+.user-avatar {
+  width: 70px;
+}
+
+.card-widget {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  background-color: white;
+  border-radius: 10px;
+  padding: 30px;
+}
+
+.card-widget:hover {
+  box-shadow: 0 0px 7px rgba(70, 67, 67, 0.25), 0 5px 5px rgba(70, 67, 67, 0.25);
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #f5f5f5;
+}
+
+::-webkit-scrollbar {
+  width: 2px;
+  background-color: #f5f5f5;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #0ae;
+
+  background-image: -webkit-gradient(
+    linear,
+    0 0,
+    0 100%,
+    color-stop(0.5, rgba(255, 255, 255, 0.2)),
+    color-stop(0.5, transparent),
+    to(transparent)
+  );
 }
 </style>

@@ -1,193 +1,198 @@
 <template>
-    <div class="col-12">
-
-        <div class="card-box"  v-if="loadingContent == true">
-            <facebook-loader 
-                :speed="2"
-                width="700"
-                height="200"
-                primaryColor = "#f0f0f0"
-                secondaryColor = "#d9d9d9"
-            >
-            </facebook-loader>
+  <div>
+    <div class="two-column-card mt-5">
+      <div class="item-card">
+        <div v-if="programList == null">
+          <h4>{{ lang["no-results-program-title"] }}</h4>
+          <br />
+          <router-link to="/newprogram">
+            <el-button class="sbr-primary mt-3">
+              {{
+              lang["new-program-button"]
+              }}
+            </el-button>
+          </router-link>
         </div>
-
-        <div class="card-box box-programs" v-else>
-            <div class="row">
-                <div class="col-1"></div>
-                <div class="col-xl-4 col-md-4" v-if="programList == null">
-                    <div class="text-programs">
-                        <h4>{{lang["no-results-program-title"]}}</h4>
-                        <br>
-                        <a href="newprogram" class="btn-ead btn-sabiorealm">{{lang["new-program-button"]}}</a>
-                    </div>
-                </div>
-
-                <div class="col-12 col-md-4" v-else>
-                    <div class="text-programs">
-                        <h3>{{lang["programs-already-created"]}} <b class="text-eadtools">{{numberTotalOfProgramsCreated}}</b></h3>
-                        <br>
-                        <a href="newprogram" class="btn-ead btn-sabiorealm">{{lang["new-program-button"]}}</a>
-                    </div>
-                </div>
-
-                <el-divider style="height:auto;" direction="vertical"></el-divider>
-                 <div class="col-1"></div>
-                <div class="col-12 col-md-5 text-center">
-                    <h3 class="text-box">See how is easy to create a program</h3>
-                    <a id="play-video" class="video-play-button" @click.prevent="videoOverlay = true" href="#">
-                        <span></span>
-                    </a>
-                    <div id="video-overlay" class="video-overlay" :class="videoOverlay == true?'open': ''">
-                        <a @click.prevent="videoOverlay = false" class="video-overlay-close">&times;</a>
-                        <iframe width="560" height="315" src="https://www.youtube.com/embed/lQyl0PUle5E" frameborder="0" allowfullscreen></iframe>
-                    </div>
-                </div>
-            </div>
+        <div v-else>
+          <h3>
+            {{ lang["courses-already-created"] }}
+            <b class="sbr-text-primary">{{ totalPrograms }}</b>
+          </h3>
+          <router-link to="/newprogram">
+            <el-button class="sbr-primary mt-3">
+              {{
+              lang["new-program-button"]
+              }}
+            </el-button>
+          </router-link>
         </div>
-    </div><!-- End col-12 -->
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- See how to create a program --->
+      <div class="item-card item-video-course">
+        <h3 class="text-box">See how is easy to create a program</h3>
+        <a id="play-video" class="video-play-button" @click.prevent="videoOverlay = true" href="#">
+          <span></span>
+        </a>
+        <div id="video-overlay" class="video-overlay" :class="videoOverlay == true ? 'open' : ''">
+          <a @click.prevent="videoOverlay = false" class="video-overlay-close">&times;</a>
+          <iframe
+            width="560"
+            height="315"
+            src="https://www.youtube.com/embed/lQyl0PUle5E"
+            frameborder="0"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
 
-import {eventLang} from '@/components/helper/HelperLang'
-import Vue from 'vue'
-import axios from 'axios'
-import VueAxios from 'vue-axios'
-import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
-import domains from '@/mixins/domains'
-import alerts from '@/mixins/alerts'
-import { FacebookLoader } from 'vue-content-loader';
-
-Vue.use(ElementUI)
-Vue.use(VueAxios, axios)
 export default {
-    components: {
-        FacebookLoader
-    },
-    mixins: [domains,alerts],
-    data: () => {
-        return {
-            lang: {},
-            programList: [],
-            numberTotalOfProgramsCreated: '',
-            videoOverlay: false,
-            loadingContent: false,
-        }
-    },
-    created(){
-        this.getProgram();
-    },
-    mounted(){
-        eventLang.$on('lang', function(response){  
-        this.lang = response;
-        }.bind(this));
-    },
-    methods: {
-        getProgram(){
-            this.loadingContent = true;
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("program", "listing");
-            axios.get(urlToBeUsedInTheRequest).then((response) => {
-                // success callback
-                setTimeout(function(){ 
-                    this.loadingContent = false;
-                }.bind(this), 1000);
-                this.programList = response.data; 
-                this.numberTotalOfProgramsCreated = response.data.length;
-            }, 
-                // Failure callback
-                function()  {
-                    this.errorMessage();
-                }.bind(this)
-            );
-        },
-    }
-}
+  props: ["total-programs", "program-list"],
+  data: () => {
+    return {
+      videoOverlay: false
+    };
+  },
+  computed: {
+    ...mapState(["lang"])
+  }
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-.image-new-program{
-    width:50%;
-}
-.box-programs{
-    background-color: #F8FAFC;
-}
-.text-programs{
-    margin-top:25%;
+/* =============
+    - Layout
+    - Play button
+    - Mobile
+============= */
+
+/* =============
+   Layout
+============= */
+.two-column-card {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  flex-wrap: wrap;
+  margin: 0 -8px;
+  justify-content: space-around;
+  align-items: baseline;
 }
 
-.el-divider--vertical{
-    height: auto !important;
+.two-column-card > * {
+  margin: 0 8px;
 }
 
+.divider {
+  width: 2px;
+  margin: 6px 0;
+  background: #ebe5e5;
+  align-self: stretch;
+}
+
+.item-card {
+  flex: 1;
+  text-align: center;
+}
+
+.img-box {
+  width: 70%;
+}
+
+.text-box {
+  font-size: 17px;
+}
+
+.image-new-program {
+  width: 50%;
+}
+
+.text-programs {
+  margin-top: 15%;
+}
+
+.el-divider--vertical {
+  height: auto !important;
+}
+
+/* =============
+  Play button
+============= */
 .video-play-button {
-    position: relative;
-    z-index: 10;
-    margin-top: 15%;
-    left: 50%;
-    transform: translateX(-50%) translateY(-50%);
-    box-sizing: content-box;
-    display: block;
-    width: 32px;
-    height: 44px;
-    /* background: #fa183d; */
-    border-radius: 50%;
-    padding: 18px 20px 18px 28px;
+  position: relative;
+  z-index: 10;
+  margin-top: 10%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  box-sizing: content-box;
+  display: block;
+  width: 22px;
+  height: 34px;
+  /* background: #fa183d; */
+  border-radius: 50%;
+  padding: 30px 18px 18px 28px;
 }
 
 .video-play-button:before {
-    content: "";
-    position: absolute;
-    z-index: 0;
-    left: 50%;
-    top: 50%;
-    transform: translateX(-50%) translateY(-50%);
-    display: block;
-    width: 80px;
-    height: 80px;
-    background: #009CD8;
-    border-radius: 50%;
-    animation: pulse-border 1500ms ease-out infinite;
+  content: "";
+  position: absolute;
+  z-index: 0;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  display: block;
+  width: 60px;
+  height: 60px;
+  background: #009cd8;
+  border-radius: 50%;
+  animation: pulse-border 1500ms ease-out infinite;
 }
 
 .video-play-button:after {
-    content: "";
-    position: absolute;
-    z-index: 1;
-    left: 50%;
-    top: 50%;
-    transform: translateX(-50%) translateY(-50%);
-    display: block;
-    width: 80px;
-    height: 80px;
-    background: #009CD8;
-    border-radius: 50%;
-    transition: all 200ms;
+  content: "";
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  display: block;
+  width: 60px;
+  height: 60px;
+  background: #009cd8;
+  border-radius: 50%;
+  transition: all 200ms;
 }
 
 .video-play-button:hover:after {
-    background-color: darken(#009CD8, 10%);
+  background-color: darken(#009cd8, 10%);
 }
 
 .video-play-button img {
-    position: relative;
-    z-index: 3;
-    max-width: 100%;
-    width: auto;
-    height: auto;
+  position: relative;
+  z-index: 3;
+  max-width: 100%;
+  width: auto;
+  height: auto;
 }
 
 .video-play-button span {
-    display: block;
-    position: relative;
-    z-index: 3;
-    width: 0;
-    height: 0;
-    border-left: 32px solid #fff;
-    border-top: 22px solid transparent;
-    border-bottom: 22px solid transparent;
+  display: block;
+  position: relative;
+  z-index: 3;
+  width: 0;
+  height: 0;
+  border-left: 18px solid #fff;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
 }
 
 @keyframes pulse-border {
@@ -202,50 +207,68 @@ export default {
 }
 
 .video-overlay {
-    position: fixed;
-    z-index: -1;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgba(0,0,0,0.80);
-    opacity: 0;
-    transition: all ease 500ms;
+  position: fixed;
+  z-index: -1;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.8);
+  opacity: 0;
+  transition: all ease 500ms;
 }
 
 .video-overlay.open {
-    position: fixed;
-    z-index: 1000;
-    opacity: 1;
+  position: fixed;
+  z-index: 1000;
+  opacity: 1;
 }
 
 .video-overlay-close {
-    position: absolute;
-    z-index: 1000;
-    top: 15px;
-    right: 20px;
-    font-size: 36px;
-    line-height: 1;
-    font-weight: 400;
-    color: #fff;
-    text-decoration: none;
-    cursor: pointer;
-    transition: all 200ms;
+  position: absolute;
+  z-index: 1000;
+  top: 15px;
+  right: 20px;
+  font-size: 36px;
+  line-height: 1;
+  font-weight: 400;
+  color: #fff;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 200ms;
 }
 
 .video-overlay-close:hover {
-    color: #009CD8;
+  color: #009cd8;
 }
 
 .video-overlay iframe {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translateX(-50%) translateY(-50%);
-    /* width: 90%; */
-    /* height: auto; */
-    box-shadow: 0 0 15px rgba(0,0,0,0.75);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  /* width: 90%; */
+  /* height: auto; */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.75);
 }
 
+/* =============
+  Mobile  
+============= */
 
+@media only screen and (max-width: 600px) {
+  .divider {
+    display: none;
+  }
+
+  .item-card {
+    flex: initial;
+    text-align: center;
+    margin-top: 25%;
+  }
+
+  .item-video-course {
+    display: none;
+  }
+}
 </style>

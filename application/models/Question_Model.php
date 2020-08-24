@@ -252,8 +252,10 @@ class Question_Model extends CI_Model {
 
         /* Update exam score */
         $examId = $this->getLessonIdByQuestionId($dataReceiveFromPost["questionId"]);
+
         $totalQuestionScore = $this->Exam_Model->getQuestionScore($dataReceiveFromPost["questionId"], $examId);
         $questionScore = (($totalQuestionScore * $dataReceiveFromPost["score"]) / 100);
+
         $this->Exam_Model->updateExamScore($questionScore, $examId, $dataReceiveFromPost["studentId"]);
       
         /* Verify if the lesson is finished */
@@ -264,7 +266,7 @@ class Question_Model extends CI_Model {
         $exam = $this->Exam_Model->get($examId);
         $examApproval = $exam[0]->approval;
 
-        if($waitingEvaluationQuestions == 0 AND $userScore >= $examApproval){
+        if($userScore >= $examApproval){
             $this->Lesson_Model->finish($examId, $dataReceiveFromPost["studentId"]);
         }
 

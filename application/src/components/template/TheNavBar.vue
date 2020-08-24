@@ -1,272 +1,485 @@
 <template>
-    <div>
-        <login></login>
-        <!-- Header section -->
-        <mdb-navbar expand="large" dark class="navbar navbar-expand-lg navbar-dark" :style="styleHeader" v-loading="loadingHeader">
-            <!-- Header section -->
-            <mdb-navbar-brand>
-                <img class="sabio-logo" :src="logo" :width="logoSize" >
-            </mdb-navbar-brand>
+  <div>
+    <login></login>
 
-            <mdb-navbar-toggler>
-                <mdb-navbar-nav right>
+    <!-- Navbar -->
+    <div v-if="showMobile" class="sidebar-mobile">
+      <span @click.prevent="toogleSidebar" class="sidebar-mobile-close-button">✕</span>
+      <ul>
+        <!-- Products -->
+        <li>
+          <router-link to="/products" replace>
+            <span>{{ lang["courses"] }}</span>
+          </router-link>
+        </li>
 
-                    <mdb-nav-item :target="element.target" v-for="element in links"  :key="element.id" class="nav-link" :href="element.url" active>{{element.title}}</mdb-nav-item>
+        <li v-for="element in links" :key="element.id">
+          <a :href="element.url" :target="element.target">
+            {{
+            element.title
+            }}
+          </a>
+        </li>
 
-                    <mdb-nav-item class="nav-link" :href="getDomainNameToNavigation() + 'products'">Cursos</mdb-nav-item>
+        <!-- Login button -->
+        <li class="pt-5" v-if="activeSession == false">
+          <a
+            class="link-button"
+            href="javascript:void(0)"
+            :style="linkButtonMobile"
+            @click.prevent="openLoginModal()"
+          >Login</a>
+        </li>
 
-                    <mdb-nav-item v-if="activeSession == false" class="nav-link" href="javascript:void(0)" @click.prevent="openLoginModal()"> <span class="nav-login">Login</span> </mdb-nav-item>
-
-                    <mdb-nav-item v-else  class="nav-link" href="javascript:void(0)" @click.prevent="enterPlatform()"> <span class="nav-login">{{lang["go-to-platform"]}}</span></mdb-nav-item>
-
-                </mdb-navbar-nav>
-            </mdb-navbar-toggler>
-
-        </mdb-navbar>
+        <li class="pt-5" v-else>
+          <router-link to="/home">
+            <span class="link-button" :style="linkButtonMobile">{{ lang["go-to-platform"] }}</span>
+          </router-link>
+        </li>
+      </ul>
     </div>
+
+    <header :style="styleHeader">
+      <router-link to="/">
+        <img class="logo-nav" :src="logo" :width="logoSize" />
+      </router-link>
+
+      <!-- Icon menu for mobile -->
+      <ul class="ul-mobile">
+        <li>
+          <a @click.prevent="toogleSidebar" href="javascript:void(0)">
+            <i class="ti-menu"></i>
+          </a>
+        </li>
+      </ul>
+
+      <ul class="ul-landscape">
+        <!-- Products -->
+        <li>
+          <router-link to="/products">
+            <span>{{ lang["courses"] }}</span>
+          </router-link>
+        </li>
+
+        <!-- Links -->
+        <li v-for="element in links" :key="element.id">
+          <a :href="element.url" :target="element.target">
+            {{
+            element.title
+            }}
+          </a>
+        </li>
+
+        <!-- Login button -->
+        <li v-if="activeSession == false">
+          <a class="link-button" href="javascript:void(0)" @click.prevent="openLoginModal()">Login</a>
+        </li>
+
+        <li v-else>
+          <router-link to="/home">
+            <span class="link-button">{{ lang["go-to-platform"] }}</span>
+          </router-link>
+        </li>
+      </ul>
+    </header>
+    <!-- End Navbar -->
+  </div>
 </template>
 
 <script>
-import Vue from 'vue'
-import axios from 'axios'
-import VueAxios from 'vue-axios'
-import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
-import lang from 'element-ui/lib/locale/lang/en'
-import locale from 'element-ui/lib/locale'
-import {eventBus} from '@/pages/site/App'
-import {eventLang} from '@/components/helper/HelperLang'   
-import {eventLogin} from '@/components/login/Login'
-import domains from '@/mixins/domains'
-import alerts from '@/mixins/alerts'
-import Login from '@/components/login/Login'
+import Vue from "vue";
+import axios from "axios";
+import VueAxios from "vue-axios";
+import domains from "@/mixins/domains";
+import alerts from "@/mixins/alerts";
+import Login from "@/components/login/Login";
 
+import { eventBus } from "@/components/site/App";
+import { eventLogin } from "@/components/login/Login";
+import { mapState } from "vuex";
 
+Vue.use(VueAxios, axios);
 
-import * as mdbvue from 'mdbvue'
-
-for (const component in mdbvue) {
-  Vue.component(component, mdbvue[component])
-}
-
-locale.use(lang)
-Vue.use(VueAxios, axios)
-Vue.use(ElementUI)
 export default {
-    mixins: [domains,alerts],
-    props: ['full-screen-button'],
-    components: {
-        Login
-    },
-    data: () => {
-        return {
-            lang: {},
-            logo: '',
-            logoSize: "",
-            sections: null,
-            loadingHeader: false,
-            loadingSection: false,
-            loadingFooter: false,
-            footerColor: '',
-            copyright: '',
-            links: [],
-            socialMedias: [],
-            headerColor: '',
-            activeSession: false
-        }
-    },
-    mounted(){
-        eventLang.$on('lang', function(response){  
-            this.lang = response;
-        }.bind(this));
-
-        eventLogin.$on("new-login", function(){
-            this.getSession();
-        }.bind(this));
-
+  mixins: [domains, alerts],
+  props: ["full-screen-button"],
+  components: {
+    Login
+  },
+  data: () => {
+    return {
+      logo: "",
+      logoSize: "",
+      sections: null,
+      loadingHeader: false,
+      loadingSection: false,
+      loadingFooter: false,
+      footerColor: "",
+      copyright: "",
+      links: [],
+      socialMedias: [],
+      headerColor: "",
+      activeSession: false,
+      showMobile: false,
+      primaryColor: "",
+      navMobile: "display:initial !important"
+    };
+  },
+  mounted() {
+    eventLogin.$on(
+      "new-login",
+      function() {
         this.getSession();
-        this.listHeader();
-      
+      }.bind(this)
+    );
+
+    this.getSession();
+    this.getPrimaryColor();
+    this.listHeader();
+    this.navBarSticky();
+  },
+  computed: {
+    styleHeader: function() {
+      return {
+        "background-color":
+          this.headerColor == "transparent"
+            ? this.primaryColor
+            : this.headerColor,
+        width: "100%"
+      };
     },
-    computed: {
-        styleHeader: function(){
-             return {
-            'background-color': this.headerColor,
-            'position': this.headerColor == 'transparent' ? 'absolute' : 'relative',
-            'width': '100%'
-            }
-        },
-        styleFooter: function(){
-             return {
-            'background-color': this.footerColor+'!important',
-            }
-        },
+    styleBorder: function() {
+      return {
+        border:
+          this.headerColor == "transparent"
+            ? "1px solid #969bb5"
+            : "1px solid white",
+        padding: "5px 15px 5px 15px"
+      };
     },
-    methods: {
-        enterPlatform: function(){
-            window.location.href=  this.getDomainNameToNavigation() + "dashboard";
+    linkButtonMobile: function() {
+      return {
+        color: "#fff",
+        border: "1px solid " + this.primaryColor + "",
+        "background-color": this.primaryColor
+      };
+    },
+    ...mapState(["lang"])
+  },
+  methods: {
+    toogleSidebar: function() {
+      this.showMobile == true
+        ? (this.showMobile = false)
+        : (this.showMobile = true);
+    },
+    enterPlatform: function() {
+      window.location.href = "home";
+    },
+    openLoginModal: function() {
+      eventLogin.$emit("open-login-modal");
+    },
+    navBarSticky: function() {
+      window.addEventListener("scroll", function() {
+        var header = document.querySelector("header");
+        header.classList.toggle("sticky", window.scrollY > 0);
+      });
+    },
+    listHeader: function() {
+      this.loadingHeader = true;
+      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+        "builder",
+        "listHeader"
+      );
+      axios.get(urlToBeUsedInTheRequest).then(
+        response => {
+          this.logo =
+            this.getUrlToContents() +
+            "builder/header/" +
+            response.data[0].logo +
+            "";
+          this.logoSize = response.data[0].logo_size + "%";
+          this.headerColor = response.data[0].color;
+          this.loadingHeader = false;
+          this.updateLinkListArray();
         },
-        openLoginModal: function(){
-            eventLogin.$emit("open-login-modal");
+        /* Error callback */
+        function() {
+          this.errorMessage();
+        }.bind(this)
+      );
+    },
+    changeMobileButtonClass: function() {
+      if (this.navMobile == "display:none !important;") {
+        this.navMobile = "display:initial !important;";
+      } else {
+        this.navMobile = "display:none !important;";
+      }
+    },
+    listFooter: function() {
+      this.loadingFooter = true;
+      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+        "builder",
+        "listFooter"
+      );
+      axios.get(urlToBeUsedInTheRequest).then(
+        response => {
+          this.footerColor = response.data[0].color;
+          this.copyright = response.data[0].copyright;
+          this.loadingFooter = false;
+          this.updateSocialMediaListArray();
         },
-        listHeader: function(){
-            this.loadingHeader = true;
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("builder", "listHeader");
-            axios.get(urlToBeUsedInTheRequest).then((response) => {
-                this.logo = ""+this.getCurrentDomainName()+"assets/uploads/builder/header/"+response.data[0].logo;
-                this.logoSize = response.data[0].logo_size + "%";
-                this.headerColor = response.data[0].color;
-                this.loadingHeader = false;
-                this.updateLinkListArray();
-            },
-                /* Error callback */
-                function (){
-                    this.errorMessage();
-                }.bind(this)
-            );
+        /* Error callback */
+        function() {
+          this.errorMessage();
+        }.bind(this)
+      );
+    },
+    fullScreen: function() {
+      eventBus.$emit("full-screen");
+    },
+    updateSectionListArray: function() {
+      this.loadingSection = true;
+      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+        "section",
+        "listing"
+      );
+      axios.post(urlToBeUsedInTheRequest).then(
+        response => {
+          this.sections = response.data;
+          this.loadingSection = false;
         },
-        listFooter: function(){
-            this.loadingFooter = true;
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("builder", "listFooter");
-            axios.get(urlToBeUsedInTheRequest).then((response) => {
-                this.footerColor = response.data[0].color;
-                this.copyright = response.data[0].copyright;
-                this.loadingFooter = false;
-                this.updateSocialMediaListArray();
-            },
-                /* Error callback */
-                function (){
-                    this.errorMessage();
-                }.bind(this)
-            );
+        /* Error callback */
+        function() {
+          this.errorMessage();
+        }.bind(this)
+      );
+    },
+    updateLinkListArray: function() {
+      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("link", "listing");
+      axios.post(urlToBeUsedInTheRequest).then(
+        response => {
+          this.links = response.data;
         },
-        fullScreen: function(){
-            eventBus.$emit("full-screen");
+        /* Error callback */
+        function() {
+          this.errorMessage();
+        }.bind(this)
+      );
+    },
+    updateSocialMediaListArray: function() {
+      this.loading = true;
+      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+        "social",
+        "listing"
+      );
+      axios.post(urlToBeUsedInTheRequest).then(
+        response => {
+          this.socialMedias = response.data;
+          this.loading = false;
         },
-        updateSectionListArray: function (){
-            this.loadingSection = true;
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("section", "listing");
-            axios.post(urlToBeUsedInTheRequest).then((response) => {
-                this.sections = response.data;
-                this.loadingSection = false;
-            },
-                /* Error callback */
-                function (){
-                this.errorMessage();
-                }.bind(this)
-            );
+        /* Error callback */
+        function() {
+          this.errorMessage();
+        }.bind(this)
+      );
+    },
+    getPrimaryColor: function() {
+      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+        "settings",
+        "getSettingsInformation"
+      );
+      axios.post(urlToBeUsedInTheRequest).then(
+        response => {
+          this.primaryColor = response.data["color"];
         },
-        updateLinkListArray: function (){
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("link", "listing");
-            axios.post(urlToBeUsedInTheRequest).then((response) => {
-                this.links = response.data;
-            },
-                /* Error callback */
-                function (){
-                this.errorMessage();
-                }.bind(this)
-            );
+        /* Error callback */
+        function() {
+          this.errorMessage();
+        }.bind(this)
+      );
+    },
+    getSession: function() {
+      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+        "Mysessions",
+        "activeSession"
+      );
+      axios.post(urlToBeUsedInTheRequest).then(
+        response => {
+          this.activeSession = response.data;
         },
-        updateSocialMediaListArray: function (){
-            this.loading = true;
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("social", "listing");
-            axios.post(urlToBeUsedInTheRequest).then((response) => {
-                this.socialMedias = response.data;
-                this.loading= false;
-            },
-                /* Error callback */
-                function (){
-                   this.errorMessage();
-                }.bind(this)
-            );
-        },
-        getSession: function (){
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("Mysessions", "activeSession");
-            axios.post(urlToBeUsedInTheRequest).then((response) => {
-                this.activeSession = response.data;
-            },
-                /* Error callback */
-                function (){
-                   this.errorMessage();
-                }.bind(this)
-            );
-        }
+        /* Error callback */
+        function() {
+          this.errorMessage();
+        }.bind(this)
+      );
     }
-}
+  }
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
+/* =============
+    Navbar style
 
-.main{
-    width:100%;
-    position:relative;    
-}
+    - Header
+    - Sticky
+    - Mobile
+    - Button
 
-.contact{
-    width:400px;
-    position:relative;
-    margin-left:50%;
-    left: -200px;
-    text-align:center !important;
-}
+============= */
 
-.sabio-logo{
-    padding:1%;
-}
-
-.nav-link{
-    font-size:1.2em;
-    font-family: 'Poppins', sans-serif;
-}
-
-#floating-button{
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  background: #09aec7;
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  cursor: pointer;
-  box-shadow: 0px 2px 5px #0e8496;
-  padding:10px;
-}
-
-.full{
-  color: white;
-  font-size:15px;
+/* =============
+Header
+============= */
+header {
+  position: relative;
   top: 0;
-  display: block;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  text-align: center;
-  padding: 0;
-  margin-top: 0;
-  animation: plus-out 0.3s;
-  transition: all 0.3s;
+  width: 100%;
+  height: 90px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transform: 0.4s;
+  padding: 0px 15%;
+  z-index: 2000;
+  transition: 0.2s;
 }
 
-#container-floating{
+header a {
+  flex: 0 0 20%;
+}
+
+header ul {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin: 0px !important;
+}
+
+header ul li {
+  position: relative;
+  list-style: none;
+}
+
+header ul li a {
+  position: relative;
+  margin: 0 15px;
+  font-weight: 500;
+  transition: 0.5s;
+  color: white;
+  font-size: 1.3em;
+  font-family: "Poppins", sans-serif;
+}
+
+/* =============
+   sticky
+============= */
+header.sticky {
   position: fixed;
-  width: 70px;
-  height: 70px;
-  bottom: 30px;
-  right: 30px;
-  z-index: 50px;
+  box-shadow: 0px 0px 3px 0px #aca9a9;
+  height: 75px;
+  padding: 0px 15%;
+  background-color: white;
+  animation: smoothScroll 1.2s forwards;
 }
 
-#container-floating:hover{
-  height: 400px;
-  width: 90px;
-  padding: 30px;
+@keyframes smoothScroll {
+  0% {
+    transform: translateY(-40px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
 }
 
-.nav-login{
-    border:1px solid white;
-    padding:5px 15px 5px 15px;
+/* =============
+   Mobile
+============= */
+
+.ul-mobile {
+  display: none;
 }
 
+.sidebar-mobile {
+  position: fixed;
+  overflow-y: auto;
+  left: 0;
+  background-color: #1c2138;
+  width: 90%;
+  height: 100vh;
+  z-index: 3000 !important;
+  animation: hideLeftBar 1s;
+}
 
+@keyframes hideLeftBar {
+  0% {
+    transform: translateX(-100px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+
+.sidebar-mobile-close-button {
+  width: 30px;
+  height: 40px;
+  margin: 10px 7px;
+  display: none;
+  float: right;
+  color: #70798b;
+  font-size: 26px;
+  cursor: pointer;
+  display: block;
+}
+
+.sidebar-mobile ul {
+  width: 100%;
+  float: left;
+  padding: 0 !important;
+  margin-top: 10%;
+}
+
+.sidebar-mobile ul li {
+  list-style: none;
+  border-top: solid 1px #2d3454;
+  padding: 10px 30px;
+}
+
+.sidebar-mobile ul li a {
+  position: relative;
+  font-weight: 500;
+  transition: 0.5s;
+  color: white;
+  font-size: 1.2em;
+  font-family: "Poppins", sans-serif;
+}
+
+@media only screen and (max-width: 1024px) {
+  .logo-nav {
+    width: 80px !important;
+  }
+  .ul-landscape {
+    display: none;
+  }
+  .ul-mobile {
+    display: initial;
+  }
+  header {
+    height: 90px;
+  }
+  header ul li a {
+    font-size: 2em;
+  }
+}
+
+/* =============
+   Button
+============= */
+.link-button {
+  border: 1.2px solid white;
+  border-radius: 5px;
+  padding: 8px 18px 8px 18px;
+}
 </style>

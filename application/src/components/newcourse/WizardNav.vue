@@ -1,114 +1,119 @@
 <template>
-    <ul>
-      <li @click.prevent="accessFirstStep">
-        <a class="form-wizard-link" :class="active1 == true ? 'active' : '' " href="#">
-          <span>
-              {{lang["first-step-course"]}} <i v-if="firstStep == true" class="fas fa-check-circle fa-1x text-white pl-2"></i> 
-              <div v-if="active1 == true" class="arrow"></div>
-          </span>
+  <div>
+    <ul id="container">
+      <li
+        class="box"
+        :class="active2 == true || active3 == true ? 'active' : '' "
+        @click.prevent="accessFirstStep"
+      >
+        <a class="form-wizard-link" href="#">
+          <span class="numberCircle active">1</span>
         </a>
       </li>
-      <li @click.prevent="accessSecondStep">
+      <li class="box" :class="active3 == true ? 'active' : '' " @click.prevent="accessSecondStep">
         <a class="form-wizard-link" :class="active2 == true ? 'active' : '' " href="#">
-          <span>
-            {{lang["second-step-course"]}} <i v-if="secondStep == true" class="fas fa-check-circle fa-1x text-white"></i>
-            <div v-if="active2 == true" class="arrow"></div>
-          </span>
+          <span
+            class="numberCircle v-step-3"
+            :class="active2 == true || active3 == true ? 'active': '' "
+          >2</span>
         </a>
       </li>
-      <li @click.prevent="accessThirdStep">
+      <li class="box" @click.prevent="accessThirdStep">
         <a class="form-wizard-link" :class="active3 == true ? 'active' : '' " href="#">
-          <span>
-          {{lang["third-step-course"]}} <i v-if="thirdStep == true" class="fas fa-check-circle"></i>
-          </span>
+          <span class="numberCircle" :class="active3 == true ? 'active': '' ">3</span>
         </a>
       </li>
     </ul>
+    <hr class="mt-5" />
+
+    <!------------------------ 
+            Basic information text 
+    -------------------------->
+    <div clas="row text-center" v-if="active1">
+      <div class="col-12 text-center">
+        <h3 class="sbr-text-grey">{{lang['basic-information']}}</h3>
+      </div>
+    </div>
+
+    <!------------------------ 
+            Content text 
+    -------------------------->
+    <div clas="row text-center" v-if="active2">
+      <div class="col-12 text-center">
+        <h3 class="sbr-text-grey">{{lang['content']}}</h3>
+      </div>
+    </div>
+
+    <!------------------------ 
+            Publish text 
+    -------------------------->
+    <div clas="row text-center" v-if="active3">
+      <div class="col-12 text-center">
+        <h3 class="sbr-text-grey">{{lang['publish']}}</h3>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-import Vue from 'vue'
-import axios from 'axios'
-import VueAxios from 'vue-axios'
-import {eventLang} from '@/components/helper/HelperLang'
-import {eventBus} from '@/pages/newcourse/App'
+import Vue from "vue";
+import axios from "axios";
+import VueAxios from "vue-axios";
 
-Vue.use(VueAxios, axios)
+import { eventBus } from "@/components/newcourse/App";
+import { mapState } from "vuex";
+
+Vue.use(VueAxios, axios);
 export default {
-  data: () => {
+  data: function() {
     return {
-      firstStep: false,
-      secondStep: false,
-      thirdStep: false,
       active1: true,
       active2: false,
-      active3: false,
-      color: '',
-      lang: {},
-      invalidField: false
-    }
+      active3: false
+    };
   },
-  mounted(){
-    /* Get a language */
-    eventLang.$on('lang', function(response){
-      this.lang = response;
-    }.bind(this));
-
-    eventBus.$on('response-access-second-step', function(response){
-      if(response == true){
-        this.active1 = false;
-        this.active2 = true;
-        this.active3 = false;
-        this.firstStep = true;
-      }
-    }.bind(this));
-
-    eventBus.$on("response-access-third-step", function(response){
-      if(response == true){
-        this.active1 = false;
-        this.active2 = false;
-        this.active3 = true
-        this.firstStep = true;
-        this.secondStep = true;
-      }
-    }.bind(this));
+  computed: {
+    ...mapState(["lang"])
   },
   methods: {
-    accessSecondStep: function(){
+    accessSecondStep() {
       // Emit event to inform the attempt to access the second step
-      eventBus.$emit('access-second-step');
+      eventBus.$emit("access-second-step");
+      this.active1 = false;
+      this.active2 = true;
+      this.active3 = false;
     },
-    accessFirstStep: function(){
-      // Emit event to inform the attempt to access the second step
-      eventBus.$emit('access-first-step');
+
+    accessFirstStep: function() {
+      // Emit event to inform the attempt to access the first step
+      eventBus.$emit("access-first-step");
       this.active1 = true;
       this.active2 = false;
       this.active3 = false;
     },
-    accessThirdStep: function(){
+
+    accessThirdStep: function() {
       // Emit event to inform the attempt to access the second step
       eventBus.$emit("access-third-step");
+      this.active1 = false;
+      this.active2 = false;
+      this.active3 = true;
     }
   }
-}
+};
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-
-
-
-/* ----------------- Default sizes ----------- */
-
 .form-wizard-wrapper ul {
-  background-color:#373C41;
-  z-index: 1;
-  position:absolute;
-  width:100%;
-  border-radius: 4px;
+  z-index: 1 !important;
+  position: relative;
+  width: 100%;
+  border-radius: 0px 0px;
   display: flex;
   justify-content: center;
   padding: 0;
+  z-index: 300;
+  margin-left: -2%;
 }
 
 .form-wizard-wrapper ul li {
@@ -117,21 +122,19 @@ export default {
   text-align: center;
   display: flex;
   justify-content: center;
-  height:40px;
+  height: 40px;
   cursor: pointer;
 }
 
-
-
 .form-wizard-wrapper ul li a {
-    display: block;
-    width: 100%;
-    color: white;
-    text-decoration: none;
-    font-size: 1em;
-    line-height: 2;
-    font-family: 'Poppins', sans-serif;
-    padding:5px;
+  display: block;
+  width: 100%;
+  color: black;
+  text-decoration: none;
+  font-size: 1em;
+  line-height: 2;
+  font-family: "Poppins", sans-serif;
+  padding: 5px;
 }
 
 .form-wizard-wrapper ul li a.active {
@@ -141,12 +144,11 @@ export default {
   bottom: 0px;
   border-radius: 4px;
   width: 100%;
-  color: white;
+  color: black;
   text-decoration: none;
-  font-size: 1em;
+  font-size: em;
   line-height: 2;
-  font-family: 'Poppins', sans-serif;
-  background-color: #00A9B4 ;
+  font-family: "Poppins", sans-serif;
   -webkit-transition: all 0.5s cubic-bezier(0.29, 1.42, 0.79, 1) 0s;
   -moz-transition: all 0.5s cubic-bezier(0.29, 1.42, 0.79, 1) 0s;
   -ms-transition: all 0.5s cubic-bezier(0.29, 1.42, 0.79, 1) 0s;
@@ -155,82 +157,76 @@ export default {
 }
 
 .form-wizard-wrapper ul li a span {
-  position: relative;
+  position: absolute;
+  background: white;
   z-index: 1;
-  font-size: 0.85rem;
+  font-size: 1.5rem;
   line-height: 2;
+  width: 50px;
+  height: 50px;
   font-style: normal;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
+  border-radius: 50%;
+  padding: 1px;
+  border: 2px solid #9e9c9c;
+  color: #9e9c9c;
+  text-align: center;
 }
 
 /* ----------------- End default sizes ----- */
 
-
 /* ------------- Max 1024px ---------------- */
 @media only screen and (max-width: 1024px) {
-    .form-wizard-wrapper ul {
-      width:100%;
-      margin-top:-11%;
-    }
+  .form-wizard-wrapper ul {
+    width: 100%;
+    margin-top: 15%;
+    margin-left: -7%;
+  }
 
-    .form-wizard-wrapper ul li a {
-        font-size:0.8em;
-    }
+  .form-wizard-wrapper ul li a {
+    font-size: 0.8em;
+  }
 
-    .form-wizard-wrapper ul li a.active {
-        font-size:0.8em;
-        margin-top:0;
-    }
+  .form-wizard-wrapper ul li a.active {
+    font-size: 0.8em;
+    margin-top: 0;
+  }
 }
 
 /* ------------- End max 1024px ---------------- */
 
-@media only screen and (min-width:1400px){
-    .form-wizard-wrapper ul {
-        width:100%;
-    }
+@media only screen and (min-width: 1400px) {
+  .form-wizard-wrapper ul {
+    width: 100%;
+  }
 }
 
-.arrow,
-.arrow:before {
+.numberCircle.active {
+  color: #009cd8 !important;
+  border: 2px solid #009cd8;
+}
+
+.box {
+  position: relative;
+  text-align: center;
+  display: inline-block;
+}
+
+#container .box:not(:last-child):after {
   position: absolute;
-  left: 50%;
+  content: "";
+  right: -51%;
+  top: 30%;
+  width: 100%;
+  height: 50%;
+  border-bottom: 8px solid #9e9c9c;
 }
 
-.arrow {
-  top:100%;
-  width: 20px;
-  height: 20px;
-  margin: -20px 0 0 70px;
-  -webkit-transform: rotate(-45deg);
-  border-left: none;
-  border-top: none;
-  border-right: 2px #fff solid;
-  border-bottom: 2px #fff solid;
+#container .box.active:nth-child(1)::after {
+  border-bottom: 8px solid #009cd8 !important;
 }
 
-  
-.arrow:before {
-  content: '';
-  width: 15px;
-  height: 15px;
-  top: 50%;
-  margin: -10px 0 0 -10px;
-  border-left: none;
-  border-top: none;
-  border-right: 1px #fff solid;
-  border-bottom: 1px #fff solid;
-  animation-duration: 2s;
-  animation-iteration-count: infinite;
-  animation-name: arrow;
+#container .box.active:nth-child(2)::after {
+  border-bottom: 8px solid #009cd8 !important;
 }
-  
-@keyframes arrow {
-  0% {
-    opacity: 1; }
-  100% {
-    opacity: 0; 
-    transform: translate(-10px, -10px); }
-}
-
 </style>

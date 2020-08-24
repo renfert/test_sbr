@@ -6,6 +6,48 @@ class Payment extends CI_Controller {
     function __construct(){
         parent::__construct();
         $this->load->helper('url');
+        $this->load->model("Verify_Model");
+        $this->load->model("Payment_Model");
+        $this->load->model('Course_Model');
+    }
+
+    
+    public function process(){
+        if(count($_POST) > 1){
+            $preferenceId = $this->input->post("preference_id");
+            $courseId = $this->input->post("external_reference");
+            $paymentId = $this->input->post("payment_id");
+            $paymentStatus = $this->input->post("payment_status");
+            $preferenceValidity = $this->Verify_Model->checkPreferenceValidity($preferenceId);
+
+            if($preferenceValidity == true){
+                
+                if($paymentStatus == "approved"){
+                    $this->Payment_Model->savePurchaseRequisition($courseId,$paymentId,$paymentStatus);
+                    $this->Course_Model->enrollUserIntoCourse($courseId,getUserId());
+                    if(production()){
+                        header('Location: '.base_url().'purchase/success/'.$courseId.'');
+                    }else{
+                        header('Location: http://localhost:8080/purchase/success/'.$courseId.'');
+                    }
+                }
+
+                if($paymentStatus == "in_process" OR $paymentStatus == "pending"){
+                    $this->Payment_Model->savePurchaseRequisition($courseId,$paymentId,$paymentStatus);
+                    if(production()){
+                        header('Location: '.base_url().'purchase/peding/'.$courseId.'');
+                    }else{
+                        header('Location: http://localhost:8080/purchase/pending/'.$courseId.'');
+                    }
+                }
+
+
+            }else{
+                // Redirect to 404 page
+            }
+        }else{
+            // Redirect to 404 page
+        }        
     }
 
     /* 

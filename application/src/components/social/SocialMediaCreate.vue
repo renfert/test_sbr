@@ -20,7 +20,7 @@
               <el-input  name="url" v-model="url"></el-input>
             </div>
             <div class="form-group">
-              <el-button class="btn-sabiorealm" native-type="submit"  type="primary"  size="medium">{{lang["save-button"]}}</el-button>
+              <el-button class="sbr-btn sbr-primary" native-type="submit">{{lang["save-button"]}}</el-button>
             </div>
         </form>
       </el-dialog>
@@ -34,7 +34,7 @@ import VueAxios from 'vue-axios'
 import VueTheMask from 'vue-the-mask'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import {eventBus} from '@/pages/site/App'
+import {eventBus} from '@/components/site/App'
 import {eventLang} from '@/components/helper/HelperLang'
 import domains from '@/mixins/domains'
 import alerts from '@/mixins/alerts'

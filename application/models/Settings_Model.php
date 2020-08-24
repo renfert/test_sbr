@@ -1,39 +1,68 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Settings_Model extends CI_Model {
+class Settings_Model extends CI_Model
+{
 
-	public function __construct(){
+	public function __construct()
+	{
 		parent::__construct();
 	}
 
-	/* 
-    =============================================
-    Returns: array with only one object
-    ============================================== 
-    */
-	public function getSettingsInformation(){
+
+	public function getSettingsInformation()
+	{
 		$this->db->select("*");
-		$result=$this->db->get("settings");
-		if($result->num_rows()>0){
-			return $result->row();
-		}
-		else{
+		$this->db->from("settings");
+		$query = $this->db->get();
+		if ($query->num_rows() > 0) {
+			return $query->row();
+		} else {
 			return false;
 		}
-	
 	}
 
-	  /* 
-    =============================================
-    Edit settings
-    ============================================== 
-    */
-	public function edit($params){	
-		if($this->db->update("settings", $params)){
+	public function editCurrency($currency)
+	{
+		$data = array(
+			'currency' => $currency
+		);
+
+		if ($this->db->update("settings", $data)) {
 			return true;
-		}else{
+		} else {
 			return false;
 		}
-    }
+	}
+
+
+	public function edit($params)
+	{
+		$data = array(
+			"name" => $params["name"],
+			"email" => $params["email"],
+		);
+
+		finishStep(4);
+
+		if (!$this->db->update("settings", $params)) {
+			return false;
+		}
+
+		if (!$this->db->update("mycompany", $data)) {
+			return false;
+		}
+
+		return true;
+	}
+
+
+	public function editPrimaryColor($params)
+	{
+		if ($this->db->update("settings", $params)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

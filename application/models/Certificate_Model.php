@@ -25,7 +25,7 @@ class Certificate_Model extends CI_Model {
         $this->db->join("mycourse T1", "T0.mycourse_id = T1.id ");
         $this->db->where("T0.myuser_id = $userId");
         $query = $this->db->get();
-        if($query->num_rows > 0){
+        if($query->num_rows() > 0){
             return $query->result();
         }
     }

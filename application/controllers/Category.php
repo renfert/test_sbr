@@ -11,7 +11,7 @@ class Category extends CI_Controller {
 
    
 	public function create(){
-        $categoryName  = $this->input->post("name");
+        $categoryName  = applySecurityFunctions($this->input->post("name"));
         $resultCategoryCreate = $this->Category_Model->create($categoryName);
         echo json_encode($resultCategoryCreate);
     }
@@ -19,7 +19,7 @@ class Category extends CI_Controller {
     
     public function edit(){
         $dataReceiveFromPost = array(
-            'name' => $this->input->post("name"),
+            'name' => applySecurityFunctions($this->input->post("name")),
             'id' => $this->input->post("id")
         );
         $resultCategoryEdit = $this->Category_Model->edit($dataReceiveFromPost);

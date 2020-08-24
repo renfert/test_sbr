@@ -6,26 +6,19 @@ class Upload extends CI_Controller {
 
     function __construct(){
         parent::__construct();
+        $this->load->model('Upload_Model');
     }
 
 
     /* 
     =============================================
-    Upload a file
+    Upload a html file
     ============================================== 
     */
-	public function upload_file(){
-        /* Getting params from http post request */
-        foreach($_FILES as $key => $val){
-            $file = $key;
-        }   
-        $params = array(
-            'type' => $this->input->post("type"),
-            'file' => $_FILES[$file]
-        );
-        $this->load->model('Upload_Model');
-        $upload = $this->Upload_Model->upload_file($params);
-        echo $upload;
+	public function uploadHtml(){
+        $file = $_FILES["html"];
+        $upload = $this->Upload_Model->upload_html($file);
+        echo json_encode($upload);
     }
 
 

@@ -8,6 +8,19 @@ const domains = {
                 return process.env.VUE_APP_URL_DEV;
             }
         },
+
+        getUrlToContents(){
+
+            if( process.env.NODE_ENV === 'production' ){
+                var subdomain =  window.location.host.split('.')[1] ? window.location.host.split('.')[0] : false;
+            } else{
+                subdomain = "demo1";
+            }
+           
+            var url = "https://files.sabiorealm.com/"+subdomain+"/uploads/";
+            return url;
+
+        },
         getUrlToMakeRequest(controler,model){
             var domainName =  getDomain();
             var url = process.env.NODE_ENV === 'production' ? ''+domainName+'/'+controler+'/'+model : ''+process.env.VUE_APP_URL_DEV+controler+'/'+model

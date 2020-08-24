@@ -16,8 +16,8 @@ class Lead extends CI_Controller {
 	public function create(){
         $courseId = $this->input->post("courseId");
         $dataReceiveFromPost = array(
-            'name' => $this->input->post("name"),
-            'email' => $this->input->post("email"),
+            'name' => applySecurityFunctions($this->input->post("name")),
+            'email' => applySecurityFunctions($this->input->post("email")),
             'role' => "Student",
             'password' => $this->input->post("password"),
             'template-email' => 'register',

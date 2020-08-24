@@ -1,105 +1,89 @@
 <template>
-    <div class="col-12">
-        <div class="card-box table-responsive">
-            <h4>{{lang["create-category"]}}</h4><br>
-            <form @submit.prevent="createCategory()" id="form-category">
-              <div class="row">
-
-                <div class="col-xl-4 col-md-4">
-                  <!-- Category name -->
-                  <div class="form-group">
-                    <el-input required name="name" :placeholder="lang['name']" v-model="categoryName"></el-input>
-                  </div>
-                </div>
-
-                <div  class="col-xl-4 col-md-4">
-                  <!-- Save button -->
-                  <div class="form-group">
-                    <el-button 
-                      v-loading="loadingButton"
-                      class="btn-sabiorealm" 
-                      native-type="submit" 
-                      type="primary">
-                      {{lang["save-button"]}}
-                    </el-button>
-                  </div>
-                </div>
-
-              </div>
-            </form>
-        </div>
-    </div>
+  <div class="card-box table-responsive">
+    <h4>{{ lang["create-category"] }}</h4>
+    <el-form id="form-category" :inline="true">
+      <el-form-item>
+        <el-input required name="name" :placeholder="lang['name']" v-model="categoryName"></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button
+          @click.prevent="createCategory()"
+          v-loading="loadingButton"
+          class="sbr-primary"
+          native-type="submit"
+          type="primary"
+        >{{ lang["save-button"] }}</el-button>
+      </el-form-item>
+    </el-form>
+  </div>
 </template>
 
 <script>
-import Vue from 'vue'
-import axios from 'axios'
-import VueAxios from 'vue-axios'
-import VueTheMask from 'vue-the-mask'
-import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
-import {eventBus} from '@/pages/categories/App'
-import {eventLang} from '@/components/helper/HelperLang'
-import domains from '@/mixins/domains'
-import alerts from '@/mixins/alerts'
+import Vue from "vue";
+import axios from "axios";
+import VueAxios from "vue-axios";
+import ElementUI from "element-ui";
+import "element-ui/lib/theme-chalk/index.css";
+import domains from "@/mixins/domains";
+import alerts from "@/mixins/alerts";
+import { eventBus } from "@/components/categories/App";
+import { mapState } from "vuex";
 
-
-Vue.use(ElementUI)
-Vue.use(VueTheMask)
-Vue.use(VueAxios, axios)
+Vue.use(ElementUI);
+Vue.use(VueAxios, axios);
 export default {
-  mixins: [domains,alerts],
+  mixins: [domains, alerts],
   data: function() {
     return {
-      categoryName: '',
-      lang: {},
+      categoryName: "",
       loadingButton: false
-    }
+    };
   },
-  mounted(){
-    eventLang.$on('lang', function(response){  
-      this.lang = response;
-    }.bind(this));
+  computed: {
+    ...mapState(["lang"])
   },
   methods: {
-    createCategory: function(){
+    createCategory: function() {
       this.loadingButton = true;
-      var form = document.getElementById('form-category')
-      var formData = new FormData(form)
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("category", "create")
-      axios.post(urlToBeUsedInTheRequest, formData).then((response) => {
-        /* Success callback */
-        this.loadingButton = false;
-        if(response.data == false){ 
-          this.categoryAlreadyExistsMessage();
-        }else{
-          this.successMessage();
-          this.actionsToBePerformedAfterRegistration();       
-        }
-      },
+      var form = document.getElementById("form-category");
+      var formData = new FormData(form);
+      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+        "category",
+        "create"
+      );
+      axios.post(urlToBeUsedInTheRequest, formData).then(
+        response => {
+          /* Success callback */
+          this.loadingButton = false;
+          if (response.data == false) {
+            this.categoryAlreadyExistsMessage();
+          } else {
+            this.successMessage();
+            this.actionsToBePerformedAfterRegistration();
+          }
+        },
         /* Error callback */
-        function(){
-          this.errorMessage();  
+        function() {
+          this.errorMessage();
         }.bind(this)
       );
     },
-    categoryAlreadyExistsMessage(){
+    categoryAlreadyExistsMessage() {
       this.$notify({
-        title: this.lang['error'],
+        title: this.lang["error"],
         message: this.lang["category-already-exists"],
-        type: 'warning',
+        type: "warning",
         duration: 3500
       });
     },
-    actionsToBePerformedAfterRegistration(){
-      this.categoryName = ''; // Clear a category name input
-      eventBus.$emit('new-category');  // Emit a event to list component update the table of categories.
+    actionsToBePerformedAfterRegistration() {
+      this.categoryName = ""; // Clear a category name input
+      eventBus.$emit("new-category"); // Emit a event to list component update the table of categories.
     }
   }
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-  
 </style>

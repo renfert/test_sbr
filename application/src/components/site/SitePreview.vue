@@ -1,291 +1,472 @@
 <template>
-    <div class="main">
-        <mdb-navbar expand="large" dark class="navbar navbar-expand-lg navbar-dark" :style="styleHeader" v-loading="loadingHeader">
-            <!-- Header section -->
-            <mdb-navbar-brand href="#">
-                <img class="sabio-logo" :src="logo" :width="logoSize" >
-            </mdb-navbar-brand>
+  <div>
+    <!-- Navbar -->
+    <div v-if="showMobile" class="sidebar-mobile">
+      <span @click.prevent="toogleSidebar" class="sidebar-mobile-close-button">✕</span>
+      <ul>
+        <!-- Products -->
+        <li>
+          <router-link to="products">
+            <span>{{ lang["courses"] }}</span>
+          </router-link>
+        </li>
 
-            <mdb-navbar-toggler>
-                <mdb-navbar-nav right>
+        <li v-for="element in links" :key="element.id">
+          <a :href="element.url" :target="element.target">{{ element.title }}</a>
+        </li>
 
-                    <mdb-nav-item :target="element.target" v-for="element in links"  :key="element.id" class="nav-link" :href="element.url" active>{{element.title}}</mdb-nav-item>
+        <!-- Login button -->
+        <li class="pt-5" v-if="activeSession == false">
+          <a href="javascript:void(0)" @click.prevent="openLoginModal()">
+            <span class="link-button" :style="linkButtonMobile">Login</span>
+          </a>
+        </li>
 
-                    <mdb-nav-item class="nav-link" :href="getDomainNameToNavigation() + 'products'">Cursos</mdb-nav-item>
-
-                    <mdb-nav-item v-if="activeSession == false" class="nav-link" href="javascript:void(0)" @click.prevent="openLoginModal()"> <span class="nav-login">Login</span> </mdb-nav-item>
-
-                    <mdb-nav-item v-else  class="nav-link" href="javascript:void(0)" @click.prevent="enterPlatform()"> <span class="nav-login">{{lang["go-to-platform"]}}</span></mdb-nav-item>
-
-                </mdb-navbar-nav>
-            </mdb-navbar-toggler>
-
-        </mdb-navbar>
-       
-       
-        <!-- Body section -->
-        <section  v-loading="loadingSection" v-for="element in sections" :key="element.id">  
-            <banner :section-id="element.id" v-if="element.banner_id != 1"></banner>
-            <testimonial :section-id="element.id" v-if="element.testimonial_id != 1"></testimonial>
-            <product-list :section-id="element.id" v-if="element.product_list_id != 1"></product-list>
-            <text-and-media :section-id="element.id" v-if="element.text_and_media_id != 1"></text-and-media>
-        </section>     
-
-        <!-- Footer secion -->   
-        <footer class="page-footer font-small blue" :style="styleFooter"  v-loading="loadingFooter">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12 py-5">
-                        <div class="mb-5 flex-center">
-                            <!-- Facebook -->
-                            <a target="_blank" :href="element.url" v-for="element in socialMedias"  :key="element.id">
-                                <i v-if="element.name == 'facebook'" class="fab fa-facebook-f fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
-                                <i v-if="element.name == 'instagram'" class="fab fa-instagram fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
-                                <i v-if="element.name == 'linkedin'" class="fab fa-linkedin-in fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
-                                <i v-if="element.name == 'twitter'" class="fab fa-twitter fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
-                                <i v-if="element.name == 'pinterest'" class="fab fa-pinterest fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
-                                <i v-if="element.name == 'youtube'" class="fab fa-youtube fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Copyright -->
-            <div class="footer-copyright text-center py-3">© 2020 Copyright:
-                <a href="#"> {{copyright}}</a>
-            </div>
-            <!-- Copyright -->
-
-        </footer>
-        <!-- Footer -->
-
-        <!-- Float expand button -->
-        <div v-if="fullScreenButton == true" id="container-floating" @click.prevent="fullScreen()">
-            <div id="floating-button">
-                <p class="full"><i class="el-icon-full-screen"></i></p>
-            </div>
-        </div>
-
-        
+        <li class="pt-5" v-else>
+          <router-link to="home">
+            <span class="link-button" :style="linkButtonMobile">{{ lang["go-to-platform"] }}</span>
+          </router-link>
+        </li>
+      </ul>
     </div>
+
+    <header :style="this.styleHeader">
+      <a :href="getDomainNameToNavigation()">
+        <img
+          v-if="stickyMode == false && logo != null"
+          class="logo-nav"
+          :src="logo"
+          :width="logoSize"
+        />
+        <img v-else class="logo-nav" :src="logoSticky" :width="logoSize" />
+      </a>
+
+      <!-- Icon menu for mobile -->
+      <ul class="ul-mobile">
+        <li>
+          <a @click.prevent="toogleSidebar" href="javascript:void(0)">
+            <i class="ti-menu"></i>
+          </a>
+        </li>
+      </ul>
+
+      <ul class="ul-landscape">
+        <!-- Products -->
+        <li>
+          <router-link to="products">
+            <span>{{ lang["courses"] }}</span>
+          </router-link>
+        </li>
+
+        <!-- Links -->
+        <li v-for="element in links" :key="element.id">
+          <a :href="element.url" :target="element.target">{{ element.title }}</a>
+        </li>
+
+        <!-- Login button -->
+        <li v-if="activeSession == false">
+          <a href="javascript:void(0)" @click.prevent="openLoginModal()">
+            <span class="link-button">Login</span>
+          </a>
+        </li>
+
+        <li v-else>
+          <router-link to="home">
+            <span class="link-button">{{ lang["go-to-platform"] }}</span>
+          </router-link>
+        </li>
+      </ul>
+    </header>
+    <!-- End Navbar -->
+
+    <!-- Body section -->
+    <section v-for="element in sections" :key="element.id">
+      <banner :section-id="element.id" v-if="element.banner_id != 1"></banner>
+      <testimonial :section-id="element.id" v-if="element.testimonial_id != 1"></testimonial>
+      <product-list :section-id="element.id" v-if="element.product_list_id != 1"></product-list>
+      <text-and-media :section-id="element.id" v-if="element.text_and_media_id != 1"></text-and-media>
+    </section>
+
+    <!-- Footer secion -->
+    <footer class="page-footer font-small blue top-10" :style="styleFooter">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 py-5">
+            <div class="mb-5 flex-center">
+              <!-- Facebook -->
+              <a
+                target="_blank"
+                :href="element.url"
+                v-for="element in socialMedias"
+                :key="element.id"
+              >
+                <i
+                  v-if="element.name == 'facebook'"
+                  class="fab fa-facebook-f fa-lg white-text fa-2x social-icon"
+                ></i>
+                <i
+                  v-if="element.name == 'instagram'"
+                  class="fab fa-instagram fa-lg white-text fa-2x social-icon"
+                ></i>
+                <i
+                  v-if="element.name == 'linkedin'"
+                  class="fab fa-linkedin-in fa-lg white-text fa-2x social-icon"
+                ></i>
+                <i
+                  v-if="element.name == 'twitter'"
+                  class="fab fa-twitter fa-lg white-text fa-2x social-icon"
+                ></i>
+                <i
+                  v-if="element.name == 'pinterest'"
+                  class="fab fa-pinterest fa-lg white-text fa-2x"
+                ></i>
+                <i
+                  v-if="element.name == 'youtube'"
+                  class="fab fa-youtube fa-lg white-text fa-2x social-icon"
+                ></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Copyright -->
+      <div class="footer-copyright text-center py-3">
+        © 2020 Copyright:
+        <a href="#">{{ copyright }}</a>
+      </div>
+      <!-- Copyright -->
+    </footer>
+    <!-- Footer -->
+
+    <!-- Float expand button -->
+    <div v-if="fullScreenButton == true" id="container-floating" @click.prevent="fullScreen()">
+      <div id="floating-button">
+        <p class="full">
+          <i class="el-icon-full-screen"></i>
+        </p>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-import Vue from 'vue'
-import axios from 'axios'
-import VueAxios from 'vue-axios'
-import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
-import lang from 'element-ui/lib/locale/lang/en'
-import locale from 'element-ui/lib/locale'
-import {eventBus} from '@/pages/site/App'
-import {eventLang} from '@/components/helper/HelperLang'   
-import {eventLogin} from '@/components/login/Login'
-import Banner from '@/components/site/section/elements/get/Banner' 
-import Testimonial from '@/components/site/section/elements/get/Testimonial' 
-import ProductList from '@/components/site/section/elements/get/ProductList'
-import TextAndMedia from '@/components/site/section/elements/get/TextAndMedia'
-import domains from '@/mixins/domains'
-import alerts from '@/mixins/alerts'
-import * as mdbvue from 'mdbvue'
+import Vue from "vue";
+import axios from "axios";
+import VueAxios from "vue-axios";
+import ElementUI from "element-ui";
+import Banner from "@/components/site/section/elements/get/Banner";
+import Testimonial from "@/components/site/section/elements/get/Testimonial";
+import ProductList from "@/components/site/section/elements/get/ProductList";
+import TextAndMedia from "@/components/site/section/elements/get/TextAndMedia";
+import domains from "@/mixins/domains";
+import alerts from "@/mixins/alerts";
 
-for (const component in mdbvue) {
-  Vue.component(component, mdbvue[component])
-}
+import { eventLogin } from "@/components/login/Login";
+import { eventBus } from "@/components/site/App";
+import { mapState } from "vuex";
 
-locale.use(lang)
-Vue.use(VueAxios, axios)
-Vue.use(ElementUI)
+Vue.use(VueAxios, axios);
+Vue.use(ElementUI);
+
 export default {
-    mixins: [domains,alerts],
-    props: ['full-screen-button'],
-    components: {
-        Banner,
-        Testimonial,
-        ProductList,
-        TextAndMedia
-    },
-    data: () => {
+  mixins: [domains, alerts],
+  props: ["full-screen-button"],
+  components: {
+    Banner,
+    Testimonial,
+    ProductList,
+    TextAndMedia
+  },
+  data: () => {
+    return {
+      logo: null,
+      logoSticky: "",
+      logoSize: "",
+      sections: null,
+      loading: false,
+      footerColor: "",
+      copyright: "",
+      primaryColor: "",
+      links: [],
+      socialMedias: [],
+      headerColor: "",
+      activeSession: false,
+      showMobile: false,
+      stickyMode: false,
+
+      key: 0,
+
+      fullScreenMode: false
+    };
+  },
+  created() {
+    this.navBarSticky();
+    this.getPrimaryColor();
+    this.getSession();
+  },
+  mounted() {
+    this.getHeader();
+    this.getBody();
+    this.getFooter();
+
+    // When link`s change
+    eventBus.$on(
+      "link-list-update",
+      function() {
+        this.getLinks();
+      }.bind(this)
+    );
+
+    // When change header
+    eventBus.$on(
+      "new-change-header",
+      function() {
+        this.getHeader();
+      }.bind(this)
+    );
+
+    // When new section
+    eventBus.$on(
+      "new-section",
+      function() {
+        this.getBody();
+      }.bind(this)
+    );
+
+    // When delete section
+    eventBus.$on(
+      "delete-section",
+      function() {
+        this.getBody();
+      }.bind(this)
+    );
+
+    // When reorder section
+    eventBus.$on(
+      "reorder-section",
+      function() {
+        this.getBody();
+      }.bind(this)
+    );
+  },
+  computed: {
+    ...mapState(["lang"]),
+    styleHeader: function() {
+      if (this.$route.name == "site") {
+        if (this.fullScreenMode == true) {
+          return {
+            "background-color": this.headerColor,
+            width: "100%"
+          };
+        } else {
+          return {
+            "background-color": this.headerColor,
+            width: "80%"
+          };
+        }
+      } else {
         return {
-            lang: {},
-            logo: '',
-            logoSize: "",
-            sections: null,
-            loadingHeader: false,
-            loadingSection: false,
-            loadingFooter: false,
-            footerColor: '',
-            copyright: '',
-            links: [],
-            socialMedias: [],
-            headerColor: '',
-            activeSession: false
-        }
+          "background-color": this.headerColor,
+          width: "100%"
+        };
+      }
     },
-    mounted(){
-        eventLang.$on('lang', function(response){  
-            this.lang = response;
-        }.bind(this));
-
-        eventBus.$on("link-list-update", function(){
-            this.listHeader();
-        }.bind(this));
-
-        eventBus.$on("new-change-header", function(){
-            this.listHeader();
-        }.bind(this));
-
-        eventBus.$on("new-change-body", function(){
-            this.updateSectionListArray();
-        }.bind(this));
-
-        eventBus.$on("new-change-footer", function(){
-            this.listFooter();
-        }.bind(this));
-
-        eventBus.$on("new-section", function(){
-            this.updateSectionListArray();
-        }.bind(this));
-
-        this.listHeader();
-        this.listFooter();
-        this.updateSectionListArray();
-        this.getSession();
+    styleBorder: function() {
+      return {
+        border:
+          this.headerColor == "transparent"
+            ? "1px solid #969bb5"
+            : "1px solid white",
+        padding: "5px 15px 5px 15px"
+      };
     },
-    computed: {
-        styleHeader: function(){
-             return {
-            'background-color': this.headerColor,
-            'position': this.headerColor == 'transparent' ? 'absolute' : 'relative',
-            'width': '100%'
-            }
-        },
-        styleFooter: function(){
-             return {
-            'background-color': this.footerColor+'!important',
-            }
-        },
+    linkButtonMobile: function() {
+      return {
+        color: "#fff",
+        border: "1px solid " + this.primaryColor + "",
+        "background-color": this.primaryColor
+      };
     },
-    methods: {
-        openLoginModal: function(){
-            eventLogin.$emit("open-login-modal");
-        },
-        enterPlatform: function(){
-            window.location.href=  this.getCurrentDomainName() + "pages/dashboard";
-        },
-        listHeader: function(){
-            this.loadingHeader = true;
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("builder", "listHeader");
-            axios.get(urlToBeUsedInTheRequest).then((response) => {
-                this.logo = ""+this.getCurrentDomainName()+"/assets/uploads/builder/header/"+response.data[0].logo;
-                this.logoSize = response.data[0].logo_size + "%";
-                this.headerColor = response.data[0].color;
-                this.loadingHeader = false;
-                this.updateLinkListArray();
-            },
-                /* Error callback */
-                function (){
-                    this.errorMessage();
-                }.bind(this)
-            );
-        },
-        listFooter: function(){
-            this.loadingFooter = true;
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("builder", "listFooter");
-            axios.get(urlToBeUsedInTheRequest).then((response) => {
-                this.footerColor = response.data[0].color;
-                this.copyright = response.data[0].copyright;
-                this.loadingFooter = false;
-                this.updateSocialMediaListArray();
-            },
-                /* Error callback */
-                function (){
-                    this.errorMessage();
-                }.bind(this)
-            );
-        },
-        fullScreen: function(){
-            eventBus.$emit("full-screen");
-        },
-        updateSectionListArray: function (){
-            this.loadingSection = true;
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("section", "listing");
-            axios.post(urlToBeUsedInTheRequest).then((response) => {
-                this.sections = response.data;
-                this.loadingSection = false;
-            },
-                /* Error callback */
-                function (){
-                this.errorMessage();
-                }.bind(this)
-            );
-        },
-        updateLinkListArray: function (){
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("link", "listing");
-            axios.post(urlToBeUsedInTheRequest).then((response) => {
-                this.links = response.data;
-            },
-                /* Error callback */
-                function (){
-                this.errorMessage();
-                }.bind(this)
-            );
-        },
-        updateSocialMediaListArray: function (){
-            this.loading = true;
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("social", "listing");
-            axios.post(urlToBeUsedInTheRequest).then((response) => {
-                this.socialMedias = response.data;
-                this.loading= false;
-            },
-                /* Error callback */
-                function (){
-                   this.errorMessage();
-                }.bind(this)
-            );
-        },
-        getSession: function (){
-            var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("Mysessions", "activeSession");
-            axios.post(urlToBeUsedInTheRequest).then((response) => {
-                this.activeSession = response.data;
-            },
-                /* Error callback */
-                function (){
-                   this.errorMessage();
-                }.bind(this)
-            );
-        }
+    styleFooter: function() {
+      return {
+        "background-color": this.footerColor + "!important"
+      };
     }
-}
+  },
+  methods: {
+    navBarSticky: function() {
+      window.addEventListener(
+        "scroll",
+        function() {
+          var header = document.querySelector("header");
+          header.classList.toggle("sticky", window.scrollY > 0);
+          if (window.scrollY > 0) {
+            this.stickyMode = true;
+          } else {
+            this.stickyMode = false;
+          }
+        }.bind(this)
+      );
+
+      window.addEventListener(
+        "touchmove",
+        function() {
+          if (this.stickyMode == false) {
+            var header = document.querySelector("header");
+            header.classList.toggle("sticky");
+            this.stickyMode = true;
+          }
+        }.bind(this)
+      );
+    },
+    toogleSidebar: function() {
+      this.showMobile == true
+        ? (this.showMobile = false)
+        : (this.showMobile = true);
+    },
+    openLoginModal: function() {
+      eventLogin.$emit("open-login-modal");
+    },
+    getHeader: function() {
+      this.loading = true;
+      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+        "builder",
+        "listHeader"
+      );
+      axios.get(urlToBeUsedInTheRequest).then(
+        response => {
+          this.logo =
+            this.getUrlToContents() +
+            "builder/header/" +
+            response.data[0].logo +
+            "";
+          this.logoSticky =
+            this.getUrlToContents() +
+            "builder/header/" +
+            response.data[0].logo_sticky +
+            "";
+          this.logoSize = response.data[0].logo_size + "%";
+          this.headerColor = response.data[0].color;
+          this.loading = false;
+          this.getLinks();
+        },
+        /* Error callback */
+        function() {
+          this.errorMessage();
+        }.bind(this)
+      );
+    },
+    getFooter: function() {
+      this.loading = true;
+      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+        "builder",
+        "listFooter"
+      );
+      axios.get(urlToBeUsedInTheRequest).then(
+        response => {
+          this.footerColor = response.data[0].color;
+          this.copyright = response.data[0].copyright;
+          this.loading = false;
+          this.updateSocialMediaListArray();
+        },
+        /* Error callback */
+        function() {
+          this.errorMessage();
+        }.bind(this)
+      );
+    },
+    fullScreen: function() {
+      if (this.fullScreenMode == false) {
+        this.fullScreenMode = true;
+      } else {
+        this.fullScreenMode = false;
+      }
+      eventBus.$emit("full-screen");
+    },
+    getBody: function() {
+      this.loading = true;
+      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+        "section",
+        "listing"
+      );
+      axios.post(urlToBeUsedInTheRequest).then(
+        response => {
+          this.sections = response.data;
+          this.loading = false;
+        },
+        /* Error callback */
+        function() {
+          this.errorMessage();
+        }.bind(this)
+      );
+    },
+    getLinks: function() {
+      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("link", "listing");
+      axios.post(urlToBeUsedInTheRequest).then(
+        response => {
+          this.links = response.data;
+        },
+        /* Error callback */
+        function() {
+          this.errorMessage();
+        }.bind(this)
+      );
+    },
+    updateSocialMediaListArray: function() {
+      this.loading = true;
+      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+        "social",
+        "listing"
+      );
+      axios.post(urlToBeUsedInTheRequest).then(
+        response => {
+          this.socialMedias = response.data;
+          this.loading = false;
+        },
+        /* Error callback */
+        function() {
+          this.errorMessage();
+        }.bind(this)
+      );
+    },
+    getPrimaryColor: function() {
+      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+        "settings",
+        "getSettingsInformation"
+      );
+      axios.post(urlToBeUsedInTheRequest).then(
+        response => {
+          this.primaryColor = response.data["color"];
+        },
+        /* Error callback */
+        function() {
+          this.errorMessage();
+        }.bind(this)
+      );
+    },
+    getSession: function() {
+      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+        "Mysessions",
+        "activeSession"
+      );
+      axios.post(urlToBeUsedInTheRequest).then(
+        response => {
+          this.activeSession = response.data;
+        },
+        /* Error callback */
+        function() {
+          this.errorMessage();
+        }.bind(this)
+      );
+    }
+  }
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-
-.main{
-    width:100%;
-    position:relative;    
-}
-
-.contact{
-    width:400px;
-    position:relative;
-    margin-left:50%;
-    left: -200px;
-    text-align:center !important;
-}
-
-.sabio-logo{
-    padding:1%;
-}
-
-.nav-link{
-    font-size:1.2em;
-    font-family: 'Montserrat', sans-serif;
-}
-
-#floating-button{
+#floating-button {
   width: 45px;
   height: 45px;
   border-radius: 50%;
@@ -295,12 +476,12 @@ export default {
   right: 30px;
   cursor: pointer;
   box-shadow: 0px 2px 5px #0e8496;
-  padding:10px;
+  padding: 10px;
 }
 
-.full{
+.full {
   color: white;
-  font-size:15px;
+  font-size: 15px;
   top: 0;
   display: block;
   bottom: 0;
@@ -313,7 +494,7 @@ export default {
   transition: all 0.3s;
 }
 
-#container-floating{
+#container-floating {
   position: fixed;
   width: 70px;
   height: 70px;
@@ -322,15 +503,198 @@ export default {
   z-index: 50px;
 }
 
-#container-floating:hover{
+#container-floating:hover {
   height: 400px;
   width: 90px;
   padding: 30px;
 }
 
-.nav-login{
-    border:1px solid white;
-    padding:5px 15px 5px 15px;
+/* =============
+
+    - Header
+    - Layout
+    - Sticky
+    - Mobile
+    - Button
+
+============= */
+
+/* =============
+   Layout
+============= */
+
+.top-10 {
+  margin-top: 10%;
 }
 
+/* =============
+   Header
+============= */
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 90px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transform: 0.4s;
+  padding: 0px 15%;
+  z-index: 2000;
+  transition: 0.2s;
+}
+
+header a {
+  flex: 0 0 20%;
+}
+
+header ul {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin: 0px !important;
+}
+
+header ul li {
+  position: relative;
+  list-style: none;
+}
+
+header ul li a {
+  position: relative;
+  margin: 0 15px;
+  font-weight: 500;
+  transition: 0.5s;
+  color: white;
+  font-size: 1.3em;
+  font-family: "Poppins", sans-serif;
+}
+
+/* =============
+sticky
+============= */
+header.sticky {
+  position: fixed;
+  box-shadow: 0px 0px 3px 0px #aca9a9;
+  background-color: white !important;
+  height: 75px;
+  padding: 0px 15%;
+  animation: smoothScroll 1.2s forwards;
+}
+
+header.sticky ul li a,
+header.sticky ul li a span.link-button {
+  color: #4a5682 !important;
+}
+
+header.sticky ul li a span.link-button {
+  border: 2px solid #4a5682;
+}
+
+@keyframes smoothScroll {
+  0% {
+    transform: translateY(-40px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+/* =============
+Mobile
+============= */
+
+.ul-mobile {
+  display: none;
+}
+
+.sidebar-mobile {
+  position: fixed;
+  overflow-y: auto;
+  left: 0;
+  background-color: #1c2138;
+  width: 90%;
+  height: 100vh;
+  z-index: 3000 !important;
+  animation: hideLeftBar 1s;
+}
+
+@keyframes hideLeftBar {
+  0% {
+    transform: translateX(-100px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+
+.sidebar-mobile-close-button {
+  width: 30px;
+  height: 40px;
+  margin: 10px 7px;
+  display: none;
+  float: right;
+  color: #70798b;
+  font-size: 26px;
+  cursor: pointer;
+  display: block;
+}
+
+.sidebar-mobile ul {
+  width: 100%;
+  float: left;
+  padding: 0 !important;
+  margin-top: 10%;
+}
+
+.sidebar-mobile ul li {
+  list-style: none;
+  border-top: solid 1px #2d3454;
+  padding: 10px 30px;
+}
+
+.sidebar-mobile ul li a {
+  position: relative;
+  font-weight: 500;
+  transition: 0.5s;
+  color: white;
+  font-size: 1.2em;
+  font-family: "Poppins", sans-serif;
+}
+
+.ul-landscape {
+  width: 100%;
+}
+
+@media only screen and (max-width: 1024px) {
+  .logo-nav {
+    width: 80px !important;
+  }
+  .ul-landscape {
+    display: none;
+  }
+  .ul-mobile {
+    display: initial;
+  }
+  header {
+    height: 90px;
+  }
+  header ul li a {
+    font-size: 2em;
+  }
+}
+
+/* =============
+Button
+============= */
+.link-button {
+  border: 1.2px solid white;
+  border-radius: 5px;
+  padding: 8px 18px 8px 18px;
+}
+
+.social-icon {
+  margin: 0em 1em;
+}
 </style>
