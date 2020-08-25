@@ -81,6 +81,12 @@ const routes = [
       )
   },
   {
+    name: "auth",
+    path: "/auth/:jwt",
+    component: () =>
+      import(/* webpackChunkName: "auth" */ "@/components/auth/App")
+  },
+  {
     name: "group",
     path: "/group/:id",
     component: () =>
