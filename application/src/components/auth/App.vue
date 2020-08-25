@@ -47,7 +47,7 @@ export default {
               function() {
                 this.$router.push({ name: "home" });
               }.bind(this),
-              8000
+              3000
             );
           } else {
             this.errorMessage();
