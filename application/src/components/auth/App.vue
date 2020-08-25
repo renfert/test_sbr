@@ -43,7 +43,9 @@ export default {
         .post(urlToBeUsedInTheRequest, formData)
         .then(response => {
           if (response.data == true) {
-            this.$router.push({ name: "home" });
+            setTimeout(function() {
+              this.$router.push({ name: "home" });
+            }, 8000);
           } else {
             this.errorMessage();
           }
