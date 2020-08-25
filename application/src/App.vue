@@ -114,7 +114,8 @@ export default {
         this.$route.name != "invalidsession" &&
         this.$route.name != "products" &&
         this.$route.name != "product" &&
-        this.$route.name != "404"
+        this.$route.name != "404" &&
+        this.$route.name != "auth"
       ) {
         this.verifySession();
       }
