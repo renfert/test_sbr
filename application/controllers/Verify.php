@@ -68,6 +68,11 @@ class Verify extends CI_Controller {
         $result = $this->Verify_Model->courseExpiration($courseId);
         echo json_encode($result);
     }
+
+    public function verifyValidityOfJwt(){
+        $jwt = $this->input->post("jwt");
+        $result = $this->Verify_Model->verifyValidityOfJwt($jwt);
+        echo json_encode($result);
+    }
     
 }
-?>

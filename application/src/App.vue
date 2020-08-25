@@ -12,7 +12,8 @@
       currentRoute != 'invalidsession' &&
       currentRoute != 'purchase' &&
       currentRoute != 'site' &&
-      currentRoute != '404' 
+      currentRoute != '404' &&
+      currentRoute != 'auth'
       "
     ></top-bar>
     <div
@@ -25,7 +26,8 @@
           currentRoute != 'invalidsession' &&
           currentRoute != 'purchase' &&
           currentRoute != 'site' &&
-          currentRoute != '404'
+          currentRoute != '404' &&
+          currentRoute != 'auth'
       "
     >
       <admin-left-bar
