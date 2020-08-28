@@ -1,12 +1,12 @@
 <template>
   <div>
-    <div v-for="element in banner" :key="element.id">
+    <div>
       <el-dialog :visible.sync="modal" title="Banner" center width="40%" top="5vh">
         <form id="form-banner" @submit.prevent="editBanner()">
           <!-- Banner id -->
-          <input type="number" name="bannerId" class="hide" :value="element.id" />
+          <input class="hide" type="number" name="bannerId" v-model="bannerId" />
           <!-- Cta id -->
-          <input type="number" name="buttonId" class="hide" :value="element.button_id" />
+          <input type="number" name="buttonId" class="hide" v-model="buttonId" />
           <el-tabs type="border-card">
             <el-tab-pane>
               <span slot="label">
@@ -18,8 +18,10 @@
                   <!-- Banner image  -->
                   <label class="col-form-label">{{lang["image"]}} *</label>
                   <upload
-                    :src-name="element.image"
-                    :src-img="getUrlToContents() + 'builder/body/'+element.image+''"
+                    :key="componentKey"
+                    v-if="bannerImage != ''"
+                    :src-name="bannerImageName"
+                    :src-img="bannerImage"
                     do-upload="true"
                     box-height="200"
                     return-name="bannerName"
@@ -200,14 +202,15 @@ export default {
   },
   data: () => {
     return {
-      banner: [],
       modules: null,
+      bannerId: "",
       header: "",
       subHeader: "",
       headerColor: "",
       subHeaderColor: "",
       loadingButton: false,
       modal: false,
+      buttonId: "",
       buttonTitle: "",
       buttonUrl: "",
       buttonTarget: "",
@@ -218,7 +221,9 @@ export default {
       activeSubHeader: true,
       activeButton: true,
       sectionId: "",
-      bannerImage: ""
+      bannerImage: "",
+      bannerImageName: "",
+      componentKey: 0
     };
   },
   mounted() {
@@ -234,6 +239,9 @@ export default {
     ...mapState(["lang"])
   },
   methods: {
+    forceRerender: function() {
+      this.componentKey += 1;
+    },
     editBanner: function() {
       this.loadingButton = true;
       var form = document.getElementById("form-banner");
@@ -280,7 +288,8 @@ export default {
       formData.set("sectionId", sectionId);
       axios.post(urlToBeUsedInTheRequest, formData).then(
         response => {
-          this.banner = response.data;
+          this.bannerId = response.data[0]["banner_id"];
+          this.buttonId = response.data[0]["button_id"];
           this.buttonTitle = response.data[0]["title"];
           this.buttonColor = response.data[0]["color"];
           this.buttonColorHover = response.data[0]["color_hover"];
@@ -291,7 +300,12 @@ export default {
           this.buttonTarget = response.data[0]["target"];
           this.header = response.data[0]["header"];
           this.subHeader = response.data[0]["subheader"];
-          this.bannerImage = response.data[0]["image"];
+          this.bannerImageName = response.data[0]["image"];
+          this.bannerImage =
+            this.getUrlToContents() +
+            "builder/body/" +
+            this.bannerImageName +
+            "";
 
           if (response.data[0]["header"] == null) {
             this.activeHeader = false;
@@ -304,6 +318,7 @@ export default {
           if (response.data[0]["title"] == null) {
             this.activeButton = false;
           }
+          this.forceRerender();
         },
         /* Error callback */
         function() {
