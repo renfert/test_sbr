@@ -1,12 +1,12 @@
 <template>
   <div>
-    <div v-for="element in banner" :key="element.id">
+    <div>
       <el-dialog :visible.sync="modal" title="Banner" center width="40%" top="5vh">
         <form id="form-banner" @submit.prevent="editBanner()">
           <!-- Banner id -->
-          <input type="number" name="bannerId" class="hide" :value="element.id" />
+          <input class="hide" type="number" name="bannerId" v-model="bannerId" />
           <!-- Cta id -->
-          <input type="number" name="buttonId" class="hide" :value="element.button_id" />
+          <input type="number" name="buttonId" class="hide" v-model="buttonId" />
           <el-tabs type="border-card">
             <el-tab-pane>
               <span slot="label">
@@ -18,8 +18,8 @@
                   <!-- Banner image  -->
                   <label class="col-form-label">{{lang["image"]}} *</label>
                   <upload
-                    :src-name="element.image"
-                    :src-img="getUrlToContents() + 'builder/body/'+element.image+''"
+                    :src-name="bannerImage"
+                    :src-img="getUrlToContents() + 'builder/body/'+bannerImage+''"
                     do-upload="true"
                     box-height="200"
                     return-name="bannerName"
@@ -200,14 +200,15 @@ export default {
   },
   data: () => {
     return {
-      banner: [],
       modules: null,
+      bannerId: "",
       header: "",
       subHeader: "",
       headerColor: "",
       subHeaderColor: "",
       loadingButton: false,
       modal: false,
+      buttonId: "",
       buttonTitle: "",
       buttonUrl: "",
       buttonTarget: "",
@@ -280,7 +281,8 @@ export default {
       formData.set("sectionId", sectionId);
       axios.post(urlToBeUsedInTheRequest, formData).then(
         response => {
-          this.banner = response.data;
+          this.bannerId = response.data[0]["banner_id"];
+          this.buttonId = response.data[0]["button_id"];
           this.buttonTitle = response.data[0]["title"];
           this.buttonColor = response.data[0]["color"];
           this.buttonColorHover = response.data[0]["color_hover"];
