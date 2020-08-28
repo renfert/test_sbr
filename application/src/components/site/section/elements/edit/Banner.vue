@@ -18,6 +18,7 @@
                   <!-- Banner image  -->
                   <label class="col-form-label">{{lang["image"]}} *</label>
                   <upload
+                    :key="componentKey"
                     :src-name="bannerImage"
                     :src-img="getUrlToContents() + 'builder/body/'+bannerImage+''"
                     do-upload="true"
@@ -219,7 +220,8 @@ export default {
       activeSubHeader: true,
       activeButton: true,
       sectionId: "",
-      bannerImage: ""
+      bannerImage: "",
+      componentKey: 0
     };
   },
   mounted() {
@@ -235,6 +237,9 @@ export default {
     ...mapState(["lang"])
   },
   methods: {
+    forceRerender: function() {
+      this.componentKey += 1;
+    },
     editBanner: function() {
       this.loadingButton = true;
       var form = document.getElementById("form-banner");
@@ -306,6 +311,7 @@ export default {
           if (response.data[0]["title"] == null) {
             this.activeButton = false;
           }
+          this.forceRerender();
         },
         /* Error callback */
         function() {
