@@ -19,8 +19,9 @@
                   <label class="col-form-label">{{lang["image"]}} *</label>
                   <upload
                     :key="componentKey"
-                    :src-name="bannerImage"
-                    :src-img="getUrlToContents() + 'builder/body/'+bannerImage+''"
+                    v-if="bannerImage != ''"
+                    :src-name="bannerImageName"
+                    :src-img="bannerImage"
                     do-upload="true"
                     box-height="200"
                     return-name="bannerName"
@@ -221,6 +222,7 @@ export default {
       activeButton: true,
       sectionId: "",
       bannerImage: "",
+      bannerImageName: "",
       componentKey: 0
     };
   },
@@ -298,7 +300,12 @@ export default {
           this.buttonTarget = response.data[0]["target"];
           this.header = response.data[0]["header"];
           this.subHeader = response.data[0]["subheader"];
-          this.bannerImage = response.data[0]["image"];
+          this.bannerImageName = response.data[0]["image"];
+          this.bannerImage =
+            this.getUrlToContents() +
+            "builder/body/" +
+            this.bannerImageName +
+            "";
 
           if (response.data[0]["header"] == null) {
             this.activeHeader = false;
