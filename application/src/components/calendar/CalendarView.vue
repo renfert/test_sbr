@@ -4,8 +4,6 @@
 
 <script>
 import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
 import VCalendar from "v-calendar";
@@ -15,8 +13,6 @@ import { mapState } from "vuex";
 Vue.use(VCalendar, {
   componentPrefix: "vc"
 });
-
-Vue.use(VueAxios, axios);
 
 export default {
   mixins: [domains, alerts],
@@ -40,9 +36,13 @@ export default {
     ...mapState(["lang"])
   },
   methods: {
-    getUserEvents: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("calendar", "get");
-      axios.get(urlToBeUsedInTheRequest).then(
+    getUserEvents() {
+      let urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        "calendar",
+        "get"
+      );
+
+      this.$request.get(urlToBeUsedInTheRequest).then(
         response => {
           this.attrs = response.data;
         },

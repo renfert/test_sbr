@@ -199,7 +199,7 @@ export default {
     deleteLesson: function(id) {
       var formData = new FormData();
       formData.set("lessonId", id);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "lesson",
         "delete"
       );
@@ -226,7 +226,7 @@ export default {
       $.each(ar, function(index, value) {
         formData.set("lesson[" + value.id + "]", value.index);
       });
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "lesson",
         "reorder"
       );
@@ -243,7 +243,7 @@ export default {
       this.loadingContent = true;
       var formData = new FormData();
       formData.set("moduleId", this.moduleId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "lesson",
         "listing"
       );

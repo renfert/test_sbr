@@ -4,7 +4,7 @@
       <el-carousel-item v-for="element in personsArray" :key="element.id">
         <div class="testimonial-persons">
           <el-avatar :size="80">
-            <img :src="getUrlToContents() + 'testimonial/'+element.photo+''" />
+            <img :src="$getUrlToContents() + 'testimonial/'+element.photo+''" />
           </el-avatar>
           <h3>{{element.name}}</h3>
           <h4>{{element.occupation}}</h4>
@@ -55,7 +55,7 @@ export default {
   },
   methods: {
     getPrimaryColor() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "settings",
         "getSettingsInformation"
       );
@@ -80,7 +80,7 @@ export default {
       this.loading = true;
       var formData = new FormData();
       formData.set("testimonialId", this.testimonialId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "persons",
         "listing"
       );

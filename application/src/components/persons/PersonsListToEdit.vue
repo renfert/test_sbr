@@ -59,7 +59,7 @@
           <div class="image-upload" style="text-align:center;">
             <label for="file-input">
               <el-avatar style="cursor:pointer" :size="100">
-                <img :src="getUrlToContents() + 'testimonial/'+photo+''" />
+                <img :src="$getUrlToContents() + 'testimonial/'+photo+''" />
               </el-avatar>
             </label>
             <input :value="avatar" name="avatar" type="text" />
@@ -198,7 +198,7 @@ export default {
     deletePerson: function(id) {
       var formData = new FormData();
       formData.set("personId", id);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "persons",
         "delete"
       );
@@ -229,7 +229,7 @@ export default {
       return result + time;
     },
     getSubDomainName: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "verify",
         "getSubDomainName"
       );
@@ -254,7 +254,10 @@ export default {
     editPerson: function() {
       var form = document.getElementById("form-person");
       var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("persons", "edit");
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        "persons",
+        "edit"
+      );
       axios.post(urlToBeUsedInTheRequest, formData).then(
         () => {
           this.successMessage();
@@ -278,7 +281,7 @@ export default {
       $.each(ar, function(index, value) {
         formData.set("persons[" + value.id + "]", value.index);
       });
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "persons",
         "reorder"
       );
@@ -296,7 +299,7 @@ export default {
       this.loading = true;
       var formData = new FormData();
       formData.set("testimonialId", this.testimonialId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "persons",
         "listing"
       );

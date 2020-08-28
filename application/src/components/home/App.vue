@@ -35,7 +35,7 @@ export default {
   },
   methods: {
     getProfile: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "user",
         "getUserProfile"
       );

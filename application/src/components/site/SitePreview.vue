@@ -31,7 +31,7 @@
     </div>
 
     <header :style="this.styleHeader">
-      <a :href="getDomainNameToNavigation()">
+      <a :href="$getDomainNameToNavigation()">
         <img
           v-if="stickyMode == false && logo != null"
           class="logo-nav"
@@ -330,19 +330,19 @@ export default {
     },
     getHeader: function() {
       this.loading = true;
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "builder",
         "listHeader"
       );
       axios.get(urlToBeUsedInTheRequest).then(
         response => {
           this.logo =
-            this.getUrlToContents() +
+            this.$getUrlToContents() +
             "builder/header/" +
             response.data[0].logo +
             "";
           this.logoSticky =
-            this.getUrlToContents() +
+            this.$getUrlToContents() +
             "builder/header/" +
             response.data[0].logo_sticky +
             "";
@@ -359,7 +359,7 @@ export default {
     },
     getFooter: function() {
       this.loading = true;
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "builder",
         "listFooter"
       );
@@ -386,7 +386,7 @@ export default {
     },
     getBody: function() {
       this.loading = true;
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "section",
         "listing"
       );
@@ -402,7 +402,10 @@ export default {
       );
     },
     getLinks: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("link", "listing");
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        "link",
+        "listing"
+      );
       axios.post(urlToBeUsedInTheRequest).then(
         response => {
           this.links = response.data;
@@ -415,7 +418,7 @@ export default {
     },
     updateSocialMediaListArray: function() {
       this.loading = true;
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "social",
         "listing"
       );
@@ -431,7 +434,7 @@ export default {
       );
     },
     getPrimaryColor: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "settings",
         "getSettingsInformation"
       );
@@ -446,7 +449,7 @@ export default {
       );
     },
     getSession: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "Mysessions",
         "activeSession"
       );

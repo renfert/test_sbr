@@ -84,11 +84,8 @@
 
 <script>
 import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
-import ElementUI from "element-ui";
 import ExamCorrection from "@/components/viewcourse/correction/ExamCorrection";
 
 import { eventCorrection } from "@/components/viewcourse/correction/ExamCorrection";
@@ -97,63 +94,57 @@ import { mapState } from "vuex";
 
 Vue.use(DataTables);
 Vue.use(DataTablesServer);
-Vue.use(ElementUI);
-Vue.use(VueAxios, axios);
 
 export default {
   mixins: [domains, alerts],
   components: {
     ExamCorrection
   },
-  data: function() {
+  data: () => {
     return {
       titles: [
         { prop: "student", label: "Student" },
         { prop: "course", label: "Course" },
         { prop: "exam", label: "Exam" }
       ],
-      correctionsList: [],
       filters: [
         { prop: "student", value: "" },
         { prop: "course", value: "" },
         { prop: "exam", value: "" },
         { prop: "status", value: "" }
       ],
-      tableProps: { defaultSort: { prop: "status", order: "descending" } }
+      tableProps: { defaultSort: { prop: "status", order: "descending" } },
+      correctionsList: []
     };
   },
   created() {
     this.getCorrections();
   },
   mounted() {
-    eventCorrection.$on(
-      "finish-correction",
-      function() {
-        this.getCorrections();
-      }.bind(this)
-    );
+    eventCorrection.$on("finish-correction", () => {
+      this.getCorrections();
+    });
   },
   computed: {
     ...mapState(["lang"])
   },
   methods: {
     getCorrections() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      let urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "corrections",
         "listing"
       );
-      axios.get(urlToBeUsedInTheRequest).then(
+      this.$request.get(urlToBeUsedInTheRequest).then(
         response => {
           this.correctionsList = response.data;
         },
-        function() {
-          // Failure callback
+        () => {
           this.errorMessage();
-        }.bind(this)
+        }
       );
     },
-    openCorrection: function(examId, studentId) {
-      var data = {
+    openCorrection(examId, studentId) {
+      let data = {
         examId: examId,
         studentId: studentId
       };

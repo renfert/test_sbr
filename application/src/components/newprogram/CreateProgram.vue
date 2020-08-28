@@ -224,7 +224,7 @@ export default {
       this.selectedCourses.push(obj);
     },
     getCourses: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "program",
         "getCourses"
       );

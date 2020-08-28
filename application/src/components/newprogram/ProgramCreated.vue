@@ -101,7 +101,7 @@ export default {
       var formData = new FormData();
       formData.set("programId", this.programId);
       formData.set("users", this.users);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "program",
         "enrollUsersIntoProgram"
       );
@@ -123,7 +123,7 @@ export default {
     getPersonsOutsideTheProgram() {
       var formData = new FormData();
       formData.set("programId", this.programId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "program",
         "getPersonsOutsideTheProgram"
       );

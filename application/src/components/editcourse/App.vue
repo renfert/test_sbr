@@ -17,8 +17,6 @@ import FirstStep from "@/components/editcourse/FirstStep";
 import SecondStep from "@/components/editcourse/SecondStep";
 import ThirdStep from "@/components/editcourse/ThirdStep";
 import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
 import VueHead from "vue-head";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
@@ -26,7 +24,6 @@ import verify from "@/mixins/verify";
 
 export const eventBus = new Vue();
 
-Vue.use(VueAxios, axios);
 Vue.use(VueHead);
 
 export default {

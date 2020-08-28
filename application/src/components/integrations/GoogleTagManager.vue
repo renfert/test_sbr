@@ -40,7 +40,7 @@ export default {
   },
   methods: {
     getTagManager() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "integrations",
         "getIntegrations"
       );
@@ -59,7 +59,7 @@ export default {
     saveTagManager: function() {
       var formData = new FormData();
       formData.set("id", this.id);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "integrations",
         "saveTagManager"
       );

@@ -8,6 +8,7 @@
 import CalendarView from "@/components/calendar/CalendarView";
 import Vue from "vue";
 import VueHead from "vue-head";
+
 export const eventBus = new Vue();
 
 Vue.use(VueHead);

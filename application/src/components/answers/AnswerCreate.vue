@@ -1,11 +1,6 @@
 <template>
   <div>
-    <el-dialog
-      :visible.sync="modalCreateAnswer"
-      :title="lang['create-new-answer']"
-      center
-      top="5vh"
-    >
+    <el-dialog :visible.sync="modal" :title="lang['create-new-answer']" center top="5vh">
       <form id="form-answer" @submit.prevent="createAnswer()">
         <div class="form-row">
           <div class="form-group col-xl-12 col-md-12">
@@ -31,71 +26,60 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
 
 import { eventBus } from "@/components/newcourse/App";
 import { mapState } from "vuex";
 
-Vue.use(VueAxios, axios);
-
 export default {
   mixins: [domains, alerts],
   data: () => {
     return {
       answer: "",
-      modalCreateAnswer: false,
+      modal: false,
       loading: false,
       questionId: ""
     };
   },
   mounted() {
-    /* Get new answer click event */
-    eventBus.$on(
-      "open-answer-modal",
-      function(questionId) {
-        this.modalCreateAnswer = true;
-        this.questionId = questionId;
-      }.bind(this)
-    );
+    eventBus.$on("open-answer-modal", questionId => {
+      this.modal = true;
+      this.questionId = questionId;
+    });
   },
   computed: {
     ...mapState(["lang"])
   },
   methods: {
-    createAnswer: function() {
+    createAnswer() {
       this.loading = true;
-      var form = document.getElementById("form-answer");
-      var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      let form = document.getElementById("form-answer");
+      let formData = new FormData(form);
+      let urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "answer",
         "create"
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
           this.successMessage();
-          this.actionsToBePerformedAfterRegistration();
           this.loading = false;
+          this.modal = false;
+          document.getElementById("form-answer").reset();
+          eventBus.$emit("new-answer");
         },
-        /* Error callback */
-        function() {
+        () => {
           this.errorMessage();
         }
       );
-    },
-    actionsToBePerformedAfterRegistration() {
-      (this.answer = ""), (this.modalCreateAnswer = false);
-      eventBus.$emit("new-answer");
     }
   }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
+<style  scoped>
 .textarea-question {
   height: 100px !important;
 }

@@ -66,7 +66,7 @@ export default {
     createLink: function() {
       var form = document.getElementById("form-link");
       var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("link", "create");
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest("link", "create");
       axios.post(urlToBeUsedInTheRequest, formData).then(
         () => {
           /* Success callback */

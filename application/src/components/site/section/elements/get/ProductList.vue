@@ -158,7 +158,7 @@ export default {
     ********************/
     setTimeout(function() {
       window.dispatchEvent(new Event("resize"));
-    }, 5000);
+    }, 3000);
 
     if (window.screen.width <= 800) {
       this.mobile = true;
@@ -189,7 +189,7 @@ export default {
       }
     },
     getCourses: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "site-elements/productList",
         "get"
       );
@@ -327,7 +327,7 @@ a {
 }
 
 .cources_info_style3 ul li {
-  flex: 0 0 33.333333%;
+  flex: 0 0 50%;
   width: 33.333333%;
   font-size: 13px;
   color: #4a5874;

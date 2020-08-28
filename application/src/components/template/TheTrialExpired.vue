@@ -17,7 +17,7 @@
   >
     <!-- Trial expired card -->
     <div class="text-center container-trial" v-if="trialContent == true">
-      <div v-if="role == 1">
+      <div v-if="userRole == 1">
         <h2>{{ lang["trial-expired"] }}</h2>
         <h3>{{ lang["trial-expired-message"] }}</h3>
         <div class="buttons text-center">
@@ -113,19 +113,11 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
 import AvailablePlans from "@/components/plans/AvailablePlans";
 
 import { mapState } from "vuex";
 
-Vue.use(VueAxios, axios);
-
 export default {
-  mixins: [domains, alerts],
   components: {
     AvailablePlans
   },
@@ -138,52 +130,40 @@ export default {
       step: "",
       domain: "",
       country: "",
+      trialExpirationDate: "",
+
       comparisonPlansContent: false,
       trialContent: true,
       checkoutContent: false,
       loading: false,
-      role: "",
       daysToExpiration: 0,
       currentDate: ""
     };
   },
   created() {
-    this.getUserProfile();
     this.getCurrentDate();
     this.getCompanyInformation();
   },
   methods: {
-    getUserProfile: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "user",
-        "getUserProfile"
-      );
-      axios.get(urlToBeUsedInTheRequest).then(
-        function(response) {
-          this.role = response.data["myrole_id"];
-        }.bind(this)
-      );
-    },
-    getCompanyInformation: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+    getCompanyInformation() {
+      let urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "company",
         "getCompanyInformation"
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        function(response) {
-          this.plan = response.data["plan"];
-          this.country = response.data["country"];
-          this.email = response.data["email"];
-          this.name = response.data["contact"];
-          this.step = response.data["step_project"];
-          this.type = response.data["type_project"];
-          this.domain = response.data["subdomain"];
-        }.bind(this)
-      );
+      this.$request.get(urlToBeUsedInTheRequest).then(response => {
+        this.plan = response.data["plan"];
+        this.country = response.data["country"];
+        this.email = response.data["email"];
+        this.name = response.data["contact"];
+        this.step = response.data["step_project"];
+        this.type = response.data["type_project"];
+        this.domain = response.data["subdomain"];
+        this.trialExpirationDate = response.data["expiration"];
+      });
     },
-    upgradePlan: function() {
+    upgradePlan() {
       this.loading = true;
-      var formData = new FormData();
+      let formData = new FormData();
       formData.set("domain", this.domain);
       formData.set("name", this.name);
       formData.set("customerEmail", this.email);
@@ -192,43 +172,31 @@ export default {
       formData.set("type", this.type);
       formData.set("country", this.country);
 
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      let urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "emails",
         "sendPurchaseEmail"
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        function() {
-          this.loading = false;
-          this.trialContent = false;
-          this.comparisonPlansContent = false;
-          this.checkoutContent = true;
-        }.bind(this)
-      );
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(() => {
+        this.loading = false;
+        this.trialContent = false;
+        this.comparisonPlansContent = false;
+        this.checkoutContent = true;
+      });
     },
-    getCurrentDate: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+    getCurrentDate() {
+      let urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "verify",
         "getCurrentDate"
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        function(response) {
-          this.currentDate = response.data;
-          this.getRemainingTrialDays();
-        }.bind(this)
-      );
+      this.$request.get(urlToBeUsedInTheRequest).then(response => {
+        this.currentDate = response.data;
+        this.getRemainingTrialDays();
+      });
     },
     getRemainingTrialDays: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "company",
-        "getCompanyInformation"
-      );
-      axios.get(urlToBeUsedInTheRequest).then(
-        function(response) {
-          this.calculateDifferenceBetweenDates(response.data["expiration"]);
-        }.bind(this)
-      );
+      this.calculateDifferenceBetweenDates(this.trialExpirationDate);
     },
-    calculateDifferenceBetweenDates: function(expirationDate) {
+    calculateDifferenceBetweenDates(expirationDate) {
       const _MS_PER_DAY = 1000 * 60 * 60 * 24;
 
       // a and b are javascript Date objects
@@ -248,7 +216,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(["lang"]),
+    ...mapState(["lang", "userRole"]),
     currentRouteName() {
       return this.$route.name;
     }

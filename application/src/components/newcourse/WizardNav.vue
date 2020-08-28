@@ -181,6 +181,7 @@ export default {
     width: 100%;
     margin-top: 15%;
     margin-left: -7%;
+    z-index: 0 !important;
   }
 
   .form-wizard-wrapper ul li a {

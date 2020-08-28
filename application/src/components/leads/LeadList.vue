@@ -91,7 +91,10 @@ export default {
   methods: {
     getLeads() {
       this.loadingContent = true;
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("lead", "listing");
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        "lead",
+        "listing"
+      );
       axios.get(urlToBeUsedInTheRequest).then(
         response => {
           // success callback

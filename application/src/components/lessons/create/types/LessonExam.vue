@@ -124,7 +124,7 @@ export default {
     changeExamStatus() {
       var formData = new FormData();
       formData.set("examId", this.examId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "lesson",
         "changeExamStatus"
       );
@@ -163,7 +163,7 @@ export default {
       this.loading = true;
       var form = document.getElementById("form-lesson-exam");
       var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "lesson",
         "create"
       );
@@ -183,7 +183,7 @@ export default {
       this.loading = true;
       var form = document.getElementById("form-lesson-exam");
       var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("lesson", "edit");
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest("lesson", "edit");
       axios.post(urlToBeUsedInTheRequest, formData).then(
         () => {
           /* Success callback */

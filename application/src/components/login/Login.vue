@@ -129,14 +129,15 @@ export default {
       this.loading = true;
       var form = document.getElementById("form-login");
       var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "Login",
         "doLogin"
       );
       axios.post(urlToBeUsedInTheRequest, formData).then(
         response => {
           if (response.data == true) {
-            window.location.href = this.getDomainNameToNavigation() + "courses";
+            window.location.href =
+              this.$getDomainNameToNavigation() + "courses";
           } else {
             this.wrongPasswordOrUser = true;
           }
@@ -148,7 +149,7 @@ export default {
       );
     },
     getColor: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "settings",
         "getSettingsInformation"
       );
@@ -164,7 +165,7 @@ export default {
       this.loadingRecover = true;
       var form = document.getElementById("form-recover");
       var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "Login",
         "recoverPassword"
       );

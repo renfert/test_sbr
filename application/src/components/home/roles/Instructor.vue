@@ -107,7 +107,7 @@ export default {
   },
   methods: {
     getCourses: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "chart",
         "getCourses"
       );
@@ -122,7 +122,7 @@ export default {
       );
     },
     getTotalNumberOfStudents: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "widgets",
         "getTotalNumberOfStudents"
       );
@@ -137,7 +137,7 @@ export default {
       );
     },
     getTotalNumberOfCourses: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "widgets",
         "getTotalNumberOfCourses"
       );

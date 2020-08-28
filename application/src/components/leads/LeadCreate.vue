@@ -110,7 +110,7 @@ export default {
   },
   methods: {
     getColor: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "settings",
         "getSettingsInformation"
       );
@@ -125,7 +125,7 @@ export default {
         this.loading = true;
         var form = document.getElementById("form-lead");
         var formData = new FormData(form);
-        var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+        var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
           "lead",
           "create"
         );

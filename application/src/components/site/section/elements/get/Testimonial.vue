@@ -52,13 +52,13 @@ export default {
   },
   methods: {
     getTestimonial: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "site-elements/testimonial",
         "get"
       );
       var formData = new FormData();
       formData.set("sectionId", this.sectionId);
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         response => {
           this.testimonialArray = response.data;
           this.header = response.data[0]["header"];

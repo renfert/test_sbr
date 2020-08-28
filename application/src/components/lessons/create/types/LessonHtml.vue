@@ -89,7 +89,7 @@ export default {
       this.loading = true;
       var form = document.getElementById("form-lesson-html");
       var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "lesson",
         "create"
       );

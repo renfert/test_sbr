@@ -87,7 +87,7 @@ export default {
   },
   methods: {
     getRegisteredUsersPerMonth: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "chart",
         "getRegisteredUsersPerMonth"
       );
@@ -102,7 +102,7 @@ export default {
       );
     },
     getCourses: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "chart",
         "getCourses"
       );

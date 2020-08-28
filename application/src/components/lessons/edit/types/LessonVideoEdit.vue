@@ -84,7 +84,7 @@ export default {
         this.realName = response[0]["real_name"];
         this.videoName = response[0]["path"];
         this.previewImg =
-          "" + this.getUrlToContents() + "content/" + response[0]["path"];
+          "" + this.$getUrlToContents() + "content/" + response[0]["path"];
         this.forceRerender();
       }.bind(this)
     );
@@ -98,7 +98,7 @@ export default {
       this.loading = true;
       var form = document.getElementById("form-lesson-video-edit");
       var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("lesson", "edit");
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest("lesson", "edit");
       axios.post(urlToBeUsedInTheRequest, formData).then(
         () => {
           /* Success callback */

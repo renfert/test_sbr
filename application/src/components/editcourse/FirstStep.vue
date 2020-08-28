@@ -328,7 +328,7 @@ export default {
   mounted() {
     /* Access first step */
     eventBus.$on("access-first-step", () => {
-      this.contentShow = true;
+      this.displayContentFirstStep = true;
     });
 
     /*  Access second step */
@@ -346,7 +346,7 @@ export default {
       var formData = new FormData();
       formData.set("courseId", this.courseId);
 
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("course", "get");
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest("course", "get");
       axios
         .post(urlToBeUsedInTheRequest, formData)
         .then(response => {
@@ -357,11 +357,11 @@ export default {
           this.validity = response.data["validity"];
           this.srcName = response.data["photo"];
           this.srcImg =
-            this.getUrlToContents() + "course/" + response.data["photo"] + "";
+            this.$getUrlToContents() + "course/" + response.data["photo"] + "";
 
           this.srcPreviewName = response.data["preview"];
           this.srcPreview =
-            this.getUrlToContents() +
+            this.$getUrlToContents() +
             "preview/" +
             response.data["preview"] +
             "";
@@ -414,21 +414,21 @@ export default {
         });
     },
     getCategories() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "category",
         "listing"
       );
-      axios
-        .get(urlToBeUsedInTheRequest)
-        .then(response => {
+      axios.get(urlToBeUsedInTheRequest).then(
+        response => {
           // success callback
           this.categories = response.data;
-        })
-        .catch(() => {
+        },
+        () => {
           this.errorMessage();
-        });
+        }
+      );
     },
-    fixAdvancedModal: function() {
+    fixAdvancedModal() {
       this.loading = true;
       setTimeout(() => {
         this.modal = false;
@@ -441,21 +441,21 @@ export default {
         var form = document.getElementById("form-first-step");
         var formData = new FormData(form);
         formData.set("mycategory_id", this.category);
-        var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+        var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
           "course",
           "edit"
         );
-        axios
-          .post(urlToBeUsedInTheRequest, formData)
-          .then(() => {
+        axios.post(urlToBeUsedInTheRequest, formData).then(
+          () => {
             this.loading = false;
             if (update != false) {
               this.displayContentFirstStep = false;
             }
-          })
-          .catch(() => {
+          },
+          () => {
             this.errorMessage();
-          });
+          }
+        );
       }, 2000);
     }
   }

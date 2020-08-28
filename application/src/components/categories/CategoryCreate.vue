@@ -8,7 +8,7 @@
       <el-form-item>
         <el-button
           @click.prevent="createCategory()"
-          v-loading="loadingButton"
+          v-loading="loading"
           class="sbr-primary"
           native-type="submit"
           type="primary"
@@ -19,53 +19,48 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
+
 import { eventBus } from "@/components/categories/App";
 import { mapState } from "vuex";
 
-Vue.use(ElementUI);
-Vue.use(VueAxios, axios);
 export default {
   mixins: [domains, alerts],
-  data: function() {
+  data: () => {
     return {
       categoryName: "",
-      loadingButton: false
+      loading: false
     };
   },
   computed: {
     ...mapState(["lang"])
   },
   methods: {
-    createCategory: function() {
-      this.loadingButton = true;
-      var form = document.getElementById("form-category");
-      var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+    createCategory() {
+      this.loading = true;
+
+      let form = document.getElementById("form-category");
+      let formData = new FormData(form);
+      let urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "category",
         "create"
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         response => {
-          /* Success callback */
-          this.loadingButton = false;
+          this.loading = false;
           if (response.data == false) {
             this.categoryAlreadyExistsMessage();
           } else {
             this.successMessage();
-            this.actionsToBePerformedAfterRegistration();
+            form.reset();
+            eventBus.$emit("new-category");
           }
         },
-        /* Error callback */
-        function() {
+        () => {
           this.errorMessage();
-        }.bind(this)
+        }
       );
     },
     categoryAlreadyExistsMessage() {
@@ -75,15 +70,9 @@ export default {
         type: "warning",
         duration: 3500
       });
-    },
-    actionsToBePerformedAfterRegistration() {
-      this.categoryName = ""; // Clear a category name input
-      eventBus.$emit("new-category"); // Emit a event to list component update the table of categories.
     }
   }
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
-</style>
+

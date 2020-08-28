@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     getFbPixel() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "integrations",
         "getIntegrations"
       );
@@ -58,7 +58,7 @@ export default {
     saveFbPixel: function() {
       var formData = new FormData();
       formData.set("id", this.id);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "integrations",
         "saveFbPixel"
       );

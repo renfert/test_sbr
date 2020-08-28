@@ -56,7 +56,7 @@ export default {
       this.loadingContent = true;
       var formData = new FormData();
       formData.set("moduleId", this.moduleId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "lesson",
         "listingToProductPage"
       );

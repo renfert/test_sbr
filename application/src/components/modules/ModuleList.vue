@@ -204,7 +204,7 @@
       >
         <div class="row">
           <!-- Video -->
-          <div class="col-xl-3 col-md-3 lesson">
+          <div class="col-md-3 col-6 lesson">
             <a @click.prevent="emitNewLessonEvent('new-video')">
               <img
                 src="@/assets/img/class/video.png"
@@ -215,7 +215,7 @@
             </a>
           </div>
           <!-- Audio -->
-          <div class="col-xl-3 col-md-3 lesson">
+          <div class="col-md-3 col-6 lesson">
             <a @click.prevent="emitNewLessonEvent('new-audio')">
               <img
                 src="@/assets/img/class/audio.png"
@@ -226,7 +226,7 @@
             </a>
           </div>
           <!-- Pdf -->
-          <div class="col-xl-3 col-md-3 lesson">
+          <div class="col-md-3 col-6 lesson">
             <a @click.prevent="emitNewLessonEvent('new-pdf')">
               <img src="@/assets/img/class/pdf.png" class="lesson-img img-thumbnail img-responsive" />
               <br />
@@ -234,7 +234,7 @@
             </a>
           </div>
           <!-- Downloaded -->
-          <div class="col-xl-3 col-md-3 lesson">
+          <div class="col-md-3 col-6 lesson">
             <a @click.prevent="emitNewLessonEvent('new-downloadable')">
               <img
                 src="@/assets/img/class/downloadable.png"
@@ -250,7 +250,7 @@
         <br />
         <div class="row">
           <!-- HTML -->
-          <div class="col-xl-3 col-md-3 lesson" v-if="plan == 'bussiness' || plan == 'trial'">
+          <div class="col-md-3 col-6 lesson" v-if="plan == 'bussiness' || plan == 'trial'">
             <a @click.prevent="emitNewLessonEvent('new-html')">
               <img
                 src="@/assets/img/class/html.png"
@@ -262,7 +262,7 @@
           </div>
 
           <!-- HTML -->
-          <div class="col-xl-3 col-md-3 lesson" v-else>
+          <div class="col-md-3 col-6 lesson" v-else>
             <a @click.prevent="upgradePlan()">
               <img
                 src="@/assets/img/general/ux/file_block.png"
@@ -274,7 +274,7 @@
           </div>
           <!-- Webinar -->
           <div
-            class="col-xl-3 col-md-3 lesson"
+            class="col-md-3 col-6 lesson"
             v-if="plan != 'basic' && plan != 'trial' && plan != 'pro' "
           >
             <a @click.prevent="emitNewLessonEvent('new-webinar')">
@@ -288,7 +288,7 @@
           </div>
 
           <!-- Webinar -->
-          <div class="col-xl-3 col-md-3 lesson" v-else>
+          <div class="col-md-3 col-6 lesson" v-else>
             <a @click.prevent="upgradePlan()">
               <img
                 src="@/assets/img/general/ux/file_block.png"
@@ -300,7 +300,7 @@
           </div>
 
           <!-- Videoconf -->
-          <div class="col-xl-3 col-md-3 lesson">
+          <div class="col-md-3 col-6 lesson">
             <a @click.prevent="emitNewLessonEvent('new-videoconf')">
               <img
                 src="@/assets/img/class/videoconf.png"
@@ -311,7 +311,7 @@
             </a>
           </div>
           <!-- Exam -->
-          <div class="col-xl-3 col-md-3 lesson" v-if="plan != 'basic' && plan != 'trial'">
+          <div class="col-md-3 col-6 lesson" v-if="plan != 'basic' && plan != 'trial'">
             <a @click.prevent="emitNewLessonEvent('new-exam')">
               <img
                 src="@/assets/img/class/exam.png"
@@ -323,7 +323,7 @@
           </div>
 
           <!-- Exam -->
-          <div class="col-xl-3 col-md-3 lesson" v-else>
+          <div class="col-md-3 col-6 lesson" v-else>
             <a @click.prevent="upgradePlan()">
               <img
                 src="@/assets/img/general/ux/file_block.png"
@@ -445,7 +445,7 @@ export default {
     },
 
     getCompanyInformation() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "company",
         "getCompanyInformation"
       );
@@ -479,7 +479,7 @@ export default {
       this.loadingButton = true;
       var form = document.getElementById("form-module");
       var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("module", "edit");
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest("module", "edit");
       axios.post(urlToBeUsedInTheRequest, formData).then(
         () => {
           this.successMessage();
@@ -513,7 +513,7 @@ export default {
     deleteModule: function(id) {
       var formData = new FormData();
       formData.set("id", id);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "module",
         "delete"
       );
@@ -538,7 +538,7 @@ export default {
       $.each(ar, function(index, value) {
         formData.set("module[" + value.id + "]", value.index);
       });
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "module",
         "reorder"
       );
@@ -555,7 +555,7 @@ export default {
       this.loadingContent = true;
       var formData = new FormData();
       formData.set("courseId", this.courseId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "module",
         "listing"
       );
@@ -585,13 +585,21 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
+/* =============
+   Layout
+============= */
+
 .moduleTitle {
   font-family: "Poppins", sans-serif;
   font-weight: 400;
   font-size: 16px;
   margin-left: 20px;
+  display: block;
+  width: 100px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .el-button + .el-button {
@@ -688,5 +696,14 @@ li {
 
 .text-no-results {
   margin-top: 10%;
+}
+
+/* =============
+   Layout
+============= */
+@media only screen and (max-width: 600px) {
+  .lesson-img {
+    width: 60%;
+  }
 }
 </style>

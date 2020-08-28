@@ -1,7 +1,7 @@
 <template>
   <div class="card-box table-responsive" v-if="userList != null">
     <facebook-loader
-      v-if="loadingContent == true"
+      v-if="content == true"
       :speed="2"
       width="700"
       primaryColor="#f0f0f0"
@@ -79,14 +79,11 @@
 
 <script>
 import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import ElementUI from "element-ui";
 import excel from "vue-excel-export";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
-import { FacebookLoader } from "vue-content-loader";
 
+import { FacebookLoader } from "vue-content-loader";
 import { DataTables, DataTablesServer } from "vue-data-tables";
 import { eventBus } from "@/components/users/App";
 import { mapState } from "vuex";
@@ -94,8 +91,6 @@ import { mapState } from "vuex";
 Vue.use(excel);
 Vue.use(DataTables);
 Vue.use(DataTablesServer);
-Vue.use(ElementUI);
-Vue.use(VueAxios, axios);
 
 export default {
   components: {
@@ -111,56 +106,46 @@ export default {
       userList: [],
       filters: [{ prop: "name", value: "" }],
       tableProps: { defaultSort: { prop: "name", order: "descending" } },
-      loadingContent: false
+      content: false
     };
   },
   created() {
     this.getUsers();
-    eventBus.$on(
-      "new-user",
-      function() {
-        this.getUsers();
-      }.bind(this)
-    );
+    eventBus.$on("new-user", () => {
+      this.getUsers();
+    });
   },
   computed: {
     ...mapState(["lang"])
   },
   methods: {
     deleteUser(id) {
-      var formData = new FormData();
+      let formData = new FormData();
+      let urlToBeUsedInTheRequest = this.getUrlToMakeRequest("user", "delete");
       formData.set("id", id);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("user", "delete");
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
-          // success callback
           this.successMessage();
           this.getUsers();
         },
-        // Failure callback
-        function() {
+        () => {
           this.errorMessage();
-        }.bind(this)
+        }
       );
     },
     getUsers() {
-      this.loadingContent = true;
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("user", "listing");
-      axios.get(urlToBeUsedInTheRequest).then(
+      this.content = true;
+      let urlToBeUsedInTheRequest = this.getUrlToMakeRequest("user", "listing");
+
+      this.$request.get(urlToBeUsedInTheRequest).then(
         response => {
-          // success callback
           this.userList = response.data;
-          setTimeout(
-            function() {
-              this.loadingContent = false;
-            }.bind(this),
-            1000
-          );
+          this.content = false;
         },
-        // Failure callback
-        function() {
+        () => {
           this.errorMessage();
-        }.bind(this)
+        }
       );
     }
   }

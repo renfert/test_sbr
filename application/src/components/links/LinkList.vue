@@ -78,7 +78,7 @@ export default {
     deleteLink: function(id) {
       var formData = new FormData();
       formData.set("linkId", id);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("link", "delete");
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest("link", "delete");
       axios.post(urlToBeUsedInTheRequest, formData).then(
         () => {
           this.updateLinkListArray();
@@ -103,7 +103,10 @@ export default {
       $.each(ar, function(index, value) {
         formData.set("links[" + value.id + "]", value.index);
       });
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("link", "reorder");
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        "link",
+        "reorder"
+      );
       axios.post(urlToBeUsedInTheRequest, formData).then(
         () => {
           /* Success callback */
@@ -116,7 +119,10 @@ export default {
     },
     updateLinkListArray: function() {
       this.loading = true;
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("link", "listing");
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        "link",
+        "listing"
+      );
       axios.post(urlToBeUsedInTheRequest).then(
         response => {
           this.links = response.data;

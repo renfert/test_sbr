@@ -19,7 +19,7 @@
         <el-row>
           <!-- Profile -->
           <router-link to="/">
-            <img :src="getUrlToContents() + 'settings/'+logo+''" />
+            <img :src="$getUrlToContents() + 'settings/'+logo+''" />
           </router-link>
         </el-row>
       </el-menu-item>
@@ -157,7 +157,7 @@
         <el-row>
           <!-- Profile -->
           <router-link to="/profile" class="pr-4">
-            <el-avatar :src="getUrlToContents() + 'avatar/' + userAvatar + ''"></el-avatar>
+            <el-avatar :src="$getUrlToContents() + 'avatar/' + userAvatar + ''"></el-avatar>
           </router-link>
 
           <!-- Notification -->
@@ -223,7 +223,7 @@ export default {
   },
   methods: {
     getUserProfile() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "user",
         "getUserProfile"
       );
@@ -244,13 +244,13 @@ export default {
       });
     },
     logout: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "logout",
         "doLogout"
       );
       axios.get(urlToBeUsedInTheRequest).then(
         function() {
-          window.location.href = this.getDomainNameToNavigation();
+          window.location.href = this.$getDomainNameToNavigation();
         }.bind(this)
       );
     }

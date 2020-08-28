@@ -100,7 +100,7 @@ export default {
       this.loading = true;
       var form = document.getElementById("form-lesson-html-edit");
       var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("lesson", "edit");
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest("lesson", "edit");
       axios.post(urlToBeUsedInTheRequest, formData).then(
         () => {
           /* Success callback */
@@ -153,7 +153,7 @@ export default {
       var formData = new FormData();
       formData.append("file", event.target.files[0]);
       formData.append("type", "lesson-html");
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "upload",
         "upload_file"
       );

@@ -228,7 +228,7 @@ export default {
     getProgram: function() {
       var formData = new FormData();
       formData.set("programId", this.programId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("program", "get");
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest("program", "get");
       axios.post(urlToBeUsedInTheRequest, formData).then(
         response => {
           // success callback
@@ -236,7 +236,7 @@ export default {
           this.programDescription = response.data[0]["description"];
           this.srcName = response.data[0]["photo"];
           this.srcImg =
-            this.getUrlToContents() +
+            this.$getUrlToContents() +
             "program/" +
             response.data[0]["photo"] +
             "";
@@ -251,7 +251,7 @@ export default {
       );
     },
     getCourses: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "program",
         "getCourses"
       );
@@ -269,7 +269,10 @@ export default {
     edit: function() {
       var form = document.getElementById("form-program");
       var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("program", "edit");
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        "program",
+        "edit"
+      );
       axios.post(urlToBeUsedInTheRequest, formData).then(
         function() {
           // success callback
@@ -284,7 +287,7 @@ export default {
     getProgramCourses: function() {
       var formData = new FormData();
       formData.set("programId", this.programId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "program",
         "getProgramCourses"
       );

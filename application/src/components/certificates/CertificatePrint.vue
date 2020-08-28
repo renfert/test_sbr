@@ -1,7 +1,6 @@
 <template>
   <el-dialog :visible.sync="modal" :title="lang['your-certificate']" center width="60%" top="5vh">
     <div v-loading="loading">
-      <!-- Print button -->
       <div class="text-center mb-3">
         <div class="text-center">
           <img src="@/assets/img/general/ux/certificate.png" class="mb-3" />
@@ -79,7 +78,7 @@
             <h5>{{lang['granted-to']}}</h5>
             <h1>{{userName}}</h1>
             <p>{{lang['certify-completition']}}</p>
-            <h3>{{course}}</h3>
+            <h3>{{courseName}}</h3>
             <hr />
             <div class="row">
               <div class="col-6">
@@ -99,18 +98,13 @@
 
 <script>
 import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import ElementUI from "element-ui";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
 import VueHtml2pdf from "vue-html2pdf";
+
 export const eventCertificate = new Vue();
 
 import { mapState } from "vuex";
-
-Vue.use(ElementUI);
-Vue.use(VueAxios, axios);
 
 export default {
   mixins: [domains, alerts],
@@ -121,7 +115,7 @@ export default {
   data: function() {
     return {
       modal: false,
-      course: "",
+      courseName: "",
       date: "",
       template: null,
       number: "",
@@ -131,66 +125,57 @@ export default {
     };
   },
   mounted() {
-    eventCertificate.$on(
-      "print-certificate",
-      function() {
-        this.getCompanyInformation();
-        this.getUserProfile();
-        this.getCertificate();
-        this.modal = true;
-      }.bind(this)
-    );
+    eventCertificate.$on("print-certificate", () => {
+      this.getCompanyInformation();
+      this.getUserProfile();
+      this.getCertificate();
+      this.modal = true;
+    });
   },
   computed: {
     ...mapState(["lang"])
   },
   methods: {
-    printCertificate: function() {
+    printCertificate() {
       this.loading = true;
       this.$refs.html2Pdf.generatePdf();
     },
-    onProgress: function(event) {
+    onProgress(event) {
       if (event == 100) {
         this.loading = false;
       }
     },
     getUserProfile() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      let urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "user",
         "getUserProfile"
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        function(response) {
-          this.userName = response.data["name"];
-        }.bind(this)
-      );
+      this.$request.get(urlToBeUsedInTheRequest).then(response => {
+        this.userName = response.data["name"];
+      });
     },
     getCompanyInformation() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      let urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "company",
         "getCompanyInformation"
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        function(response) {
-          this.companyName = response.data["name"];
-        }.bind(this)
-      );
+      this.$request.get(urlToBeUsedInTheRequest).then(response => {
+        this.companyName = response.data["name"];
+      });
     },
     getCertificate() {
-      var formData = new FormData();
-      formData.set("courseId", this.courseId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      let formData = new FormData();
+      let urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "certificate",
         "get"
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        function(response) {
-          this.course = response.data[0]["course"];
-          this.date = response.data[0]["date"];
-          this.template = response.data[0]["certificate"];
-          this.number = response.data[0]["number"];
-        }.bind(this)
-      );
+      formData.set("courseId", this.courseId);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(response => {
+        this.course = response.data[0]["course"];
+        this.date = response.data[0]["date"];
+        this.template = response.data[0]["certificate"];
+        this.number = response.data[0]["number"];
+      });
     }
   }
 };

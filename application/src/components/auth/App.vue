@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div>
     <div class="loader">
       <div class="inner one"></div>
       <div class="inner two"></div>
@@ -11,17 +11,12 @@
 <script>
 import Vue from "vue";
 import VueHead from "vue-head";
-import ElementUI from "element-ui";
-import axios from "axios";
-import VueAxios from "vue-axios";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
 
 import { mapState } from "vuex";
 
-Vue.use(VueAxios, axios);
 Vue.use(VueHead);
-Vue.use(ElementUI);
 
 export default {
   mixins: [domains, alerts],
@@ -33,15 +28,16 @@ export default {
   },
   methods: {
     verifyValidityOfJwt() {
-      var formData = new FormData();
+      let formData = new FormData();
       formData.set("jwt", this.$route.params.jwt);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+
+      let urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "verify",
         "verifyValidityOfJwt"
       );
-      axios
-        .post(urlToBeUsedInTheRequest, formData)
-        .then(response => {
+
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        response => {
           if (response.data == true) {
             setTimeout(
               function() {
@@ -52,10 +48,11 @@ export default {
           } else {
             this.errorMessage();
           }
-        })
-        .catch(() => {
+        },
+        () => {
           this.errorMessage();
-        });
+        }
+      );
     }
   },
   head: {

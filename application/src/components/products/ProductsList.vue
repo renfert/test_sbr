@@ -139,7 +139,7 @@
                     <a href="javascript:void(0)">
                       <img
                         v-lazy="
-                          getUrlToContents() + 'course/' + element.photo + ''
+                          $getUrlToContents() + 'course/' + element.photo + ''
                         "
                         class="img-fluid"
                       />
@@ -181,7 +181,7 @@
                       <a href="javascript:void(0)">
                         <el-avatar
                           :src="
-                            getUrlToContents() + 'avatar/' + element.avatar + ''
+                            $getUrlToContents() + 'avatar/' + element.avatar + ''
                           "
                         ></el-avatar>
                       </a>
@@ -335,7 +335,7 @@ export default {
       formData.set("categories", this.checkedNames);
       formData.set("price", this.priceFilter);
       formData.set("title", this.search);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "course",
         "listingAll"
       );
@@ -361,7 +361,7 @@ export default {
     },
     getCategories() {
       this.loading = true;
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "category",
         "listing"
       );
@@ -376,7 +376,7 @@ export default {
       );
     },
     getSettings() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "settings",
         "getSettingsInformation"
       );

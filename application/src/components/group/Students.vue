@@ -175,7 +175,7 @@ export default {
       var formData = new FormData();
       formData.set("userId", studentId);
       formData.set("groupId", this.groupId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "group",
         "removeUserFromGroup"
       );
@@ -197,7 +197,7 @@ export default {
       var formData = new FormData();
       formData.set("groupId", this.groupId);
       formData.set("users", this.students);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "group",
         "saveUsersIntoGroup"
       );
@@ -223,7 +223,7 @@ export default {
       this.loadingContent = true;
       var formData = new FormData();
       formData.set("groupId", this.groupId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "group",
         "getStudentsInsideGroup"
       );
@@ -248,7 +248,7 @@ export default {
       this.loadingContentModal = true;
       var formData = new FormData();
       formData.set("groupId", this.groupId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "group",
         "getStudentsOutsideGroup"
       );

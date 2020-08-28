@@ -6,13 +6,13 @@
       <div class="row" v-if="element.media_align == 'left'">
         <div class="col-md-6 col-12">
           <img
-            :src="getUrlToContents() + 'builder/body/'+element.media+''"
+            :src="$getUrlToContents() + 'builder/body/'+element.media+''"
             v-if="mediaExtension == 'png' || mediaExtension == 'jpg' || mediaExtension == 'jpeg'"
             style="max-width:100%;"
           />
           <div class="player-container" v-else>
             <vue-plyr>
-              <video :src="getUrlToContents() + 'builder/body/'+element.media+''"></video>
+              <video :src="$getUrlToContents() + 'builder/body/'+element.media+''"></video>
             </vue-plyr>
           </div>
         </div>
@@ -40,13 +40,13 @@
         </div>
         <div class="col-md-6 col-12">
           <img
-            :src="getUrlToContents() + 'builder/body/'+element.media+''"
+            :src="$getUrlToContents() + 'builder/body/'+element.media+''"
             v-if="mediaExtension == 'png' || mediaExtension == 'jpg' || mediaExtension == 'jpeg'"
             style="max-width:100%;"
           />
           <div class="player-container" v-else>
             <vue-plyr>
-              <video :src="getUrlToContents() + 'builder/body/'+element.media+''"></video>
+              <video :src="$getUrlToContents() + 'builder/body/'+element.media+''"></video>
             </vue-plyr>
           </div>
         </div>
@@ -58,13 +58,13 @@
         <div class="row">
           <div class="col-12 col-md-12">
             <img
-              :src="getUrlToContents() + 'builder/body/'+element.media+''"
+              :src="$getUrlToContents() + 'builder/body/'+element.media+''"
               v-if="mediaExtension == 'png' || mediaExtension == 'jpg' || mediaExtension == 'jpeg'"
               style="max-width:100%;"
             />
             <div class="player-container" v-else>
               <vue-plyr>
-                <video :src="getUrlToContents() + 'builder/body/'+element.media+''"></video>
+                <video :src="$getUrlToContents() + 'builder/body/'+element.media+''"></video>
               </vue-plyr>
             </div>
           </div>
@@ -97,13 +97,13 @@
         <div class="row">
           <div class="col-12 col-md-12">
             <img
-              :src="getUrlToContents() + 'builder/body/'+element.media+''"
+              :src="$getUrlToContents() + 'builder/body/'+element.media+''"
               v-if="mediaExtension == 'png' || mediaExtension == 'jpg' || mediaExtension == 'jpeg'"
               style="max-width:100%;"
             />
             <div class="player-container" v-else>
               <vue-plyr>
-                <video :src="getUrlToContents() + 'builder/body/'+element.media+''"></video>
+                <video :src="$getUrlToContents() + 'builder/body/'+element.media+''"></video>
               </vue-plyr>
             </div>
           </div>
@@ -160,7 +160,7 @@ export default {
   },
   methods: {
     getTextAndMedia: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "site-elements/TextAndMedia",
         "get"
       );
@@ -185,7 +185,7 @@ export default {
       this.mediaExtension = mediaNameArray[1];
     },
     getPrimaryColor: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "settings",
         "getSettingsInformation"
       );

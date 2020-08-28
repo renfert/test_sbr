@@ -1,10 +1,10 @@
 <template>
-  <div class="main">
-    <el-tag class="mb-3" v-if="answers != null">{{lang["correct-answer-information"]}}</el-tag>
+  <div>
+    <el-tag class="mb-3" v-if="answersList != null">{{lang["correct-answer-information"]}}</el-tag>
 
     <bullet-list-loader
       class="mt-3"
-      v-if="loadingContent == true"
+      v-if="content == false"
       :speed="2"
       width="700"
       height="200"
@@ -14,17 +14,17 @@
 
     <div v-else>
       <ul class="list-group">
-        <draggable v-model="answers" ghost-class="ghost" @end="finishRepositioning">
+        <draggable v-model="answersList" ghost-class="ghost" @end="reorderAnswerPositions">
           <transition-group type="transition" name="flip-list">
             <li
-              v-for="element in answers"
+              v-for="element in answersList"
               :key="element.id"
               class="list-group-item d-flex justify-content-between align-items-center sortable"
             >
               <div :id="element.id" class="custom-control custom-checkbox answer">
                 <input
                   @change="mark($event,element.id)"
-                  :checked="element.correct != null? true :false"
+                  :checked="element.correctAnswer != null? true :false"
                   type="checkbox"
                   :name="'check'+element.id"
                   class="custom-control-input"
@@ -66,13 +66,7 @@
 
     <!--  Modal edit answer -->
     <div>
-      <el-dialog
-        :visible.sync="modalEditAnswer"
-        append-to-body
-        :title="lang['edit-answer']"
-        center
-        top="5vh"
-      >
+      <el-dialog :visible.sync="modal" append-to-body :title="lang['edit-answer']" center top="5vh">
         <form id="form-edit-answer" @submit.prevent="editAnswer()">
           <div class="form-row">
             <!-- Answer id -->
@@ -100,11 +94,6 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
 import draggable from "vuedraggable";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
@@ -114,9 +103,6 @@ import { eventBus } from "@/components/newcourse/App";
 import { BulletListLoader } from "vue-content-loader";
 import { mapState } from "vuex";
 
-Vue.use(VueAxios, axios);
-Vue.use(ElementUI);
-
 export default {
   mixins: [domains, alerts],
   components: {
@@ -125,30 +111,26 @@ export default {
   },
   data: () => {
     return {
-      answers: null,
+      answersList: null,
+      correctAnswer: "",
+
       answer: "",
       answerId: "",
-      modalEditAnswer: false,
+
+      modal: false,
       loading: false,
-      correct: "",
-      loadingContent: false
+      content: false
     };
   },
   props: ["question-id"],
   mounted() {
-    eventBus.$on(
-      "new-answer",
-      function() {
-        this.getAnswers(this.questionId);
-      }.bind(this)
-    );
+    eventBus.$on("new-answer", () => {
+      this.getAnswers(this.questionId);
+    });
 
-    eventBus.$on(
-      "new-open-modal-edit-question",
-      function(response) {
-        this.getAnswers(response["questionId"]);
-      }.bind(this)
-    );
+    eventBus.$on("new-open-modal-edit-question", response => {
+      this.getAnswers(response["questionId"]);
+    });
 
     this.getAnswers(this.questionId);
   },
@@ -156,119 +138,113 @@ export default {
     ...mapState(["lang"])
   },
   methods: {
-    editAnswer: function() {
-      var form = document.getElementById("form-edit-answer");
-      var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("answer", "edit");
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+    editAnswer() {
+      let form = document.getElementById("form-edit-answer");
+      let formData = new FormData(form);
+      let urlToBeUsedInTheRequest = this.$getUrlToMakeRequest("answer", "edit");
+
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
           this.successMessage();
-          this.actionsToBePerformedAfterEdit();
+          this.getAnswers(this.questionId);
+          this.modal = false;
         },
-        function() {
+        () => {
           this.errorMessage();
-        }.bind(this)
+        }
       );
     },
-    mark: function(e, id) {
-      var status;
+    mark(e, id) {
+      let status;
       e.target.checked == true ? (status = "correct") : (status = null);
-      var formData = new FormData();
-      formData.set("answerId", id);
-      formData.set("status", status);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+
+      let formData = new FormData();
+      let urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "answer",
         "changeStatus"
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+      formData.set("answerId", id);
+      formData.set("status", status);
+
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {},
-        function() {
+        () => {
           this.errorMessage();
-        }.bind(this)
+        }
       );
     },
-    openEditAnswerModal: function(id, answer) {
+    openEditAnswerModal(id, answer) {
       this.answerId = id;
       this.answer = answer;
-      this.modalEditAnswer = true;
+      this.modal = true;
     },
-    deleteAnswer: function(id) {
-      var formData = new FormData();
-      formData.set("answerId", id);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+    deleteAnswer(id) {
+      let formData = new FormData();
+      let urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "answer",
         "delete"
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+      formData.set("answerId", id);
+
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
           this.getAnswers(this.questionId);
           this.successMessage();
         },
-        function() {
+        () => {
           this.errorMessage();
-        }.bind(this)
+        }
       );
     },
-    finishRepositioning: function() {
-      this.reorderAnswerPositions();
-    },
-    reorderAnswerPositions: function() {
+    reorderAnswerPositions() {
       var ar = [];
-      $(".answer").each(function(index) {
-        var id = $(this).attr("id");
+      let formData = new FormData();
+
+      $(".answer").each(index => {
+        let id = $(this).attr("id");
         ar.push({ id: id, index: index });
       });
-      var formData = new FormData();
-      $.each(ar, function(index, value) {
+
+      $.each(ar, (index, value) => {
         formData.set("answer[" + value.id + "]", value.index);
       });
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+
+      let urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "answer",
         "reorder"
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        () => {},
         () => {
-          /* Success callback */
-        },
-        function() {
           this.errorMessage();
-        }.bind(this)
+        }
       );
     },
-    getAnswers: function(questionId) {
-      this.loadingContent = true;
-      var formData = new FormData();
-      formData.set("questionId", questionId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+    getAnswers(questionId) {
+      this.content = false;
+      let formData = new FormData();
+      let urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "answer",
         "listing"
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+      formData.set("questionId", questionId);
+
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         response => {
           this.reorderAnswerPositions();
-          this.answers = response.data;
-          setTimeout(
-            function() {
-              this.loadingContent = false;
-            }.bind(this),
-            1000
-          );
+          this.answersList = response.data;
+          this.content = true;
         },
-        /* Error callback */
-        function() {
+        () => {
           this.errorMessage();
-        }.bind(this)
+        }
       );
-    },
-    actionsToBePerformedAfterEdit() {
-      this.getAnswers(this.questionId);
-      this.modalEditAnswer = false;
     }
   }
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 .answer-text {
   display: block;

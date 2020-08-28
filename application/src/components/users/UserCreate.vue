@@ -92,9 +92,9 @@
         </div>
 
         <div class="center">
-          <h3 v-if="loadingMassiveImport" class="sbr-text-grey">{{ lang["please-wait"] }}</h3>
+          <h3 v-if="loadingMassiveImportButton" class="sbr-text-grey">{{ lang["please-wait"] }}</h3>
           <form
-            v-loading="loadingMassiveImport"
+            v-loading="loadingMassiveImportButton"
             id="form-massive"
             @submit.prevent="massivelyCreateUsers"
           >
@@ -110,30 +110,21 @@
         </div>
       </el-dialog>
     </div>
-    <!-- End massive import -->
   </div>
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import ElementUI from "element-ui";
 import Upload from "@/components/helper/HelperUpload";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
 
 import { eventBus } from "@/components/users/App";
 import { eventPlan } from "@/components/plans/UpgradePlan";
-import { eventUpload } from "@/components/helper/HelperUpload";
 import { mapState } from "vuex";
-
-Vue.use(ElementUI);
-Vue.use(VueAxios, axios);
 
 export default {
   mixins: [domains, alerts],
-  data: function() {
+  data: () => {
     return {
       modal: false,
       name: "",
@@ -141,7 +132,7 @@ export default {
       role: "",
       password: "",
       loadingButton: false,
-      loadingMassiveImport: false
+      loadingMassiveImportButton: false
     };
   },
   components: {
@@ -151,17 +142,18 @@ export default {
     ...mapState(["lang", "plan"])
   },
   methods: {
-    upgradePlanFeature: function() {
+    upgradePlanFeature() {
       eventPlan.$emit("upgrade-plan", "feature");
     },
-    createUser: function() {
+    createUser() {
       this.loadingButton = true;
-      var form = document.getElementById("form-user");
-      var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("user", "create");
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+
+      let form = document.getElementById("form-user");
+      let formData = new FormData(form);
+      let urlToBeUsedInTheRequest = this.getUrlToMakeRequest("user", "create");
+
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         response => {
-          /* Success callback */
           if (response.data == "upgrade-plan") {
             eventPlan.$emit("upgrade-plan", "users");
           } else {
@@ -169,58 +161,45 @@ export default {
               this.userAlreadyExists();
             } else {
               this.successMessage();
-              this.actionsToBePerformedAfterRegistration();
+              eventBus.$emit("new-user");
+              document.getElementById("form-user").reset();
             }
           }
           this.loadingButton = false;
         },
-        /* Error callback */
-
-        function() {
+        () => {
           this.errorMessage();
-        }.bind(this)
+        }
       );
     },
-    massivelyCreateUsers: function() {
-      this.loadingMassiveImport = true;
-      var form = document.getElementById("form-massive");
-      var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+    massivelyCreateUsers() {
+      this.loadingMassiveImportButton = true;
+      let form = document.getElementById("form-massive");
+      let formData = new FormData(form);
+      let urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
         "user",
         "massivelyCreateUsers"
       );
-      axios
+
+      this.$request
         .post(urlToBeUsedInTheRequest, formData, {
           headers: { "Content-Type": "multipart/form-data" }
         })
         .then(
           () => {
+            this.loadingMassiveImportButton = false;
             this.successMessage();
-            this.loadingMassiveImport = false;
-            eventBus.$emit("new-user");
-            eventUpload.$emit("clear");
             this.modal = false;
+            eventBus.$emit("new-user");
+            document.getElementById("form-massive").reset();
           },
-          /* Error callback */
-          function() {
+          () => {
             this.errorMessage();
-          }.bind(this)
+          }
         );
-    },
-    actionsToBePerformedAfterRegistration() {
-      eventBus.$emit("new-user");
-      this.name = "";
-      this.email = "";
-      this.password = "";
     }
   }
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
-.col-md-4 {
-  padding-right: 15px !important;
-  padding-left: 15px !important;
-}
-</style>
+

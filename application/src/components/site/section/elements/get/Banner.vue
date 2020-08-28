@@ -54,7 +54,7 @@ export default {
   },
   methods: {
     getBanner: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "site-elements/banner",
         "getBanner"
       );
@@ -64,7 +64,7 @@ export default {
         response => {
           this.banner = response.data[0];
           this.image =
-            this.getUrlToContents() +
+            this.$getUrlToContents() +
             "builder/body/" +
             response.data[0]["image"] +
             "";

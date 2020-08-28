@@ -527,7 +527,7 @@ export default {
   },
   methods: {
     getCompanyInformation() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "company",
         "getCompanyInformation"
       );

@@ -1,6 +1,5 @@
 <template>
-  <div class="main" v-loading="loading">
-    <lang></lang>
+  <div v-loading="content">
     <div class="row" v-if="activities != null">
       <div class="col-12 col-md-12 mb-5">
         <div
@@ -18,7 +17,7 @@
                 <el-avatar
                   :size="70"
                   fit="contain"
-                  :src="getUrlToContents() + 'avatar/'+element.avatar+''"
+                  :src="$getUrlToContents() + 'avatar/'+element.avatar+''"
                 ></el-avatar>
               </div>
               <div class="col-10 text-left">
@@ -158,84 +157,56 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import VueTheMask from "vue-the-mask";
-import ElementUI from "element-ui";
-import Lang from "@/components/helper/HelperLang.vue";
-import "element-ui/lib/theme-chalk/index.css";
-import lang from "element-ui/lib/locale/lang/en";
-import locale from "element-ui/lib/locale";
-import { eventLang } from "@/components/helper/HelperLang";
 import domains from "@/mixins/domains";
 import alerts from "@/mixins/alerts";
 
-locale.use(lang);
-Vue.use(VueTheMask);
-Vue.use(VueTheMask);
-Vue.use(VueAxios, axios);
-Vue.use(ElementUI);
-
 export default {
-  components: {
-    Lang
-  },
   props: ["user-id"],
   mixins: [domains, alerts],
   data: () => {
     return {
-      lang: {},
-      loading: false,
+      content: false,
       activities: [],
       currentDate: ""
     };
   },
-  mounted() {
-    eventLang.$on(
-      "lang",
-      function(response) {
-        this.lang = response;
-      }.bind(this)
-    );
-
+  created() {
     this.getCurrentDate();
     this.listActivities();
   },
   methods: {
-    listActivities: function() {
-      var formData = new FormData();
-      formData.set("userId", this.userId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+    listActivities() {
+      let formData = new FormData();
+      let urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "activity",
         "listingUserActivities"
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+      formData.set("userId", this.userId);
+
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         response => {
           this.activities = response.data;
         },
-        /* Error callback */
-        function() {
+        () => {
           this.errorMessage();
-        }.bind(this)
+        }
       );
     },
     getCurrentDate() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      let urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "verify",
         "getCurrentDate"
       );
-      axios.get(urlToBeUsedInTheRequest).then(
+      this.$request.get(urlToBeUsedInTheRequest).then(
         response => {
           this.currentDate = response.data;
         },
-        /* Error callback */
-        function() {
+        () => {
           this.errorMessage();
-        }.bind(this)
+        }
       );
     },
-    processDateTime: function(date) {
+    processDateTime(date) {
       var dt1 = new Date(this.currentDate);
       var dt2 = new Date(date);
       var diffTime = Math.abs(dt2 - dt1);
@@ -264,7 +235,6 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 .user-avatar {
   width: 70px;
@@ -296,27 +266,5 @@ export default {
 
 .activity-item:hover {
   background-color: rgba(214, 211, 211, 0.4);
-}
-
-::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  background-color: #f5f5f5;
-}
-
-::-webkit-scrollbar {
-  width: 2px;
-  background-color: #f5f5f5;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: #0ae;
-  background-image: -webkit-gradient(
-    linear,
-    0 0,
-    0 100%,
-    color-stop(0.5, rgba(255, 255, 255, 0.2)),
-    color-stop(0.5, transparent),
-    to(transparent)
-  );
 }
 </style>

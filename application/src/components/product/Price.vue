@@ -27,7 +27,7 @@
             <a @click.prevent="closeVideo()" class="video-overlay-close">&times;</a>
             <div id="player-container" class="player-container">
               <video id="preview" v-if="preview" controls>
-                <source :src="getUrlToContents() + 'preview/'+preview+''" type="video/mp4" />
+                <source :src="$getUrlToContents() + 'preview/'+preview+''" type="video/mp4" />
               </video>
             </div>
           </div>
@@ -377,7 +377,7 @@ export default {
       var formData = new FormData();
       formData.set("courseId", this.courseId);
       formData.set("userId", this.userId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "course",
         "enrollUserIntoCourse"
       );
@@ -411,7 +411,7 @@ export default {
       // Mercado pago SDK
       const mercadopago = require("mercadopago");
       // Get credentials
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "integrations",
         "getIntegrations"
       );
@@ -519,7 +519,7 @@ export default {
     savePreferenceId: function(preferenceId) {
       var formData = new FormData();
       formData.set("preferenceId", preferenceId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "integrations",
         "saveMpPreference"
       );
@@ -536,7 +536,7 @@ export default {
         this.loading = true;
         var form = document.getElementById("form-account");
         var formData = new FormData(form);
-        var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+        var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
           "user",
           "create"
         );
@@ -562,7 +562,7 @@ export default {
       this.loading = true;
       var form = document.getElementById("form-account");
       var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "Login",
         "doLogin"
       );
@@ -593,7 +593,7 @@ export default {
       this.loading = true;
       var form = document.getElementById("form-login");
       var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "Login",
         "doLogin"
       );
@@ -638,7 +638,7 @@ export default {
     checkEnrolledUser: function() {
       var formData = new FormData();
       formData.set("courseId", this.courseId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "verify",
         "userIsInCourse"
       );
@@ -654,7 +654,7 @@ export default {
       );
     },
     getUserProfile() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "user",
         "getUserProfile"
       );
@@ -665,7 +665,7 @@ export default {
       );
     },
     checkActiveSession: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "mysessions",
         "activeSession"
       );

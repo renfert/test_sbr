@@ -125,7 +125,7 @@ export default {
       this.loading = true;
       var form = document.getElementById("form-lesson-webinar-edit");
       var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("lesson", "edit");
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest("lesson", "edit");
       axios.post(urlToBeUsedInTheRequest, formData).then(
         () => {
           /* Success callback */

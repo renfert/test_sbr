@@ -1,6 +1,5 @@
 <template>
   <div class="topbar">
-    <lang></lang>
     <header>
       <router-link to="/"></router-link>
       <!-- Icon menu for mobile -->
@@ -36,103 +35,63 @@
 
 <script>
 import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import { eventLang } from "@/components/helper/HelperLang";
-import { eventPlan } from "@/components/plans/UpgradePlan";
-import Lang from "@/components/helper/HelperLang";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
 export const eventTemplate = new Vue();
 
-Vue.use(VueAxios, axios);
+import { eventPlan } from "@/components/plans/UpgradePlan";
+import { mapState } from "vuex";
+
 export default {
-  components: {
-    Lang
-  },
   props: ["trial-bar"],
-  mixins: [domains, alerts],
   data: () => {
     return {
       role: 1,
       logo: "",
-      lang: {},
       daysToExpiration: 0,
-      currentDate: "",
-      plan: ""
+      currentDate: ""
     };
   },
+  computed: {
+    ...mapState(["lang", "plan"])
+  },
   created() {
-    this.getCompanyPlan();
-    this.getUserProfile();
     this.getCurrentDate();
     this.getCompanyLogo();
   },
-  mounted() {
-    eventLang.$on(
-      "lang",
-      function(response) {
-        this.lang = response;
-      }.bind(this)
-    );
-  },
   methods: {
-    toogleSidebar: function() {
+    toogleSidebar() {
       eventTemplate.$emit("change-leftbar-class");
     },
-    upgradePlan: function() {
+    upgradePlan() {
       eventPlan.$emit("upgrade-plan", "trial-topbar");
     },
-    getCompanyLogo: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+    getCompanyLogo() {
+      let urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "settings",
         "getSettingsInformation"
       );
-      axios.get(urlToBeUsedInTheRequest).then(
+      this.$request.get(urlToBeUsedInTheRequest).then(
         function(response) {
           this.logo = response.data["logo"];
         }.bind(this)
       );
     },
-    getCompanyPlan: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "company",
-        "getCompanyInformation"
-      );
-      axios.get(urlToBeUsedInTheRequest).then(
-        function(response) {
-          this.plan = response.data["plan"];
-        }.bind(this)
-      );
-    },
-    getUserProfile: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "user",
-        "getUserProfile"
-      );
-      axios.get(urlToBeUsedInTheRequest).then(
-        function(response) {
-          this.role = response.data["myrole_id"];
-        }.bind(this)
-      );
-    },
     getRemainingTrialDays: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "company",
         "getCompanyInformation"
       );
-      axios.get(urlToBeUsedInTheRequest).then(
+      this.$request.get(urlToBeUsedInTheRequest).then(
         function(response) {
           this.calculateDifferenceBetweenDates(response.data["expiration"]);
         }.bind(this)
       );
     },
     getCurrentDate: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "verify",
         "getCurrentDate"
       );
-      axios.get(urlToBeUsedInTheRequest).then(
+      this.$request.get(urlToBeUsedInTheRequest).then(
         function(response) {
           this.currentDate = response.data;
           this.getRemainingTrialDays();

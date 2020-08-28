@@ -65,26 +65,19 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
 import UpgradePlan from "@/components/plans/UpgradePlan";
 import TheTrialExpired from "@/components/template/TheTrialExpired";
 import AdminLeftBar from "@/components/template/TheLeftBar/Admin";
 import InstructorLeftBar from "@/components/template/TheLeftBar/Instructor";
 import StudentLeftBar from "@/components/template/TheLeftBar/Student";
 import TopBar from "@/components/template/TheTopBar";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
 import headerTags from "@/mixins/headerTags";
 import integrations from "@/mixins/integrations";
-import verify from "@/mixins/verify";
+
 import { mapMutations } from "vuex";
 
-Vue.use(VueAxios, axios);
-
 export default {
-  mixins: [domains, alerts, headerTags, integrations, verify],
+  mixins: [headerTags, integrations],
   data: () => {
     return {
       userRoleId: null,
@@ -117,7 +110,7 @@ export default {
         this.$route.name != "404" &&
         this.$route.name != "auth"
       ) {
-        this.verifySession();
+        this.$verifySession();
       }
     }
   },
@@ -133,51 +126,45 @@ export default {
   methods: {
     ...mapMutations(["setLang", "setUser", "setPlan"]),
     getLanguage: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      let urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "settings",
         "getSettingsInformation"
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        function(response) {
-          this.logo = response.data["logo"];
-          let lang = require("../language/" +
-            response.data["lang"] +
-            "/lang.json");
-          this.setLang(lang);
-        }.bind(this)
-      );
+      this.$request.get(urlToBeUsedInTheRequest).then(response => {
+        this.logo = response.data["logo"];
+        let lang = require("../language/" +
+          response.data["lang"] +
+          "/lang.json");
+        this.setLang(lang);
+      });
     },
     getCompanyInformation() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      let urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "company",
         "getCompanyInformation"
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        function(response) {
-          this.plan = response.data["plan"];
-          this.setPlan(response.data["plan"]);
-        }.bind(this)
-      );
+      this.$request.get(urlToBeUsedInTheRequest).then(response => {
+        this.plan = response.data["plan"];
+        this.setPlan(response.data["plan"]);
+      });
     },
-    getUserProfile: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+    getUserProfile() {
+      let urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "user",
         "getUserProfile"
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        function(response) {
-          this.userName = response.data["name"];
-          this.userAvatar = response.data["avatar"];
-          this.userId = response.data["id"];
-          this.userRoleId = response.data["myrole_id"];
+      this.$request.get(urlToBeUsedInTheRequest).then(response => {
+        this.userName = response.data["name"];
+        this.userAvatar = response.data["avatar"];
+        this.userId = response.data["id"];
+        this.userRoleId = response.data["myrole_id"];
 
-          let userObj = {
-            id: response.data["id"],
-            role: response.data["myrole_id"]
-          };
-          this.setUser(userObj);
-        }.bind(this)
-      );
+        let userObj = {
+          id: response.data["id"],
+          role: response.data["myrole_id"]
+        };
+        this.setUser(userObj);
+      });
     }
   }
 };

@@ -20,7 +20,7 @@
         <img
           :key="elementKey"
           class="pro_img img-fluid w100"
-          v-lazy="getUrlToContents() + 'course/' + photo + ''"
+          v-lazy="$getUrlToContents() + 'course/' + photo + ''"
         />
       </div>
 
@@ -29,7 +29,10 @@
           <li>
             <div class="ins_info">
               <div class="ins_info_thumb">
-                <img :src="getUrlToContents() + 'avatar/' + instructorPhoto + ''" class="img-fluid" />
+                <img
+                  :src="$getUrlToContents() + 'avatar/' + instructorPhoto + ''"
+                  class="img-fluid"
+                />
               </div>
               <div class="ins_info_caption">
                 <span>{{ lang["instructor"] }}</span>
@@ -337,5 +340,18 @@ a {
   text-decoration: none;
   background-color: transparent;
   -webkit-text-decoration-skip: objects;
+}
+
+/* =============
+   Mobile
+============= */
+
+@media only screen and (max-width: 600px) {
+  .instructor_over_info ul li:nth-child(3) {
+    display: none;
+  }
+  .instructor_over_info ul li:nth-child(2) {
+    display: none;
+  }
 }
 </style>

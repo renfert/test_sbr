@@ -12,10 +12,7 @@
           />
           <div class="row mb-5" v-else>
             <div class="col-12 text-center">
-              <img
-                style="width:20%;"
-                src="@/assets/img/general/ux/not_found.png"
-              />
+              <img style="width:20%;" src="@/assets/img/general/ux/not_found.png" />
               <h4 class="no-results-text">{{ lang["no-data"] }}</h4>
             </div>
           </div>
@@ -57,7 +54,7 @@ export default {
   },
   methods: {
     getCourses: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "chart",
         "getCourses"
       );

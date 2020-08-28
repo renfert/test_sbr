@@ -129,7 +129,7 @@ export default {
     getCourse() {
       var formData = new FormData();
       formData.set("courseTitle", this.courseTitle);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "course",
         "getCourseByTitle"
       );
@@ -162,7 +162,7 @@ export default {
     getModules(courseId) {
       var formData = new FormData();
       formData.set("courseId", courseId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "module",
         "listing"
       );
@@ -178,7 +178,7 @@ export default {
       );
     },
     getColor() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "settings",
         "getSettingsInformation"
       );
@@ -204,7 +204,7 @@ export default {
       /* Image og metatag */
       var image = document.createElement("meta");
       image.setAttribute("property", "og:image");
-      image.content = this.getUrlToContents() + "course/" + this.photo + "";
+      image.content = this.$getUrlToContents() + "course/" + this.photo + "";
       document.getElementsByTagName("head")[0].appendChild(image);
 
       /* Url og metatag */

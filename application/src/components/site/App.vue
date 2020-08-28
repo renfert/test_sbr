@@ -42,7 +42,7 @@ export default {
         }
       }.bind(this)
     );
-    this.verifyAdministratorPrivileges();
+    this.$verifyAdministratorPrivileges();
   },
   head: {
     title: {

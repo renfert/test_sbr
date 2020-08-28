@@ -944,4 +944,15 @@ input[id="exercise-4"]:checked ~ .chart.grid .exercise .bar:nth-child(3) {
   -webkit-box-flex: 1;
   flex: 1;
 }
+
+@media only screen and (max-width: 600px) {
+  .video-overlay article {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    width: 80%;
+    height: auto;
+  }
+}
 </style>

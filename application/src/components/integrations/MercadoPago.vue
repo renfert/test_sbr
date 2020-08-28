@@ -172,7 +172,7 @@ export default {
       }
     },
     getMpAccessToken: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "integrations",
         "getIntegrations"
       );
@@ -191,7 +191,7 @@ export default {
     saveMpAccessToken: function() {
       var formData = new FormData();
       formData.set("id", this.accessToken);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "integrations",
         "saveMpAccessToken"
       );
@@ -200,7 +200,7 @@ export default {
     saveCurrency: function(currency) {
       var formData = new FormData();
       formData.set("currency", currency);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "settings",
         "editCurrency"
       );

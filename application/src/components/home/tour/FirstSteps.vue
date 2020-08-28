@@ -121,7 +121,7 @@ export default {
   },
   methods: {
     getUserProfile() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "user",
         "getUserProfile"
       );
@@ -132,7 +132,7 @@ export default {
       );
     },
     getStepsStatus: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "verify",
         "stepsStatus"
       );

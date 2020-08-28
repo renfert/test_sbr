@@ -13,7 +13,7 @@
       secondaryColor="#d9d9d9"
     ></facebook-loader>
 
-    <el-tabs tab-position="left" v-else>
+    <el-tabs :tab-position="tabPosition" v-else>
       <el-tab-pane v-for="(element, index) in questions" :key="element.id">
         <span v-if="element.score == null && roleId != 3" slot="label">
           <i class="mdi mdi-buffer"></i>
@@ -136,10 +136,12 @@ export default {
       score: null,
       roleId: "",
       questionId: "",
-      loadingContent: false
+      loadingContent: false,
+      tabPosition: "left"
     };
   },
   mounted() {
+    this.verifyScreenWidth();
     this.getExamQuestions();
     this.getUserProfile();
   },
@@ -147,6 +149,11 @@ export default {
     ...mapState(["lang"])
   },
   methods: {
+    verifyScreenWidth() {
+      if (screen.width <= 512) {
+        this.tabPosition = "top";
+      }
+    },
     getExamQuestions: function() {
       this.loadingContent = true;
       var formData = new FormData();

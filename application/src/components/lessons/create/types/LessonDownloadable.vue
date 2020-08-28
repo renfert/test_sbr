@@ -91,7 +91,7 @@ export default {
       this.loading = true;
       var form = document.getElementById("form-lesson-downloadable");
       var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "lesson",
         "create"
       );

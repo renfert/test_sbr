@@ -1,18 +1,7 @@
 <template>
-  <div id="wrapper">
-    <!-- Content page -->
-    <div class="content-page">
-      <div class="content">
-        <div class="container-fluid">
-          <div class="row mt-5">
-            <certificates-list></certificates-list>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- End of content page -->
+  <div class="content-page">
+    <certificates-list></certificates-list>
   </div>
-  <!-- End of wrapper -->
 </template>
 
 <script>
@@ -38,4 +27,3 @@ export default {
 };
 </script>
 
-<style></style>

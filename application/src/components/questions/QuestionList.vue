@@ -29,7 +29,7 @@
                 ></el-button>
               </el-tooltip>
             </el-col>
-            <el-col :span="5">
+            <el-col :md="5" :lg="20">
               <h4>{{lang["question-list"]}}</h4>
             </el-col>
           </el-row>

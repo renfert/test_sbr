@@ -153,7 +153,7 @@ export default {
       this.modal = true;
     },
     editGroup(id, name) {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("group", "edit");
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest("group", "edit");
       var formData = new FormData();
       formData.set("name", name);
       formData.set("id", id);
@@ -174,7 +174,10 @@ export default {
       );
     },
     deleteGroup(id) {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("group", "delete");
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        "group",
+        "delete"
+      );
       var formData = new FormData();
       formData.set("id", id);
       axios.post(urlToBeUsedInTheRequest, formData).then(
@@ -191,7 +194,7 @@ export default {
     },
     listingGroup() {
       this.loadingContent = true;
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "group",
         "listing"
       );

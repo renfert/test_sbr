@@ -47,7 +47,10 @@ export default {
       this.loadingButton = true;
       var form = document.getElementById("form-group");
       var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("group", "create");
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        "group",
+        "create"
+      );
       axios.post(urlToBeUsedInTheRequest, formData).then(
         response => {
           /* Success callback */

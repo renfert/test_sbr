@@ -151,7 +151,7 @@
         <div class="single_instructor">
           <div class="single_instructor_thumb">
             <a href="#">
-              <img :src="getUrlToContents() + 'avatar/' + instructorPhoto + ''" class="img-fluid" />
+              <img :src="$getUrlToContents() + 'avatar/' + instructorPhoto + ''" class="img-fluid" />
             </a>
           </div>
           <div class="single_instructor_caption">
@@ -275,7 +275,7 @@
             >
               <div class="review-comments-avatar">
                 <img
-                  :src="getUrlToContents() + 'avatar/' + element.avatar + ''"
+                  :src="$getUrlToContents() + 'avatar/' + element.avatar + ''"
                   class="img-fluid"
                   alt
                 />
@@ -367,7 +367,7 @@ export default {
     listingReviews: function() {
       var formData = new FormData();
       formData.set("courseId", this.courseId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "reviews",
         "listing"
       );
@@ -1046,6 +1046,10 @@ a {
 
   .reviews-comments-item-text p {
     margin-top: 50px;
+  }
+
+  .card-header h6 a {
+    width: 80%;
   }
 }
 </style>

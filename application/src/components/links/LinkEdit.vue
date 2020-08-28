@@ -74,7 +74,7 @@ export default {
     editLink: function() {
       var form = document.getElementById("form-link");
       var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("link", "edit");
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest("link", "edit");
       axios.post(urlToBeUsedInTheRequest, formData).then(
         () => {
           this.successMessage();

@@ -82,7 +82,7 @@ export default {
     getGroup: function() {
       var formData = new FormData();
       formData.set("groupId", this.groupId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("group", "get");
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest("group", "get");
       axios.post(urlToBeUsedInTheRequest, formData).then(
         function(response) {
           this.name = response.data["name"];

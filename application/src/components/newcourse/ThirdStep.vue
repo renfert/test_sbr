@@ -170,7 +170,7 @@ export default {
     getCourse: function() {
       var formData = new FormData();
       formData.set("courseId", this.courseId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("course", "get");
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest("course", "get");
       axios
         .post(urlToBeUsedInTheRequest, formData)
         .then(response => {
@@ -190,7 +190,7 @@ export default {
     getUsersOutsideTheCourse(courseId) {
       var formData = new FormData();
       formData.set("courseId", courseId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "course",
         "getPersonsOutsideTheCourse"
       );
@@ -209,7 +209,7 @@ export default {
       var formData = new FormData();
       formData.set("courseId", this.courseId);
       formData.set("users", this.users);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "course",
         "enrollUsersIntoCourse"
       );

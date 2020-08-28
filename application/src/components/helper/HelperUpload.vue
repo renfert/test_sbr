@@ -196,7 +196,7 @@ export default {
     },
     checkStorageAvailability() {
       this.loading = true;
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "verify",
         "checkStorageAvailability"
       );
@@ -285,7 +285,7 @@ export default {
       //return folderName;
     },
     getSubDomainName() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "verify",
         "getSubDomainName"
       );

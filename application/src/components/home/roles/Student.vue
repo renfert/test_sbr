@@ -125,7 +125,7 @@ export default {
     getCourses: function(studentId) {
       var formData = new FormData();
       formData.set("studentId", studentId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "chart",
         "getStudentCourses"
       );
@@ -142,7 +142,7 @@ export default {
       );
     },
     getUserProfile: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "user",
         "getUserProfile"
       );

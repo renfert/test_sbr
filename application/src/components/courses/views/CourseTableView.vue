@@ -3,7 +3,7 @@
     <h4>{{lang["list-course"]}}</h4>
     <div style="margin-bottom: 10px">
       <el-row>
-        <el-col :span="6">
+        <el-col :xs="16" :lg="6">
           <el-input v-model="filters[0].value" placeholder="Search"></el-input>
         </el-col>
         <el-col v-if="courseList != null" :span="6">
@@ -100,7 +100,7 @@ export default {
   methods: {
     updateCourseListArray() {
       this.loading = true;
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "course",
         "listing"
       );
@@ -117,7 +117,7 @@ export default {
       );
     },
     getUserProfile() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "user",
         "getUserProfile"
       );

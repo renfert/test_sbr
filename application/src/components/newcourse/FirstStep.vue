@@ -301,7 +301,7 @@ export default {
       var formData = new FormData(form);
       formData.set("mycategory_id", this.category);
 
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "course",
         "create"
       );
@@ -325,7 +325,7 @@ export default {
         });
     },
     getCategories() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "category",
         "listing"
       );
@@ -344,7 +344,7 @@ export default {
       var formData = new FormData(form);
       formData.set("mycategory_id", this.category);
 
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("course", "edit");
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest("course", "edit");
 
       axios
         .post(urlToBeUsedInTheRequest, formData)

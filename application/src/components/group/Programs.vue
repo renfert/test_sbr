@@ -173,7 +173,7 @@ export default {
       var formData = new FormData();
       formData.set("programId", programId);
       formData.set("groupId", this.groupId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "group",
         "removeProgramFromGroup"
       );
@@ -195,7 +195,7 @@ export default {
       var formData = new FormData();
       formData.set("groupId", this.groupId);
       formData.set("programs", this.programs);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "group",
         "saveProgramsIntoGroup"
       );
@@ -221,7 +221,7 @@ export default {
       this.loadingContent = true;
       var formData = new FormData();
       formData.set("groupId", this.groupId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "group",
         "getProgramsInsideGroup"
       );
@@ -246,7 +246,7 @@ export default {
       this.loadingContentModal = true;
       var formData = new FormData();
       formData.set("groupId", this.groupId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         "group",
         "getProgramsOutsideGroup"
       );

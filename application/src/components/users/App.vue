@@ -6,29 +6,22 @@
 </template>
 
 <script>
+import Vue from "vue";
 import UserCreate from "@/components/users/UserCreate.vue";
 import UserList from "@/components/users/UserList.vue";
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
 import VueHead from "vue-head";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-import verify from "@/mixins/verify";
 
 export const eventBus = new Vue();
 
-Vue.use(VueAxios, axios);
 Vue.use(VueHead);
 
 export default {
-  mixins: [domains, alerts, verify],
   components: {
     UserCreate,
     UserList
   },
   created() {
-    this.verifyAdministratorPrivileges();
+    this.$verifyAdministratorPrivileges();
   },
   head: {
     title: {
@@ -43,5 +36,3 @@ export default {
 };
 </script>
 
-<style>
-</style>
