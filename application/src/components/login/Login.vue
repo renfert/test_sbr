@@ -1,17 +1,22 @@
 <template>
   <div>
-    <el-dialog :visible.sync="modalLogin" :title="lang['go-to-platform']" center top="5vh">
+    <el-dialog
+      :visible.sync="login.modal"
+      :title="lang['go-to-platform']"
+      center
+      top="5vh"
+    >
       <form
         @submit.prevent="doLogin()"
         id="form-login"
-        v-loading="loading"
+        v-loading="login.loading"
         class="form-login text-center border border-light p-5"
       >
         <el-alert
-          @close="wrongPasswordOrUser = false"
+          @close="login.wrongPasswordOrUserMessage = false"
           :title="lang['wrong-password']"
           type="error"
-          v-if="wrongPasswordOrUser == true"
+          v-if="login.wrongPasswordOrUserMessage == true"
           show-icon
         ></el-alert>
         <br />
@@ -19,14 +24,12 @@
         <input
           type="email"
           name="email"
-          id="defaultLoginFormEmail"
           class="form-control mb-4"
           placeholder="E-mail"
         />
         <!-- Password -->
         <input
           type="password"
-          id="defaultLoginFormPassword"
           name="password"
           class="form-control mb-4"
           :placeholder="lang['password']"
@@ -39,168 +42,142 @@
               href="javascript:void(0)"
               :style="primaryColor"
               @click="modalRecover = true"
-            >{{lang['recover-password']}}</a>
+              >{{ lang['recover-password'] }}</a
+            >
           </div>
         </div>
 
         <!-- Sign in button -->
-        <button
-          :style="primaryColorBg"
-          class="btn account-btn"
-          type="submit"
-        >{{lang['go-to-platform']}}</button>
+        <button :style="primaryColorBg" class="btn account-btn" type="submit">
+          {{ lang['go-to-platform'] }}
+        </button>
       </form>
     </el-dialog>
 
+    <!----------------
+    Recover password
+    ------------------>
     <el-dialog
-      :visible.sync="modalRecover"
+      :visible.sync="recover.modal"
       :title="lang['recover-password']"
       center
       width="40%"
       top="5vh"
     >
       <form
-        v-loading="loadingRecover"
+        v-loading="recover.loading"
         id="form-recover"
         @submit.prevent="recoverPassword()"
         action="recover"
       >
-        <el-input v-model="email" required placeholder="Email" name="email"></el-input>
+        <el-input
+          v-model="recover.email"
+          required
+          placeholder="Email"
+          name="email"
+        ></el-input>
         <button :style="primaryColorBg" class="btn account-btn">Recover</button>
-        <el-alert
-          v-if="failedRecover == true"
-          :title="lang['this-email-doesnt-exist']"
-          type="error"
-        ></el-alert>
-
-        <el-alert
-          v-if="successRecover == true"
-          :title="lang['please-review-your-email']"
-          type="success"
-        ></el-alert>
       </form>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-
+import Vue from 'vue';
+import { mapState } from 'vuex';
 export const eventLogin = new Vue();
 
-import { mapState } from "vuex";
-
-Vue.use(ElementUI);
-Vue.use(VueAxios, axios);
-
 export default {
-  mixins: [domains, alerts],
-  data: function() {
+  data: () => {
     return {
-      modalLogin: false,
-      modalRecover: false,
-      loading: false,
-      loadingRecover: false,
-      wrongPasswordOrUser: false,
-      recoverEmail: "",
-      failedRecover: false,
-      successRecover: false,
-      email: "",
-      color: ""
+      recover: {
+        modal: false,
+        email: '',
+        loading: false
+      },
+      login: {
+        modal: false,
+        loading: false,
+        wrongPasswordOrUserMessage: false
+      },
+      color: ''
     };
   },
   mounted() {
     this.getColor();
-    eventLogin.$on(
-      "open-login-modal",
-      function() {
-        this.modalLogin = true;
-      }.bind(this)
-    );
+    eventLogin.$on('open-login-modal', () => {
+      this.login.modal = true;
+    });
   },
   methods: {
-    doLogin: function() {
-      this.loading = true;
-      var form = document.getElementById("form-login");
-      var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "Login",
-        "doLogin"
+    doLogin() {
+      this.login.loading = true;
+      const form = document.getElementById('form-login');
+      const formData = new FormData(form);
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'Login',
+        'doLogin'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
-          if (response.data == true) {
-            window.location.href =
-              this.$getDomainNameToNavigation() + "courses";
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
+          if (response.data === true) {
+            window.location.href = this.$getDomainNameToNavigation() + 'home';
           } else {
-            this.wrongPasswordOrUser = true;
+            this.login.wrongPasswordOrUserMessage = true;
           }
-          this.loading = false;
+          this.login.loading = false;
         },
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    getColor: function() {
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "settings",
-        "getSettingsInformation"
+    getColor() {
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'settings',
+        'getSettingsInformation'
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        function(response) {
-          this.color = response.data["color"];
-        }.bind(this)
-      );
+      this.$request.get(urlToBeUsedInTheRequest).then((response) => {
+        this.color = response.data.color;
+      });
     },
-    recoverPassword: function() {
-      this.successRecover = false;
-      this.failedRecover = false;
-      this.loadingRecover = true;
-      var form = document.getElementById("form-recover");
-      var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "Login",
-        "recoverPassword"
+    recoverPassword() {
+      this.recover.loading = true;
+      const form = document.getElementById('form-recover');
+      const formData = new FormData(form);
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'Login',
+        'recoverPassword'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
-          if (response.data == true) {
-            this.successRecover = true;
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
+          if (response.data === true) {
           } else {
-            this.failedRecover = true;
           }
-          this.loadingRecover = false;
+          this.recover.loading = false;
         },
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     }
   },
   computed: {
-    primaryColorBg: function() {
+    primaryColorBg() {
       return {
-        "background-color": this.color
+        'background-color': this.color
       };
     },
-    primaryColor: function() {
+    primaryColor() {
       return {
         color: this.color
       };
     },
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   }
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 .btn {
   display: inline-block;

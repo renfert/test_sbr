@@ -1,8 +1,7 @@
 <template>
-  <!--  Modal new lesson -->
   <div>
     <el-dialog
-      :visible.sync="modalCreateLesson"
+      :visible.sync="modal"
       :title="lang['create-new-lesson']"
       center
       top="5vh"
@@ -15,7 +14,7 @@
 
           <div class="form-group col-xl-12 col-md-12">
             <!-- Lesson name -->
-            <label class="col-form-label">{{lang["name"]}} *</label>
+            <label class="col-form-label">{{ lang['name'] }} *</label>
             <el-input required v-model="name" name="title"></el-input>
           </div>
         </div>
@@ -35,86 +34,63 @@
         </div>
         <div class="form-row">
           <div class="form-group col-xl-6 col-md-6">
-            <el-button class="sbr-primary" native-type="submit">{{lang["save-button"]}}</el-button>
+            <el-button class="sbr-primary" native-type="submit">{{
+              lang['save-button']
+            }}</el-button>
           </div>
         </div>
       </form>
     </el-dialog>
   </div>
-  <!-- End  modal new lesson -->
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-import Upload from "@/components/helper/HelperUpload";
+import Upload from '@/components/helper/HelperUpload';
+import { eventBus } from '@/components/newcourse/App';
+import { mapState } from 'vuex';
 
-import { eventBus } from "@/components/newcourse/App";
-import { eventUpload } from "@/components/helper/HelperUpload";
-import { mapState } from "vuex";
-
-Vue.use(VueAxios, axios);
 export default {
-  mixins: [domains, alerts],
-  props: ["module-id"],
+  props: ['module-id'],
   components: {
     Upload
   },
   data: () => {
     return {
-      name: "",
-      modalCreateLesson: false,
+      name: '',
+      modal: false,
       loading: false
     };
   },
   mounted() {
-    /* Get new video click event */
-    eventBus.$on(
-      "new-video",
-      function() {
-        this.modalCreateLesson = true;
-      }.bind(this)
-    );
+    eventBus.$on('new-video', () => {
+      this.modal = true;
+    });
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   methods: {
-    /* Create a new lesson */
-    create: function() {
+    create() {
       this.loading = true;
-      var form = document.getElementById("form-lesson-video");
-      var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "lesson",
-        "create"
+      const form = document.getElementById('form-lesson-video');
+      const formData = new FormData(form);
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'lesson',
+        'create'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
-          /* Success callback */
-          this.successMessage();
-          this.actionsToBePerformedAfterRegistration();
+          this.$successMessage();
+          form.reset();
+          eventBus.$emit('new-lesson');
+          this.modal = false;
           this.loading = false;
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
-    },
-    actionsToBePerformedAfterRegistration() {
-      this.name = "";
-      this.modalCreateLesson = false;
-      eventBus.$emit("new-lesson");
-      eventUpload.$emit("clear");
     }
   }
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
-</style>

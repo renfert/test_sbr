@@ -1,154 +1,131 @@
 <template>
-  <div class="main" v-loading="loading">
-    <lang></lang>
-
-    <div class="row">
-      <!-------------- 
-                Widgets 
+  <div class="row">
+    <!--------------
+                Widgets
       --------------->
-      <div class="col-12 col-md-12 mb-5">
-        <h4 class="sbr-text-grey">
-          <b>{{lang['basic-information']}}</b>
-        </h4>
-        <div class="row">
-          <div class="col-md-6 col-12 mb-3">
-            <!-- Courses -->
-            <a href="courses">
-              <div class="card-widget">
-                <div class="title-widget text-center">
-                  <img src="@/assets/img/general/ux/widgets/admin/courses.png" alt />
-                  <h3 class="sbr-text-grey text-widget">
-                    {{lang["courses"]}}:
-                    <b>{{numberTotalOfCourses}}</b>
-                  </h3>
-                </div>
+    <div class="col-12 col-md-12 mb-5">
+      <h4 class="sbr-text-grey">
+        <b>{{ lang['basic-information'] }}</b>
+      </h4>
+      <div class="row">
+        <div class="col-md-6 col-12 mb-3">
+          <!-- Courses -->
+          <a href="courses">
+            <div class="card-widget">
+              <div class="title-widget text-center">
+                <img
+                  src="@/assets/img/general/ux/widgets/admin/courses.png"
+                  alt
+                />
+                <h3 class="sbr-text-grey text-widget">
+                  {{ lang['courses'] }}:
+                  <b>{{ numberTotalOfCourses }}</b>
+                </h3>
               </div>
-            </a>
-          </div>
-          <div class="col-md-6 col-12 mb-3">
-            <!-- Users -->
-            <a href="users">
-              <div class="card-widget">
-                <div class="title-widget text-center">
-                  <img src="@/assets/img/general/ux/widgets/admin/enrolled.png" alt />
-                  <h3 class="sbr-text-grey text-widget">
-                    {{lang["students"]}}:
-                    <b>{{numberTotalOfStudents}}</b>
-                  </h3>
-                </div>
-              </div>
-            </a>
-          </div>
+            </div>
+          </a>
         </div>
-
-        <!-------------- 
-                Last activities
-        --------------->
-        <Activities></Activities>
-        <!-------------- 
-                Last activities
-        --------------->
+        <div class="col-md-6 col-12 mb-3">
+          <!-- Users -->
+          <a href="users">
+            <div class="card-widget">
+              <div class="title-widget text-center">
+                <img
+                  src="@/assets/img/general/ux/widgets/admin/enrolled.png"
+                  alt
+                />
+                <h3 class="sbr-text-grey text-widget">
+                  {{ lang['students'] }}:
+                  <b>{{ numberTotalOfStudents }}</b>
+                </h3>
+              </div>
+            </div>
+          </a>
+        </div>
       </div>
-      <!-------------- 
-                End Widgets 
-      --------------->
+
+      <!--------------
+                Last activities
+        --------------->
+      <Activities></Activities>
+      <!--------------
+                Last activities
+        --------------->
     </div>
+    <!--------------
+                End Widgets
+      --------------->
   </div>
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import VueTheMask from "vue-the-mask";
-import ElementUI from "element-ui";
-import Lang from "@/components/helper/HelperLang.vue";
-import Activities from "@/components/activity/Activities.vue";
-import "element-ui/lib/theme-chalk/index.css";
-import lang from "element-ui/lib/locale/lang/en";
-import locale from "element-ui/lib/locale";
-import { eventLang } from "@/components/helper/HelperLang";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-import VueGoogleCharts from "vue-google-charts";
-Vue.use(VueGoogleCharts);
+import Vue from 'vue';
+import Activities from '@/components/activity/Activities.vue';
+import VueGoogleCharts from 'vue-google-charts';
 
-locale.use(lang);
-Vue.use(VueTheMask);
-Vue.use(VueTheMask);
-Vue.use(VueAxios, axios);
-Vue.use(ElementUI);
+import { mapState } from 'vuex';
+
+Vue.use(VueGoogleCharts);
 
 export default {
   components: {
-    Lang,
     Activities
   },
-  mixins: [domains, alerts],
-  data: function() {
+  data: () => {
     return {
-      lang: {},
-      loading: false,
-      numberTotalOfStudents: "",
-      numberTotalOfCourses: ""
+      numberTotalOfStudents: '',
+      numberTotalOfCourses: ''
     };
   },
   mounted() {
-    eventLang.$on(
-      "lang",
-      function(response) {
-        this.lang = response;
-      }.bind(this)
-    );
-
     this.getTotalNumberOfStudents();
     this.getTotalNumberOfCourses();
     this.getCourses();
   },
+  computed: {
+    ...mapState(['lang'])
+  },
   methods: {
-    getCourses: function() {
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "chart",
-        "getCourses"
+    getCourses() {
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'chart',
+        'getCourses'
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        response => {
+      this.$request.get(urlToBeUsedInTheRequest).then(
+        (response) => {
           this.coursesData = response.data;
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    getTotalNumberOfStudents: function() {
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "widgets",
-        "getTotalNumberOfStudents"
+    getTotalNumberOfStudents() {
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'widgets',
+        'getTotalNumberOfStudents'
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        response => {
+      this.$request.get(urlToBeUsedInTheRequest).then(
+        (response) => {
           this.numberTotalOfStudents = response.data;
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    getTotalNumberOfCourses: function() {
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "widgets",
-        "getTotalNumberOfCourses"
+    getTotalNumberOfCourses() {
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'widgets',
+        'getTotalNumberOfCourses'
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        response => {
+      this.$request.get(urlToBeUsedInTheRequest).then(
+        (response) => {
           this.numberTotalOfCourses = response.data;
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     }
   }

@@ -1,27 +1,27 @@
 <template>
   <div>
     <exam-correction></exam-correction>
-    <!----------------- 
-      Corrections list 
+    <!-----------------
+      Corrections list
     ------------------->
     <div class="card-box table-responsive" v-if="correctionsList != null">
       <h4>
-        {{lang["list-corrections"]}}
+        {{ lang['list-corrections'] }}
         <el-popover placement="right" trigger="hover">
           <div>
-            <p>{{lang["correction-status-information"]}}</p>
+            <p>{{ lang['correction-status-information'] }}</p>
             <hr />
             <a href="#" class="text-warning">
-              {{lang["pending"]}}
+              {{ lang['pending'] }}
               <i class="el-icon-refresh-right"></i>
             </a>
-            : {{lang["pending-information"]}}
+            : {{ lang['pending-information'] }}
             <br />
             <a href="#" class="text-success">
-              {{lang["done"]}}
+              {{ lang['done'] }}
               <i class="el-icon-circle-check"></i>
             </a>
-            : {{lang["done-information"]}}
+            : {{ lang['done-information'] }}
           </div>
           <i slot="reference" class="el-icon-warning-outline text-primary"></i>
         </el-popover>
@@ -29,7 +29,10 @@
       <div style="margin-bottom: 10px">
         <el-row>
           <el-col :span="6">
-            <el-input v-model="filters[0].value" placeholder="Search"></el-input>
+            <el-input
+              v-model="filters[0].value"
+              placeholder="Search"
+            ></el-input>
           </el-col>
         </el-row>
       </div>
@@ -48,7 +51,7 @@
         <el-table-column label="Actions" align="center">
           <template slot-scope="scope">
             <el-button
-              @click="openCorrection(scope.row.id,scope.row.studentId)"
+              @click="openCorrection(scope.row.id, scope.row.studentId)"
               class="sbr-primary"
               icon="el-icon-edit"
               circle
@@ -57,63 +60,72 @@
         </el-table-column>
         <el-table-column prop="status" label="Status" align="center" sortable>
           <template slot-scope="scope">
-            <a href="#" class="text-warning" v-if="scope.row.questionsToEvaluate != 0">
-              {{lang["pending"]}}
+            <a
+              href="#"
+              class="text-warning"
+              v-if="scope.row.questionsToEvaluate != 0"
+            >
+              {{ lang['pending'] }}
               <i class="el-icon-refresh-right"></i>
             </a>
 
             <a href="#" class="text-success" v-else>
-              {{lang["done"]}}
+              {{ lang['done'] }}
               <i class="el-icon-circle-check"></i>
             </a>
           </template>
         </el-table-column>
       </data-tables>
     </div>
-    <!-- End correction list -->
+    <!-------------------
+      End correction list
+    ----------------- -->
 
     <div class="row mb-5 mt-5" v-else>
       <div class="col-12 text-center">
-        <img class="no-results-img" src="@/assets/img/general/ux/no_exams.png" alt="No persons" />
-        <h4 class="no-results-text">{{lang["no-results-corrections-title"]}}</h4>
+        <img
+          class="no-results-img"
+          src="@/assets/img/general/ux/no_exams.png"
+          alt="No persons"
+        />
+        <h4 class="no-results-text">
+          {{ lang['no-results-corrections-title'] }}
+        </h4>
       </div>
     </div>
   </div>
-  <!-- End col-12 -->
 </template>
 
 <script>
-import Vue from "vue";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-import ExamCorrection from "@/components/viewcourse/correction/ExamCorrection";
+import Vue from 'vue';
+import ExamCorrection, {
+  eventCorrection
+} from '@/components/viewcourse/correction/ExamCorrection';
 
-import { eventCorrection } from "@/components/viewcourse/correction/ExamCorrection";
-import { DataTables, DataTablesServer } from "vue-data-tables";
-import { mapState } from "vuex";
+import { DataTables, DataTablesServer } from 'vue-data-tables';
+import { mapState } from 'vuex';
 
 Vue.use(DataTables);
 Vue.use(DataTablesServer);
 
 export default {
-  mixins: [domains, alerts],
   components: {
     ExamCorrection
   },
   data: () => {
     return {
       titles: [
-        { prop: "student", label: "Student" },
-        { prop: "course", label: "Course" },
-        { prop: "exam", label: "Exam" }
+        { prop: 'student', label: 'Student' },
+        { prop: 'course', label: 'Course' },
+        { prop: 'exam', label: 'Exam' }
       ],
       filters: [
-        { prop: "student", value: "" },
-        { prop: "course", value: "" },
-        { prop: "exam", value: "" },
-        { prop: "status", value: "" }
+        { prop: 'student', value: '' },
+        { prop: 'course', value: '' },
+        { prop: 'exam', value: '' },
+        { prop: 'status', value: '' }
       ],
-      tableProps: { defaultSort: { prop: "status", order: "descending" } },
+      tableProps: { defaultSort: { prop: 'status', order: 'descending' } },
       correctionsList: []
     };
   },
@@ -121,34 +133,34 @@ export default {
     this.getCorrections();
   },
   mounted() {
-    eventCorrection.$on("finish-correction", () => {
+    eventCorrection.$on('finish-correction', () => {
       this.getCorrections();
     });
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   methods: {
     getCorrections() {
-      let urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "corrections",
-        "listing"
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'corrections',
+        'listing'
       );
       this.$request.get(urlToBeUsedInTheRequest).then(
-        response => {
+        (response) => {
           this.correctionsList = response.data;
         },
         () => {
-          this.errorMessage();
+          this.$errorMessage();
         }
       );
     },
     openCorrection(examId, studentId) {
-      let data = {
+      const data = {
         examId: examId,
         studentId: studentId
       };
-      eventCorrection.$emit("open-exam-correction", data);
+      eventCorrection.$emit('open-exam-correction', data);
     }
   }
 };

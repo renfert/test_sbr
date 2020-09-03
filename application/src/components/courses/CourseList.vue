@@ -1,5 +1,8 @@
 <template>
-  <div class="card-box table-responsive mt-5 pr-0 pl-0" v-if="courseList != null">
+  <div
+    class="card-box table-responsive mt-5 pr-0 pl-0"
+    v-if="courseList != null"
+  >
     <div class="dropdown pull-right">
       <a
         @click="changeCourseVisualization()"
@@ -8,7 +11,10 @@
         data-toggle="dropdown"
         aria-expanded="false"
       >
-        <i v-if="courseVisualization == 'list'" class="mdi mdi-view-list mdi-36px pr-4"></i>
+        <i
+          v-if="courseVisualization == 'list'"
+          class="mdi mdi-view-list mdi-36px pr-4"
+        ></i>
         <i v-else class="mdi mdi-table mdi-36px pr-4"></i>
       </a>
     </div>
@@ -18,62 +24,62 @@
 
   <div class="row mb-5 mt-5" v-else>
     <div class="col-12 text-center">
-      <img class="no-results-img" src="@/assets/img/general/ux/no_courses.png" alt="No persons" />
-      <h4 class="no-results-text">{{lang["no-courses-found"]}}</h4>
+      <img
+        class="no-results-img"
+        src="@/assets/img/general/ux/no_courses.png"
+        alt="No persons"
+      />
+      <h4 class="no-results-text">{{ lang['no-courses-found'] }}</h4>
     </div>
   </div>
 </template>
 
 <script>
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-import CourseListView from "@/components/courses/views/CourseListView";
-import CourseTableView from "@/components/courses/views/CourseTableView";
+import CourseListView from '@/components/courses/views/CourseListView';
+import CourseTableView from '@/components/courses/views/CourseTableView';
 
-import { eventBus } from "@/components/courses/App";
-import { mapState } from "vuex";
+import { eventBus } from '@/components/courses/App';
+import { mapState } from 'vuex';
 
 export default {
-  mixins: [domains, alerts],
   components: {
     CourseListView,
     CourseTableView
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   data: () => {
     return {
-      titles: [{ prop: "title", label: "Title" }],
       courseList: [],
-      courseVisualization: "list"
+      courseVisualization: 'list'
     };
   },
   created() {
     this.getCourses();
   },
   mounted() {
-    eventBus.$on("course-deleted", () => {
+    eventBus.$on('course-deleted', () => {
       this.getCourses();
     });
   },
   methods: {
     changeCourseVisualization() {
-      this.courseVisualization == "list"
-        ? (this.courseVisualization = "table")
-        : (this.courseVisualization = "list");
+      this.courseVisualization === 'list'
+        ? (this.courseVisualization = 'table')
+        : (this.courseVisualization = 'list');
     },
     getCourses() {
-      let urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "course",
-        "listing"
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'course',
+        'listing'
       );
       this.$request.get(urlToBeUsedInTheRequest).then(
-        response => {
+        (response) => {
           this.courseList = response.data;
         },
         () => {
-          this.errorMessage();
+          this.$errorMessage();
         }
       );
     }

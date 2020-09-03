@@ -7,12 +7,16 @@
           <div class="page_sidebar hide-23">
             <!-- Search Form -->
             <form class="form-inline addons mb-3">
-              <el-input :placeholder="lang['search']" prefix-icon="el-icon-search" v-model="search"></el-input>
+              <el-input
+                :placeholder="lang['search']"
+                prefix-icon="el-icon-search"
+                v-model="search"
+              ></el-input>
             </form>
 
             <!-- Categories filter -->
             <div v-if="categories != null">
-              <h4 class="side_title">{{ lang["category"] }}</h4>
+              <h4 class="side_title">{{ lang['category'] }}</h4>
               <ul class="no-ul-list mb-3">
                 <li v-for="element in categories" :key="element.id">
                   <input
@@ -26,13 +30,14 @@
                   <label
                     :for="'check' + element.id"
                     class="checkbox-custom-label"
-                  >{{ element.name }}</label>
+                    >{{ element.name }}</label
+                  >
                 </li>
               </ul>
             </div>
 
             <!-- Price filter -->
-            <h4 class="side_title">{{ lang["price"] }}</h4>
+            <h4 class="side_title">{{ lang['price'] }}</h4>
             <ul class="no-ul-list mb-3">
               <li>
                 <input
@@ -44,9 +49,7 @@
                   type="radio"
                 />
                 <label for="b-7" class="checkbox-custom-label">
-                  {{
-                  lang["all"]
-                  }}
+                  {{ lang['all'] }}
                 </label>
               </li>
               <li>
@@ -59,9 +62,7 @@
                   type="radio"
                 />
                 <label for="b-8" class="checkbox-custom-label">
-                  {{
-                  lang["free-course"]
-                  }}
+                  {{ lang['free-course'] }}
                 </label>
               </li>
               <li>
@@ -74,9 +75,7 @@
                   type="radio"
                 />
                 <label for="b-9" class="checkbox-custom-label">
-                  {{
-                  lang["paid-courses"]
-                  }}
+                  {{ lang['paid-courses'] }}
                 </label>
               </li>
             </ul>
@@ -85,7 +84,7 @@
           <div class="page_sidebar hide-23">
             <!-- Contact -->
             <div>
-              <h4 class="side_title">{{ lang["contact"] }}</h4>
+              <h4 class="side_title">{{ lang['contact'] }}</h4>
               <div class="mb-5 mt-3">
                 <label class="checkbox-custom-label">
                   <i class="ti-email mr-1"></i>
@@ -102,11 +101,13 @@
             <h4 class="side_title">Tags</h4>
             <div class="popular_tags">
               <!-- Tags -->
-              <div class="tag_cloud" v-for="element in categories" :key="element.id">
+              <div
+                class="tag_cloud"
+                v-for="element in categories"
+                :key="element.id"
+              >
                 <a href="javascript:void(0)" class="tag-cloud-lin">
-                  {{
-                  element.name
-                  }}
+                  {{ element.name }}
                 </a>
               </div>
             </div>
@@ -115,13 +116,17 @@
 
         <div class="col-lg-8 col-md-12 col-sm-12 order-1 order-lg-2 order-md-1">
           <!-- Row -->
-          <div id="top-list" class="row align-items-center mb-3" v-if="courseList != null">
+          <div
+            id="top-list"
+            class="row align-items-center mb-3"
+            v-if="courseList != null"
+          >
             <div class="col-lg-6 col-md-6 col-sm-12 founded-courses">
-              {{ lang["we-found"] }}
+              {{ lang['we-found'] }}
               <strong>
                 <b>{{ courseList.length }}</b>
               </strong>
-              {{ lang["courses"] }}
+              {{ lang['courses'] }}
             </div>
           </div>
           <!-- /Row -->
@@ -134,7 +139,9 @@
               :key="element.id"
             >
               <div class="education_block_grid style_2">
-                <router-link :to="'product/' + formatTitleParameter(element.title)">
+                <router-link
+                  :to="'product/' + formatTitleParameter(element.title)"
+                >
                   <div class="education_block_thumb">
                     <a href="javascript:void(0)">
                       <img
@@ -144,11 +151,12 @@
                         class="img-fluid"
                       />
                     </a>
-                    <div v-if="element.reviews != null" class="education_ratting">
+                    <div
+                      v-if="element.reviews != null"
+                      class="education_ratting"
+                    >
                       <i class="fa fa-star"></i>
-                      {{
-                      rateAverage(element.totalRate, element.totalReviews)
-                      }}
+                      {{ rateAverage(element.totalRate, element.totalReviews) }}
                       ({{ element.totalReviews }})
                     </div>
                   </div>
@@ -158,7 +166,8 @@
                   <h4 class="bl-title">
                     <router-link
                       :to="'product/' + formatTitleParameter(element.title)"
-                    >{{ element.title }}</router-link>
+                      >{{ element.title }}</router-link
+                    >
                   </h4>
                 </div>
 
@@ -181,7 +190,10 @@
                       <a href="javascript:void(0)">
                         <el-avatar
                           :src="
-                            $getUrlToContents() + 'avatar/' + element.avatar + ''
+                            $getUrlToContents() +
+                            'avatar/' +
+                            element.avatar +
+                            ''
                           "
                         ></el-avatar>
                       </a>
@@ -191,11 +203,13 @@
                     </h5>
                   </div>
                   <div v-if="element.price != null" class="cources_price_foot">
-                    <span class="price_off">{{ element.currency }} {{ element.price }}</span>
+                    <span class="price_off"
+                      >{{ element.currency }} {{ element.price }}</span
+                    >
                   </div>
                   <div v-else class="foot_lecture">
                     <i class="ti-gift mr-2"></i>
-                    {{ lang["free-course"] }}
+                    {{ lang['free-course'] }}
                   </div>
                 </div>
               </div>
@@ -204,17 +218,30 @@
 
           <div class="row" v-else>
             <div class="col-12 text-center">
-              <img class="w-50" src="@/assets/img/general/ux/not_found.png" alt="No activities" />
-              <h4 class="sbr-empty-state-text">{{ lang["no-courses-found"] }}</h4>
+              <img
+                class="w-50"
+                src="@/assets/img/general/ux/not_found.png"
+                alt="No activities"
+              />
+              <h4 class="sbr-empty-state-text">
+                {{ lang['no-courses-found'] }}
+              </h4>
             </div>
           </div>
 
           <!-- Pagination -->
-          <div v-if="courseList != null && courseList.length > 6" class="row text-center mb-5">
+          <div
+            v-if="courseList != null && courseList.length > 6"
+            class="row text-center mb-5"
+          >
             <div class="col-12 col-md-12">
               <ul class="pagination p-center">
                 <li class="page-item">
-                  <a class="page-link" href="javascript:void(0)" aria-label="Previous">
+                  <a
+                    class="page-link"
+                    href="javascript:void(0)"
+                    aria-label="Previous"
+                  >
                     <span class="ti-arrow-left"></span>
                     <span class="sr-only">Previous</span>
                   </a>
@@ -232,10 +259,15 @@
                     :class="pag === currentPage ? 'active' : ''"
                     @click.prevent="currentPage = pag"
                     href="javascript:void(0)"
-                  >{{ pag }}</a>
+                    >{{ pag }}</a
+                  >
                 </li>
                 <li class="page-item">
-                  <a class="page-link" href="javascript:void(0)" aria-label="Next">
+                  <a
+                    class="page-link"
+                    href="javascript:void(0)"
+                    aria-label="Next"
+                  >
                     <span class="ti-arrow-right"></span>
                     <span class="sr-only">Next</span>
                   </a>
@@ -252,53 +284,39 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import VueTheMask from "vue-the-mask";
-import { DataTables, DataTablesServer } from "vue-data-tables";
-import { eventLang } from "@/components/helper/HelperLang";
-import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
-import lang from "element-ui/lib/locale/lang/en";
-import locale from "element-ui/lib/locale";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-import VueLazyload from "vue-lazyload";
-import "element-ui/lib/theme-chalk/index.css";
+import Vue from 'vue';
+import VueLazyload from 'vue-lazyload';
 
-locale.use(lang);
+import { DataTables, DataTablesServer } from 'vue-data-tables';
+import { mapState } from 'vuex';
 
 Vue.use(VueLazyload, {
   preLoad: 1.3,
-  error: "https://sbrfiles.s3.amazonaws.com/images/image-not-available.png",
-  loading: "https://sbrfiles.s3.amazonaws.com/gifs/loading7.gif",
+  error: 'https://sbrfiles.s3.amazonaws.com/images/image-not-available.png',
+  loading: 'https://sbrfiles.s3.amazonaws.com/gifs/loading7.gif',
   attempt: 1
 });
+
 Vue.use(DataTables);
 Vue.use(DataTablesServer);
-Vue.use(ElementUI);
-Vue.use(VueTheMask);
-Vue.use(VueAxios, axios);
+
 export default {
-  mixins: [domains, alerts],
-  data: function() {
+  data: () => {
     return {
       visibleCourses: null,
       courseList: [],
-      lang: {},
       modal: false,
       loading: false,
-      roleId: "",
-      category: "",
+      roleId: '',
+      category: '',
       categories: [],
-      search: "",
+      search: '',
       options: [],
       checkedNames: [],
       priceFilter: [],
 
-      companyEmail: "",
-      companyPhone: "",
+      companyEmail: '',
+      companyPhone: '',
 
       currentPage: 1,
       perPage: 6
@@ -309,20 +327,15 @@ export default {
     this.getCourses();
     this.getCategories();
   },
-  mounted() {
-    eventLang.$on(
-      "lang",
-      function(response) {
-        this.lang = response;
-      }.bind(this)
-    );
+  computed: {
+    ...mapState(['lang', 'userRole'])
   },
   methods: {
-    formatTitleParameter: function(title) {
-      var newTitle = title.split(" ").join("-");
+    formatTitleParameter(title) {
+      const newTitle = title.split(' ').join('-');
       return newTitle.toLowerCase();
     },
-    rateAverage: function(totalRate, totalReviews) {
+    rateAverage(totalRate, totalReviews) {
       if (totalRate == null) {
         return 0;
       } else {
@@ -331,17 +344,17 @@ export default {
     },
     getCourses() {
       this.loading = true;
-      var formData = new FormData();
-      formData.set("categories", this.checkedNames);
-      formData.set("price", this.priceFilter);
-      formData.set("title", this.search);
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "course",
-        "listingAll"
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'course',
+        'listingAll'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
-          // success callback
+      formData.set('categories', this.checkedNames);
+      formData.set('price', this.priceFilter);
+      formData.set('title', this.search);
+
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
           this.courseList = response.data;
           if (response.data == null) {
             this.visibleCourses = null;
@@ -353,80 +366,76 @@ export default {
           }
           this.loading = false;
         },
-        // Failure callback
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
     getCategories() {
       this.loading = true;
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "category",
-        "listing"
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'category',
+        'listing'
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        response => {
+      this.$request.get(urlToBeUsedInTheRequest).then(
+        (response) => {
           this.categories = response.data;
         },
-        // Failure callback
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
     getSettings() {
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "settings",
-        "getSettingsInformation"
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'settings',
+        'getSettingsInformation'
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        response => {
-          this.companyEmail = response.data["email"];
-          this.companyPhone = response.data["phone"];
+      this.$request.get(urlToBeUsedInTheRequest).then(
+        (response) => {
+          this.companyEmail = response.data.email;
+          this.companyPhone = response.data.phone;
 
-          /* Create custom classes */
-          var style = document.createElement("style");
-          style.type = "text/css";
+          const style = document.createElement('style');
+          style.type = 'text/css';
           style.innerHTML =
-            ".checkbox-custom:checked + .checkbox-custom-label:before { background: " +
-            response.data["color"] +
-            ";border-radius: 10px;box-shadow: inset 0px 0px 0px 4px #fff;}.tag_cloud a:hover,.tag_cloud a:focus {background: " +
-            response.data["color"] +
-            " ;color: #ffffff !important;}.foot_lecture {background: " +
-            response.data["color"] +
-            ";color: white;font-weight: 500;padding: 6px 15px;font-size: 13px;border-radius: 50px;}.page-link.active{background-color: " +
-            response.data["color"] +
-            " !important;color:white;}.page-link.active:focus{background-color: " +
-            response.data["color"] +
-            " !important;color:white;}";
-          document.getElementsByTagName("head")[0].appendChild(style);
+            '.checkbox-custom:checked + .checkbox-custom-label:before { background: ' +
+            response.data.color +
+            ';border-radius: 10px;box-shadow: inset 0px 0px 0px 4px #fff;}.tag_cloud a:hover,.tag_cloud a:focus {background: ' +
+            response.data.color +
+            ' ;color: #ffffff !important;}.foot_lecture {background: ' +
+            response.data.color +
+            ';color: white;font-weight: 500;padding: 6px 15px;font-size: 13px;border-radius: 50px;}.page-link.active{background-color: ' +
+            response.data.color +
+            ' !important;color:white;}.page-link.active:focus{background-color: ' +
+            response.data.color +
+            ' !important;color:white;}';
+          document.getElementsByTagName('head')[0].appendChild(style);
         },
-        // Failure callback
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     }
   },
   watch: {
-    checkedNames: function() {
+    checkedNames() {
       this.getCourses();
     },
-    priceFilter: function() {
+    priceFilter() {
       this.getCourses();
     },
-    search: function() {
+    search() {
       this.getCourses();
     },
-    currentPage: function() {
+    currentPage() {
       this.visibleCourses = this.courseList.slice(
         (this.currentPage - 1) * this.perPage,
         (this.currentPage - 1) * this.perPage + this.perPage
       );
       document
-        .getElementById("top-list")
-        .scrollIntoView({ block: "end", behavior: "smooth" });
+        .getElementById('top-list')
+        .scrollIntoView({ block: 'end', behavior: 'smooth' });
     }
   }
 };
@@ -464,7 +473,7 @@ h4,
 h5,
 h6 {
   color: #2d3954;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   word-break: break-word !important;
   font-weight: 500;
 }
@@ -500,7 +509,7 @@ a {
    Checkbox
 ============= */
 .checkbox-custom + .checkbox-custom-label:before {
-  content: "";
+  content: '';
   background: #fff;
   border: 2px solid #d8dfe6;
   display: inline-block;
@@ -535,7 +544,7 @@ a {
   padding-top: 3%;
 }
 
-[role="button"],
+[role='button'],
 a,
 area,
 button,
@@ -551,7 +560,7 @@ textarea {
 .checkbox-custom-label {
   color: #647b9c;
   font-size: 15px;
-  font-family: "Muli", sans-serif;
+  font-family: 'Muli', sans-serif;
   font-weight: 400;
 }
 
@@ -656,8 +665,8 @@ textarea {
   list-style: none;
 }
 
-input[type="checkbox"],
-input[type="radio"] {
+input[type='checkbox'],
+input[type='radio'] {
   box-sizing: border-box;
   padding: 0;
 }
@@ -689,7 +698,7 @@ input[type="radio"] {
 }
 
 .education_block_thumb:before {
-  content: "";
+  content: '';
   position: absolute;
   background: #2a2f4c;
   left: 0;
@@ -788,7 +797,7 @@ input[type="radio"] {
 .founded-courses {
   color: #647b9c;
   font-size: 15px;
-  font-family: "Muli", sans-serif;
+  font-family: 'Muli', sans-serif;
   font-weight: 400;
 }
 

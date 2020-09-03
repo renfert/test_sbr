@@ -1,9 +1,11 @@
 <template>
   <div>
-    <h4>{{lang["edit-program"]}}</h4>
+    <h4>
+      {{ lang['edit-program'] }}
+    </h4>
     <br />
     <form @submit.prevent="edit()" id="form-program" v-loading="loading">
-      <input name="programId" class="hide" type="text" v-model="programId" />
+      <input name="programId" class="hide" type="text" v-model="program.id" />
       <el-tabs tab-position="top">
         <!--------------------
         Basic information tab
@@ -12,15 +14,20 @@
           <div class="row gap5">
             <div class="col-10">
               <div class="form-group">
-                <label>{{lang['name']}}</label>
-                <el-input required name="title" :placeholder="lang['name']" v-model="programTitle"></el-input>
+                <label>{{ lang['name'] }}</label>
+                <el-input
+                  required
+                  name="title"
+                  :placeholder="lang['name']"
+                  v-model="program.title"
+                ></el-input>
               </div>
               <div class="form-group">
-                <label>{{lang['start-date']}}</label>
+                <label>{{ lang['start-date'] }}</label>
                 <br />
                 <el-date-picker
                   name="release_date"
-                  v-model="release"
+                  v-model="program.releaseDate"
                   type="date"
                   format="yyyy/MM/dd"
                   value-format="yyyy-MM-dd"
@@ -28,11 +35,11 @@
                 ></el-date-picker>
               </div>
               <div class="form-group">
-                <label>{{lang['end-date']}}</label>
+                <label>{{ lang['end-date'] }}</label>
                 <br />
                 <el-date-picker
                   name="expiration_date"
-                  v-model="expiration"
+                  v-model="program.expirationDate"
                   type="date"
                   format="yyyy/MM/dd"
                   value-format="yyyy-MM-dd"
@@ -40,9 +47,13 @@
                 ></el-date-picker>
               </div>
               <div class="form-group">
-                <textarea class="hide" v-model="programDescription" name="description"></textarea>
-                <label class="col-form-label">{{lang["description"]}}</label>
-                <wysiwyg v-model="programDescription" />
+                <textarea
+                  class="hide"
+                  v-model="program.description"
+                  name="description"
+                ></textarea>
+                <label class="col-form-label">{{ lang['description'] }}</label>
+                <wysiwyg v-model="program.description" />
               </div>
             </div>
           </div>
@@ -69,12 +80,13 @@
                     class="sbr-purple"
                     @click.prevent="addCourse()"
                     type="primary"
-                  >{{lang["add-course"]}}</el-button>
+                    >{{ lang['add-course'] }}</el-button
+                  >
                 </el-form-item>
               </el-form>
               <div class="mb-5">
                 <ul class="list-group">
-                  <draggable ghost-class="ghost" @end="repositioning">
+                  <draggable ghost-class="ghost" @end="repositioning()">
                     <transition-group type="transition" name="flip-list">
                       <li
                         v-for="element in coursesProgram"
@@ -83,15 +95,17 @@
                       >
                         <div>
                           <i
-                            style="cursor:pointer !important;"
+                            style="cursor: pointer !important"
                             class="remove-course el-icon-delete sbr-text-danger mr-5"
                           ></i>
                           <input
                             class="courses-position hide"
                             :value="element.id"
-                            :name="'courses['+parseInt(element.position)+']'"
+                            :name="
+                              'courses[' + parseInt(element.position) + ']'
+                            "
                           />
-                          {{element.title}}
+                          {{ element.title }}
                         </div>
                       </li>
 
@@ -116,9 +130,9 @@
           <div class="row gap5">
             <div class="col-md-6 col-12">
               <upload
-                v-if="srcImg != ''"
-                :src-img="srcImg"
-                :src-name="srcName"
+                v-if="program.image != ''"
+                :src-img="program.image"
+                :src-name="program.imageName"
                 do-upload="true"
                 box-height="200"
                 return-name="photo"
@@ -131,48 +145,46 @@
         </el-tab-pane>
       </el-tabs>
       <br />
-      <el-button native-type="submit" class="sbr-primary">{{lang["save-button"]}}</el-button>
+      <el-button native-type="submit" class="sbr-primary">{{
+        lang['save-button']
+      }}</el-button>
     </form>
     <helper-progress></helper-progress>
   </div>
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import draggable from "vuedraggable";
-import HelperProgress from "@/components/helper/HelperProgress.vue";
-import wysiwyg from "vue-wysiwyg";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-import ElementUI from "element-ui";
-import Upload from "@/components/helper/HelperUpload";
-import $ from "jquery";
+import Vue from 'vue';
+import draggable from 'vuedraggable';
+import HelperProgress from '@/components/helper/HelperProgress.vue';
+import wysiwyg from 'vue-wysiwyg';
+import Upload from '@/components/helper/HelperUpload';
+import $ from 'jquery';
 
-import { mapState } from "vuex";
+import { mapState } from 'vuex';
 
 Vue.use(wysiwyg, {
-  hideModules: { image: true, code: true, table: true, hyperlink: true }
+  hideModules: {
+    image: true,
+    code: true,
+    table: true,
+    hyperlink: true
+  }
 });
 
-Vue.use(ElementUI);
-Vue.use(VueAxios, axios);
-
 export default {
-  mixins: [domains, alerts],
-  data: function() {
+  data: () => {
     return {
-      programId: "",
-      programTitle: "",
-      programDescription: "",
-      srcImg: "",
-      srcName: "",
-      release: "",
-      expiration: "",
-      description: "",
-
-      course: "",
+      program: {
+        id: '',
+        title: '',
+        description: '',
+        image: '',
+        imageName: '',
+        releaseDate: '',
+        expirationDate: ''
+      },
+      course: '',
       coursesList: [],
       coursesProgram: [],
       selectedCourses: [],
@@ -196,118 +208,105 @@ export default {
     this.getProgramCourses();
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   methods: {
-    repositioning: function() {
-      $(".courses-position").each(function(index) {
-        $(this).attr("name", "courses[" + index + "]");
+    repositioning() {
+      $('.courses-position').each((index) => {
+        $(this).attr('name', 'courses[' + index + ']');
       });
     },
-    addCourse: function() {
-      let course = this.coursesList.find(element => element.key == this.course);
+    addCourse() {
+      const course = this.coursesList.find(
+        (element) => element.key === this.course
+      );
 
-      let obj = {
+      const obj = {
         id: this.course,
         text:
-          "\
-            <i style='cursor:pointer !important;' class='remove-course el-icon-delete sbr-text-danger mr-5'></i>\
-            <input class='courses-position hide' name='courses[" +
+          "<i style='cursor:pointer !important;' class='remove-course el-icon-delete sbr-text-danger mr-5'></i><input class='courses-position hide' name='courses[" +
           this.cont +
           "]' value='" +
           this.course +
-          "'>\
-            " +
+          "'>" +
           course.label +
-          "\
-          "
+          ''
       };
       this.cont++;
       this.selectedCourses.push(obj);
     },
-    getProgram: function() {
-      var formData = new FormData();
-      formData.set("programId", this.programId);
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest("program", "get");
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
-          // success callback
-          this.programTitle = response.data[0]["title"];
-          this.programDescription = response.data[0]["description"];
-          this.srcName = response.data[0]["photo"];
-          this.srcImg =
-            this.$getUrlToContents() +
-            "program/" +
-            response.data[0]["photo"] +
-            "";
+    getProgram() {
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'program',
+        'get'
+      );
+      formData.set('programId', this.programId);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
+          this.program.title = response.data[0].title;
+          this.program.description = response.data[0].description;
+          this.program.imageName = response.data[0].photo;
+          this.program.image =
+            this.$getUrlToContents() + 'program/' + response.data[0].photo + '';
 
-          this.expiration = response.data[0]["expiration_date"];
-          this.release = response.data[0]["release_date"];
+          this.program.expirationDate = response.data[0].expiration_date;
+          this.program.releaseDate = response.data[0].release_date;
         },
-        // Failure callback
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    getCourses: function() {
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "program",
-        "getCourses"
+    getCourses() {
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'program',
+        'getCourses'
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        response => {
-          // success callback
+      this.$request.get(urlToBeUsedInTheRequest).then(
+        (response) => {
           this.coursesList = response.data;
         },
-        // Failure callback
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    edit: function() {
-      var form = document.getElementById("form-program");
-      var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "program",
-        "edit"
+    edit() {
+      const form = document.getElementById('form-program');
+      const formData = new FormData(form);
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'program',
+        'edit'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        function() {
-          // success callback
-          this.successMessage();
-        }.bind(this),
-        // Failure callback
-        function() {
-          this.errorMessage();
-        }.bind(this)
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        () => {
+          this.$successMessage();
+        },
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    getProgramCourses: function() {
-      var formData = new FormData();
-      formData.set("programId", this.programId);
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "program",
-        "getProgramCourses"
+    getProgramCourses() {
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'program',
+        'getProgramCourses'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
-          response.data.forEach(element => {
+      formData.set('programId', this.programId);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
+          response.data.forEach((element) => {
             this.cont = parseInt(element.position) + 1;
           });
           this.coursesProgram = response.data;
         },
-        // Failure callback
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     }
   }
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
-</style>

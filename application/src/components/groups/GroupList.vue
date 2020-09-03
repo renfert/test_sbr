@@ -1,7 +1,7 @@
 <template>
   <div class="card-box table-responsive" v-if="groupList != null">
     <facebook-loader
-      v-if="loadingContent == true"
+      v-if="content == false"
       :speed="2"
       width="700"
       primaryColor="#f0f0f0"
@@ -10,21 +10,24 @@
 
     <div v-else>
       <div>
-        <h4>{{lang["list-group"]}}</h4>
+        <h4>{{ lang['list-group'] }}</h4>
         <div style="margin-bottom: 10px">
           <el-row>
             <el-col :md="6">
-              <el-input v-model="filters[0].value" placeholder="Search"></el-input>
+              <el-input
+                v-model="filters[0].value"
+                placeholder="Search"
+              ></el-input>
             </el-col>
           </el-row>
         </div>
         <data-tables
           :pagination-props="{ background: true, pageSizes: [5] }"
           :data="groupList"
-          :filters="filters"
+          :filters="table.filters"
         >
           <el-table-column
-            v-for="title in titles"
+            v-for="title in table.titles"
             sortable="custom"
             :prop="title.prop"
             :label="title.label"
@@ -35,7 +38,7 @@
               <!-- Edit group -->
               <el-button
                 class="sbr-primary mr-1"
-                @click="openModalToEditGroup(scope.row.id,scope.row.name)"
+                @click="openModalToEditGroup(scope.row.id, scope.row.name)"
                 size="small"
                 icon="el-icon-edit"
                 circle
@@ -46,7 +49,7 @@
                 confirmButtonText="Ok"
                 cancelButtonText="No, Thanks"
                 placement="right"
-                :title="lang['question-delete-group'] + scope.row.name  + '?'"
+                :title="lang['question-delete-group'] + scope.row.name + '?'"
                 @onConfirm="deleteGroup(scope.row.id)"
               >
                 <el-button
@@ -72,161 +75,162 @@
         </data-tables>
       </div>
 
-      <!-- Group edit modal -->
       <div>
-        <el-dialog :visible.sync="modal" :title="groupName" center width="40%" top="5vh">
+        <!------------------
+        Group edit modal
+      -------------------->
+        <el-dialog
+          :visible.sync="modal"
+          :title="group.name"
+          center
+          width="40%"
+          top="5vh"
+        >
           <div class="form-group">
-            <label>{{lang["new-name"]}}</label>
-            <el-input name="name" v-model="newGroupName"></el-input>
+            <label>{{ lang['new-name'] }}</label>
+            <el-input name="name" v-model="group.newName"></el-input>
           </div>
           <div class="form-group">
             <el-button
               class="sbr-primary"
-              @click.prevent="editGroup(groupId,newGroupName)"
-            >{{lang["save-button"]}}</el-button>
+              @click.prevent="editGroup(group.id, group.newName)"
+              >{{ lang['save-button'] }}</el-button
+            >
           </div>
         </el-dialog>
+
+        <!------------------
+        Group edit modal
+      -------------------->
       </div>
     </div>
   </div>
 
   <div class="row mb-5 mt-5" v-else>
     <div class="col-12 text-center">
-      <img class="no-results-img" src="@/assets/img/general/ux/no_persons.png" alt="No persons" />
-      <h4 class="no-results-text">{{lang["no-results-group-title"]}}</h4>
+      <img
+        class="no-results-img"
+        src="@/assets/img/general/ux/no_persons.png"
+        alt="No persons"
+      />
+      <h4 class="no-results-text">{{ lang['no-results-group-title'] }}</h4>
     </div>
   </div>
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import ElementUI from "element-ui";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
+import Vue from 'vue';
 
-import { FacebookLoader } from "vue-content-loader";
-import { eventBus } from "@/components/groups/App";
-import { DataTables, DataTablesServer } from "vue-data-tables";
-import { mapState } from "vuex";
+import { FacebookLoader } from 'vue-content-loader';
+import { eventBus } from '@/components/groups/App';
+import { DataTables, DataTablesServer } from 'vue-data-tables';
+import { mapState } from 'vuex';
 
 Vue.use(DataTables);
 Vue.use(DataTablesServer);
-Vue.use(ElementUI);
-Vue.use(VueAxios, axios);
 
 export default {
   components: {
     FacebookLoader
   },
-  mixins: [domains, alerts],
-  data: function() {
+  data() {
     return {
-      titles: [{ prop: "name", label: "Name" }],
+      table: {
+        titles: [{ prop: 'name', label: 'Name' }],
+        filters: [{ prop: 'name', value: '' }],
+        props: { defaultSort: { prop: 'name', order: 'descending' } }
+      },
+      group: {
+        id: '',
+        name: '',
+        newName: ''
+      },
       groupList: [],
-      filters: [{ prop: "name", value: "" }],
-      tableProps: { defaultSort: { prop: "name", order: "descending" } },
-      groupId: "",
-      groupName: "",
-      newGroupName: "",
       modal: false,
-      loadingContent: false
+      content: false
     };
   },
   created() {
-    this.listingGroup();
-    eventBus.$on(
-      "new-group",
-      function() {
-        this.listingGroup();
-      }.bind(this)
-    );
+    this.getGroups();
+    eventBus.$on('new-group', () => {
+      this.getGroups();
+    });
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   methods: {
     openModalToEditGroup(id, name) {
-      this.groupName = name;
-      this.groupId = id;
+      this.group.name = name;
+      this.group.id = id;
       this.modal = true;
     },
     editGroup(id, name) {
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest("group", "edit");
-      var formData = new FormData();
-      formData.set("name", name);
-      formData.set("id", id);
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
-          // success callback
-          if (response.data == false) {
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'group',
+        'edit'
+      );
+      formData.set('name', name);
+      formData.set('id', id);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
+          if (response.data === false) {
             this.groupAlreadyExistsMessage();
           } else {
-            this.successMessage();
-            this.actionsToBePerformedAfterEdit();
+            this.$successMessage();
+            this.modal = false;
+            this.group.newName = '';
+            this.getGroups();
           }
         },
-        // Failure callback
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
     deleteGroup(id) {
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "group",
-        "delete"
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'group',
+        'delete'
       );
-      var formData = new FormData();
-      formData.set("id", id);
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+      const formData = new FormData();
+      formData.set('id', id);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
-          // success callback
-          this.successMessage();
-          this.listingGroup();
+          this.$successMessage();
+          this.getGroups();
         },
-        // Failure callback
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    listingGroup() {
-      this.loadingContent = true;
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "group",
-        "listing"
+    getGroups() {
+      this.content = false;
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'group',
+        'listing'
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        response => {
-          // success callback
+      this.$request.get(urlToBeUsedInTheRequest).then(
+        (response) => {
           this.groupList = response.data;
-          setTimeout(
-            function() {
-              this.loadingContent = false;
-            }.bind(this),
-            1000
-          );
+          setTimeout(() => {
+            this.content = true;
+          }, 1000);
         },
-        // Failure callback
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
     groupAlreadyExistsMessage() {
       this.$notify({
-        title: this.lang["error"],
-        message: this.lang["group-already-exists"],
-        type: "warning",
+        title: this.lang.error,
+        message: this.lang['group-already-exists'],
+        type: 'warning',
         duration: 3500
       });
-    },
-    actionsToBePerformedAfterEdit() {
-      this.modal = false;
-      this.newGroupName = "";
-      this.listingGroup();
     }
   }
 };

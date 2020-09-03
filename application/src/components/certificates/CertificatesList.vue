@@ -1,6 +1,6 @@
 <template>
   <div class="card-box table-responsive" v-if="certificateList != null">
-    <h4>{{ lang["list-certificate"] }}</h4>
+    <h4>{{ lang['list-certificate'] }}</h4>
     <div style="margin-bottom: 10px">
       <el-row>
         <el-col :span="6">
@@ -22,7 +22,6 @@
       ></el-table-column>
       <el-table-column label="Actions" align="center">
         <template slot-scope="scope">
-          <!-- View certificate -->
           <el-button
             type="primary"
             @click="printCertificate(scope.row.course)"
@@ -37,56 +36,57 @@
 
   <div class="row gap-10" v-else>
     <div class="col-12 text-center">
-      <img style="width:25%;" src="@/assets/img/general/ux/no_documents.png" alt="No activities" />
-      <h4 class="no-results-text">{{ lang["no-certificates"] }}</h4>
+      <img
+        style="width: 25%"
+        src="@/assets/img/general/ux/no_documents.png"
+        alt="No activities"
+      />
+      <h4 class="no-results-text">{{ lang['no-certificates'] }}</h4>
     </div>
   </div>
 </template>
 
 <script>
-import Vue from "vue";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
+import Vue from 'vue';
 
-import { DataTables, DataTablesServer } from "vue-data-tables";
-import { mapState } from "vuex";
+import { DataTables, DataTablesServer } from 'vue-data-tables';
+import { mapState } from 'vuex';
 
 Vue.use(DataTables);
 Vue.use(DataTablesServer);
 
 export default {
-  mixins: [domains, alerts],
-  data: function() {
+  data: () => {
     return {
       titles: [
-        { prop: "course", label: "Course" },
-        { prop: "date", label: "Date" }
+        { prop: 'course', label: 'Course' },
+        { prop: 'date', label: 'Date' }
       ],
-      filters: [{ prop: "name", value: "" }],
-      tableProps: { defaultSort: { prop: "name", order: "descending" } },
+      filters: [{ prop: 'name', value: '' }],
+      tableProps: { defaultSort: { prop: 'name', order: 'descending' } },
       certificateList: [],
       modal: false
     };
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   created() {
     this.getCertificates();
   },
   methods: {
-    printCertificate: function() {},
+    printCertificate() {},
     getCertificates() {
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "certificate",
-        "listing"
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'certificate',
+        'listing'
       );
       this.$request.get(urlToBeUsedInTheRequest).then(
-        response => {
+        (response) => {
           this.certificateList = response.data;
         },
         () => {
-          this.errorMessage();
+          this.$errorMessage();
         }
       );
     }

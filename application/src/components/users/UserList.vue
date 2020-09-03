@@ -10,16 +10,29 @@
 
     <div v-else>
       <div>
-        <h4>{{ lang["list-users"] }}</h4>
+        <h4>{{ lang['list-users'] }}</h4>
         <div style="margin-bottom: 10px">
           <el-row>
             <el-col :md="6" :xs="16">
-              <el-input v-model="filters[0].value" placeholder="Search"></el-input>
+              <el-input
+                v-model="filters[0].value"
+                placeholder="Search"
+              ></el-input>
             </el-col>
             <el-col v-if="userList != null" :span="6">
               <export-excel :data="userList" name="users.xls">
-                <el-tooltip class="item" effect="dark" :content="lang['export']" placement="top">
-                  <el-button class="sbr-purple ml-3" type="primary" icon="el-icon-download" circle></el-button>
+                <el-tooltip
+                  class="item"
+                  effect="dark"
+                  :content="lang['export']"
+                  placement="top"
+                >
+                  <el-button
+                    class="sbr-purple ml-3"
+                    type="primary"
+                    icon="el-icon-download"
+                    circle
+                  ></el-button>
                 </el-tooltip>
               </export-excel>
             </el-col>
@@ -41,8 +54,13 @@
           <el-table-column label="Actions" align="center">
             <template slot-scope="scope">
               <!-- Manage user -->
-              <router-link :to="'/user/'+scope.row.id">
-                <el-button size="small" class="sbr-primary" icon="el-icon-user" circle></el-button>
+              <router-link :to="'/user/' + scope.row.id">
+                <el-button
+                  size="small"
+                  class="sbr-primary"
+                  icon="el-icon-user"
+                  circle
+                ></el-button>
               </router-link>
 
               <!-- Delete User -->
@@ -71,22 +89,24 @@
 
   <div class="row mb-5 mt-5" v-else>
     <div class="col-12 text-center">
-      <img class="no-results-img" src="@/assets/img/general/ux/no_persons.png" alt="No persons" />
-      <h4 class="no-results-text">{{ lang["no-results-user-title"] }}</h4>
+      <img
+        class="no-results-img"
+        src="@/assets/img/general/ux/no_persons.png"
+        alt="No persons"
+      />
+      <h4 class="no-results-text">{{ lang['no-results-user-title'] }}</h4>
     </div>
   </div>
 </template>
 
 <script>
-import Vue from "vue";
-import excel from "vue-excel-export";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
+import Vue from 'vue';
+import excel from 'vue-excel-export';
 
-import { FacebookLoader } from "vue-content-loader";
-import { DataTables, DataTablesServer } from "vue-data-tables";
-import { eventBus } from "@/components/users/App";
-import { mapState } from "vuex";
+import { FacebookLoader } from 'vue-content-loader';
+import { DataTables, DataTablesServer } from 'vue-data-tables';
+import { eventBus } from '@/components/users/App';
+import { mapState } from 'vuex';
 
 Vue.use(excel);
 Vue.use(DataTables);
@@ -96,55 +116,61 @@ export default {
   components: {
     FacebookLoader
   },
-  mixins: [domains, alerts],
-  data: function() {
+  data: () => {
     return {
       titles: [
-        { prop: "name", label: "Name" },
-        { prop: "role", label: "Role" }
+        { prop: 'name', label: 'Name' },
+        { prop: 'role', label: 'Role' }
       ],
       userList: [],
-      filters: [{ prop: "name", value: "" }],
-      tableProps: { defaultSort: { prop: "name", order: "descending" } },
+      filters: [{ prop: 'name', value: '' }],
+      tableProps: { defaultSort: { prop: 'name', order: 'descending' } },
       content: false
     };
   },
   created() {
     this.getUsers();
-    eventBus.$on("new-user", () => {
+
+    eventBus.$on('new-user', () => {
       this.getUsers();
     });
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   methods: {
     deleteUser(id) {
-      let formData = new FormData();
-      let urlToBeUsedInTheRequest = this.getUrlToMakeRequest("user", "delete");
-      formData.set("id", id);
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'user',
+        'delete'
+      );
+      formData.set('id', id);
 
       this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
-          this.successMessage();
+          this.$successMessage();
           this.getUsers();
         },
         () => {
-          this.errorMessage();
+          this.$errorMessage();
         }
       );
     },
     getUsers() {
       this.content = true;
-      let urlToBeUsedInTheRequest = this.getUrlToMakeRequest("user", "listing");
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'user',
+        'listing'
+      );
 
       this.$request.get(urlToBeUsedInTheRequest).then(
-        response => {
+        (response) => {
           this.userList = response.data;
           this.content = false;
         },
         () => {
-          this.errorMessage();
+          this.$errorMessage();
         }
       );
     }

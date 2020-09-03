@@ -1,11 +1,11 @@
 <template>
   <div class="content-page">
     <div class="card-box">
-      <h4 class="fw-700 mb-5">{{ lang["integrations"] }}</h4>
+      <h4 class="fw-700 mb-5">{{ lang['integrations'] }}</h4>
       <template>
         <!-- Desktop -->
         <div class="desktop-tabs">
-          <el-tabs v-model="tab" tab-position="left" style="height: 350px;">
+          <el-tabs v-model="tab" tab-position="left" style="height: 350px">
             <el-tab-pane name="gtm" label="Google tag manager">
               <google-tag-manager></google-tag-manager>
             </el-tab-pane>
@@ -26,7 +26,7 @@
 
         <!-- Mobile -->
         <div class="mobile-tabs">
-          <el-tabs v-model="tab" tab-position="top" style="height: 350px;">
+          <el-tabs v-model="tab" tab-position="top" style="height: 350px">
             <el-tab-pane name="gtm" label="Google tag manager">
               <google-tag-manager></google-tag-manager>
             </el-tab-pane>
@@ -50,46 +50,36 @@
 </template>
 
 <script>
-import Vue from "vue";
-import ElementUI from "element-ui";
-import GoogleTagManager from "@/components/integrations/GoogleTagManager";
-import GoogleAnalytics from "@/components/integrations/GoogleAnalytics";
-import MercadoPago from "@/components/integrations/MercadoPago";
-import FacebookPixel from "@/components/integrations/FacebookPixel";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import VueHead from "vue-head";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-import verify from "@/mixins/verify";
+import Vue from 'vue';
+import GoogleTagManager from '@/components/integrations/GoogleTagManager';
+import GoogleAnalytics from '@/components/integrations/GoogleAnalytics';
+import MercadoPago from '@/components/integrations/MercadoPago';
+import FacebookPixel from '@/components/integrations/FacebookPixel';
+import VueHead from 'vue-head';
+import { mapState } from 'vuex';
 
-import { mapState } from "vuex";
-
-Vue.use(ElementUI);
-Vue.use(VueAxios, axios);
 Vue.use(VueHead);
 
 export default {
-  mixins: [domains, alerts, verify],
   data: () => {
     return {
-      tab: "gtm"
+      tab: 'gtm'
     };
   },
-  created: function() {
-    this.verifyAdministratorPrivileges();
+  created() {
+    this.$verifyAdministratorPrivileges();
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   head: {
     title: {
-      inner: "Integrations"
+      inner: 'Integrations'
     },
     meta: [
-      { name: "charset", content: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1.0" },
-      { name: "author", content: "Sabiorealm" }
+      { name: 'charset', content: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
+      { name: 'author', content: 'Sabiorealm' }
     ]
   },
   components: {

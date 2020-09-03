@@ -3,8 +3,8 @@
     <div>
       <div class="img-container">
         <div class="text-container">
-          <h4>{{lang["program-created-successfully"]}}</h4>
-          <h1>{{programName}}</h1>
+          <h4>{{ lang['program-created-successfully'] }}</h4>
+          <h1>{{ programName }}</h1>
         </div>
         <img src="@/assets/img/general/ux/course_completed.png" />
       </div>
@@ -12,9 +12,9 @@
 
     <div class="row mt-3 ml-5 mr-5 row-actions">
       <div class="col-12 col-md-4">
-        <router-link :to="'/viewprogram/'+programId">
+        <router-link :to="'/viewprogram/' + programId">
           <div class="card-box card-action">
-            <h4 class="fw-700">{{lang["view-program"]}}</h4>
+            <h4 class="fw-700">{{ lang['view-program'] }}</h4>
             <img src="@/assets/img/general/ux/view_course.png" alt />
           </div>
         </router-link>
@@ -23,7 +23,7 @@
       <div class="col-12 col-md-4">
         <a href="javascript:void(0)" @click.prevent="modal = true">
           <div class="card-box card-action">
-            <h4 class="fw-700">{{lang["join-persons"]}}</h4>
+            <h4 class="fw-700">{{ lang['join-persons'] }}</h4>
             <img src="@/assets/img/general/ux/join_persons.png" alt />
           </div>
         </a>
@@ -32,7 +32,7 @@
       <div class="col-12 col-md-4">
         <a href="javascript:void(0)" @click.prevent="reloadPage()">
           <div class="card-box card-action">
-            <h4 class="fw-700">{{lang["create-new-program"]}}</h4>
+            <h4 class="fw-700">{{ lang['create-new-program'] }}</h4>
             <img src="@/assets/img/general/ux/create_new_course.png" alt />
           </div>
         </a>
@@ -40,13 +40,25 @@
     </div>
 
     <!-- Join users -->
-    <el-dialog :visible.sync="modal" :title="lang['join-persons']" center top="5vh">
+    <el-dialog
+      :visible.sync="modal"
+      :title="lang['join-persons']"
+      center
+      top="5vh"
+    >
       <div v-if="usersList != null" v-loading="loading">
         <template>
-          <el-transfer filterable :titles="['Persons', 'Course']" v-model="users" :data="usersList"></el-transfer>
+          <el-transfer
+            filterable
+            :titles="['Persons', 'Course']"
+            v-model="users"
+            :data="usersList"
+          ></el-transfer>
         </template>
         <br />
-        <el-button class="sbr-primary" @click="enrollUsers()" type="primary">{{lang["save-button"]}}</el-button>
+        <el-button class="sbr-primary" @click="enrollUsers()" type="primary">{{
+          lang['save-button']
+        }}</el-button>
       </div>
 
       <!-- No persons found content -->
@@ -55,11 +67,15 @@
           <div class="col-1"></div>
           <div class="col-5">
             <div class="text-no-results">
-              <h5>{{lang["all-students-already-added"]}}</h5>
+              <h5>{{ lang['all-students-already-added'] }}</h5>
             </div>
           </div>
           <div class="col-6">
-            <img class="image-no-results" src="@/assets/img/general/ux/no_persons.png" alt />
+            <img
+              class="image-no-results"
+              src="@/assets/img/general/ux/no_persons.png"
+              alt
+            />
           </div>
         </div>
       </div>
@@ -69,21 +85,10 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-import ElementUI from "element-ui";
-
-import { mapState } from "vuex";
-
-Vue.use(ElementUI);
-Vue.use(VueAxios, axios);
+import { mapState } from 'vuex';
 
 export default {
-  mixins: [domains, alerts],
-  data: function() {
+  data: () => {
     return {
       loading: false,
       modal: false,
@@ -91,66 +96,61 @@ export default {
       users: []
     };
   },
-  props: ["program-id", "program-name"],
+  props: ['program-id', 'program-name'],
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   methods: {
-    enrollUsers: function() {
+    enrollUsers() {
       this.loading = true;
-      var formData = new FormData();
-      formData.set("programId", this.programId);
-      formData.set("users", this.users);
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "program",
-        "enrollUsersIntoProgram"
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'program',
+        'enrollUsersIntoProgram'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+      formData.set('programId', this.programId);
+      formData.set('users', this.users);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
-          // success callback
           this.loading = false;
           this.modal = false;
           this.getPersonsOutsideTheProgram(this.programId);
           this.users = [];
-          this.successMessage();
+          this.$successMessage();
         },
-        // Failure callback
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
     getPersonsOutsideTheProgram() {
-      var formData = new FormData();
-      formData.set("programId", this.programId);
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "program",
-        "getPersonsOutsideTheProgram"
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'program',
+        'getPersonsOutsideTheProgram'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
-          // success callback
+      formData.set('programId', this.programId);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
           this.usersList = response.data;
         },
-        // Failure callback
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    reloadPage: function() {
+    reloadPage() {
       location.reload();
     }
   },
   watch: {
-    programId: function() {
+    programId() {
       this.getPersonsOutsideTheProgram();
     }
   }
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 /* =============
     - Layout
@@ -220,7 +220,7 @@ export default {
 
 .text-container h4 {
   text-transform: uppercase;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   letter-spacing: 1px;
   color: white;
 }
@@ -246,7 +246,7 @@ export default {
   .text-container h4 {
     font-size: 0.8em;
     text-transform: uppercase;
-    font-family: "Poppins", sans-serif;
+    font-family: 'Poppins', sans-serif;
     letter-spacing: 1px;
     color: white;
   }

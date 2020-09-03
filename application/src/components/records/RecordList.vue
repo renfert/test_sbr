@@ -20,55 +20,72 @@
         :key="title.label"
       ></el-table-column>
       <el-table-column label="Progress" align="center">
-        <template
-          slot-scope="scope"
-        >{{parseInt(((100 * scope.row.finishedLessons) / scope.row.lessons ))}}</template>
+        <template slot-scope="scope">{{
+          parseInt((100 * scope.row.finishedLessons) / scope.row.lessons)
+        }}</template>
       </el-table-column>
       <el-table-column label="Status" align="center">
         <template slot-scope="scope">
           <p
-            v-if="parseInt(((100 * scope.row.finishedLessons) /  scope.row.lessons )) > 0 && parseInt(((100 * scope.row.finishedLessons) /  scope.row.lessons )) < 100"
-          >In progress</p>
+            v-if="
+              parseInt((100 * scope.row.finishedLessons) / scope.row.lessons) >
+                0 &&
+              parseInt((100 * scope.row.finishedLessons) / scope.row.lessons) <
+                100
+            "
+          >
+            In progress
+          </p>
 
-          <p v-if="parseInt(((100 * scope.row.finishedLessons) /  scope.row.lessons )) == 0">NA</p>
+          <p
+            v-if="
+              parseInt((100 * scope.row.finishedLessons) / scope.row.lessons) ==
+              0
+            "
+          >
+            NA
+          </p>
 
-          <p v-if="parseInt(((100 * scope.row.finishedLessons) /  scope.row.lessons )) == 100">Done</p>
+          <p
+            v-if="
+              parseInt((100 * scope.row.finishedLessons) / scope.row.lessons) ==
+              100
+            "
+          >
+            Done
+          </p>
         </template>
       </el-table-column>
     </data-tables>
   </div>
   <div class="row gap-10" v-else>
     <div class="col-12 text-center">
-      <img style="width:15%;" src="@/assets/img/general/ux/no_exams.png" alt="No activities" />
-      <h4 class="no-results-text">{{lang["no-records"]}}</h4>
+      <img
+        style="width: 15%"
+        src="@/assets/img/general/ux/no_exams.png"
+        alt="No activities"
+      />
+      <h4 class="no-results-text">{{ lang['no-records'] }}</h4>
     </div>
   </div>
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-import ElementUI from "element-ui";
+import Vue from 'vue';
 
-import { DataTables, DataTablesServer } from "vue-data-tables";
-import { mapState } from "vuex";
+import { DataTables, DataTablesServer } from 'vue-data-tables';
+import { mapState } from 'vuex';
 
 Vue.use(DataTables);
 Vue.use(DataTablesServer);
-Vue.use(ElementUI);
-Vue.use(VueAxios, axios);
 
 export default {
-  mixins: [domains, alerts],
-  data: function() {
+  data: () => {
     return {
-      titles: [{ prop: "title", label: "Course" }],
+      titles: [{ prop: 'title', label: 'Course' }],
       recordList: [],
-      filters: [{ prop: "title", value: "" }],
-      tableProps: { defaultSort: { prop: "title", order: "descending" } },
+      filters: [{ prop: 'title', value: '' }],
+      tableProps: { defaultSort: { prop: 'title', order: 'descending' } },
       modal: false
     };
   },
@@ -76,26 +93,23 @@ export default {
     this.getRecords();
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   methods: {
     getRecords() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "course",
-        "listing"
+      const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+        'course',
+        'listing'
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        response => {
+      this.$request.get(urlToBeUsedInTheRequest).then(
+        (response) => {
           this.recordList = response.data;
         },
-        function() {
-          // Failure callback
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     }
   }
 };
 </script>
-
-

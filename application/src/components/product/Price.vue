@@ -22,12 +22,17 @@
             v-if="preview != null"
             id="video-overlay"
             class="video-overlay"
-            :class="videoOverlay == true?'open': ''"
+            :class="videoOverlay == true ? 'open' : ''"
           >
-            <a @click.prevent="closeVideo()" class="video-overlay-close">&times;</a>
+            <a @click.prevent="closeVideo()" class="video-overlay-close"
+              >&times;</a
+            >
             <div id="player-container" class="player-container">
               <video id="preview" v-if="preview" controls>
-                <source :src="$getUrlToContents() + 'preview/'+preview+''" type="video/mp4" />
+                <source
+                  :src="$getUrlToContents() + 'preview/' + preview + ''"
+                  type="video/mp4"
+                />
               </video>
             </div>
           </div>
@@ -38,9 +43,7 @@
     <div class="ed_view_price pl-4">
       <span>Acctual Price</span>
       <span v-if="price == null" class="facts-1">
-        {{
-        lang["free-course"]
-        }}
+        {{ lang['free-course'] }}
       </span>
       <h2 v-else :style="primaryColor" class="theme-cl">$ {{ price }}</h2>
     </div>
@@ -50,8 +53,8 @@
     </div>
 
     <div class="ed_view_link">
-      <!---------------------- 
-        Free course  
+      <!----------------------
+        Free course
       ----------------------->
       <div v-if="price == null">
         <!-- Active session -->
@@ -61,9 +64,9 @@
             <router-link
               :style="primaryColorBg"
               class="btn btn-theme enroll-btn"
-              :to="'/viewcourse/'+courseId"
+              :to="'/viewcourse/' + courseId"
             >
-              {{ lang["go-to-course"] }}
+              {{ lang['go-to-course'] }}
               <i class="ti-angle-right"></i>
             </router-link>
           </div>
@@ -76,7 +79,7 @@
               @click.prevent="enrollFreeCourse()"
               class="btn btn-theme enroll-btn"
             >
-              {{ lang["enroll-now"] }}
+              {{ lang['enroll-now'] }}
               <i class="ti-angle-right"></i>
             </a>
           </div>
@@ -90,14 +93,14 @@
             @click.prevent="openLeadModal()"
             class="btn btn-theme enroll-btn"
           >
-            {{ lang["enroll-now"] }}
+            {{ lang['enroll-now'] }}
             <i class="ti-angle-right"></i>
           </a>
         </div>
       </div>
 
-      <!---------------------- 
-        Paid course  
+      <!----------------------
+        Paid course
       ----------------------->
       <div v-else>
         <!-- Active session -->
@@ -107,9 +110,9 @@
             <router-link
               :style="primaryColorBg"
               class="btn btn-theme enroll-btn"
-              :to="'/viewcourse/'+courseId"
+              :to="'/viewcourse/' + courseId"
             >
-              {{ lang["go-to-course"] }}
+              {{ lang['go-to-course'] }}
               <i class="ti-angle-right"></i>
             </router-link>
           </div>
@@ -139,7 +142,7 @@
             href="javascript:void(0)"
             class="btn btn-theme enroll-btn"
           >
-            {{ lang["enroll-now"] }}
+            {{ lang['enroll-now'] }}
             <i class="ti-angle-right"></i>
           </a>
         </div>
@@ -147,11 +150,20 @@
     </div>
 
     <!----------------------
-      Create account modal 
+      Create account modal
     ----------------------->
-    <el-dialog :visible.sync="modal" :title="lang['create-account']" center top="5vh">
+    <el-dialog
+      :visible.sync="modal"
+      :title="lang['create-account']"
+      center
+      top="5vh"
+    >
       <div v-if="createAnAccount" class="fade-in">
-        <el-alert show-icon :title="lang['create-account-to-continue']" type="info"></el-alert>
+        <el-alert
+          show-icon
+          :title="lang['create-account-to-continue']"
+          type="info"
+        ></el-alert>
         <form
           id="form-account"
           @submit.prevent="createNewAccount()"
@@ -166,7 +178,13 @@
             :placeholder="lang['name']"
           />
 
-          <input required type="email" name="email" class="form-control mb-4" placeholder="E-mail" />
+          <input
+            required
+            type="email"
+            name="email"
+            class="form-control mb-4"
+            placeholder="E-mail"
+          />
 
           <input
             v-model="password"
@@ -192,11 +210,13 @@
             :style="primaryColorBg"
             class="btn btn-theme account-btn"
             type="submit"
-          >{{ lang["create-account"] }}</button>
+          >
+            {{ lang['create-account'] }}
+          </button>
 
           <div class="options text-center">
             <p class="pt-1">
-              {{ lang["already-have-account"] }}
+              {{ lang['already-have-account'] }}
               <a
                 :style="primaryColor"
                 href="javascript:void(0)"
@@ -204,7 +224,8 @@
                   createAnAccount = false;
                   login = true;
                 "
-              >Log In</a>
+                >Log In</a
+              >
             </p>
           </div>
         </form>
@@ -250,16 +271,23 @@
                 :style="primaryColor"
                 href="javascript:void(0)"
                 @click="modalRecover = true"
-              >Forgot password?</a>
+                >Forgot password?</a
+              >
             </div>
           </div>
 
           <!-- Sign in button -->
-          <button :style="primaryColorBg" class="btn btn-theme account-btn" type="submit">Sign in</button>
+          <button
+            :style="primaryColorBg"
+            class="btn btn-theme account-btn"
+            type="submit"
+          >
+            Sign in
+          </button>
 
           <!-- Register -->
           <p>
-            {{ lang["not-a-member"] }}
+            {{ lang['not-a-member'] }}
             <a
               :style="primaryColor"
               @click="
@@ -267,7 +295,8 @@
                 createAnAccount = true;
               "
               href="javascript:void(0)"
-            >{{ lang["register"] }}</a>
+              >{{ lang['register'] }}</a
+            >
           </p>
         </form>
       </div>
@@ -275,8 +304,10 @@
       <div v-if="proceedToPayment" class="fade-in">
         <div class="row">
           <div class="col-8 mt-3">
-            <h2 class="fw-600" :style="primaryColor">{{ lang["congratulations"] }}</h2>
-            <h5 class="fw-600">{{ lang["you-are-logged-in-now"] }}</h5>
+            <h2 class="fw-600" :style="primaryColor">
+              {{ lang['congratulations'] }}
+            </h2>
+            <h5 class="fw-600">{{ lang['you-are-logged-in-now'] }}</h5>
             <form
               v-if="preferenceId != null"
               :action="this.getCurrentDomainName() + 'payment/process'"
@@ -293,7 +324,12 @@
 
           <div class="col-4">
             <img
-              style="width:80%;margin-right:0px;margin-left:calc(20% + 41px);margin-top:-35%;"
+              style="
+                width: 80%;
+                margin-right: 0px;
+                margin-left: calc(20% + 41px);
+                margin-top: -35%;
+              "
               src="@/assets/img/general/ux/payment_proceed.png"
               alt="payment_proceed"
             />
@@ -306,65 +342,53 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-import ElementUI from "element-ui";
-import LeadCreate from "@/components/leads/LeadCreate";
-import VuePlyr from "vue-plyr";
-import "element-ui/lib/theme-chalk/index.css";
+import Vue from 'vue';
+import LeadCreate, { eventLead } from '@/components/leads/LeadCreate';
+import VuePlyr from 'vue-plyr';
+import { mapState } from 'vuex';
+import { eventLogin } from '@/components/login/Login';
 
-const md5 = require("md5");
-
-import { mapState } from "vuex";
-import { eventLead } from "@/components/leads/LeadCreate";
-import { eventLogin } from "@/components/login/Login";
+const md5 = require('md5');
 
 Vue.use(VuePlyr, {
   plyr: {
     fullscreen: { enabled: true }
   },
-  emit: ["ended"]
+  emit: ['ended']
 });
-
-Vue.use(VueAxios, axios);
-Vue.use(ElementUI);
 
 export default {
   data: () => {
     return {
       session: false,
       registeredUser: false,
-      userId: "",
+      userId: '',
       modal: false,
       createAnAccount: true,
       login: false,
       loading: false,
-      password: "",
-      confirmPassword: "",
+      password: '',
+      confirmPassword: '',
       proceedToPayment: false,
 
       videoOverlay: false,
 
       preferenceId: null,
       wrongPasswordOrUser: false,
-      mpAccessToken: "",
+      mpAccessToken: '',
       link: null
     };
   },
-  mixins: [domains, alerts],
   components: {
     LeadCreate
   },
   props: [
-    "description",
-    "color",
-    "price",
-    "course-id",
-    "course-title",
-    "preview"
+    'description',
+    'color',
+    'price',
+    'course-id',
+    'course-title',
+    'preview'
   ],
   mounted() {
     this.checkEnrolledUser();
@@ -373,77 +397,69 @@ export default {
     this.priceCardSticky();
   },
   methods: {
-    enrollFreeCourse: function() {
-      var formData = new FormData();
-      formData.set("courseId", this.courseId);
-      formData.set("userId", this.userId);
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "course",
-        "enrollUserIntoCourse"
+    enrollFreeCourse() {
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'course',
+        'enrollUserIntoCourse'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+      formData.set('courseId', this.courseId);
+      formData.set('userId', this.userId);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
-          this.$router.push("/viewcourse/" + this.courseId + "");
+          this.$router.push('/viewcourse/' + this.courseId + '');
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    priceCardSticky: function() {
-      window.addEventListener("scroll", function() {
-        let header = document.getElementById("price-card");
-        let playerContainer = document.getElementById("player-container");
-        let h = document.documentElement,
-          b = document.body,
-          st = "scrollTop",
-          sh = "scrollHeight";
-        let percent =
+    priceCardSticky() {
+      window.addEventListener('scroll', () => {
+        const header = document.getElementById('price-card');
+        const playerContainer = document.getElementById('player-container');
+        const h = document.documentElement;
+        const b = document.body;
+        const st = 'scrollTop';
+        const sh = 'scrollHeight';
+        const percent =
           ((h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight)) * 100;
-        header.classList.toggle("sticky", percent > 20);
+        header.classList.toggle('sticky', percent > 20);
         if (playerContainer) {
-          playerContainer.classList.toggle("sticky", percent > 20);
+          playerContainer.classList.toggle('sticky', percent > 20);
         }
       });
     },
-    createMpPreference: async function(courseTitle, coursePrice, courseId) {
+    createMpPreference: (courseTitle, coursePrice, courseId) => {
       // Mercado pago SDK
-      const mercadopago = require("mercadopago");
+      const mercadopago = require('mercadopago');
       // Get credentials
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "integrations",
-        "getIntegrations"
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'integrations',
+        'getIntegrations'
       );
-      await axios.get(urlToBeUsedInTheRequest).then(
-        response => {
-          this.mpAccessToken = response.data["mp_access_token"];
+      this.$request.get(urlToBeUsedInTheRequest).then(
+        (response) => {
+          this.mpAccessToken = response.data.mp_access_token;
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
 
       const token = this.mpAccessToken;
 
-      //Set credentials
       mercadopago.configure({
         sandbox: false,
         access_token: token
       });
 
-      // Create a object with preference
-      let preference = {
+      const preference = {
         items: [
           {
             title: courseTitle,
             unit_price: parseInt(
-              coursePrice
-                .split(".")
-                .join("")
-                .split(",")
-                .join(".")
+              coursePrice.split('.').join('').split(',').join('.')
             ),
             quantity: 1
           }
@@ -455,237 +471,224 @@ export default {
       };
 
       // Create a preference
-      mercadopago.preferences
-        .create(preference)
-        .then(
-          function(res) {
-            /* Mexico */
-            if (res.response.site_id == "MLM") {
-              this.link =
-                "https://www.mercadopago.com.mx/integrations/v1/web-payment-checkout.js";
-            }
+      mercadopago.preferences.create(preference).then((res) => {
+        /* Mexico */
+        if (res.response.site_id === 'MLM') {
+          this.link =
+            'https://www.mercadopago.com.mx/integrations/v1/web-payment-checkout.js';
+        }
 
-            /* Argetina */
-            if (res.response.site_id == "MLA") {
-              this.link =
-                "https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js";
-            }
+        /* Argetina */
+        if (res.response.site_id === 'MLA') {
+          this.link =
+            'https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js';
+        }
 
-            /* Uruguay */
-            if (res.response.site_id == "MLU") {
-              this.link =
-                "https://www.mercadopago.com.uy/integrations/v1/web-payment-checkout.js";
-            }
+        /* Uruguay */
+        if (res.response.site_id === 'MLU') {
+          this.link =
+            'https://www.mercadopago.com.uy/integrations/v1/web-payment-checkout.js';
+        }
 
-            /* Colombia */
-            if (res.response.site_id == "MCO") {
-              this.link =
-                "https://www.mercadopago.com.co/integrations/v1/web-payment-checkout.js";
-            }
+        /* Colombia */
+        if (res.response.site_id === 'MCO') {
+          this.link =
+            'https://www.mercadopago.com.co/integrations/v1/web-payment-checkout.js';
+        }
 
-            /* Chile */
-            if (res.response.site_id == "MLC") {
-              this.link =
-                "https://www.mercadopago.cl/integrations/v1/web-payment-checkout.js";
-            }
+        /* Chile */
+        if (res.response.site_id === 'MLC') {
+          this.link =
+            'https://www.mercadopago.cl/integrations/v1/web-payment-checkout.js';
+        }
 
-            /* Brasil */
-            if (res.response.site_id == "MLB") {
-              this.link =
-                "https://www.mercadopago.com.br/integrations/v1/web-payment-checkout.js";
-            }
+        /* Brasil */
+        if (res.response.site_id === 'MLB') {
+          this.link =
+            'https://www.mercadopago.com.br/integrations/v1/web-payment-checkout.js';
+        }
 
-            /* Peru */
-            if (res.response.site_id == "MPE") {
-              this.link =
-                "https://www.mercadopago.com.pe/integrations/v1/web-payment-checkout.js";
-            }
+        /* Peru */
+        if (res.response.site_id === 'MPE') {
+          this.link =
+            'https://www.mercadopago.com.pe/integrations/v1/web-payment-checkout.js';
+        }
 
-            /* Venezuela */
-            if (res.response.site_id == "MLV") {
-              this.link =
-                "https://www.mercadopago.com.ve/integrations/v1/web-payment-checkout.js";
-            }
+        /* Venezuela */
+        if (res.response.site_id === 'MLV') {
+          this.link =
+            'https://www.mercadopago.com.ve/integrations/v1/web-payment-checkout.js';
+        }
 
-            this.preferenceId = res.response.id;
-            this.savePreferenceId(md5(res.response.id));
-          }.bind(this),
-          function() {}
-        )
-        .catch(function() {});
+        this.preferenceId = res.response.id;
+        this.savePreferenceId(md5(res.response.id));
+      });
 
-      localStorage.setItem("purchase_reference", courseId);
+      localStorage.setItem('purchase_reference', courseId);
     },
-    savePreferenceId: function(preferenceId) {
-      var formData = new FormData();
-      formData.set("preferenceId", preferenceId);
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "integrations",
-        "saveMpPreference"
+    savePreferenceId(preferenceId) {
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'integrations',
+        'saveMpPreference'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+      formData.set('preferenceId', preferenceId);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {},
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    createNewAccount: function() {
-      if (this.password == this.confirmPassword) {
+    createNewAccount() {
+      if (this.password === this.confirmPassword) {
         this.loading = true;
-        var form = document.getElementById("form-account");
-        var formData = new FormData(form);
-        var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-          "user",
-          "create"
+        const form = document.getElementById('form-account');
+        const formData = new FormData(form);
+        const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+          'user',
+          'create'
         );
-        axios.post(urlToBeUsedInTheRequest, formData).then(
-          response => {
-            if (response.data == false) {
-              this.userAlreadyExists();
+        this.$request.post(urlToBeUsedInTheRequest, formData).then(
+          (response) => {
+            if (response.data === false) {
+              this.$userAlreadyExists();
               this.loading = false;
             } else {
               this.doLoginFromCreateAccountModal();
             }
           },
-          function() {
-            this.errorMessage();
-          }.bind(this)
+          () => {
+            this.$errorMessage();
+          }
         );
       } else {
-        this.diferentPasswords();
+        this.$diferentPasswords();
       }
     },
 
-    doLoginFromCreateAccountModal: function() {
+    doLoginFromCreateAccountModal() {
       this.loading = true;
-      var form = document.getElementById("form-account");
-      var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "Login",
-        "doLogin"
+      const form = document.getElementById('form-account');
+      const formData = new FormData(form);
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'Login',
+        'doLogin'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
-          if (response.data == true) {
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
+          if (response.data === true) {
             this.login = false;
             this.createAnAccount = false;
             this.proceedToPayment = true;
             this.activeSession();
-            eventLogin.$emit("new-login");
+            eventLogin.$emit('new-login');
           } else {
             this.wrongPasswordOrUser = true;
           }
           this.loading = false;
         },
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    closeVideo: function() {
+    closeVideo() {
       this.videoOverlay = false;
-      let video = document.getElementById("preview");
+      const video = document.getElementById('preview');
       video.pause();
     },
-    doLogin: function() {
+    doLogin() {
       this.loading = true;
-      var form = document.getElementById("form-login");
-      var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "Login",
-        "doLogin"
+      const form = document.getElementById('form-login');
+      const formData = new FormData(form);
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'Login',
+        'doLogin'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
-          if (response.data == true) {
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
+          if (response.data === true) {
             this.login = false;
             this.createAnAccount = false;
             this.proceedToPayment = true;
             this.activeSession();
-            eventLogin.$emit("new-login");
+            eventLogin.$emit('new-login');
           } else {
             this.wrongPasswordOrUser = true;
           }
           this.loading = false;
         },
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    openAccountModal: function() {
+    openAccountModal() {
       this.modal = true;
     },
-    openLeadModal: function() {
-      eventLead.$emit("open-lead-modal");
+    openLeadModal() {
+      eventLead.$emit('open-lead-modal');
     },
-    createCustomClass: function() {
+    createCustomClass() {
       /* Create custom classes */
-      var style = document.createElement("style");
-      style.type = "text/css";
+      const style = document.createElement('style');
+      style.type = 'text/css';
       style.innerHTML =
-        ".video-play-button span {display: block;position: relative;z-index: 3;width: 0;height: 0;border-left: 32px solid " +
+        '.video-play-button span {display: block;position: relative;z-index: 3;width: 0;height: 0;border-left: 32px solid ' +
         this.color +
-        ";border-top: 22px solid transparent;border-bottom: 22px solid transparent;}.mercadopago-button{background-color: " +
+        ';border-top: 22px solid transparent;border-bottom: 22px solid transparent;}.mercadopago-button{background-color: ' +
         this.color +
-        " !important;text-transform:uppercase !important;}.property_video:before {background: " +
+        ' !important;text-transform:uppercase !important;}.property_video:before {background: ' +
         this.color +
         ";left: 0;right: 0;top: 0;position: absolute;content: '';bottom: 0;opacity: 0.7;border-radius: 1rem;}";
-      document.getElementsByTagName("head")[0].appendChild(style);
+      document.getElementsByTagName('head')[0].appendChild(style);
     },
-    checkEnrolledUser: function() {
-      var formData = new FormData();
-      formData.set("courseId", this.courseId);
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "verify",
-        "userIsInCourse"
+    checkEnrolledUser() {
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'verify',
+        'userIsInCourse'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
-          // success callback
+      formData.set('courseId', this.courseId);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
           this.registeredUser = response.data;
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
     getUserProfile() {
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "user",
-        "getUserProfile"
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'user',
+        'getUserProfile'
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        function(response) {
-          this.userId = response.data["id"];
-        }.bind(this)
-      );
+      this.$request.get(urlToBeUsedInTheRequest).then((response) => {
+        this.userId = response.data.id;
+      });
     },
-    checkActiveSession: function() {
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "mysessions",
-        "activeSession"
+    checkActiveSession() {
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'mysessions',
+        'activeSession'
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        response => {
-          // success callback
+      this.$request.get(urlToBeUsedInTheRequest).then(
+        (response) => {
           this.session = response.data;
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     }
   },
   watch: {
-    color: function() {
+    color() {
       this.createCustomClass();
     },
-    courseId: function() {
+    courseId() {
       this.checkEnrolledUser();
       if (this.price != null) {
         this.createMpPreference(this.courseTitle, this.price, this.courseId);
@@ -694,32 +697,22 @@ export default {
   },
 
   computed: {
-    primaryColorBg: function() {
+    primaryColorBg() {
       return {
-        "background-color": this.color
+        'background-color': this.color
       };
     },
-    primaryColor: function() {
+    primaryColor() {
       return {
         color: this.color
       };
     },
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   }
 };
 </script>
 
 <style scoped>
-/* =============
-  == Products page style==
-
-    - Layout
-		- Fonts
-		- Mobile	
-    - Video overlay
-
-============= */
-
 /* =============
    Layout
 ============= */
@@ -886,7 +879,7 @@ span.facts-1:before {
   border-top: 12px solid transparent;
   border-left: 10px solid #eaedf3;
   border-bottom: 13px solid transparent;
-  content: "";
+  content: '';
   height: 0;
   position: absolute;
   top: 0;
@@ -897,7 +890,7 @@ span.facts-1:before {
 .ed_view_price span:after {
   background-color: #fff;
   border-radius: 50%;
-  content: "";
+  content: '';
   height: 4px;
   position: absolute;
   top: 10px;
@@ -914,7 +907,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   word-break: break-word !important;
   color: #2d3954;
 }
@@ -985,7 +978,7 @@ a {
 }
 
 .video-play-button:before {
-  content: "";
+  content: '';
   position: absolute;
   z-index: 0;
   left: 50%;
@@ -1001,7 +994,7 @@ a {
 }
 
 .video-play-button:after {
-  content: "";
+  content: '';
   position: absolute;
   z-index: 1;
   left: 50%;

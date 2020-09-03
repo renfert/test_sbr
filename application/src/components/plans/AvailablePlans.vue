@@ -1,15 +1,18 @@
 <template>
   <div>
     <h3 class="mb-5">
-      {{lang['current-plan']}}
-      <b class="sbr-text-primary">{{plan}}</b>
+      {{ lang['current-plan'] }}
+      <b class="sbr-text-primary">{{ company.plan }}</b>
     </h3>
 
     <div class="row text-center">
       <!-- Basic plan -->
       <div class="col-md-6 col-12">
         <article class="pricing-column">
-          <div class="inner-box card-box" :class="plan == 'basic' ? 'sbr-shadow-primary': '' ">
+          <div
+            class="inner-box card-box"
+            :class="plan == 'basic' ? 'sbr-shadow-primary' : ''"
+          >
             <div class="plan-header text-center">
               <h3 class="text-eadtools">
                 BASIC
@@ -17,11 +20,13 @@
               </h3>
               <hr />
               <!-- R$ -->
-              <div v-if="country == 'Brazil'">
+              <div v-if="company.country == 'Brazil'">
                 <h2 class="plan-price" v-if="periodBasic == true">R$ 179</h2>
                 <h2 class="plan-price" v-else>R$ 960</h2>
                 <b>
-                  <span class="sbr-text-primary" v-if="periodBasic == false">30% off</span>
+                  <span class="sbr-text-primary" v-if="periodBasic == false"
+                    >30% off</span
+                  >
                 </b>
                 <br />
                 <el-switch
@@ -36,7 +41,9 @@
                 <h2 class="plan-price" v-if="periodBasic == true">USD 55</h2>
                 <h2 class="plan-price" v-else>USD 297</h2>
                 <b>
-                  <span class="sbr-text-primary" v-if="periodBasic == false">10% off</span>
+                  <span class="sbr-text-primary" v-if="periodBasic == false"
+                    >10% off</span
+                  >
                 </b>
                 <br />
                 <el-switch
@@ -50,77 +57,79 @@
             <ul class="plan-stats list-unstyled text-left">
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                <b class="sbr-text-primary">{{lang["feature-plan-courses"]}}</b>
+                <b class="sbr-text-primary">{{
+                  lang['feature-plan-courses']
+                }}</b>
               </li>
               <hr />
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                {{lang["feature-plan-basic-storage"]}}
+                {{ lang['feature-plan-basic-storage'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                {{lang["feature-plan-basic-users"]}}
+                {{ lang['feature-plan-basic-users'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                {{lang["feature-plan-basic-instructors"]}}
+                {{ lang['feature-plan-basic-instructors'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                {{lang["feature-plan-content"]}}
+                {{ lang['feature-plan-content'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                {{lang["feature-plan-mercadopago"]}}
+                {{ lang['feature-plan-mercadopago'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-check text-primary"></i>
-                {{lang["feature-plan-google-analytics"]}}
+                {{ lang['feature-plan-google-analytics'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-check text-primary"></i>
-                {{lang["feature-plan-tag-manager"]}}
+                {{ lang['feature-plan-tag-manager'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-check text-primary"></i>
-                {{lang["feature-plan-videoconference"]}}
+                {{ lang['feature-plan-videoconference'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-check text-primary"></i>
-                {{lang["feature-plan-programs"]}}
+                {{ lang['feature-plan-programs'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-times text-danger"></i>
-                {{lang["feature-plan-facebook-pixel"]}}
+                {{ lang['feature-plan-facebook-pixel'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-times text-danger"></i>
-                {{lang["feature-plan-certificate"]}}
+                {{ lang['feature-plan-certificate'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-times sbr-text-danger"></i>
-                {{lang["feature-plan-exams"]}}
+                {{ lang['feature-plan-exams'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-times text-danger"></i>
-                {{lang["feature-plan-webinar"]}}
+                {{ lang['feature-plan-webinar'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-times text-danger"></i>
-                {{lang["feature-plan-mass-import"]}}
+                {{ lang['feature-plan-mass-import'] }}
               </li>
             </ul>
           </div>
@@ -131,7 +140,10 @@
       <!-- Pro plan -->
       <div class="col-md-6 col-12">
         <article class="pricing-column">
-          <div class="inner-box card-box" :class="plan == 'pro' ? 'sbr-shadow-primary': '' ">
+          <div
+            class="inner-box card-box"
+            :class="company.plan == 'pro' ? 'sbr-shadow-primary' : ''"
+          >
             <div class="plan-header text-center">
               <h3 class="text-eadtools">
                 PRO
@@ -139,11 +151,13 @@
               </h3>
               <hr />
               <!-- R$ -->
-              <div v-if="country == 'Brazil'">
+              <div v-if="company.country == 'Brazil'">
                 <h2 class="plan-price" v-if="periodPro == true">R$ 469</h2>
                 <h2 class="plan-price" v-else>R$ 2540</h2>
                 <b>
-                  <span class="sbr-text-primary" v-if="periodPro == false">30% off</span>
+                  <span class="sbr-text-primary" v-if="periodPro == false"
+                    >30% off</span
+                  >
                 </b>
                 <br />
                 <el-switch
@@ -158,7 +172,9 @@
                 <h2 class="plan-price" v-if="periodPro == true">USD 89</h2>
                 <h2 class="plan-price" v-else>USD 480</h2>
                 <b>
-                  <span class="sbr-text-primary" v-if="periodPro == false">10% off</span>
+                  <span class="sbr-text-primary" v-if="periodPro == false"
+                    >10% off</span
+                  >
                 </b>
                 <br />
                 <el-switch
@@ -172,77 +188,79 @@
             <ul class="plan-stats list-unstyled text-left mt-2">
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                <b class="sbr-text-primary">{{lang["feature-plan-courses"]}}</b>
+                <b class="sbr-text-primary">{{
+                  lang['feature-plan-courses']
+                }}</b>
               </li>
               <hr />
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                {{lang["feature-plan-pro-storage"]}}
+                {{ lang['feature-plan-pro-storage'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                {{lang["feature-plan-pro-users"]}}
+                {{ lang['feature-plan-pro-users'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                {{lang["feature-plan-pro-instructors"]}}
+                {{ lang['feature-plan-pro-instructors'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                {{lang["feature-plan-content"]}}
+                {{ lang['feature-plan-content'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                {{lang["feature-plan-mercadopago"]}}
+                {{ lang['feature-plan-mercadopago'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                {{lang["feature-plan-google-analytics"]}}
+                {{ lang['feature-plan-google-analytics'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                {{lang["feature-plan-tag-manager"]}}
+                {{ lang['feature-plan-tag-manager'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                {{lang["feature-plan-videoconference"]}}
+                {{ lang['feature-plan-videoconference'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-check text-primary"></i>
-                {{lang["feature-plan-programs"]}}
+                {{ lang['feature-plan-programs'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                {{lang["feature-plan-facebook-pixel"]}}
+                {{ lang['feature-plan-facebook-pixel'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                {{lang["feature-plan-certificate"]}}
+                {{ lang['feature-plan-certificate'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                {{lang["feature-plan-exams"]}}
+                {{ lang['feature-plan-exams'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-times sbr-text-danger"></i>
-                {{lang["feature-plan-webinar"]}}
+                {{ lang['feature-plan-webinar'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-times sbr-text-danger"></i>
-                {{lang["feature-plan-mass-import"]}}
+                {{ lang['feature-plan-mass-import'] }}
               </li>
             </ul>
           </div>
@@ -253,7 +271,10 @@
       <!-- Growt plan -->
       <div class="col-md-6 col-12">
         <article class="pricing-column">
-          <div class="inner-box card-box" :class="plan == 'pro' ? 'sbr-shadow-primary': '' ">
+          <div
+            class="inner-box card-box"
+            :class="company.plan == 'pro' ? 'sbr-shadow-primary' : ''"
+          >
             <div class="plan-header text-center">
               <h3 class="text-eadtools">
                 GROWT
@@ -261,11 +282,13 @@
               </h3>
               <hr />
               <!-- R$ -->
-              <div v-if="country == 'Brazil'">
+              <div v-if="company.country == 'Brazil'">
                 <h2 class="plan-price" v-if="periodGrowt == true">R$ 769</h2>
                 <h2 class="plan-price" v-else>R$ 4150</h2>
                 <b>
-                  <span class="sbr-text-primary" v-if="periodGrowt == false">30% off</span>
+                  <span class="sbr-text-primary" v-if="periodGrowt == false"
+                    >30% off</span
+                  >
                 </b>
                 <br />
                 <el-switch
@@ -280,7 +303,9 @@
                 <h2 class="plan-price" v-if="periodGrowt == true">USD 150</h2>
                 <h2 class="plan-price" v-else>USD 810</h2>
                 <b>
-                  <span class="sbr-text-primary" v-if="periodGrowt == false">10% off</span>
+                  <span class="sbr-text-primary" v-if="periodGrowt == false"
+                    >10% off</span
+                  >
                 </b>
                 <br />
                 <el-switch
@@ -294,77 +319,79 @@
             <ul class="plan-stats list-unstyled text-left mt-2">
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                <b class="sbr-text-primary">{{lang["feature-plan-courses"]}}</b>
+                <b class="sbr-text-primary">{{
+                  lang['feature-plan-courses']
+                }}</b>
               </li>
               <hr />
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                {{lang["feature-plan-growt-storage"]}}
+                {{ lang['feature-plan-growt-storage'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                {{lang["feature-plan-growt-users"]}}
+                {{ lang['feature-plan-growt-users'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                {{lang["feature-plan-growt-instructors"]}}
+                {{ lang['feature-plan-growt-instructors'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                {{lang["feature-plan-content"]}}
+                {{ lang['feature-plan-content'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                {{lang["feature-plan-mercadopago"]}}
+                {{ lang['feature-plan-mercadopago'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                {{lang["feature-plan-google-analytics"]}}
+                {{ lang['feature-plan-google-analytics'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                {{lang["feature-plan-tag-manager"]}}
+                {{ lang['feature-plan-tag-manager'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                {{lang["feature-plan-videoconference"]}}
+                {{ lang['feature-plan-videoconference'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-check text-primary"></i>
-                {{lang["feature-plan-programs"]}}
+                {{ lang['feature-plan-programs'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                {{lang["feature-plan-facebook-pixel"]}}
+                {{ lang['feature-plan-facebook-pixel'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                {{lang["feature-plan-certificate"]}}
+                {{ lang['feature-plan-certificate'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                {{lang["feature-plan-exams"]}}
+                {{ lang['feature-plan-exams'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                {{lang["feature-plan-webinar"]}}
+                {{ lang['feature-plan-webinar'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-times sbr-text-danger"></i>
-                {{lang["feature-plan-mass-import"]}}
+                {{ lang['feature-plan-mass-import'] }}
               </li>
             </ul>
           </div>
@@ -375,7 +402,10 @@
       <!-- Bussiness plan -->
       <div class="col-md-6 col-12">
         <article class="pricing-column">
-          <div class="inner-box card-box" :class="plan == 'bussiness' ? 'sbr-shadow-primary': '' ">
+          <div
+            class="inner-box card-box"
+            :class="company.plan == 'bussiness' ? 'sbr-shadow-primary' : ''"
+          >
             <div class="plan-header text-center">
               <h3 class="text-eadtools">
                 BUSSINESS
@@ -384,83 +414,87 @@
               <hr />
               <!-- USD -->
               <div class="mb-5">
-                <h2 class="plan-price" v-if="periodBussiness == true">{{lang['on-request']}}</h2>
+                <h2 class="plan-price" v-if="periodBussiness == true">
+                  {{ lang['on-request'] }}
+                </h2>
               </div>
             </div>
             <ul class="plan-stats list-unstyled text-left mt-3">
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                <b class="sbr-text-primary">{{lang["feature-plan-courses"]}}</b>
+                <b class="sbr-text-primary">{{
+                  lang['feature-plan-courses']
+                }}</b>
               </li>
               <hr />
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                {{lang["feature-plan-bussiness-storage"]}}
+                {{ lang['feature-plan-bussiness-storage'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                {{lang["feature-plan-bussiness-users"]}}
+                {{ lang['feature-plan-bussiness-users'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                {{lang["feature-plan-bussiness-instructors"]}}
+                {{ lang['feature-plan-bussiness-instructors'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                {{lang["feature-plan-content"]}}
+                {{ lang['feature-plan-content'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                {{lang["feature-plan-mercadopago"]}}
+                {{ lang['feature-plan-mercadopago'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                {{lang["feature-plan-google-analytics"]}}
+                {{ lang['feature-plan-google-analytics'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                {{lang["feature-plan-tag-manager"]}}
+                {{ lang['feature-plan-tag-manager'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                {{lang["feature-plan-videoconference"]}}
+                {{ lang['feature-plan-videoconference'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-check text-primary"></i>
-                {{lang["feature-plan-programs"]}}
+                {{ lang['feature-plan-programs'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                {{lang["feature-plan-facebook-pixel"]}}
+                {{ lang['feature-plan-facebook-pixel'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                {{lang["feature-plan-certificate"]}}
+                {{ lang['feature-plan-certificate'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                {{lang["feature-plan-exams"]}}
+                {{ lang['feature-plan-exams'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                {{lang["feature-plan-webinar"]}}
+                {{ lang['feature-plan-webinar'] }}
               </li>
               <hr />
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                {{lang["feature-plan-mass-import"]}}
+                {{ lang['feature-plan-mass-import'] }}
               </li>
             </ul>
           </div>
@@ -475,22 +509,32 @@
         <h2 class="mb-4">
           <i class="fas fa-gem sbr-text-primary"></i>
         </h2>
-        <h2 class="mb-3">{{lang['included-in-all-plans']}}</h2>
+        <h2 class="mb-3">{{ lang['included-in-all-plans'] }}</h2>
         <h3>
           <i class="fas fa-check sbr-text-primary"></i>
-          {{lang['chat-support']}}
+          {{ lang['chat-support'] }}
         </h3>
         <h3>
           <i class="fas fa-check sbr-text-primary"></i>
-          {{lang['multi-languages']}}
+          {{ lang['multi-languages'] }}
           <img
             class="mr-1"
-            style="width:15px;"
+            style="width: 15px"
             src="@/assets/img/general/flags/es.png"
             alt
           />
-          <img class="mr-1" style="width:15px" src="@/assets/img/general/flags/pt-br.png" alt />
-          <img class="mr-1" style="width:15px" src="@/assets/img/general/flags/en.png" alt />
+          <img
+            class="mr-1"
+            style="width: 15px"
+            src="@/assets/img/general/flags/pt-br.png"
+            alt
+          />
+          <img
+            class="mr-1"
+            style="width: 15px"
+            src="@/assets/img/general/flags/en.png"
+            alt
+          />
         </h3>
       </div>
     </div>
@@ -498,46 +542,19 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
+import { mapState } from 'vuex';
 
-import { mapState } from "vuex";
-
-Vue.use(VueAxios, axios);
 export default {
-  mixins: [domains, alerts],
   data: () => {
     return {
-      plan: "",
-      country: "",
       periodBasic: true,
       periodGrowt: true,
       periodBussiness: true,
       periodPro: true
     };
   },
-  mounted() {
-    this.getCompanyInformation();
-  },
   computed: {
-    ...mapState(["lang"])
-  },
-  methods: {
-    getCompanyInformation() {
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "company",
-        "getCompanyInformation"
-      );
-      axios.get(urlToBeUsedInTheRequest).then(
-        function(response) {
-          this.plan = response.data["plan"];
-          this.country = response.data["country"];
-        }.bind(this)
-      );
-    }
+    ...mapState(['lang', 'company'])
   }
 };
 </script>
@@ -546,12 +563,12 @@ export default {
 <style lang="scss" scoped>
 .plan-price {
   font-size: 2em;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 .pricing-column .plan-stats li {
   font-size: 1.1em;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 .plan-stats li {

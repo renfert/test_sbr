@@ -1,7 +1,7 @@
 <template>
   <div class="m-5">
     <facebook-loader
-      v-if="loadingContent == true"
+      v-if="content == false"
       :speed="2"
       width="700"
       height="200"
@@ -10,25 +10,32 @@
     ></facebook-loader>
 
     <div v-else>
-      <!-- Courses list content -->
-      <div class="course-content" v-if="coursesInsideGroup != null">
+      <div class="course-content" v-if="coursesBelongingToTheGroup != null">
         <div class="mb-5">
           <el-row>
             <el-col :md="6" :xs="18" class="mr-3">
-              <el-input v-model="filters[0].value" placeholder="Search"></el-input>
+              <el-input
+                v-model="filters[0].value"
+                placeholder="Search"
+              ></el-input>
             </el-col>
             <el-col :span="2">
-              <el-button @click.prevent="addCourse" class="sbr-purple" icon="el-icon-plus" circle></el-button>
+              <el-button
+                @click.prevent="addCourse"
+                class="sbr-purple"
+                icon="el-icon-plus"
+                circle
+              ></el-button>
             </el-col>
           </el-row>
         </div>
         <data-tables
           :pagination-props="{ background: true, pageSizes: [5] }"
-          :data="coursesInsideGroup"
-          :filters="filters"
+          :data="coursesBelongingToTheGroup"
+          :filters="table.filters"
         >
           <el-table-column
-            v-for="title in titles"
+            v-for="title in table.titles"
             sortable="custom"
             :prop="title.prop"
             :label="title.label"
@@ -37,11 +44,10 @@
 
           <el-table-column label="Actions" align="center">
             <template slot-scope="scope">
-              <!-- Remove course -->
               <el-popconfirm
                 confirmButtonText="Ok"
                 cancelButtonText="No, Thanks"
-                :title="lang['remove-course-question'] + scope.row.title  + '?'"
+                :title="lang['remove-course-question'] + scope.row.title + '?'"
                 @onConfirm="removeCourseFromGroup(scope.row.id)"
               >
                 <el-button
@@ -56,9 +62,7 @@
           </el-table-column>
         </data-tables>
       </div>
-      <!-- Courses list content -->
 
-      <!-- No courses found content -->
       <div v-else>
         <div class="row mb-5">
           <div class="col-12 text-center">
@@ -67,18 +71,28 @@
               src="@/assets/img/general/ux/not_found.png"
               alt="No activities"
             />
-            <h4 class="no-results-text mb-3">{{lang["no-results-courses-in-group"]}}</h4>
-            <el-button class="sbr-primary" @click="addCourse()">{{lang["add-course"]}}</el-button>
+            <h4 class="no-results-text mb-3">
+              {{ lang['no-results-courses-in-group'] }}
+            </h4>
+            <el-button class="sbr-primary" @click="addCourse()">{{
+              lang['add-course']
+            }}</el-button>
           </div>
         </div>
       </div>
-      <!-- No courses found content end -->
     </div>
 
-    <!-- Add new course dialog -->
-    <el-dialog :visible.sync="modal" :title="lang['join-courses']" center top="5vh">
+    <!--------------------
+      Add new course modal
+    ---------------------->
+    <el-dialog
+      :visible.sync="modal"
+      :title="lang['join-courses']"
+      center
+      top="5vh"
+    >
       <facebook-loader
-        v-if="loadingContentModal == true"
+        v-if="contentModal == false"
         :speed="2"
         width="700"
         height="200"
@@ -87,24 +101,23 @@
       ></facebook-loader>
 
       <div v-else>
-        <div v-if="coursesOutsideGroup != null">
+        <div v-if="coursesNotBelongingToTheGroup != null">
           <template>
             <el-transfer
               filterable
               :titles="['Courses', 'Group']"
               v-model="courses"
-              :data="coursesOutsideGroup"
+              :data="coursesNotBelongingToTheGroup"
             ></el-transfer>
           </template>
           <br />
           <el-button
-            v-loading="loadingButton"
+            v-loading="loading"
             class="sbr-primary"
             @click="saveCourses()"
-          >{{lang["save-button"]}}</el-button>
+            >{{ lang['save-button'] }}</el-button
+          >
         </div>
-
-        <!-- No courses found  -->
         <div v-else>
           <div class="row mb-5">
             <div class="col-12 text-center">
@@ -113,163 +126,141 @@
                 src="@/assets/img/general/ux/not_found.png"
                 alt="No activities"
               />
-              <h4>{{lang["all-courses-already-added"]}}</h4>
+              <h4>{{ lang['all-courses-already-added'] }}</h4>
             </div>
           </div>
         </div>
-        <!-- No courses found content end -->
       </div>
     </el-dialog>
+    <!--------------------
+      End add new course modal
+    ---------------------->
   </div>
-  <!-- End col-auto -->
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import ElementUI from "element-ui";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
+import Vue from 'vue';
 
-import { FacebookLoader } from "vue-content-loader";
-import { DataTables, DataTablesServer } from "vue-data-tables";
-import { mapState } from "vuex";
+import { FacebookLoader } from 'vue-content-loader';
+import { DataTables, DataTablesServer } from 'vue-data-tables';
+import { mapState } from 'vuex';
 
 Vue.use(DataTables);
 Vue.use(DataTablesServer);
-Vue.use(ElementUI);
-Vue.use(VueAxios, axios);
 
 export default {
   components: {
     FacebookLoader
   },
-  mixins: [domains, alerts],
-  props: ["group-id"],
-  data: function() {
+  props: ['group-id'],
+  data: () => {
     return {
-      titles: [{ prop: "title", label: "Title" }],
-      coursesInsideGroup: [],
-      coursesOutsideGroup: [],
-      filters: [{ prop: "title", value: "" }],
-      tableProps: { defaultSort: { prop: "title", order: "descending" } },
+      table: {
+        titles: [{ prop: 'title', label: 'Title' }],
+        filters: [{ prop: 'title', value: '' }],
+        props: { defaultSort: { prop: 'title', order: 'descending' } }
+      },
+      coursesBelongingToTheGroup: [],
+      coursesNotBelongingToTheGroup: [],
+      courses: [],
       loading: false,
       modal: false,
-      courses: [],
-      loadingButton: false,
-      loadingContent: false,
-      loadingContentModal: false
+      contentModal: false,
+      content: false
     };
   },
   created() {
-    this.getCoursesInsideTheGroup();
-    this.getCoursesOutsideTheGroup();
+    this.getCoursesThatBelongToGroup();
+    this.getCoursesThatNotBelongToGroup();
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   methods: {
-    removeCourseFromGroup: function(courseId) {
-      var formData = new FormData();
-      formData.set("courseId", courseId);
-      formData.set("groupId", this.groupId);
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "group",
-        "removeCourseFromGroup"
+    removeCourseFromGroup(courseId) {
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'group',
+        'removeCourseFromGroup'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+      formData.set('courseId', courseId);
+      formData.set('groupId', this.groupId);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
-          // success callback
-          this.getCoursesInsideTheGroup();
-          this.getCoursesOutsideTheGroup();
-          this.successMessage();
+          this.getCoursesThatBelongToGroup();
+          this.getCoursesThatNotBelongToGroup();
+          this.$successMessage();
         },
-        // Failure callback
-        function() {
-          this.errorMessage();
-        }.bind(this)
-      );
-    },
-    saveCourses: function() {
-      this.loadingButton = true;
-      var formData = new FormData();
-      formData.set("groupId", this.groupId);
-      formData.set("courses", this.courses);
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "group",
-        "saveCoursesIntoGroup"
-      );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
         () => {
-          // success callback
-          this.loadingButton = false;
-          this.modal = false;
-          this.getCoursesInsideTheGroup();
-          this.getCoursesOutsideTheGroup();
-          this.courses = [];
-        },
-        // Failure callback
-        function() {
-          this.errorMessage();
-        }.bind(this)
-      );
-    },
-    addCourse: function() {
-      this.modal = true;
-    },
-    getCoursesInsideTheGroup() {
-      this.loadingContent = true;
-      var formData = new FormData();
-      formData.set("groupId", this.groupId);
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "group",
-        "getCoursesInsideGroup"
-      );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
-          // success callback
-          this.coursesInsideGroup = response.data;
-          setTimeout(
-            function() {
-              this.loadingContent = false;
-            }.bind(this),
-            1000
-          );
-        },
-        // Failure callback
-        function() {
-          this.errorMessage();
+          this.$errorMessage();
         }
       );
     },
-    getCoursesOutsideTheGroup: function() {
-      this.loadingContentModal = true;
-      var formData = new FormData();
-      formData.set("groupId", this.groupId);
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "group",
-        "getCoursesOutsideGroup"
+    saveCourses() {
+      this.loading = true;
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'group',
+        'saveCoursesIntoGroup'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
-          // success callback
-          this.coursesOutsideGroup = response.data;
-          setTimeout(
-            function() {
-              this.loadingContentModal = false;
-            }.bind(this),
-            1000
-          );
+      formData.set('groupId', this.groupId);
+      formData.set('courses', this.courses);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        () => {
+          this.loading = false;
+          this.modal = false;
+          this.getCoursesThatBelongToGroup();
+          this.getCoursesThatNotBelongToGroup();
+          this.courses = [];
         },
-        // Failure callback
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
+      );
+    },
+    addCourse() {
+      this.modal = true;
+    },
+    getCoursesThatBelongToGroup() {
+      this.content = false;
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'group',
+        'getCoursesInsideGroup'
+      );
+      formData.set('groupId', this.groupId);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
+          this.coursesBelongingToTheGroup = response.data;
+          setTimeout(() => {
+            this.content = true;
+          }, 1000);
+        },
+        () => {
+          this.$errorMessage();
+        }
+      );
+    },
+    getCoursesThatNotBelongToGroup() {
+      this.contentModal = false;
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'group',
+        'getCoursesOutsideGroup'
+      );
+      formData.set('groupId', this.groupId);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
+          this.coursesNotBelongingToTheGroup = response.data;
+          setTimeout(() => {
+            this.contentModal = true;
+          }, 1000);
+        },
+        () => {
+          this.$errorMessage();
+        }
       );
     }
   }
 };
 </script>
-
-

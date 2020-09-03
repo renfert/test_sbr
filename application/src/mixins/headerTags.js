@@ -1,27 +1,27 @@
 const headerTags = {
   methods: {
     createFavicon() {
-      let urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "settings",
-        "getSettingsInformation"
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'settings',
+        'getSettingsInformation'
       );
-      this.$request.get(urlToBeUsedInTheRequest).then(response => {
-        var fav = response.data["favicon"];
-        const link = document.createElement("link");
-        link.rel = "icon";
+      this.$request.get(urlToBeUsedInTheRequest).then((response) => {
+        const fav = response.data.favicon;
+        const link = document.createElement('link');
+        link.rel = 'icon';
 
-        let urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-          "verify",
-          "getSubDomainName"
+        const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+          'verify',
+          'getSubDomainName'
         );
-        this.$request.get(urlToBeUsedInTheRequest).then(response => {
-          var subDomaiName = response.data;
+        this.$request.get(urlToBeUsedInTheRequest).then((response) => {
+          const subDomaiName = response.data;
           link.href =
-            "https://files.sabiorealm.com/" +
+            'https://files.sabiorealm.com/' +
             subDomaiName +
-            "/uploads/settings/" +
+            '/uploads/settings/' +
             fav +
-            "";
+            '';
         });
         document.head.appendChild(link);
       });

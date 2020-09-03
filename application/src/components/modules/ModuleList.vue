@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <facebook-loader
-      v-if="loadingContent == true"
+      v-if="content == false"
       :speed="2"
       width="700"
       height="200"
@@ -11,13 +11,17 @@
 
     <div v-else>
       <div v-if="modules != null">
-        <draggable v-model="modules" ghost-class="ghost" @end="finishRepositioning">
+        <draggable
+          v-model="modules"
+          ghost-class="ghost"
+          @end="finishRepositioning"
+        >
           <transition-group type="transition" name="flip-list">
             <div class="sortable" v-for="element in modules" :key="element.id">
               <li class="module" :id="element.id">
                 <el-collapse accordion>
                   <el-badge
-                    style="color:red;"
+                    style="color: red"
                     :value="element.totalLessons"
                     class="item"
                     type="primary"
@@ -52,7 +56,14 @@
                         >
                           <el-button
                             class="sbr-primary mr-1"
-                            @click.prevent="openEditModuleModal(element.id,element.title,element.required_to_next, element.release_date)"
+                            @click.prevent="
+                              openEditModuleModal(
+                                element.id,
+                                element.title,
+                                element.required_to_next,
+                                element.release_date
+                              )
+                            "
                             type="primary"
                             size="small"
                             icon="el-icon-edit"
@@ -66,7 +77,11 @@
                             confirmButtonText="Ok"
                             cancelButtonText="No, Thanks"
                             placement="right"
-                            :title="lang['question-delete-module'] +element.title  + '?'"
+                            :title="
+                              lang['question-delete-module'] +
+                              element.title +
+                              '?'
+                            "
                             @onConfirm="deleteModule(element.id)"
                           >
                             <el-button
@@ -95,7 +110,7 @@
                           ></el-button>
                         </el-tooltip>
                         <el-divider direction="vertical"></el-divider>
-                        <span class="moduleTitle">{{element.title}}</span>
+                        <span class="moduleTitle">{{ element.title }}</span>
                       </template>
                       <div>
                         <lesson-list :module-id="element.id"></lesson-list>
@@ -115,22 +130,27 @@
           <div class="col-1"></div>
           <div class="col-xl-6 col-md-6">
             <div class="text-no-results">
-              <h3>{{lang["no-results-module-title"]}}</h3>
+              <h3>{{ lang['no-results-module-title'] }}</h3>
               <p>
-                {{lang["no-results-module-subtitle"]}}
-                <span
-                  class="text-sabiorealm-secondary"
-                >{{lang["no-results-module-subtitle-highlight"]}}</span>
+                {{ lang['no-results-module-subtitle'] }}
+                <span class="text-sabiorealm-secondary">{{
+                  lang['no-results-module-subtitle-highlight']
+                }}</span>
               </p>
               <el-button
                 class="sbr-purple mt-3"
                 @click.prevent="openModuleModal()"
                 type="primary"
-              >{{lang["new-module"]}}</el-button>
+                >{{ lang['new-module'] }}</el-button
+              >
             </div>
           </div>
           <div class="col-xl-5 col-md-5">
-            <img class="image-no-results" src="@/assets/img/general/ux/modules.png" alt="modules" />
+            <img
+              class="image-no-results"
+              src="@/assets/img/general/ux/modules.png"
+              alt="modules"
+            />
           </div>
         </div>
       </div>
@@ -139,29 +159,36 @@
         class="sbr-purple mt-5"
         @click.prevent="openModuleModal()"
         type="primary"
-      >{{lang["new-module"]}}</el-button>
+        >{{ lang['new-module'] }}</el-button
+      >
     </div>
 
-    <!--  Modal edit module -->
+    <!-------------------
+    Modal edit module
+    --------------------->
     <div>
-      <el-dialog :visible.sync="modalEditModule" :title="moduleTitle" center top="5vh">
+      <el-dialog :visible.sync="modal" :title="myModule.title" center top="5vh">
         <form id="form-module" @submit.prevent="editModule()">
           <div class="form-row">
             <!-- Module id -->
-            <input type="number" class="hide" name="id" v-model="moduleId" />
+            <input type="number" class="hide" name="id" v-model="myModule.id" />
             <div class="form-group col-xl-12 col-md-12">
               <!-- Module name -->
-              <label class="col-form-label">{{lang["new-name"]}} *</label>
-              <el-input required v-model="moduleTitle" name="title"></el-input>
+              <label class="col-form-label">{{ lang['new-name'] }} *</label>
+              <el-input
+                required
+                v-model="myModule.title"
+                name="title"
+              ></el-input>
             </div>
           </div>
           <div class="form-row">
             <div class="form-group col-xl-6 col-md-6">
               <!-- Module release date -->
-              <label class="col-form-label">{{lang["start-date"]}}</label>
+              <label class="col-form-label">{{ lang['start-date'] }}</label>
               <br />
               <el-date-picker
-                v-model="moduleReleaseDate"
+                v-model="myModule.releaseDate"
                 name="date"
                 type="date"
                 format="yyyy/MM/dd"
@@ -171,28 +198,37 @@
             </div>
             <div class="form-group col-xl-6 col-md-6">
               <!-- Module requirement -->
-              <label style="margin-bottom:4%;" class="col-form-label">{{lang["required-module"]}}</label>
+              <label style="margin-bottom: 4%" class="col-form-label">{{
+                lang['required-module']
+              }}</label>
               <br />
               <div class="input-group">
-                <el-switch name="required" v-model="moduleRequired" active-color="#09dfff"></el-switch>
+                <el-switch
+                  name="required"
+                  v-model="myModule.required"
+                  active-color="#09dfff"
+                ></el-switch>
               </div>
             </div>
           </div>
           <div class="form-row">
             <div class="form-group col-xl-6 col-md-6">
               <el-button
-                v-loading="loadingButton"
+                v-loading="loading"
                 class="sbr-primary"
                 type="primary"
                 @click.prevent="editModule()"
                 size="medium"
-              >{{lang["save-button"]}}</el-button>
+                >{{ lang['save-button'] }}</el-button
+              >
             </div>
           </div>
         </form>
       </el-dialog>
     </div>
-    <!-- End  modal new module -->
+    <!-------------------
+    End modal edit module
+    --------------------->
 
     <!--  Modal lessons -->
     <div>
@@ -228,7 +264,10 @@
           <!-- Pdf -->
           <div class="col-md-3 col-6 lesson">
             <a @click.prevent="emitNewLessonEvent('new-pdf')">
-              <img src="@/assets/img/class/pdf.png" class="lesson-img img-thumbnail img-responsive" />
+              <img
+                src="@/assets/img/class/pdf.png"
+                class="lesson-img img-thumbnail img-responsive"
+              />
               <br />
               <span>Pdf</span>
             </a>
@@ -250,7 +289,10 @@
         <br />
         <div class="row">
           <!-- HTML -->
-          <div class="col-md-3 col-6 lesson" v-if="plan == 'bussiness' || plan == 'trial'">
+          <div
+            class="col-md-3 col-6 lesson"
+            v-if="company.plan == 'bussiness' || company.plan == 'trial'"
+          >
             <a @click.prevent="emitNewLessonEvent('new-html')">
               <img
                 src="@/assets/img/class/html.png"
@@ -275,7 +317,11 @@
           <!-- Webinar -->
           <div
             class="col-md-3 col-6 lesson"
-            v-if="plan != 'basic' && plan != 'trial' && plan != 'pro' "
+            v-if="
+              company.plan != 'basic' &&
+              company.plan != 'trial' &&
+              company.plan != 'pro'
+            "
           >
             <a @click.prevent="emitNewLessonEvent('new-webinar')">
               <img
@@ -311,7 +357,10 @@
             </a>
           </div>
           <!-- Exam -->
-          <div class="col-md-3 col-6 lesson" v-if="plan != 'basic' && plan != 'trial'">
+          <div
+            class="col-md-3 col-6 lesson"
+            v-if="company.plan != 'basic' && company.plan != 'trial'"
+          >
             <a @click.prevent="emitNewLessonEvent('new-exam')">
               <img
                 src="@/assets/img/class/exam.png"
@@ -338,7 +387,7 @@
     </div>
 
     <!-- End  modal lesson -->
-    <lesson-create :module-id="moduleId"></lesson-create>
+    <lesson-create :module-id="myModule.id"></lesson-create>
     <lesson-video-edit></lesson-video-edit>
     <lesson-audio-edit></lesson-audio-edit>
     <lesson-pdf-edit></lesson-pdf-edit>
@@ -354,39 +403,28 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import LessonCreate from "@/components/lessons/LessonCreate";
-import LessonList from "@/components/lessons/LessonList";
-import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
-import draggable from "vuedraggable";
-import $ from "jquery";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-import LessonVideoEdit from "@/components/lessons/edit/types/LessonVideoEdit";
-import LessonAudioEdit from "@/components/lessons/edit/types/LessonAudioEdit";
-import LessonPdfEdit from "@/components/lessons/edit/types/LessonPdfEdit";
-import LessonDownloadableEdit from "@/components/lessons/edit/types/LessonDownloadableEdit";
-import LessonHtmlEdit from "@/components/lessons/edit/types/LessonHtmlEdit";
-import LessonWebinarEdit from "@/components/lessons/edit/types/LessonWebinarEdit";
-import LessonVideoConfEdit from "@/components/lessons/edit/types/LessonVideoConfEdit";
-import LessonExamEdit from "@/components/lessons/edit/types/LessonExamEdit";
-import QuestionCreate from "@/components/questions/QuestionCreate";
-import QuestionEdit from "@/components/questions/QuestionEdit";
-import AnswerCreate from "@/components/answers/AnswerCreate";
+import LessonCreate from '@/components/lessons/LessonCreate';
+import LessonList from '@/components/lessons/LessonList';
+import draggable from 'vuedraggable';
+import $ from 'jquery';
+import LessonVideoEdit from '@/components/lessons/edit/types/LessonVideoEdit';
+import LessonAudioEdit from '@/components/lessons/edit/types/LessonAudioEdit';
+import LessonPdfEdit from '@/components/lessons/edit/types/LessonPdfEdit';
+import LessonDownloadableEdit from '@/components/lessons/edit/types/LessonDownloadableEdit';
+import LessonHtmlEdit from '@/components/lessons/edit/types/LessonHtmlEdit';
+import LessonWebinarEdit from '@/components/lessons/edit/types/LessonWebinarEdit';
+import LessonVideoConfEdit from '@/components/lessons/edit/types/LessonVideoConfEdit';
+import LessonExamEdit from '@/components/lessons/edit/types/LessonExamEdit';
+import QuestionCreate from '@/components/questions/QuestionCreate';
+import QuestionEdit from '@/components/questions/QuestionEdit';
+import AnswerCreate from '@/components/answers/AnswerCreate';
 
-import { eventBus } from "@/components/newcourse/App";
-import { mapState } from "vuex";
-import { eventPlan } from "@/components/plans/UpgradePlan";
-import { FacebookLoader } from "vue-content-loader";
-
-Vue.use(VueAxios, axios);
-Vue.use(ElementUI);
+import { eventBus } from '@/components/newcourse/App';
+import { mapState } from 'vuex';
+import { eventPlan } from '@/components/plans/UpgradePlan';
+import { FacebookLoader } from 'vue-content-loader';
 
 export default {
-  mixins: [domains, alerts],
   components: {
     draggable,
     LessonCreate,
@@ -404,182 +442,152 @@ export default {
     AnswerCreate,
     FacebookLoader
   },
-  data: function() {
+  data: () => {
     return {
-      modules: null,
-      modalEditModule: false,
-      moduleId: "",
-      moduleTitle: "",
-      moduleReleaseDate: "",
-      moduleRequired: false,
+      myModule: {
+        id: '',
+        title: '',
+        releaseDate: '',
+        required: false
+      },
+      modules: [],
+      modal: false,
       modalChooseLessons: false,
-      loadingContent: false,
-      loadingButton: false,
-      plan: ""
+      content: false,
+      loading: false
     };
   },
-  props: ["course-id"],
+  props: ['course-id'],
 
   mounted() {
-    this.getCompanyInformation();
     this.getModules();
 
-    eventBus.$on("new-module", () => {
+    eventBus.$on('new-module', () => {
       this.getModules(this.courseId);
     });
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang', 'company'])
   },
   methods: {
-    myCustomPreviousStepCallback(currentStep) {
-      alert(currentStep);
-    },
-    myCustomNextStepCallback(currentStep) {
-      if (currentStep == 3) {
-        eventBus.$emit("access-second-step");
-      }
-    },
-    upgradePlan: function() {
-      eventPlan.$emit("upgrade-plan", "feature");
+    upgradePlan() {
+      eventPlan.$emit('upgrade-plan', 'feature');
     },
 
-    getCompanyInformation() {
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "company",
-        "getCompanyInformation"
-      );
-      axios.get(urlToBeUsedInTheRequest).then(
-        function(response) {
-          this.plan = response.data["plan"];
-        }.bind(this)
-      );
+    openModuleModal() {
+      eventBus.$emit('open-module-modal');
     },
 
-    openModuleModal: function() {
-      eventBus.$emit("open-module-modal");
-    },
-
-    finishRepositioning: function() {
+    finishRepositioning() {
       this.reorderModulePositions();
     },
 
-    emitNewLessonEvent: function(type) {
-      eventBus.$emit("create-lesson", type);
+    emitNewLessonEvent(type) {
+      eventBus.$emit('create-lesson', type);
       this.modalChooseLessons = false;
     },
 
-    openLessonsModal: function(id) {
+    openLessonsModal(id) {
       this.modalChooseLessons = true;
-      this.moduleId = id;
-      this.loadingLessons = false;
+      this.myModule.id = id;
+      this.loading = false;
     },
 
-    editModule: function() {
+    editModule() {
       this.loadingButton = true;
-      var form = document.getElementById("form-module");
-      var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest("module", "edit");
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+      const form = document.getElementById('form-module');
+      const formData = new FormData(form);
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'module',
+        'edit'
+      );
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
-          this.successMessage();
-          this.actionsToBePerformedAfterEdit();
+          this.$successMessage();
+          this.getModules(this.courseId);
+          this.modal = false;
+          this.loading = false;
         },
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
 
-    openEditModuleModal: function(id, title, required, date) {
-      this.moduleId = id;
-      this.moduleTitle = title;
+    openEditModuleModal(id, title, required, date) {
+      this.myModule.id = id;
+      this.myModule.title = title;
 
-      if (required == "on") {
-        this.moduleRequired = true;
+      if (required === 'on') {
+        this.myModule.required = true;
       } else {
-        this.moduleRequired = false;
+        this.myModule.required = false;
       }
 
-      if (date == null || date == "" || date == "0000-00-00") {
-        this.moduleReleaseDate = "";
+      if (date == null || date === '' || date === '0000-00-00') {
+        this.myModule.releaseDate = '';
       } else {
-        this.moduleReleaseDate = date;
+        this.myModule.releaseDate = date;
       }
 
-      this.modalEditModule = true;
+      this.modal = true;
     },
 
-    deleteModule: function(id) {
-      var formData = new FormData();
-      formData.set("id", id);
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "module",
-        "delete"
+    deleteModule(id) {
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'module',
+        'delete'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+      formData.set('id', id);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
           this.getModules(this.courseId);
-          this.successMessage();
+          this.$successMessage();
         },
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
 
-    reorderModulePositions: function() {
-      var ar = [];
-      $(".module").each(function(index) {
-        var id = $(this).attr("id");
+    reorderModulePositions() {
+      const ar = [];
+      $('.module').each((index) => {
+        const id = $(this).attr('id');
         ar.push({ id: id, index: index });
       });
-      var formData = new FormData();
-      $.each(ar, function(index, value) {
-        formData.set("module[" + value.id + "]", value.index);
-      });
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "module",
-        "reorder"
-      );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        () => {
-          /* Success callback */
-        },
-        function() {
-          this.errorMessage();
-        }.bind(this)
-      );
-    },
-    getModules: function() {
-      this.loadingContent = true;
-      var formData = new FormData();
-      formData.set("courseId", this.courseId);
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "module",
-        "listing"
-      );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
-          this.modules = response.data;
-          setTimeout(
-            function() {
-              this.loadingContent = false;
-            }.bind(this),
-            1000
-          );
-        },
-        /* Error callback */
 
-        function() {
-          this.errorMessage();
-        }.bind(this)
+      const formData = new FormData();
+      $.each(ar, (index, value) => {
+        formData.set('module[' + value.id + ']', value.index);
+      });
+
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'module',
+        'reorder'
       );
+      this.$request.post(urlToBeUsedInTheRequest, formData);
     },
-    actionsToBePerformedAfterEdit() {
-      this.getModules(this.courseId);
-      this.modalEditModule = false;
-      this.loadingButton = false;
+    getModules() {
+      this.content = false;
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'module',
+        'listing'
+      );
+      formData.set('courseId', this.courseId);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
+          this.modules = response.data;
+          setTimeout(() => {
+            this.content = true;
+          }, 1000);
+        },
+        () => {
+          this.$errorMessage();
+        }
+      );
     }
   }
 };
@@ -591,7 +599,7 @@ export default {
 ============= */
 
 .moduleTitle {
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: 400;
   font-size: 16px;
   margin-left: 20px;
@@ -617,7 +625,7 @@ export default {
 .btn-link {
   padding: 0px !important;
   font-size: 13px;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: 600;
 }
 
@@ -677,7 +685,7 @@ li {
 }
 
 .lesson span {
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   margin-top: 3em;
   font-size: 1em;
 }

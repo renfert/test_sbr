@@ -1,9 +1,9 @@
 <template>
   <div class="col-12">
     <div class="card-sabiorealm text-center">
-      <h3>{{lang["purchase-in-process"]}}</h3>
+      <h3>{{ lang['purchase-in-process'] }}</h3>
 
-      <p>{{lang["doubts"]}} {{email}}</p>
+      <p>{{ lang['doubts'] }} {{ email }}</p>
     </div>
 
     <div class="app-background-accent"></div>
@@ -11,54 +11,35 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import VueTheMask from "vue-the-mask";
-import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
-import { eventLang } from "@/components/helper/HelperLang";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
+import { mapState } from 'vuex';
 
-Vue.use(ElementUI);
-Vue.use(VueTheMask);
-Vue.use(VueAxios, axios);
 export default {
-  mixins: [domains, alerts],
-  data: function() {
+  data: () => {
     return {
-      lang: {},
-      courseTitle: "",
-      courseImage: "",
-      email: ""
+      courseTitle: '',
+      courseImage: '',
+      email: ''
     };
   },
 
   mounted() {
-    eventLang.$on(
-      "lang",
-      function(response) {
-        this.lang = response;
-      }.bind(this)
-    );
-
     this.getCompanyInformation();
   },
+  computed: {
+    ...mapState(['lang'])
+  },
   methods: {
-    getCompanyInformation: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "company",
-        "getCompanyInformation"
+    getCompanyInformation() {
+      const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+        'company',
+        'getCompanyInformation'
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        response => {
-          /* Success callback */
-          this.email = response.data["email"];
+      this.$request.get(urlToBeUsedInTheRequest).then(
+        (response) => {
+          this.email = response.data.email;
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
+        () => {
+          this.$errorMessage();
         }
       );
     }

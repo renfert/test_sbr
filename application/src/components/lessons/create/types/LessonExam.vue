@@ -1,17 +1,30 @@
 <template>
   <div>
-    <el-dialog :visible.sync="modalCreateExam" :title="lang['create-new-exam']" center top="5vh">
-      <div class="form-row" style="margin-top:-30px !important;">
+    <el-dialog
+      :visible.sync="modal"
+      :title="lang['create-new-exam']"
+      center
+      top="5vh"
+    >
+      <div class="form-row" style="margin-top: -30px !important">
         <div class="form-group col-xl-12 col-md-12">
           <ul>
             <li @click.prevent="accessFirstStep()">
-              <a class="form-wizard-link" :class="active == 1 ? 'active' : '' " href="#">
-                <span>{{lang["basic-information"]}}</span>
+              <a
+                class="form-wizard-link"
+                :class="activeTab == 1 ? 'active' : ''"
+                href="#"
+              >
+                <span>{{ lang['basic-information'] }}</span>
               </a>
             </li>
             <li @click.prevent="accessSecondStep()">
-              <a class="form-wizard-link" :class="active == 2 ? 'active' : '' " href="#">
-                <span>{{lang["questions"]}}</span>
+              <a
+                class="form-wizard-link"
+                :class="activeTab == 2 ? 'active' : ''"
+                href="#"
+              >
+                <span>{{ lang['questions'] }}</span>
               </a>
             </li>
           </ul>
@@ -22,211 +35,215 @@
         <form id="form-lesson-exam" @submit.prevent="createExam()">
           <div class="form-row">
             <!-- Module id -->
-            <input type="number" class="hide" name="moduleId" :value="moduleId" />
+            <input
+              type="number"
+              class="hide"
+              name="moduleId"
+              :value="moduleId"
+            />
             <!-- Lesson id -->
-            <input type="number" class="hide" name="lessonId" :value="examId" />
+            <input
+              type="number"
+              class="hide"
+              name="lessonId"
+              :value="exam.id"
+            />
             <!-- Type lesson -->
             <input type="text" name="type_mylesson_id" value="8" class="hide" />
             <!-- Exam status -->
             <input type="text" name="status" value="temporary" class="hide" />
             <div class="form-group col-xl-12 col-md-12">
               <!-- Lesson name -->
-              <label class="col-form-label">{{lang["name"]}} *</label>
-              <el-input required v-model="name" name="title"></el-input>
+              <label class="col-form-label">{{ lang['name'] }} *</label>
+              <el-input required v-model="exam.name" name="title"></el-input>
             </div>
           </div>
           <div class="form-row">
             <div class="form-group col-xl-12 col-md-12">
               <!-- Lesson duration -->
-              <label class="col-form-label">{{lang["duration"]}}</label>
+              <label class="col-form-label">{{ lang['duration'] }}</label>
               <br />
-              <el-input-number name="time" v-model="duration"></el-input-number>
+              <el-input-number
+                name="time"
+                v-model="exam.duration"
+              ></el-input-number>
             </div>
           </div>
           <div class="form-row">
             <div class="form-group col-xl-12 col-md-12">
               <!-- Lesson approval -->
-              <label class="col-form-label">{{lang["approval"]}}</label>
+              <label class="col-form-label">{{ lang['approval'] }}</label>
               <br />
-              <el-input-number name="approval" v-model="approval" :min="0" :max="100"></el-input-number>
+              <el-input-number
+                name="approval"
+                v-model="exam.approvalPercent"
+                :min="0"
+                :max="100"
+              ></el-input-number>
             </div>
           </div>
           <div class="form-row">
             <div class="form-group col-xl-12 col-md-12">
               <!-- Lesson retest -->
-              <label class="col-form-label">{{lang["number-of-re-tests"]}}</label>
+              <label class="col-form-label">{{
+                lang['number-of-re-tests']
+              }}</label>
               <br />
-              <el-input-number :min="1" name="retest" v-model="retest"></el-input-number>
+              <el-input-number
+                :min="1"
+                name="retest"
+                v-model="exam.numberOfRetests"
+              ></el-input-number>
             </div>
           </div>
         </form>
       </div>
 
-      <div v-if="showexamSecondStep">
-        <question-list :exam-id="this.examId"></question-list>
+      <div v-if="showExamSecondStep">
+        <question-list :exam-id="exam.id"></question-list>
         <el-button
           v-loading="loading"
           class="sbr-primary"
           @click.prevent="changeExamStatus()"
           type="primary"
-        >{{lang["save-button"]}}</el-button>
+          >{{ lang['save-button'] }}</el-button
+        >
       </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import QuestionList from "@/components/questions/QuestionList";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
+import QuestionList from '@/components/questions/QuestionList';
 
-import { eventBus } from "@/components/newcourse/App";
-import { mapState } from "vuex";
-
-Vue.use(VueAxios, axios);
+import { eventBus } from '@/components/newcourse/App';
+import { mapState } from 'vuex';
 
 export default {
-  mixins: [domains, alerts],
   components: {
     QuestionList
   },
-  props: ["module-id"],
+  props: ['module-id'],
   data: () => {
     return {
-      name: "",
-      approval: "",
-      duration: "",
-      retest: "",
-      modalCreateExam: false,
+      exam: {
+        id: '',
+        name: '',
+        approvalPercent: '',
+        duration: '',
+        numberOfRetests: '',
+        mode: 'create'
+      },
+      modal: false,
       loading: false,
-      active: 1,
-      examMode: "create",
-      showexamSecondStep: false,
-      showExamFirstStep: true,
-      examId: ""
+      activeTab: 1,
+      showExamSecondStep: false,
+      showExamFirstStep: true
     };
   },
   mounted() {
-    eventBus.$on(
-      "new-exam",
-      function() {
-        this.modalCreateExam = true;
-      }.bind(this)
-    );
+    eventBus.$on('new-exam', () => {
+      this.modalCreateExam = true;
+    });
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   methods: {
     changeExamStatus() {
-      var formData = new FormData();
-      formData.set("examId", this.examId);
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "lesson",
-        "changeExamStatus"
+      const form = document.getElementById('form-lesson-exam');
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'lesson',
+        'changeExamStatus'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+      formData.set('examId', this.examId);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
-          /* Success callback */
-          this.actionsToBePErformedAfterChangeStatus();
+          form.reset();
+          this.exam.mode = 'create';
+          this.showExamFirstStep = true;
+          this.showExamSecondStep = false;
+          this.activeTab = 1;
+          this.modal = false;
+          eventBus.$emit('new-lesson');
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
     accessFirstStep() {
-      this.active = 1;
+      this.activeTab = 1;
       this.showExamFirstStep = true;
-      this.showexamSecondStep = false;
+      this.showExamSecondStep = false;
     },
     accessSecondStep() {
-      if (this.name == "") {
+      if (this.exam.name === '') {
         this.requiredNameMessage();
       } else {
-        this.active = 2;
+        this.activeTab = 2;
         this.showExamFirstStep = false;
-        this.showexamSecondStep = true;
-        if (this.examMode == "create") {
+        this.showExamSecondStep = true;
+        if (this.exam.mode === 'create') {
           this.createExam();
-          this.examMode = "edit";
+          this.exam.mode = 'edit';
         } else {
           this.editExam();
         }
       }
     },
-    createExam: function() {
+    createExam() {
       this.loading = true;
-      var form = document.getElementById("form-lesson-exam");
-      var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "lesson",
-        "create"
+      const form = document.getElementById('form-lesson-exam');
+      const formData = new FormData(form);
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'lesson',
+        'create'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
-          /* Success callback */
-          this.actionsToBePerformedAfterRegistration(response.data);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
+          eventBus.$emit('new-lesson');
+          this.exam.id = response.data;
+          this.showExamFirstStep = false;
+          this.showExamSecondStep = true;
           this.loading = false;
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    editExam: function() {
+    editExam() {
       this.loading = true;
-      var form = document.getElementById("form-lesson-exam");
-      var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest("lesson", "edit");
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+      const form = document.getElementById('form-lesson-exam');
+      const formData = new FormData(form);
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'lesson',
+        'edit'
+      );
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
-          /* Success callback */
           this.loading = false;
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
 
     requiredNameMessage() {
       this.$notify({
-        title: this.lang["error"],
-        message: this.lang["required-name"],
-        type: "error",
+        title: this.lang.error,
+        message: this.lang['required-name'],
+        type: 'error',
         duration: 3500
       });
-    },
-    actionsToBePerformedAfterRegistration(examId) {
-      this.examId = examId;
-      this.showExamFirstStep = false;
-      this.showexamSecondStep = true;
-      eventBus.$emit("new-lesson");
-    },
-    actionsToBePErformedAfterChangeStatus() {
-      this.name = "";
-      this.examMode = "create";
-      this.approval = "";
-      this.duration = "";
-      this.retest = "";
-      (this.examId = ""), (this.showExamFirstStep = true);
-      this.showexamSecondStep = false;
-      this.active = 1;
-      this.modalCreateExam = false;
-      eventBus.$emit("new-lesson");
     }
   }
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 .el-step__title {
   font-size: 5px !important;
@@ -273,7 +290,7 @@ export default {
   text-decoration: none;
   font-size: 1em;
   line-height: 2;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   padding: 5px;
 }
 
@@ -288,7 +305,7 @@ export default {
   text-decoration: none;
   font-size: 1em;
   line-height: 2;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   background-color: #009cd8;
   -webkit-transition: all 0.5s cubic-bezier(0.29, 1.42, 0.79, 1) 0s;
   -moz-transition: all 0.5s cubic-bezier(0.29, 1.42, 0.79, 1) 0s;
@@ -303,7 +320,7 @@ export default {
   font-size: 0.85rem;
   line-height: 2;
   font-style: normal;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 /* ----------------- End default sizes ----- */

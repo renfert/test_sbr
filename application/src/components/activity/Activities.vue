@@ -4,10 +4,14 @@
       <div class="col-12 col-md-12 mb-5">
         <div
           class="card-widget"
-          style="overflow-y: scroll; height:500px;border-radius:10px 0px 0px 10px !important;"
+          style="
+            overflow-y: scroll;
+            height: 500px;
+            border-radius: 10px 0px 0px 10px !important;
+          "
         >
           <div class="activities-title text-center mb-5">
-            <h3>{{lang['last-activities']}}</h3>
+            <h3>{{ lang['last-activities'] }}</h3>
           </div>
 
           <!-- Activity -->
@@ -15,131 +19,157 @@
             class="activity-item mb-4"
             v-for="element in activities"
             :key="element.id"
-            style="display:flex;align-items:center;"
+            style="display: flex; align-items: center"
           >
-            <div class="row" style="width:100%;">
+            <div class="row" style="width: 100%">
               <div class="col-12 col-md-2">
                 <el-avatar
                   :size="70"
                   fit="contain"
-                  :src="$getUrlToContents() + 'avatar/'+element.avatar+''"
+                  :src="$getUrlToContents() + 'avatar/' + element.avatar + ''"
                 ></el-avatar>
               </div>
               <div class="col-10 text-left">
                 <!-- Course created -->
-                <div class="activity-info" v-if="element.type == 'course-created' ">
+                <div
+                  class="activity-info"
+                  v-if="element.type == 'course-created'"
+                >
                   <h4>
-                    <router-link :to="'/user/'+element.create_user">
-                      <b class="sbr-text-primary">{{element.name}}</b>
+                    <router-link :to="'/user/' + element.create_user">
+                      <b class="sbr-text-primary">{{ element.name }}</b>
                     </router-link>
-                    {{lang["activity-course-created"]}}
-                    <router-link class="mr-1" :to="'/viewcourse/'+element.mycourse_id">
-                      <b class="sbr-text-primary">{{element.title}}</b>
+                    {{ lang['activity-course-created'] }}
+                    <router-link
+                      class="mr-1"
+                      :to="'/viewcourse/' + element.mycourse_id"
+                    >
+                      <b class="sbr-text-primary">{{ element.title }}</b>
                     </router-link>
 
                     <i class="ti-blackboard text-success"></i>
                   </h4>
-                  <span>{{processDateTime(element.date)}}</span>
+                  <span>{{ processDateTime(element.date) }}</span>
                 </div>
 
                 <!-- Course deleted -->
-                <div class="activity-info" v-if="element.type == 'course-deleted' ">
+                <div
+                  class="activity-info"
+                  v-if="element.type == 'course-deleted'"
+                >
                   <h4>
-                    <router-link :to="'/user/'+element.create_user">
-                      <b class="sbr-text-primary">{{element.name}}</b>
+                    <router-link :to="'/user/' + element.create_user">
+                      <b class="sbr-text-primary">{{ element.name }}</b>
                     </router-link>
-                    {{lang["activity-course-deleted"]}}
-                    <b
-                      class="sbr-text-primary"
-                    >{{element.course_title}}</b>
+                    {{ lang['activity-course-deleted'] }}
+                    <b class="sbr-text-primary">{{ element.course_title }}</b>
                     <i class="ti-trash text-danger"></i>
                   </h4>
-                  <span>{{processDateTime(element.date)}}</span>
+                  <span>{{ processDateTime(element.date) }}</span>
                 </div>
 
                 <!-- Course edited -->
-                <div class="activity-info" v-if="element.type == 'course-edited' ">
+                <div
+                  class="activity-info"
+                  v-if="element.type == 'course-edited'"
+                >
                   <h4>
-                    <router-link :to="'/user/'+element.create_user">
-                      <b class="sbr-text-primary">{{element.name}}</b>
+                    <router-link :to="'/user/' + element.create_user">
+                      <b class="sbr-text-primary">{{ element.name }}</b>
                     </router-link>
-                    {{lang["activity-course-edited"]}}
-                    <router-link class="mr-1" :to="'/viewcourse/'+element.mycourse_id">
-                      <b class="sbr-text-primary">{{element.title}}</b>
+                    {{ lang['activity-course-edited'] }}
+                    <router-link
+                      class="mr-1"
+                      :to="'/viewcourse/' + element.mycourse_id"
+                    >
+                      <b class="sbr-text-primary">{{ element.title }}</b>
                     </router-link>
                     <i class="ti-pencil-alt text-warning"></i>
                   </h4>
-                  <span>{{processDateTime(element.date)}}</span>
+                  <span>{{ processDateTime(element.date) }}</span>
                 </div>
 
                 <!-- Lesson finished -->
-                <div class="activity-info" v-if="element.type == 'lesson-finished' ">
+                <div
+                  class="activity-info"
+                  v-if="element.type == 'lesson-finished'"
+                >
                   <h4>
-                    <router-link :to="'/user/'+element.create_user">
-                      <b class="sbr-text-primary">{{element.name}}</b>
+                    <router-link :to="'/user/' + element.create_user">
+                      <b class="sbr-text-primary">{{ element.name }}</b>
                     </router-link>
-                    {{lang["activity-finished-lesson"]}}
-                    <b
-                      class="sbr-text-primary"
-                    >{{element.lessonTitle}}</b>
-                    {{lang["in-the-course"]}}
-                    <router-link class="mr-1" :to="'/viewcourse/'+element.mycourse_id">
-                      <b class="sbr-text-primary">{{element.title}}</b>
+                    {{ lang['activity-finished-lesson'] }}
+                    <b class="sbr-text-primary">{{ element.lessonTitle }}</b>
+                    {{ lang['in-the-course'] }}
+                    <router-link
+                      class="mr-1"
+                      :to="'/viewcourse/' + element.mycourse_id"
+                    >
+                      <b class="sbr-text-primary">{{ element.title }}</b>
                     </router-link>
                     <i class="ti-arrow-circle-down text-success"></i>
                   </h4>
-                  <span>{{processDateTime(element.date)}}</span>
+                  <span>{{ processDateTime(element.date) }}</span>
                 </div>
 
                 <!-- Course finished -->
-                <div class="activity-info" v-if="element.type == 'course-finished' ">
+                <div
+                  class="activity-info"
+                  v-if="element.type == 'course-finished'"
+                >
                   <h4>
-                    <router-link :to="'/user/'+element.create_user">
-                      <b class="sbr-text-primary">{{element.name}}</b>
+                    <router-link :to="'/user/' + element.create_user">
+                      <b class="sbr-text-primary">{{ element.name }}</b>
                     </router-link>
-                    {{lang["activity-course-finished"]}}
-                    <router-link class="mr-1" :to="'/viewcourse/'+element.mycourse_id">
-                      <b class="sbr-text-primary">{{element.title}}</b>
+                    {{ lang['activity-course-finished'] }}
+                    <router-link
+                      class="mr-1"
+                      :to="'/viewcourse/' + element.mycourse_id"
+                    >
+                      <b class="sbr-text-primary">{{ element.title }}</b>
                     </router-link>
                     <i class="ti-arrow-circle-down text-success"></i>
                   </h4>
-                  <span>{{processDateTime(element.date)}}</span>
+                  <span>{{ processDateTime(element.date) }}</span>
                 </div>
 
                 <!-- Logout -->
-                <div class="activity-info" v-if="element.type == 'logout' ">
+                <div class="activity-info" v-if="element.type == 'logout'">
                   <h4>
-                    <router-link :to="'/user/'+element.create_user">
-                      <b class="sbr-text-primary">{{element.name}}</b>
+                    <router-link :to="'/user/' + element.create_user">
+                      <b class="sbr-text-primary">{{ element.name }}</b>
                     </router-link>
-                    {{lang["activity-logout"]}}
+                    {{ lang['activity-logout'] }}
                     <i class="ti-shift-left text-danger"></i>
                   </h4>
-                  <span>{{processDateTime(element.date)}}</span>
+                  <span>{{ processDateTime(element.date) }}</span>
                 </div>
 
                 <!-- Login -->
-                <div class="activity-info" v-if="element.type == 'login' ">
+                <div class="activity-info" v-if="element.type == 'login'">
                   <h4>
-                    <router-link :to="'/user/'+element.create_user">
-                      <b class="sbr-text-primary">{{element.name}}</b>
+                    <router-link :to="'/user/' + element.create_user">
+                      <b class="sbr-text-primary">{{ element.name }}</b>
                     </router-link>
-                    {{lang["activity-login"]}}
+                    {{ lang['activity-login'] }}
                     <i class="ti-shift-right text-success"></i>
                   </h4>
-                  <span>{{processDateTime(element.date)}}</span>
+                  <span>{{ processDateTime(element.date) }}</span>
                 </div>
 
                 <!-- Program created -->
-                <div class="activity-info" v-if="element.type == 'program-created' ">
+                <div
+                  class="activity-info"
+                  v-if="element.type == 'program-created'"
+                >
                   <h4>
-                    <router-link :to="'/user/'+element.id">
-                      <b class="sbr-text-primary">{{element.name}}</b>
+                    <router-link :to="'/user/' + element.id">
+                      <b class="sbr-text-primary">{{ element.name }}</b>
                     </router-link>
-                    {{lang["activity-program-created"]}}
+                    {{ lang['activity-program-created'] }}
                     <i class="ti-layers-alt text-success"></i>
                   </h4>
-                  <span>{{processDateTime(element.date)}}</span>
+                  <span>{{ processDateTime(element.date) }}</span>
                 </div>
               </div>
             </div>
@@ -148,37 +178,22 @@
         </div>
       </div>
     </div>
-
-    <div class="row mb-5" v-else>
-      <div class="col-12 text-center">
-        <img
-          class="no-results-img"
-          src="@/assets/img/general/ux/no_notification.png"
-          alt="No activities"
-        />
-        <h4 class="no-results-text">{{lang["no-activities"]}}</h4>
-      </div>
-    </div>
   </div>
 </template>
 
 <script>
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-
-import { mapState } from "vuex";
+import { mapState } from 'vuex';
 
 export default {
-  mixins: [domains, alerts],
   data: () => {
     return {
       content: false,
       activities: [],
-      currentDate: ""
+      currentDate: ''
     };
   },
   computed: {
-    ...mapState(["lang", "plan"])
+    ...mapState(['lang', 'company'])
   },
   created() {
     this.getCurrentDate();
@@ -186,56 +201,56 @@ export default {
   },
   methods: {
     listActivities() {
-      let urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "activity",
-        "listingAll"
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'activity',
+        'listingAll'
       );
       this.$request.get(urlToBeUsedInTheRequest).then(
-        response => {
+        (response) => {
           this.activities = response.data;
         },
         () => {
-          this.errorMessage();
+          this.$errorMessage();
         }
       );
     },
     getCurrentDate() {
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "verify",
-        "getCurrentDate"
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'verify',
+        'getCurrentDate'
       );
       this.$request.get(urlToBeUsedInTheRequest).then(
-        response => {
+        (response) => {
           this.currentDate = response.data;
         },
         () => {
-          this.errorMessage();
+          this.$errorMessage();
         }
       );
     },
     processDateTime(date) {
-      var dt1 = new Date(this.currentDate);
-      var dt2 = new Date(date);
-      var diffTime = Math.abs(dt2 - dt1);
-      var diffinMinutes = diffTime / (1000 * 60);
-      var diffInHours = diffTime / (1000 * 60 * 60);
+      const dt1 = new Date(this.currentDate);
+      const dt2 = new Date(date);
+      const diffTime = Math.abs(dt2 - dt1);
+      const diffinMinutes = diffTime / (1000 * 60);
+      const diffInHours = diffTime / (1000 * 60 * 60);
 
-      var day = dt2.getDate();
-      var month = dt2.getMonth();
-      var year = dt2.getFullYear();
+      const day = dt2.getDate();
+      const month = dt2.getMonth();
+      const year = dt2.getFullYear();
 
       if (diffinMinutes > 60) {
         if (diffInHours < 24) {
           return (
-            this.lang["activity-about-time-hour"] +
+            this.lang['activity-about-time-hour'] +
             Math.round(diffInHours) +
-            this.lang["activity-time-hour-ago"]
+            this.lang['activity-time-hour-ago']
           );
         } else {
-          return day + "/" + month + "/" + year;
+          return day + '/' + month + '/' + year;
         }
       } else {
-        return this.lang["activity-few-minutes-ago"];
+        return this.lang['activity-few-minutes-ago'];
       }
     }
   }

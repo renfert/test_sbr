@@ -14,19 +14,22 @@
 
     <div
       class="top-trial"
-      v-if="trialBar != false && role == 1 && daysToExpiration >= 0 && plan == 'trial'"
+      v-if="
+        trialBar != false &&
+        role == 1 &&
+        daysToExpiration >= 0 &&
+        plan == 'trial'
+      "
     >
       <span>
-        {{lang["trial-expiration-date-info-pt1"]}}
-        <b>{{daysToExpiration}}</b>
-        {{lang["trial-expiration-date-info-pt2"]}} | {{lang["upgrade-plan-info-pt1"]}}
-        <a
-          @click="upgradePlan()"
-          href="javascript:void(0)"
-        >
-          <b>{{lang["plan"]}}</b>
+        {{ lang['trial-expiration-date-info-pt1'] }}
+        <b>{{ daysToExpiration }}</b>
+        {{ lang['trial-expiration-date-info-pt2'] }} |
+        {{ lang['upgrade-plan-info-pt1'] }}
+        <a @click="upgradePlan()" href="javascript:void(0)">
+          <b>{{ lang['plan'] }}</b>
         </a>
-        {{lang["upgrade-plan-info-pt2"]}}
+        {{ lang['upgrade-plan-info-pt2'] }}
       </span>
     </div>
   </div>
@@ -34,24 +37,23 @@
 </template>
 
 <script>
-import Vue from "vue";
+import Vue from 'vue';
+import { eventPlan } from '@/components/plans/UpgradePlan';
+import { mapState } from 'vuex';
 export const eventTemplate = new Vue();
 
-import { eventPlan } from "@/components/plans/UpgradePlan";
-import { mapState } from "vuex";
-
 export default {
-  props: ["trial-bar"],
+  props: ['trial-bar'],
   data: () => {
     return {
       role: 1,
-      logo: "",
+      logo: '',
       daysToExpiration: 0,
-      currentDate: ""
+      currentDate: ''
     };
   },
   computed: {
-    ...mapState(["lang", "plan"])
+    ...mapState(['lang', 'plan'])
   },
   created() {
     this.getCurrentDate();
@@ -59,46 +61,40 @@ export default {
   },
   methods: {
     toogleSidebar() {
-      eventTemplate.$emit("change-leftbar-class");
+      eventTemplate.$emit('change-leftbar-class');
     },
     upgradePlan() {
-      eventPlan.$emit("upgrade-plan", "trial-topbar");
+      eventPlan.$emit('upgrade-plan', 'trial-topbar');
     },
     getCompanyLogo() {
-      let urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "settings",
-        "getSettingsInformation"
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'settings',
+        'getSettingsInformation'
       );
-      this.$request.get(urlToBeUsedInTheRequest).then(
-        function(response) {
-          this.logo = response.data["logo"];
-        }.bind(this)
-      );
+      this.$request.get(urlToBeUsedInTheRequest).then((response) => {
+        this.logo = response.data.logo;
+      });
     },
-    getRemainingTrialDays: function() {
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "company",
-        "getCompanyInformation"
+    getRemainingTrialDays() {
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'company',
+        'getCompanyInformation'
       );
-      this.$request.get(urlToBeUsedInTheRequest).then(
-        function(response) {
-          this.calculateDifferenceBetweenDates(response.data["expiration"]);
-        }.bind(this)
-      );
+      this.$request.get(urlToBeUsedInTheRequest).then((response) => {
+        this.calculateDifferenceBetweenDates(response.data.expiration);
+      });
     },
-    getCurrentDate: function() {
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "verify",
-        "getCurrentDate"
+    getCurrentDate() {
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'verify',
+        'getCurrentDate'
       );
-      this.$request.get(urlToBeUsedInTheRequest).then(
-        function(response) {
-          this.currentDate = response.data;
-          this.getRemainingTrialDays();
-        }.bind(this)
-      );
+      this.$request.get(urlToBeUsedInTheRequest).then((response) => {
+        this.currentDate = response.data;
+        this.getRemainingTrialDays();
+      });
     },
-    calculateDifferenceBetweenDates: function(expirationDate) {
+    calculateDifferenceBetweenDates(expirationDate) {
       const _MS_PER_DAY = 1000 * 60 * 60 * 24;
 
       // a and b are javascript Date objects
@@ -110,9 +106,9 @@ export default {
         return Math.floor((utc2 - utc1) / _MS_PER_DAY);
       }
 
-      const a = new Date(this.currentDate),
-        b = new Date(expirationDate),
-        difference = dateDiffInDays(a, b);
+      const a = new Date(this.currentDate);
+      const b = new Date(expirationDate);
+      const difference = dateDiffInDays(a, b);
 
       this.daysToExpiration = difference;
     }
@@ -164,7 +160,7 @@ header ul li a {
   transition: 0.5s;
   color: white;
   font-size: 1.3em;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 .logo-nav {

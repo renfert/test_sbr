@@ -12,20 +12,23 @@
         :perPage="mobile == true ? 1 : 3"
         zIndex="100 !important"
       >
-        <slide v-for="element in courses" :key="element.id" class="card-courses">
+        <slide
+          v-for="element in courses"
+          :key="element.id"
+          class="card-courses"
+        >
           <!-- Cource Grid  -->
           <div class="p-1">
             <div class="education_block_grid style_2">
-              <router-link :to="'product/' + formatTitleParameter(element.title)">
+              <router-link
+                :to="'product/' + formatTitleParameter(element.title)"
+              >
                 <div class="education_block_thumb">
                   <a href="#">
                     <img
                       v-lazy="
-                                                getUrlToContents() +
-                                                    'course/' +
-                                                    element.photo +
-                                                    ''
-                                            "
+                        getUrlToContents() + 'course/' + element.photo + ''
+                      "
                       src="https://sabiorealm.s3.amazonaws.com/demo1/uploads/course/5xzwR4ayidpH2iP21B5ysKQkyt4xOUkmpvWNbCA7100.jpg"
                       class="img-fluid"
                       alt
@@ -33,12 +36,7 @@
                   </a>
                   <div v-if="element.reviews != null" class="education_ratting">
                     <i class="fa fa-star"></i>
-                    {{
-                    rateAverage(
-                    element.totalRate,
-                    element.totalReviews
-                    )
-                    }}
+                    {{ rateAverage(element.totalRate, element.totalReviews) }}
                     ({{ element.totalReviews }})
                   </div>
                 </div>
@@ -46,10 +44,10 @@
 
               <div class="education_block_body">
                 <h4 class="bl-title">
-                  <router-link :to="'product/' + formatTitleParameter(element.title)">
-                    {{
-                    element.title
-                    }}
+                  <router-link
+                    :to="'product/' + formatTitleParameter(element.title)"
+                  >
+                    {{ element.title }}
                   </router-link>
                 </h4>
               </div>
@@ -73,19 +71,14 @@
                     <a href="javascript:void(0)">
                       <el-avatar
                         :src="
-                                                    getUrlToContents() +
-                                                        'avatar/' +
-                                                        element.avatar +
-                                                        ''
-                                                "
+                          getUrlToContents() + 'avatar/' + element.avatar + ''
+                        "
                       ></el-avatar>
                     </a>
                   </div>
                   <h5>
                     <a href="javascript:void(0)">
-                      {{
-                      element.name
-                      }}
+                      {{ element.name }}
                     </a>
                   </h5>
                 </div>
@@ -97,7 +90,7 @@
                 </div>
                 <div v-else class="foot_lecture">
                   <i class="ti-gift mr-2"></i>
-                  {{ lang["free-course"] }}
+                  {{ lang['free-course'] }}
                 </div>
               </div>
             </div>
@@ -109,31 +102,22 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import ElementUI from "element-ui";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-import VueLazyload from "vue-lazyload";
+import Vue from 'vue';
+import VueLazyload from 'vue-lazyload';
 
-import { Carousel, Slide } from "vue-carousel";
-import { mapState } from "vuex";
-import { eventBus } from "@/components/site/App";
+import { Carousel, Slide } from 'vue-carousel';
+import { mapState } from 'vuex';
+import { eventBus } from '@/components/site/App';
 
 Vue.use(VueLazyload, {
   preLoad: 1.3,
-  error: "https://sbrfiles.s3.amazonaws.com/images/image-not-available.png",
-  loading: "https://sbrfiles.s3.amazonaws.com/gifs/loading7.gif",
+  error: 'https://sbrfiles.s3.amazonaws.com/images/image-not-available.png',
+  loading: 'https://sbrfiles.s3.amazonaws.com/gifs/loading7.gif',
   attempt: 1
 });
 
-Vue.use(VueAxios, axios);
-Vue.use(ElementUI);
-
 export default {
-  mixins: [domains, alerts],
-  props: ["section-id"],
+  props: ['section-id'],
   components: {
     Carousel,
     Slide
@@ -141,70 +125,67 @@ export default {
   data: () => {
     return {
       courses: [],
-      title: "",
-      description: "",
-      photo: "",
-      price: "",
-      preview: "",
-      header: "",
-      subheader: "",
+      title: '',
+      description: '',
+      photo: '',
+      price: '',
+      preview: '',
+      header: '',
+      subheader: '',
       mobile: false,
       rate: 5
     };
   },
   mounted() {
-    /****************** 
-    Fix carousel bug 
+    /******************
+    Fix carousel bug
     ********************/
-    setTimeout(function() {
-      window.dispatchEvent(new Event("resize"));
+    setTimeout(() => {
+      window.dispatchEvent(new Event('resize'));
     }, 3000);
 
     if (window.screen.width <= 800) {
       this.mobile = true;
     }
 
-    eventBus.$on(
-      "new-product-list-change",
-      function() {
-        this.getCourses();
-      }.bind(this)
-    );
+    eventBus.$on('new-product-list-change', () => {
+      this.getCourses();
+    });
 
     this.getCourses();
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   methods: {
-    formatTitleParameter: function(title) {
-      var newTitle = title.split(" ").join("-");
+    formatTitleParameter(title) {
+      const newTitle = title.split(' ').join('-');
       return newTitle.toLowerCase();
     },
-    rateAverage: function(totalRate, totalReviews) {
+    rateAverage(totalRate, totalReviews) {
       if (totalRate == null) {
         return 0;
       } else {
         return (parseInt(totalRate) / parseInt(totalReviews)).toFixed(1);
       }
     },
-    getCourses: function() {
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "site-elements/productList",
-        "get"
+    getCourses() {
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'site-elements/productList',
+        'get'
       );
-      var formData = new FormData();
-      formData.set("sectionId", this.sectionId);
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
-          this.header = response.data["productList"][0]["header"];
-          this.subheader = response.data["productList"][0]["subheader"];
-          this.courses = response.data["courses"];
+      const formData = new FormData();
+      formData.set('sectionId', this.sectionId);
+
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
+          this.header = response.data.productList[0].header;
+          this.subheader = response.data.productList[0].subheader;
+          this.courses = response.data.courses;
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     }
   }
@@ -240,7 +221,7 @@ h4,
 h5,
 h6 {
   color: #2d3954;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   word-break: break-word !important;
 }
 
@@ -294,7 +275,7 @@ a {
 }
 
 .education_block_thumb:before {
-  content: "";
+  content: '';
   position: absolute;
   background: #2a2f4c;
   left: 0;
@@ -393,7 +374,7 @@ a {
 .founded-courses {
   color: #647b9c;
   font-size: 15px;
-  font-family: "Muli", sans-serif;
+  font-family: 'Muli', sans-serif;
   font-weight: 400;
 }
 
@@ -432,7 +413,7 @@ a {
     transition: 0.5s;
     color: white;
     font-size: 1em;
-    font-family: "Poppins", sans-serif;
+    font-family: 'Poppins', sans-serif;
     border-radius: 5px;
     padding: 8px 18px 8px 18px;
   }

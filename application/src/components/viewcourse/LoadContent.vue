@@ -6,7 +6,7 @@
         :speed="2"
         width="400"
         height="200"
-        style="margin-left:15%;margin-top:5%;"
+        style="margin-left: 15%; margin-top: 5%"
         primaryColor="#f0f0f0"
         secondaryColor="#d9d9d9"
       ></facebook-loader>
@@ -17,44 +17,50 @@
             <video
               preload="none"
               v-on:ended="finishLesson()"
-              :src="this.getUrlToContents() + 'content/'+path+''"
+              :src="this.$getUrlToContents() + 'content/' + path + ''"
             ></video>
           </vue-plyr>
         </div>
 
-        <!-------- 
-        Audio 
+        <!--------
+        Audio
         ---------->
         <div class="player-container" v-if="showAudio">
           <vue-plyr>
             <video
               preload="none"
               v-on:ended="finishLesson()"
-              :src="this.getUrlToContents() + 'content/'+path+''"
+              :src="this.$getUrlToContents() + 'content/' + path + ''"
             ></video>
           </vue-plyr>
         </div>
 
-        <!------------------ 
+        <!------------------
           Videoconference
         ----------------->
         <div class="videoconference-container" v-if="showVideoConf">
           <!-- Title -->
-          <h2 class="card-title text-center">{{title}}</h2>
-          <h3 class="card-title h6 pl-5 pr-5 text-center">{{description}}</h3>
+          <h2 class="card-title text-center">{{ title }}</h2>
+          <h3 class="card-title h6 pl-5 pr-5 text-center">{{ description }}</h3>
           <hr class="my-4 rgba-white-light" />
 
           <div class="row gap-10">
             <div class="col-12 col-md-4 text-center">
               <div>
-                <img src="@/assets/img/general/ux/calendar.png" class="content-icons mb-3" />
-                <h4>{{lang["date"]}}: {{date}}</h4>
+                <img
+                  src="@/assets/img/general/ux/calendar.png"
+                  class="content-icons mb-3"
+                />
+                <h4>{{ lang['date'] }}: {{ date }}</h4>
               </div>
             </div>
 
             <div class="col-12 col-md-4 text-center">
               <div>
-                <img src="@/assets/img/general/ux/webinar.png" class="content-icons" />
+                <img
+                  src="@/assets/img/general/ux/webinar.png"
+                  class="content-icons"
+                />
                 <br />
                 <br />
                 <el-button class="sbr-primary" size="medium">
@@ -63,40 +69,51 @@
                     :href="url"
                     target="_blank"
                     class="text-white"
-                  >{{lang["enter"]}}</a>
+                    >{{ lang['enter'] }}</a
+                  >
                 </el-button>
               </div>
             </div>
 
             <div class="col-12 col-md-4 text-center">
               <div>
-                <img class="content-icons mb-3" src="@/assets/img/general/ux/clock.png" />
-                <h4>{{lang["schedule"]}}: {{time}}</h4>
+                <img
+                  class="content-icons mb-3"
+                  src="@/assets/img/general/ux/clock.png"
+                />
+                <h4>{{ lang['schedule'] }}: {{ time }}</h4>
               </div>
             </div>
           </div>
         </div>
 
-        <!---------- 
-          Webinar 
+        <!----------
+          Webinar
         ------------->
         <div class="webinar-container" v-if="showWebinar">
           <!-- Title -->
-          <h2 class="card-title text-center">{{title}}</h2>
-          <h3 class="card-title h6 pl-5 pr-5 text-center">{{description}}</h3>
+          <h2 class="card-title text-center">{{ title }}</h2>
+          <h3 class="card-title h6 pl-5 pr-5 text-center">{{ description }}</h3>
           <hr class="my-4 rgba-white-light" />
 
           <div class="row gap-10">
             <div class="col-12 col-md-4 text-center">
               <div>
-                <img src="@/assets/img/general/ux/calendar.png" class="content-icons mb-3" />
-                <h4>{{lang["date"]}}: {{date}}</h4>
+                <img
+                  src="@/assets/img/general/ux/calendar.png"
+                  class="content-icons mb-3"
+                />
+                <h4>{{ lang['date'] }}: {{ date }}</h4>
               </div>
             </div>
 
             <div class="col-12 col-md-4 text-center">
               <div>
-                <img src="@/assets/img/general/ux/webinar.png" class="content-icons" alt="clock" />
+                <img
+                  src="@/assets/img/general/ux/webinar.png"
+                  class="content-icons"
+                  alt="clock"
+                />
                 <br />
                 <br />
                 <el-button class="sbr-primary" size="medium">
@@ -105,58 +122,66 @@
                     @click="finishLesson()"
                     :href="url"
                     target="_blank"
-                  >{{lang["enter"]}}</a>
+                    >{{ lang['enter'] }}</a
+                  >
                 </el-button>
               </div>
             </div>
 
             <div class="col-12 col-md-4 text-center">
               <div>
-                <img src="@/assets/img/general/ux/clock.png" class="content-icons mb-3" />
-                <h4>{{lang["schedule"]}}: {{time}}</h4>
+                <img
+                  src="@/assets/img/general/ux/clock.png"
+                  class="content-icons mb-3"
+                />
+                <h4>{{ lang['schedule'] }}: {{ time }}</h4>
               </div>
             </div>
           </div>
         </div>
 
-        <!--------------------- 
-          Downloadable content 
+        <!---------------------
+          Downloadable content
         ----------------------->
         <div class="webinar-container" v-if="showDownloadable">
           <!-- Title -->
-          <h2 class="card-title text-center">{{title}}</h2>
+          <h2 class="card-title text-center">{{ title }}</h2>
           <hr class="my-4 rgba-white-light" />
 
           <div class="text-center gap-10">
-            <img src="@/assets/img/general/ux/download.png" class="content-icons mb-3" />
+            <img
+              src="@/assets/img/general/ux/download.png"
+              class="content-icons mb-3"
+            />
             <br />
             <el-button class="sbr-primary" size="medium">
               <a
                 @click="finishLesson()"
-                :href="this.getUrlToContents() + 'content/'+path+''"
+                :href="this.$getUrlToContents() + 'content/' + path + ''"
                 download
                 class="text-white"
-              >{{lang["download"]}}</a>
+                >{{ lang['download'] }}</a
+              >
             </el-button>
           </div>
         </div>
 
-        <!--------------- 
-          Html content 
+        <!---------------
+          Html content
         ------------------>
         <div class="html-container" v-if="showHtml">
           <!-- Title -->
-          <h2 class="card-title h2 text-center">{{title}}</h2>
+          <h2 class="card-title h2 text-center">{{ title }}</h2>
           <hr class="my-4 rgba-white-light" />
           <iframe
-            style="width:100%;height:500px;"
-            :src="this.getUrlToContents() + path + '/index.html'"
+            style="width: 100%; height: 500px"
+            :src="this.$getUrlToContents() + path + '/index.html'"
             frameborder="0"
           ></iframe>
         </div>
 
-        <!-------------- 
-          Pdf content 
+        <!--------------
+          Pdf content
         ---------------->
         <div class="pdf-container" v-if="showPDf">
           <iframe
@@ -164,34 +189,49 @@
             height="500px"
             allowfullscreen
             webkitallowfullscreen
-            :src="getCurrentDomainName() + 'ViewerJS/index.html#' + this.getUrlToContents() + 'content/' + path"
+            :src="
+              $getCurrentDomainName() +
+              'ViewerJS/index.html#' +
+              this.$getUrlToContents() +
+              'content/' +
+              path
+            "
             frameborder="0"
             :key="componentKey"
           ></iframe>
         </div>
 
-        <!--------- 
-          Exam 
+        <!---------
+          Exam
         ----------->
         <div v-if="showExam">
           <!-- Title -->
-          <h2 class="card-title text-center">{{title}}</h2>
+          <h2 class="card-title text-center">{{ title }}</h2>
           <div class="row d-flex justify-content-center text-center">
             <div class="col-xl-7 pb-2">
               <el-tag
                 type="danger"
-                v-if="parseInt(overview['yourScore']) < parseInt(approval) && overview['waitingEvaluationQuestions'] == 0"
-              >{{lang['not-passed']}}</el-tag>
+                v-if="
+                  parseInt(overview['yourScore']) < parseInt(approval) &&
+                  overview['waitingEvaluationQuestions'] == 0
+                "
+                >{{ lang['not-passed'] }}</el-tag
+              >
 
               <el-tag
                 type="success"
-                v-if="parseInt(overview['yourScore']) >= parseInt(approval) && overview['waitingEvaluationQuestions'] == 0"
-              >{{lang['passed']}}</el-tag>
+                v-if="
+                  parseInt(overview['yourScore']) >= parseInt(approval) &&
+                  overview['waitingEvaluationQuestions'] == 0
+                "
+                >{{ lang['passed'] }}</el-tag
+              >
 
               <el-tag
                 type="warning"
                 v-if="overview['waitingEvaluationQuestions'] != 0"
-              >{{lang['exam-in-progress']}}</el-tag>
+                >{{ lang['exam-in-progress'] }}</el-tag
+              >
             </div>
           </div>
           <hr class="my-4 rgba-white-light" />
@@ -199,8 +239,12 @@
           <div class="row gap-10">
             <div class="col-12 col-md-4 text-center">
               <div>
-                <img class="content-icons mb-3" src="@/assets/img/general/ux/clock.png" alt="clock" />
-                <h4>{{lang["exam-duration"]}}: {{time}}</h4>
+                <img
+                  class="content-icons mb-3"
+                  src="@/assets/img/general/ux/clock.png"
+                  alt="clock"
+                />
+                <h4>{{ lang['exam-duration'] }}: {{ time }}</h4>
               </div>
             </div>
 
@@ -215,14 +259,22 @@
                 <img
                   class="content-icons"
                   src="@/assets/img/general/ux/retest.png"
-                  v-if="parseInt(userRetests) < parseInt(retest) && parseInt(userRetests) != 0 && parseInt(overview['yourScore']) < parseInt(approval) && parseInt(overview['waitingEvaluationQuestions']) == 0"
+                  v-if="
+                    parseInt(userRetests) < parseInt(retest) &&
+                    parseInt(userRetests) != 0 &&
+                    parseInt(overview['yourScore']) < parseInt(approval) &&
+                    parseInt(overview['waitingEvaluationQuestions']) == 0
+                  "
                   @click="openExamModal(lessonId)"
                 />
 
                 <img
                   class="content-icons"
                   src="@/assets/img/general/ux/correction.png"
-                  v-if="parseInt(userRetests) == parseInt(retest) || parseInt(overview['yourScore']) >= parseInt(approval) "
+                  v-if="
+                    parseInt(userRetests) == parseInt(retest) ||
+                    parseInt(overview['yourScore']) >= parseInt(approval)
+                  "
                 />
 
                 <br />
@@ -233,30 +285,46 @@
                   class="sbr-primary mt-3"
                   v-if="parseInt(userRetests) == 0"
                   @click="openExamModal(lessonId)"
-                >{{lang["start-exam"]}}</el-button>
+                  >{{ lang['start-exam'] }}</el-button
+                >
 
                 <!-- Start retest button -->
                 <el-button
                   size="medium"
                   class="sbr-primary mt-3"
-                  v-if="parseInt(userRetests) < parseInt(retest) && parseInt(userRetests) != 0 && parseInt(overview['yourScore']) < parseInt(approval) && parseInt(overview['waitingEvaluationQuestions']) == 0"
+                  v-if="
+                    parseInt(userRetests) < parseInt(retest) &&
+                    parseInt(userRetests) != 0 &&
+                    parseInt(overview['yourScore']) < parseInt(approval) &&
+                    parseInt(overview['waitingEvaluationQuestions']) == 0
+                  "
                   @click="openExamModal(lessonId)"
-                >{{lang["start-retest"]}}</el-button>
+                  >{{ lang['start-retest'] }}</el-button
+                >
 
                 <!-- Correction button -->
                 <el-button
                   size="medium"
                   class="sbr-primary mt-3"
-                  v-if="parseInt(userRetests) == parseInt(retest) || parseInt(overview['yourScore']) >= parseInt(approval)"
+                  v-if="
+                    parseInt(userRetests) == parseInt(retest) ||
+                    parseInt(overview['yourScore']) >= parseInt(approval)
+                  "
                   @click="openCorrection(lessonId)"
-                >{{lang["see-exam-correction"]}}</el-button>
+                  >{{ lang['see-exam-correction'] }}</el-button
+                >
               </div>
             </div>
 
             <div class="col-12 col-md-4 text-center">
               <div>
-                <img class="content-icons mb-3" src="@/assets/img/general/ux/attempts.png" />
-                <h4>{{lang["attempts"]}}: {{userRetests}} / {{retest}}</h4>
+                <img
+                  class="content-icons mb-3"
+                  src="@/assets/img/general/ux/attempts.png"
+                />
+                <h4>
+                  {{ lang['attempts'] }}: {{ userRetests }} / {{ retest }}
+                </h4>
               </div>
             </div>
           </div>
@@ -286,7 +354,8 @@
                 @click.prevent="openCorrection(lessonId)"
                 href="javascript:void(0)"
                 class="sbr-primary"
-              >{{lang["see-result"]}}</el-button>
+                >{{ lang['see-result'] }}</el-button
+              >
             </div>
           </el-dialog>
         </div>
@@ -296,46 +365,38 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import ElementUI from "element-ui";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-import VuePlyr from "vue-plyr";
-import Exam from "@/components/viewcourse/Exam";
-import ExamCorrection from "@/components/viewcourse/correction/ExamCorrection";
-import verify from "@/mixins/verify";
+import Vue from 'vue';
+import VuePlyr from 'vue-plyr';
+import Exam from '@/components/viewcourse/Exam';
+import ExamCorrection, {
+  eventCorrection
+} from '@/components/viewcourse/correction/ExamCorrection';
 
-import { eventCorrection } from "@/components/viewcourse/correction/ExamCorrection";
-import { eventBus } from "@/components/viewcourse/App";
-import { FacebookLoader } from "vue-content-loader";
-import { mapState } from "vuex";
+import { eventBus } from '@/components/viewcourse/App';
+import { FacebookLoader } from 'vue-content-loader';
+import { mapState } from 'vuex';
 
-Vue.use(VueAxios, axios);
-Vue.use(ElementUI);
 Vue.use(VuePlyr, {
   plyr: {
     fullscreen: { enabled: true }
   },
-  emit: ["ended"]
+  emit: ['ended']
 });
 
 export default {
-  mixins: [domains, alerts, verify],
   data: () => {
     return {
-      title: "",
-      path: "",
-      date: "",
-      time: "",
-      description: "",
-      url: "",
-      approval: "",
-      retest: "",
-      userRetests: "",
-      lessonId: "",
-      lessonStatus: "",
+      title: '',
+      path: '',
+      date: '',
+      time: '',
+      description: '',
+      url: '',
+      approval: '',
+      retest: '',
+      userRetests: '',
+      lessonId: '',
+      lessonStatus: '',
 
       componentKey: 0,
 
@@ -347,10 +408,10 @@ export default {
       showWebinar: false,
       showVideoConf: false,
       showHtml: false,
-      overview: "",
+      overview: '',
 
-      courseId: "",
-      studentId: "",
+      courseId: '',
+      studentId: '',
 
       modal: false,
       loading: true
@@ -363,200 +424,185 @@ export default {
   },
   created() {
     this.courseId = this.$route.params.id;
-    this.verifyCourseReleased(this.courseId);
-    this.verifyCourseExpiration(this.courseId);
+    this.$verifyCourseReleased(this.courseId);
+    this.$verifyCourseExpiration(this.courseId);
   },
   mounted() {
     this.getUserProfile();
 
-    eventBus.$on(
-      "load-lesson",
-      function(data) {
-        this.loading = true;
-        this.lessonId = data["lessonId"];
-        this.lessonStatus = data["lessonStatus"];
-        this.getLesson(data["lessonId"]);
+    eventBus.$on('load-lesson', (data) => {
+      this.loading = true;
+      this.lessonId = data.lessonId;
+      this.lessonStatus = data.lessonStatus;
+      this.getLesson(data.lessonId);
 
-        if (data["lessonType"] == 3 || data["lessonType"] == 7) {
-          this.finishLesson();
-        }
-      }.bind(this)
-    );
+      if (data.lessonType === 3 || data.lessonType === 7) {
+        this.finishLesson();
+      }
+    });
 
-    eventBus.$on(
-      "exam-finished",
-      function() {
-        this.modal = true;
-        this.getExamOverview();
-      }.bind(this)
-    );
+    eventBus.$on('exam-finished', () => {
+      this.modal = true;
+      this.getExamOverview();
+    });
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   methods: {
-    finishLesson: function() {
-      if (this.lessonStatus != "finished") {
-        var formData = new FormData();
-        formData.set("lessonId", this.lessonId);
-        formData.set("studentId", this.studentId);
-        var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-          "lesson",
-          "finish"
+    finishLesson() {
+      if (this.lessonStatus !== 'finished') {
+        const formData = new FormData();
+        const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+          'lesson',
+          'finish'
         );
-        axios.post(urlToBeUsedInTheRequest, formData).then(
+        formData.set('lessonId', this.lessonId);
+        formData.set('studentId', this.studentId);
+        this.$request.post(urlToBeUsedInTheRequest, formData).then(
           () => {
-            /* Success callback */
-            eventBus.$emit("update-progress-bar");
-            eventBus.$emit("update-modules");
+            eventBus.$emit('update-progress-bar');
+            eventBus.$emit('update-modules');
           },
-          /* Error callback */
-          function() {
-            this.errorMessage();
-          }.bind(this)
+          () => {
+            this.$errorMessage();
+          }
         );
         this.$notify({
-          title: this.lang["lesson-finished"],
-          position: "bottom-left",
-          type: "success"
+          title: this.lang['lesson-finished'],
+          position: 'bottom-left',
+          type: 'success'
         });
       }
     },
 
-    forceRerender: function() {
+    forceRerender() {
       this.componentKey += 1;
     },
 
-    getUserRetest: function(examId) {
-      var formData = new FormData();
-      formData.set("lessonId", examId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "lesson",
-        "getUserRetest"
+    getUserRetest(examId) {
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'lesson',
+        'getUserRetest'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
-          /* Success callback */
-          this.userRetests = response.data[0]["retest"];
+      formData.set('lessonId', examId);
+
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
+          this.userRetests = response.data[0].retest;
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
 
-    getExamOverview: function() {
-      var formData = new FormData();
-      formData.set("examId", this.lessonId);
-      formData.set("studentId", this.studentId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "exam",
-        "getExamOverview"
+    getExamOverview() {
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'exam',
+        'getExamOverview'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
+      formData.set('studentId', this.studentId);
+      formData.set('examId', this.lessonId);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
           this.overview = response.data[0];
         },
-
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
 
     getUserProfile() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "user",
-        "getUserProfile"
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'user',
+        'getUserProfile'
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        function(response) {
-          this.studentId = response.data["id"];
-        }.bind(this)
-      );
+      this.$request.get(urlToBeUsedInTheRequest).then((response) => {
+        this.studentId = response.data.id;
+      });
     },
 
-    getLesson: function(lessonId) {
-      var formData = new FormData();
-      formData.set("lessonId", lessonId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("lesson", "get");
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
-          /* Success callback */
-          this.title = response.data["title"];
-          this.description = response.data["description"];
-          this.path = response.data["path"];
-          this.date = response.data["date"];
-          this.time = response.data["time"];
-          this.url = response.data["url"];
-          this.approval = response.data["approval"];
-          this.retest = response.data["retest"];
-
-          this.renderLesson(response.data["type_mylesson_id"]);
+    getLesson(lessonId) {
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'lesson',
+        'get'
+      );
+      formData.set('lessonId', lessonId);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
+          this.title = response.data.title;
+          this.description = response.data.description;
+          this.path = response.data.path;
+          this.date = response.data.date;
+          this.time = response.data.time;
+          this.url = response.data.url;
+          this.approval = response.data.approval;
+          this.retest = response.data.retest;
+          this.renderLesson(response.data.type_mylesson_id);
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    openExamModal: function(examId) {
-      var data = {
+    openExamModal(examId) {
+      const data = {
         lessonId: examId,
         lessonType: this.lessonType,
         lessonStatus: this.lessonStatus
       };
-      eventBus.$emit("open-exam-modal", data);
+      eventBus.$emit('open-exam-modal', data);
     },
-    openCorrection: function(examId) {
-      var data = {
+    openCorrection(examId) {
+      const data = {
         examId: examId,
         studentId: this.studentId
       };
       this.modal = false;
-      eventCorrection.$emit("open-exam-correction", data);
+      eventCorrection.$emit('open-exam-correction', data);
     },
-    renderLesson: function(lessonType) {
+    renderLesson(lessonType) {
       this.hideAllLessons();
       switch (lessonType) {
-        case "1":
+        case '1':
           this.showVideo = true;
           break;
-        case "2":
+        case '2':
           this.showAudio = true;
           break;
-        case "3":
+        case '3':
           this.forceRerender();
           this.showPDf = true;
           break;
-        case "4":
+        case '4':
           this.showDownloadable = true;
           break;
-        case "5":
+        case '5':
           this.showVideoConf = true;
           break;
-        case "6":
+        case '6':
           this.showWebinar = true;
           break;
-        case "7":
+        case '7':
           this.showHtml = true;
           break;
-        case "8":
+        case '8':
           this.showExam = true;
           this.getUserRetest(this.lessonId);
           this.getExamOverview();
           break;
       }
 
-      setTimeout(
-        function() {
-          this.loading = false;
-        }.bind(this),
-        1000
-      );
+      setTimeout(() => {
+        this.loading = false;
+      }, 1000);
     },
-    hideAllLessons: function() {
+    hideAllLessons() {
       this.showVideo = false;
       this.showAudio = false;
       this.showPDf = false;

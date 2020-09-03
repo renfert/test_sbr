@@ -9,109 +9,102 @@
 </template>
 
 <script>
-import Topbar from "@/components/viewcourse/Topbar";
-import LoadContent from "@/components/viewcourse/LoadContent";
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import VueHead from "vue-head";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-import ElementUI from "element-ui";
-import Navigation from "@/components/viewcourse/Navigation";
-import verify from "@/mixins/verify";
+import Vue from 'vue';
+import Topbar from '@/components/viewcourse/Topbar';
+import LoadContent from '@/components/viewcourse/LoadContent';
+import VueHead from 'vue-head';
+import Navigation from '@/components/viewcourse/Navigation';
+
+import { mapState } from 'vuex';
 
 export const eventBus = new Vue();
 
-Vue.use(ElementUI);
-Vue.use(VueAxios, axios);
 Vue.use(VueHead);
 
 export default {
-  mixins: [domains, alerts, verify],
   components: {
     Navigation,
     Topbar,
     LoadContent
   },
-  data: function() {
+  data: () => {
     return {
-      mobile: "retracted"
+      mobile: 'retracted'
     };
   },
   created() {
-    eventBus.$on(
-      "change-leftbar-class",
-      function() {
-        this.mobile == "retracted"
-          ? (this.mobile = "opened")
-          : (this.mobile = "retracted");
-      }.bind(this)
-    );
+    eventBus.$on('change-leftbar-class', () => {
+      this.mobile === 'retracted'
+        ? (this.mobile = 'opened')
+        : (this.mobile = 'retracted');
+    });
+  },
+  computed: {
+    ...mapState(['lang'])
   },
   head: {
     title: {
-      inner: "View course"
+      inner: 'View course'
     },
     meta: [
-      { name: "charset", content: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1.0" },
-      { name: "author", content: "Sabiorealm" }
+      { name: 'charset', content: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
+      { name: 'author', content: 'Sabiorealm' }
     ]
   },
   mounted() {
-    const compability = document.createElement("script");
+    const compability = document.createElement('script');
     compability.setAttribute(
-      "src",
-      "https://cdn.eadtools.com/library/plugins/ViewerJS/compatibility.js"
+      'src',
+      'https://cdn.eadtools.com/library/plugins/ViewerJS/compatibility.js'
     );
     compability.async = true;
     document.head.appendChild(compability);
 
-    const pdf = document.createElement("script");
+    const pdf = document.createElement('script');
     pdf.setAttribute(
-      "src",
-      "https://cdn.eadtools.com/library/plugins/ViewerJS/pdf.js"
+      'src',
+      'https://cdn.eadtools.com/library/plugins/ViewerJS/pdf.js'
     );
     pdf.async = true;
     document.head.appendChild(pdf);
 
-    const pdfWorker = document.createElement("script");
+    const pdfWorker = document.createElement('script');
     pdfWorker.setAttribute(
-      "src",
-      "https://cdn.eadtools.com/library/plugins/ViewerJS/pdf.worker.js"
+      'src',
+      'https://cdn.eadtools.com/library/plugins/ViewerJS/pdf.worker.js'
     );
     pdfWorker.async = true;
     document.head.appendChild(pdfWorker);
 
-    const pdfJsVersion = document.createElement("script");
+    const pdfJsVersion = document.createElement('script');
     pdfJsVersion.setAttribute(
-      "src",
-      "https://cdn.eadtools.com/library/plugins/ViewerJS/pdfjsversion.js"
+      'src',
+      'https://cdn.eadtools.com/library/plugins/ViewerJS/pdfjsversion.js'
     );
     pdfJsVersion.async = true;
     document.head.appendChild(pdfJsVersion);
 
-    const textLayerBuilder = document.createElement("script");
+    const textLayerBuilder = document.createElement('script');
     textLayerBuilder.setAttribute(
-      "src",
-      "https://cdn.eadtools.com/library/plugins/ViewerJS/text_layer_builder.js"
+      'src',
+      'https://cdn.eadtools.com/library/plugins/ViewerJS/text_layer_builder.js'
     );
     textLayerBuilder.async = true;
     document.head.appendChild(textLayerBuilder);
 
-    const uiUtils = document.createElement("script");
+    const uiUtils = document.createElement('script');
     uiUtils.setAttribute(
-      "src",
-      "https://cdn.eadtools.com/library/plugins/ViewerJS/ui_utils.js"
+      'src',
+      'https://cdn.eadtools.com/library/plugins/ViewerJS/ui_utils.js'
     );
     uiUtils.async = true;
     document.head.appendChild(uiUtils);
 
-    const webodf = document.createElement("script");
+    const webodf = document.createElement('script');
     webodf.setAttribute(
-      "src",
-      "https://cdn.eadtools.com/library/plugins/ViewerJS/webodf.js"
+      'src',
+      'https://cdn.eadtools.com/library/plugins/ViewerJS/webodf.js'
     );
     webodf.async = true;
     document.head.appendChild(webodf);

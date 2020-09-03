@@ -1,12 +1,12 @@
 <template>
   <div>
-    <div v-if="userStep != null && courseStep != null  && settingsStep != null">
-      <!-------------- 
-      Widgets 
+    <div v-if="userStep != null && courseStep != null && settingsStep != null">
+      <!--------------
+      Widgets
       --------------->
       <div class="row mb-3">
         <div class="col-12">
-          <b>{{lang['basic-information']}}</b>
+          <b>{{ lang['basic-information'] }}</b>
         </div>
       </div>
       <div class="row">
@@ -15,10 +15,13 @@
           <a href="courses">
             <div class="card-widget">
               <div class="title-widget text-center">
-                <img src="@/assets/img/general/ux/widgets/admin/courses.png" alt />
+                <img
+                  src="@/assets/img/general/ux/widgets/admin/courses.png"
+                  alt
+                />
                 <h4>
-                  {{lang["courses"]}}:
-                  <b class="sbr-text-primary">{{numberTotalOfCourses}}</b>
+                  {{ lang['courses'] }}:
+                  <b class="sbr-text-primary">{{ numberTotalOfCourses }}</b>
                 </h4>
               </div>
             </div>
@@ -29,10 +32,13 @@
           <a href="users">
             <div class="card-widget">
               <div class="title-widget text-center">
-                <img src="@/assets/img/general/ux/widgets/admin/enrolled.png" alt />
+                <img
+                  src="@/assets/img/general/ux/widgets/admin/enrolled.png"
+                  alt
+                />
                 <h4>
-                  {{lang["users"]}}:
-                  <b class="sbr-text-primary">{{numberTotalOfUsers}}</b>
+                  {{ lang['users'] }}:
+                  <b class="sbr-text-primary">{{ numberTotalOfUsers }}</b>
                 </h4>
               </div>
             </div>
@@ -43,16 +49,21 @@
           <a href="javascript:void(0)">
             <div class="card-widget">
               <div class="title-widget text-center">
-                <img src="@/assets/img/general/ux/widgets/admin/storage.png" alt />
+                <img
+                  src="@/assets/img/general/ux/widgets/admin/storage.png"
+                  alt
+                />
                 <el-tooltip
                   class="item"
                   effect="dark"
-                  :content="totalStorageUsed + ' GB / ' + totalStorageAvaiable + ' GB' "
+                  :content="
+                    totalStorageUsed + ' GB / ' + totalStorageAvaiable + ' GB'
+                  "
                   placement="bottom"
                 >
                   <h4>
-                    {{lang["storage"]}}
-                    <b class="sbr-text-primary">{{storagePercent}} %</b>
+                    {{ lang['storage'] }}
+                    <b class="sbr-text-primary">{{ storagePercent }} %</b>
                   </h4>
                 </el-tooltip>
               </div>
@@ -61,11 +72,11 @@
         </div>
       </div>
 
-      <!-------------- 
-      End Widgets 
+      <!--------------
+      End Widgets
       --------------->
 
-      <!-------------- 
+      <!--------------
       Shortcuts
       --------------->
       <div class="row">
@@ -74,8 +85,11 @@
           <a target="_blank" href="/products">
             <div class="card-widget">
               <div class="title-widget text-center">
-                <img src="@/assets/img/general/ux/shortcuts/coursespage.png" alt />
-                <h4>{{lang['view-my-marketplace']}}</h4>
+                <img
+                  src="@/assets/img/general/ux/shortcuts/coursespage.png"
+                  alt
+                />
+                <h4>{{ lang['view-my-marketplace'] }}</h4>
               </div>
             </div>
           </a>
@@ -86,8 +100,11 @@
           <a target="_blank" href="/">
             <div class="card-widget">
               <div class="title-widget text-center">
-                <img src="@/assets/img/general/ux/shortcuts/marketplace.png" alt />
-                <h4>{{lang['view-my-entry-page']}}</h4>
+                <img
+                  src="@/assets/img/general/ux/shortcuts/marketplace.png"
+                  alt
+                />
+                <h4>{{ lang['view-my-entry-page'] }}</h4>
               </div>
             </div>
           </a>
@@ -98,8 +115,11 @@
           <a href="newcourse">
             <div class="card-widget">
               <div class="title-widget text-center">
-                <img src="@/assets/img/general/ux/shortcuts/new_course.png" alt />
-                <h4>{{lang['new-course-button']}}</h4>
+                <img
+                  src="@/assets/img/general/ux/shortcuts/new_course.png"
+                  alt
+                />
+                <h4>{{ lang['new-course-button'] }}</h4>
               </div>
             </div>
           </a>
@@ -113,7 +133,7 @@
             <div class="card-widget">
               <div class="title-widget text-center">
                 <img src="@/assets/img/general/ux/shortcuts/add_user.png" alt />
-                <h4>{{lang['create-user']}}</h4>
+                <h4>{{ lang['create-user'] }}</h4>
               </div>
             </div>
           </a>
@@ -123,8 +143,11 @@
           <a href="site">
             <div class="card-widget">
               <div class="title-widget text-center">
-                <img src="@/assets/img/general/ux/shortcuts/customize.png" alt />
-                <h4>{{lang['customize-your-page']}}</h4>
+                <img
+                  src="@/assets/img/general/ux/shortcuts/customize.png"
+                  alt
+                />
+                <h4>{{ lang['customize-your-page'] }}</h4>
               </div>
             </div>
           </a>
@@ -136,24 +159,24 @@
             <div class="card-widget">
               <div class="title-widget text-center">
                 <img src="@/assets/img/general/ux/shortcuts/settings.png" alt />
-                <h4>{{lang['settings-nav']}}</h4>
+                <h4>{{ lang['settings-nav'] }}</h4>
               </div>
             </div>
           </a>
         </div>
       </div>
 
-      <!-------------- 
+      <!--------------
                 End shortcuts
       --------------->
 
-      <!-------------- 
-      Activities 
+      <!--------------
+      Activities
       ---------------->
 
       <Activities class="mt-5"></Activities>
 
-      <!--------------- 
+      <!---------------
         End activities
       ----------------->
     </div>
@@ -163,41 +186,36 @@
 </template>
 
 <script>
-import Vue from "vue";
-import Activities from "@/components/activity/Activities.vue";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-import VueGoogleCharts from "vue-google-charts";
-import FirstSteps from "@/components/home/tour/FirstSteps";
+import Vue from 'vue';
+import Activities from '@/components/activity/Activities.vue';
+import VueGoogleCharts from 'vue-google-charts';
+import FirstSteps from '@/components/home/tour/FirstSteps';
+import { mapState } from 'vuex';
 
 Vue.use(VueGoogleCharts);
-
-import { mapState } from "vuex";
 
 export default {
   components: {
     Activities,
     FirstSteps
   },
-  mixins: [domains, alerts],
   data: () => {
     return {
       usersData: [],
       coursesData: [],
       usersChartOptions: {
-        title: "New users",
-        colors: ["#00A9B4", "#29277F"]
+        title: 'New users',
+        colors: ['#00A9B4', '#29277F']
       },
       coursesChartOptions: {
-        title: "Courses",
-        colors: ["#00A9B4", "#29277F", "#6959CD"]
+        title: 'Courses',
+        colors: ['#00A9B4', '#29277F', '#6959CD']
       },
-      numberTotalOfUsers: "",
-      numberTotalOfCourses: "",
-      storagePercent: "",
-      activities: [],
-      totalStorageAvaiable: "",
-      totalStorageUsed: "",
+      numberTotalOfUsers: '',
+      numberTotalOfCourses: '',
+      storagePercent: '',
+      totalStorageAvaiable: '',
+      totalStorageUsed: '',
 
       userStep: null,
       courseStep: null,
@@ -214,87 +232,86 @@ export default {
     this.getTotalNumberOfCourses();
     this.getRegisteredUsersPerMonth();
     this.getCourses();
-    this.listActivities();
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   methods: {
     getRegisteredUsersPerMonth() {
-      let urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "chart",
-        "getRegisteredUsersPerMonth"
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'chart',
+        'getRegisteredUsersPerMonth'
       );
       this.$request.get(urlToBeUsedInTheRequest).then(
-        response => {
+        (response) => {
           this.usersData = response.data;
         },
         () => {
-          this.errorMessage();
+          this.$errorMessage();
         }
       );
     },
     getStepsStatus() {
-      let urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "verify",
-        "stepsStatus"
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'verify',
+        'stepsStatus'
       );
-      this.$request.get(urlToBeUsedInTheRequest).then(response => {
-        this.userStep = response.data[0]["status"];
-        this.courseStep = response.data[1]["status"];
-        this.customizeStep = response.data[2]["status"];
-        this.settingsStep = response.data[3]["status"];
+      this.$request.get(urlToBeUsedInTheRequest).then((response) => {
+        this.userStep = response.data[0].status;
+        this.courseStep = response.data[1].status;
+        this.customizeStep = response.data[2].status;
+        this.settingsStep = response.data[3].status;
       });
     },
     getCourses() {
-      let urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "chart",
-        "getCourses"
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'chart',
+        'getCourses'
       );
       this.$request.get(urlToBeUsedInTheRequest).then(
-        response => {
+        (response) => {
           this.coursesData = response.data;
         },
         () => {
-          this.errorMessage();
+          this.$errorMessage();
         }
       );
     },
     getTotalNumberOfUsers() {
-      let urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "widgets",
-        "getTotalNumberOfUsers"
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'widgets',
+        'getTotalNumberOfUsers'
       );
       this.$request.get(urlToBeUsedInTheRequest).then(
-        response => {
+        (response) => {
           this.numberTotalOfUsers = response.data;
         },
         () => {
-          this.errorMessage();
+          this.$errorMessage();
         }
       );
     },
     getTotalNumberOfCourses() {
-      let urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "widgets",
-        "getTotalNumberOfCourses"
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'widgets',
+        'getTotalNumberOfCourses'
       );
       this.$request.get(urlToBeUsedInTheRequest).then(
-        response => {
+        (response) => {
           this.numberTotalOfCourses = response.data;
         },
         () => {
-          this.errorMessage();
+          this.$errorMessage();
         }
       );
     },
     getStorage(storageAvaiable) {
-      let urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "widgets",
-        "getStorage"
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'widgets',
+        'getStorage'
       );
       this.$request.get(urlToBeUsedInTheRequest).then(
-        response => {
+        (response) => {
           this.totalStorageUsed = response.data;
           this.storagePercent = (
             (100 * parseInt(response.data)) /
@@ -302,43 +319,43 @@ export default {
           ).toFixed(2);
         },
         () => {
-          this.errorMessage();
+          this.$errorMessage();
         }
       );
     },
     getCompanyInformation() {
-      let urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "company",
-        "getCompanyInformation"
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'company',
+        'getCompanyInformation'
       );
       this.$request.get(urlToBeUsedInTheRequest).then(
-        response => {
-          this.plan = response.data["plan"];
+        (response) => {
+          this.plan = response.data.plan;
 
-          if (response.data["plan"] == "basic") {
+          if (response.data.plan === 'basic') {
             this.totalStorageAvaiable = 32;
           }
 
-          if (response.data["plan"] == "pro") {
+          if (response.data.plan === 'pro') {
             this.totalStorageAvaiable = 64;
           }
 
-          if (response.data["plan"] == "growth") {
+          if (response.data.plan === 'growth') {
             this.totalStorageAvaiable = 128;
           }
 
-          if (response.data["plan"] == "bussiness") {
+          if (response.data.plan === 'bussiness') {
             this.totalStorageAvaiable = 512;
           }
 
-          if (response.data["plan"] == "trial") {
+          if (response.data.plan === 'trial') {
             this.totalStorageAvaiable = 64;
           }
 
           this.getStorage(this.totalStorageAvaiable);
         },
         () => {
-          this.errorMessage();
+          this.$errorMessage();
         }
       );
     }

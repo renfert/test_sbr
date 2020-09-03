@@ -1,7 +1,10 @@
 <template>
   <div
     class="image-cover ed_detail_head lg"
-    style="background:#f4f4f4 url(https://sbrfiles.s3.amazonaws.com/images/cover.png);"
+    style="
+      background: #f4f4f4
+        url(https://sbrfiles.s3.amazonaws.com/images/cover.png);
+    "
     data-overlay="8"
   >
     <div class="container">
@@ -9,18 +12,20 @@
         <div class="col-lg-7 col-md-9">
           <div class="ed_detail_wrap light">
             <ul class="cources_facts_list">
-              <li v-if="category != 'default'" class="facts-1">{{ category }}</li>
+              <li v-if="category != 'default'" class="facts-1">
+                {{ category }}
+              </li>
             </ul>
             <div class="ed_header_caption">
               <h2 class="ed_title">{{ title }}</h2>
               <ul>
                 <li>
                   <i class="ti-agenda mr-2"></i>
-                  {{lang["modules"]}}: {{ modules }}
+                  {{ lang['modules'] }}: {{ modules }}
                 </li>
                 <li>
                   <i class="ti-control-forward"></i>
-                  {{lang["lessons"]}}: {{ lessons }}
+                  {{ lang['lessons'] }}: {{ lessons }}
                 </li>
               </ul>
             </div>
@@ -44,30 +49,18 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
-
-import { mapState } from "vuex";
-
-Vue.use(VueAxios, axios);
-Vue.use(ElementUI);
+import { mapState } from 'vuex';
 
 export default {
-  mixins: [domains, alerts],
   props: [
-    "title",
-    "category",
-    "modules",
-    "lessons",
-    "color",
-    "reviews",
-    "total-reviews",
-    "total-rate"
+    'title',
+    'category',
+    'modules',
+    'lessons',
+    'color',
+    'reviews',
+    'total-reviews',
+    'total-rate'
   ],
   data: () => {
     return {
@@ -75,17 +68,17 @@ export default {
     };
   },
   watch: {
-    totalRate: function() {
+    totalRate() {
       this.rate = parseInt((this.totalRate / this.totalReviews).toFixed(0));
     }
   },
   computed: {
-    primaryColor: function() {
+    primaryColor() {
       return {
         color: this.color
       };
     },
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   }
 };
 </script>
@@ -121,13 +114,13 @@ export default {
   position: relative;
 }
 
-[data-overlay="8"]:before {
+[data-overlay='8']:before {
   opacity: 0.8;
 }
 
 [data-overlay]:before {
   position: absolute;
-  content: "";
+  content: '';
   background: #052044;
   width: 100%;
   height: 100%;
@@ -204,7 +197,7 @@ ul.cources_facts_list li:before {
   border-top: 12px solid transparent;
   border-left: 10px solid #eaedf3;
   border-bottom: 13px solid transparent;
-  content: "";
+  content: '';
   height: 0;
   position: absolute;
   top: 0;
@@ -215,7 +208,7 @@ ul.cources_facts_list li:before {
 ul.cources_facts_list li:after {
   background-color: #fff;
   border-radius: 50%;
-  content: "";
+  content: '';
   height: 4px;
   position: absolute;
   top: 10px;
@@ -252,8 +245,8 @@ li {
   margin-right: 7px;
 }
 
-[class*=" ti-"],
-[class^="ti-"] {
+[class*=' ti-'],
+[class^='ti-'] {
   font-family: themify;
   speak: none;
   font-style: normal;
@@ -266,7 +259,7 @@ li {
 }
 
 .ti-control-forward:before {
-  content: "\e6af";
+  content: '\e6af';
 }
 
 /* =============
@@ -278,7 +271,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   word-break: break-word !important;
   font-weight: 600;
 }

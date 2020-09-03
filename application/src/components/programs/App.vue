@@ -1,7 +1,10 @@
-<template >
+<template>
   <div class="content-page">
     <div v-if="userRole != 3">
-      <program-create :program-list="programList" :total-programs="numberTotalOfProgramsCreated"></program-create>
+      <program-create
+        :program-list="programList"
+        :total-programs="numberTotalOfProgramsCreated"
+      ></program-create>
     </div>
 
     <div>
@@ -11,68 +14,57 @@
 </template>
 
 <script>
-import ProgramCreate from "@/components/programs/ProgramCreate.vue";
-import ProgramList from "@/components/programs/ProgramList.vue";
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-import VueHead from "vue-head";
+import ProgramCreate from '@/components/programs/ProgramCreate.vue';
+import ProgramList from '@/components/programs/ProgramList.vue';
+import Vue from 'vue';
+import VueHead from 'vue-head';
+import { mapState } from 'vuex';
+
 export const eventBus = new Vue();
 
-import { mapState } from "vuex";
-
 Vue.use(VueHead);
-Vue.use(VueAxios, axios);
 
 export default {
-  mixins: [domains, alerts],
   data: () => {
     return {
       programList: null,
-      numberTotalOfProgramsCreated: ""
+      numberTotalOfProgramsCreated: ''
     };
   },
   computed: {
-    ...mapState(["userRole"])
+    ...mapState(['userRole'])
   },
   mounted() {
     this.getPrograms();
-    eventBus.$on(
-      "program-deleted",
-      function() {
-        this.getPrograms();
-      }.bind(this)
-    );
+    eventBus.$on('program-deleted', () => {
+      this.getPrograms();
+    });
   },
   methods: {
-    getPrograms: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "program",
-        "listing"
+    getPrograms() {
+      const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+        'program',
+        'listing'
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        response => {
-          // success callback
+      this.$request.get(urlToBeUsedInTheRequest).then(
+        (response) => {
           this.programList = response.data;
           this.numberTotalOfProgramsCreated = response.data.length;
         },
-        // Failure callback
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     }
   },
   head: {
     title: {
-      inner: "Programs"
+      inner: 'Programs'
     },
     meta: [
-      { name: "charset", content: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1.0" },
-      { name: "author", content: "Sabiorealm" }
+      { name: 'charset', content: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
+      { name: 'author', content: 'Sabiorealm' }
     ]
   },
   components: {
@@ -82,5 +74,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

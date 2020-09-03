@@ -18,7 +18,8 @@
           aria-controls="overview"
           aria-selected="true"
           aria-expanded="false"
-        >{{ lang["description"] }}</a>
+          >{{ lang['description'] }}</a
+        >
       </li>
       <li class="nav-item">
         <a
@@ -36,7 +37,8 @@
           aria-controls="curriculum"
           aria-selected="false"
           aria-expanded="true"
-        >Curriculum</a>
+          >Curriculum</a
+        >
       </li>
       <li class="nav-item">
         <a
@@ -54,9 +56,10 @@
           aria-controls="instructor"
           aria-selected="false"
           aria-expanded="false"
-        >{{ lang["instructor"] }}</a>
+          >{{ lang['instructor'] }}</a
+        >
       </li>
-      <li v-if="reviews == 'on' " class="nav-item">
+      <li v-if="reviews == 'on'" class="nav-item">
         <a
           @click="
             tabDescription = false;
@@ -72,7 +75,8 @@
           aria-controls="reviews"
           aria-selected="false"
           aria-expanded="false"
-        >Reviews</a>
+          >Reviews</a
+        >
       </li>
     </ul>
 
@@ -87,7 +91,7 @@
         aria-expanded="true"
       >
         <div class="edu_wraper">
-          <h4 class="edu_title">{{ lang["description"] }}</h4>
+          <h4 class="edu_title">{{ lang['description'] }}</h4>
           <div v-html="description"></div>
         </div>
       </div>
@@ -120,7 +124,8 @@
                     "
                     :aria-controls="'collapse' + element.id"
                     class="d-block position-relative text-dark text-module collapsible-link py-2 collapsed"
-                  >{{ element.title }}</a>
+                    >{{ element.title }}</a
+                  >
                 </h6>
               </div>
               <div
@@ -130,7 +135,9 @@
               >
                 <div class="card-body pl-3 pr-3">
                   <ul class="lectures_lists">
-                    <lesson-list-product-page :module-id="element.id"></lesson-list-product-page>
+                    <lesson-list-product-page
+                      :module-id="element.id"
+                    ></lesson-list-product-page>
                   </ul>
                 </div>
               </div>
@@ -151,7 +158,10 @@
         <div class="single_instructor">
           <div class="single_instructor_thumb">
             <a href="#">
-              <img :src="$getUrlToContents() + 'avatar/' + instructorPhoto + ''" class="img-fluid" />
+              <img
+                :src="$getUrlToContents() + 'avatar/' + instructorPhoto + ''"
+                class="img-fluid"
+              />
             </a>
           </div>
           <div class="single_instructor_caption">
@@ -176,8 +186,13 @@
         <div class="rating-overview">
           <div class="rating-overview-box">
             <span class="rating-overview-box-total mb-2">{{ rate }}</span>
-            <span class="mb-2">{{lang["average-rating"]}}</span>
-            <el-rate v-model="rate" disabled show-score text-color="#ff9900"></el-rate>
+            <span class="mb-2">{{ lang['average-rating'] }}</span>
+            <el-rate
+              v-model="rate"
+              disabled
+              show-score
+              text-color="#ff9900"
+            ></el-rate>
           </div>
 
           <div class="rating-bars">
@@ -188,12 +203,20 @@
                 <span class="rating-bars-rating poor" data-rating="4.7">
                   <span
                     class="rating-bars-rating-inner"
-                    :style="totalReviews == 0 ? 'width:0%' : 'width:'+parseInt((100 * reviewWithOneStar / totalReviews)) + '%' "
+                    :style="
+                      totalReviews == 0
+                        ? 'width:0%'
+                        : 'width:' +
+                          parseInt((100 * reviewWithOneStar) / totalReviews) +
+                          '%'
+                    "
                   ></span>
                 </span>
-                <strong
-                  v-if="totalReviews"
-                >{{ totalReviews == 0 ? '0%' : parseInt((100 * reviewWithOneStar / totalReviews)) + '%' }}</strong>
+                <strong v-if="totalReviews">{{
+                  totalReviews == 0
+                    ? '0%'
+                    : parseInt((100 * reviewWithOneStar) / totalReviews) + '%'
+                }}</strong>
               </span>
             </div>
 
@@ -204,12 +227,20 @@
                 <span class="rating-bars-rating mid" data-rating="3.9">
                   <span
                     class="rating-bars-rating-inner"
-                    :style="totalReviews == 0 ? 'width:0%' : 'width:'+parseInt((100 * reviewWithTwoStars / totalReviews)) + '%' "
+                    :style="
+                      totalReviews == 0
+                        ? 'width:0%'
+                        : 'width:' +
+                          parseInt((100 * reviewWithTwoStars) / totalReviews) +
+                          '%'
+                    "
                   ></span>
                 </span>
-                <strong
-                  v-if="totalReviews"
-                >{{ totalReviews == 0 ? '0%' : parseInt((100 * reviewWithTwoStars / totalReviews)) + '%' }}</strong>
+                <strong v-if="totalReviews">{{
+                  totalReviews == 0
+                    ? '0%'
+                    : parseInt((100 * reviewWithTwoStars) / totalReviews) + '%'
+                }}</strong>
               </span>
             </div>
 
@@ -220,12 +251,20 @@
                 <span class="rating-bars-rating good" data-rating="3.9">
                   <span
                     class="rating-bars-rating-inner"
-                    :style="totalReviews == 0 ? 'width:0%' : 'width:'+parseInt((100 * reviewWithTreeStars / totalReviews)) + '%' "
+                    :style="
+                      totalReviews == 0
+                        ? 'width:0%'
+                        : 'width:' +
+                          parseInt((100 * reviewWithTreeStars) / totalReviews) +
+                          '%'
+                    "
                   ></span>
                 </span>
-                <strong
-                  v-if="totalReviews"
-                >{{ totalReviews == 0 ? '0%' : parseInt((100 * reviewWithTreeStars / totalReviews)) + '%' }}</strong>
+                <strong v-if="totalReviews">{{
+                  totalReviews == 0
+                    ? '0%'
+                    : parseInt((100 * reviewWithTreeStars) / totalReviews) + '%'
+                }}</strong>
               </span>
             </div>
 
@@ -236,12 +275,20 @@
                 <span class="rating-bars-rating good" data-rating="3.2">
                   <span
                     class="rating-bars-rating-inner"
-                    :style="totalReviews == 0 ? 'width:0%' : 'width:'+parseInt((100 * reviewWithFourStars / totalReviews)) + '%' "
+                    :style="
+                      totalReviews == 0
+                        ? 'width:0%'
+                        : 'width:' +
+                          parseInt((100 * reviewWithFourStars) / totalReviews) +
+                          '%'
+                    "
                   ></span>
                 </span>
-                <strong
-                  v-if="totalReviews"
-                >{{ totalReviews == 0 ? '0%' : parseInt((100 * reviewWithFourStars / totalReviews)) + '%' }}</strong>
+                <strong v-if="totalReviews">{{
+                  totalReviews == 0
+                    ? '0%'
+                    : parseInt((100 * reviewWithFourStars) / totalReviews) + '%'
+                }}</strong>
               </span>
             </div>
 
@@ -253,12 +300,20 @@
                   <span
                     v-if="totalReviews"
                     class="rating-bars-rating-inner"
-                    :style="totalReviews == 0 ? 'width:0%' : 'width:'+parseInt((100 * reviewWithFiveStars / totalReviews)) + '%' "
+                    :style="
+                      totalReviews == 0
+                        ? 'width:0%'
+                        : 'width:' +
+                          parseInt((100 * reviewWithFiveStars) / totalReviews) +
+                          '%'
+                    "
                   ></span>
                 </span>
-                <strong
-                  v-if="totalReviews"
-                >{{ totalReviews == 0 ? '0%' : parseInt((100 * reviewWithFiveStars / totalReviews)) + '%' }}</strong>
+                <strong v-if="totalReviews">{{
+                  totalReviews == 0
+                    ? '0%'
+                    : parseInt((100 * reviewWithFiveStars) / totalReviews) + '%'
+                }}</strong>
               </span>
             </div>
           </div>
@@ -282,19 +337,24 @@
               </div>
               <div class="reviews-comments-item-text">
                 <h4>
-                  <a href="javascript:void(0)">{{element.name}}</a>
+                  <a href="javascript:void(0)">{{ element.name }}</a>
                   <span class="reviews-comments-item-date">
                     <i :style="primaryColor" class="ti-calendar theme-cl"></i>
-                    {{element.date}}
+                    {{ element.date }}
                   </span>
                 </h4>
 
                 <div class="listing-rating high" data-starrating2="5">
-                  <el-rate :value="parseInt(element.rate)" disabled show-score text-color="#ff9900"></el-rate>
+                  <el-rate
+                    :value="parseInt(element.rate)"
+                    disabled
+                    show-score
+                    text-color="#ff9900"
+                  ></el-rate>
                 </div>
                 <div class="clearfix"></div>
                 <p>
-                  " {{element.comment}}
+                  " {{ element.comment }}
                   "
                 </p>
               </div>
@@ -308,19 +368,11 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-import LessonListProductPage from "@/components/lessons/LessonListProductPage";
+import LessonListProductPage from '@/components/lessons/LessonListProductPage';
 
-import { mapState } from "vuex";
-
-Vue.use(VueAxios, axios);
+import { mapState } from 'vuex';
 
 export default {
-  mixins: [domains, alerts],
   components: {
     LessonListProductPage
   },
@@ -330,7 +382,7 @@ export default {
       tabCurriculum: false,
       tabInstructor: false,
       tabReviews: false,
-      collapsePanelId: "",
+      collapsePanelId: '',
 
       rate: 0,
 
@@ -344,94 +396,91 @@ export default {
     };
   },
   props: [
-    "course-id",
-    "title",
-    "description",
-    "category",
-    "modules-total",
-    "lessons-total",
-    "color",
-    "reviews",
-    "photo",
-    "modules",
-    "instructor-name",
-    "instructor-photo",
-    "instructor-description",
-    "total-reviews",
-    "total-rate"
+    'course-id',
+    'title',
+    'description',
+    'category',
+    'modules-total',
+    'lessons-total',
+    'color',
+    'reviews',
+    'photo',
+    'modules',
+    'instructor-name',
+    'instructor-photo',
+    'instructor-description',
+    'total-reviews',
+    'total-rate'
   ],
   mounted() {
     this.createCustomClass();
   },
   methods: {
-    listingReviews: function() {
-      var formData = new FormData();
-      formData.set("courseId", this.courseId);
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "reviews",
-        "listing"
+    listingReviews() {
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'reviews',
+        'listing'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
-          // success callback
+      formData.set('courseId', this.courseId);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
           this.usersReviews = response.data;
           if (response.data) {
-            response.data.forEach(element => {
-              let rate = element.rate;
-              if (rate == 1) {
+            response.data.forEach((element) => {
+              const rate = element.rate;
+              if (rate === 1) {
                 this.reviewWithOneStars++;
               }
-              if (rate == 2) {
+              if (rate === 2) {
                 this.reviewWithTwoStars++;
               }
-              if (rate == 3) {
+              if (rate === 3) {
                 this.reviewWithTreeStars++;
               }
-              if (rate == 4) {
+              if (rate === 4) {
                 this.reviewWithFourStars++;
               }
-              if (rate == 5) {
+              if (rate === 5) {
                 this.reviewWithFiveStars++;
               }
             });
           }
         },
-        // Failure callback
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    createCustomClass: function() {
-      /* Create custom classes */
-      var style = document.createElement("style");
-      style.type = "text/css";
+    createCustomClass() {
+      const style = document.createElement('style');
+      style.type = 'text/css';
       style.innerHTML =
-        ".nav-link.active{background-color:" + this.color + " !important;}";
-      document.getElementsByTagName("head")[0].appendChild(style);
+        '.nav-link.active{background-color:' + this.color + ' !important;}';
+      document.getElementsByTagName('head')[0].appendChild(style);
     }
   },
   computed: {
-    primaryColorBg: function() {
+    primaryColorBg() {
       return {
-        "background-color": this.color + "!important"
+        'background-color': this.color + '!important'
       };
     },
-    primaryColor: function() {
+    primaryColor() {
       return {
-        color: this.color + "!important"
+        color: this.color + '!important'
       };
     },
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   watch: {
-    color: function() {
+    color() {
       this.createCustomClass();
     },
-    totalRate: function() {
+    totalRate() {
       this.rate = parseInt((this.totalRate / this.totalReviews).toFixed(0));
     },
-    courseId: function() {
+    courseId() {
       this.listingReviews();
     }
   }
@@ -445,7 +494,7 @@ export default {
     - Layout
     - Fonts
     - Reviews tab
-    - Mobile	
+    - Mobile
 
 ============= */
 
@@ -548,16 +597,16 @@ export default {
   font-size: 12px;
 }
 
-.collapsible-link[aria-expanded="true"]::before {
+.collapsible-link[aria-expanded='true']::before {
   transform: rotate(180deg);
 }
 
-.collapsible-link[aria-expanded="true"]::after {
+.collapsible-link[aria-expanded='true']::after {
   transform: rotate(90deg) translateX(-1px);
 }
 
 .collapsible-link::before {
-  content: "";
+  content: '';
   width: 14px;
   height: 2px;
   background: #333;
@@ -569,7 +618,7 @@ export default {
 }
 
 .collapsible-link::after {
-  content: "";
+  content: '';
   width: 2px;
   height: 14px;
   background: #333;
@@ -751,7 +800,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   word-break: break-word !important;
   color: #2d3954;
 }
@@ -850,8 +899,8 @@ a {
   color: #ff9500;
 }
 
-[class*=" ti-"],
-[class^="ti-"] {
+[class*=' ti-'],
+[class^='ti-'] {
   font-family: themify;
   speak: none;
   font-style: normal;

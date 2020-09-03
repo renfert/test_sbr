@@ -1,11 +1,20 @@
 <template>
-  <!--  Modal Progress bar -->
   <div>
-    <div id="video-overlay" class="video-overlay" :class="videoOverlay == true?'open': 'hide'">
+    <div
+      id="video-overlay"
+      class="video-overlay"
+      :class="videoOverlay == true ? 'open' : 'hide'"
+    >
       <article>
         <h2>Uploading...</h2>
-        <h3>{{percentText}} %</h3>
-        <input type="radio" name="switch-color" class="hide" id="cyan" checked />
+        <h3>{{ percentText }} %</h3>
+        <input
+          type="radio"
+          name="switch-color"
+          class="hide"
+          id="cyan"
+          checked
+        />
         <div class="chart">
           <div class="bar" :class="percentClass">
             <div class="face top">
@@ -27,53 +36,38 @@
       </article>
     </div>
   </div>
-  <!-- Progress bar -->
 </template>
 
 <script>
-/* Event bus to handle communication between components */
+import Vue from 'vue';
 export const eventProgress = new Vue();
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-Vue.use(VueAxios, axios);
 
 export default {
-  data: function() {
+  data: () => {
     return {
       modal: true,
-      percentClass: "bar-0",
+      percentClass: 'bar-0',
       percentText: 0,
       videoOverlay: false
     };
   },
   mounted() {
-    eventProgress.$on(
-      "new-progress",
-      function() {
-        this.videoOverlay = true;
-      }.bind(this)
-    );
-    eventProgress.$on(
-      "new-percent",
-      function(response) {
-        this.percentText = response;
-        this.percentClass = "bar-" + response;
-      }.bind(this)
-    );
-    eventProgress.$on(
-      "finish-progress",
-      function() {
-        this.videoOverlay = false;
-        this.percentText = 0;
-        this.percentClass = "bar-" + 0;
-      }.bind(this)
-    );
+    eventProgress.$on('new-progress', () => {
+      this.videoOverlay = true;
+    });
+    eventProgress.$on('new-percent', (response) => {
+      this.percentText = response;
+      this.percentClass = 'bar-' + response;
+    });
+    eventProgress.$on('finish-progress', () => {
+      this.videoOverlay = false;
+      this.percentText = 0;
+      this.percentClass = 'bar-' + 0;
+    });
   }
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 .video-overlay {
   position: fixed;
@@ -273,32 +267,32 @@ p span {
 }
 
 .bar.red .side-a,
-input[id="red"]:checked ~ .chart .side-a,
+input[id='red']:checked ~ .chart .side-a,
 .bar.red .growing-bar,
-input[id="red"]:checked ~ .chart .growing-bar {
+input[id='red']:checked ~ .chart .growing-bar {
   background-color: rgba(236, 0, 140, 0.6);
 }
 .bar.red .side-0 .growing-bar,
-input[id="red"]:checked ~ .chart .side-0 .growing-bar {
+input[id='red']:checked ~ .chart .side-0 .growing-bar {
   box-shadow: -0.5em -1.5em 4em rgba(236, 0, 140, 0.8);
 }
 .bar.red .floor .growing-bar,
-input[id="red"]:checked ~ .chart .floor .growing-bar {
+input[id='red']:checked ~ .chart .floor .growing-bar {
   box-shadow: 0em 0em 2em rgba(236, 0, 140, 0.8);
 }
 
 .bar.cyan .side-a,
-input[id="cyan"]:checked ~ .chart .side-a,
+input[id='cyan']:checked ~ .chart .side-a,
 .bar.cyan .growing-bar,
-input[id="cyan"]:checked ~ .chart .growing-bar {
+input[id='cyan']:checked ~ .chart .growing-bar {
   background-color: rgba(87, 202, 244, 0.6);
 }
 .bar.cyan .side-0 .growing-bar,
-input[id="cyan"]:checked ~ .chart .side-0 .growing-bar {
+input[id='cyan']:checked ~ .chart .side-0 .growing-bar {
   box-shadow: -0.5em -1.5em 4em #57caf4;
 }
 .bar.cyan .floor .growing-bar,
-input[id="cyan"]:checked ~ .chart .floor .growing-bar {
+input[id='cyan']:checked ~ .chart .floor .growing-bar {
   box-shadow: 0em 0em 2em #57caf4;
 }
 
@@ -314,17 +308,17 @@ input[id="cyan"]:checked ~ .chart .floor .growing-bar {
 }
 
 .bar.lime .side-a,
-input[id="lime"]:checked ~ .chart .side-a,
+input[id='lime']:checked ~ .chart .side-a,
 .bar.lime .growing-bar,
-input[id="lime"]:checked ~ .chart .growing-bar {
+input[id='lime']:checked ~ .chart .growing-bar {
   background-color: rgba(118, 201, 0, 0.6);
 }
 .bar.lime .side-0 .growing-bar,
-input[id="lime"]:checked ~ .chart .side-0 .growing-bar {
+input[id='lime']:checked ~ .chart .side-0 .growing-bar {
   box-shadow: -0.5em -1.5em 4em #76c900;
 }
 .bar.lime .floor .growing-bar,
-input[id="lime"]:checked ~ .chart .floor .growing-bar {
+input[id='lime']:checked ~ .chart .floor .growing-bar {
   box-shadow: 0em 0em 2em #76c900;
 }
 
@@ -459,7 +453,7 @@ input[id="lime"]:checked ~ .chart .floor .growing-bar {
 }
 
 .bar-20 .growing-bar,
-input[id="exercise-2"]:checked
+input[id='exercise-2']:checked
   ~ .chart.grid
   .exercise
   .bar:nth-child(1)
@@ -484,7 +478,7 @@ input[id="exercise-2"]:checked
 }
 
 .bar-25 .growing-bar,
-input[id="pos-0"]:checked ~ .chart .growing-bar {
+input[id='pos-0']:checked ~ .chart .growing-bar {
   width: 25%;
 }
 
@@ -585,18 +579,18 @@ input[id="pos-0"]:checked ~ .chart .growing-bar {
 }
 
 .bar-50 .growing-bar,
-input[id="pos-1"]:checked ~ .chart .growing-bar,
-input[id="exercise-2"]:checked
+input[id='pos-1']:checked ~ .chart .growing-bar,
+input[id='exercise-2']:checked
   ~ .chart.grid
   .exercise
   .bar:nth-child(2)
   .growing-bar,
-input[id="exercise-4"]:checked
+input[id='exercise-4']:checked
   ~ .chart.grid
   .exercise
   .bar:nth-child(1)
   .growing-bar,
-input[id="exercise-4"]:checked
+input[id='exercise-4']:checked
   ~ .chart.grid
   .exercise
   .bar:nth-child(2)
@@ -681,17 +675,17 @@ input[id="exercise-4"]:checked
 }
 
 .bar-70 .growing-bar,
-input[id="exercise-3"]:checked
+input[id='exercise-3']:checked
   ~ .chart.grid
   .exercise
   .bar:nth-child(1)
   .growing-bar,
-input[id="exercise-3"]:checked
+input[id='exercise-3']:checked
   ~ .chart.grid
   .exercise
   .bar:nth-child(2)
   .growing-bar,
-input[id="exercise-3"]:checked
+input[id='exercise-3']:checked
   ~ .chart.grid
   .exercise
   .bar:nth-child(3)
@@ -716,7 +710,7 @@ input[id="exercise-3"]:checked
 }
 
 .bar-75 .growing-bar,
-input[id="pos-2"]:checked ~ .chart .growing-bar {
+input[id='pos-2']:checked ~ .chart .growing-bar {
   width: 75%;
 }
 
@@ -737,7 +731,7 @@ input[id="pos-2"]:checked ~ .chart .growing-bar {
 }
 
 .bar-80 .growing-bar,
-input[id="exercise-2"]:checked
+input[id='exercise-2']:checked
   ~ .chart.grid
   .exercise
   .bar:nth-child(3)
@@ -822,8 +816,8 @@ input[id="exercise-2"]:checked
 }
 
 .bar-100 .growing-bar,
-input[id="pos-3"]:checked ~ .chart .growing-bar,
-input[id="exercise-4"]:checked
+input[id='pos-3']:checked ~ .chart .growing-bar,
+input[id='exercise-4']:checked
   ~ .chart.grid
   .exercise
   .bar:nth-child(3)
@@ -899,48 +893,48 @@ label:last-child {
   border-radius: 0 0.2em 0.2em 0;
 }
 
-input[id="exercise-1"]:checked ~ .actions label[for="exercise-1"],
-input[id="exercise-2"]:checked ~ .actions label[for="exercise-2"],
-input[id="exercise-3"]:checked ~ .actions label[for="exercise-3"],
-input[id="exercise-4"]:checked ~ .actions label[for="exercise-4"],
-input[id="pos-0"]:checked ~ .actions label[for="pos-0"],
-input[id="pos-1"]:checked ~ .actions label[for="pos-1"],
-input[id="pos-2"]:checked ~ .actions label[for="pos-2"],
-input[id="pos-3"]:checked ~ .actions label[for="pos-3"],
-input[id="red"]:checked ~ .actions label[for="red"],
-input[id="cyan"]:checked ~ .actions label[for="cyan"],
-input[id="lime"]:checked ~ .actions label[for="lime"] {
+input[id='exercise-1']:checked ~ .actions label[for='exercise-1'],
+input[id='exercise-2']:checked ~ .actions label[for='exercise-2'],
+input[id='exercise-3']:checked ~ .actions label[for='exercise-3'],
+input[id='exercise-4']:checked ~ .actions label[for='exercise-4'],
+input[id='pos-0']:checked ~ .actions label[for='pos-0'],
+input[id='pos-1']:checked ~ .actions label[for='pos-1'],
+input[id='pos-2']:checked ~ .actions label[for='pos-2'],
+input[id='pos-3']:checked ~ .actions label[for='pos-3'],
+input[id='red']:checked ~ .actions label[for='red'],
+input[id='cyan']:checked ~ .actions label[for='cyan'],
+input[id='lime']:checked ~ .actions label[for='lime'] {
   color: #76c900;
   border: 1px solid #031523;
   background-color: #0a4069;
 }
 
-input[id="exercise-2"]:checked ~ .chart.grid .exercise .bar:nth-child(1) {
+input[id='exercise-2']:checked ~ .chart.grid .exercise .bar:nth-child(1) {
   -webkit-box-flex: 1;
   flex: 1 0 0%;
 }
-input[id="exercise-2"]:checked ~ .chart.grid .exercise .bar:nth-child(2) {
+input[id='exercise-2']:checked ~ .chart.grid .exercise .bar:nth-child(2) {
   -webkit-box-flex: 1;
   flex: 1;
 }
-input[id="exercise-2"]:checked ~ .chart.grid .exercise .bar:nth-child(3) {
+input[id='exercise-2']:checked ~ .chart.grid .exercise .bar:nth-child(3) {
   -webkit-box-flex: 1;
   flex: 1 0 30%;
 }
 
-input[id="exercise-3"]:checked ~ .chart.grid .exercise .bar:nth-child(1),
-input[id="exercise-3"]:checked ~ .chart.grid .exercise .bar:nth-child(2),
-input[id="exercise-3"]:checked ~ .chart.grid .exercise .bar:nth-child(3) {
+input[id='exercise-3']:checked ~ .chart.grid .exercise .bar:nth-child(1),
+input[id='exercise-3']:checked ~ .chart.grid .exercise .bar:nth-child(2),
+input[id='exercise-3']:checked ~ .chart.grid .exercise .bar:nth-child(3) {
   -webkit-box-flex: 1;
   flex: 1;
 }
 
-input[id="exercise-4"]:checked ~ .chart.grid .exercise .bar:nth-child(1),
-input[id="exercise-4"]:checked ~ .chart.grid .exercise .bar:nth-child(2) {
+input[id='exercise-4']:checked ~ .chart.grid .exercise .bar:nth-child(1),
+input[id='exercise-4']:checked ~ .chart.grid .exercise .bar:nth-child(2) {
   -webkit-box-flex: 1;
   flex: 1 0 30%;
 }
-input[id="exercise-4"]:checked ~ .chart.grid .exercise .bar:nth-child(3) {
+input[id='exercise-4']:checked ~ .chart.grid .exercise .bar:nth-child(3) {
   -webkit-box-flex: 1;
   flex: 1;
 }

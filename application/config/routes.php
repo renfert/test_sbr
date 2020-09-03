@@ -9,3 +9,4 @@ $route['viewcourse/(:num)'] = 'pages/index';
 $route['product/(:any)'] = 'pages/index';
 $route['user/(:num)'] = 'pages/index';
 $route['auth/(:any)'] = 'pages/index';
+$route['purchase/(:any)/(:any)'] = 'pages/index';

@@ -10,39 +10,41 @@
     ></facebook-loader>
 
     <div v-else>
-      <!-------------- 
-        Banner profile 
+      <!--------------
+        Banner profile
       --------------->
-      <div class="row" style="background-color:#F3F6F6;">
+      <div class="row" style="background-color: #f3f6f6">
         <div class="img-container">
           <div class="img-profile-container">
             <el-avatar
               :size="150"
               fit="contain"
-              :src="getUrlToContents() + 'avatar/'+userAvatar+''"
+              :src="getUrlToContents() + 'avatar/' + userAvatar + ''"
             ></el-avatar>
           </div>
           <img src="@/assets/img/general/ux/profile_bg.png" />
         </div>
         <div class="profile-info mt-4">
-          <h2>{{userName}}</h2>
-          <span v-if="role == 2" class="text-sabiorealm">{{lang["instructor"]}}</span>
-          <span v-else class="text-sabiorealm">{{lang["student"]}}</span>
-          <h4>{{userEmail}}</h4>
+          <h2>{{ userName }}</h2>
+          <span v-if="role == 2" class="text-sabiorealm">{{
+            lang['instructor']
+          }}</span>
+          <span v-else class="text-sabiorealm">{{ lang['student'] }}</span>
+          <h4>{{ userEmail }}</h4>
           <br />
         </div>
       </div>
 
-      <!-------------- 
+      <!--------------
        Profile charts
       --------------->
       <div class="profile-charts mt-5">
         <div class="row">
-          <!-------------- 
+          <!--------------
           Courses chart
           --------------->
           <div class="col-12 col-md-6 mb-5">
-            <div class="card-widget" style="height:350px;">
+            <div class="card-widget" style="height: 350px">
               <GChart
                 class="mt-5"
                 type="PieChart"
@@ -52,16 +54,20 @@
             </div>
           </div>
 
-          <!-------------- 
+          <!--------------
           Exams
           --------------->
           <div class="col-12 col-md-6 mb-5">
             <div
               class="card-widget"
-              style="overflow-y: scroll; height:350px;border-radius:10px 0px 0px 10px !important;"
+              style="
+                overflow-y: scroll;
+                height: 350px;
+                border-radius: 10px 0px 0px 10px !important;
+              "
             >
               <div v-if="exams != null">
-                <h3 class="exams-title">{{lang["exams"]}}</h3>
+                <h3 class="exams-title">{{ lang['exams'] }}</h3>
 
                 <div class="exams-list-header">
                   <div class="row">
@@ -78,29 +84,35 @@
                 </div>
 
                 <div class="exams-list-body">
-                  <div class="row exam-item" v-for="element in exams" :key="element.id">
+                  <div
+                    class="row exam-item"
+                    v-for="element in exams"
+                    :key="element.id"
+                  >
                     <div class="col-4">
                       <h4>
                         <i
-                          v-if="parseInt(element.score) > parseInt(element.approval)"
+                          v-if="
+                            parseInt(element.score) > parseInt(element.approval)
+                          "
                           class="ti-pin-alt text-sabiorealm"
                         ></i>
 
                         <i v-else class="ti-pin-alt text-danger"></i>
-                        {{element.exam}}
+                        {{ element.exam }}
                       </h4>
                     </div>
                     <div class="col-4">
-                      <h4>{{element.score}}</h4>
+                      <h4>{{ element.score }}</h4>
                     </div>
                     <div class="col-4">
-                      <h4>{{element.course}}</h4>
+                      <h4>{{ element.course }}</h4>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <!-------------- 
+              <!--------------
               Exams not found
               --------------->
               <el-row class="mt-5" v-else>
@@ -109,10 +121,10 @@
                     class="no-results-img"
                     src="@/assets/img/general/ux/no_exams.png"
                     alt="No persons"
-                    style="width:30%;"
+                    style="width: 30%"
                   />
                   <br />
-                  <h4 class="no-results-text">{{lang["no-results-exam"]}}</h4>
+                  <h4 class="no-results-text">{{ lang['no-results-exam'] }}</h4>
                 </div>
               </el-row>
             </div>
@@ -126,23 +138,16 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import ElementUI from "element-ui";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-import UserActivities from "@/components/activity/UserActivities";
-import VueGoogleCharts from "vue-google-charts";
+import Vue from 'vue';
+import UserActivities from '@/components/activity/UserActivities';
+import VueGoogleCharts from 'vue-google-charts';
 
-import { FacebookLoader } from "vue-content-loader";
-import { DataTables, DataTablesServer } from "vue-data-tables";
-import { mapState } from "vuex";
+import { FacebookLoader } from 'vue-content-loader';
+import { DataTables, DataTablesServer } from 'vue-data-tables';
+import { mapState } from 'vuex';
 
 Vue.use(DataTables);
 Vue.use(DataTablesServer);
-Vue.use(ElementUI);
-Vue.use(VueAxios, axios);
 Vue.use(VueGoogleCharts);
 
 export default {
@@ -150,19 +155,18 @@ export default {
     FacebookLoader,
     UserActivities
   },
-  mixins: [domains, alerts],
-  props: ["user-id"],
-  data: function() {
+  props: ['user-id'],
+  data: () => {
     return {
-      userName: "",
-      userEmail: "",
-      userAvatar: "",
-      role: "",
+      userName: '',
+      userEmail: '',
+      userAvatar: '',
+      role: '',
       exams: [],
       coursesData: [],
       coursesChartOptions: {
-        title: "Courses",
-        colors: ["#00A9B4", "#29277F", "#6959CD"]
+        title: 'Courses',
+        colors: ['#00A9B4', '#29277F', '#6959CD']
       },
       loadingContent: false
     };
@@ -173,65 +177,59 @@ export default {
     this.getUserExams();
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   methods: {
-    getUser: function() {
+    getUser() {
       this.loadingContent = true;
-      var formData = new FormData();
-      formData.set("userId", this.userId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("user", "get");
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
-          this.userName = response.data["name"];
-          this.userEmail = response.data["email"];
-          this.userAvatar = response.data["avatar"];
-          this.role = response.data["myrole_id"];
-          setTimeout(
-            function() {
-              this.loadingContent = false;
-            }.bind(this),
-            1000
-          );
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest('user', 'get');
+      formData.set('userId', this.userId);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
+          this.userName = response.data.name;
+          this.userEmail = response.data.email;
+          this.userAvatar = response.data.avatar;
+          this.role = response.data.myrole_id;
+          setTimeout(() => {
+            this.loadingContent = false;
+          }, 1000);
         },
-        // Failure callback
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    getUserExams: function() {
-      var formData = new FormData();
-      formData.set("userId", this.userId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "user",
-        "getUserExams"
+    getUserExams() {
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'user',
+        'getUserExams'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
+      formData.set('userId', this.userId);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
           this.exams = response.data;
         },
-        // Failure callback
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    getCourses: function(studentId) {
-      var formData = new FormData();
-      formData.set("studentId", studentId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "chart",
-        "getStudentCourses"
+    getCourses(studentId) {
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'chart',
+        'getStudentCourses'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
+      formData.set('studentId', studentId);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
           this.coursesData = response.data;
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     }
   }

@@ -11,22 +11,36 @@
         <div class="form-row">
           <div class="form-group col-xl-6 col-md-6">
             <!-- Question id -->
-            <input type="number" class="hide" v-model="questionId" name="questionId" />
+            <input
+              type="number"
+              class="hide"
+              v-model="questionId"
+              name="questionId"
+            />
             <!-- Question type -->
-            <h4>{{lang["question-type"]}}</h4>
+            <h4>{{ lang['question-type'] }}</h4>
             <br />
             <el-radio-group @change="updateAnswersList()" v-model="type">
-              <el-radio name="type" :label="1">{{lang["descriptive"]}}</el-radio>
-              <el-radio name="type" :label="2">{{lang["multiple-choice"]}}</el-radio>
-              <el-radio name="type" :label="3">{{lang["free"]}}</el-radio>
+              <el-radio name="type" :label="1">{{
+                lang['descriptive']
+              }}</el-radio>
+              <el-radio name="type" :label="2">{{
+                lang['multiple-choice']
+              }}</el-radio>
+              <el-radio name="type" :label="3">{{ lang['free'] }}</el-radio>
             </el-radio-group>
           </div>
           <div class="form-group col-xl-6 col-md-6">
             <!-- Question weight -->
-            <h4>{{lang["question-weight"]}}</h4>
+            <h4>{{ lang['question-weight'] }}</h4>
             <br />
             <div class="block">
-              <input type="number" class="hide" name="weight" v-model="weight" />
+              <input
+                type="number"
+                class="hide"
+                name="weight"
+                v-model="weight"
+              />
               <el-rate v-model="weight"></el-rate>
             </div>
           </div>
@@ -36,8 +50,14 @@
           <div class="form-group col-xl-6 col-md-6">
             <input class="hide" type="text" name="examId" :value="examId" />
             <!-- Question -->
-            <h4>{{lang["write-your-question"]}} *</h4>
-            <el-input rows="4" type="textarea" v-model="question" required name="question"></el-input>
+            <h4>{{ lang['write-your-question'] }} *</h4>
+            <el-input
+              rows="4"
+              type="textarea"
+              v-model="question"
+              required
+              name="question"
+            ></el-input>
             <br />
             <br />
             <div v-if="type == 2">
@@ -48,12 +68,13 @@
                 type="primary"
                 @click.prevent="createNewAnswerEvent()"
                 size="small"
-              >{{lang["add-new-answer"]}}</el-button>
+                >{{ lang['add-new-answer'] }}</el-button
+              >
             </div>
           </div>
           <div class="form-group col-xl-6 col-md-6">
             <!-- Question image -->
-            <h4>{{lang["question-image"]}}</h4>
+            <h4>{{ lang['question-image'] }}</h4>
             <upload
               :key="componentKey"
               do-upload="true"
@@ -68,7 +89,7 @@
         <div class="form-row" v-if="type == 2">
           <div class="form-group col-xl-12 col-md-12">
             <!-- Automatic feedback -->
-            <h4>{{lang["automatic-feedback"]}}</h4>
+            <h4>{{ lang['automatic-feedback'] }}</h4>
             <el-input
               rows="5"
               type="textarea"
@@ -85,7 +106,8 @@
               class="sbr-primary"
               v-loading="loading"
               native-type="submit"
-            >{{lang["save-button"]}}</el-button>
+              >{{ lang['save-button'] }}</el-button
+            >
           </div>
         </div>
       </form>
@@ -95,119 +117,105 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import AnswerList from "@/components/answers/AnswerList";
-import Upload from "@/components/helper/HelperUpload";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-
-import { eventUpload } from "@/components/helper/HelperUpload";
-import { eventBus } from "@/components/newcourse/App";
-import { mapState } from "vuex";
-
-Vue.use(VueAxios, axios);
+import AnswerList from '@/components/answers/AnswerList';
+import Upload, { eventUpload } from '@/components/helper/HelperUpload';
+import { eventBus } from '@/components/newcourse/App';
+import { mapState } from 'vuex';
 
 export default {
-  mixins: [domains, alerts],
   components: {
     AnswerList,
     Upload
   },
   data: () => {
     return {
-      question: "",
-      questionId: "",
+      question: '',
+      questionId: '',
       weight: 1,
       type: 1,
       modalCreateQuestion: false,
       loading: false,
-      automaticFeedback: "",
-      checked: "",
-      examId: "",
+      automaticFeedback: '',
+      checked: '',
+      examId: '',
       componentKey: 0
     };
   },
   mounted() {
-    eventBus.$on(
-      "open-question-modal",
-      function(response) {
-        this.questionId = response["questionId"];
-        this.examId = response["examId"];
-        this.modalCreateQuestion = true;
-      }.bind(this)
-    );
+    eventBus.$on('open-question-modal', (response) => {
+      this.questionId = response.questionId;
+      this.examId = response.examId;
+      this.modalCreateQuestion = true;
+    });
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   methods: {
-    updateAnswersList: function() {
-      if (this.type == 2) {
-        eventBus.$emit("new-answer");
+    updateAnswersList() {
+      if (this.type === 2) {
+        eventBus.$emit('new-answer');
       }
     },
-    createNewAnswerEvent: function() {
-      eventBus.$emit("open-answer-modal", this.questionId);
+    createNewAnswerEvent() {
+      eventBus.$emit('open-answer-modal', this.questionId);
     },
-    editQuestion: function() {
+    editQuestion() {
       this.loading = true;
-      var form = document.getElementById("form-question");
-      var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "question",
-        "edit"
+      const form = document.getElementById('form-question');
+      const formData = new FormData(form);
+      const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+        'question',
+        'edit'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
-          this.successMessage();
+          this.$successMessage();
           this.actionsToBePerformedAfterRegistration();
           this.loading = false;
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    verifyIfExistCorrectAnswer: function() {
-      if (this.type != 2) {
+    verifyIfExistCorrectAnswer() {
+      if (this.type !== 2) {
         this.editQuestion();
       } else {
-        var formData = new FormData();
-        formData.set("questionId", this.questionId);
-        var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-          "verify",
-          "correctAnswerExist"
+        const formData = new FormData();
+        const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+          'verify',
+          'correctAnswerExist'
         );
-        axios.post(urlToBeUsedInTheRequest, formData).then(
-          response => {
-            if (response.data == true) {
+        formData.set('questionId', this.questionId);
+        this.$request.post(urlToBeUsedInTheRequest, formData).then(
+          (response) => {
+            if (response.data === true) {
               this.editQuestion();
             } else {
               this.unansweredQuestion();
             }
           },
-          function() {
-            this.errorMessage();
+          () => {
+            this.$errorMessage();
           }
         );
       }
     },
-    forceRerender: function() {
+    forceRerender() {
       this.componentKey += 1;
     },
 
     actionsToBePerformedAfterRegistration() {
       this.forceRerender();
-      eventUpload.$emit("clear");
-      (this.question = ""),
-        (this.weight = 1),
-        (this.type = 1),
-        (this.automaticFeedback = ""),
-        (this.modalCreateQuestion = false);
-      eventBus.$emit("new-question");
+      eventUpload.$emit('clear');
+      this.question = '';
+      this.weight = 1;
+      this.type = 1;
+      this.automaticFeedback = '';
+      this.modalCreateQuestion = false;
+      eventBus.$emit('new-question');
     }
   }
 };

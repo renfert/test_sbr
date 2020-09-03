@@ -59,46 +59,41 @@
 </template>
 
 <script>
-import Vue from "vue";
-import VueHead from "vue-head";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-import NavBar from "@/components/template/TheNavBar";
-import Banner from "@/components/product/Banner";
-import Thumb from "@/components/product/Thumb";
-import Tabs from "@/components/product/Tabs";
-import Price from "@/components/product/Price";
+import Vue from 'vue';
+import VueHead from 'vue-head';
+import NavBar from '@/components/template/TheNavBar';
+import Banner from '@/components/product/Banner';
+import Thumb from '@/components/product/Thumb';
+import Tabs from '@/components/product/Tabs';
+import Price from '@/components/product/Price';
 
-Vue.use(VueAxios, axios);
 Vue.use(VueHead);
+
 export default {
-  mixins: [domains, alerts],
   data: () => {
     return {
-      courseId: "",
-      courseTitle: "",
+      courseId: '',
+      courseTitle: '',
 
-      totalModules: "",
-      totalLessons: "",
+      totalModules: '',
+      totalLessons: '',
 
       modules: [],
 
-      instructorName: "",
-      instructorPhoto: "",
-      instructorDescription: "",
+      instructorName: '',
+      instructorPhoto: '',
+      instructorDescription: '',
 
-      totalReviews: "",
-      totalRate: "",
+      totalReviews: '',
+      totalRate: '',
 
-      category: "",
-      description: "",
-      photo: "",
-      preview: "",
-      reviews: "",
-      color: "",
-      price: ""
+      category: '',
+      description: '',
+      photo: '',
+      preview: '',
+      reviews: '',
+      color: '',
+      price: ''
     };
   },
   components: {
@@ -109,109 +104,103 @@ export default {
     NavBar
   },
   mounted() {
-    let title = this.$route.params.title;
-    this.courseTitle = title.split("-").join(" ");
+    const title = this.$route.params.title;
+    this.courseTitle = title.split('-').join(' ');
     this.getColor();
     this.createMetaTags();
     this.getCourse();
   },
   head: {
     title: {
-      inner: "Product"
+      inner: 'Product'
     },
     meta: [
-      { name: "charset", content: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1.0" },
-      { name: "author", content: "Sabiorealm" }
+      { name: 'charset', content: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
+      { name: 'author', content: 'Sabiorealm' }
     ]
   },
   methods: {
     getCourse() {
-      var formData = new FormData();
-      formData.set("courseTitle", this.courseTitle);
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "course",
-        "getCourseByTitle"
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'course',
+        'getCourseByTitle'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
-          // success callback
-          this.courseId = response.data["id"];
-          this.courseTitle = response.data["title"];
-          this.category = response.data["category"];
-          this.description = response.data["description"];
-          this.photo = response.data["photo"];
-          this.preview = response.data["preview"];
-          this.price = response.data["price"];
-          this.reviews = response.data["reviews"];
-          this.totalModules = response.data["totalModules"];
-          this.totalLessons = response.data["totalLessons"];
-          this.instructorName = response.data["instructorName"];
-          this.instructorPhoto = response.data["instructorAvatar"];
-          this.instructorDescription = response.data["instructorDescription"];
-          this.totalReviews = response.data["totalReviews"];
-          this.totalRate = response.data["totalRate"];
-          this.getModules(response.data["id"]);
+      formData.set('courseTitle', this.courseTitle);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
+          this.courseId = response.data.id;
+          this.courseTitle = response.data.title;
+          this.category = response.data.category;
+          this.description = response.data.description;
+          this.photo = response.data.photo;
+          this.preview = response.data.preview;
+          this.price = response.data.price;
+          this.reviews = response.data.reviews;
+          this.totalModules = response.data.totalModules;
+          this.totalLessons = response.data.totalLessons;
+          this.instructorName = response.data.instructorName;
+          this.instructorPhoto = response.data.instructorAvatar;
+          this.instructorDescription = response.data.instructorDescription;
+          this.totalReviews = response.data.totalReviews;
+          this.totalRate = response.data.totalRate;
+          this.getModules(response.data.id);
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
     getModules(courseId) {
-      var formData = new FormData();
-      formData.set("courseId", courseId);
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "module",
-        "listing"
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'module',
+        'listing'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
-          // success callback
+      formData.set('courseId', courseId);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
           this.modules = response.data;
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
     getColor() {
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "settings",
-        "getSettingsInformation"
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'settings',
+        'getSettingsInformation'
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        function(response) {
-          this.color = response.data["color"];
-        }.bind(this)
-      );
+      this.$request.get(urlToBeUsedInTheRequest).then((response) => {
+        this.color = response.data.color;
+      });
     },
     createMetaTags() {
       /* Title og metatag */
-      var title = document.createElement("meta");
-      title.setAttribute("property", "og:title");
+      const title = document.createElement('meta');
+      title.setAttribute('property', 'og:title');
       title.content = this.title;
-      document.getElementsByTagName("head")[0].appendChild(title);
+      document.getElementsByTagName('head')[0].appendChild(title);
 
       /* Description og metatag */
-      var description = document.createElement("meta");
-      description.setAttribute("property", "og:description");
+      const description = document.createElement('meta');
+      description.setAttribute('property', 'og:description');
       description.content = this.description;
-      document.getElementsByTagName("head")[0].appendChild(description);
+      document.getElementsByTagName('head')[0].appendChild(description);
 
       /* Image og metatag */
-      var image = document.createElement("meta");
-      image.setAttribute("property", "og:image");
-      image.content = this.$getUrlToContents() + "course/" + this.photo + "";
-      document.getElementsByTagName("head")[0].appendChild(image);
+      const image = document.createElement('meta');
+      image.setAttribute('property', 'og:image');
+      image.content = this.$getUrlToContents() + 'course/' + this.photo + '';
+      document.getElementsByTagName('head')[0].appendChild(image);
 
       /* Url og metatag */
-      var url = document.createElement("meta");
-      url.setAttribute("property", "og:url");
-      url.content = this.getCurrentDomainName() + "product" + this.courseId;
-      document.getElementsByTagName("head")[0].appendChild(url);
+      const url = document.createElement('meta');
+      url.setAttribute('property', 'og:url');
+      url.content = this.getCurrentDomainName() + 'product' + this.courseId;
+      document.getElementsByTagName('head')[0].appendChild(url);
     }
   }
 };

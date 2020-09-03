@@ -1,7 +1,7 @@
 <template>
-  <div class="main">
+  <div>
     <bullet-list-loader
-      v-if="loadingContent == true"
+      v-if="content == false"
       :speed="2"
       width="700"
       height="200"
@@ -10,31 +10,22 @@
     ></bullet-list-loader>
 
     <div v-else>
-      <li v-for="(element,index) in lessons" :key="element.id">
+      <li v-for="(element, index) in lessons" :key="element.id">
         <div class="lectures_lists_title">
           <i class="ti-control-play"></i>
-          {{lang["lesson"]}}: {{parseInt(index) + 1}}
+          {{ lang['lesson'] }}: {{ parseInt(index) + 1 }}
         </div>
-        {{element.title}}
+        {{ element.title }}
       </li>
     </div>
   </div>
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-
-import { BulletListLoader } from "vue-content-loader";
-import { mapState } from "vuex";
-
-Vue.use(VueAxios, axios);
+import { BulletListLoader } from 'vue-content-loader';
+import { mapState } from 'vuex';
 
 export default {
-  mixins: [domains, alerts],
   components: {
     BulletListLoader
   },
@@ -45,42 +36,37 @@ export default {
     };
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
-  props: ["module-id"],
+  props: ['module-id'],
   mounted() {
     this.getLessons();
   },
   methods: {
-    getLessons: function() {
-      this.loadingContent = true;
-      var formData = new FormData();
-      formData.set("moduleId", this.moduleId);
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "lesson",
-        "listingToProductPage"
+    getLessons() {
+      this.content = false;
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'lesson',
+        'listingToProductPage'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
+      formData.set('moduleId', this.moduleId);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
           this.lessons = response.data;
-          setTimeout(
-            function() {
-              this.loadingContent = false;
-            }.bind(this),
-            1000
-          );
+          setTimeout(() => {
+            this.content = true;
+          }, 1000);
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     }
   }
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 .lesson-box {
   box-shadow: 0px 0px 5px 0px #aca9a9;
@@ -90,7 +76,7 @@ export default {
 }
 
 .lesson-title {
-  font-family: "Poppins", sans-serif !important;
+  font-family: 'Poppins', sans-serif !important;
   font-weight: 400;
   font-size: 16px;
   margin-left: 5px;
@@ -138,8 +124,8 @@ ul.lectures_lists li {
   color: #647b9c;
 }
 
-[class*=" ti-"],
-[class^="ti-"] {
+[class*=' ti-'],
+[class^='ti-'] {
   font-family: themify;
   speak: none;
   font-style: normal;

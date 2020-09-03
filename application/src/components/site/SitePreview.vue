@@ -2,17 +2,21 @@
   <div>
     <!-- Navbar -->
     <div v-if="showMobile" class="sidebar-mobile">
-      <span @click.prevent="toogleSidebar" class="sidebar-mobile-close-button">✕</span>
+      <span @click.prevent="toogleSidebar" class="sidebar-mobile-close-button"
+        >✕</span
+      >
       <ul>
         <!-- Products -->
         <li>
           <router-link to="products">
-            <span>{{ lang["courses"] }}</span>
+            <span>{{ lang['courses'] }}</span>
           </router-link>
         </li>
 
         <li v-for="element in links" :key="element.id">
-          <a :href="element.url" :target="element.target">{{ element.title }}</a>
+          <a :href="element.url" :target="element.target">{{
+            element.title
+          }}</a>
         </li>
 
         <!-- Login button -->
@@ -24,7 +28,9 @@
 
         <li class="pt-5" v-else>
           <router-link to="home">
-            <span class="link-button" :style="linkButtonMobile">{{ lang["go-to-platform"] }}</span>
+            <span class="link-button" :style="linkButtonMobile">{{
+              lang['go-to-platform']
+            }}</span>
           </router-link>
         </li>
       </ul>
@@ -54,13 +60,15 @@
         <!-- Products -->
         <li>
           <router-link to="products">
-            <span>{{ lang["courses"] }}</span>
+            <span>{{ lang['courses'] }}</span>
           </router-link>
         </li>
 
         <!-- Links -->
         <li v-for="element in links" :key="element.id">
-          <a :href="element.url" :target="element.target">{{ element.title }}</a>
+          <a :href="element.url" :target="element.target">{{
+            element.title
+          }}</a>
         </li>
 
         <!-- Login button -->
@@ -72,7 +80,7 @@
 
         <li v-else>
           <router-link to="home">
-            <span class="link-button">{{ lang["go-to-platform"] }}</span>
+            <span class="link-button">{{ lang['go-to-platform'] }}</span>
           </router-link>
         </li>
       </ul>
@@ -82,9 +90,18 @@
     <!-- Body section -->
     <section v-for="element in sections" :key="element.id">
       <banner :section-id="element.id" v-if="element.banner_id != 1"></banner>
-      <testimonial :section-id="element.id" v-if="element.testimonial_id != 1"></testimonial>
-      <product-list :section-id="element.id" v-if="element.product_list_id != 1"></product-list>
-      <text-and-media :section-id="element.id" v-if="element.text_and_media_id != 1"></text-and-media>
+      <testimonial
+        :section-id="element.id"
+        v-if="element.testimonial_id != 1"
+      ></testimonial>
+      <product-list
+        :section-id="element.id"
+        v-if="element.product_list_id != 1"
+      ></product-list>
+      <text-and-media
+        :section-id="element.id"
+        v-if="element.text_and_media_id != 1"
+      ></text-and-media>
     </section>
 
     <!-- Footer secion -->
@@ -140,7 +157,11 @@
     <!-- Footer -->
 
     <!-- Float expand button -->
-    <div v-if="fullScreenButton == true" id="container-floating" @click.prevent="fullScreen()">
+    <div
+      v-if="fullScreenButton == true"
+      id="container-floating"
+      @click.prevent="fullScreen()"
+    >
       <div id="floating-button">
         <p class="full">
           <i class="el-icon-full-screen"></i>
@@ -151,27 +172,17 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import ElementUI from "element-ui";
-import Banner from "@/components/site/section/elements/get/Banner";
-import Testimonial from "@/components/site/section/elements/get/Testimonial";
-import ProductList from "@/components/site/section/elements/get/ProductList";
-import TextAndMedia from "@/components/site/section/elements/get/TextAndMedia";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
+import Banner from '@/components/site/section/elements/get/Banner';
+import Testimonial from '@/components/site/section/elements/get/Testimonial';
+import ProductList from '@/components/site/section/elements/get/ProductList';
+import TextAndMedia from '@/components/site/section/elements/get/TextAndMedia';
 
-import { eventLogin } from "@/components/login/Login";
-import { eventBus } from "@/components/site/App";
-import { mapState } from "vuex";
-
-Vue.use(VueAxios, axios);
-Vue.use(ElementUI);
+import { eventLogin } from '@/components/login/Login';
+import { eventBus } from '@/components/site/App';
+import { mapState } from 'vuex';
 
 export default {
-  mixins: [domains, alerts],
-  props: ["full-screen-button"],
+  props: ['full-screen-button'],
   components: {
     Banner,
     Testimonial,
@@ -181,16 +192,16 @@ export default {
   data: () => {
     return {
       logo: null,
-      logoSticky: "",
-      logoSize: "",
+      logoSticky: '',
+      logoSize: '',
       sections: null,
       loading: false,
-      footerColor: "",
-      copyright: "",
-      primaryColor: "",
+      footerColor: '',
+      copyright: '',
+      primaryColor: '',
       links: [],
       socialMedias: [],
-      headerColor: "",
+      headerColor: '',
       activeSession: false,
       showMobile: false,
       stickyMode: false,
@@ -211,256 +222,229 @@ export default {
     this.getFooter();
 
     // When link`s change
-    eventBus.$on(
-      "link-list-update",
-      function() {
-        this.getLinks();
-      }.bind(this)
-    );
+    eventBus.$on('link-list-update', () => {
+      this.getLinks();
+    });
 
     // When change header
-    eventBus.$on(
-      "new-change-header",
-      function() {
-        this.getHeader();
-      }.bind(this)
-    );
+    eventBus.$on('new-change-header', () => {
+      this.getHeader();
+    });
 
     // When new section
-    eventBus.$on(
-      "new-section",
-      function() {
-        this.getBody();
-      }.bind(this)
-    );
+    eventBus.$on('new-section', () => {
+      this.getBody();
+    });
 
     // When delete section
-    eventBus.$on(
-      "delete-section",
-      function() {
-        this.getBody();
-      }.bind(this)
-    );
+    eventBus.$on('delete-section', () => {
+      this.getBody();
+    });
 
     // When reorder section
-    eventBus.$on(
-      "reorder-section",
-      function() {
-        this.getBody();
-      }.bind(this)
-    );
+    eventBus.$on('reorder-section', () => {
+      this.getBody();
+    });
   },
   computed: {
-    ...mapState(["lang"]),
-    styleHeader: function() {
-      if (this.$route.name == "site") {
-        if (this.fullScreenMode == true) {
+    ...mapState(['lang']),
+    styleHeader() {
+      if (this.$route.name === 'site') {
+        if (this.fullScreenMode === true) {
           return {
-            "background-color": this.headerColor,
-            width: "100%"
+            'background-color': this.headerColor,
+            width: '100%'
           };
         } else {
           return {
-            "background-color": this.headerColor,
-            width: "80%"
+            'background-color': this.headerColor,
+            width: '80%'
           };
         }
       } else {
         return {
-          "background-color": this.headerColor,
-          width: "100%"
+          'background-color': this.headerColor,
+          width: '100%'
         };
       }
     },
-    styleBorder: function() {
+    styleBorder() {
       return {
         border:
-          this.headerColor == "transparent"
-            ? "1px solid #969bb5"
-            : "1px solid white",
-        padding: "5px 15px 5px 15px"
+          this.headerColor === 'transparent'
+            ? '1px solid #969bb5'
+            : '1px solid white',
+        padding: '5px 15px 5px 15px'
       };
     },
-    linkButtonMobile: function() {
+    linkButtonMobile() {
       return {
-        color: "#fff",
-        border: "1px solid " + this.primaryColor + "",
-        "background-color": this.primaryColor
+        color: '#fff',
+        border: '1px solid ' + this.primaryColor + '',
+        'background-color': this.primaryColor
       };
     },
-    styleFooter: function() {
+    styleFooter() {
       return {
-        "background-color": this.footerColor + "!important"
+        'background-color': this.footerColor + '!important'
       };
     }
   },
   methods: {
-    navBarSticky: function() {
-      window.addEventListener(
-        "scroll",
-        function() {
-          var header = document.querySelector("header");
-          header.classList.toggle("sticky", window.scrollY > 0);
-          if (window.scrollY > 0) {
-            this.stickyMode = true;
-          } else {
-            this.stickyMode = false;
-          }
-        }.bind(this)
-      );
+    navBarSticky() {
+      window.addEventListener('scroll', () => {
+        const header = document.querySelector('header');
+        header.classList.toggle('sticky', window.scrollY > 0);
 
-      window.addEventListener(
-        "touchmove",
-        function() {
-          if (this.stickyMode == false) {
-            var header = document.querySelector("header");
-            header.classList.toggle("sticky");
-            this.stickyMode = true;
-          }
-        }.bind(this)
-      );
+        if (window.scrollY > 0) {
+          this.stickyMode = true;
+        } else {
+          this.stickyMode = false;
+        }
+      });
+
+      window.addEventListener('touchmove', () => {
+        if (this.stickyMode === false) {
+          const header = document.querySelector('header');
+          header.classList.toggle('sticky');
+          this.stickyMode = true;
+        }
+      });
     },
-    toogleSidebar: function() {
-      this.showMobile == true
+    toogleSidebar() {
+      this.showMobile === true
         ? (this.showMobile = false)
         : (this.showMobile = true);
     },
-    openLoginModal: function() {
-      eventLogin.$emit("open-login-modal");
+    openLoginModal() {
+      eventLogin.$emit('open-login-modal');
     },
-    getHeader: function() {
+    getHeader() {
       this.loading = true;
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "builder",
-        "listHeader"
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'builder',
+        'listHeader'
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        response => {
+      this.$request.get(urlToBeUsedInTheRequest).then(
+        (response) => {
           this.logo =
             this.$getUrlToContents() +
-            "builder/header/" +
+            'builder/header/' +
             response.data[0].logo +
-            "";
+            '';
           this.logoSticky =
             this.$getUrlToContents() +
-            "builder/header/" +
+            'builder/header/' +
             response.data[0].logo_sticky +
-            "";
-          this.logoSize = response.data[0].logo_size + "%";
+            '';
+          this.logoSize = response.data[0].logo_size + '%';
           this.headerColor = response.data[0].color;
           this.loading = false;
           this.getLinks();
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    getFooter: function() {
+    getFooter() {
       this.loading = true;
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "builder",
-        "listFooter"
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'builder',
+        'listFooter'
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        response => {
+      this.$request.get(urlToBeUsedInTheRequest).then(
+        (response) => {
           this.footerColor = response.data[0].color;
           this.copyright = response.data[0].copyright;
           this.loading = false;
           this.updateSocialMediaListArray();
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    fullScreen: function() {
-      if (this.fullScreenMode == false) {
+    fullScreen() {
+      if (this.fullScreenMode === false) {
         this.fullScreenMode = true;
       } else {
         this.fullScreenMode = false;
       }
-      eventBus.$emit("full-screen");
+      eventBus.$emit('full-screen');
     },
-    getBody: function() {
+    getBody() {
       this.loading = true;
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "section",
-        "listing"
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'section',
+        'listing'
       );
-      axios.post(urlToBeUsedInTheRequest).then(
-        response => {
+      this.$request.post(urlToBeUsedInTheRequest).then(
+        (response) => {
           this.sections = response.data;
           this.loading = false;
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    getLinks: function() {
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "link",
-        "listing"
+    getLinks() {
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'link',
+        'listing'
       );
-      axios.post(urlToBeUsedInTheRequest).then(
-        response => {
+      this.$request.post(urlToBeUsedInTheRequest).then(
+        (response) => {
           this.links = response.data;
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    updateSocialMediaListArray: function() {
+    updateSocialMediaListArray() {
       this.loading = true;
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "social",
-        "listing"
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'social',
+        'listing'
       );
-      axios.post(urlToBeUsedInTheRequest).then(
-        response => {
+      this.$request.post(urlToBeUsedInTheRequest).then(
+        (response) => {
           this.socialMedias = response.data;
           this.loading = false;
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    getPrimaryColor: function() {
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "settings",
-        "getSettingsInformation"
+    getPrimaryColor() {
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'settings',
+        'getSettingsInformation'
       );
-      axios.post(urlToBeUsedInTheRequest).then(
-        response => {
-          this.primaryColor = response.data["color"];
+      this.$request.post(urlToBeUsedInTheRequest).then(
+        (response) => {
+          this.primaryColor = response.data.color;
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    getSession: function() {
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "Mysessions",
-        "activeSession"
+    getSession() {
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'Mysessions',
+        'activeSession'
       );
-      axios.post(urlToBeUsedInTheRequest).then(
-        response => {
+      this.$request.post(urlToBeUsedInTheRequest).then(
+        (response) => {
           this.activeSession = response.data;
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     }
   }
@@ -571,7 +555,7 @@ header ul li a {
   transition: 0.5s;
   color: white;
   font-size: 1.3em;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 /* =============
@@ -663,7 +647,7 @@ Mobile
   transition: 0.5s;
   color: white;
   font-size: 1.2em;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 .ul-landscape {

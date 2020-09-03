@@ -1,14 +1,17 @@
 <template>
   <div>
     <div class="mt-5 text-center card-program">
-      <h2>{{programName}}</h2>
+      <h2>{{ programName }}</h2>
       <h3>
-        {{lang["total-courses-completed"]}}
-        <b class="sbr-text-primary">{{totalCoursesCompleted}}</b>
+        {{ lang['total-courses-completed'] }}
+        <b class="sbr-text-primary">{{ totalCoursesCompleted }}</b>
       </h3>
       <hr />
       <div class="row item-row" v-for="element in courses" :key="element.id">
-        <div v-if="element.status == 0" class="col-2 item-icon text-center item">
+        <div
+          v-if="element.status == 0"
+          class="col-2 item-icon text-center item"
+        >
           <svg
             class="svg-inline--fa fa-check fa-w-2 completed"
             aria-hidden="true"
@@ -26,7 +29,11 @@
           </svg>
         </div>
 
-        <div v-else class="col-2 item-icon text-center item" style="padding:15px 30px 15px 30px;">
+        <div
+          v-else
+          class="col-2 item-icon text-center item"
+          style="padding: 15px 30px 15px 30px"
+        >
           <svg
             class="svg-inline--fa fa-circle fa-w-16 uncompleted"
             aria-hidden="true"
@@ -46,7 +53,11 @@
 
         <div class="col-8 mr-5 text-left item-name">
           <h3>
-            <router-link class="sbr-text-primary" :to="'/viewcourse/'+element.id">{{element.course}}</router-link>
+            <router-link
+              class="sbr-text-primary"
+              :to="'/viewcourse/' + element.id"
+              >{{ element.course }}</router-link
+            >
           </h3>
         </div>
       </div>
@@ -55,68 +66,44 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import VueTheMask from "vue-the-mask";
-import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
-import { eventLang } from "@/components/helper/HelperLang";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-
-Vue.use(ElementUI);
-Vue.use(VueTheMask);
-Vue.use(VueAxios, axios);
 export default {
-  mixins: [domains, alerts],
-  data: function() {
+  data: () => {
     return {
-      lang: {},
       courses: [],
-      totalCoursesCompleted: "",
-      programName: "",
-      programId: ""
+      totalCoursesCompleted: '',
+      programName: '',
+      programId: ''
     };
   },
   created() {
     this.programId = this.$route.params.id;
   },
   mounted() {
-    eventLang.$on(
-      "lang",
-      function(response) {
-        this.lang = response;
-      }.bind(this)
-    );
-
     this.listingCoursesToViewProgram();
   },
   methods: {
-    listingCoursesToViewProgram: function() {
-      var formData = new FormData();
-      formData.set("programId", this.programId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "program",
-        "listingCoursesToViewProgram"
+    listingCoursesToViewProgram() {
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+        'program',
+        'listingCoursesToViewProgram'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
-          /* Success callback */
+      formData.set('programId', this.programId);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
           this.courses = response.data;
-          this.programName = response.data[0]["program"];
+          this.programName = response.data[0].program;
           this.completedCourses();
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
+        () => {
+          this.$errorMessage();
         }
       );
     },
-    completedCourses: function() {
-      var total = 0;
+    completedCourses() {
+      let total = 0;
       for (let index = 0; index < this.courses.length; index++) {
-        if (this.courses[index]["status"] == 0) {
+        if (this.courses[index].status === 0) {
           total = parseInt(total) + parseInt(1);
         }
       }

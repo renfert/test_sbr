@@ -11,7 +11,9 @@
             <el-menu-item index="1-0">
               <upload
                 :src-name="element.logo"
-                :src-img="getUrlToContents() + 'builder/header/'+element.logo+''"
+                :src-img="
+                  getUrlToContents() + 'builder/header/' + element.logo + ''
+                "
                 do-upload="true"
                 box-height="100"
                 return-name="logoName"
@@ -25,7 +27,12 @@
             <el-menu-item index="1-1">
               <upload
                 :src-name="element.logo_sticky"
-                :src-img="getUrlToContents() + 'builder/header/'+element.logo_sticky+''"
+                :src-img="
+                  getUrlToContents() +
+                  'builder/header/' +
+                  element.logo_sticky +
+                  ''
+                "
                 do-upload="true"
                 box-height="100"
                 return-name="logoStickyName"
@@ -38,20 +45,39 @@
           <el-menu-item-group title="Logo size">
             <el-menu-item>
               <div class="block">
-                <input class="hide" name="logoSize" type="number" v-model="logoSize" />
-                <el-slider @change="editHeader()" v-model="logoSize"></el-slider>
+                <input
+                  class="hide"
+                  name="logoSize"
+                  type="number"
+                  v-model="logoSize"
+                />
+                <el-slider
+                  @change="editHeader()"
+                  v-model="logoSize"
+                ></el-slider>
               </div>
             </el-menu-item>
           </el-menu-item-group>
           <el-menu-item-group :title="lang['color']">
             <el-menu-item>
-              <input type="text" v-model="headerColor" name="color" class="hide" />
-              <el-color-picker @change="changeHeaderColor()" v-model="headerColor"></el-color-picker>
+              <input
+                type="text"
+                v-model="headerColor"
+                name="color"
+                class="hide"
+              />
+              <el-color-picker
+                @change="changeHeaderColor()"
+                v-model="headerColor"
+              ></el-color-picker>
             </el-menu-item>
           </el-menu-item-group>
           <el-menu-item-group :title="lang['transparent-header']">
             <el-menu-item>
-              <el-switch @change="applyTransparentHeader()" v-model="transparentHeader"></el-switch>
+              <el-switch
+                @change="applyTransparentHeader()"
+                v-model="transparentHeader"
+              ></el-switch>
             </el-menu-item>
           </el-menu-item-group>
         </form>
@@ -59,8 +85,12 @@
           <div class="list-block">
             <link-list></link-list>
             <br />
-            <el-button size="small" class="sbr-primary" @click.prevent="openLinksModal()">
-              {{lang["add-new-link"]}}
+            <el-button
+              size="small"
+              class="sbr-primary"
+              @click.prevent="openLinksModal()"
+            >
+              {{ lang['add-new-link'] }}
               <i class="el-icon-circle-plus-outline"></i>
             </el-button>
           </div>
@@ -71,24 +101,12 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import ElementUI from "element-ui";
-import Upload from "@/components/helper/HelperUpload";
-import LinkList from "@/components/links/LinkList";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-
-import { eventBus } from "@/components/site/App";
-import { eventUpload } from "@/components/helper/HelperUpload";
-import { mapState } from "vuex";
-
-Vue.use(VueAxios, axios);
-Vue.use(ElementUI);
+import Upload, { eventUpload } from '@/components/helper/HelperUpload';
+import LinkList from '@/components/links/LinkList';
+import { eventBus } from '@/components/site/App';
+import { mapState } from 'vuex';
 
 export default {
-  mixins: [domains, alerts],
   components: {
     Upload,
     LinkList
@@ -96,91 +114,79 @@ export default {
   data: () => {
     return {
       logoSize: 0,
-      logo: "",
+      logo: '',
       headerArray: null,
-      headerColor: "",
+      headerColor: '',
       transparentHeader: false
     };
   },
   mounted() {
-    eventUpload.$on(
-      "finish-upload",
-      function() {
-        if (this.$route.name == "site") {
-          this.editHeader();
-        }
-      }.bind(this)
-    );
     this.listHeader();
+
+    eventUpload.$on('finish-upload', () => {
+      if (this.$route.name === 'site') {
+        this.editHeader();
+      }
+    });
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   methods: {
-    changeHeaderColor: function() {
-      setTimeout(
-        function() {
-          this.editHeader();
-        }.bind(this),
-        100
-      );
+    changeHeaderColor() {
+      setTimeout(() => {
+        this.editHeader();
+      }, 100);
     },
-    applyTransparentHeader: function() {
-      if (this.transparentHeader == true) {
-        this.headerColor = "transparent";
-        setTimeout(
-          function() {
-            this.editHeader();
-          }.bind(this),
-          200
-        );
+    applyTransparentHeader() {
+      if (this.transparentHeader === true) {
+        this.headerColor = 'transparent';
+        setTimeout(() => {
+          this.editHeader();
+        }, 200);
       } else {
-        this.headerColor = "#87CEFA";
-        setTimeout(
-          function() {
-            this.editHeader();
-          }.bind(this),
-          200
-        );
+        this.headerColor = '#87CEFA';
+        setTimeout(() => {
+          this.editHeader();
+        }, 200);
       }
     },
-    openLinksModal: function() {
-      eventBus.$emit("open-link-modal");
+    openLinksModal() {
+      eventBus.$emit('open-link-modal');
     },
-    listHeader: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "builder",
-        "listHeader"
+    listHeader() {
+      const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+        'builder',
+        'listHeader'
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        response => {
+      this.$request.get(urlToBeUsedInTheRequest).then(
+        (response) => {
           this.headerArray = response.data;
           this.logoSize = parseInt(response.data[0].logo_size);
           this.headerColor = response.data[0].color;
-          if (response.data[0].color == "transparent") {
+          if (response.data[0].color === 'transparent') {
             this.transparentHeader = true;
           }
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    editHeader: function() {
-      var form = document.getElementById("form-header");
-      var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "builder",
-        "editHeader"
+    editHeader() {
+      const form = document.getElementById('form-header');
+      const formData = new FormData(form);
+      const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+        'builder',
+        'editHeader'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
-          eventBus.$emit("new-change-header");
+          eventBus.$emit('new-change-header');
         },
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     }
   }
@@ -189,8 +195,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-[class*=" el-icon-"],
-[class^="el-icon-"] {
+[class*=' el-icon-'],
+[class^='el-icon-'] {
   line-height: 0 !important;
 }
 
@@ -207,7 +213,7 @@ export default {
 
 .el-submenu span {
   font-size: 1.2em !important;
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Montserrat', sans-serif;
   color: #53536e !important;
 }
 </style>

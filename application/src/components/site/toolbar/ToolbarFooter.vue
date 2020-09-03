@@ -9,13 +9,20 @@
         <form id="form-footer">
           <el-menu-item-group :title="lang['copyright']">
             <el-menu-item>
-              <el-input name="copyright" @change="editFooter()" v-model="copyright"></el-input>
+              <el-input
+                name="copyright"
+                @change="editFooter()"
+                v-model="copyright"
+              ></el-input>
             </el-menu-item>
           </el-menu-item-group>
           <el-menu-item-group :title="lang['primary-color']">
             <el-menu-item>
               <input type="text" v-model="color" name="color" class="hide" />
-              <el-color-picker @change="changeColor()" v-model="color"></el-color-picker>
+              <el-color-picker
+                @change="changeColor()"
+                v-model="color"
+              ></el-color-picker>
             </el-menu-item>
           </el-menu-item-group>
         </form>
@@ -23,8 +30,11 @@
           <div class="list-block">
             <social-media-list></social-media-list>
             <br />
-            <el-button class="sbr-btn sbr-primary" @click.prevent="openSocialModal()">
-              {{lang["add-new-social"]}}
+            <el-button
+              class="sbr-btn sbr-primary"
+              @click.prevent="openSocialModal()"
+            >
+              {{ lang['add-new-social'] }}
               <i class="el-icon-circle-plus-outline"></i>
             </el-button>
           </div>
@@ -35,87 +45,68 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
-import lang from "element-ui/lib/locale/lang/en";
-import locale from "element-ui/lib/locale";
-import { eventLang } from "@/components/helper/HelperLang";
-import { eventBus } from "@/components/site/App";
-import SocialMediaList from "@/components/social/SocialMediaList";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-locale.use(lang);
-Vue.use(VueAxios, axios);
-Vue.use(ElementUI);
+import SocialMediaList from '@/components/social/SocialMediaList';
+
+import { eventBus } from '@/components/site/App';
+import { mapState } from 'vuex';
+
 export default {
-  mixins: [domains, alerts],
   components: {
     SocialMediaList
   },
   data: () => {
     return {
-      lang: {},
       footerArray: [],
-      color: "",
+      color: '',
       copyright: false
     };
   },
+  computed: {
+    ...mapState(['lang'])
+  },
   mounted() {
-    eventLang.$on(
-      "lang",
-      function(response) {
-        this.lang = response;
-      }.bind(this)
-    );
     this.listFooter();
   },
   methods: {
-    changeColor: function() {
-      setTimeout(
-        function() {
-          this.editFooter();
-        }.bind(this),
-        100
-      );
+    changeColor() {
+      setTimeout(() => {
+        this.editFooter();
+      }, 100);
     },
 
-    openSocialModal: function() {
-      eventBus.$emit("open-social-modal");
+    openSocialModal() {
+      eventBus.$emit('open-social-modal');
     },
-    listFooter: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "builder",
-        "listFooter"
+    listFooter() {
+      const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+        'builder',
+        'listFooter'
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        response => {
+      this.$request.get(urlToBeUsedInTheRequest).then(
+        (response) => {
           this.footerArray = response.data;
           this.color = response.data[0].color;
           this.copyright = response.data[0].copyright;
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    editFooter: function() {
-      var form = document.getElementById("form-footer");
-      var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "builder",
-        "editFooter"
+    editFooter() {
+      const form = document.getElementById('form-footer');
+      const formData = new FormData(form);
+      const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+        'builder',
+        'editFooter'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
-          eventBus.$emit("new-change-footer");
+          eventBus.$emit('new-change-footer');
         },
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     }
   }
@@ -124,8 +115,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-[class*=" el-icon-"],
-[class^="el-icon-"] {
+[class*=' el-icon-'],
+[class^='el-icon-'] {
   line-height: 0 !important;
 }
 
@@ -142,7 +133,7 @@ export default {
 
 .el-submenu span {
   font-size: 1.2em !important;
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Montserrat', sans-serif;
   color: #53536e !important;
 }
 </style>

@@ -2,7 +2,7 @@
   <div class="left side-menu" :class="mobile">
     <!--- Sidemenu student role -->
     <el-menu
-      style="width:230px"
+      style="width: 230px"
       :collapse="collapse"
       background-color="#373A43"
       text-color="#fff"
@@ -14,50 +14,50 @@
         <el-row>
           <!-- Profile -->
           <router-link to="/">
-            <img :src="getUrlToContents() + 'settings/'+logo+''" />
+            <img :src="getUrlToContents() + 'settings/' + logo + ''" />
           </router-link>
         </el-row>
       </el-menu-item>
 
       <el-menu-item index="1">
-        <i class="dripicons-home"></i>
+        <i class="dripicons-home" />
         <router-link to="/home">
-          <span class="menuMain">{{ lang["home-nav"] }}</span>
+          <span class="menuMain">{{ lang['home-nav'] }}</span>
         </router-link>
       </el-menu-item>
 
       <el-menu-item index="2">
-        <i class="dripicons-graph-bar"></i>
+        <i class="dripicons-graph-bar" />
         <router-link to="/dashboard">
-          <span class="menuMain">{{ lang["dashboard-nav"] }}</span>
+          <span class="menuMain">{{ lang['dashboard-nav'] }}</span>
         </router-link>
       </el-menu-item>
 
       <el-menu-item index="3">
-        <i class="dripicons-media-next"></i>
+        <i class="dripicons-media-next" />
         <router-link to="/courses">
-          <span class="menuMain">{{ lang["courses-nav"] }}</span>
+          <span class="menuMain">{{ lang['courses-nav'] }}</span>
         </router-link>
       </el-menu-item>
 
-      <el-menu-item index="4" v-if="plan != 'starter'">
-        <i class="dripicons-to-do"></i>
+      <el-menu-item v-if="plan != 'starter'" index="4">
+        <i class="dripicons-to-do" />
         <router-link to="/programs">
-          <span class="menuMain">{{ lang["programs-nav"] }}</span>
+          <span class="menuMain">{{ lang['programs-nav'] }}</span>
         </router-link>
       </el-menu-item>
 
-      <el-menu-item index="5" v-if="plan != 'starter'">
-        <i class="dripicons-copy"></i>
+      <el-menu-item v-if="plan != 'starter'" index="5">
+        <i class="dripicons-copy" />
         <router-link to="/records">
-          <span class="menuMain">{{ lang["school-records"] }}</span>
+          <span class="menuMain">{{ lang['school-records'] }}</span>
         </router-link>
       </el-menu-item>
 
-      <el-menu-item index="6" v-if="plan != 'starter'">
-        <i class="dripicons-star"></i>
+      <el-menu-item v-if="plan != 'starter'" index="6">
+        <i class="dripicons-star" />
         <router-link to="/certificates">
-          <span class="menuMain">{{ lang["certificates-nav"] }}</span>
+          <span class="menuMain">{{ lang['certificates-nav'] }}</span>
         </router-link>
       </el-menu-item>
 
@@ -66,21 +66,23 @@
         <el-row>
           <!-- Profile -->
           <router-link class="pr-4" to="/profile">
-            <el-avatar :src="getUrlToContents() + 'avatar/' + userAvatar + ''"></el-avatar>
+            <el-avatar
+              :src="getUrlToContents() + 'avatar/' + userAvatar + ''"
+            />
           </router-link>
 
           <!-- Notification -->
           <a href="#">
-            <i class="mdi mdi-bell mdi-18px pr-3 mr-0"></i>
+            <i class="mdi mdi-bell mdi-18px pr-3 mr-0" />
           </a>
 
           <!-- Calendar -->
           <router-link to="/calendar">
-            <i class="mdi mdi-calendar mdi-18px pr-3 mr-0"></i>
+            <i class="mdi mdi-calendar mdi-18px pr-3 mr-0" />
           </router-link>
           <!-- Lofoff -->
           <a href="javascript:void(0)" @click="confirmLogout">
-            <i class="mdi mdi-power-settings mdi-18px ml-0 pl-0"></i>
+            <i class="mdi mdi-power-settings mdi-18px ml-0 pl-0" />
           </a>
         </el-row>
       </el-menu-item>
@@ -90,85 +92,49 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-
-import { eventBus } from "@/components/profile/App";
-import { mapState } from "vuex";
-import { eventTemplate } from "@/components/template/TheTopBar";
-
-Vue.use(VueAxios, axios);
+import { mapState } from 'vuex';
+import { eventTemplate } from '@/components/template/TheTopBar';
 
 export default {
-  mixins: [domains, alerts],
-  props: ["collapse", "logo", "user-name", "user-avatar", "user-id", "plan"],
+  props: ['collapse', 'logo', 'user-name', 'user-avatar', 'user-id', 'plan'],
   data: () => {
     return {
-      mobile: "retracted"
+      mobile: 'retracted'
     };
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   mounted() {
-    eventBus.$on(
-      "profile-edited",
-      function() {
-        this.getUserProfile();
-      }.bind(this)
-    );
-
-    eventTemplate.$on(
-      "change-leftbar-class",
-      function() {
-        this.mobile == "retracted"
-          ? (this.mobile = "opened")
-          : (this.mobile = "retracted");
-      }.bind(this)
-    );
+    eventTemplate.$on('change-leftbar-class', () => {
+      this.mobile === 'retracted'
+        ? (this.mobile = 'opened')
+        : (this.mobile = 'retracted');
+    });
   },
   methods: {
-    getUserProfile() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "user",
-        "getUserProfile"
-      );
-      axios.get(urlToBeUsedInTheRequest).then(
-        function(response) {
-          this.roleId = response.data["myrole_id"];
-          this.userName = response.data["name"];
-          this.userAvatar = response.data["avatar"];
-        }.bind(this)
-      );
-    },
-    confirmLogout: function() {
-      this.$confirm(this.lang["wanna-leave"], {
-        confirmButtonText: "OK",
-        cancelButtonText: "Cancel",
-        type: "warning"
+    confirmLogout() {
+      this.$confirm(this.lang['wanna-leave'], {
+        confirmButtonText: 'OK',
+        cancelButtonText: 'Cancel',
+        type: 'warning'
       }).then(() => {
         this.logout();
       });
     },
-    logout: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "logout",
-        "doLogout"
+    logout() {
+      const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+        'logout',
+        'doLogout'
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        function() {
-          window.location.href = this.getDomainNameToNavigation();
-        }.bind(this)
-      );
+      this.$request.get(urlToBeUsedInTheRequest).then(() => {
+        window.location.href = this.getDomainNameToNavigation();
+      });
     }
   }
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 .el-menu-item i {
   margin-right: 15%;
@@ -181,7 +147,7 @@ export default {
 .el-submenu i,
 a {
   color: white;
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .el-submenu a:hover {
@@ -191,7 +157,7 @@ a {
 .el-menu-item i,
 a {
   color: white;
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .el-menu-item a:hover {

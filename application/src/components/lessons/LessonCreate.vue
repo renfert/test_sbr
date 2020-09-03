@@ -13,21 +13,21 @@
 </template>
 
 <script>
-import LessonVideo from "@/components/lessons/create/types/LessonVideo";
-import LessonAudio from "@/components/lessons/create/types/LessonAudio";
-import LessonPdf from "@/components/lessons/create/types/LessonPdf";
-import LessonDownloadable from "@/components/lessons/create/types/LessonDownloadable";
-import LessonHtml from "@/components/lessons/create/types/LessonHtml";
-import LessonWebinar from "@/components/lessons/create/types/LessonWebinar";
-import LessonVideoConf from "@/components/lessons/create/types/LessonVideoConf";
-import LessonExam from "@/components/lessons/create/types/LessonExam";
-import HelperProgress from "@/components/helper/HelperProgress.vue";
+import LessonVideo from '@/components/lessons/create/types/LessonVideo';
+import LessonAudio from '@/components/lessons/create/types/LessonAudio';
+import LessonPdf from '@/components/lessons/create/types/LessonPdf';
+import LessonDownloadable from '@/components/lessons/create/types/LessonDownloadable';
+import LessonHtml from '@/components/lessons/create/types/LessonHtml';
+import LessonWebinar from '@/components/lessons/create/types/LessonWebinar';
+import LessonVideoConf from '@/components/lessons/create/types/LessonVideoConf';
+import LessonExam from '@/components/lessons/create/types/LessonExam';
+import HelperProgress from '@/components/helper/HelperProgress.vue';
 
-import { eventBus } from "@/components/newcourse/App";
-import { mapState } from "vuex";
+import { eventBus } from '@/components/newcourse/App';
+import { mapState } from 'vuex';
 
 export default {
-  props: ["module-id"],
+  props: ['module-id'],
   components: {
     LessonVideo,
     LessonAudio,
@@ -40,16 +40,12 @@ export default {
     HelperProgress
   },
   mounted() {
-    eventBus.$on("create-lesson", function(response) {
+    eventBus.$on('create-lesson', (response) => {
       eventBus.$emit(response);
     });
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   }
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
-</style>

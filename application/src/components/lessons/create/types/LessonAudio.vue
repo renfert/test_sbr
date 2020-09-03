@@ -1,7 +1,11 @@
 <template>
-  <!--  Modal new lesson -->
   <div>
-    <el-dialog :visible.sync="modalCreateAudio" :title="lang['create-new-lesson']" center top="5vh">
+    <el-dialog
+      :visible.sync="modal"
+      :title="lang['create-new-lesson']"
+      center
+      top="5vh"
+    >
       <form id="form-lesson-audio" @submit.prevent="create()">
         <div class="form-row">
           <!-- Module id -->
@@ -9,7 +13,7 @@
           <input type="text" class="hide" name="type_mylesson_id" value="2" />
           <div class="form-group col-xl-12 col-md-12">
             <!-- Lesson name -->
-            <label class="col-form-label">{{lang["name"]}} *</label>
+            <label class="col-form-label">{{ lang['name'] }} *</label>
             <el-input required v-model="name" name="title"></el-input>
           </div>
         </div>
@@ -33,87 +37,62 @@
               class="sbr-primary"
               v-loading="loading"
               native-type="submit"
-            >{{lang["save-button"]}}</el-button>
+              >{{ lang['save-button'] }}</el-button
+            >
           </div>
         </div>
       </form>
     </el-dialog>
   </div>
-  <!-- End  modal new lesson -->
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import Upload from "@/components/helper/HelperUpload";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-
-import { eventUpload } from "@/components/helper/HelperUpload";
-import { eventBus } from "@/components/newcourse/App";
-import { mapState } from "vuex";
-
-Vue.use(VueAxios, axios);
+import Upload from '@/components/helper/HelperUpload';
+import { eventBus } from '@/components/newcourse/App';
+import { mapState } from 'vuex';
 
 export default {
-  mixins: [domains, alerts],
-  props: ["module-id"],
+  props: ['module-id'],
   components: {
     Upload
   },
   data: () => {
     return {
-      name: "",
-      modalCreateAudio: false,
+      name: '',
+      modal: false,
       loading: false
     };
   },
   mounted() {
-    /* Get new video click event */
-    eventBus.$on(
-      "new-audio",
-      function() {
-        this.modalCreateAudio = true;
-      }.bind(this)
-    );
+    eventBus.$on('new-audio', () => {
+      this.modal = true;
+    });
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   methods: {
-    /* Create a new lesson */
-    create: function() {
+    create() {
       this.loading = true;
-      var form = document.getElementById("form-lesson-audio");
-      var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "lesson",
-        "create"
+      const form = document.getElementById('form-lesson-audio');
+      const formData = new FormData(form);
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'lesson',
+        'create'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
-          /* Success callback */
-          this.successMessage();
-          this.actionsToBePerformedAfterEdit();
+          this.$successMessage();
+          form.reset();
+          eventBus.$emit('new-lesson');
+          this.modal = false;
           this.loading = false;
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
-    },
-    actionsToBePerformedAfterEdit() {
-      this.name = "";
-      this.modalCreateAudio = false;
-      eventBus.$emit("new-lesson");
-      eventUpload.$emit("clear");
     }
   }
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
-</style>

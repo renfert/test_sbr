@@ -2,28 +2,22 @@
   <div class="two-column-card mt-5">
     <div class="item-card">
       <div v-if="courseList == null">
-        <h4>{{ lang["no-results-course-title"] }}</h4>
+        <h4>{{ lang['no-results-course-title'] }}</h4>
         <br />
         <router-link to="/newcourse">
           <el-button class="sbr-primary mt-4">
-            {{
-            lang["new-course-button"]
-            }}
+            {{ lang['new-course-button'] }}
           </el-button>
         </router-link>
       </div>
       <div v-else>
         <h3>
-          {{ lang["courses-already-created"] }}
-          <b
-            class="sbr-text-primary"
-          >{{ numberTotalOfCoursesCreated }}</b>
+          {{ lang['courses-already-created'] }}
+          <b class="sbr-text-primary">{{ numberTotalOfCoursesCreated }}</b>
         </h3>
         <router-link to="/newcourse">
           <el-button class="sbr-primary mt-4">
-            {{
-            lang["new-course-button"]
-            }}
+            {{ lang['new-course-button'] }}
           </el-button>
         </router-link>
       </div>
@@ -34,11 +28,22 @@
     <!-- See how to create a course --->
     <div class="item-card item-video-course">
       <h3 class="text-box">See how is easy to create a course</h3>
-      <a id="play-video" class="video-play-button" @click.prevent="videoOverlay = true" href="#">
+      <a
+        id="play-video"
+        class="video-play-button"
+        @click.prevent="videoOverlay = true"
+        href="#"
+      >
         <span></span>
       </a>
-      <div id="video-overlay" class="video-overlay" :class="videoOverlay == true ? 'open' : ''">
-        <a @click.prevent="videoOverlay = false" class="video-overlay-close">&times;</a>
+      <div
+        id="video-overlay"
+        class="video-overlay"
+        :class="videoOverlay == true ? 'open' : ''"
+      >
+        <a @click.prevent="videoOverlay = false" class="video-overlay-close"
+          >&times;</a
+        >
         <iframe
           width="560"
           height="315"
@@ -52,18 +57,14 @@
 </template>
 
 <script>
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-
-import { eventBus } from "@/components/courses/App";
-import { mapState } from "vuex";
+import { eventBus } from '@/components/courses/App';
+import { mapState } from 'vuex';
 
 export default {
-  mixins: [domains, alerts],
   data: () => {
     return {
       courseList: [],
-      numberTotalOfCoursesCreated: "",
+      numberTotalOfCoursesCreated: '',
       videoOverlay: false
     };
   },
@@ -71,21 +72,21 @@ export default {
     this.getCourses();
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   mounted() {
-    eventBus.$on("course-deleted", () => {
+    eventBus.$on('course-deleted', () => {
       this.getCourses();
     });
   },
   methods: {
     getCourses() {
-      let urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "course",
-        "listing"
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'course',
+        'listing'
       );
       this.$request.get(urlToBeUsedInTheRequest).then(
-        response => {
+        (response) => {
           this.courseList = response.data;
           if (response.data == null) {
             this.numberTotalOfCoursesCreated = 0;
@@ -94,7 +95,7 @@ export default {
           }
         },
         () => {
-          this.errorMessage();
+          this.$errorMessage();
         }
       );
     }
@@ -159,7 +160,7 @@ export default {
 }
 
 .video-play-button:before {
-  content: "";
+  content: '';
   position: absolute;
   z-index: 0;
   left: 50%;
@@ -174,7 +175,7 @@ export default {
 }
 
 .video-play-button:after {
-  content: "";
+  content: '';
   position: absolute;
   z-index: 1;
   left: 50%;
@@ -269,7 +270,7 @@ export default {
 }
 
 /* =============
-  Mobile  
+  Mobile
 ============= */
 
 @media only screen and (max-width: 600px) {

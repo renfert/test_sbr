@@ -1,15 +1,27 @@
 <template>
-  <!--  Modal new lesson -->
   <div>
-    <el-dialog :visible.sync="modalEditDownloadable" :title="lang['edit-lesson']" center top="5vh">
+    <el-dialog
+      :visible.sync="modal"
+      :title="lang['edit-lesson']"
+      center
+      top="5vh"
+    >
       <form id="form-lesson-downloadable-edit" @submit.prevent="edit()">
         <div class="form-row">
-          <!-- Lesson id -->
-          <input type="number" class="hide" name="lessonId" :value="lessonId" />
+          <input
+            type="number"
+            class="hide"
+            name="lessonId"
+            :value="downloadable.id"
+          />
           <div class="form-group col-xl-12 col-md-12">
             <!-- Lesson name -->
-            <label class="col-form-label">{{lang["name"]}} *</label>
-            <el-input required v-model="name" name="title"></el-input>
+            <label class="col-form-label">{{ lang['name'] }} *</label>
+            <el-input
+              required
+              v-model="downloadable.name"
+              name="title"
+            ></el-input>
           </div>
         </div>
         <div class="form-row">
@@ -17,11 +29,9 @@
             <!-- Downloadable file upload -->
             <label class="col-form-label">Downloadable file *</label>
             <upload
-              :key="componentKey"
-              v-if="this.realName != ''"
-              :src-name="this.downloadableName"
-              :src-real-name="this.realName"
-              :src-img="this.previewImg"
+              v-if="this.downloadable.fileRealName != ''"
+              :src-name="this.downloadable.fileName"
+              :src-real-name="this.downloadable.fileRealName"
               do-upload="true"
               box-height="200"
               return-name="path"
@@ -37,96 +47,69 @@
               v-loading="loading"
               native-type="submit"
               class="sbr-primary"
-            >{{lang["save-button"]}}</el-button>
+              >{{ lang['save-button'] }}</el-button
+            >
           </div>
         </div>
       </form>
     </el-dialog>
   </div>
-  <!-- End  modal new lesson -->
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import Upload from "@/components/helper/HelperUpload";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-
-import { eventUpload } from "@/components/helper/HelperUpload";
-import { mapState } from "vuex";
-import { eventBus } from "@/components/newcourse/App";
-
-Vue.use(VueAxios, axios);
+import Upload from '@/components/helper/HelperUpload';
+import { mapState } from 'vuex';
+import { eventBus } from '@/components/newcourse/App';
 
 export default {
-  mixins: [domains, alerts],
   components: {
     Upload
   },
   data: () => {
     return {
-      name: "",
-      downloadableName: "",
-      previewImg: "",
-      lessonId: "",
-      realName: "",
-      modalEditDownloadable: false,
-      loading: false,
-      componentKey: 0
+      downloadable: {
+        id: '',
+        name: '',
+        fileName: '',
+        fileRealName: ''
+      },
+      modal: false,
+      loading: false
     };
   },
   mounted() {
-    eventBus.$on(
-      "edit-lesson-4",
-      function(response) {
-        this.modalEditDownloadable = true;
-        this.lessonId = response[0]["id"];
-        this.name = response[0]["title"];
-        this.realName = response[0]["real_name"];
-        this.downloadableName = response[0]["path"];
-        this.previewImg =
-          "" + this.$getUrlToContents() + "content/" + response[0]["path"];
-        this.forceRerender();
-      }.bind(this)
-    );
+    eventBus.$on('edit-lesson-4', (response) => {
+      this.modal = true;
+      this.downloadable.id = response[0].id;
+      this.downloadable.name = response[0].title;
+      this.downloadable.fileRealName = response[0].real_name;
+      this.downloadable.fileName = response[0].path;
+    });
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   methods: {
-    /* Edit a lesson */
-    edit: function() {
+    edit() {
       this.loading = true;
-      var form = document.getElementById("form-lesson-downloadable-edit");
-      var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest("lesson", "edit");
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+      const form = document.getElementById('form-lesson-downloadable-edit');
+      const formData = new FormData(form);
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'lesson',
+        'edit'
+      );
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
-          /* Success callback */
-          this.successMessage();
-          this.actionsToBePerformedAfterEdit();
+          this.$successMessage();
+          this.modal = false;
+          eventBus.$emit('new-lesson');
           this.loading = false;
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
-    },
-    forceRerender: function() {
-      this.componentKey += 1;
-    },
-    actionsToBePerformedAfterEdit: function() {
-      this.modalEditDownloadable = false;
-      eventBus.$emit("new-lesson");
-      eventUpload.$emit("clear");
     }
   }
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
-</style>

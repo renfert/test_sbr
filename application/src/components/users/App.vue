@@ -1,4 +1,4 @@
-<template >
+<template>
   <div class="content-page">
     <user-create></user-create>
     <user-list></user-list>
@@ -6,10 +6,10 @@
 </template>
 
 <script>
-import Vue from "vue";
-import UserCreate from "@/components/users/UserCreate.vue";
-import UserList from "@/components/users/UserList.vue";
-import VueHead from "vue-head";
+import Vue from 'vue';
+import UserCreate from '@/components/users/UserCreate.vue';
+import UserList from '@/components/users/UserList.vue';
+import VueHead from 'vue-head';
 
 export const eventBus = new Vue();
 
@@ -25,14 +25,13 @@ export default {
   },
   head: {
     title: {
-      inner: "Users"
+      inner: 'Users'
     },
     meta: [
-      { name: "charset", content: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1.0" },
-      { name: "author", content: "Sabiorealm" }
+      { name: 'charset', content: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
+      { name: 'author', content: 'Sabiorealm' }
     ]
   }
 };
 </script>
-

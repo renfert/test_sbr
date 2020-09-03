@@ -1,22 +1,20 @@
-<template >
-  <!-- Content page -->
+<template>
   <div class="content-page">
-    <h2 class="text-center mb-5">{{name}}</h2>
+    <h2 class="text-center mb-5">{{ group.name }}</h2>
 
-    <!-- Group tabs -->
     <el-tabs type="border-card">
       <el-tab-pane>
         <span slot="label">
           <i class="mdi mdi-book-outline"></i>
-          {{lang["courses"]}}
+          {{ lang['courses'] }}
         </span>
-        <courses :group-id="groupId"></courses>
+        <courses :group-id="group.id"></courses>
       </el-tab-pane>
 
       <el-tab-pane>
         <span slot="label">
           <i class="mdi mdi-account-multiple-outline"></i>
-          {{lang["students"]}}
+          {{ lang['students'] }}
         </span>
         <students :group-id="groupId"></students>
       </el-tab-pane>
@@ -24,7 +22,7 @@
       <el-tab-pane>
         <span slot="label">
           <i class="mdi mdi-account-star-outline"></i>
-          {{lang["instructors"]}}
+          {{ lang['instructors'] }}
         </span>
         <instructors :group-id="groupId"></instructors>
       </el-tab-pane>
@@ -32,7 +30,7 @@
       <el-tab-pane>
         <span slot="label">
           <i class="mdi mdi-account-star-outline"></i>
-          {{lang["programs"]}}
+          {{ lang['programs'] }}
         </span>
         <programs :group-id="groupId"></programs>
       </el-tab-pane>
@@ -41,63 +39,53 @@
 </template>
 
 <script>
-import ElementUI from "element-ui";
-import Courses from "@/components/group/Courses";
-import Students from "@/components/group/Students";
-import Instructors from "@/components/group/Instructors";
-import Programs from "@/components/group/Programs";
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import VueHead from "vue-head";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-import verify from "@/mixins/verify";
+import Vue from 'vue';
+import Courses from '@/components/group/Courses';
+import Students from '@/components/group/Students';
+import Instructors from '@/components/group/Instructors';
+import Programs from '@/components/group/Programs';
+import VueHead from 'vue-head';
+import { mapState } from 'vuex';
 
-import { mapState } from "vuex";
+Vue.use(VueHead);
 
 export const eventBus = new Vue();
 
-Vue.use(ElementUI);
-Vue.use(VueAxios, axios);
-Vue.use(VueHead);
-
 export default {
-  mixins: [domains, alerts, verify],
   data: () => {
     return {
-      groupId: "",
-      name: ""
+      group: {
+        id: '',
+        name: ''
+      }
     };
   },
   created() {
-    this.verifyAdministratorPrivileges();
-    this.groupId = this.$route.params.id;
+    this.group.id = this.$route.params.id;
+    this.$verifyAdministratorPrivileges();
     this.getGroup();
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   methods: {
-    getGroup: function() {
-      var formData = new FormData();
-      formData.set("groupId", this.groupId);
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest("group", "get");
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        function(response) {
-          this.name = response.data["name"];
-        }.bind(this)
-      );
+    getGroup() {
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest('group', 'get');
+      formData.set('groupId', this.groupId);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then((response) => {
+        this.group.name = response.data.name;
+      });
     }
   },
   head: {
     title: {
-      inner: "Manage group"
+      inner: 'Manage group'
     },
     meta: [
-      { name: "charset", content: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1.0" },
-      { name: "author", content: "Sabiorealm" }
+      { name: 'charset', content: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
+      { name: 'author', content: 'Sabiorealm' }
     ]
   },
   components: {
@@ -108,4 +96,3 @@ export default {
   }
 };
 </script>
-

@@ -3,18 +3,19 @@
     <div class="card-sabiorealm text-center">
       <img :src="courseImage" style="width: 200px" />
 
-      <h5 class="mb-4">{{lang["approved-purchase"]}}</h5>
+      <h5 class="mb-4">{{ lang['approved-purchase'] }}</h5>
 
-      <h2 class="mb-4">{{courseTitle}}</h2>
+      <h2 class="mb-4">{{ courseTitle }}</h2>
 
       <router-link
         class="sbr-btn sbr-primary mb-4"
-        :to="'/viewcourse/'+courseId"
-      >{{lang["view-course"]}}</router-link>
+        :to="'/viewcourse/' + courseId"
+        >{{ lang['view-course'] }}</router-link
+      >
 
       <p>
-        {{lang["doubts"]}}
-        <b>{{email}}</b>
+        {{ lang['doubts'] }}
+        <b>{{ email }}</b>
       </p>
     </div>
 
@@ -23,77 +24,56 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import VueTheMask from "vue-the-mask";
-import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
-import { eventLang } from "@/components/helper/HelperLang";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
+import { mapState } from 'vuex';
 
-Vue.use(ElementUI);
-Vue.use(VueTheMask);
-Vue.use(VueAxios, axios);
 export default {
-  mixins: [domains, alerts],
-  data: function() {
+  data: () => {
     return {
-      lang: {},
-      courseId: "",
-      courseTitle: "",
-      courseImage: "",
-      email: ""
+      courseId: '',
+      courseTitle: '',
+      courseImage: '',
+      email: ''
     };
   },
   created() {
     this.courseId = this.$route.params.id;
   },
   mounted() {
-    eventLang.$on(
-      "lang",
-      function(response) {
-        this.lang = response;
-      }.bind(this)
-    );
-
     this.getCourse();
-
     this.getCompanyInformation();
   },
+  computed: {
+    ...mapState(['lang'])
+  },
   methods: {
-    getCourse: function() {
-      var formData = new FormData();
-      formData.set("courseId", this.courseId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("course", "get");
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
-          /* Success callback */
-          this.courseTitle = response.data["title"];
+    getCourse() {
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.getUrlToMakeRequest('course', 'get');
+
+      formData.set('courseId', this.courseId);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
+          this.courseTitle = response.data.title;
           this.courseImage =
-            this.getUrlToContents() + "course/" + response.data["photo"] + "";
+            this.getUrlToContents() + 'course/' + response.data.photo + '';
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
+        () => {
+          this.$errorMessage();
         }
       );
     },
 
-    getCompanyInformation: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "company",
-        "getCompanyInformation"
+    getCompanyInformation() {
+      const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+        'company',
+        'getCompanyInformation'
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        response => {
-          /* Success callback */
-          this.email = response.data["email"];
+      this.$request.get(urlToBeUsedInTheRequest).then(
+        (response) => {
+          this.email = response.data.email;
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
+        () => {
+          this.$errorMessage();
         }
       );
     }
@@ -101,7 +81,6 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 h1,
 h2,
@@ -110,7 +89,7 @@ h4,
 h5,
 h6 {
   color: #2d3954;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   word-break: break-word !important;
   font-weight: 500;
 }

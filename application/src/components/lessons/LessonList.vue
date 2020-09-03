@@ -1,7 +1,7 @@
 <template>
-  <div class="main">
+  <div>
     <bullet-list-loader
-      v-if="loadingContent == true"
+      v-if="content == false"
       :speed="2"
       width="700"
       height="200"
@@ -11,12 +11,19 @@
 
     <div v-else>
       <div>
-        <draggable v-model="lessons" ghost-class="ghost" @end="finishRepositioning">
+        <draggable
+          v-model="lessons"
+          ghost-class="ghost"
+          @end="reorderLessonPositions()"
+        >
           <transition-group type="transition" name="flip-list">
             <div class="sortable" v-for="element in lessons" :key="element.id">
-              <li :class="'lesson'+moduleId" :id="element.id">
+              <li :class="'lesson' + moduleId" :id="element.id">
                 <div class="lesson-box">
-                  <template class="action-buttons" v-if="actionButtons != false">
+                  <template
+                    class="action-buttons"
+                    v-if="actionButtons != false"
+                  >
                     <!-- Edit lesson -->
                     <el-tooltip
                       class="item"
@@ -26,7 +33,23 @@
                     >
                       <el-button
                         class="sbr-primary mr-1"
-                        @click.prevent="editLesson(element.id,element.title,element.path,element.ext, element.real_name, element.date, element.time,element.description,element.url,element.approval,element.retest,element.type_mylesson_id,element.status)"
+                        @click.prevent="
+                          editLesson(
+                            element.id,
+                            element.title,
+                            element.path,
+                            element.ext,
+                            element.real_name,
+                            element.date,
+                            element.time,
+                            element.description,
+                            element.url,
+                            element.approval,
+                            element.retest,
+                            element.type_mylesson_id,
+                            element.status
+                          )
+                        "
                         type="primary"
                         size="mini"
                         icon="el-icon-edit"
@@ -40,7 +63,9 @@
                         confirmButtonText="Ok"
                         cancelButtonText="No, Thanks"
                         placement="right"
-                        :title="lang['question-delete-lesson'] +element.title  + '?'"
+                        :title="
+                          lang['question-delete-lesson'] + element.title + '?'
+                        "
                         @onConfirm="deleteLesson(element.id)"
                       >
                         <el-button
@@ -98,15 +123,21 @@
                     class="fas fa-microphone fa-lg text-eadtools"
                   ></i>
                   <!-- Webinar icon -->
-                  <i v-if="element.type_mylesson_id == 6" class="fas fa-video fa-lg text-eadtools"></i>
+                  <i
+                    v-if="element.type_mylesson_id == 6"
+                    class="fas fa-video fa-lg text-eadtools"
+                  ></i>
                   <!-- Html icon -->
-                  <i v-if="element.type_mylesson_id == 7" class="fas fa-code fa-lg text-eadtools"></i>
+                  <i
+                    v-if="element.type_mylesson_id == 7"
+                    class="fas fa-code fa-lg text-eadtools"
+                  ></i>
                   <!-- Exam icon -->
                   <i
                     v-if="element.type_mylesson_id == 8"
                     class="fas fa-question fa-lg text-eadtools"
                   ></i>
-                  <span class="lesson-title">{{element.title}}</span>
+                  <span class="lesson-title">{{ element.title }}</span>
                 </div>
               </li>
             </div>
@@ -119,72 +150,59 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import ElementUI from "element-ui";
-import draggable from "vuedraggable";
-import $ from "jquery";
-import "element-ui/lib/theme-chalk/index.css";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
+import draggable from 'vuedraggable';
+import $ from 'jquery';
 
-import { eventBus } from "@/components/newcourse/App";
-import { BulletListLoader } from "vue-content-loader";
-import { mapState } from "vuex";
-
-Vue.use(VueAxios, axios);
-Vue.use(ElementUI);
+import { eventBus } from '@/components/newcourse/App';
+import { BulletListLoader } from 'vue-content-loader';
+import { mapState } from 'vuex';
 
 export default {
-  mixins: [domains, alerts],
   components: {
     draggable,
     BulletListLoader
   },
   data: () => {
     return {
-      lessons: null,
+      lessons: [],
       modal: false,
-      loadingContent: false
+      content: false
     };
   },
   mounted() {
-    eventBus.$on(
-      "new-lesson",
-      function() {
-        this.getLessons();
-      }.bind(this)
-    );
     this.getLessons();
+
+    eventBus.$on('new-lesson', () => {
+      this.getLessons();
+    });
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
-  props: ["module-id", "action-buttons"],
+  props: ['module-id', 'action-buttons'],
   methods: {
-    editLesson: function(
+    editLesson(
       id,
       title,
       path,
       ext,
-      real_name,
+      realName,
       date,
       time,
       description,
       url,
       approval,
       retest,
-      type_mylesson_id,
+      typeMylessonId,
       status
     ) {
-      var data = [
+      const data = [
         {
           id: id,
           title: title,
           path: path,
           ext: ext,
-          real_name: real_name,
+          real_name: realName,
           date: date,
           time: time,
           description: description,
@@ -194,80 +212,67 @@ export default {
           status: status
         }
       ];
-      eventBus.$emit("edit-lesson-" + type_mylesson_id + "", data);
+      eventBus.$emit('edit-lesson-' + typeMylessonId + '', data);
     },
-    deleteLesson: function(id) {
-      var formData = new FormData();
-      formData.set("lessonId", id);
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "lesson",
-        "delete"
+    deleteLesson(id) {
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'lesson',
+        'delete'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+      formData.set('lessonId', id);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
           this.getLessons();
-          this.successMessage();
+          this.$successMessage();
         },
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    finishRepositioning: function() {
-      this.reorderLessonPositions();
-    },
-    reorderLessonPositions: function() {
-      var ar = [];
-      $(".lesson" + this.moduleId + "").each(function(index) {
-        var id = $(this).attr("id");
+    reorderLessonPositions() {
+      const ar = [];
+      $('.lesson' + this.moduleId + '').each((index) => {
+        const id = $(this).attr('id');
         ar.push({ id: id, index: index });
       });
-      var formData = new FormData();
-      $.each(ar, function(index, value) {
-        formData.set("lesson[" + value.id + "]", value.index);
+
+      const formData = new FormData();
+      $.each(ar, (index, value) => {
+        formData.set('lesson[' + value.id + ']', value.index);
       });
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "lesson",
-        "reorder"
+
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'lesson',
+        'reorder'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        () => {
-          /* Success callback */
-        },
-        function() {
-          this.errorMessage();
-        }.bind(this)
-      );
+      this.$request.post(urlToBeUsedInTheRequest, formData);
     },
-    getLessons: function() {
-      this.loadingContent = true;
-      var formData = new FormData();
-      formData.set("moduleId", this.moduleId);
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "lesson",
-        "listing"
+    getLessons() {
+      this.content = false;
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'lesson',
+        'listing'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
+      formData.set('moduleId', this.moduleId);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
           this.lessons = response.data;
-          setTimeout(
-            function() {
-              this.loadingContent = false;
-            }.bind(this),
-            1000
-          );
+          setTimeout(() => {
+            this.content = true;
+          }, 1000);
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     }
   }
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 .lesson-box {
   box-shadow: 0px 0px 5px 0px #aca9a9;
@@ -277,7 +282,7 @@ export default {
 }
 
 .lesson-title {
-  font-family: "Poppins", sans-serif !important;
+  font-family: 'Poppins', sans-serif !important;
   font-weight: 400;
   font-size: 16px;
   margin-left: 5px;

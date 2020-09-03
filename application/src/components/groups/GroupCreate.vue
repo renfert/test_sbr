@@ -1,84 +1,74 @@
 <template>
   <div class="card-box">
-    <h4>{{lang["create-group"]}}</h4>
+    <h4>{{ lang['create-group'] }}</h4>
     <el-form id="form-group" :inline="true">
       <el-form-item>
-        <el-input required name="name" :placeholder="lang['name']" v-model="groupName"></el-input>
+        <el-input
+          required
+          name="name"
+          :placeholder="lang['name']"
+          v-model="groupName"
+        ></el-input>
       </el-form-item>
       <el-form-item>
         <el-button
           @click.prevent="createGroup()"
-          v-loading="loadingButton"
+          v-loading="loading"
           class="sbr-primary"
           native-type="submit"
-        >{{lang["save-button"]}}</el-button>
+          >{{ lang['save-button'] }}</el-button
+        >
       </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import ElementUI from "element-ui";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-
-import { eventBus } from "@/components/groups/App";
-import { mapState } from "vuex";
-
-Vue.use(ElementUI);
-Vue.use(VueAxios, axios);
+import { eventBus } from '@/components/groups/App';
+import { mapState } from 'vuex';
 
 export default {
-  mixins: [domains, alerts],
-  data: function() {
+  data: () => {
     return {
-      groupName: "",
-      loadingButton: false
+      groupName: '',
+      loading: false
     };
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   methods: {
-    createGroup: function() {
-      this.loadingButton = true;
-      var form = document.getElementById("form-group");
-      var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "group",
-        "create"
+    createGroup() {
+      this.loading = true;
+      const form = document.getElementById('form-group');
+      const formData = new FormData(form);
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'group',
+        'create'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
-          /* Success callback */
-          if (response.data == false) {
-            this.groupAlreadyExistsMessage();
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
+          if (response.data === false) {
+            this.$groupAlreadyExistsMessage();
           } else {
-            this.successMessage();
-            this.actionsToBePerformedAfterRegistration();
+            this.$successMessage();
+            this.loading = false;
+            form.reset();
+            eventBus.$emit('new-group');
           }
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
     groupAlreadyExistsMessage() {
       this.$notify({
-        title: this.lang["error"],
-        message: this.lang["group-already-exists"],
-        type: "warning",
+        title: this.lang.error,
+        message: this.lang['group-already-exists'],
+        type: 'warning',
         duration: 3500
       });
-    },
-    actionsToBePerformedAfterRegistration() {
-      this.loadingButton = false;
-      this.groupName = "";
-      eventBus.$emit("new-group");
     }
   }
 };

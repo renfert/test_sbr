@@ -6,7 +6,7 @@
           <div class="back mt-5">
             <router-link to="/home">
               <i class="el-icon-back"></i>
-              {{lang['back']}}
+              {{ lang['back'] }}
             </router-link>
           </div>
           <toolbar-general></toolbar-general>
@@ -28,27 +28,20 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import ElementUI from "element-ui";
-import ToolbarHeader from "@/components/site/toolbar/ToolbarHeader";
-import ToolbarBody from "@/components/site/toolbar/ToolbarBody";
-import ToolbarFooter from "@/components/site/toolbar/ToolbarFooter";
-import ToolbarGeneral from "@/components/site/toolbar/ToolbarGeneral";
-import EditBanner from "@/components/site/section/elements/edit/Banner";
-import EditTestimonial from "@/components/site/section/elements/edit/Testimonial";
-import EditProductList from "@/components/site/section/elements/edit/ProductList";
-import EditTextAndMedia from "@/components/site/section/elements/edit/TextAndMedia";
-import LinkCreate from "@/components/links/LinkCreate";
-import LinkEdit from "@/components/links/LinkEdit";
-import SocialMediaCreate from "@/components/social/SocialMediaCreate";
-import SocialMediaEdit from "@/components/social/SocialMediaEdit";
+import ToolbarHeader from '@/components/site/toolbar/ToolbarHeader';
+import ToolbarBody from '@/components/site/toolbar/ToolbarBody';
+import ToolbarFooter from '@/components/site/toolbar/ToolbarFooter';
+import ToolbarGeneral from '@/components/site/toolbar/ToolbarGeneral';
+import EditBanner from '@/components/site/section/elements/edit/Banner';
+import EditTestimonial from '@/components/site/section/elements/edit/Testimonial';
+import EditProductList from '@/components/site/section/elements/edit/ProductList';
+import EditTextAndMedia from '@/components/site/section/elements/edit/TextAndMedia';
+import LinkCreate from '@/components/links/LinkCreate';
+import LinkEdit from '@/components/links/LinkEdit';
+import SocialMediaCreate from '@/components/social/SocialMediaCreate';
+import SocialMediaEdit from '@/components/social/SocialMediaEdit';
 
-import { mapState } from "vuex";
-
-Vue.use(VueAxios, axios);
-Vue.use(ElementUI);
+import { mapState } from 'vuex';
 
 export default {
   components: {
@@ -66,7 +59,7 @@ export default {
     SocialMediaEdit
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   }
 };
 </script>
@@ -114,7 +107,7 @@ export default {
 
 .el-submenu span {
   font-size: 1.2em !important;
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Montserrat', sans-serif;
   color: #53536e;
 }
 

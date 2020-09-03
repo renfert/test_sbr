@@ -1,22 +1,38 @@
 <template>
   <div>
     <div>
-      <el-dialog :visible.sync="modal" title="Banner" center width="40%" top="5vh">
+      <el-dialog
+        :visible.sync="modal"
+        title="Banner"
+        center
+        width="40%"
+        top="5vh"
+      >
         <form id="form-banner" @submit.prevent="editBanner()">
           <!-- Banner id -->
-          <input class="hide" type="number" name="bannerId" v-model="bannerId" />
+          <input
+            class="hide"
+            type="number"
+            name="bannerId"
+            v-model="bannerId"
+          />
           <!-- Cta id -->
-          <input type="number" name="buttonId" class="hide" v-model="buttonId" />
+          <input
+            type="number"
+            name="buttonId"
+            class="hide"
+            v-model="buttonId"
+          />
           <el-tabs type="border-card">
             <el-tab-pane>
               <span slot="label">
                 <i class="el-icon-picture-outline"></i>
-                {{lang["image"]}}
+                {{ lang['image'] }}
               </span>
               <div class="form-row">
                 <div class="form-group col-xl-12 col-md-12">
                   <!-- Banner image  -->
-                  <label class="col-form-label">{{lang["image"]}} *</label>
+                  <label class="col-form-label">{{ lang['image'] }} *</label>
                   <upload
                     :key="componentKey"
                     v-if="bannerImage != ''"
@@ -36,87 +52,141 @@
             <el-tab-pane>
               <span slot="label">
                 <i class="el-icon-document"></i>
-                {{lang["header"]}}
+                {{ lang['header'] }}
               </span>
-              <div class="form-row" :class="activeHeader == false ? 'disabled' : ''">
+              <div
+                class="form-row"
+                :class="activeHeader == false ? 'disabled' : ''"
+              >
                 <div class="form-group col-xl-6 col-md-6">
                   <!-- Header -->
-                  <label class="col-form-label">{{lang["header"]}} *</label>
+                  <label class="col-form-label">{{ lang['header'] }} *</label>
                   <el-input
-                    :disabled="activeHeader == false ? true : false "
+                    :disabled="activeHeader == false ? true : false"
                     name="header"
                     v-model="header"
                   ></el-input>
                 </div>
                 <div class="form-group col-xl-6 col-md-6">
                   <!-- Header color -->
-                  <label class="col-form-label">{{lang["header-color"]}} *</label>
+                  <label class="col-form-label"
+                    >{{ lang['header-color'] }} *</label
+                  >
                   <div class="block">
-                    <input name="headerColor" v-model="headerColor" type="text" class="hide" />
-                    <el-color-picker name="headerColor" v-model="headerColor"></el-color-picker>
+                    <input
+                      name="headerColor"
+                      v-model="headerColor"
+                      type="text"
+                      class="hide"
+                    />
+                    <el-color-picker
+                      name="headerColor"
+                      v-model="headerColor"
+                    ></el-color-picker>
                   </div>
                 </div>
               </div>
               <hr />
-              <el-alert :title="lang['disable-section-message']" type="info" show-icon></el-alert>
+              <el-alert
+                :title="lang['disable-section-message']"
+                type="info"
+                show-icon
+              ></el-alert>
               <br />
-              <el-switch @change="showHeader()" v-model="activeHeader"></el-switch>
+              <el-switch
+                @change="showHeader()"
+                v-model="activeHeader"
+              ></el-switch>
             </el-tab-pane>
 
             <el-tab-pane>
               <span slot="label">
                 <i class="el-icon-document-copy"></i>
-                {{lang["sub-header"]}}
+                {{ lang['sub-header'] }}
               </span>
-              <div class="form-row" :class="activeSubHeader == false ? 'disabled' : ''">
+              <div
+                class="form-row"
+                :class="activeSubHeader == false ? 'disabled' : ''"
+              >
                 <div class="form-group col-xl-6 col-md-6">
                   <!-- SubHeader -->
-                  <label class="col-form-label">{{lang["sub-header"]}} *</label>
+                  <label class="col-form-label"
+                    >{{ lang['sub-header'] }} *</label
+                  >
                   <el-input
-                    :disabled="activeSubHeader == false ? true : false "
+                    :disabled="activeSubHeader == false ? true : false"
                     name="subHeader"
                     v-model="subHeader"
                   ></el-input>
                 </div>
                 <div class="form-group col-xl-6 col-md-6">
                   <!-- SubHeader color -->
-                  <label class="col-form-label">{{lang["sub-header-color"]}} *</label>
+                  <label class="col-form-label"
+                    >{{ lang['sub-header-color'] }} *</label
+                  >
                   <div class="block">
-                    <input name="subHeaderColor" v-model="subHeaderColor" type="text" class="hide" />
-                    <el-color-picker name="subHeaderColor" v-model="subHeaderColor"></el-color-picker>
+                    <input
+                      name="subHeaderColor"
+                      v-model="subHeaderColor"
+                      type="text"
+                      class="hide"
+                    />
+                    <el-color-picker
+                      name="subHeaderColor"
+                      v-model="subHeaderColor"
+                    ></el-color-picker>
                   </div>
                 </div>
               </div>
               <hr />
-              <el-alert :title="lang['disable-section-message']" type="info" show-icon></el-alert>
+              <el-alert
+                :title="lang['disable-section-message']"
+                type="info"
+                show-icon
+              ></el-alert>
               <br />
-              <el-switch @change="showSubHeader()" v-model="activeSubHeader"></el-switch>
+              <el-switch
+                @change="showSubHeader()"
+                v-model="activeSubHeader"
+              ></el-switch>
             </el-tab-pane>
             <el-tab-pane>
               <span slot="label">
                 <i class="el-icon-s-opportunity"></i>
-                {{lang["button"]}}
+                {{ lang['button'] }}
               </span>
-              <div class="form-row" :class="activeButton == false ? 'disabled' : ''">
+              <div
+                class="form-row"
+                :class="activeButton == false ? 'disabled' : ''"
+              >
                 <div class="form-group col-xl-6 col-md-6">
                   <!-- Cta title -->
-                  <label class="col-form-label">{{lang["button-title"]}} *</label>
+                  <label class="col-form-label"
+                    >{{ lang['button-title'] }} *</label
+                  >
                   <el-input
-                    :disabled="activeButton == false ? true : false "
+                    :disabled="activeButton == false ? true : false"
                     name="buttonTitle"
                     v-model="buttonTitle"
                   ></el-input>
                 </div>
                 <div class="form-group col-xl-6 col-md-6">
                   <!-- Cta url -->
-                  <label class="col-form-label">{{lang["button-url"]}} *</label>
+                  <label class="col-form-label"
+                    >{{ lang['button-url'] }} *</label
+                  >
                   <el-input name="buttonUrl" v-model="buttonUrl"></el-input>
                 </div>
               </div>
-              <div class="form-row" :class="activeButton == false ? 'disabled' : ''">
+              <div
+                class="form-row"
+                :class="activeButton == false ? 'disabled' : ''"
+              >
                 <div class="form-group col-xl-6 col-md-6">
                   <!-- Cta target -->
-                  <label class="col-form-label">{{lang["button-target"]}} *</label>
+                  <label class="col-form-label"
+                    >{{ lang['button-target'] }} *</label
+                  >
                   <el-select name="buttonTarget" v-model="buttonTarget">
                     <el-option value="_self" label="Same window"></el-option>
                     <el-option value="_blank" label="New window"></el-option>
@@ -124,7 +194,9 @@
                 </div>
                 <div class="form-group col-xl-6 col-md-6">
                   <!-- Cta style -->
-                  <label class="col-form-label">{{lang["button-style"]}} *</label>
+                  <label class="col-form-label"
+                    >{{ lang['button-style'] }} *</label
+                  >
                   <el-select name="buttonStyle" v-model="buttonStyle">
                     <el-option value="plain" label="Plain"></el-option>
                     <el-option value="rounded" label="Rounded"></el-option>
@@ -132,18 +204,30 @@
                 </div>
               </div>
               <hr />
-              <div class="form-row" :class="activeButton == false ? 'disabled' : ''">
+              <div
+                class="form-row"
+                :class="activeButton == false ? 'disabled' : ''"
+              >
                 <div class="form-group col-xl-6 col-md-6">
                   <!-- Cta bg color -->
-                  <label class="col-form-label">{{lang["button-bg-color"]}} *</label>
+                  <label class="col-form-label"
+                    >{{ lang['button-bg-color'] }} *</label
+                  >
                   <div class="block">
-                    <input name="buttonColor" type="text" class="hide" v-model="buttonColor" />
+                    <input
+                      name="buttonColor"
+                      type="text"
+                      class="hide"
+                      v-model="buttonColor"
+                    />
                     <el-color-picker v-model="buttonColor"></el-color-picker>
                   </div>
                 </div>
                 <div class="form-group col-xl-6 col-md-6">
                   <!-- Cta hover color -->
-                  <label class="col-form-label">{{lang["button-hover-color"]}} *</label>
+                  <label class="col-form-label"
+                    >{{ lang['button-hover-color'] }} *</label
+                  >
                   <div class="block">
                     <input
                       name="buttonHoverColor"
@@ -151,14 +235,23 @@
                       class="hide"
                       v-model="buttonColorHover"
                     />
-                    <el-color-picker v-model="buttonColorHover"></el-color-picker>
+                    <el-color-picker
+                      v-model="buttonColorHover"
+                    ></el-color-picker>
                   </div>
                 </div>
               </div>
               <hr />
-              <el-alert :title="lang['disable-section-message']" type="info" show-icon></el-alert>
+              <el-alert
+                :title="lang['disable-section-message']"
+                type="info"
+                show-icon
+              ></el-alert>
               <br />
-              <el-switch @change="showButton()" v-model="activeButton"></el-switch>
+              <el-switch
+                @change="showButton()"
+                v-model="activeButton"
+              ></el-switch>
             </el-tab-pane>
           </el-tabs>
           <br />
@@ -168,7 +261,8 @@
                 class="sbr-primary"
                 native-type="submit"
                 v-loading="loadingButton"
-              >{{lang["save-button"]}}</el-button>
+                >{{ lang['save-button'] }}</el-button
+              >
             </div>
           </div>
         </form>
@@ -179,23 +273,13 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import ElementUI from "element-ui";
-import Upload from "@/components/helper/HelperUpload";
-import HelperProgress from "@/components/helper/HelperProgress.vue";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
+import Upload from '@/components/helper/HelperUpload';
+import HelperProgress from '@/components/helper/HelperProgress.vue';
 
-import { eventBus } from "@/components/site/App";
-import { mapState } from "vuex";
-
-Vue.use(VueAxios, axios);
-Vue.use(ElementUI);
+import { eventBus } from '@/components/site/App';
+import { mapState } from 'vuex';
 
 export default {
-  mixins: [domains, alerts],
   components: {
     Upload,
     HelperProgress
@@ -203,131 +287,127 @@ export default {
   data: () => {
     return {
       modules: null,
-      bannerId: "",
-      header: "",
-      subHeader: "",
-      headerColor: "",
-      subHeaderColor: "",
+      bannerId: '',
+      header: '',
+      subHeader: '',
+      headerColor: '',
+      subHeaderColor: '',
       loadingButton: false,
       modal: false,
-      buttonId: "",
-      buttonTitle: "",
-      buttonUrl: "",
-      buttonTarget: "",
-      buttonColor: "",
-      buttonColorHover: "",
-      buttonStyle: "",
+      buttonId: '',
+      buttonTitle: '',
+      buttonUrl: '',
+      buttonTarget: '',
+      buttonColor: '',
+      buttonColorHover: '',
+      buttonStyle: '',
       activeHeader: true,
       activeSubHeader: true,
       activeButton: true,
-      sectionId: "",
-      bannerImage: "",
-      bannerImageName: "",
+      sectionId: '',
+      bannerImage: '',
+      bannerImageName: '',
       componentKey: 0
     };
   },
   mounted() {
-    eventBus.$on(
-      "edit-banner",
-      function(sectionId) {
-        this.getBanner(sectionId);
-        this.modal = true;
-      }.bind(this)
-    );
+    eventBus.$on('edit-banner', (sectionId) => {
+      this.getBanner(sectionId);
+      this.modal = true;
+    });
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   methods: {
-    forceRerender: function() {
+    forceRerender() {
       this.componentKey += 1;
     },
-    editBanner: function() {
+    editBanner() {
       this.loadingButton = true;
-      var form = document.getElementById("form-banner");
-      var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "site-elements/banner",
-        "editBanner"
+      const form = document.getElementById('form-banner');
+      const formData = new FormData(form);
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'site-elements/banner',
+        'editBanner'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
-          eventBus.$emit("new-banner-change");
-          this.successMessage();
+          eventBus.$emit('new-banner-change');
+          this.$successMessage();
           this.modal = false;
           this.loadingButton = false;
         },
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
 
-    showHeader: function() {
-      if (this.activeHeader == false) {
-        this.header = "";
+    showHeader() {
+      if (this.activeHeader === false) {
+        this.header = '';
       }
     },
-    showSubHeader: function() {
-      if (this.activeSubHeader == false) {
-        this.subHeader = "";
+    showSubHeader() {
+      if (this.activeSubHeader === false) {
+        this.subHeader = '';
       }
     },
-    showButton: function() {
-      if (this.activeButton == false) {
-        this.buttonTitle = "";
+    showButton() {
+      if (this.activeButton === false) {
+        this.buttonTitle = '';
       }
     },
 
-    getBanner: function(sectionId) {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "site-elements/banner",
-        "getBanner"
+    getBanner(sectionId) {
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'site-elements/banner',
+        'getBanner'
       );
-      var formData = new FormData();
-      formData.set("sectionId", sectionId);
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
-          this.bannerId = response.data[0]["banner_id"];
-          this.buttonId = response.data[0]["button_id"];
-          this.buttonTitle = response.data[0]["title"];
-          this.buttonColor = response.data[0]["color"];
-          this.buttonColorHover = response.data[0]["color_hover"];
-          this.headerColor = response.data[0]["header_color"];
-          this.subHeaderColor = response.data[0]["subheader_color"];
-          this.buttonStyle = response.data[0]["style"];
-          this.buttonUrl = response.data[0]["url"];
-          this.buttonTarget = response.data[0]["target"];
-          this.header = response.data[0]["header"];
-          this.subHeader = response.data[0]["subheader"];
-          this.bannerImageName = response.data[0]["image"];
+      const formData = new FormData();
+      formData.set('sectionId', sectionId);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
+          this.bannerId = response.data[0].banner_id;
+          this.buttonId = response.data[0].button_id;
+          this.buttonTitle = response.data[0].title;
+          this.buttonColor = response.data[0].color;
+          this.buttonColorHover = response.data[0].color_hover;
+          this.headerColor = response.data[0].header_color;
+          this.subHeaderColor = response.data[0].subheader_color;
+          this.buttonStyle = response.data[0].style;
+          this.buttonUrl = response.data[0].url;
+          this.buttonTarget = response.data[0].target;
+          this.header = response.data[0].header;
+          this.subHeader = response.data[0].subheader;
+          this.bannerImageName = response.data[0].image;
           this.bannerImage =
-            this.getUrlToContents() +
-            "builder/body/" +
+            this.$getUrlToContents() +
+            'builder/body/' +
             this.bannerImageName +
-            "";
+            '';
 
-          if (response.data[0]["header"] == null) {
+          if (response.data[0].header == null) {
             this.activeHeader = false;
           }
 
-          if (response.data[0]["subheader"] == null) {
+          if (response.data[0].subheader == null) {
             this.activeSubHeader = false;
           }
 
-          if (response.data[0]["title"] == null) {
+          if (response.data[0].title == null) {
             this.activeButton = false;
           }
           this.forceRerender();
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
 
-    openEditModuleModal: function(id, title, required, date) {
+    openEditModuleModal(id, title, required, date) {
       this.moduleId = id;
       this.moduleTitle = title;
       this.moduleRequired = required;

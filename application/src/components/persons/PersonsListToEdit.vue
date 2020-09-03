@@ -2,18 +2,30 @@
   <div v-loading="loading">
     <div>
       <ul class="list-group">
-        <draggable v-model="personsArray" ghost-class="ghost" @end="finishRepositioning">
+        <draggable
+          v-model="persons"
+          ghost-class="ghost"
+          @end="reorderPersonsPositions()"
+        >
           <transition-group type="transition" name="flip-list">
             <li
-              v-for="element in personsArray"
+              v-for="element in persons"
               :key="element.id"
               class="list-group-item d-flex justify-content-between align-items-center sortable"
             >
-              {{element.name}}
+              {{ element.name }}
               <div class="action-icons">
                 <!-- Edit person -->
                 <el-button
-                  @click.prevent="openEditPersonModal(element.id,element.name,element.occupation,element.comment,element.photo)"
+                  @click.prevent="
+                    openEditPersonModal(
+                      element.id,
+                      element.name,
+                      element.occupation,
+                      element.comment,
+                      element.photo
+                    )
+                  "
                   class="sbr-primary"
                   size="mini"
                   icon="el-icon-edit"
@@ -56,30 +68,36 @@
         <!-- Person id -->
         <input type="number" v-model="personId" name="personId" class="hide" />
         <div class="form-group">
-          <div class="image-upload" style="text-align:center;">
+          <div class="image-upload" style="text-align: center">
             <label for="file-input">
-              <el-avatar style="cursor:pointer" :size="100">
-                <img :src="$getUrlToContents() + 'testimonial/'+photo+''" />
+              <el-avatar style="cursor: pointer" :size="100">
+                <img :src="$getUrlToContents() + 'testimonial/' + photo + ''" />
               </el-avatar>
             </label>
             <input :value="avatar" name="avatar" type="text" />
-            <input id="file-input" type="file" @change.prevent="uploadAvatar($event)" />
+            <input
+              id="file-input"
+              type="file"
+              @change.prevent="uploadAvatar($event)"
+            />
           </div>
         </div>
         <div class="form-group">
-          <label>{{lang["name"]}}</label>
+          <label>{{ lang['name'] }}</label>
           <el-input name="name" v-model="name"></el-input>
         </div>
         <div class="form-group">
-          <label>{{lang["occupation"]}}</label>
+          <label>{{ lang['occupation'] }}</label>
           <el-input name="occupation" v-model="occupation"></el-input>
         </div>
         <div class="form-group">
-          <label>{{lang["comment"]}}</label>
+          <label>{{ lang['comment'] }}</label>
           <el-input type="textarea" name="comment" v-model="comment"></el-input>
         </div>
         <div class="form-group">
-          <el-button native-type="submit" class="sbr-primary">{{lang["save-button"]}}</el-button>
+          <el-button native-type="submit" class="sbr-primary">{{
+            lang['save-button']
+          }}</el-button>
         </div>
       </form>
     </el-dialog>
@@ -88,242 +106,221 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import ElementUI from "element-ui";
-import draggable from "vuedraggable";
-import $ from "jquery";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-import HelperProgress from "@/components/helper/HelperProgress.vue";
-import AWS from "aws-sdk/global";
-import S3 from "aws-sdk/clients/s3";
+import draggable from 'vuedraggable';
+import $ from 'jquery';
+import HelperProgress from '@/components/helper/HelperProgress.vue';
+import AWS from 'aws-sdk/global';
+import S3 from 'aws-sdk/clients/s3';
 
-import { eventProgress } from "@/components/helper/HelperProgress";
-import { eventBus } from "@/components/site/App";
-import { mapState } from "vuex";
-
-Vue.use(VueAxios, axios);
-Vue.use(ElementUI);
+import { eventProgress } from '@/components/helper/HelperProgress';
+import { eventBus } from '@/components/site/App';
+import { mapState } from 'vuex';
 
 export default {
   components: {
     draggable,
     HelperProgress
   },
-  mixins: [domains, alerts],
-  props: ["testimonial-id"],
+  props: ['testimonial-id'],
   data: () => {
     return {
+      person: {
+        id: '',
+        name: '',
+        occupation: '',
+        comment: '',
+        avatar: ''
+      },
       modal: false,
-      personsArray: [],
+      persons: [],
       loading: false,
-      name: "",
-      occupation: "",
-      comment: "",
-      photo: "",
-      personId: "",
-      avatar: "",
-      subDomainName: ""
+      subDomainName: ''
     };
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   mounted() {
     this.getPersons();
     this.getSubDomainName();
 
-    eventBus.$on(
-      "edit-person",
-      function() {
-        this.getPersons();
-      }.bind(this)
-    );
+    eventBus.$on('edit-person', () => {
+      this.getPersons();
+    });
   },
   methods: {
-    uploadAvatar: function(event) {
+    uploadAvatar(event) {
       this.upload(event);
-      var input = event.target;
+      const input = event.target;
       if (input.files && input.files[0]) {
         this.render(input);
       }
     },
-    render: function(input) {
-      var reader = new FileReader();
-      reader.onload = function(e) {
-        var div = input.parentElement;
-        var img = div.getElementsByTagName("img")[0];
+    render(input) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const div = input.parentElement;
+        const img = div.getElementsByTagName('img')[0];
         img.src = e.target.result;
       };
       reader.readAsDataURL(input.files[0]);
     },
-    upload: function(event) {
-      var file = event.target.files[0];
-      var fileName = file.name;
-      var fileExt = fileName.split(".").pop();
-      var newFileName = this.generateFileName(40) + "." + fileExt;
-      eventProgress.$emit("new-progress");
+    upload(event) {
+      const file = event.target.files[0];
+      const fileName = file.name;
+      const fileExt = fileName.split('.').pop();
+      const newFileName = this.generateFileName(40) + '.' + fileExt;
+      eventProgress.$emit('new-progress');
 
       AWS.config.update({
-        accessKeyId: "AKIA5AQZS5JMAWUELDG7",
-        secretAccessKey: "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",
-        region: "us-east-1"
+        accessKeyId: 'AKIA5AQZS5JMAWUELDG7',
+        secretAccessKey: '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',
+        region: 'us-east-1'
       });
 
-      var bucket = new S3({ params: { Bucket: "sabiorealm" } });
-      var params = {
+      const bucket = new S3({ params: { Bucket: 'sabiorealm' } });
+      const params = {
         Key:
-          "" + this.subDomainName + "/uploads/testimonial/" + newFileName + "",
+          '' + this.subDomainName + '/uploads/testimonial/' + newFileName + '',
         ContentType: file.type,
         Body: file
       };
 
       bucket
         .upload(params)
-        .on("httpUploadProgress", function(evt) {
-          var percentCompleted = Math.round(
+        .on('httpUploadProgress', (evt) => {
+          const percentCompleted = Math.round(
             parseInt((evt.loaded * 100) / evt.total)
           );
-          eventProgress.$emit("new-percent", percentCompleted);
+          eventProgress.$emit('new-percent', percentCompleted);
         })
-        .send(
-          function() {
-            this.avatar = newFileName;
-            eventProgress.$emit("finish-progress");
-          }.bind(this)
-        );
+        .send(() => {
+          this.person.avatar = newFileName;
+          eventProgress.$emit('finish-progress');
+        });
     },
-    deletePerson: function(id) {
-      var formData = new FormData();
-      formData.set("personId", id);
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "persons",
-        "delete"
+    deletePerson(id) {
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'persons',
+        'delete'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+      formData.set('personId', id);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
           this.getPersons();
-          this.successMessage();
-          eventBus.$emit("edit-person");
+          this.$successMessage();
+          eventBus.$emit('edit-person');
         },
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    generateFileName: function(length) {
-      var today = new Date();
-      var time = today.getHours() + today.getMinutes() + today.getSeconds();
+    generateFileName(length) {
+      const today = new Date();
+      const time = today.getHours() + today.getMinutes() + today.getSeconds();
 
-      var result = "";
-      var characters =
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-      var charactersLength = characters.length;
-      for (var i = 0; i < length; i++) {
+      let result = '';
+      const characters =
+        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      const charactersLength = characters.length;
+      for (let i = 0; i < length; i++) {
         result += characters.charAt(
           Math.floor(Math.random() * charactersLength)
         );
       }
       return result + time;
     },
-    getSubDomainName: function() {
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "verify",
-        "getSubDomainName"
+    getSubDomainName() {
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'verify',
+        'getSubDomainName'
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        response => {
+      this.$request.get(urlToBeUsedInTheRequest).then(
+        (response) => {
           this.subDomainName = response.data;
         },
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    openEditPersonModal: function(id, name, occupation, comment, photo) {
-      this.personId = id;
-      this.name = name;
-      this.occupation = occupation;
-      this.comment = comment;
-      this.photo = photo;
-      this.avatar = photo;
+    openEditPersonModal(id, name, occupation, comment, photo) {
+      this.person.id = id;
+      this.person.name = name;
+      this.person.occupation = occupation;
+      this.person.comment = comment;
+      this.person.avatar = photo;
       this.modal = true;
     },
-    editPerson: function() {
-      var form = document.getElementById("form-person");
-      var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "persons",
-        "edit"
+    editPerson() {
+      const form = document.getElementById('form-person');
+      const formData = new FormData(form);
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'persons',
+        'edit'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
-          this.successMessage();
-          this.actionsToBePerformedAfterEdit();
+          this.$successMessage();
+          this.getPersons();
+          this.modal = false;
+          eventBus.$emit('edit-person');
         },
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    finishRepositioning: function() {
-      this.reorderPersonsPositions();
-    },
-    reorderPersonsPositions: function() {
-      var ar = [];
-      $(".positionPerson").each(function(index) {
-        var id = $(this).attr("id");
+    reorderPersonsPositions() {
+      const ar = [];
+      $('.positionPerson').each((index) => {
+        const id = $(this).attr('id');
         ar.push({ id: id, index: index });
       });
-      var formData = new FormData();
-      $.each(ar, function(index, value) {
-        formData.set("persons[" + value.id + "]", value.index);
+
+      const formData = new FormData();
+      $.each(ar, (index, value) => {
+        formData.set('persons[' + value.id + ']', value.index);
       });
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "persons",
-        "reorder"
+
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'persons',
+        'reorder'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
           this.getPersons();
-          eventBus.$emit("edit-person");
+          eventBus.$emit('edit-person');
         },
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    getPersons: function() {
+    getPersons() {
       this.loading = true;
-      var formData = new FormData();
-      formData.set("testimonialId", this.testimonialId);
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "persons",
-        "listing"
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'persons',
+        'listing'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
+      formData.set('testimonialId', this.testimonialId);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
           this.personsArray = response.data;
           this.loading = false;
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
-    },
-    actionsToBePerformedAfterEdit() {
-      this.getPersons();
-      this.modal = false;
-      eventBus.$emit("edit-person");
     }
   }
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 .action-icons {
   float: right;
@@ -345,7 +342,7 @@ export default {
 .btn-link {
   padding: 0px !important;
   font-size: 13px;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: 600;
 }
 
@@ -405,7 +402,7 @@ li {
 }
 
 .lesson span {
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   margin-top: 3em;
   font-size: 1em;
 }

@@ -1,8 +1,8 @@
 <template>
   <div class="container-site top-13">
     <div class="text-center mb-5">
-      <h1>{{header}}</h1>
-      <h3>{{subheader}}</h3>
+      <h1>{{ header }}</h1>
+      <h3>{{ subheader }}</h3>
     </div>
     <div>
       <persons-list
@@ -15,83 +15,69 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import ElementUI from "element-ui";
-import PersonsList from "@/components/persons/PersonsList";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
+import PersonsList from '@/components/persons/PersonsList';
+import { mapState } from 'vuex';
+import { eventBus } from '@/components/site/App';
 
-import { mapState } from "vuex";
-import { eventBus } from "@/components/site/App";
-
-Vue.use(VueAxios, axios);
-Vue.use(ElementUI);
 export default {
-  mixins: [domains, alerts],
   components: {
     PersonsList
   },
-  props: ["section-id"],
+  props: ['section-id'],
   data: () => {
     return {
-      header: "",
-      subheader: "",
+      header: '',
+      subheader: '',
       testimonialArray: []
     };
   },
   mounted() {
     this.getTestimonial();
-    eventBus.$on(
-      "new-testimonial-change",
-      function() {
-        this.getTestimonial();
-      }.bind(this)
-    );
+    eventBus.$on('new-testimonial-change', () => {
+      this.getTestimonial();
+    });
   },
   methods: {
-    getTestimonial: function() {
-      var urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        "site-elements/testimonial",
-        "get"
+    getTestimonial() {
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'site-elements/testimonial',
+        'get'
       );
-      var formData = new FormData();
-      formData.set("sectionId", this.sectionId);
+      const formData = new FormData();
+      formData.set('sectionId', this.sectionId);
       this.$request.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
+        (response) => {
           this.testimonialArray = response.data;
-          this.header = response.data[0]["header"];
-          this.subheader = response.data[0]["subheader"];
+          this.header = response.data[0].header;
+          this.subheader = response.data[0].subheader;
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     }
   },
   computed: {
-    ...mapState(["lang"]),
-    styleButtonPlain: function() {
+    ...mapState(['lang']),
+    styleButtonPlain() {
       return {
-        "background-color": this.buttonColor,
-        display: this.banner["title"] == null ? "none" : "initial",
-        "--color-hover": this.buttonColorHover,
-        "border-radius": this.buttonStyle == "plain" ? "0px" : "30px"
+        'background-color': this.buttonColor,
+        display: this.banner.title == null ? 'none' : 'initial',
+        '--color-hover': this.buttonColorHover,
+        'border-radius': this.buttonStyle === 'plain' ? '0px' : '30px'
       };
     },
-    styleHeader: function() {
+    styleHeader() {
       return {
-        "background-image": "url(" + this.image + ")"
+        'background-image': 'url(' + this.image + ')'
       };
     },
-    styleBannerHeader: function() {
+    styleBannerHeader() {
       return {
         color: this.headerColor
       };
     },
-    styleBannerSubHeader: function() {
+    styleBannerSubHeader() {
       return {
         color: this.subHeaderColor
       };
@@ -99,7 +85,6 @@ export default {
   }
 };
 </script>
-
 
 <style lang="scss" scoped>
 /* =============
@@ -129,7 +114,7 @@ h4,
 h5,
 h6 {
   color: #2d3954;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   word-break: break-word !important;
 }
 
@@ -191,7 +176,7 @@ a {
     transition: 0.5s;
     color: white;
     font-size: 1em;
-    font-family: "Poppins", sans-serif;
+    font-family: 'Poppins', sans-serif;
     border-radius: 5px;
     padding: 8px 18px 8px 18px;
   }
