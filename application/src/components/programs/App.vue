@@ -42,7 +42,7 @@ export default {
   },
   methods: {
     getPrograms() {
-      const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'program',
         'listing'
       );

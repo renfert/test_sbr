@@ -121,7 +121,7 @@ export default {
         }
       );
     },
-    getLinks: () => {
+    getLinks() {
       this.loading = true;
       const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'link',

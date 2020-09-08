@@ -78,7 +78,7 @@ export default {
       eventBus.$emit('open-social-modal');
     },
     listFooter() {
-      const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'builder',
         'listFooter'
       );
@@ -96,7 +96,7 @@ export default {
     editFooter() {
       const form = document.getElementById('form-footer');
       const formData = new FormData(form);
-      const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'builder',
         'editFooter'
       );

@@ -166,7 +166,6 @@ export default {
         this.userAvatar = response.data.avatar;
         this.userId = response.data.id;
         this.userRoleId = response.data.myrole_id;
-
         const userObj = {
           name: response.data.name,
           email: response.data.email,

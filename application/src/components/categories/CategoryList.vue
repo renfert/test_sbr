@@ -106,7 +106,6 @@
 
 <script>
 import Vue from 'vue';
-
 import { FacebookLoader } from 'vue-content-loader';
 import { DataTables, DataTablesServer } from 'vue-data-tables';
 import { eventBus } from '@/components/categories/App';

@@ -7,8 +7,8 @@
       <div class="form-group">
         <div class="image-upload" style="text-align: center">
           <label for="file-input">
-            <el-avatar style="cursor: pointer" :size="100">
-              <img :src="getUrlToContents() + 'avatar/' + avatar + ''" />
+            <el-avatar style="cursor: pointer" :size="100" fit="none">
+              <img :src="$getUrlToContents() + 'avatar/' + avatar + ''" />
             </el-avatar>
           </label>
           <input :value="avatar" name="avatar" type="text" />
@@ -160,7 +160,7 @@ export default {
       } else {
         const form = document.getElementById('form-profile');
         const formData = new FormData(form);
-        const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+        const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
           'user',
           'editProfile'
         );
@@ -178,7 +178,7 @@ export default {
     getProfile() {
       this.loading = true;
       const formData = new FormData();
-      const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'user',
         'getUserProfile'
       );
@@ -212,7 +212,7 @@ export default {
       return result + time;
     },
     getSubDomainName() {
-      const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'verify',
         'getSubDomainName'
       );

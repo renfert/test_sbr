@@ -27,7 +27,7 @@
                   <a href="#">
                     <img
                       v-lazy="
-                        getUrlToContents() + 'course/' + element.photo + ''
+                        $getUrlToContents() + 'course/' + element.photo + ''
                       "
                       src="https://sabiorealm.s3.amazonaws.com/demo1/uploads/course/5xzwR4ayidpH2iP21B5ysKQkyt4xOUkmpvWNbCA7100.jpg"
                       class="img-fluid"
@@ -71,20 +71,22 @@
                     <a href="javascript:void(0)">
                       <el-avatar
                         :src="
-                          getUrlToContents() + 'avatar/' + element.avatar + ''
+                          $getUrlToContents() + 'avatar/' + element.avatar + ''
                         "
                       ></el-avatar>
                     </a>
                   </div>
-                  <h5>
-                    <a href="javascript:void(0)">
-                      {{ element.name }}
-                    </a>
-                  </h5>
                 </div>
                 <div v-if="element.price != null" class="cources_price_foot">
-                  <span class="price_off">
+                  <span
+                    class="price_off"
+                    v-if="element.payment_platform == 'paypal'"
+                  >
                     {{ element.currency }}
+                    {{ element.price }}
+                  </span>
+                  <span class="price_off" v-else>
+                    {{ element.globalCurrency }}
                     {{ element.price }}
                   </span>
                 </div>

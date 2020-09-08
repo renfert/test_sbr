@@ -24,6 +24,23 @@
 
   "edit-program": "Editar programa",
 
+  "dates": "Datas",
+  "sales": "Vendas",
+  "select-payment-platform": "Selecione a plataforma de pagamento para este curso",
+
+  "mercado-pago-currency-information": "Ao usar o mercadopago como plataforma de pagamento, a moeda é configurada automaticamente em relação ao país a que a conta pertence.",
+
+  "yes": "Sim",
+  "no": "Não",
+
+  "free-course-question": "Este curso é gratuito?",
+
+  "select-currency": "Selecione sua moeda",
+
+  "this-course-will-be-sold": " Este curso será vendido em:",
+  "configure-your-mercadopago-account": "Você precisa configurar sua conta mercadopago. Depois disso, a moeda será configurada automaticamente dependendo do país de sua conta.",
+  "click-to-configure-mercadopago": "Clique aqui para configurar sua conta mercadopago",
+
   "invalid-access-token": "Credenciais inválidas, revise suas informações.",
   "mercado-pago-success": "Sua conta do mercado pago foi configurada com sucesso!",
   "ready-for-sales": "Tudo pronto para as vendas!",

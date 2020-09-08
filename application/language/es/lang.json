@@ -22,6 +22,22 @@
   "plans-nav": "Planes",
   "help-center-nav": "Centro de Ayuda",
 
+  "dates": "Fechas",
+  "sales": "Ventas",
+  "select-payment-platform": "Seleccione la plataforma de pago para este curso",
+
+  "mercado-pago-currency-information": "Al utilizar mercadopago como plataforma de pago, la moneda se configura automáticamente en relación al país al que pertenece la cuenta.",
+
+  "yes": "Si",
+  "no": "No",
+
+  "free-course-question": "¿Este curso es gratis?",
+
+  "select-currency": "Seleccione su moneda",
+
+  "this-course-will-be-sold": " Este curso se venderá en:",
+  "configure-your-mercadopago-account": "Necesitas configurar tu cuenta de mercadopago. Después de eso, la moneda se configurará automáticamente según el país de su cuenta.",
+  "click-to-configure-mercadopago": "Haga clic aquí para configurar su cuenta de mercadopago",
   "course-validity": "Este curso es válido por:",
 
   "edit-program": "Editar programa",

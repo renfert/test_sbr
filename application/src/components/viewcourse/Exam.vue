@@ -1,6 +1,5 @@
 <template>
   <div>
-    <lang></lang>
     <el-dialog
       :visible.sync="modal"
       center
@@ -11,16 +10,28 @@
       :close-on-press-escape="false"
     >
       <div slot="title" class="exam-header" v-if="examOn">
-        <vac :end-time="new Date().getTime() + time" v-if="time != ''">
-          <span slot="process" slot-scope="{ timeObj }">{{
-            `Lefttime: ${timeObj.m}:${timeObj.s}`
-          }}</span>
-          <span slot="finish">{{ lang['your-time-is-over'] }}</span>
+        <vac
+          @finish="finishExam()"
+          :end-time="new Date().getTime() + time"
+          v-if="time != ''"
+        >
           <span
-            slot-scope="{ state }"
-            v-if="state == 'finised' ? finishExam() : ''"
-            >{{ state }}</span
+            class="sbr-text-primary fw-600"
+            slot="process"
+            slot-scope="{ timeObj }"
           >
+            <img
+              style="width: 100px"
+              src="@/assets/img/general/ux/gifs/clock.gif"
+              alt=""
+            />
+            <br />
+            {{ `${timeObj.h}:${timeObj.m}:${timeObj.s}` }}
+          </span>
+          <span slot="finish">{{ lang['your-time-is-over'] }}</span>
+          <span slot-scope="{ state }" v-if="state == 'finised'">{{
+            state
+          }}</span>
         </vac>
 
         <div class="controls">
@@ -82,7 +93,7 @@
             <div class="demo-image__preview">
               <el-image
                 v-if="element.image != null && element.image != ''"
-                :src="'' + getUrlToContents() + 'question/' + element.image"
+                :src="'' + $getUrlToContents() + 'question/' + element.image"
                 fit="scale-down"
               >
                 <div slot="error" class="image-slot">

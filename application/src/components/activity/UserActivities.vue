@@ -191,6 +191,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
   props: ['user-id'],
   data: () => {
@@ -199,6 +201,9 @@ export default {
       activities: [],
       currentDate: ''
     };
+  },
+  computed: {
+    ...mapState(['lang', 'company'])
   },
   created() {
     this.getCurrentDate();

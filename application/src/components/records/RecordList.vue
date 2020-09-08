@@ -97,7 +97,7 @@ export default {
   },
   methods: {
     getRecords() {
-      const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'course',
         'listing'
       );

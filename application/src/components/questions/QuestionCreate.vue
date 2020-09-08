@@ -164,7 +164,7 @@ export default {
       this.loading = true;
       const form = document.getElementById('form-question');
       const formData = new FormData(form);
-      const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'question',
         'edit'
       );
@@ -184,7 +184,7 @@ export default {
         this.editQuestion();
       } else {
         const formData = new FormData();
-        const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+        const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
           'verify',
           'correctAnswerExist'
         );

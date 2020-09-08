@@ -8,7 +8,6 @@
 import Vue from 'vue';
 import VueHead from 'vue-head';
 import Construction from '@/components/helpcenter/Construction.vue';
-
 Vue.use(VueHead);
 export default {
   components: {

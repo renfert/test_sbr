@@ -44,7 +44,7 @@ export default {
       }, 100);
     },
     getColor() {
-      const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'settings',
         'getSettingsInformation'
       );
@@ -60,7 +60,7 @@ export default {
     editColor() {
       const form = document.getElementById('form-general');
       const formData = new FormData(form);
-      const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'settings',
         'editPrimaryColor'
       );

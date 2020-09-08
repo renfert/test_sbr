@@ -112,171 +112,298 @@
         width="40%"
         top="5vh"
       >
-        <!-- Course release date -->
-        <div class="form-group">
-          <label class="col-form-label">{{ lang['start-date'] }}</label>
-          <div class="input-group">
-            <el-date-picker
-              v-model="course.releaseDate"
-              name="release_date"
-              type="date"
-              format="yyyy/MM/dd"
-              value-format="yyyy-MM-dd"
-              placeholder="Pick a day"
-            ></el-date-picker>
-          </div>
-        </div>
-        <!-- Course expiration date -->
-        <div class="form-group">
-          <label class="col-form-label">{{ lang['end-date'] }}</label>
-          <div class="input-group">
-            <el-date-picker
-              v-model="course.expirationDate"
-              name="expiration_date"
-              type="date"
-              format="yyyy/MM/dd"
-              value-format="yyyy-MM-dd"
-              placeholder="Pick a day"
-            ></el-date-picker>
-          </div>
-        </div>
+        <el-tabs v-model="activeTab">
+          <!----------
+            Dates tab
+          ------------>
+          <el-tab-pane :label="lang['dates']" name="dates" class="mt-4">
+            <!-- Course release date -->
+            <div class="form-group">
+              <label class="col-form-label">{{ lang['start-date'] }}</label>
+              <div class="input-group">
+                <el-date-picker
+                  v-model="course.releaseDate"
+                  name="release_date"
+                  type="date"
+                  format="yyyy/MM/dd"
+                  value-format="yyyy-MM-dd"
+                  placeholder="Pick a day"
+                ></el-date-picker>
+              </div>
+            </div>
+            <!-- Course expiration date -->
+            <div class="form-group">
+              <label class="col-form-label">{{ lang['end-date'] }}</label>
+              <div class="input-group">
+                <el-date-picker
+                  v-model="course.expirationDate"
+                  name="expiration_date"
+                  type="date"
+                  format="yyyy/MM/dd"
+                  value-format="yyyy-MM-dd"
+                  placeholder="Pick a day"
+                ></el-date-picker>
+              </div>
+            </div>
 
-        <!-- Course validity -->
-        <div class="form-group">
-          <label class="col-form-label">{{ lang['validity-time'] }}</label>
-          <div class="input-group">
-            <div style="display: flex; flex-direction: column">
-              <el-switch
-                v-model="useValidity"
-                active-color="#009CD8"
-                inactive-color="#9E9C9C"
-              ></el-switch>
+            <!-- Course validity -->
+            <div class="form-group">
+              <label class="col-form-label">{{ lang['validity-time'] }}</label>
+              <div class="input-group">
+                <div style="display: flex; flex-direction: column">
+                  <el-switch
+                    v-model="useValidity"
+                    active-color="#009CD8"
+                    inactive-color="#9E9C9C"
+                  ></el-switch>
+                  <br />
+                  <el-input-number
+                    v-if="useValidity"
+                    :min="1"
+                    name="validity"
+                    v-model="course.validity"
+                  ></el-input-number>
+                </div>
+              </div>
+            </div>
+          </el-tab-pane>
+
+          <!----------
+            Payment tab
+          ------------>
+          <el-tab-pane :label="lang['sales']" name="sales" class="mt-4">
+            <label class="col-form-label">
+              {{ lang['free-course-question'] }}
+            </label>
+            <br />
+            <el-switch
+              active-color="#009cd8"
+              v-model="freeCourse"
+              :active-text="lang['yes']"
+              :inactive-text="lang['no']"
+            ></el-switch>
+            <hr />
+            <!-- Price -->
+            <div class="form-group" v-if="freeCourse == false">
+              <label class="col-form-label">{{ lang['price'] }}</label>
+              <div class="input-group">
+                <money
+                  name="price"
+                  v-model="course.price"
+                  class="text-field"
+                  v-bind="money"
+                  >12323</money
+                >
+              </div>
               <br />
-              <el-input-number
-                v-if="useValidity"
-                :min="1"
-                name="validity"
-                v-model="course.validity"
-              ></el-input-number>
+              <div class="form-group">
+                <label class="col-form-label">
+                  {{ lang['select-payment-platform'] }}
+                </label>
+                <el-select
+                  v-model="course.paymentPlatform"
+                  placeholder="Select"
+                  name="paymentPlatform"
+                >
+                  <el-option label="mercadopago" value="mercadopago">
+                    <span style="float: left; color: #8492a6; font-size: 13px">
+                      <img
+                        style="width: 70px"
+                        src="@/assets/img/apps/mercadopago.png"
+                        alt="en"
+                      />
+                    </span>
+                  </el-option>
+                  <el-option label="paypal" value="paypal">
+                    <span style="float: left; color: #8492a6; font-size: 13px">
+                      <img
+                        style="width: 70px"
+                        src="@/assets/img/apps/paypal.png"
+                        alt="en"
+                      />
+                    </span>
+                  </el-option>
+                </el-select>
+              </div>
+              <div class="form-group">
+                <label class="col-form-label">
+                  {{ lang['select-currency'] }}
+                </label>
+                <br />
+
+                <!------------------------
+                  Mercadopago information
+                ------------------------->
+                <div v-if="course.paymentPlatform == 'mercadopago'">
+                  <!-- If currency is already set -->
+                  <el-alert
+                    v-if="globalCurrency != null"
+                    :title="
+                      lang['mercado-pago-currency-information'] +
+                      lang['this-course-will-be-sold'] +
+                      globalCurrency
+                    "
+                    type="info"
+                    effect="dark"
+                    :closable="false"
+                    show-icon
+                  ></el-alert>
+                  <!-- If currency is not set -->
+                  <el-alert
+                    v-else
+                    type="info"
+                    effect="dark"
+                    :closable="false"
+                    show-icon
+                  >
+                    <p class="text-white">
+                      <b>{{ lang['configure-your-mercadopago-account'] }}</b>
+                    </p>
+                    <p>
+                      <router-link
+                        target="_blank"
+                        class="text-white"
+                        to="/integrations"
+                        >{{
+                          lang['click-to-configure-mercadopago']
+                        }}</router-link
+                      >
+                    </p>
+                  </el-alert>
+                </div>
+                <!-- End Mercado pago information -->
+
+                <el-select
+                  v-else
+                  name="currency"
+                  v-model="course.currency"
+                  placeholder="Select"
+                >
+                  <el-option label="USD" value="USD"></el-option>
+                  <el-option label="BRL" value="BRL"></el-option>
+                  <el-option label="EUR" value="EUR"></el-option>
+                  <el-option label="MXN" value="MXN"></el-option>
+                  <el-option label="COP" value="COP"></el-option>
+                  <el-option label="CLP" value="CLP"></el-option>
+                  <el-option label="ARS" value="ARS"></el-option>
+                  <el-option label="PEN" value="PEN"></el-option>
+                  <el-option label="UYU" value="UYU"></el-option>
+                  <el-option label="BOB" value="BOB"></el-option>
+                </el-select>
+              </div>
             </div>
-          </div>
-        </div>
+          </el-tab-pane>
 
-        <!-- Price -->
-        <div class="form-group">
-          <label class="col-form-label">{{ lang['price'] }}</label>
-          <div class="input-group">
-            <money
-              name="price"
-              v-model="course.price"
-              class="text-field"
-              v-bind="money"
-              >12323</money
-            >
-          </div>
-        </div>
+          <!----------
+            Others tab
+          ------------>
+          <el-tab-pane label="Others" name="third" class="mt-4">
+            <div class="row">
+              <!-- Course reviews -->
+              <div class="col-xl-4 col-md-4">
+                <label for="exampleInputEmail1">{{ lang['reviews'] }}</label>
+                <div class="input-group">
+                  <el-switch
+                    name="reviews"
+                    v-model="course.reviews"
+                    active-color="#009CD8"
+                    inactive-color="#9E9C9C"
+                  ></el-switch>
+                </div>
+              </div>
 
-        <div class="row">
-          <!-- Course reviews -->
-          <div class="col-xl-4 col-md-4">
-            <label for="exampleInputEmail1">{{ lang['reviews'] }}</label>
-            <div class="input-group">
-              <el-switch
-                name="reviews"
-                v-model="course.reviews"
-                active-color="#009CD8"
-                inactive-color="#9E9C9C"
-              ></el-switch>
+              <!-- Course spotlight  -->
+              <div class="col-xl-4 col-md-4">
+                <label for="exampleInputEmail1">{{ lang['spotlight'] }}</label>
+                <div class="input-group">
+                  <el-switch
+                    name="spotlight"
+                    v-model="course.spotlight"
+                    active-color="#009CD8"
+                    inactive-color="#9E9C9C"
+                  ></el-switch>
+                </div>
+              </div>
+
+              <!-- Course certificate  -->
+              <div class="col-xl-4 col-md-4">
+                <label for="exampleInputEmail1">{{
+                  lang['certificate']
+                }}</label>
+                <div class="input-group">
+                  <el-switch
+                    v-model="useCertificate"
+                    active-color="#009CD8"
+                    inactive-color="#9E9C9C"
+                  ></el-switch>
+                </div>
+              </div>
             </div>
-          </div>
 
-          <!-- Course spotlight  -->
-          <div class="col-xl-4 col-md-4">
-            <label for="exampleInputEmail1">{{ lang['spotlight'] }}</label>
-            <div class="input-group">
-              <el-switch
-                name="spotlight"
-                v-model="course.spotlight"
-                active-color="#009CD8"
-                inactive-color="#9E9C9C"
-              ></el-switch>
+            <h4 v-if="useCertificate == true" class="text-center mt-5">
+              Select your template
+            </h4>
+            <div class="row" v-if="useCertificate == true">
+              <div class="col-xl-4 col-md-4">
+                <p class="text-center">Classic</p>
+                <input
+                  :checked="course.certificate == 'classic' ? true : false"
+                  id="classic"
+                  type="radio"
+                  name="certificate"
+                  value="classic"
+                />
+                <label for="classic">
+                  <img
+                    style="max-width: 100%"
+                    class="img-responsive"
+                    src="@/assets/img/general/certificate/classic_template.png"
+                    alt
+                  />
+                </label>
+              </div>
+
+              <div class="col-xl-4 col-md-4">
+                <p class="text-center">Tech</p>
+                <input
+                  :checked="course.certificate == 'tech' ? true : false"
+                  id="tech"
+                  type="radio"
+                  name="certificate"
+                  value="tech"
+                />
+                <label for="tech">
+                  <img
+                    style="max-width: 100%"
+                    class="img-responsive"
+                    src="@/assets/img/general/certificate/tech_template.png"
+                    alt
+                  />
+                </label>
+              </div>
+
+              <div class="col-xl-4 col-md-4">
+                <p class="text-center">Artistic</p>
+                <input
+                  :checked="course.certificate == 'artistic' ? true : false"
+                  id="artistic"
+                  type="radio"
+                  name="certificate"
+                  value="artistic"
+                />
+                <label for="artistic">
+                  <img
+                    style="max-width: 100%"
+                    class="img-responsive"
+                    src="@/assets/img/general/certificate/artistic_template.png"
+                    alt
+                  />
+                </label>
+              </div>
             </div>
-          </div>
+          </el-tab-pane>
+        </el-tabs>
 
-          <!-- Course certificate  -->
-          <div class="col-xl-4 col-md-4">
-            <label for="exampleInputEmail1">{{ lang['certificate'] }}</label>
-            <div class="input-group">
-              <el-switch
-                v-model="useCertificate"
-                active-color="#009CD8"
-                inactive-color="#9E9C9C"
-              ></el-switch>
-            </div>
-          </div>
-        </div>
-
-        <h4 v-if="useCertificate == true" class="text-center mt-5">
-          Select your template
-        </h4>
-        <div class="row" v-if="useCertificate == true">
-          <div class="col-xl-4 col-md-4">
-            <p class="text-center">Classic</p>
-            <input
-              :checked="course.certificate == 'classic' ? true : false"
-              id="classic"
-              type="radio"
-              name="certificate"
-              value="classic"
-            />
-            <label for="classic">
-              <img
-                style="max-width: 100%"
-                class="img-responsive"
-                src="@/assets/img/general/certificate/classic_template.png"
-                alt
-              />
-            </label>
-          </div>
-
-          <div class="col-xl-4 col-md-4">
-            <p class="text-center">Tech</p>
-            <input
-              :checked="course.certificate == 'tech' ? true : false"
-              id="tech"
-              type="radio"
-              name="certificate"
-              value="tech"
-            />
-            <label for="tech">
-              <img
-                style="max-width: 100%"
-                class="img-responsive"
-                src="@/assets/img/general/certificate/tech_template.png"
-                alt
-              />
-            </label>
-          </div>
-
-          <div class="col-xl-4 col-md-4">
-            <p class="text-center">Artistic</p>
-            <input
-              :checked="course.certificate == 'artistic' ? true : false"
-              id="artistic"
-              type="radio"
-              name="certificate"
-              value="artistic"
-            />
-            <label for="artistic">
-              <img
-                style="max-width: 100%"
-                class="img-responsive"
-                src="@/assets/img/general/certificate/artistic_template.png"
-                alt
-              />
-            </label>
-          </div>
-        </div>
         <el-button
           @click.prevent="
             modal = false;
@@ -327,7 +454,9 @@ export default {
         image: '',
         imageName: '',
         previewVideoName: '',
-        previewVideo: ''
+        previewVideo: '',
+        currency: '',
+        paymentPlatform: ''
       },
       useValidity: false,
       useCertificate: false,
@@ -342,13 +471,17 @@ export default {
         suffix: ' ',
         precision: 2,
         masked: false
-      }
+      },
+      activeTab: 'dates',
+      freeCourse: true,
+      globalCurrency: ''
     };
   },
   created() {
     this.course.id = this.$route.params.id;
     this.getCategories();
     this.getCourse();
+    this.getGlobalCurrency();
   },
   computed: {
     ...mapState(['lang'])
@@ -370,6 +503,21 @@ export default {
     });
   },
   methods: {
+    getGlobalCurrency() {
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'settings',
+        'getSettingsInformation'
+      );
+
+      this.$request.get(urlToBeUsedInTheRequest).then(
+        (response) => {
+          this.globalCurrency = response.data.currency;
+        },
+        () => {
+          this.$errorMessage();
+        }
+      );
+    },
     getCourse() {
       const formData = new FormData();
       formData.set('courseId', this.course.id);
@@ -385,6 +533,8 @@ export default {
           this.course.description = response.data.description;
           this.course.validity = response.data.validity;
           this.course.imageName = response.data.photo;
+          this.course.currency = response.data.currency;
+          this.course.paymentPlatform = response.data.payment_platform;
           this.course.image =
             this.$getUrlToContents() + 'course/' + response.data.photo + '';
 
@@ -392,9 +542,12 @@ export default {
           this.course.previewVideo =
             this.$getUrlToContents() + 'preview/' + response.data.preview + '';
 
-          response.data.price == null
-            ? (this.price = '')
-            : (this.price = response.data.price);
+          if (response.data.price == null) {
+            this.course.price = '';
+          } else {
+            this.course.price = response.data.price;
+            this.freeCourse = false;
+          }
 
           response.data.validity == null
             ? (this.useValidity = false)
@@ -462,7 +615,7 @@ export default {
           'course',
           'edit'
         );
-        formData.set('mycategory_id', this.category);
+        formData.set('mycategory_id', this.course.category);
         this.$request.post(urlToBeUsedInTheRequest, formData).then(
           () => {
             this.loading = false;

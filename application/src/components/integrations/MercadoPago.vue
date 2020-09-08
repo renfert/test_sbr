@@ -207,7 +207,7 @@ export default {
       this.$request.get(urlToBeUsedInTheRequest).then(
         (response) => {
           response.data.mp_access_token === 'default'
-            ? (this.accessToken = 'teste')
+            ? (this.accessToken = '')
             : (this.accessToken = response.data.mp_access_token);
         },
         () => {
@@ -254,7 +254,8 @@ export default {
 
       mercadopago.preferences
         .create(preference)
-        .catch(() => {
+        .catch((err) => {
+          console.log(err);
           this.$message.error(this.lang['invalid-access-token']);
           this.loading = false;
         })

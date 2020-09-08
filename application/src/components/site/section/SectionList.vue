@@ -120,7 +120,7 @@ export default {
     },
     deleteSection(id) {
       const formData = new FormData();
-      const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'section',
         'delete'
       );
@@ -152,7 +152,7 @@ export default {
         formData.set('sections[' + value.id + ']', value.index);
       });
 
-      const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'section',
         'reorder'
       );
@@ -167,7 +167,7 @@ export default {
       );
     },
     getSections() {
-      const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'section',
         'listing'
       );

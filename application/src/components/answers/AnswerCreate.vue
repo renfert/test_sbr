@@ -4,6 +4,7 @@
       :visible.sync="modal"
       :title="lang['create-new-answer']"
       center
+      width="30%"
       top="5vh"
     >
       <form id="form-answer" @submit.prevent="createAnswer()">

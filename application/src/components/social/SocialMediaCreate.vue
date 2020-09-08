@@ -48,8 +48,7 @@ export default {
     return {
       socialMedia: '',
       url: '',
-      modal: false,
-      lang: {}
+      modal: false
     };
   },
   mounted() {

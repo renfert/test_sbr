@@ -1,6 +1,5 @@
 <template>
   <div class="main" v-loading="loading">
-    <lang></lang>
     <div>
       <ul class="list-group">
         <draggable v-model="socialMedias" ghost-class="ghost">
@@ -73,7 +72,7 @@ export default {
     },
     deleteSocialMedia(id) {
       const formData = new FormData();
-      const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'social',
         'delete'
       );
@@ -92,7 +91,7 @@ export default {
 
     updateSocialMediaListArray() {
       this.loading = true;
-      const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'social',
         'listing'
       );

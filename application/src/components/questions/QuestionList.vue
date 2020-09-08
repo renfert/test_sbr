@@ -177,7 +177,7 @@ export default {
 
     createNewQuestionEvent() {
       const formData = new FormData();
-      const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'question',
         'createTemporary'
       );
@@ -199,7 +199,7 @@ export default {
     editQuestion() {
       const form = document.getElementById('form-module');
       const formData = new FormData(form);
-      const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'module',
         'edit'
       );
@@ -230,7 +230,7 @@ export default {
 
     deleteQuestion(id) {
       const formData = new FormData();
-      const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'question',
         'delete'
       );
@@ -258,7 +258,7 @@ export default {
         formData.set('module[' + value.id + ']', value.index);
       });
 
-      const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'module',
         'reorder'
       );
@@ -268,7 +268,7 @@ export default {
     getQuestions(examId) {
       this.loadingContent = true;
       const formData = new FormData();
-      const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'question',
         'listing'
       );

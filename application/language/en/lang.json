@@ -48,6 +48,10 @@
   "view-my-marketplace": "View my marketplace",
   "view-my-entry-page": "View my entry page",
 
+  "dates": "Dates",
+  "sales": "Sales",
+  "select-payment-platform": "Select the payment platform for this course",
+
   "trial-expiration-date-info-pt1": "You have",
   "trial-expiration-date-info-pt2": "days of trial",
 
@@ -139,6 +143,9 @@
 
   "question-delete-course": "Delete course: ",
 
+  "yes": "Yes",
+  "no": "No",
+
   "pending": "Pending",
   "done": "Done",
 
@@ -170,8 +177,16 @@
   "free": "Free",
   "free-course": "Free",
   "paid-courses": "Paid courses",
+  "free-course-question": "Is this course free?",
   "question-created-success": "Question created successfully",
 
+  "select-currency": "Select your currency",
+
+  "mercado-pago-currency-information": "When using mercadopago as a payment platform, the currency is automatically configured in relation to the country the account belongs to.",
+
+  "this-course-will-be-sold": " This course will be sold at:",
+  "configure-your-mercadopago-account": "You need to set up your mercadopago account. After that the currency will be automatically configured depending on the country of your account.",
+  "click-to-configure-mercadopago": "Click here to set up your Mercadopago account",
   "take-this-course": "Take this course",
 
   "unanswered-question": "You must have at least one correct answer.",

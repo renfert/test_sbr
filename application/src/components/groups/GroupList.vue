@@ -15,7 +15,7 @@
           <el-row>
             <el-col :md="6">
               <el-input
-                v-model="filters[0].value"
+                v-model="table.filters[0].value"
                 placeholder="Search"
               ></el-input>
             </el-col>

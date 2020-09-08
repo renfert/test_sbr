@@ -55,10 +55,10 @@
       <section v-if="template == 'tech'" slot="pdf-content">
         <div>
           <div class="tech-template">
-            <h2>{{ companyName }}</h2>
+            <h2>{{ company.name }}</h2>
             <h3>{{ lang['certificate-of-completition'] }}</h3>
             <h5>{{ lang['granted-to'] }}</h5>
-            <h1>{{ userName }}</h1>
+            <h1>{{ user.name }}</h1>
             <p>{{ lang['certify-completition'] }}</p>
             <h3>{{ course }}</h3>
             <hr />
@@ -78,10 +78,10 @@
       <section v-if="template == 'artistic'" slot="pdf-content">
         <div>
           <div class="artistic-template">
-            <h2>{{ companyName }}</h2>
+            <h2>{{ company.name }}</h2>
             <h3>{{ lang['certificate-of-completition'] }}</h3>
             <h5>{{ lang['granted-to'] }}</h5>
-            <h1>{{ userName }}</h1>
+            <h1>{{ user.name }}</h1>
             <p>{{ lang['certify-completition'] }}</p>
             <h3>{{ courseName }}</h3>
             <hr />

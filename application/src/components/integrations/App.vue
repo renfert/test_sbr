@@ -21,6 +21,10 @@
             <el-tab-pane name="mp" label="Mercado pago">
               <mercado-pago></mercado-pago>
             </el-tab-pane>
+
+            <el-tab-pane name="paypal" label="Paypal">
+              <paypal></paypal>
+            </el-tab-pane>
           </el-tabs>
         </div>
 
@@ -42,6 +46,10 @@
             <el-tab-pane name="mp" label="Mercado pago">
               <mercado-pago></mercado-pago>
             </el-tab-pane>
+
+            <el-tab-pane name="paypal" label="Paypal">
+              <paypal></paypal>
+            </el-tab-pane>
           </el-tabs>
         </div>
       </template>
@@ -55,6 +63,7 @@ import GoogleTagManager from '@/components/integrations/GoogleTagManager';
 import GoogleAnalytics from '@/components/integrations/GoogleAnalytics';
 import MercadoPago from '@/components/integrations/MercadoPago';
 import FacebookPixel from '@/components/integrations/FacebookPixel';
+import Paypal from '@/components/integrations/Paypal';
 import VueHead from 'vue-head';
 import { mapState } from 'vuex';
 
@@ -86,7 +95,8 @@ export default {
     GoogleTagManager,
     GoogleAnalytics,
     MercadoPago,
-    FacebookPixel
+    FacebookPixel,
+    Paypal
   }
 };
 </script>

@@ -4,7 +4,7 @@
       <div class="img-container">
         <div class="text-container">
           <h4>{{ lang['course-created-successfully'] }}</h4>
-          <h1>{{ courseName }}</h1>
+          <h1>{{ course.name }}</h1>
         </div>
 
         <img src="@/assets/img/general/ux/course_completed.png" />
@@ -13,7 +13,7 @@
 
     <div class="row row-actions">
       <div class="col-12 col-md-3">
-        <router-link :to="'/viewcourse/' + this.courseId">
+        <router-link :to="'/viewcourse/' + this.course.id">
           <div class="card-box card-action">
             <h5 class="fw-700">{{ lang['view-course'] }}</h5>
             <img src="@/assets/img/general/ux/view_course.png" alt />
@@ -53,7 +53,7 @@
             Share
     ---------->
     <el-dialog :visible.sync="share" :title="lang['share']" center top="5vh">
-      <el-input id="shareLink" placeholder="Please input" v-model="linkToShare">
+      <el-input id="shareLink" placeholder="Please input" v-model="course.link">
         <el-button
           @click.prevent="copyToClipboard()"
           slot="append"
@@ -182,7 +182,7 @@ export default {
         'course',
         'get'
       );
-      formData.set('courseId', this.courseId);
+      formData.set('courseId', this.course.id);
       this.$request.post(urlToBeUsedInTheRequest, formData).then(
         (response) => {
           this.course.name = response.data.title;
