@@ -49,6 +49,8 @@
               :price="price"
               :description="description"
               :preview="preview"
+              :payment-platform="coursePaymentPlatform"
+              :currency="courseCurrency"
             ></price>
           </div>
         </div>
@@ -74,6 +76,9 @@ export default {
     return {
       courseId: '',
       courseTitle: '',
+
+      coursePaymentPlatform: '',
+      courseCurrency: '',
 
       totalModules: '',
       totalLessons: '',
@@ -138,6 +143,8 @@ export default {
           this.preview = response.data.preview;
           this.price = response.data.price;
           this.reviews = response.data.reviews;
+          this.courseCurrency = response.data.currency;
+          this.coursePaymentPlatform = response.data.payment_platform;
           this.totalModules = response.data.totalModules;
           this.totalLessons = response.data.totalLessons;
           this.instructorName = response.data.instructorName;
@@ -199,7 +206,7 @@ export default {
       /* Url og metatag */
       const url = document.createElement('meta');
       url.setAttribute('property', 'og:url');
-      url.content = this.getCurrentDomainName() + 'product' + this.courseId;
+      url.content = this.$getCurrentDomainName() + 'product' + this.courseId;
       document.getElementsByTagName('head')[0].appendChild(url);
     }
   }

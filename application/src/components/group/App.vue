@@ -16,7 +16,7 @@
           <i class="mdi mdi-account-multiple-outline"></i>
           {{ lang['students'] }}
         </span>
-        <students :group-id="groupId"></students>
+        <students :group-id="group.id"></students>
       </el-tab-pane>
 
       <el-tab-pane>
@@ -24,7 +24,7 @@
           <i class="mdi mdi-account-star-outline"></i>
           {{ lang['instructors'] }}
         </span>
-        <instructors :group-id="groupId"></instructors>
+        <instructors :group-id="group.id"></instructors>
       </el-tab-pane>
 
       <el-tab-pane>
@@ -32,7 +32,7 @@
           <i class="mdi mdi-account-star-outline"></i>
           {{ lang['programs'] }}
         </span>
-        <programs :group-id="groupId"></programs>
+        <programs :group-id="group.id"></programs>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -72,7 +72,7 @@ export default {
     getGroup() {
       const formData = new FormData();
       const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest('group', 'get');
-      formData.set('groupId', this.groupId);
+      formData.set('groupId', this.group.id);
       this.$request.post(urlToBeUsedInTheRequest, formData).then((response) => {
         this.group.name = response.data.name;
       });

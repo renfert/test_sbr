@@ -12,7 +12,7 @@
               <upload
                 :src-name="element.logo"
                 :src-img="
-                  getUrlToContents() + 'builder/header/' + element.logo + ''
+                  $getUrlToContents() + 'builder/header/' + element.logo + ''
                 "
                 do-upload="true"
                 box-height="100"
@@ -28,7 +28,7 @@
               <upload
                 :src-name="element.logo_sticky"
                 :src-img="
-                  getUrlToContents() +
+                  $getUrlToContents() +
                   'builder/header/' +
                   element.logo_sticky +
                   ''
@@ -155,7 +155,7 @@ export default {
       eventBus.$emit('open-link-modal');
     },
     listHeader() {
-      const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'builder',
         'listHeader'
       );
@@ -176,7 +176,7 @@ export default {
     editHeader() {
       const form = document.getElementById('form-header');
       const formData = new FormData(form);
-      const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'builder',
         'editHeader'
       );

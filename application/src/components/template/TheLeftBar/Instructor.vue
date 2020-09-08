@@ -14,7 +14,7 @@
         <el-row>
           <!-- Profile -->
           <router-link to="/">
-            <img :src="getUrlToContents() + 'settings/' + logo + ''" />
+            <img :src="$getUrlToContents() + 'settings/' + logo + ''" />
           </router-link>
         </el-row>
       </el-menu-item>
@@ -67,7 +67,7 @@
           <!-- Profile -->
           <router-link class="pr-4" to="/profile">
             <el-avatar
-              :src="getUrlToContents() + 'avatar/' + userAvatar + ''"
+              :src="$getUrlToContents() + 'avatar/' + userAvatar + ''"
             ></el-avatar>
           </router-link>
 

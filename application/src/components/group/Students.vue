@@ -11,7 +11,7 @@
 
     <div v-else>
       <!-- Students list  -->
-      <div class="course-content" v-if="studentsInsideGroup != null">
+      <div class="course-content" v-if="studentsBelongingToTheGroup != null">
         <div class="mb-5">
           <el-row>
             <el-col :md="6" :xs="18" class="mr-3">
@@ -32,7 +32,7 @@
         </div>
         <data-tables
           :pagination-props="{ background: true, pageSizes: [5] }"
-          :data="studentsInsideGroup"
+          :data="studentsBelongingToTheGroup"
           :filters="filters"
         >
           <el-table-column
@@ -106,18 +106,18 @@
       ></facebook-loader>
 
       <div v-else>
-        <div v-if="studentsOutsideGroup != null">
+        <div v-if="studentsNotBelongingToTheGroup != null">
           <template>
             <el-transfer
               filterable
               :titles="['Students', 'Group']"
               v-model="students"
-              :data="studentsOutsideGroup"
+              :data="studentsNotBelongingToTheGroup"
             ></el-transfer>
           </template>
           <br />
           <el-button
-            v-loading="loadingButton"
+            v-loading="loading"
             class="sbr-primary"
             @click="saveStudents()"
             type="primary"
@@ -249,7 +249,7 @@ export default {
         }
       );
     },
-    getStudentsOutsideTheGroup() {
+    getStudentsThatNotBelongToGroup() {
       this.contentModal = false;
       const formData = new FormData();
       const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(

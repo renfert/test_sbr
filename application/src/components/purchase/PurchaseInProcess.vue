@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     getCompanyInformation() {
-      const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'company',
         'getCompanyInformation'
       );

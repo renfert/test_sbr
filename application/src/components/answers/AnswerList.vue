@@ -89,6 +89,7 @@
         :title="lang['edit-answer']"
         center
         top="5vh"
+        width="30%"
       >
         <form id="form-edit-answer" @submit.prevent="editAnswer()">
           <div class="form-row">

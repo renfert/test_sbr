@@ -40,7 +40,7 @@
         ----------------->
         <div class="videoconference-container" v-if="showVideoConf">
           <!-- Title -->
-          <h2 class="card-title text-center">{{ title }}</h2>
+          <h2 class="card-title text-center mt-5">{{ title }}</h2>
           <h3 class="card-title h6 pl-5 pr-5 text-center">{{ description }}</h3>
           <hr class="my-4 rgba-white-light" />
 
@@ -92,7 +92,7 @@
         ------------->
         <div class="webinar-container" v-if="showWebinar">
           <!-- Title -->
-          <h2 class="card-title text-center">{{ title }}</h2>
+          <h2 class="card-title text-center mt-5">{{ title }}</h2>
           <h3 class="card-title h6 pl-5 pr-5 text-center">{{ description }}</h3>
           <hr class="my-4 rgba-white-light" />
 
@@ -145,7 +145,7 @@
         ----------------------->
         <div class="webinar-container" v-if="showDownloadable">
           <!-- Title -->
-          <h2 class="card-title text-center">{{ title }}</h2>
+          <h2 class="card-title text-center mt-5">{{ title }}</h2>
           <hr class="my-4 rgba-white-light" />
 
           <div class="text-center gap-10">
@@ -206,7 +206,7 @@
         ----------->
         <div v-if="showExam">
           <!-- Title -->
-          <h2 class="card-title text-center">{{ title }}</h2>
+          <h2 class="card-title text-center mt-5">{{ title }}</h2>
           <div class="row d-flex justify-content-center text-center">
             <div class="col-xl-7 pb-2">
               <el-tag

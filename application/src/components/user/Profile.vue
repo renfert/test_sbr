@@ -19,7 +19,7 @@
             <el-avatar
               :size="150"
               fit="contain"
-              :src="getUrlToContents() + 'avatar/' + userAvatar + ''"
+              :src="$getUrlToContents() + 'avatar/' + userAvatar + ''"
             ></el-avatar>
           </div>
           <img src="@/assets/img/general/ux/profile_bg.png" />

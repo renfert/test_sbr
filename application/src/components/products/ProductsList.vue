@@ -198,14 +198,19 @@
                         ></el-avatar>
                       </a>
                     </div>
-                    <h5>
-                      <a href="javascript:void(0)">{{ element.name }}</a>
-                    </h5>
                   </div>
                   <div v-if="element.price != null" class="cources_price_foot">
-                    <span class="price_off"
-                      >{{ element.currency }} {{ element.price }}</span
+                    <span
+                      class="price_off"
+                      v-if="element.payment_platform == 'paypal'"
                     >
+                      {{ element.currency }}
+                      {{ element.price }}
+                    </span>
+                    <span class="price_off" v-else>
+                      {{ element.globalCurrency }}
+                      {{ element.price }}
+                    </span>
                   </div>
                   <div v-else class="foot_lecture">
                     <i class="ti-gift mr-2"></i>

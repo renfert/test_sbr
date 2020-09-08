@@ -21,7 +21,7 @@
               <upload
                 v-if="this.logoName != ''"
                 :src-img="
-                  this.getUrlToContents() + 'settings/' + this.logoName + ''
+                  this.$getUrlToContents() + 'settings/' + this.logoName + ''
                 "
                 :src-name="this.logoName"
                 do-upload="true"
@@ -45,7 +45,7 @@
               <upload
                 v-if="this.faviconName != ''"
                 :src-img="
-                  this.getUrlToContents() + 'settings/' + this.faviconName + ''
+                  this.$getUrlToContents() + 'settings/' + this.faviconName + ''
                 "
                 :src-name="this.faviconName"
                 do-upload="true"
@@ -204,7 +204,7 @@ export default {
       }
     },
     getSettings() {
-      const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'settings',
         'getSettingsInformation'
       );
@@ -233,7 +233,7 @@ export default {
     editSettings() {
       const form = document.getElementById('form-settings');
       const formData = new FormData(form);
-      const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'settings',
         'edit'
       );

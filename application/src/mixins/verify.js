@@ -1,4 +1,8 @@
+import { mapState } from 'vuex';
 const verify = {
+  computed: {
+    ...mapState(['user'])
+  },
   methods: {
     $verifySession() {
       const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
@@ -25,16 +29,9 @@ const verify = {
       });
     },
     $verifyInstructorPrivileges() {
-      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        'user',
-        'getUserProfile'
-      );
-      this.$request.get(urlToBeUsedInTheRequest).then((response) => {
-        const roleId = response.data.myrole_id;
-        if (roleId !== 2) {
-          window.location.href = '/404';
-        }
-      });
+      if (this.user.role !== 2) {
+        window.location.href = '/404';
+      }
     },
     $blockStudentAccess() {
       const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(

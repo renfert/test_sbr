@@ -143,7 +143,7 @@ export default {
   },
   mounted() {
     eventBus.$on('new-exam', () => {
-      this.modalCreateExam = true;
+      this.modal = true;
     });
   },
   computed: {
@@ -151,16 +151,14 @@ export default {
   },
   methods: {
     changeExamStatus() {
-      const form = document.getElementById('form-lesson-exam');
       const formData = new FormData();
       const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'lesson',
         'changeExamStatus'
       );
-      formData.set('examId', this.examId);
+      formData.set('examId', this.exam.id);
       this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
-          form.reset();
           this.exam.mode = 'create';
           this.showExamFirstStep = true;
           this.showExamSecondStep = false;

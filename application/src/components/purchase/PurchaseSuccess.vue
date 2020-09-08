@@ -48,14 +48,17 @@ export default {
   methods: {
     getCourse() {
       const formData = new FormData();
-      const urlToBeUsedInTheRequest = this.getUrlToMakeRequest('course', 'get');
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'course',
+        'get'
+      );
 
       formData.set('courseId', this.courseId);
       this.$request.post(urlToBeUsedInTheRequest, formData).then(
         (response) => {
           this.courseTitle = response.data.title;
           this.courseImage =
-            this.getUrlToContents() + 'course/' + response.data.photo + '';
+            this.$getUrlToContents() + 'course/' + response.data.photo + '';
         },
         () => {
           this.$errorMessage();
@@ -64,7 +67,7 @@ export default {
     },
 
     getCompanyInformation() {
-      const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'company',
         'getCompanyInformation'
       );

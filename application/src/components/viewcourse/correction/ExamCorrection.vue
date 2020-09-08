@@ -1,6 +1,5 @@
 <template>
   <div>
-    <lang></lang>
     <el-dialog
       :visible.sync="modal"
       center

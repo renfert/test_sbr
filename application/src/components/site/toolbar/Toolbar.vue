@@ -67,7 +67,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 .fixed-aside {
-  width: 350px !important;
+  width: 370px !important;
   position: fixed;
   z-index: 2001;
   top: 0;

@@ -119,18 +119,30 @@
 
           <!-- Unregistered user -->
           <div v-else>
-            <form
-              :action="this.getCurrentDomainName() + 'payment/process'"
-              method="POST"
-              v-if="preferenceId != null"
-            >
-              <script
-                v-if="link != null"
-                :src="link"
-                :data-preference-id="preferenceId"
-                type="application/javascript"
-              ></script>
-            </form>
+            <!-- Mercado pago -->
+            <div v-if="paymentPlatform == 'mercadopago'">
+              <form
+                :action="this.getCurrentDomainName() + 'payment/process'"
+                method="POST"
+                v-if="preferenceId != null"
+              >
+                <script
+                  v-if="link != null"
+                  :src="link"
+                  :data-preference-id="preferenceId"
+                  type="application/javascript"
+                ></script>
+              </form>
+            </div>
+            <!-- Paypal -->
+            <div v-else>
+              <paypal-button
+                v-if="courseId"
+                :currency="currency"
+                :price="price"
+                :course-id="this.courseId"
+              ></paypal-button>
+            </div>
           </div>
         </div>
 
@@ -308,18 +320,31 @@
               {{ lang['congratulations'] }}
             </h2>
             <h5 class="fw-600">{{ lang['you-are-logged-in-now'] }}</h5>
-            <form
-              v-if="preferenceId != null"
-              :action="this.getCurrentDomainName() + 'payment/process'"
-              method="POST"
-            >
-              <script
-                v-if="link != null"
-                :src="link"
-                :data-preference-id="preferenceId"
-                type="application/javascript"
-              ></script>
-            </form>
+            <!-- Mercadopago -->
+            <div v-if="paymentPlatform == 'mercadopago'">
+              <form
+                v-if="preferenceId != null"
+                :action="this.getCurrentDomainName() + 'payment/process'"
+                method="POST"
+              >
+                <script
+                  v-if="link != null"
+                  :src="link"
+                  :data-preference-id="preferenceId"
+                  type="application/javascript"
+                ></script>
+              </form>
+            </div>
+
+            <!-- Paypal -->
+            <div v-else>
+              <paypal-button
+                v-if="courseId"
+                :currency="currency"
+                :price="price"
+                :course-id="this.courseId"
+              ></paypal-button>
+            </div>
           </div>
 
           <div class="col-4">
@@ -344,6 +369,7 @@
 <script>
 import Vue from 'vue';
 import LeadCreate, { eventLead } from '@/components/leads/LeadCreate';
+import PaypalButton from '@/components/payment/Paypal';
 import VuePlyr from 'vue-plyr';
 import { mapState } from 'vuex';
 import { eventLogin } from '@/components/login/Login';
@@ -380,7 +406,8 @@ export default {
     };
   },
   components: {
-    LeadCreate
+    LeadCreate,
+    PaypalButton
   },
   props: [
     'description',
@@ -388,7 +415,9 @@ export default {
     'price',
     'course-id',
     'course-title',
-    'preview'
+    'preview',
+    'payment-platform',
+    'currency'
   ],
   mounted() {
     this.checkEnrolledUser();
@@ -430,7 +459,7 @@ export default {
         }
       });
     },
-    createMpPreference: (courseTitle, coursePrice, courseId) => {
+    createMpPreference(courseTitle, coursePrice, courseId) {
       // Mercado pago SDK
       const mercadopago = require('mercadopago');
       // Get credentials
@@ -530,7 +559,7 @@ export default {
       const formData = new FormData();
       const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'integrations',
-        'saveMpPreference'
+        'savePreferenceId'
       );
       formData.set('preferenceId', preferenceId);
       this.$request.post(urlToBeUsedInTheRequest, formData).then(
@@ -690,7 +719,7 @@ export default {
     },
     courseId() {
       this.checkEnrolledUser();
-      if (this.price != null) {
+      if (this.price !== null) {
         this.createMpPreference(this.courseTitle, this.price, this.courseId);
       }
     }

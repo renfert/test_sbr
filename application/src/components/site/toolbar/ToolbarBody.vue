@@ -81,7 +81,7 @@ export default {
   methods: {
     createSection() {
       this.loading = true;
-      const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'site-elements/' + this.section + '',
         'create'
       );

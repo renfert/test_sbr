@@ -156,7 +156,7 @@ export default {
       this.automaticFeedback = response.feedback;
       this.questionImageName = response.image;
       this.previewImg =
-        this.getUrlToContents() + 'question/' + response.image + '';
+        this.$getUrlToContents() + 'question/' + response.image + '';
       this.examId = response.examId;
       this.modalEditQuestion = true;
       this.forceRerender();
@@ -177,7 +177,7 @@ export default {
     editQuestion() {
       const form = document.getElementById('form-edit-question');
       const formData = new FormData(form);
-      const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'question',
         'edit'
       );

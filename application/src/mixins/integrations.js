@@ -11,7 +11,15 @@ const integrations = {
     };
   },
   computed: {
-    ...mapState(['userRole'])
+    ...mapState(['user'])
+  },
+  watch: {
+    '$store.state.user.role': {
+      /* eslint-disable */
+      handler: function (newValue) {
+        this.loadIntegrations();
+      }
+    }
   },
   methods: {
     loadIntegrations() {
@@ -40,7 +48,7 @@ const integrations = {
           this.currentRoute !== '/site' &&
           this.currentRoute !== '/products' &&
           this.currentRoute !== '/product' &&
-          this.userRole === 1
+          parseInt(this.user.role) === 1
         ) {
           /* eslint-disable */
           const Tawk_API = Tawk_API || {};

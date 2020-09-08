@@ -203,7 +203,7 @@ export default {
     enrollUserIntoCourses() {
       this.loadingButton = true;
       const formData = new FormData();
-      const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'user',
         'enrollUserIntoCourses'
       );
