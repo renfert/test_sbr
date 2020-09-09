@@ -193,8 +193,8 @@ export default {
       });
     },
     repositioning() {
-      $('.courses-position').each((index) => {
-        $(this).attr('name', 'courses[' + index + ']');
+      $('.courses-position').each((index, element) => {
+        $(element).attr('name', 'courses[' + index + ']');
       });
     },
     addCourse() {

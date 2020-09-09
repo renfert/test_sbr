@@ -212,8 +212,8 @@ export default {
   },
   methods: {
     repositioning() {
-      $('.courses-position').each((index) => {
-        $(this).attr('name', 'courses[' + index + ']');
+      $('.courses-position').each((index, element) => {
+        $(element).attr('name', 'courses[' + index + ']');
       });
     },
     addCourse() {
@@ -241,7 +241,7 @@ export default {
         'program',
         'get'
       );
-      formData.set('programId', this.programId);
+      formData.set('programId', this.program.id);
       this.$request.post(urlToBeUsedInTheRequest, formData).then(
         (response) => {
           this.program.title = response.data[0].title;
