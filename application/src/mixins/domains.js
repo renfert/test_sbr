@@ -28,7 +28,7 @@ const domains = {
     },
     $getDomainNameToNavigation() {
       if (process.env.NODE_ENV === 'production') {
-        return this.getCurrentDomainName();
+        return this.$getCurrentDomainName();
       } else {
         return 'http://localhost:8080/';
       }
