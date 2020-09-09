@@ -11,14 +11,14 @@
           <!-- Card image -->
           <img
             v-if="element.expirationDays < 0 || element.releaseDays > 0"
-            v-lazy="getUrlToContents() + 'program/' + element.photo + ''"
+            v-lazy="$getUrlToContents() + 'program/' + element.photo + ''"
             style="height: 200px; cursor: not-allowed"
             class="card-img-top"
           />
           <router-link v-else :to="'/viewprogram/' + element.id">
             <!-- Card image -->
             <img
-              v-lazy="getUrlToContents() + 'program/' + element.photo + ''"
+              v-lazy="$getUrlToContents() + 'program/' + element.photo + ''"
               style="height: 200px"
               class="card-img-top"
             />
@@ -134,7 +134,7 @@ export default {
   methods: {
     deleteProgram(id) {
       const formData = new FormData();
-      const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'program',
         'delete'
       );
