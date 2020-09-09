@@ -1,1 +1,0 @@
-{"version":3,"sources":["webpack:///./src/assets/img/general/ux/not_found.png"],"names":["module","exports"],"mappings":"4IAAAA,EAAOC,QAAU,IAA0B","file":"js/categories~dashboard~editcourse~group~leads~newcourse.cfb72d914b7f901fdbf8.js","sourcesContent":["module.exports = __webpack_public_path__ + \"img/not_found.766f7e74.png\";"],"sourceRoot":""}

@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["corrections~records"],{"0bec":function(o,n,p){o.exports=p.p+"img/no_exams.b5baf10f.png"}}]);
-//# sourceMappingURL=corrections~records.d2d49e1caad8a74f5ce8.js.map
