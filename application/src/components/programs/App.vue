@@ -1,6 +1,6 @@
 <template>
   <div class="content-page">
-    <div v-if="userRole != 3">
+    <div v-if="user.role != 3">
       <program-create
         :program-list="programList"
         :total-programs="numberTotalOfProgramsCreated"
@@ -32,7 +32,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['userRole'])
+    ...mapState(['user'])
   },
   mounted() {
     this.getPrograms();
