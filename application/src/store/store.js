@@ -34,7 +34,7 @@ export default new Vuex.Store({
     },
     setCompany: (state, obj) => {
       /* eslint-disable */
-      state.company.name - obj.name;
+      state.company.name = obj.name;
       state.company.plan = obj.plan;
       state.company.country = obj.country;
       state.company.expiration = obj.expiration;

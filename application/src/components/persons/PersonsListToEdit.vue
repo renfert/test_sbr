@@ -66,15 +66,19 @@
     >
       <form id="form-person" @submit.prevent="editPerson()">
         <!-- Person id -->
-        <input type="number" v-model="personId" name="personId" class="hide" />
+        <input type="number" v-model="person.id" name="personId" class="hide" />
         <div class="form-group">
           <div class="image-upload" style="text-align: center">
             <label for="file-input">
               <el-avatar style="cursor: pointer" :size="100">
-                <img :src="$getUrlToContents() + 'testimonial/' + photo + ''" />
+                <img
+                  :src="
+                    $getUrlToContents() + 'testimonial/' + person.avatar + ''
+                  "
+                />
               </el-avatar>
             </label>
-            <input :value="avatar" name="avatar" type="text" />
+            <input :value="person.avatar" name="avatar" type="text" />
             <input
               id="file-input"
               type="file"
@@ -84,15 +88,19 @@
         </div>
         <div class="form-group">
           <label>{{ lang['name'] }}</label>
-          <el-input name="name" v-model="name"></el-input>
+          <el-input name="name" v-model="person.name"></el-input>
         </div>
         <div class="form-group">
           <label>{{ lang['occupation'] }}</label>
-          <el-input name="occupation" v-model="occupation"></el-input>
+          <el-input name="occupation" v-model="person.occupation"></el-input>
         </div>
         <div class="form-group">
           <label>{{ lang['comment'] }}</label>
-          <el-input type="textarea" name="comment" v-model="comment"></el-input>
+          <el-input
+            type="textarea"
+            name="comment"
+            v-model="person.comment"
+          ></el-input>
         </div>
         <div class="form-group">
           <el-button native-type="submit" class="sbr-primary">{{
@@ -275,8 +283,8 @@ export default {
     },
     reorderPersonsPositions() {
       const ar = [];
-      $('.positionPerson').each((index) => {
-        const id = $(this).attr('id');
+      $('.positionPerson').each((index, element) => {
+        const id = $(element).attr('id');
         ar.push({ id: id, index: index });
       });
 
@@ -309,7 +317,7 @@ export default {
       formData.set('testimonialId', this.testimonialId);
       this.$request.post(urlToBeUsedInTheRequest, formData).then(
         (response) => {
-          this.personsArray = response.data;
+          this.persons = response.data;
           this.loading = false;
         },
         () => {

@@ -188,7 +188,7 @@ export default {
           this.course.name = response.data.title;
           this.course.image = response.data.photo;
 
-          this.linkToShare =
+          this.course.link =
             this.$getCurrentDomainName() +
             'product/' +
             this.formatTitleParameter(response.data.title);

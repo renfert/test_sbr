@@ -98,8 +98,8 @@ export default {
     },
     reorderLinkPositions() {
       const ar = [];
-      $('.linkPosition').each((index) => {
-        const id = $(this).attr('id');
+      $('.linkPosition').each((index, element) => {
+        const id = $(element).attr('id');
         ar.push({ id: id, index: index });
       });
 
@@ -115,6 +115,7 @@ export default {
       this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
           this.getLinks();
+          eventBus.$emit('link-list-update');
         },
         () => {
           this.$errorMessage();

@@ -273,7 +273,8 @@
                   src="@/assets/img/general/ux/correction.png"
                   v-if="
                     parseInt(userRetests) == parseInt(retest) ||
-                    parseInt(overview['yourScore']) >= parseInt(approval)
+                    parseInt(overview['yourScore']) >= parseInt(approval) ||
+                    overview['waitingEvaluationQuestions'] != 0
                   "
                 />
 
@@ -308,7 +309,8 @@
                   class="sbr-primary mt-3"
                   v-if="
                     parseInt(userRetests) == parseInt(retest) ||
-                    parseInt(overview['yourScore']) >= parseInt(approval)
+                    parseInt(overview['yourScore']) >= parseInt(approval) ||
+                    overview['waitingEvaluationQuestions'] != 0
                   "
                   @click="openCorrection(lessonId)"
                   >{{ lang['see-exam-correction'] }}</el-button
@@ -435,8 +437,7 @@ export default {
       this.lessonId = data.lessonId;
       this.lessonStatus = data.lessonStatus;
       this.getLesson(data.lessonId);
-
-      if (data.lessonType === 3 || data.lessonType === 7) {
+      if (parseInt(data.lessonType) === 3 || parseInt(data.lessonType) === 7) {
         this.finishLesson();
       }
     });

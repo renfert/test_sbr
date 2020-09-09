@@ -16,7 +16,7 @@
           <el-row>
             <el-col :md="6" :xs="18" class="mr-3">
               <el-input
-                v-model="filters[0].value"
+                v-model="table.filters[0].value"
                 placeholder="Search"
               ></el-input>
             </el-col>
@@ -33,10 +33,10 @@
         <data-tables
           :pagination-props="{ background: true, pageSizes: [5] }"
           :data="studentsBelongingToTheGroup"
-          :filters="filters"
+          :filters="table.filters"
         >
           <el-table-column
-            v-for="title in titles"
+            v-for="title in table.titles"
             sortable="custom"
             :prop="title.prop"
             :label="title.label"

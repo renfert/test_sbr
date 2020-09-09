@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :key="key">
     <el-dialog
       :visible.sync="modal"
       :title="lang['create-new-exam']"
@@ -100,7 +100,7 @@
       </div>
 
       <div v-if="showExamSecondStep">
-        <question-list :exam-id="exam.id"></question-list>
+        <question-list :key="key" :exam-id="exam.id"></question-list>
         <el-button
           v-loading="loading"
           class="sbr-primary"
@@ -138,12 +138,21 @@ export default {
       loading: false,
       activeTab: 1,
       showExamSecondStep: false,
-      showExamFirstStep: true
+      showExamFirstStep: true,
+      key: 0
     };
   },
   mounted() {
     eventBus.$on('new-exam', () => {
       this.modal = true;
+      this.exam.id = '';
+      this.exam.name = '';
+      this.exam.approvalPercent = '';
+      this.exam.duration = '';
+      this.exam.numberOfRetests = '';
+      this.exam.mode = 'create';
+      this.activeTab = 1;
+      this.key++;
     });
   },
   computed: {

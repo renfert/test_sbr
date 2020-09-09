@@ -173,7 +173,7 @@
           v-if="element.answer != '' && element.answer != null"
           download
           class="sbr-btn sbr-primary"
-          :href="'' + getUrlToContents() + 'answers/' + element.answer"
+          :href="'' + $getUrlToContents() + 'answers/' + element.answer"
           >{{ lang['download-answer'] }}</a
         >
 

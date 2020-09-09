@@ -32,7 +32,7 @@ export default {
   data: () => {
     return {
       lessons: null,
-      loadingContent: false
+      content: false
     };
   },
   computed: {

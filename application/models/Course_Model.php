@@ -53,7 +53,7 @@ class Course_Model extends CI_Model
             DATEDIFF(T0.expiration_date, '$currentDate') as expirationDays,
             DATEDIFF(T0.release_date, '$currentDate') as releaseDays,
             DATEDIFF(DATE_ADD(T2.enroll_date, INTERVAL T0.validity DAY), '$currentDate' ) as validityDays,
-            (SELECT count(DISTINCT mylesson_id ) - 1 FROM relationship WHERE mycourse_id = T0.id ) as lessons,
+            (SELECT count(DISTINCT mylesson_id ) - 1 FROM relationship T5 INNER JOIN mylesson T6 ON T5.mylesson_id = T6.id  WHERE T5.mycourse_id = T0.id AND T6.status IS NULL) as lessons,
             (SELECT count(DISTINCT mylesson_id) FROM lesson_status WHERE mycourse_id = T0.id AND myuser_id = " . getUserId() . " AND status = 'finished') as finishedLessons
         ");
     $this->db->distinct();
@@ -270,11 +270,13 @@ class Course_Model extends CI_Model
 
   private function getLessonsListFromCourse($courseId)
   {
-    $this->db->select("mylesson_id");
+    $this->db->select("T0.mylesson_id");
     $this->db->distinct();
-    $this->db->from("relationship");
-    $this->db->where("mycourse_id", $courseId);
-    $this->db->where("mylesson_id !=", 1);
+    $this->db->from("relationship T0");
+    $this->db->join("mylesson T1", "T0.mylesson_id = T1.id");
+    $this->db->where("T0.mycourse_id", $courseId);
+    $this->db->where("T0.mylesson_id !=", 1);
+    $this->db->where("T1.status", NULL);
     $query = $this->db->get();
 
     if ($query->num_rows() > 0) {

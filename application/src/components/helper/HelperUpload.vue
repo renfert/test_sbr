@@ -193,7 +193,8 @@ export default {
     upload(event) {
       const file = event.target.files[0];
       const fileName = file.name;
-      const fileExt = fileName.split('.').pop();
+      const fileExt = this.formatExtension(fileName.split('.').pop());
+
       const newFileName = this.generateFileName(40) + '.' + fileExt;
       eventProgress.$emit('new-progress');
 
@@ -232,6 +233,24 @@ export default {
           eventProgress.$emit('finish-progress');
           eventUpload.$emit('finish-upload');
         });
+    },
+    formatExtension(ext) {
+      if (
+        ext === 'mp4' ||
+        ext === 'avi' ||
+        ext === 'mov' ||
+        ext === 'flv' ||
+        ext === 'wmv' ||
+        ext === 'MP4' ||
+        ext === 'AVI' ||
+        ext === 'MOV' ||
+        ext === 'FLV' ||
+        ext === 'WMV'
+      ) {
+        return 'mp4';
+      } else {
+        return ext;
+      }
     },
     createFolder() {
       /* Create new folder into bucket */

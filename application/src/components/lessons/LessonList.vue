@@ -233,8 +233,8 @@ export default {
     },
     reorderLessonPositions() {
       const ar = [];
-      $('.lesson' + this.moduleId + '').each((index) => {
-        const id = $(this).attr('id');
+      $('.lesson' + this.moduleId + '').each((index, element) => {
+        const id = $(element).attr('id');
         ar.push({ id: id, index: index });
       });
 

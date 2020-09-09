@@ -553,8 +553,8 @@ export default {
 
     reorderModulePositions() {
       const ar = [];
-      $('.module').each((index) => {
-        const id = $(this).attr('id');
+      $('.module').each((index, element) => {
+        const id = $(element).attr('id');
         ar.push({ id: id, index: index });
       });
 
@@ -604,7 +604,6 @@ export default {
   font-size: 16px;
   margin-left: 20px;
   display: block;
-  width: 100px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -712,6 +711,9 @@ li {
 @media only screen and (max-width: 600px) {
   .lesson-img {
     width: 60%;
+  }
+  .moduleTitle {
+    width: 100px;
   }
 }
 </style>

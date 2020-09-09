@@ -6,7 +6,7 @@
     <div class="float-right">
       <el-button
         class="sbr-purple"
-        v-if="plan == 'bussiness'"
+        v-if="company.plan == 'bussiness'"
         @click.prevent="modal = true"
         type="primary"
         size="small"
@@ -175,7 +175,7 @@ export default {
     Upload
   },
   computed: {
-    ...mapState(['lang', 'plan'])
+    ...mapState(['lang', 'company'])
   },
   methods: {
     upgradePlanFeature() {
@@ -184,8 +184,11 @@ export default {
     createUser() {
       this.loadingButton = true;
 
-      const form = document.getElementById('form-user');
-      const formData = new FormData(form);
+      const formData = new FormData();
+      formData.set('name', this.name);
+      formData.set('email', this.email);
+      formData.set('password', this.password);
+      formData.set('role', this.role);
       const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'user',
         'create'

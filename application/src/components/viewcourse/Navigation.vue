@@ -77,7 +77,6 @@ export default {
   },
   created() {
     this.courseId = this.$route.params.id;
-    this.getCompanyLogo();
     this.getCourse(this.courseId);
     this.getModules(this.courseId);
   },
@@ -100,15 +99,6 @@ export default {
     });
   },
   methods: {
-    getCompanyLogo() {
-      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        'settings',
-        'getSettingsInformation'
-      );
-      this.$request.get(urlToBeUsedInTheRequest).then((response) => {
-        this.logo = response.data.logo;
-      });
-    },
     openmenu(index) {
       this.$refs.menu.open(index);
     },

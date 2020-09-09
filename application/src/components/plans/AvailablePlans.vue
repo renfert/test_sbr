@@ -11,7 +11,7 @@
         <article class="pricing-column">
           <div
             class="inner-box card-box"
-            :class="plan == 'basic' ? 'sbr-shadow-primary' : ''"
+            :class="company.plan == 'basic' ? 'sbr-shadow-primary' : ''"
           >
             <div class="plan-header text-center">
               <h3 class="text-eadtools">
@@ -57,9 +57,9 @@
             <ul class="plan-stats list-unstyled text-left">
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                <b class="sbr-text-primary">{{
-                  lang['feature-plan-courses']
-                }}</b>
+                <b class="sbr-text-primary">
+                  {{ lang['feature-plan-courses'] }}
+                </b>
               </li>
               <hr />
               <li>
@@ -188,9 +188,9 @@
             <ul class="plan-stats list-unstyled text-left mt-2">
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                <b class="sbr-text-primary">{{
-                  lang['feature-plan-courses']
-                }}</b>
+                <b class="sbr-text-primary">
+                  {{ lang['feature-plan-courses'] }}
+                </b>
               </li>
               <hr />
               <li>
@@ -319,9 +319,9 @@
             <ul class="plan-stats list-unstyled text-left mt-2">
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                <b class="sbr-text-primary">{{
-                  lang['feature-plan-courses']
-                }}</b>
+                <b class="sbr-text-primary">
+                  {{ lang['feature-plan-courses'] }}
+                </b>
               </li>
               <hr />
               <li>
@@ -422,9 +422,9 @@
             <ul class="plan-stats list-unstyled text-left mt-3">
               <li>
                 <i class="fas fa-check sbr-text-primary"></i>
-                <b class="sbr-text-primary">{{
-                  lang['feature-plan-courses']
-                }}</b>
+                <b class="sbr-text-primary">
+                  {{ lang['feature-plan-courses'] }}
+                </b>
               </li>
               <hr />
               <li>

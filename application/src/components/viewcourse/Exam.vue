@@ -21,7 +21,7 @@
             slot-scope="{ timeObj }"
           >
             <img
-              style="width: 100px"
+              style="width: 50px"
               src="@/assets/img/general/ux/gifs/clock.gif"
               alt=""
             />

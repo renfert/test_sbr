@@ -22,6 +22,7 @@
             <!-- Downloadable file upload -->
             <label class="col-form-label">Downloadable file *</label>
             <upload
+              :key="key"
               do-upload="true"
               box-height="200"
               return-name="path"
@@ -61,7 +62,8 @@ export default {
     return {
       name: '',
       modal: false,
-      loading: false
+      loading: false,
+      key: 0
     };
   },
   mounted() {
@@ -73,6 +75,9 @@ export default {
     ...mapState(['lang'])
   },
   methods: {
+    forceUpdate() {
+      this.key++;
+    },
     create() {
       this.loading = true;
       const form = document.getElementById('form-lesson-downloadable');
@@ -86,6 +91,7 @@ export default {
           this.$successMessage();
           form.reset();
           eventBus.$emit('new-lesson');
+          this.forceUpdate();
           this.modal = false;
           this.loading = false;
         },
