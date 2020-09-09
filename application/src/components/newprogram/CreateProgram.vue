@@ -232,7 +232,7 @@ export default {
     },
     createProgram() {
       const form = document.getElementById('form-program');
-      const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'program',
         'create'
       );
