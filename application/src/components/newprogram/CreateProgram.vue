@@ -51,9 +51,9 @@
                     v-model="program.description"
                     name="description"
                   ></textarea>
-                  <label class="col-form-label">
-                    {{ lang['description'] }}
-                  </label>
+                  <label class="col-form-label">{{
+                    lang['description']
+                  }}</label>
                   <wysiwyg v-model="program.description" />
                 </div>
               </div>
@@ -122,16 +122,16 @@
           </el-tab-pane>
         </el-tabs>
         <br />
-        <el-button native-type="submit" class="sbr-primary">
-          {{ lang['save-button'] }}
-        </el-button>
+        <el-button native-type="submit" class="sbr-primary">{{
+          lang['save-button']
+        }}</el-button>
       </form>
     </div>
     <helper-progress></helper-progress>
     <program-created
-      :class="programId == '' ? 'hide' : ''"
-      :program-name="programName"
-      :program-id="programId"
+      :class="program.id == '' ? 'hide' : ''"
+      :program-name="program.name"
+      :program-id="program.id"
     ></program-created>
   </div>
 </template>
