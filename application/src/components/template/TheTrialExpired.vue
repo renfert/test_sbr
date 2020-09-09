@@ -17,7 +17,7 @@
   >
     <!-- Trial expired card -->
     <div class="text-center container-trial" v-if="trialContent == true">
-      <div v-if="userRole == 1">
+      <div v-if="user.role == 1">
         <h2>{{ lang['trial-expired'] }}</h2>
         <h3>{{ lang['trial-expired-message'] }}</h3>
         <div class="buttons text-center">
@@ -221,7 +221,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['lang', 'userRole']),
+    ...mapState(['lang', 'user']),
     currentRouteName() {
       return this.$route.name;
     }
