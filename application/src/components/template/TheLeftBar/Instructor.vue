@@ -123,7 +123,7 @@ export default {
       });
     },
     logout() {
-      const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'logout',
         'doLogout'
       );
