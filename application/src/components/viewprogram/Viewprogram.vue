@@ -84,7 +84,7 @@ export default {
   methods: {
     listingCoursesToViewProgram() {
       const formData = new FormData();
-      const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'program',
         'listingCoursesToViewProgram'
       );

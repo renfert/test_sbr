@@ -26,11 +26,6 @@ export default {
   data: () => {
     return {};
   },
-  created() {
-    this.verifySession();
-    this.loadIntegrations();
-    this.createFavicon();
-  },
   computed: {
     ...mapState(['lang'])
   },
@@ -46,5 +41,3 @@ export default {
   }
 };
 </script>
-
-<style></style>
