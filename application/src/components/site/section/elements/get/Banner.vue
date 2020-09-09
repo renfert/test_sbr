@@ -1,109 +1,97 @@
 <template>
   <div class="section">
     <div class="banner" :style="styleHeader">
-      <h1 :style="styleBannerHeader" class="banner-text">{{ banner["header"] }}</h1>
-      <p :style="styleBannerSubHeader">{{ banner["subheader"] }}</p>
+      <h1 :style="styleBannerHeader" class="banner-text">
+        {{ banner['header'] }}
+      </h1>
+      <p :style="styleBannerSubHeader">{{ banner['subheader'] }}</p>
       <a
         class="btn banner-btn"
         :style="styleButton"
         :href="buttonUrl"
         :target="buttonTarget"
-      >{{ banner["title"] }}</a>
+        >{{ banner['title'] }}</a
+      >
     </div>
   </div>
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import ElementUI from "element-ui";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-
-import { eventBus } from "@/components/site/App";
-import { mapState } from "vuex";
-
-Vue.use(VueAxios, axios);
-Vue.use(ElementUI);
+import { eventBus } from '@/components/site/App';
+import { mapState } from 'vuex';
 
 export default {
-  mixins: [domains, alerts],
-  props: ["section-id"],
+  props: ['section-id'],
   data: () => {
     return {
       banner: [],
-      image: "",
-      buttonColor: "",
-      buttonColorHover: "",
-      headerColor: "",
-      subHeaderColor: "",
-      buttonStyle: "",
-      buttonUrl: "",
-      buttonTarget: ""
+      image: '',
+      buttonColor: '',
+      buttonColorHover: '',
+      headerColor: '',
+      subHeaderColor: '',
+      buttonStyle: '',
+      buttonUrl: '',
+      buttonTarget: ''
     };
   },
   mounted() {
     this.getBanner();
-    eventBus.$on(
-      "new-banner-change",
-      function() {
-        this.getBanner();
-      }.bind(this)
-    );
+    eventBus.$on('new-banner-change', () => {
+      this.getBanner();
+    });
   },
   methods: {
-    getBanner: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "site-elements/banner",
-        "getBanner"
+    getBanner() {
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'site-elements/banner',
+        'getBanner'
       );
-      var formData = new FormData();
-      formData.set("sectionId", this.sectionId);
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
+      formData.set('sectionId', this.sectionId);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
           this.banner = response.data[0];
           this.image =
-            this.getUrlToContents() +
-            "builder/body/" +
-            response.data[0]["image"] +
-            "";
-          this.buttonColor = response.data[0]["color"];
-          this.buttonColorHover = response.data[0]["color_hover"];
-          this.headerColor = response.data[0]["header_color"];
-          this.subHeaderColor = response.data[0]["subheader_color"];
-          this.buttonStyle = response.data[0]["style"];
-          this.buttonUrl = response.data[0]["url"];
-          this.buttonTarget = response.data[0]["target"];
+            this.$getUrlToContents() +
+            'builder/body/' +
+            response.data[0].image +
+            '';
+          this.buttonColor = response.data[0].color;
+          this.buttonColorHover = response.data[0].color_hover;
+          this.headerColor = response.data[0].header_color;
+          this.subHeaderColor = response.data[0].subheader_color;
+          this.buttonStyle = response.data[0].style;
+          this.buttonUrl = response.data[0].url;
+          this.buttonTarget = response.data[0].target;
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     }
   },
   computed: {
-    ...mapState(["lang"]),
-    styleButton: function() {
+    ...mapState(['lang']),
+    styleButton() {
       return {
-        "background-color": this.buttonColor,
-        display: this.banner["title"] == null ? "none" : "initial",
-        "--color-hover": this.buttonColorHover,
-        "border-radius": this.buttonStyle == "plain" ? "0px" : "50px"
+        'background-color': this.buttonColor,
+        display: this.banner.title == null ? 'none' : 'initial',
+        '--color-hover': this.buttonColorHover,
+        'border-radius': this.buttonStyle === 'plain' ? '0px' : '50px'
       };
     },
-    styleHeader: function() {
+    styleHeader() {
       return {
-        "background-image": "url(" + this.image + ")"
+        'background-image': 'url(' + this.image + ')'
       };
     },
-    styleBannerHeader: function() {
+    styleBannerHeader() {
       return {
         color: this.headerColor
       };
     },
-    styleBannerSubHeader: function() {
+    styleBannerSubHeader() {
       return {
         color: this.subHeaderColor
       };
@@ -162,7 +150,7 @@ export default {
 
 .nav-link {
   font-size: 1.2em;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 .btn {

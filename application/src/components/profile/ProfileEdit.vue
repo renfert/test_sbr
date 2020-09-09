@@ -5,34 +5,42 @@
       <!-- Person id -->
       <input type="number" v-model="userId" name="userId" class="hide" />
       <div class="form-group">
-        <div class="image-upload" style="text-align:center;">
+        <div class="image-upload" style="text-align: center">
           <label for="file-input">
-            <el-avatar style="cursor:pointer" :size="100">
-              <img :src="getUrlToContents() + 'avatar/'+photo+''" />
+            <el-avatar style="cursor: pointer" :size="100" fit="none">
+              <img :src="$getUrlToContents() + 'avatar/' + avatar + ''" />
             </el-avatar>
           </label>
           <input :value="avatar" name="avatar" type="text" />
-          <input id="file-input" type="file" @change.prevent="uploadAvatar($event)" />
+          <input
+            id="file-input"
+            type="file"
+            @change.prevent="uploadAvatar($event)"
+          />
         </div>
       </div>
       <div class="form-group">
-        <label>{{lang["name"]}}</label>
+        <label>{{ lang['name'] }}</label>
         <el-input name="name" v-model="name"></el-input>
       </div>
 
       <!-- Description -->
       <div class="form-group">
-        <label>{{lang["description"]}}</label>
-        <el-input type="textarea" name="description" v-model="description"></el-input>
+        <label>{{ lang['description'] }}</label>
+        <el-input
+          type="textarea"
+          name="description"
+          v-model="description"
+        ></el-input>
       </div>
 
-      <label>{{lang["change-password"]}}</label>
+      <label>{{ lang['change-password'] }}</label>
       <el-switch class="m-4" v-model="changePassword"></el-switch>
 
       <div v-if="changePassword">
         <!-- Password -->
         <div class="form-group">
-          <label>{{lang["new-password"]}}</label>
+          <label>{{ lang['new-password'] }}</label>
           <el-input
             @focus="showConfirmPassword = true"
             type="password"
@@ -43,13 +51,15 @@
 
         <!-- Confirm password -->
         <div v-if="showConfirmPassword" class="form-group">
-          <label>{{lang["confirm-password"]}}</label>
+          <label>{{ lang['confirm-password'] }}</label>
           <el-input type="password" v-model="confirmPassword"></el-input>
         </div>
       </div>
 
       <div class="form-group">
-        <el-button native-type="submit" class="sbr-primary">{{lang["save-button"]}}</el-button>
+        <el-button native-type="submit" class="sbr-primary">{{
+          lang['save-button']
+        }}</el-button>
       </div>
     </form>
     <helper-progress></helper-progress>
@@ -57,42 +67,31 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import ElementUI from "element-ui";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-import HelperProgress from "@/components/helper/HelperProgress.vue";
-import AWS from "aws-sdk/global";
-import S3 from "aws-sdk/clients/s3";
+import HelperProgress from '@/components/helper/HelperProgress.vue';
+import AWS from 'aws-sdk/global';
+import S3 from 'aws-sdk/clients/s3';
 
-import { eventBus } from "@/components/profile/App";
-import { eventProgress } from "@/components/helper/HelperProgress";
-import { mapState } from "vuex";
-
-Vue.use(VueAxios, axios);
-Vue.use(ElementUI);
+import { eventBus } from '@/components/profile/App';
+import { eventProgress } from '@/components/helper/HelperProgress';
+import { mapState } from 'vuex';
 
 export default {
   components: {
     HelperProgress
   },
-  mixins: [domains, alerts],
-  props: ["testimonial-id"],
+  props: ['testimonial-id'],
   data: () => {
     return {
-      name: "",
-      photo: "",
-      userId: "",
-      avatar: "",
-      description: "",
-      password: "",
-      confirmPassword: "",
-      confirmPasswordShow: "",
+      name: '',
+      userId: '',
+      avatar: '',
+      description: '',
+      password: '',
+      confirmPassword: '',
+      confirmPasswordShow: '',
       showConfirmPassword: false,
       changePassword: false,
-      subDomainName: ""
+      subDomainName: ''
     };
   },
   mounted() {
@@ -100,134 +99,130 @@ export default {
     this.getProfile();
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   methods: {
-    uploadAvatar: function(event) {
+    uploadAvatar(event) {
       this.upload(event);
-      var input = event.target;
+      const input = event.target;
       if (input.files && input.files[0]) {
         this.render(input);
       }
     },
-    render: function(input) {
-      var reader = new FileReader();
-      reader.onload = function(e) {
-        var div = input.parentElement;
-        var img = div.getElementsByTagName("img")[0];
+    render(input) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const div = input.parentElement;
+        const img = div.getElementsByTagName('img')[0];
         img.src = e.target.result;
       };
       reader.readAsDataURL(input.files[0]);
     },
-    upload: function(event) {
-      var file = event.target.files[0];
-      var fileName = file.name;
-      var fileExt = fileName.split(".").pop();
-      var newFileName = this.generateFileName(40) + "." + fileExt;
-      eventProgress.$emit("new-progress");
+    upload(event) {
+      const file = event.target.files[0];
+      const fileName = file.name;
+      const fileExt = fileName.split('.').pop();
+      const newFileName = this.generateFileName(40) + '.' + fileExt;
+      eventProgress.$emit('new-progress');
 
       AWS.config.update({
-        accessKeyId: "AKIA5AQZS5JMAWUELDG7",
-        secretAccessKey: "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",
-        region: "us-east-1"
+        accessKeyId: 'AKIA5AQZS5JMAWUELDG7',
+        secretAccessKey: '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',
+        region: 'us-east-1'
       });
 
-      var bucket = new S3({ params: { Bucket: "sabiorealm" } });
-      var params = {
-        Key: "" + this.subDomainName + "/uploads/avatar/" + newFileName + "",
+      const bucket = new S3({ params: { Bucket: 'sabiorealm' } });
+      const params = {
+        Key: '' + this.subDomainName + '/uploads/avatar/' + newFileName + '',
         ContentType: file.type,
         Body: file
       };
 
       bucket
         .upload(params)
-        .on("httpUploadProgress", function(evt) {
-          var percentCompleted = Math.round(
+        .on('httpUploadProgress', (evt) => {
+          const percentCompleted = Math.round(
             parseInt((evt.loaded * 100) / evt.total)
           );
-          eventProgress.$emit("new-percent", percentCompleted);
+          eventProgress.$emit('new-percent', percentCompleted);
         })
-        .send(
-          function() {
-            this.avatar = newFileName;
-            eventProgress.$emit("finish-progress");
-          }.bind(this)
-        );
+        .send(() => {
+          this.avatar = newFileName;
+          eventProgress.$emit('finish-progress');
+        });
     },
-    editProfile: function() {
-      if (this.password != this.confirmPassword) {
+    editProfile() {
+      if (this.password !== this.confirmPassword) {
         this.$message({
-          message: "The passwords are different",
-          type: "warning"
+          message: 'The passwords are different',
+          type: 'warning'
         });
       } else {
-        var form = document.getElementById("form-profile");
-        var formData = new FormData(form);
-        var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-          "user",
-          "editProfile"
+        const form = document.getElementById('form-profile');
+        const formData = new FormData(form);
+        const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+          'user',
+          'editProfile'
         );
-        axios.post(urlToBeUsedInTheRequest, formData).then(
+        this.$request.post(urlToBeUsedInTheRequest, formData).then(
           () => {
-            this.successMessage();
-            eventBus.$emit("profile-edited");
+            this.$successMessage();
+            eventBus.$emit('profile-edited');
           },
-          function() {
-            this.errorMessage();
-          }.bind(this)
+          () => {
+            this.$errorMessage();
+          }
         );
       }
     },
-    getProfile: function() {
+    getProfile() {
       this.loading = true;
-      var formData = new FormData();
-      formData.set("testimonialId", this.testimonialId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "user",
-        "getUserProfile"
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'user',
+        'getUserProfile'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
-          this.userId = response.data["id"];
-          this.photo = response.data["avatar"];
-          this.avatar = response.data["avatar"];
-          this.name = response.data["name"];
-          this.description = response.data["description"];
+      formData.set('testimonialId', this.testimonialId);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
+          this.userId = response.data.id;
+          this.avatar = response.data.avatar;
+          this.name = response.data.name;
+          this.description = response.data.description;
           this.loading = false;
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    generateFileName: function(length) {
-      var today = new Date();
-      var time = today.getHours() + today.getMinutes() + today.getSeconds();
+    generateFileName(length) {
+      const today = new Date();
+      const time = today.getHours() + today.getMinutes() + today.getSeconds();
 
-      var result = "";
-      var characters =
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-      var charactersLength = characters.length;
-      for (var i = 0; i < length; i++) {
+      let result = '';
+      const characters =
+        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      const charactersLength = characters.length;
+      for (let i = 0; i < length; i++) {
         result += characters.charAt(
           Math.floor(Math.random() * charactersLength)
         );
       }
       return result + time;
     },
-    getSubDomainName: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "verify",
-        "getSubDomainName"
+    getSubDomainName() {
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'verify',
+        'getSubDomainName'
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        response => {
+      this.$request.get(urlToBeUsedInTheRequest).then(
+        (response) => {
           this.subDomainName = response.data;
         },
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     }
   }

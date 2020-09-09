@@ -1,7 +1,15 @@
 <template>
   <div>
-    <el-dialog :visible.sync="modal" :title="lang['create-account']" center top="5vh">
-      <el-alert :title="lang['create-account-to-continue']" type="info"></el-alert>
+    <el-dialog
+      :visible.sync="modal"
+      :title="lang['create-account']"
+      center
+      top="5vh"
+    >
+      <el-alert
+        :title="lang['create-account-to-continue']"
+        type="info"
+      ></el-alert>
       <form
         id="form-lead"
         @submit.prevent="createLead()"
@@ -47,8 +55,12 @@
 
         <input class="hide" type="number" name="courseId" :value="courseId" />
 
-        <button :style="primaryColorBg" class="btn btn-theme account-btn" type="submit">
-          {{lang['create-account']}}
+        <button
+          :style="primaryColorBg"
+          class="btn btn-theme account-btn"
+          type="submit"
+        >
+          {{ lang['create-account'] }}
           <i class="ti-angle-right"></i>
         </button>
       </form>
@@ -57,93 +69,78 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
+import Vue from 'vue';
 
-import { mapState } from "vuex";
+import { mapState } from 'vuex';
 
 export const eventLead = new Vue();
 
-Vue.use(ElementUI);
-Vue.use(VueAxios, axios);
-
 export default {
-  mixins: [domains, alerts],
-  props: ["course-id"],
-  data: function() {
+  props: ['course-id'],
+  data: () => {
     return {
       modal: false,
       loading: false,
-      password: "",
-      confirmPassword: "",
-      color: ""
+      password: '',
+      confirmPassword: '',
+      color: ''
     };
   },
   created() {
     this.getColor();
   },
   mounted() {
-    eventLead.$on(
-      "open-lead-modal",
-      function() {
-        this.modal = true;
-      }.bind(this)
-    );
+    eventLead.$on('open-lead-modal', () => {
+      this.modal = true;
+    });
   },
   computed: {
-    primaryColorBg: function() {
+    primaryColorBg() {
       return {
-        "background-color": this.color
+        'background-color': this.color
       };
     },
-    primaryColor: function() {
+    primaryColor() {
       return {
         color: this.color
       };
     },
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   methods: {
-    getColor: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "settings",
-        "getSettingsInformation"
+    getColor() {
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'settings',
+        'getSettingsInformation'
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        function(response) {
-          this.color = response.data["color"];
-        }.bind(this)
-      );
+      this.$request.get(urlToBeUsedInTheRequest).then((response) => {
+        this.color = response.data.color;
+      });
     },
-    createLead: function() {
-      if (this.password == this.confirmPassword) {
+    createLead() {
+      if (this.password === this.confirmPassword) {
         this.loading = true;
-        var form = document.getElementById("form-lead");
-        var formData = new FormData(form);
-        var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-          "lead",
-          "create"
+        const form = document.getElementById('form-lead');
+        const formData = new FormData(form);
+        const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+          'lead',
+          'create'
         );
-        axios.post(urlToBeUsedInTheRequest, formData).then(
-          response => {
-            if (response.data == false) {
-              this.userAlreadyExists();
+        this.$request.post(urlToBeUsedInTheRequest, formData).then(
+          (response) => {
+            if (response.data === false) {
+              this.$userAlreadyExists();
               this.loading = false;
             } else {
-              this.$router.push("/courses");
+              this.$router.push('/courses');
             }
           },
-          function() {
-            this.errorMessage();
-          }.bind(this)
+          () => {
+            this.$errorMessage();
+          }
         );
       } else {
-        this.diferentPasswords();
+        this.$diferentPasswords();
       }
     }
   }

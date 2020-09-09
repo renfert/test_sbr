@@ -1,160 +1,124 @@
 <template>
-  <div class="main" v-loading="loading">
-    <lang></lang>
-
-    <div class="row">
-      <!-------------- 
-                Widgets 
+  <div class="row">
+    <!--------------
+                Widgets
       --------------->
-      <div class="col-12 col-md-12 mb-5">
-        <h4 class="sbr-text-grey">
-          <b>{{lang['courses']}}</b>
-        </h4>
-        <div class="row">
-          <div class="col-md-4 col-12 mb-3">
-            <!-- Courses finished -->
-            <a href="courses">
-              <div class="card-widget">
-                <div class="title-widget text-center">
-                  <img src="@/assets/img/general/ux/widgets/student/courses_finished.png" alt />
-                  <h3 class="sbr-text-grey text-widget">
-                    {{lang['finalized']}}
-                    <b>{{finalizedCourses}}</b>
-                  </h3>
-                </div>
+    <div class="col-12 col-md-12 mb-5">
+      <h4 class="sbr-text-grey">
+        <b>{{ lang['courses'] }}</b>
+      </h4>
+      <div class="row">
+        <div class="col-md-4 col-12 mb-3">
+          <!-- Courses finished -->
+          <a href="courses">
+            <div class="card-widget">
+              <div class="title-widget text-center">
+                <img
+                  src="@/assets/img/general/ux/widgets/student/courses_finished.png"
+                  alt
+                />
+                <h3 class="sbr-text-grey text-widget">
+                  {{ lang['finalized'] }}
+                  <b>{{ finalizedCourses }}</b>
+                </h3>
               </div>
-            </a>
-          </div>
-          <div class="col-md-4 col-12 mb-3">
-            <!-- Courses in progress -->
-            <a href="users">
-              <div class="card-widget">
-                <div class="title-widget text-center">
-                  <img src="@/assets/img/general/ux/widgets/student/courses_inprogress.png" alt />
-                  <h3 class="sbr-text-grey text-widget">
-                    {{lang['in-progress']}}
-                    <b>{{inprogressCourses}}</b>
-                  </h3>
-                </div>
+            </div>
+          </a>
+        </div>
+        <div class="col-md-4 col-12 mb-3">
+          <!-- Courses in progress -->
+          <a href="users">
+            <div class="card-widget">
+              <div class="title-widget text-center">
+                <img
+                  src="@/assets/img/general/ux/widgets/student/courses_inprogress.png"
+                  alt
+                />
+                <h3 class="sbr-text-grey text-widget">
+                  {{ lang['in-progress'] }}
+                  <b>{{ inprogressCourses }}</b>
+                </h3>
               </div>
-            </a>
-          </div>
-
-          <div class="col-md-4 col-12 mb-3">
-            <!-- Courses not started -->
-            <a href="users">
-              <div class="card-widget">
-                <div class="title-widget text-center">
-                  <img src="@/assets/img/general/ux/widgets/student/courses_notstarted.png" alt />
-                  <h3 class="sbr-text-grey text-widget">
-                    {{lang['not-started']}}
-                    <b>{{naCourses}}</b>
-                  </h3>
-                </div>
-              </div>
-            </a>
-          </div>
+            </div>
+          </a>
         </div>
 
-        <!-------------- 
-                Last activities
-        --------------->
-        <user-activities v-if="userId != 0" :user-id="userId"></user-activities>
-        <!-------------- 
-                Last activities
-        --------------->
+        <div class="col-md-4 col-12 mb-3">
+          <!-- Courses not started -->
+          <a href="users">
+            <div class="card-widget">
+              <div class="title-widget text-center">
+                <img
+                  src="@/assets/img/general/ux/widgets/student/courses_notstarted.png"
+                  alt
+                />
+                <h3 class="sbr-text-grey text-widget">
+                  {{ lang['not-started'] }}
+                  <b>{{ naCourses }}</b>
+                </h3>
+              </div>
+            </div>
+          </a>
+        </div>
       </div>
-      <!-------------- 
-                End Widgets 
-      --------------->
+
+      <!--------------
+                Last activities
+        --------------->
+      <user-activities :user-id="this.user.id"></user-activities>
+      <!--------------
+                Last activities
+        --------------->
     </div>
+    <!--------------
+                End Widgets
+      --------------->
   </div>
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import VueTheMask from "vue-the-mask";
-import ElementUI from "element-ui";
-import Lang from "@/components/helper/HelperLang.vue";
-import UserActivities from "@/components/activity/UserActivities.vue";
-import "element-ui/lib/theme-chalk/index.css";
-import lang from "element-ui/lib/locale/lang/en";
-import locale from "element-ui/lib/locale";
-import { eventLang } from "@/components/helper/HelperLang";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-import VueGoogleCharts from "vue-google-charts";
+import Vue from 'vue';
+import UserActivities from '@/components/activity/UserActivities.vue';
+import VueGoogleCharts from 'vue-google-charts';
+
+import { mapState } from 'vuex';
 
 Vue.use(VueGoogleCharts);
 
-locale.use(lang);
-Vue.use(VueTheMask);
-Vue.use(VueTheMask);
-Vue.use(VueAxios, axios);
-Vue.use(ElementUI);
-
 export default {
   components: {
-    Lang,
     UserActivities
   },
-  mixins: [domains, alerts],
-  data: function() {
+  data: () => {
     return {
-      lang: {},
-      loading: false,
-      userId: 0,
-      finalizedCourses: "",
-      inprogressCourses: "",
-      naCourses: ""
+      finalizedCourses: '',
+      inprogressCourses: '',
+      naCourses: ''
     };
   },
   mounted() {
-    eventLang.$on(
-      "lang",
-      function(response) {
-        this.lang = response;
-      }.bind(this)
-    );
-
-    this.getUserProfile();
+    this.getCourses();
+  },
+  computed: {
+    ...mapState(['lang', 'user'])
   },
   methods: {
-    getCourses: function(studentId) {
-      var formData = new FormData();
-      formData.set("studentId", studentId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "chart",
-        "getStudentCourses"
+    getCourses() {
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'chart',
+        'getStudentCourses'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
+      formData.set('studentId', this.user.id);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
           this.finalizedCourses = response.data[1][1];
           this.inprogressCourses = response.data[2][1];
           this.naCourses = response.data[3][1];
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
-      );
-    },
-    getUserProfile: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "user",
-        "getUserProfile"
-      );
-      axios.get(urlToBeUsedInTheRequest).then(
-        response => {
-          this.userId = response.data["id"];
-          this.getCourses(response.data["id"]);
-        },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     }
   }

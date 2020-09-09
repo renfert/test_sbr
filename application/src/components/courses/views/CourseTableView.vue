@@ -1,15 +1,25 @@
 <template>
   <div class="col-auto">
-    <h4>{{lang["list-course"]}}</h4>
+    <h4>{{ lang['list-course'] }}</h4>
     <div style="margin-bottom: 10px">
       <el-row>
-        <el-col :span="6">
+        <el-col :xs="16" :lg="6">
           <el-input v-model="filters[0].value" placeholder="Search"></el-input>
         </el-col>
         <el-col v-if="courseList != null" :span="6">
           <export-excel :data="courseList" name="courses.xls">
-            <el-tooltip class="item" effect="dark" :content="lang['export']" placement="top">
-              <el-button class="sbr-purple ml-3" type="primary" icon="el-icon-download" circle></el-button>
+            <el-tooltip
+              class="item"
+              effect="dark"
+              :content="lang['export']"
+              placement="top"
+            >
+              <el-button
+                class="sbr-purple ml-3"
+                type="primary"
+                icon="el-icon-download"
+                circle
+              ></el-button>
             </el-tooltip>
           </export-excel>
         </el-col>
@@ -30,7 +40,7 @@
 
       <el-table-column label="Actions" align="center">
         <template slot-scope="scope">
-          <router-link :to="'/editcourse/'+scope.row.id">
+          <router-link :to="'/editcourse/' + scope.row.id">
             <el-button
               size="small"
               class="sbr-primary mt-2"
@@ -40,7 +50,7 @@
               circle
             ></el-button>
           </router-link>
-          <router-link :to="'/viewcourse/'+scope.row.id">
+          <router-link :to="'/viewcourse/' + scope.row.id">
             <el-button
               size="small"
               class="sbr-secondary"
@@ -53,84 +63,49 @@
       </el-table-column>
     </data-tables>
   </div>
-  <!-- End col-auto -->
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
-import lang from "element-ui/lib/locale/lang/en";
-import locale from "element-ui/lib/locale";
-import domains from "@/mixins/domains";
-import excel from "vue-excel-export";
-import alerts from "@/mixins/alerts";
+import Vue from 'vue';
+import excel from 'vue-excel-export';
 
-import { DataTables, DataTablesServer } from "vue-data-tables";
-import { mapState } from "vuex";
-
-locale.use(lang);
+import { DataTables, DataTablesServer } from 'vue-data-tables';
+import { mapState } from 'vuex';
 
 Vue.use(excel);
 Vue.use(DataTables);
 Vue.use(DataTablesServer);
-Vue.use(ElementUI);
-Vue.use(VueAxios, axios);
 
 export default {
-  mixins: [domains, alerts],
-  data: function() {
+  data: () => {
     return {
-      titles: [{ prop: "title", label: "Title" }],
-      courseList: [],
-      filters: [{ prop: "title", value: "" }],
-      tableProps: { defaultSort: { prop: "title", order: "descending" } },
-      roleId: ""
+      titles: [{ prop: 'title', label: 'Title' }],
+      filters: [{ prop: 'title', value: '' }],
+      tableProps: { defaultSort: { prop: 'title', order: 'descending' } },
+      courseList: []
     };
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang', 'user'])
   },
   created() {
-    this.updateCourseListArray();
-    this.getUserProfile();
+    this.getCourses();
   },
   methods: {
-    updateCourseListArray() {
-      this.loading = true;
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "course",
-        "listing"
+    getCourses() {
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'course',
+        'listing'
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        response => {
-          // success callback
+      this.$request.get(urlToBeUsedInTheRequest).then(
+        (response) => {
           this.courseList = response.data;
-          this.loading = false;
         },
-        // Failure callback
-        function() {
-          this.errorMessage();
+        () => {
+          this.$errorMessage();
         }
-      );
-    },
-    getUserProfile() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "user",
-        "getUserProfile"
-      );
-      axios.get(urlToBeUsedInTheRequest).then(
-        function(response) {
-          this.roleId = response.data["myrole_id"];
-        }.bind(this)
       );
     }
   }
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
-</style>

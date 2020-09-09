@@ -6,22 +6,32 @@
       <div class="row" v-if="element.media_align == 'left'">
         <div class="col-md-6 col-12">
           <img
-            :src="getUrlToContents() + 'builder/body/'+element.media+''"
-            v-if="mediaExtension == 'png' || mediaExtension == 'jpg' || mediaExtension == 'jpeg'"
-            style="max-width:100%;"
+            :src="$getUrlToContents() + 'builder/body/' + element.media + ''"
+            v-if="
+              mediaExtension == 'png' ||
+              mediaExtension == 'jpg' ||
+              mediaExtension == 'jpeg'
+            "
+            style="max-width: 100%"
           />
           <div class="player-container" v-else>
             <vue-plyr>
-              <video :src="getUrlToContents() + 'builder/body/'+element.media+''"></video>
+              <video
+                :src="
+                  $getUrlToContents() + 'builder/body/' + element.media + ''
+                "
+              ></video>
             </vue-plyr>
           </div>
         </div>
         <div class="col-md-6 col-12 content-right">
-          <h1>{{element.header}}</h1>
-          <h3>{{element.subheader}}</h3>
-          <p class="mb-4 mt-4">{{element.content}}</p>
+          <h1>{{ element.header }}</h1>
+          <h3>{{ element.subheader }}</h3>
+          <p class="mb-4 mt-4">{{ element.content }}</p>
           <a :href="element.url" :target="element.target">
-            <span class="btn text-btn" :style="styleButton">{{element.title}}</span>
+            <span class="btn text-btn" :style="styleButton">{{
+              element.title
+            }}</span>
           </a>
         </div>
       </div>
@@ -31,22 +41,32 @@
 
       <div class="row" v-if="element.media_align == 'right'">
         <div class="col-md-6 col-12 content-left">
-          <h1>{{element.header}}</h1>
-          <h3>{{element.subheader}}</h3>
-          <p class="mb-4 mt-4">{{element.content}}</p>
+          <h1>{{ element.header }}</h1>
+          <h3>{{ element.subheader }}</h3>
+          <p class="mb-4 mt-4">{{ element.content }}</p>
           <a :href="element.url" :target="element.target">
-            <span class="btn text-btn" :style="styleButton">{{element.title}}</span>
+            <span class="btn text-btn" :style="styleButton">{{
+              element.title
+            }}</span>
           </a>
         </div>
         <div class="col-md-6 col-12">
           <img
-            :src="getUrlToContents() + 'builder/body/'+element.media+''"
-            v-if="mediaExtension == 'png' || mediaExtension == 'jpg' || mediaExtension == 'jpeg'"
-            style="max-width:100%;"
+            :src="$getUrlToContents() + 'builder/body/' + element.media + ''"
+            v-if="
+              mediaExtension == 'png' ||
+              mediaExtension == 'jpg' ||
+              mediaExtension == 'jpeg'
+            "
+            style="max-width: 100%"
           />
           <div class="player-container" v-else>
             <vue-plyr>
-              <video :src="getUrlToContents() + 'builder/body/'+element.media+''"></video>
+              <video
+                :src="
+                  $getUrlToContents() + 'builder/body/' + element.media + ''
+                "
+              ></video>
             </vue-plyr>
           </div>
         </div>
@@ -58,24 +78,34 @@
         <div class="row">
           <div class="col-12 col-md-12">
             <img
-              :src="getUrlToContents() + 'builder/body/'+element.media+''"
-              v-if="mediaExtension == 'png' || mediaExtension == 'jpg' || mediaExtension == 'jpeg'"
-              style="max-width:100%;"
+              :src="$getUrlToContents() + 'builder/body/' + element.media + ''"
+              v-if="
+                mediaExtension == 'png' ||
+                mediaExtension == 'jpg' ||
+                mediaExtension == 'jpeg'
+              "
+              style="max-width: 100%"
             />
             <div class="player-container" v-else>
               <vue-plyr>
-                <video :src="getUrlToContents() + 'builder/body/'+element.media+''"></video>
+                <video
+                  :src="
+                    $getUrlToContents() + 'builder/body/' + element.media + ''
+                  "
+                ></video>
               </vue-plyr>
             </div>
           </div>
         </div>
         <div class="row">
           <div class="col-12 col-md-12 text-align-bottom">
-            <h1>{{element.header}}</h1>
-            <h3>{{element.subheader}}</h3>
-            <p class="mb-4 mt-4">{{element.content}}</p>
+            <h1>{{ element.header }}</h1>
+            <h3>{{ element.subheader }}</h3>
+            <p class="mb-4 mt-4">{{ element.content }}</p>
             <a :href="element.url" :target="element.target">
-              <span class="btn text-btn" :style="styleButton">{{element.title}}</span>
+              <span class="btn text-btn" :style="styleButton">{{
+                element.title
+              }}</span>
             </a>
           </div>
         </div>
@@ -86,24 +116,34 @@
       <div v-if="element.media_align == 'bottom'" class="text-center">
         <div class="row">
           <div class="col-12 col-md-12 text-align-top">
-            <h1>{{element.header}}</h1>
-            <h3>{{element.subheader}}</h3>
-            <p class="mb-4 mt-4">{{element.content}}</p>
+            <h1>{{ element.header }}</h1>
+            <h3>{{ element.subheader }}</h3>
+            <p class="mb-4 mt-4">{{ element.content }}</p>
             <a :href="element.url" :target="element.target">
-              <span class="btn text-btn" :style="styleButton">{{element.title}}</span>
+              <span class="btn text-btn" :style="styleButton">{{
+                element.title
+              }}</span>
             </a>
           </div>
         </div>
         <div class="row">
           <div class="col-12 col-md-12">
             <img
-              :src="getUrlToContents() + 'builder/body/'+element.media+''"
-              v-if="mediaExtension == 'png' || mediaExtension == 'jpg' || mediaExtension == 'jpeg'"
-              style="max-width:100%;"
+              :src="$getUrlToContents() + 'builder/body/' + element.media + ''"
+              v-if="
+                mediaExtension == 'png' ||
+                mediaExtension == 'jpg' ||
+                mediaExtension == 'jpeg'
+              "
+              style="max-width: 100%"
             />
             <div class="player-container" v-else>
               <vue-plyr>
-                <video :src="getUrlToContents() + 'builder/body/'+element.media+''"></video>
+                <video
+                  :src="
+                    $getUrlToContents() + 'builder/body/' + element.media + ''
+                  "
+                ></video>
               </vue-plyr>
             </div>
           </div>
@@ -115,103 +155,89 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import ElementUI from "element-ui";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-import VuePlyr from "vue-plyr";
+import Vue from 'vue';
+import VuePlyr from 'vue-plyr';
 
-import { mapState } from "vuex";
-import { eventBus } from "@/components/site/App";
+import { mapState } from 'vuex';
+import { eventBus } from '@/components/site/App';
 
-Vue.use(VueAxios, axios);
-Vue.use(ElementUI);
 Vue.use(VuePlyr, {
   plyr: {
     fullscreen: { enabled: true }
   },
-  emit: ["ended"]
+  emit: ['ended']
 });
 
 export default {
-  mixins: [domains, alerts],
-  props: ["section-id"],
+  props: ['section-id'],
   data: () => {
     return {
-      primaryColor: "",
+      primaryColor: '',
       textAndMediaArray: [],
-      mediaExtension: "",
-      buttonColor: "",
-      buttonStyle: "",
-      buttonTitle: ""
+      mediaExtension: '',
+      buttonColor: '',
+      buttonStyle: '',
+      buttonTitle: ''
     };
   },
   mounted() {
     this.getPrimaryColor();
     this.getTextAndMedia();
-    eventBus.$on(
-      "new-text-and-media-change",
-      function() {
-        this.getTextAndMedia();
-      }.bind(this)
-    );
+    eventBus.$on('new-text-and-media-change', () => {
+      this.getTextAndMedia();
+    });
   },
   methods: {
-    getTextAndMedia: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "site-elements/TextAndMedia",
-        "get"
+    getTextAndMedia() {
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'site-elements/TextAndMedia',
+        'get'
       );
-      var formData = new FormData();
-      formData.set("sectionId", this.sectionId);
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
+      const formData = new FormData();
+      formData.set('sectionId', this.sectionId);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
           this.textAndMediaArray = response.data;
           this.buttonStyle = response.data[0].style;
           this.buttonColor = response.data[0].color;
           this.buttonTitle = response.data[0].title;
           this.getMediaExtension(response.data[0].media);
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
     getMediaExtension(media) {
-      var mediaNameArray = media.split(".");
+      const mediaNameArray = media.split('.');
       this.mediaExtension = mediaNameArray[1];
     },
-    getPrimaryColor: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "settings",
-        "getSettingsInformation"
+    getPrimaryColor() {
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'settings',
+        'getSettingsInformation'
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        response => {
-          this.primaryColor = response.data["color"];
+      this.$request.get(urlToBeUsedInTheRequest).then(
+        (response) => {
+          this.primaryColor = response.data.color;
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     }
   },
   computed: {
-    ...mapState(["lang"]),
-    styleButton: function() {
+    ...mapState(['lang']),
+    styleButton() {
       return {
-        "background-color": this.buttonColor,
-        display: this.buttonTitle == null ? "none" : "initial"
+        'background-color': this.buttonColor,
+        display: this.buttonTitle == null ? 'none' : 'initial'
       };
     }
   }
 };
 </script>
-
 
 <style lang="scss" scoped>
 /* =============
@@ -258,7 +284,7 @@ h4,
 h5,
 h6 {
   color: #2d3954;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   word-break: break-word !important;
 }
 

@@ -1,15 +1,19 @@
 <template>
-  <!--  Modal edit lesson video -->
   <div>
-    <el-dialog :visible.sync="modalEditLesson" :title="lang['edit-lesson']" center top="5vh">
+    <el-dialog
+      :visible.sync="modal"
+      :title="lang['edit-lesson']"
+      center
+      top="5vh"
+    >
       <form id="form-lesson-video-edit" @submit.prevent="edit()">
         <!-- Lesson id -->
-        <input type="text" name="lessonId" class="hide" v-model="lessonId" />
+        <input type="text" name="lessonId" class="hide" v-model="video.id" />
         <div class="form-row">
           <div class="form-group col-xl-12 col-md-12">
             <!-- Lesson name -->
-            <label class="col-form-label">{{lang["name"]}} *</label>
-            <el-input required v-model="name" name="title"></el-input>
+            <label class="col-form-label">{{ lang['name'] }} *</label>
+            <el-input required v-model="video.name" name="title"></el-input>
           </div>
         </div>
         <div class="form-row">
@@ -17,11 +21,9 @@
             <!-- Video upload -->
             <label class="col-form-label">Video *</label>
             <upload
-              :key="componentKey"
-              v-if="this.realName != ''"
-              :src-name="this.videoName"
-              :src-real-name="this.realName"
-              :src-img="this.previewImg"
+              v-if="this.video.fileRealName != ''"
+              :src-name="this.video.fileName"
+              :src-real-name="this.video.fileRealName"
               do-upload="true"
               box-height="200"
               return-name="path"
@@ -33,97 +35,71 @@
         </div>
         <div class="form-row">
           <div class="form-group col-xl-6 col-md-6">
-            <el-button native-type="submit" class="sbr-primary">{{lang["save-button"]}}</el-button>
+            <el-button native-type="submit" class="sbr-primary">{{
+              lang['save-button']
+            }}</el-button>
           </div>
         </div>
       </form>
     </el-dialog>
   </div>
-  <!-- End  modal new lesson -->
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import Upload from "@/components/helper/HelperUpload";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-
-import { eventBus } from "@/components/newcourse/App";
-import { eventUpload } from "@/components/helper/HelperUpload";
-import { mapState } from "vuex";
-
-Vue.use(VueAxios, axios);
+import Upload from '@/components/helper/HelperUpload';
+import { eventBus } from '@/components/newcourse/App';
+import { mapState } from 'vuex';
 
 export default {
-  mixins: [domains, alerts],
   components: {
     Upload
   },
-  props: ["module-id"],
+  props: ['module-id'],
   data: () => {
     return {
-      name: "",
-      videoName: "",
-      previewImg: "",
-      realName: "",
-      lessonId: "",
-      modalEditLesson: false,
-      loading: false,
-      componentKey: 0
+      video: {
+        id: '',
+        name: '',
+        fileName: '',
+        fileRealName: ''
+      },
+      modal: false,
+      loading: false
     };
   },
   mounted() {
-    eventBus.$on(
-      "edit-lesson-1",
-      function(response) {
-        this.modalEditLesson = true;
-        this.lessonId = response[0]["id"];
-        this.name = response[0]["title"];
-        this.realName = response[0]["real_name"];
-        this.videoName = response[0]["path"];
-        this.previewImg =
-          "" + this.getUrlToContents() + "content/" + response[0]["path"];
-        this.forceRerender();
-      }.bind(this)
-    );
+    eventBus.$on('edit-lesson-1', (response) => {
+      this.modal = true;
+      this.video.id = response[0].id;
+      this.video.name = response[0].title;
+      this.video.fileRealName = response[0].real_name;
+      this.video.fileName = response[0].path;
+    });
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   methods: {
-    /* Edit a lesson */
-    edit: function() {
+    edit() {
       this.loading = true;
-      var form = document.getElementById("form-lesson-video-edit");
-      var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("lesson", "edit");
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+      const form = document.getElementById('form-lesson-video-edit');
+      const formData = new FormData(form);
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'lesson',
+        'edit'
+      );
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
-          /* Success callback */
-          this.successMessage();
-          this.actionsToBePerformedAfterRegistration();
+          this.$successMessage();
+          eventBus.$emit('new-lesson');
+          this.modalEditLesson = false;
           this.loading = false;
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
-    },
-    forceRerender: function() {
-      this.componentKey += 1;
-    },
-    actionsToBePerformedAfterRegistration() {
-      this.modalEditLesson = false;
-      eventBus.$emit("new-lesson");
-      eventUpload.$emit("clear");
     }
   }
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
-</style>

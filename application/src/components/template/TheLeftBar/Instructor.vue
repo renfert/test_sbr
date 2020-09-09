@@ -3,7 +3,7 @@
     <!--- Sidemenu instructor role -->
     <el-menu
       :collapse="collapse"
-      style="width:230px"
+      style="width: 230px"
       background-color="#373A43"
       text-color="#fff"
       active-text-color="#00C0FD"
@@ -14,7 +14,7 @@
         <el-row>
           <!-- Profile -->
           <router-link to="/">
-            <img :src="getUrlToContents() + 'settings/'+logo+''" />
+            <img :src="$getUrlToContents() + 'settings/' + logo + ''" />
           </router-link>
         </el-row>
       </el-menu-item>
@@ -22,42 +22,42 @@
       <el-menu-item index="1">
         <i class="dripicons-home"></i>
         <router-link to="/home">
-          <span class="menuMain">{{ lang["home-nav"] }}</span>
+          <span class="menuMain">{{ lang['home-nav'] }}</span>
         </router-link>
       </el-menu-item>
 
       <el-menu-item index="2">
         <i class="dripicons-graph-bar"></i>
         <router-link to="/dashboard">
-          <span class="menuMain">{{ lang["dashboard-nav"] }}</span>
+          <span class="menuMain">{{ lang['dashboard-nav'] }}</span>
         </router-link>
       </el-menu-item>
 
       <el-menu-item index="3">
         <i class="dripicons-media-next"></i>
         <router-link to="/courses">
-          <span class="menuMain">{{ lang["courses-nav"] }}</span>
+          <span class="menuMain">{{ lang['courses-nav'] }}</span>
         </router-link>
       </el-menu-item>
 
       <el-menu-item index="4" v-if="plan != 'starter'">
         <i class="dripicons-to-do"></i>
         <router-link to="/programs">
-          <span class="menuMain">{{ lang["programs-nav"] }}</span>
+          <span class="menuMain">{{ lang['programs-nav'] }}</span>
         </router-link>
       </el-menu-item>
 
       <el-menu-item index="5" v-if="plan != 'starter'">
         <i class="dripicons-message"></i>
         <router-link to="/corrections">
-          <span class="menuMain">{{ lang["corrections-nav"] }}</span>
+          <span class="menuMain">{{ lang['corrections-nav'] }}</span>
         </router-link>
       </el-menu-item>
 
       <el-menu-item index="6">
         <i class="dripicons-list"></i>
         <router-link to="/categories">
-          <span class="menuMain">{{ lang["categories-nav"] }}</span>
+          <span class="menuMain">{{ lang['categories-nav'] }}</span>
         </router-link>
       </el-menu-item>
 
@@ -66,7 +66,9 @@
         <el-row>
           <!-- Profile -->
           <router-link class="pr-4" to="/profile">
-            <el-avatar :src="getUrlToContents() + 'avatar/' + userAvatar + ''"></el-avatar>
+            <el-avatar
+              :src="$getUrlToContents() + 'avatar/' + userAvatar + ''"
+            ></el-avatar>
           </router-link>
 
           <!-- Notification -->
@@ -90,78 +92,44 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
+import { mapState } from 'vuex';
+import { eventTemplate } from '@/components/template/TheTopBar';
 
-import { eventBus } from "@/components/profile/App";
-import { mapState } from "vuex";
-import { eventTemplate } from "@/components/template/TheTopBar";
-
-Vue.use(VueAxios, axios);
 export default {
-  mixins: [domains, alerts],
-  props: ["collapse", "logo", "user-name", "user-avatar", "user-id", "plan"],
+  props: ['collapse', 'logo', 'user-name', 'user-avatar', 'user-id', 'plan'],
   data: () => {
     return {
-      mobile: "retracted"
+      mobile: 'retracted'
     };
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   mounted() {
-    eventBus.$on(
-      "profile-edited",
-      function() {
-        this.getUserProfile();
-      }.bind(this)
-    );
-
-    eventTemplate.$on(
-      "change-leftbar-class",
-      function() {
-        this.mobile == "retracted"
-          ? (this.mobile = "opened")
-          : (this.mobile = "retracted");
-      }.bind(this)
-    );
+    eventTemplate.$on('change-leftbar-class', () => {
+      this.mobile === 'retracted'
+        ? (this.mobile = 'opened')
+        : (this.mobile = 'retracted');
+    });
   },
   methods: {
-    getUserProfile() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "user",
-        "getUserProfile"
-      );
-      axios.get(urlToBeUsedInTheRequest).then(
-        function(response) {
-          this.roleId = response.data["myrole_id"];
-          this.userName = response.data["name"];
-          this.userAvatar = response.data["avatar"];
-        }.bind(this)
-      );
-    },
-    confirmLogout: function() {
-      this.$confirm(this.lang["wanna-leave"], {
-        confirmButtonText: "OK",
-        cancelButtonText: "Cancel",
-        type: "warning"
+    confirmLogout() {
+      this.$confirm(this.lang['wanna-leave'], {
+        confirmButtonText: 'OK',
+        cancelButtonText: 'Cancel',
+        type: 'warning'
       }).then(() => {
         this.logout();
       });
     },
-    logout: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "logout",
-        "doLogout"
+    logout() {
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'logout',
+        'doLogout'
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        function() {
-          window.location.href = this.getDomainNameToNavigation();
-        }.bind(this)
-      );
+      this.$request.get(urlToBeUsedInTheRequest).then(() => {
+        window.location.href = this.$getDomainNameToNavigation();
+      });
     }
   }
 };
@@ -192,7 +160,7 @@ export default {
 .el-submenu i,
 a {
   color: white;
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .el-submenu a:hover {
@@ -202,7 +170,7 @@ a {
 .el-menu-item i,
 a {
   color: white;
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .el-menu-item a:hover {

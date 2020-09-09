@@ -1,39 +1,32 @@
-<template >
+<template>
   <div class="content-page">
     <edit-program></edit-program>
   </div>
 </template>
 
 <script>
-import Vue from "vue";
-import VueHead from "vue-head";
-import EditProgram from "@/components/editprogram/EditProgram";
-import verify from "@/mixins/verify";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
+import Vue from 'vue';
+import VueHead from 'vue-head';
+import EditProgram from '@/components/editprogram/EditProgram';
 
 Vue.use(VueHead);
 
 export default {
-  mixins: [verify, alerts, domains],
   components: {
     EditProgram
   },
-  created: function() {
-    this.blockStudentAccess();
+  created() {
+    this.$blockStudentAccess();
   },
   head: {
     title: {
-      inner: "Edit program"
+      inner: 'Edit program'
     },
     meta: [
-      { name: "charset", content: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1.0" },
-      { name: "author", content: "Sabiorealm" }
+      { name: 'charset', content: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
+      { name: 'author', content: 'Sabiorealm' }
     ]
   }
 };
 </script>
-
-<style scoped>
-</style>

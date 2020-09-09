@@ -1,4 +1,4 @@
-<template >
+<template>
   <div class="content-page">
     <div class="form-wizard-wrapper">
       <wizard-nav></wizard-nav>
@@ -12,34 +12,29 @@
 </template>
 
 <script>
-import WizardNav from "@/components/newcourse/WizardNav";
-import FirstStep from "@/components/newcourse/FirstStep";
-import SecondStep from "@/components/newcourse/SecondStep";
-import ThirdStep from "@/components/newcourse/ThirdStep";
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import VueHead from "vue-head";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-import verify from "@/mixins/verify";
+import WizardNav from '@/components/newcourse/WizardNav';
+import FirstStep from '@/components/newcourse/FirstStep';
+import SecondStep from '@/components/newcourse/SecondStep';
+import ThirdStep from '@/components/newcourse/ThirdStep';
+import Vue from 'vue';
+import VueHead from 'vue-head';
+
 export const eventBus = new Vue();
 
-Vue.use(VueAxios, axios);
 Vue.use(VueHead);
+
 export default {
-  mixins: [domains, alerts, verify],
-  created: function() {
-    this.blockStudentAccess();
+  created() {
+    this.$blockStudentAccess();
   },
   head: {
     title: {
-      inner: "New course"
+      inner: 'New course'
     },
     meta: [
-      { name: "charset", content: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1.0" },
-      { name: "author", content: "Sabiorealm" }
+      { name: 'charset', content: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
+      { name: 'author', content: 'Sabiorealm' }
     ]
   },
   components: {

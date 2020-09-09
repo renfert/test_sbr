@@ -1,23 +1,21 @@
 <template>
   <div>
-    <login></login>
-
     <!-- Navbar -->
     <div v-if="showMobile" class="sidebar-mobile">
-      <span @click.prevent="toogleSidebar" class="sidebar-mobile-close-button">✕</span>
+      <span @click.prevent="toogleSidebar" class="sidebar-mobile-close-button"
+        >✕</span
+      >
       <ul>
         <!-- Products -->
         <li>
           <router-link to="/products" replace>
-            <span>{{ lang["courses"] }}</span>
+            <span>{{ lang['courses'] }}</span>
           </router-link>
         </li>
 
         <li v-for="element in links" :key="element.id">
           <a :href="element.url" :target="element.target">
-            {{
-            element.title
-            }}
+            {{ element.title }}
           </a>
         </li>
 
@@ -28,12 +26,15 @@
             href="javascript:void(0)"
             :style="linkButtonMobile"
             @click.prevent="openLoginModal()"
-          >Login</a>
+            >Login</a
+          >
         </li>
 
         <li class="pt-5" v-else>
           <router-link to="/home">
-            <span class="link-button" :style="linkButtonMobile">{{ lang["go-to-platform"] }}</span>
+            <span class="link-button" :style="linkButtonMobile">{{
+              lang['go-to-platform']
+            }}</span>
           </router-link>
         </li>
       </ul>
@@ -57,27 +58,30 @@
         <!-- Products -->
         <li>
           <router-link to="/products">
-            <span>{{ lang["courses"] }}</span>
+            <span>{{ lang['courses'] }}</span>
           </router-link>
         </li>
 
         <!-- Links -->
         <li v-for="element in links" :key="element.id">
           <a :href="element.url" :target="element.target">
-            {{
-            element.title
-            }}
+            {{ element.title }}
           </a>
         </li>
 
         <!-- Login button -->
         <li v-if="activeSession == false">
-          <a class="link-button" href="javascript:void(0)" @click.prevent="openLoginModal()">Login</a>
+          <a
+            class="link-button"
+            href="javascript:void(0)"
+            @click.prevent="openLoginModal()"
+            >Login</a
+          >
         </li>
 
         <li v-else>
           <router-link to="/home">
-            <span class="link-button">{{ lang["go-to-platform"] }}</span>
+            <span class="link-button">{{ lang['go-to-platform'] }}</span>
           </router-link>
         </li>
       </ul>
@@ -87,51 +91,35 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-import Login from "@/components/login/Login";
-
-import { eventBus } from "@/components/site/App";
-import { eventLogin } from "@/components/login/Login";
-import { mapState } from "vuex";
-
-Vue.use(VueAxios, axios);
+import { eventBus } from '@/components/site/App';
+import { eventLogin } from '@/components/login/Login';
+import { mapState } from 'vuex';
 
 export default {
-  mixins: [domains, alerts],
-  props: ["full-screen-button"],
-  components: {
-    Login
-  },
+  props: ['full-screen-button'],
   data: () => {
     return {
-      logo: "",
-      logoSize: "",
+      logo: '',
+      logoSize: '',
       sections: null,
       loadingHeader: false,
       loadingSection: false,
       loadingFooter: false,
-      footerColor: "",
-      copyright: "",
+      footerColor: '',
+      copyright: '',
       links: [],
       socialMedias: [],
-      headerColor: "",
+      headerColor: '',
       activeSession: false,
       showMobile: false,
-      primaryColor: "",
-      navMobile: "display:initial !important"
+      primaryColor: '',
+      navMobile: 'display:initial !important'
     };
   },
   mounted() {
-    eventLogin.$on(
-      "new-login",
-      function() {
-        this.getSession();
-      }.bind(this)
-    );
+    eventLogin.$on('new-login', () => {
+      this.getSession();
+    });
 
     this.getSession();
     this.getPrimaryColor();
@@ -139,178 +127,174 @@ export default {
     this.navBarSticky();
   },
   computed: {
-    styleHeader: function() {
+    styleHeader() {
       return {
-        "background-color":
-          this.headerColor == "transparent"
+        'background-color':
+          this.headerColor === 'transparent'
             ? this.primaryColor
             : this.headerColor,
-        width: "100%"
+        width: '100%'
       };
     },
-    styleBorder: function() {
+    styleBorder() {
       return {
         border:
-          this.headerColor == "transparent"
-            ? "1px solid #969bb5"
-            : "1px solid white",
-        padding: "5px 15px 5px 15px"
+          this.headerColor === 'transparent'
+            ? '1px solid #969bb5'
+            : '1px solid white',
+        padding: '5px 15px 5px 15px'
       };
     },
-    linkButtonMobile: function() {
+    linkButtonMobile() {
       return {
-        color: "#fff",
-        border: "1px solid " + this.primaryColor + "",
-        "background-color": this.primaryColor
+        color: '#fff',
+        border: '1px solid ' + this.primaryColor + '',
+        'background-color': this.primaryColor
       };
     },
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   methods: {
-    toogleSidebar: function() {
-      this.showMobile == true
+    toogleSidebar() {
+      this.showMobile === true
         ? (this.showMobile = false)
         : (this.showMobile = true);
     },
-    enterPlatform: function() {
-      window.location.href = "home";
+    enterPlatform() {
+      window.location.href = 'home';
     },
-    openLoginModal: function() {
-      eventLogin.$emit("open-login-modal");
+    openLoginModal() {
+      eventLogin.$emit('open-login-modal');
     },
-    navBarSticky: function() {
-      window.addEventListener("scroll", function() {
-        var header = document.querySelector("header");
-        header.classList.toggle("sticky", window.scrollY > 0);
+    navBarSticky() {
+      window.addEventListener('scroll', () => {
+        const header = document.querySelector('header');
+        header.classList.toggle('sticky', window.scrollY > 0);
       });
     },
-    listHeader: function() {
+    listHeader() {
       this.loadingHeader = true;
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "builder",
-        "listHeader"
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'builder',
+        'listHeader'
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        response => {
+      this.$request.get(urlToBeUsedInTheRequest).then(
+        (response) => {
           this.logo =
-            this.getUrlToContents() +
-            "builder/header/" +
+            this.$getUrlToContents() +
+            'builder/header/' +
             response.data[0].logo +
-            "";
-          this.logoSize = response.data[0].logo_size + "%";
+            '';
+          this.logoSize = response.data[0].logo_size + '%';
           this.headerColor = response.data[0].color;
           this.loadingHeader = false;
           this.updateLinkListArray();
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    changeMobileButtonClass: function() {
-      if (this.navMobile == "display:none !important;") {
-        this.navMobile = "display:initial !important;";
+    changeMobileButtonClass() {
+      if (this.navMobile === 'display:none !important;') {
+        this.navMobile = 'display:initial !important;';
       } else {
-        this.navMobile = "display:none !important;";
+        this.navMobile = 'display:none !important;';
       }
     },
-    listFooter: function() {
+    listFooter() {
       this.loadingFooter = true;
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "builder",
-        "listFooter"
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'builder',
+        'listFooter'
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        response => {
+      this.$request.get(urlToBeUsedInTheRequest).then(
+        (response) => {
           this.footerColor = response.data[0].color;
           this.copyright = response.data[0].copyright;
           this.loadingFooter = false;
           this.updateSocialMediaListArray();
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    fullScreen: function() {
-      eventBus.$emit("full-screen");
+    fullScreen() {
+      eventBus.$emit('full-screen');
     },
-    updateSectionListArray: function() {
+    updateSectionListArray() {
       this.loadingSection = true;
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "section",
-        "listing"
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'section',
+        'listing'
       );
-      axios.post(urlToBeUsedInTheRequest).then(
-        response => {
+      this.$request.post(urlToBeUsedInTheRequest).then(
+        (response) => {
           this.sections = response.data;
           this.loadingSection = false;
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    updateLinkListArray: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("link", "listing");
-      axios.post(urlToBeUsedInTheRequest).then(
-        response => {
+    updateLinkListArray() {
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'link',
+        'listing'
+      );
+      this.$request.post(urlToBeUsedInTheRequest).then(
+        (response) => {
           this.links = response.data;
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    updateSocialMediaListArray: function() {
+    updateSocialMediaListArray() {
       this.loading = true;
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "social",
-        "listing"
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'social',
+        'listing'
       );
-      axios.post(urlToBeUsedInTheRequest).then(
-        response => {
+      this.$request.post(urlToBeUsedInTheRequest).then(
+        (response) => {
           this.socialMedias = response.data;
           this.loading = false;
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    getPrimaryColor: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "settings",
-        "getSettingsInformation"
+    getPrimaryColor() {
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'settings',
+        'getSettingsInformation'
       );
-      axios.post(urlToBeUsedInTheRequest).then(
-        response => {
-          this.primaryColor = response.data["color"];
+      this.$request.post(urlToBeUsedInTheRequest).then(
+        (response) => {
+          this.primaryColor = response.data.color;
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    getSession: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "Mysessions",
-        "activeSession"
+    getSession() {
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'Mysessions',
+        'activeSession'
       );
-      axios.post(urlToBeUsedInTheRequest).then(
-        response => {
+      this.$request.post(urlToBeUsedInTheRequest).then(
+        (response) => {
           this.activeSession = response.data;
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     }
   }
@@ -370,7 +354,7 @@ header ul li a {
   transition: 0.5s;
   color: white;
   font-size: 1.3em;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 /* =============
@@ -453,7 +437,7 @@ header.sticky {
   transition: 0.5s;
   color: white;
   font-size: 1.2em;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 @media only screen and (max-width: 1024px) {

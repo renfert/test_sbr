@@ -3,26 +3,22 @@
     <div class="two-column-card mt-5">
       <div class="item-card">
         <div v-if="programList == null">
-          <h4>{{ lang["no-results-program-title"] }}</h4>
+          <h4>{{ lang['no-results-program-title'] }}</h4>
           <br />
           <router-link to="/newprogram">
             <el-button class="sbr-primary mt-3">
-              {{
-              lang["new-program-button"]
-              }}
+              {{ lang['new-program-button'] }}
             </el-button>
           </router-link>
         </div>
         <div v-else>
           <h3>
-            {{ lang["courses-already-created"] }}
+            {{ lang['courses-already-created'] }}
             <b class="sbr-text-primary">{{ totalPrograms }}</b>
           </h3>
           <router-link to="/newprogram">
             <el-button class="sbr-primary mt-3">
-              {{
-              lang["new-program-button"]
-              }}
+              {{ lang['new-program-button'] }}
             </el-button>
           </router-link>
         </div>
@@ -33,11 +29,22 @@
       <!-- See how to create a program --->
       <div class="item-card item-video-course">
         <h3 class="text-box">See how is easy to create a program</h3>
-        <a id="play-video" class="video-play-button" @click.prevent="videoOverlay = true" href="#">
+        <a
+          id="play-video"
+          class="video-play-button"
+          @click.prevent="videoOverlay = true"
+          href="#"
+        >
           <span></span>
         </a>
-        <div id="video-overlay" class="video-overlay" :class="videoOverlay == true ? 'open' : ''">
-          <a @click.prevent="videoOverlay = false" class="video-overlay-close">&times;</a>
+        <div
+          id="video-overlay"
+          class="video-overlay"
+          :class="videoOverlay == true ? 'open' : ''"
+        >
+          <a @click.prevent="videoOverlay = false" class="video-overlay-close"
+            >&times;</a
+          >
           <iframe
             width="560"
             height="315"
@@ -52,17 +59,17 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from 'vuex';
 
 export default {
-  props: ["total-programs", "program-list"],
+  props: ['total-programs', 'program-list'],
   data: () => {
     return {
       videoOverlay: false
     };
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   }
 };
 </script>
@@ -143,7 +150,7 @@ export default {
 }
 
 .video-play-button:before {
-  content: "";
+  content: '';
   position: absolute;
   z-index: 0;
   left: 50%;
@@ -158,7 +165,7 @@ export default {
 }
 
 .video-play-button:after {
-  content: "";
+  content: '';
   position: absolute;
   z-index: 1;
   left: 50%;
@@ -253,7 +260,7 @@ export default {
 }
 
 /* =============
-  Mobile  
+  Mobile
 ============= */
 
 @media only screen and (max-width: 600px) {

@@ -1,66 +1,47 @@
-<template >
-  <div id="wrapper">
-    <lang></lang>
+<template>
+  <div>
     <nav-bar></nav-bar>
     <products-list></products-list>
     <the-footer class="top-10"></the-footer>
   </div>
-  <!-- End of wrapper -->
 </template>
 
 <script>
-import Vue from "vue";
-import VueHead from "vue-head";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import Lang from "@/components/helper/HelperLang.vue";
-import { eventLang } from "@/components/helper/HelperLang";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-import NavBar from "@/components/template/TheNavBar";
-import ProductsList from "@/components/products/ProductsList";
-import headerTags from "@/mixins/headerTags";
-import integrations from "@/mixins/integrations";
-import TheFooter from "@/components/template/TheFooter";
+import Vue from 'vue';
+import VueHead from 'vue-head';
+import NavBar from '@/components/template/TheNavBar';
+import ProductsList from '@/components/products/ProductsList';
+import TheFooter from '@/components/template/TheFooter';
+
+import { mapState } from 'vuex';
+
 export const eventBus = new Vue();
 
-Vue.use(VueAxios, axios);
 Vue.use(VueHead);
+
 export default {
-  mixins: [domains, alerts, integrations, headerTags],
   data: () => {
     return {
-      img: "",
-      lang: [],
+      img: '',
       videoOverlay: false
     };
   },
   components: {
-    Lang,
     NavBar,
     ProductsList,
     TheFooter
   },
-  created() {
-    this.loadIntegrations();
-    this.createFavicon();
-  },
-  mounted() {
-    eventLang.$on(
-      "lang",
-      function(response) {
-        this.lang = response;
-      }.bind(this)
-    );
+  computed: {
+    ...mapState(['lang'])
   },
   head: {
     title: {
-      inner: "Products"
+      inner: 'Products'
     },
     meta: [
-      { name: "charset", content: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1.0" },
-      { name: "author", content: "Sabiorealm" }
+      { name: 'charset', content: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
+      { name: 'author', content: 'Sabiorealm' }
     ]
   }
 };
@@ -88,7 +69,7 @@ export default {
 }
 
 .course-cta h3 {
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 30px;
   padding: 5px;
 }

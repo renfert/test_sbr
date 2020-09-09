@@ -1,64 +1,43 @@
-<template >
-  <div id="wrapper">
-    <lang></lang>
-    <!-- Content page -->
-    <div class="content-page">
-      <div class="content">
-        <div class="container-fluid">
-          <view-program v-if="programId != ''" :program-id="programId"></view-program>
-        </div>
+<template>
+  <div class="content-page">
+    <div class="content">
+      <div class="container-fluid">
+        <view-program></view-program>
       </div>
     </div>
-    <!-- End of content page -->
   </div>
-  <!-- End of wrapper -->
 </template>
 
 <script>
-import Lang from "@/components/helper/HelperLang.vue";
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import VueHead from "vue-head";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-import ViewProgram from "@/components/viewprogram/Viewprogram";
-import headerTags from "@/mixins/headerTags";
-import integrations from "@/mixins/integrations";
-import verify from "@/mixins/verify";
+import Vue from 'vue';
+import VueHead from 'vue-head';
+import ViewProgram from '@/components/viewprogram/Viewprogram';
+
+import { mapState } from 'vuex';
+
 export const eventBus = new Vue();
 
-Vue.use(VueAxios, axios);
 Vue.use(VueHead);
+
 export default {
-  mixins: [domains, alerts, integrations, headerTags, verify],
   components: {
-    Lang,
     ViewProgram
   },
-  data: function() {
-    return {
-      programId: ""
-    };
+  data: () => {
+    return {};
   },
-  created() {
-    this.verifySession();
-    this.loadIntegrations();
-    this.createFavicon();
-    this.programId = sessionStorage.getItem("sbr_program_id");
+  computed: {
+    ...mapState(['lang'])
   },
   head: {
     title: {
-      inner: "View program"
+      inner: 'View program'
     },
     meta: [
-      { name: "charset", content: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1.0" },
-      { name: "author", content: "Sabiorealm" }
+      { name: 'charset', content: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
+      { name: 'author', content: 'Sabiorealm' }
     ]
   }
 };
 </script>
-
-<style>
-</style>

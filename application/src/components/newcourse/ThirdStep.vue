@@ -3,8 +3,8 @@
     <div class="creation-content">
       <div class="img-container">
         <div class="text-container">
-          <h4>{{ lang["course-created-successfully"] }}</h4>
-          <h1>{{ courseName }}</h1>
+          <h4>{{ lang['course-created-successfully'] }}</h4>
+          <h1>{{ course.name }}</h1>
         </div>
 
         <img src="@/assets/img/general/ux/course_completed.png" />
@@ -13,9 +13,9 @@
 
     <div class="row row-actions">
       <div class="col-12 col-md-3">
-        <router-link :to="'/viewcourse/'+this.courseId">
+        <router-link :to="'/viewcourse/' + this.course.id">
           <div class="card-box card-action">
-            <h5 class="fw-700">{{ lang["view-course"] }}</h5>
+            <h5 class="fw-700">{{ lang['view-course'] }}</h5>
             <img src="@/assets/img/general/ux/view_course.png" alt />
           </div>
         </router-link>
@@ -24,7 +24,7 @@
       <div class="col-12 col-md-3">
         <a href="javascript:void(0)" @click.prevent="modal = true">
           <div class="card-box card-action">
-            <h5 class="fw-700">{{ lang["join-persons"] }}</h5>
+            <h5 class="fw-700">{{ lang['join-persons'] }}</h5>
             <img src="@/assets/img/general/ux/join_persons.png" alt />
           </div>
         </a>
@@ -33,7 +33,7 @@
       <div class="col-12 col-md-3">
         <a href="javascript:void(0)" @click.prevent="reloadPage()">
           <div class="card-box card-action">
-            <h5 class="fw-700">{{ lang["create-new-course"] }}</h5>
+            <h5 class="fw-700">{{ lang['create-new-course'] }}</h5>
             <img src="@/assets/img/general/ux/create_new_course.png" alt />
           </div>
         </a>
@@ -42,33 +42,45 @@
       <div class="col-12 col-md-3">
         <a href="javascript:void(0)" @click.prevent="share = true">
           <div class="card-box card-action">
-            <h5 class="fw-700">{{ lang["share"] }}</h5>
+            <h5 class="fw-700">{{ lang['share'] }}</h5>
             <img src="@/assets/img/general/ux/share.png" alt />
           </div>
         </a>
       </div>
     </div>
 
-    <!--------- 
+    <!---------
             Share
     ---------->
     <el-dialog :visible.sync="share" :title="lang['share']" center top="5vh">
-      <el-input id="shareLink" placeholder="Please input" v-model="linkToShare">
-        <el-button @click.prevent="copyToClipboard()" slot="append" icon="el-icon-copy-document"></el-button>
+      <el-input id="shareLink" placeholder="Please input" v-model="course.link">
+        <el-button
+          @click.prevent="copyToClipboard()"
+          slot="append"
+          icon="el-icon-copy-document"
+        ></el-button>
       </el-input>
     </el-dialog>
 
     <!-- Join users -->
-    <el-dialog :visible.sync="modal" :title="lang['join-persons']" center top="5vh">
+    <el-dialog
+      :visible.sync="modal"
+      :title="lang['join-persons']"
+      center
+      top="5vh"
+    >
       <div v-if="usersList != null" v-loading="loading">
         <template>
-          <el-transfer filterable :titles="['Persons', 'Course']" v-model="users" :data="usersList"></el-transfer>
+          <el-transfer
+            filterable
+            :titles="['Persons', 'Course']"
+            v-model="users"
+            :data="usersList"
+          ></el-transfer>
         </template>
         <br />
         <el-button class="sbr-primary" @click="enrollUsers()">
-          {{
-          lang["save-button"]
-          }}
+          {{ lang['save-button'] }}
         </el-button>
       </div>
 
@@ -78,11 +90,15 @@
           <div class="col-1"></div>
           <div class="col-5">
             <div class="text-no-results">
-              <h5>{{ lang["all-students-already-added"] }}</h5>
+              <h5>{{ lang['all-students-already-added'] }}</h5>
             </div>
           </div>
           <div class="col-6">
-            <img class="image-no-results" src="@/assets/img/general/ux/no_persons.png" alt />
+            <img
+              class="image-no-results"
+              src="@/assets/img/general/ux/no_persons.png"
+              alt
+            />
           </div>
         </div>
       </div>
@@ -92,146 +108,138 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-
-import { mapState } from "vuex";
-import { eventBus } from "@/components/newcourse/App";
-
-Vue.use(VueAxios, axios);
+import { mapState } from 'vuex';
+import { eventBus } from '@/components/newcourse/App';
 
 export default {
-  mixins: [domains, alerts],
-  data: function() {
+  data: () => {
     return {
+      course: {
+        id: '',
+        name: '',
+        image: '',
+        link: ''
+      },
       displayContentThirdStep: false,
       modal: false,
       usersList: [],
       users: [],
-      courseId: "",
       loading: false,
-      courseName: "",
-      courseImage: "",
-      linkToShare: "",
       share: false
     };
   },
   mounted() {
     /* When a new course was created */
-    eventBus.$on("new-course", response => {
-      this.courseId = response;
+    eventBus.$on('new-course', (response) => {
+      this.course.id = response;
       this.getUsersOutsideTheCourse(response);
     });
 
     /* Access first step */
-    eventBus.$on("access-first-step", () => {
+    eventBus.$on('access-first-step', () => {
       this.displayContentThirdStep = false;
     });
 
     /* Access second step */
-    eventBus.$on("access-second-step", () => {
+    eventBus.$on('access-second-step', () => {
       this.displayContentThirdStep = false;
     });
 
     /* Access third step */
-    eventBus.$on("access-third-step", () => {
+    eventBus.$on('access-third-step', () => {
       this.displayContentThirdStep = true;
       this.getCourse();
     });
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   methods: {
-    formatTitleParameter: function(title) {
-      var newTitle = title.split(" ").join("-");
+    formatTitleParameter(title) {
+      const newTitle = title.split(' ').join('-');
       return newTitle.toLowerCase();
     },
-    copyToClipboard: function() {
+    copyToClipboard() {
       /* Get the text field */
-      var copyText = document.getElementById("shareLink");
+      const copyText = document.getElementById('shareLink');
 
       /* Select the text field */
       copyText.select();
-      copyText.setSelectionRange(0, 99999); /*For mobile devices*/
+      copyText.setSelectionRange(0, 99999);
 
       /* Copy the text inside the text field */
-      document.execCommand("copy");
+      document.execCommand('copy');
 
       /* Alert the copied text */
-      this.$message("Copied");
+      this.$message('Copied');
     },
-    reloadPage: function() {
+    reloadPage() {
       location.reload();
     },
-    getCourse: function() {
-      var formData = new FormData();
-      formData.set("courseId", this.courseId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("course", "get");
-      axios
-        .post(urlToBeUsedInTheRequest, formData)
-        .then(response => {
-          // success callback
-          this.courseName = response.data["title"];
-          this.courseImage = response.data["photo"];
+    getCourse() {
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'course',
+        'get'
+      );
+      formData.set('courseId', this.course.id);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
+          this.course.name = response.data.title;
+          this.course.image = response.data.photo;
 
-          this.linkToShare =
-            this.getCurrentDomainName() +
-            "product/" +
-            this.formatTitleParameter(response.data["title"]);
-        })
-        .catch(() => {
-          this.errorMessage();
-        });
+          this.course.link =
+            this.$getCurrentDomainName() +
+            'product/' +
+            this.formatTitleParameter(response.data.title);
+        },
+        () => {
+          this.$errorMessage();
+        }
+      );
     },
     getUsersOutsideTheCourse(courseId) {
-      var formData = new FormData();
-      formData.set("courseId", courseId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "course",
-        "getPersonsOutsideTheCourse"
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'course',
+        'getPersonsOutsideTheCourse'
       );
-      axios
-        .post(urlToBeUsedInTheRequest, formData)
-        .then(response => {
-          // success callback
+      formData.set('courseId', courseId);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
           this.usersList = response.data;
-        })
-        .catch(() => {
-          this.errorMessage();
-        });
-    },
-    enrollUsers: function() {
-      this.loading = true;
-      var formData = new FormData();
-      formData.set("courseId", this.courseId);
-      formData.set("users", this.users);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "course",
-        "enrollUsersIntoCourse"
+        },
+        () => {
+          this.$errorMessage();
+        }
       );
-      axios
-        .post(urlToBeUsedInTheRequest, formData)
-        .then(() => {
-          // success callback
+    },
+    enrollUsers() {
+      this.loading = true;
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'course',
+        'enrollUsersIntoCourse'
+      );
+      formData.set('courseId', this.course.id);
+      formData.set('users', this.users);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        () => {
           this.loading = false;
           this.modal = false;
-          this.getUsersOutsideTheCourse(this.courseId);
+          this.getUsersOutsideTheCourse(this.course.id);
           this.users = [];
-          this.successMessage();
-        })
-        .catch(() => {
-          this.errorMessage();
-        });
+          this.$successMessage();
+        },
+        () => {
+          this.$errorMessage();
+        }
+      );
     }
   }
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 /* =============
     - Layout
@@ -302,7 +310,7 @@ export default {
 
 .text-container h4 {
   text-transform: uppercase;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   letter-spacing: 1px;
   color: white;
 }
@@ -328,7 +336,7 @@ export default {
   .text-container h4 {
     font-size: 0.8em;
     text-transform: uppercase;
-    font-family: "Poppins", sans-serif;
+    font-family: 'Poppins', sans-serif;
     letter-spacing: 1px;
     color: white;
   }

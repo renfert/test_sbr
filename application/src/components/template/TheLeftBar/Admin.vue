@@ -19,7 +19,7 @@
         <el-row>
           <!-- Profile -->
           <router-link to="/">
-            <img :src="getUrlToContents() + 'settings/'+logo+''" />
+            <img :src="$getUrlToContents() + 'settings/' + logo + ''" />
           </router-link>
         </el-row>
       </el-menu-item>
@@ -28,14 +28,14 @@
       <el-menu-item index="2">
         <i class="dripicons-home"></i>
         <router-link to="/home">
-          <span class="menuMain">{{ lang["home-nav"] }}</span>
+          <span class="menuMain">{{ lang['home-nav'] }}</span>
         </router-link>
       </el-menu-item>
 
       <el-menu-item index="3">
         <i class="dripicons-graph-bar"></i>
         <router-link to="/dashboard">
-          <span class="menuMain">{{ lang["dashboard-nav"] }}</span>
+          <span class="menuMain">{{ lang['dashboard-nav'] }}</span>
         </router-link>
       </el-menu-item>
 
@@ -43,28 +43,28 @@
         <template slot="title">
           <i class="dripicons-graduation"></i>
           <a href="javascript:void(0)" class="waves-effect">
-            <span class="menuMain">{{ lang["courses-nav"] }}</span>
+            <span class="menuMain">{{ lang['courses-nav'] }}</span>
           </a>
         </template>
 
         <el-menu-item index="5">
           <i class="dripicons-media-next"></i>
           <router-link to="/courses">
-            <span class="menuMain">{{ lang["my-courses-nav"] }}</span>
+            <span class="menuMain">{{ lang['my-courses-nav'] }}</span>
           </router-link>
         </el-menu-item>
 
         <el-menu-item index="6">
           <i class="dripicons-list"></i>
           <router-link to="categories">
-            <span class="menuMain">{{ lang["categories-nav"] }}</span>
+            <span class="menuMain">{{ lang['categories-nav'] }}</span>
           </router-link>
         </el-menu-item>
 
         <el-menu-item index="7">
           <i class="dripicons-to-do"></i>
           <router-link to="/programs">
-            <span class="menuMain">{{ lang["programs-nav"] }}</span>
+            <span class="menuMain">{{ lang['programs-nav'] }}</span>
           </router-link>
         </el-menu-item>
       </el-submenu>
@@ -73,28 +73,28 @@
         <template slot="title">
           <i class="dripicons-user"></i>
           <a href="javascript:void(0)" class="waves-effect">
-            <span class="menuMain">{{ lang["persons-nav"] }}</span>
+            <span class="menuMain">{{ lang['persons-nav'] }}</span>
           </a>
         </template>
 
         <el-menu-item index="9">
           <i class="dripicons-user-id"></i>
           <router-link to="/users">
-            <span class="menuMain">{{ lang["users-nav"] }}</span>
+            <span class="menuMain">{{ lang['users-nav'] }}</span>
           </router-link>
         </el-menu-item>
 
         <el-menu-item index="10">
           <i class="dripicons-user-group"></i>
           <router-link to="/groups">
-            <span class="menuMain">{{ lang["groups-nav"] }}</span>
+            <span class="menuMain">{{ lang['groups-nav'] }}</span>
           </router-link>
         </el-menu-item>
 
         <el-menu-item index="11">
           <i class="dripicons-experiment"></i>
           <router-link to="/leads">
-            <span class="menuMain">{{ lang["leads-nav"] }}</span>
+            <span class="menuMain">{{ lang['leads-nav'] }}</span>
           </router-link>
         </el-menu-item>
       </el-submenu>
@@ -102,7 +102,7 @@
       <el-menu-item index="12">
         <i class="dripicons-browser"></i>
         <router-link to="/site">
-          <span class="menuMain">{{ lang["site-nav"] }}</span>
+          <span class="menuMain">{{ lang['site-nav'] }}</span>
         </router-link>
       </el-menu-item>
 
@@ -110,21 +110,21 @@
         <template slot="title">
           <i class="dripicons-gear"></i>
           <a href="javascript:void(0)" class="waves-effect">
-            <span class="menuMain">{{ lang["settings-nav"] }}</span>
+            <span class="menuMain">{{ lang['settings-nav'] }}</span>
           </a>
         </template>
 
         <el-menu-item index="14">
           <i class="dripicons-web"></i>
           <router-link to="/settings">
-            <span class="menuMain">{{ lang["general-settings-nav"] }}</span>
+            <span class="menuMain">{{ lang['general-settings-nav'] }}</span>
           </router-link>
         </el-menu-item>
 
         <el-menu-item index="15">
           <i class="dripicons-cart"></i>
           <router-link to="/integrations">
-            <span class="menuMain">{{ lang["integrations-nav"] }}</span>
+            <span class="menuMain">{{ lang['integrations-nav'] }}</span>
           </router-link>
         </el-menu-item>
       </el-submenu>
@@ -140,14 +140,14 @@
         <el-menu-item index="17">
           <i class="dripicons-rocket"></i>
           <router-link to="/plans">
-            <span class="menuMain">{{ lang["plans-nav"] }}</span>
+            <span class="menuMain">{{ lang['plans-nav'] }}</span>
           </router-link>
         </el-menu-item>
 
         <el-menu-item index="18">
           <i class="dripicons-question"></i>
           <router-link to="/helpcenter">
-            <span class="menuMain">{{ lang["help-center-nav"] }}</span>
+            <span class="menuMain">{{ lang['help-center-nav'] }}</span>
           </router-link>
         </el-menu-item>
       </el-submenu>
@@ -157,7 +157,9 @@
         <el-row>
           <!-- Profile -->
           <router-link to="/profile" class="pr-4">
-            <el-avatar :src="getUrlToContents() + 'avatar/' + userAvatar + ''"></el-avatar>
+            <el-avatar
+              :src="$getUrlToContents() + 'avatar/' + userAvatar + ''"
+            ></el-avatar>
           </router-link>
 
           <!-- Notification -->
@@ -183,76 +185,44 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import { mapState } from "vuex";
-import { eventBus } from "@/components/profile/App";
-import { eventTemplate } from "@/components/template/TheTopBar";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
+import { eventTemplate } from '@/components/template/TheTopBar';
+import { mapState } from 'vuex';
 
-Vue.use(VueAxios, axios);
 export default {
-  mixins: [domains, alerts],
-  props: ["collapse", "logo", "user-name", "user-avatar", "user-id", "plan"],
+  props: ['collapse', 'logo', 'user-name', 'user-avatar', 'user-id', 'plan'],
   data: () => {
     return {
-      mobile: "retracted"
+      mobile: 'retracted'
     };
   },
   mounted() {
-    eventBus.$on(
-      "profile-edited",
-      function() {
-        this.getUserProfile();
-      }.bind(this)
-    );
-
-    eventTemplate.$on(
-      "change-leftbar-class",
-      function() {
-        this.mobile == "retracted"
-          ? (this.mobile = "opened")
-          : (this.mobile = "retracted");
-      }.bind(this)
-    );
+    eventTemplate.$on('change-leftbar-class', () => {
+      this.mobile === 'retracted'
+        ? (this.mobile = 'opened')
+        : (this.mobile = 'retracted');
+    });
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   methods: {
-    getUserProfile() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "user",
-        "getUserProfile"
-      );
-      axios.get(urlToBeUsedInTheRequest).then(
-        function(response) {
-          this.userName = response.data["name"];
-          this.userAvatar = response.data["avatar"];
-        }.bind(this)
-      );
-    },
-    confirmLogout: function() {
-      this.$confirm(this.lang["wanna-leave"], {
-        confirmButtonText: "OK",
-        cancelButtonText: "Cancel",
-        type: "warning"
+    confirmLogout() {
+      this.$confirm(this.lang['wanna-leave'], {
+        confirmButtonText: 'OK',
+        cancelButtonText: 'Cancel',
+        type: 'warning'
       }).then(() => {
         this.logout();
       });
     },
-    logout: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "logout",
-        "doLogout"
+    logout() {
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'logout',
+        'doLogout'
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        function() {
-          window.location.href = this.getDomainNameToNavigation();
-        }.bind(this)
-      );
+      this.$request.get(urlToBeUsedInTheRequest).then(() => {
+        window.location.href = this.$getDomainNameToNavigation();
+      });
     }
   }
 };
@@ -288,7 +258,7 @@ export default {
 .el-submenu i,
 a {
   color: white;
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .el-submenu a:hover {
@@ -298,7 +268,7 @@ a {
 .el-menu-item i,
 a {
   color: white;
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .el-menu-item a:hover {

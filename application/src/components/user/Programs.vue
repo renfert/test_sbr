@@ -15,10 +15,18 @@
         <div style="margin-bottom: 10px">
           <el-row>
             <el-col :md="6" :xs="18" class="mr-3">
-              <el-input v-model="filters[0].value" placeholder="Search"></el-input>
+              <el-input
+                v-model="filters[0].value"
+                placeholder="Search"
+              ></el-input>
             </el-col>
             <el-col :span="2">
-              <el-button @click.prevent="addProgram" class="sbr-purple" icon="el-icon-plus" circle></el-button>
+              <el-button
+                @click.prevent="addProgram"
+                class="sbr-purple"
+                icon="el-icon-plus"
+                circle
+              ></el-button>
             </el-col>
           </el-row>
         </div>
@@ -41,7 +49,7 @@
               <el-popconfirm
                 confirmButtonText="Ok"
                 cancelButtonText="No, Thanks"
-                :title="lang['remove-program-question'] + scope.row.title  + '?'"
+                :title="lang['remove-program-question'] + scope.row.title + '?'"
                 @onConfirm="removeProgramFromUser(scope.row.id)"
               >
                 <el-button
@@ -65,14 +73,23 @@
             src="@/assets/img/general/ux/no_programs.png"
             alt="No programs"
           />
-          <h4 class="no-results-text">{{lang["no-results-programs-in-user"]}}</h4>
-          <el-button class="sbr-purple mt-3" @click="addProgram()">{{lang["add-program"]}}</el-button>
+          <h4 class="no-results-text">
+            {{ lang['no-results-programs-in-user'] }}
+          </h4>
+          <el-button class="sbr-purple mt-3" @click="addProgram()">{{
+            lang['add-program']
+          }}</el-button>
         </div>
       </div>
     </div>
 
     <!-- Add new program dialog -->
-    <el-dialog :visible.sync="modal" :title="lang['join-programs']" center top="5vh">
+    <el-dialog
+      :visible.sync="modal"
+      :title="lang['join-programs']"
+      center
+      top="5vh"
+    >
       <facebook-loader
         v-if="loadingContentModal == true"
         :speed="2"
@@ -97,7 +114,8 @@
             class="sbr-primary"
             v-loading="loadingButton"
             @click="enrollUserIntoPrograms()"
-          >{{lang["save-button"]}}</el-button>
+            >{{ lang['save-button'] }}</el-button
+          >
         </div>
 
         <div class="row mb-5 mt-5" v-else>
@@ -107,7 +125,9 @@
               src="@/assets/img/general/ux/no_programs.png"
               alt="No programs"
             />
-            <h4 class="no-results-text">{{lang["all-programs-already-added"]}}</h4>
+            <h4 class="no-results-text">
+              {{ lang['all-programs-already-added'] }}
+            </h4>
           </div>
         </div>
       </div>
@@ -117,35 +137,26 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import ElementUI from "element-ui";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-
-import { FacebookLoader } from "vue-content-loader";
-import { DataTables, DataTablesServer } from "vue-data-tables";
-import { mapState } from "vuex";
+import Vue from 'vue';
+import { FacebookLoader } from 'vue-content-loader';
+import { DataTables, DataTablesServer } from 'vue-data-tables';
+import { mapState } from 'vuex';
 
 Vue.use(DataTables);
 Vue.use(DataTablesServer);
-Vue.use(ElementUI);
-Vue.use(VueAxios, axios);
 
 export default {
   components: {
     FacebookLoader
   },
-  mixins: [domains, alerts],
-  props: ["user-id"],
-  data: function() {
+  props: ['user-id'],
+  data: () => {
     return {
-      titles: [{ prop: "title", label: "Title" }],
+      titles: [{ prop: 'title', label: 'Title' }],
       enrolledPrograms: [],
       notEnrolledPrograms: [],
-      filters: [{ prop: "title", value: "" }],
-      tableProps: { defaultSort: { prop: "title", order: "descending" } },
+      filters: [{ prop: 'title', value: '' }],
+      tableProps: { defaultSort: { prop: 'title', order: 'descending' } },
       modal: false,
       programs: [],
       loadingButton: false,
@@ -154,114 +165,100 @@ export default {
     };
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   created() {
     this.getEnrolledPrograms();
     this.getNotEnrolledPrograms();
   },
   methods: {
-    removeProgramFromUser: function(programId) {
-      var formData = new FormData();
-      formData.set("programId", programId);
-      formData.set("userId", this.userId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "user",
-        "removeProgramFromUser"
+    removeProgramFromUser(programId) {
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'user',
+        'removeProgramFromUser'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+      formData.set('programId', programId);
+      formData.set('userId', this.userId);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
-          // success callback
           this.getEnrolledPrograms();
           this.getNotEnrolledPrograms();
-          this.successMessage();
+          this.$successMessage();
         },
-        // Failure callback
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
 
-    addProgram: function() {
+    addProgram() {
       this.modal = true;
     },
-    enrollUserIntoPrograms: function() {
+    enrollUserIntoPrograms() {
       this.loadingButton = true;
-      var formData = new FormData();
-      formData.set("userId", this.userId);
-      formData.set("programs", this.programs);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "user",
-        "enrollUserIntoPrograms"
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'user',
+        'enrollUserIntoPrograms'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+      formData.set('userId', this.userId);
+      formData.set('programs', this.programs);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
-          // success callback
           this.loadingButton = false;
-          this.successMessage();
+          this.$successMessage();
           this.modal = false;
           this.getEnrolledPrograms();
           this.getNotEnrolledPrograms();
           this.programs = [];
         },
-        // Failure callback
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
     getEnrolledPrograms() {
       this.loadingContent = true;
-      var formData = new FormData();
-      formData.set("userId", this.userId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "user",
-        "getEnrolledPrograms"
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'user',
+        'getEnrolledPrograms'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
-          // success callback
+      formData.set('userId', this.userId);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
           this.enrolledPrograms = response.data;
-          setTimeout(
-            function() {
-              this.loadingContent = false;
-            }.bind(this),
-            1000
-          );
+          setTimeout(() => {
+            this.loadingContent = false;
+          }, 1000);
         },
-        // Failure callback
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    getNotEnrolledPrograms: function() {
+    getNotEnrolledPrograms() {
       this.loadingContentModal = true;
-      var formData = new FormData();
-      formData.set("userId", this.userId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "user",
-        "getNotEnrolledPrograms"
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'user',
+        'getNotEnrolledPrograms'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
-          // success callback
+      formData.set('userId', this.userId);
+
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
           this.notEnrolledPrograms = response.data;
-          setTimeout(
-            function() {
-              this.loadingContentModal = false;
-            }.bind(this),
-            1000
-          );
+          setTimeout(() => {
+            this.loadingContentModal = false;
+          }, 1000);
         },
-        // Failure callback
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     }
   }
 };
 </script>
-

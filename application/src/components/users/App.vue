@@ -1,4 +1,4 @@
-<template >
+<template>
   <div class="content-page">
     <user-create></user-create>
     <user-list></user-list>
@@ -6,42 +6,32 @@
 </template>
 
 <script>
-import UserCreate from "@/components/users/UserCreate.vue";
-import UserList from "@/components/users/UserList.vue";
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import VueHead from "vue-head";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-import verify from "@/mixins/verify";
+import Vue from 'vue';
+import UserCreate from '@/components/users/UserCreate.vue';
+import UserList from '@/components/users/UserList.vue';
+import VueHead from 'vue-head';
 
 export const eventBus = new Vue();
 
-Vue.use(VueAxios, axios);
 Vue.use(VueHead);
 
 export default {
-  mixins: [domains, alerts, verify],
   components: {
     UserCreate,
     UserList
   },
   created() {
-    this.verifyAdministratorPrivileges();
+    this.$verifyAdministratorPrivileges();
   },
   head: {
     title: {
-      inner: "Users"
+      inner: 'Users'
     },
     meta: [
-      { name: "charset", content: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1.0" },
-      { name: "author", content: "Sabiorealm" }
+      { name: 'charset', content: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
+      { name: 'author', content: 'Sabiorealm' }
     ]
   }
 };
 </script>
-
-<style>
-</style>

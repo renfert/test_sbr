@@ -1,7 +1,7 @@
 <template>
   <div class="m-5">
     <facebook-loader
-      v-if="loadingContent == true"
+      v-if="content == false"
       :speed="2"
       width="700"
       height="200"
@@ -10,25 +10,32 @@
     ></facebook-loader>
 
     <div v-else>
-      <!-- Program list content -->
-      <div class="course-content" v-if="programsInsideGroup != null">
+      <div class="course-content" v-if="programsBelongingToTheGroup != null">
         <div class="mb-5">
           <el-row>
             <el-col :md="6" :xs="18" class="mr-3">
-              <el-input v-model="filters[0].value" placeholder="Search"></el-input>
+              <el-input
+                v-model="table.filters[0].value"
+                placeholder="Search"
+              ></el-input>
             </el-col>
             <el-col :span="2">
-              <el-button @click.prevent="addProgram" class="sbr-purple" icon="el-icon-plus" circle></el-button>
+              <el-button
+                @click.prevent="addProgram"
+                class="sbr-purple"
+                icon="el-icon-plus"
+                circle
+              ></el-button>
             </el-col>
           </el-row>
         </div>
         <data-tables
           :pagination-props="{ background: true, pageSizes: [5] }"
-          :data="programsInsideGroup"
-          :filters="filters"
+          :data="programsBelongingToTheGroup"
+          :filters="table.filters"
         >
           <el-table-column
-            v-for="title in titles"
+            v-for="title in table.titles"
             sortable="custom"
             :prop="title.prop"
             :label="title.label"
@@ -41,7 +48,7 @@
               <el-popconfirm
                 confirmButtonText="Ok"
                 cancelButtonText="No, Thanks"
-                :title="lang['remove-program-question'] + scope.row.title  + '?'"
+                :title="lang['remove-program-question'] + scope.row.title + '?'"
                 @onConfirm="removeProgramFromGroup(scope.row.id)"
               >
                 <el-button
@@ -56,9 +63,7 @@
           </el-table-column>
         </data-tables>
       </div>
-      <!-- Program list content -->
 
-      <!-- No programs found content -->
       <div v-else>
         <div class="row mb-5">
           <div class="col-12 text-center">
@@ -67,18 +72,28 @@
               src="@/assets/img/general/ux/not_found.png"
               alt="No activities"
             />
-            <h4 class="no-results-text mb-3">{{lang["no-results-programs-in-group"]}}</h4>
-            <el-button class="sbr-primary" @click="addProgram()">{{lang["add-program"]}}</el-button>
+            <h4 class="no-results-text mb-3">
+              {{ lang['no-results-programs-in-group'] }}
+            </h4>
+            <el-button class="sbr-primary" @click="addProgram()">{{
+              lang['add-program']
+            }}</el-button>
           </div>
         </div>
       </div>
-      <!-- No programs found content end -->
     </div>
 
-    <!-- Add new course dialog -->
-    <el-dialog :visible.sync="modal" :title="lang['join-programs']" center top="5vh">
+    <!-----------------------
+      Add new program modal
+    ------------------------->
+    <el-dialog
+      :visible.sync="modal"
+      :title="lang['join-programs']"
+      center
+      top="5vh"
+    >
       <facebook-loader
-        v-if="loadingContentModal == true"
+        v-if="contentModal == false"
         :speed="2"
         width="700"
         height="200"
@@ -87,13 +102,13 @@
       ></facebook-loader>
 
       <div v-else>
-        <div v-if="programsOutsideGroup != null">
+        <div v-if="programsNotBelongingToTheGroup != null">
           <template>
             <el-transfer
               filterable
               :titles="['Programs', 'Group']"
               v-model="programs"
-              :data="programsOutsideGroup"
+              :data="programsNotBelongingToTheGroup"
             ></el-transfer>
           </template>
           <br />
@@ -101,10 +116,10 @@
             v-loading="loadingButton"
             class="sbr-primary"
             @click="savePrograms()"
-          >{{lang["save-button"]}}</el-button>
+            >{{ lang['save-button'] }}</el-button
+          >
         </div>
 
-        <!-- No programs found  -->
         <div v-else>
           <div class="row mb-5">
             <div class="col-12 text-center">
@@ -113,158 +128,139 @@
                 src="@/assets/img/general/ux/not_found.png"
                 alt="No activities"
               />
-              <h4>{{lang["all-programs-already-added"]}}</h4>
+              <h4>{{ lang['all-programs-already-added'] }}</h4>
             </div>
           </div>
         </div>
-        <!-- No programs found content end -->
       </div>
     </el-dialog>
+    <!-----------------------
+      End add new program modal
+    ------------------------->
   </div>
-  <!-- End col-auto -->
 </template>
 
 <script>
-import Vue from "vue";
-import ElementUI from "element-ui";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
+import Vue from 'vue';
 
-import { DataTables, DataTablesServer } from "vue-data-tables";
-import { FacebookLoader } from "vue-content-loader";
-import { mapState } from "vuex";
+import { DataTables, DataTablesServer } from 'vue-data-tables';
+import { FacebookLoader } from 'vue-content-loader';
+import { mapState } from 'vuex';
 
 Vue.use(DataTables);
 Vue.use(DataTablesServer);
-Vue.use(ElementUI);
-Vue.use(VueAxios, axios);
 
 export default {
   components: {
     FacebookLoader
   },
-  mixins: [domains, alerts],
-  props: ["group-id"],
-  data: function() {
+  props: ['group-id'],
+  data: () => {
     return {
-      titles: [{ prop: "title", label: "Title" }],
-      programsInsideGroup: [],
-      programsOutsideGroup: [],
-      filters: [{ prop: "title", value: "" }],
-      tableProps: { defaultSort: { prop: "title", order: "descending" } },
-      loadingButton: false,
-      loadingContent: false,
-      loadingContentModal: false,
+      table: {
+        titles: [{ prop: 'title', label: 'Title' }],
+        filters: [{ prop: 'title', value: '' }],
+        props: { defaultSort: { prop: 'title', order: 'descending' } }
+      },
+      programsBelongingToTheGroup: [],
+      programsNotBelongingToTheGroup: [],
+      loading: false,
+      content: false,
+      contentModal: false,
       modal: false,
       programs: []
     };
   },
   created() {
-    this.getProgramsInsideTheGroup();
-    this.getProgramsOutsideTheGroup();
+    this.getProgramsThatBelongToGroup();
+    this.getProgramsThatNotBelongToGroup();
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   methods: {
-    removeProgramFromGroup: function(programId) {
-      var formData = new FormData();
-      formData.set("programId", programId);
-      formData.set("groupId", this.groupId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "group",
-        "removeProgramFromGroup"
+    removeProgramFromGroup(programId) {
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'group',
+        'removeProgramFromGroup'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+      formData.set('groupId', this.groupId);
+      formData.set('programId', programId);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
-          // success callback
-          this.getProgramsInsideTheGroup();
-          this.getProgramsOutsideTheGroup();
-          this.successMessage();
+          this.getProgramsThatBelongToGroup();
+          this.getProgramsThatNotBelongToGroup();
+          this.$successMessage();
         },
-        // Failure callback
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    savePrograms: function() {
-      this.loadingButton = true;
-      var formData = new FormData();
-      formData.set("groupId", this.groupId);
-      formData.set("programs", this.programs);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "group",
-        "saveProgramsIntoGroup"
+    savePrograms() {
+      this.loading = true;
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'group',
+        'saveProgramsIntoGroup'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+      formData.set('programs', this.programs);
+      formData.set('groupId', this.groupId);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
-          // success callback
-          this.loadingButton = false;
+          this.loading = false;
           this.modal = false;
-          this.getProgramsInsideTheGroup();
-          this.getProgramsOutsideTheGroup();
+          this.getProgramsThatBelongToGroup();
+          this.getProgramsThatNotBelongToGroup();
           this.programs = [];
         },
-        // Failure callback
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    addProgram: function() {
+    addProgram() {
       this.modal = true;
     },
-    getProgramsInsideTheGroup() {
-      this.loadingContent = true;
-      var formData = new FormData();
-      formData.set("groupId", this.groupId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "group",
-        "getProgramsInsideGroup"
+    getProgramsThatBelongToGroup() {
+      this.content = false;
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'group',
+        'getProgramsInsideGroup'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
-          // success callback
-          this.programsInsideGroup = response.data;
-          setTimeout(
-            function() {
-              this.loadingContent = false;
-            }.bind(this),
-            1000
-          );
+      formData.set('groupId', this.groupId);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
+          this.programsBelongingToTheGroup = response.data;
+          setTimeout(() => {
+            this.content = true;
+          }, 1000);
         },
-        // Failure callback
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    getProgramsOutsideTheGroup: function() {
-      this.loadingContentModal = true;
-      var formData = new FormData();
-      formData.set("groupId", this.groupId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "group",
-        "getProgramsOutsideGroup"
+    getProgramsThatNotBelongToGroup() {
+      this.contentModal = false;
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'group',
+        'getProgramsOutsideGroup'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
-          // success callback
-          this.programsOutsideGroup = response.data;
-          setTimeout(
-            function() {
-              this.loadingContentModal = false;
-            }.bind(this),
-            1000
-          );
+      formData.set('groupId', this.groupId);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
+          this.programsNotBelongingToTheGroup = response.data;
+          setTimeout(() => {
+            this.contentModal = true;
+          }, 1000);
         },
-        // Failure callback
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     }
   }

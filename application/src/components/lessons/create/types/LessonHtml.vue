@@ -1,7 +1,12 @@
 <template>
   <!--  Modal new lesson -->
   <div>
-    <el-dialog :visible.sync="modalCreateHtml" :title="lang['create-new-lesson']" center top="5vh">
+    <el-dialog
+      :visible.sync="modalCreateHtml"
+      :title="lang['create-new-lesson']"
+      center
+      top="5vh"
+    >
       <form id="form-lesson-html" @submit.prevent="create()">
         <div class="form-row">
           <!-- Module id -->
@@ -9,7 +14,7 @@
           <input type="text" class="hide" name="type_mylesson_id" value="7" />
           <div class="form-group col-xl-12 col-md-12">
             <!-- Lesson name -->
-            <label class="col-form-label">{{lang["name"]}} *</label>
+            <label class="col-form-label">{{ lang['name'] }} *</label>
             <el-input required v-model="name" name="title"></el-input>
           </div>
         </div>
@@ -33,7 +38,8 @@
               class="sbr-primary"
               v-loading="loading"
               native-type="submit"
-            >{{lang["save-button"]}}</el-button>
+              >{{ lang['save-button'] }}</el-button
+            >
           </div>
         </div>
       </form>
@@ -43,79 +49,57 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import Upload from "@/components/helper/HelperUpload";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-
-import { eventBus } from "@/components/newcourse/App";
-import { eventUpload } from "@/components/helper/HelperUpload";
-import { mapState } from "vuex";
-
-Vue.use(VueAxios, axios);
+import Upload from '@/components/helper/HelperUpload';
+import { eventBus } from '@/components/newcourse/App';
+import { mapState } from 'vuex';
 
 export default {
-  mixins: [domains, alerts],
-  props: ["module-id"],
+  props: ['module-id'],
   components: {
     Upload
   },
   data: () => {
     return {
-      name: "",
-      htmlName: "",
-      previewImg: "",
-      realName: "",
+      name: '',
+      previewImg: '',
+      realName: '',
       modalCreateHtml: false,
       loading: false
     };
   },
   mounted() {
-    eventBus.$on(
-      "new-html",
-      function() {
-        this.modalCreateHtml = true;
-      }.bind(this)
-    );
+    eventBus.$on('new-html', () => {
+      this.modalCreateHtml = true;
+    });
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   methods: {
-    /* Create a new lesson */
-    create: function() {
+    create() {
       this.loading = true;
-      var form = document.getElementById("form-lesson-html");
-      var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "lesson",
-        "create"
+      const form = document.getElementById('form-lesson-html');
+      const formData = new FormData(form);
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'lesson',
+        'create'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
-          /* Success callback */
-          this.successMessage();
+          this.$successMessage();
           this.actionsToBePerformedAfterRegistration();
           this.loading = false;
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
+        () => {
+          this.$errorMessage();
         }
       );
     },
     actionsToBePerformedAfterRegistration() {
-      this.name = "";
+      this.name = '';
       this.modalCreateHtml = false;
-      eventBus.$emit("new-lesson");
-      eventUpload.$emit("clear");
+      eventBus.$emit('new-lesson');
     }
   }
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
-</style>

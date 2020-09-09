@@ -1,11 +1,22 @@
 <template>
   <!--  Modal edit social media -->
   <div>
-    <el-dialog :visible.sync="modal" :title="lang['edit']" center width="40%" top="5vh">
+    <el-dialog
+      :visible.sync="modal"
+      :title="lang['edit']"
+      center
+      width="40%"
+      top="5vh"
+    >
       <form id="form-social" @submit.prevent="editSocialMedia()">
-        <input class="hide" type="number" name="socialMediaId" v-model="socialMediaId" />
+        <input
+          class="hide"
+          type="number"
+          name="socialMediaId"
+          v-model="socialMediaId"
+        />
         <div class="form-group">
-          <label>{{lang["social-media"]}}</label>
+          <label>{{ lang['social-media'] }}</label>
           <div class="block">
             <select class="form-select" name="socialMedia" v-model="name">
               <option value="facebook">Facebook</option>
@@ -18,11 +29,13 @@
           </div>
         </div>
         <div class="form-group">
-          <label>{{lang["url"]}}</label>
+          <label>{{ lang['url'] }}</label>
           <el-input name="url" v-model="url"></el-input>
         </div>
         <div class="form-group">
-          <el-button native-type="submit" class="sbr-btn sbr-primary">{{lang["save-button"]}}</el-button>
+          <el-button native-type="submit" class="sbr-btn sbr-primary">{{
+            lang['save-button']
+          }}</el-button>
         </div>
       </form>
     </el-dialog>
@@ -30,74 +43,52 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import VueTheMask from "vue-the-mask";
-import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
-import lang from "element-ui/lib/locale/lang/en";
-import locale from "element-ui/lib/locale";
-import { eventLang } from "@/components/helper/HelperLang";
-import { eventBus } from "@/components/site/App";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-
-locale.use(lang);
-Vue.use(VueTheMask);
-Vue.use(VueTheMask);
-Vue.use(VueAxios, axios);
-Vue.use(ElementUI);
+import { eventBus } from '@/components/site/App';
+import { mapState } from 'vuex';
 
 export default {
-  mixins: [domains, alerts],
   data: () => {
     return {
-      lang: {},
-      socialMediaId: "",
-      name: "",
-      url: "",
+      socialMediaId: '',
+      name: '',
+      url: '',
       modal: false,
       loading: false
     };
   },
   mounted() {
-    eventLang.$on(
-      "lang",
-      function(response) {
-        this.lang = response;
-      }.bind(this)
-    );
+    eventBus.$on('edit-social-media', (data) => {
+      this.socialMediaId = data.id;
+      this.name = data.name;
+      this.url = data.url;
 
-    eventBus.$on(
-      "edit-social-media",
-      function(data) {
-        this.socialMediaId = data["id"];
-        this.name = data["name"];
-        this.url = data["url"];
-
-        this.modal = true;
-      }.bind(this)
-    );
+      this.modal = true;
+    });
+  },
+  computed: {
+    ...mapState(['lang'])
   },
   methods: {
-    editSocialMedia: function() {
-      var form = document.getElementById("form-social");
-      var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("social", "edit");
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+    editSocialMedia() {
+      const form = document.getElementById('form-social');
+      const formData = new FormData(form);
+      const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+        'social',
+        'edit'
+      );
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
-          this.successMessage();
+          this.$successMessage();
           this.actionsToBePerformedAfterEdit();
         },
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
 
     actionsToBePerformedAfterEdit() {
-      eventBus.$emit("new-change-footer");
+      eventBus.$emit('new-change-footer');
       this.modal = false;
     }
   }
@@ -126,7 +117,7 @@ export default {
 .btn-link {
   padding: 0px !important;
   font-size: 13px;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: 600;
 }
 

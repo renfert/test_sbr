@@ -1,22 +1,33 @@
 <template>
   <div>
     <div>
-      <el-dialog :visible.sync="modal" title="Text and media" center width="40%" top="5vh">
+      <el-dialog
+        :visible.sync="modal"
+        title="Text and media"
+        center
+        width="40%"
+        top="5vh"
+      >
         <form id="form-text-and-media" @submit.prevent="editTextAndMedia()">
           <!-- Text and media id -->
-          <input type="number" name="textAndMediaId" class="hide" :value="textAndMediaId" />
+          <input
+            type="number"
+            name="textAndMediaId"
+            class="hide"
+            :value="textAndMediaId"
+          />
           <!-- Cta id -->
           <input type="number" name="buttonId" class="hide" :value="buttonId" />
           <el-tabs type="border-card">
             <el-tab-pane>
               <span slot="label">
                 <i class="el-icon-picture-outline"></i>
-                {{lang["media"]}}
+                {{ lang['media'] }}
               </span>
               <div class="form-row">
                 <div class="form-group col-xl-12 col-md-12">
                   <!-- Media  -->
-                  <label class="col-form-label">{{lang["media"]}} *</label>
+                  <label class="col-form-label">{{ lang['media'] }} *</label>
                   <upload
                     :key="componentKey"
                     v-if="media != ''"
@@ -32,7 +43,9 @@
                 </div>
                 <div class="form-group col-xl-12 col-md-12">
                   <!-- Media align -->
-                  <label class="col-form-label">{{lang["media-align"]}}</label>
+                  <label class="col-form-label">{{
+                    lang['media-align']
+                  }}</label>
                   <el-select v-model="mediaAlign" name="mediaAlign">
                     <el-option label="left" value="left"></el-option>
                     <el-option label="right" value="right"></el-option>
@@ -46,95 +59,137 @@
             <el-tab-pane>
               <span slot="label">
                 <i class="el-icon-document"></i>
-                {{lang["header"]}}
+                {{ lang['header'] }}
               </span>
-              <div class="form-row" :class="activeHeader == false ? 'disabled' : ''">
+              <div
+                class="form-row"
+                :class="activeHeader == false ? 'disabled' : ''"
+              >
                 <div class="form-group col-xl-12 col-md-12">
                   <!-- Header -->
-                  <label class="col-form-label">{{lang["header"]}}</label>
+                  <label class="col-form-label">{{ lang['header'] }}</label>
                   <el-input
-                    :disabled="activeHeader == false ? true : false "
+                    :disabled="activeHeader == false ? true : false"
                     name="header"
                     v-model="header"
                   ></el-input>
                 </div>
               </div>
               <hr />
-              <el-alert :title="lang['disable-section-message']" type="info" show-icon></el-alert>
+              <el-alert
+                :title="lang['disable-section-message']"
+                type="info"
+                show-icon
+              ></el-alert>
               <br />
-              <el-switch @change="showHeader()" v-model="activeHeader"></el-switch>
+              <el-switch
+                @change="showHeader()"
+                v-model="activeHeader"
+              ></el-switch>
             </el-tab-pane>
 
             <el-tab-pane>
               <span slot="label">
                 <i class="el-icon-document-copy"></i>
-                {{lang["sub-header"]}}
+                {{ lang['sub-header'] }}
               </span>
-              <div class="form-row" :class="activeSubHeader == false ? 'disabled' : ''">
+              <div
+                class="form-row"
+                :class="activeSubHeader == false ? 'disabled' : ''"
+              >
                 <div class="form-group col-xl-12 col-md-12">
                   <!-- SubHeader -->
-                  <label class="col-form-label">{{lang["sub-header"]}}</label>
+                  <label class="col-form-label">{{ lang['sub-header'] }}</label>
                   <el-input
-                    :disabled="activeSubHeader == false ? true : false "
+                    :disabled="activeSubHeader == false ? true : false"
                     name="subHeader"
                     v-model="subHeader"
                   ></el-input>
                 </div>
               </div>
               <hr />
-              <el-alert :title="lang['disable-section-message']" type="info" show-icon></el-alert>
+              <el-alert
+                :title="lang['disable-section-message']"
+                type="info"
+                show-icon
+              ></el-alert>
               <br />
-              <el-switch @change="showSubHeader()" v-model="activeSubHeader"></el-switch>
+              <el-switch
+                @change="showSubHeader()"
+                v-model="activeSubHeader"
+              ></el-switch>
             </el-tab-pane>
 
             <el-tab-pane>
               <span slot="label">
                 <i class="el-icon-document"></i>
-                {{lang["content"]}}
+                {{ lang['content'] }}
               </span>
-              <div class="form-row" :class="activeContent == false ? 'disabled' : ''">
+              <div
+                class="form-row"
+                :class="activeContent == false ? 'disabled' : ''"
+              >
                 <div class="form-group col-xl-12 col-md-12">
                   <!-- Content -->
-                  <label class="col-form-label">{{lang["content"]}}</label>
+                  <label class="col-form-label">{{ lang['content'] }}</label>
                   <el-input
                     type="textarea"
-                    :disabled="activeContent == false ? true : false "
+                    :disabled="activeContent == false ? true : false"
                     name="content"
                     v-model="content"
                   ></el-input>
                 </div>
               </div>
               <hr />
-              <el-alert :title="lang['disable-section-message']" type="info" show-icon></el-alert>
+              <el-alert
+                :title="lang['disable-section-message']"
+                type="info"
+                show-icon
+              ></el-alert>
               <br />
-              <el-switch @change="showContent()" v-model="activeContent"></el-switch>
+              <el-switch
+                @change="showContent()"
+                v-model="activeContent"
+              ></el-switch>
             </el-tab-pane>
 
             <el-tab-pane>
               <span slot="label">
                 <i class="el-icon-s-opportunity"></i>
-                {{lang["button"]}}
+                {{ lang['button'] }}
               </span>
-              <div class="form-row" :class="activeButton == false ? 'disabled' : ''">
+              <div
+                class="form-row"
+                :class="activeButton == false ? 'disabled' : ''"
+              >
                 <div class="form-group col-xl-6 col-md-6">
                   <!-- Cta title -->
-                  <label class="col-form-label">{{lang["button-title"]}} *</label>
+                  <label class="col-form-label"
+                    >{{ lang['button-title'] }} *</label
+                  >
                   <el-input
-                    :disabled="activeButton == false ? true : false "
+                    :disabled="activeButton == false ? true : false"
                     name="buttonTitle"
                     v-model="buttonTitle"
                   ></el-input>
                 </div>
                 <div class="form-group col-xl-6 col-md-6">
                   <!-- Cta url -->
-                  <label class="col-form-label">{{lang["button-url"]}} *</label>
+                  <label class="col-form-label"
+                    >{{ lang['button-url'] }} *</label
+                  >
                   <el-input name="buttonUrl" v-model="buttonUrl"></el-input>
                 </div>
               </div>
-              <div class="form-row" :class="activeButton == false ? 'disabled' : ''">
+              <div
+                class="form-row"
+                :class="activeButton == false ? 'disabled' : ''"
+              >
                 <div class="form-group col-xl-6 col-md-6">
                   <!-- Cta target -->
-                  <label class="col-form-label">{{lang["button-target"]}} *</label>
+                  <label class="col-form-label"
+                    >{{ lang['button-target'] }} *</label
+                  >
                   <el-select v-model="buttonTarget" name="buttonTarget">
                     <el-option value="_self" label="Same window"></el-option>
                     <el-option value="_blank" label="New window"></el-option>
@@ -142,7 +197,9 @@
                 </div>
                 <div class="form-group col-xl-6 col-md-6">
                   <!-- Cta style -->
-                  <label class="col-form-label">{{lang["button-style"]}} *</label>
+                  <label class="col-form-label"
+                    >{{ lang['button-style'] }} *</label
+                  >
                   <el-select v-model="buttonStyle" name="buttonStyle">
                     <el-option value="plain" label="Plain"></el-option>
                     <el-option value="rounded" label="Rounded"></el-option>
@@ -150,18 +207,30 @@
                 </div>
               </div>
               <hr />
-              <div class="form-row" :class="activeButton == false ? 'disabled' : ''">
+              <div
+                class="form-row"
+                :class="activeButton == false ? 'disabled' : ''"
+              >
                 <div class="form-group col-xl-6 col-md-6">
                   <!-- Cta bg color -->
-                  <label class="col-form-label">{{lang["button-bg-color"]}} *</label>
+                  <label class="col-form-label"
+                    >{{ lang['button-bg-color'] }} *</label
+                  >
                   <div class="block">
-                    <input name="buttonColor" type="text" class="hide" v-model="buttonColor" />
+                    <input
+                      name="buttonColor"
+                      type="text"
+                      class="hide"
+                      v-model="buttonColor"
+                    />
                     <el-color-picker v-model="buttonColor"></el-color-picker>
                   </div>
                 </div>
                 <div class="form-group col-xl-6 col-md-6">
                   <!-- Cta hover color -->
-                  <label class="col-form-label">{{lang["button-hover-color"]}} *</label>
+                  <label class="col-form-label"
+                    >{{ lang['button-hover-color'] }} *</label
+                  >
                   <div class="block">
                     <input
                       name="buttonHoverColor"
@@ -169,14 +238,23 @@
                       class="hide"
                       v-model="buttonColorHover"
                     />
-                    <el-color-picker v-model="buttonColorHover"></el-color-picker>
+                    <el-color-picker
+                      v-model="buttonColorHover"
+                    ></el-color-picker>
                   </div>
                 </div>
               </div>
               <hr />
-              <el-alert :title="lang['disable-section-message']" type="info" show-icon></el-alert>
+              <el-alert
+                :title="lang['disable-section-message']"
+                type="info"
+                show-icon
+              ></el-alert>
               <br />
-              <el-switch @change="showButton()" v-model="activeButton"></el-switch>
+              <el-switch
+                @change="showButton()"
+                v-model="activeButton"
+              ></el-switch>
             </el-tab-pane>
           </el-tabs>
           <br />
@@ -187,7 +265,8 @@
                 native-type="submit"
                 v-loading="loadingButton"
                 type="primary"
-              >{{lang["save-button"]}}</el-button>
+                >{{ lang['save-button'] }}</el-button
+              >
             </div>
           </div>
         </form>
@@ -198,46 +277,36 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import ElementUI from "element-ui";
-import Upload from "@/components/helper/HelperUpload";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-import HelperProgress from "@/components/helper/HelperProgress.vue";
+import Upload from '@/components/helper/HelperUpload';
+import HelperProgress from '@/components/helper/HelperProgress.vue';
 
-import { eventBus } from "@/components/site/App";
-import { mapState } from "vuex";
-
-Vue.use(VueAxios, axios);
-Vue.use(ElementUI);
+import { eventBus } from '@/components/site/App';
+import { mapState } from 'vuex';
 
 export default {
-  mixins: [domains, alerts],
   components: {
     Upload,
     HelperProgress
   },
   data: () => {
     return {
-      textAndMediaId: "",
-      header: "",
-      content: "",
-      media: "",
-      mediaName: "",
-      mediaAlign: "",
-      buttonId: "",
-      buttonAlign: "",
-      subHeader: "",
-      textAlign: "",
-      title: "",
-      buttonTitle: "",
-      buttonUrl: "",
-      buttonTarget: "",
-      buttonColor: "",
-      buttonColorHover: "",
-      buttonStyle: "",
+      textAndMediaId: '',
+      header: '',
+      content: '',
+      media: '',
+      mediaName: '',
+      mediaAlign: '',
+      buttonId: '',
+      buttonAlign: '',
+      subHeader: '',
+      textAlign: '',
+      title: '',
+      buttonTitle: '',
+      buttonUrl: '',
+      buttonTarget: '',
+      buttonColor: '',
+      buttonColorHover: '',
+      buttonStyle: '',
       loading: false,
       loadingButton: false,
       modal: false,
@@ -245,121 +314,118 @@ export default {
       activeSubHeader: true,
       activeButton: true,
       activeContent: true,
-      sectionId: "",
+      sectionId: '',
       componentKey: 0
     };
   },
   mounted() {
-    eventBus.$on(
-      "edit-text-and-media",
-      function(sectionId) {
-        this.getTextAndMedia(sectionId);
-        this.modal = true;
-      }.bind(this)
-    );
+    eventBus.$on('edit-text-and-media', (sectionId) => {
+      this.getTextAndMedia(sectionId);
+      this.modal = true;
+    });
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   methods: {
-    forceRerender: function() {
+    forceRerender() {
       this.componentKey += 1;
     },
-    editTextAndMedia: function() {
+    editTextAndMedia() {
       this.loadingButton = true;
-      var form = document.getElementById("form-text-and-media");
-      var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "site-elements/TextAndMedia",
-        "edit"
+      const form = document.getElementById('form-text-and-media');
+      const formData = new FormData(form);
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'site-elements/TextAndMedia',
+        'edit'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
-          this.successMessage();
-          eventBus.$emit("new-text-and-media-change");
+          this.$successMessage();
+          eventBus.$emit('new-text-and-media-change');
           this.modal = false;
           this.loadingButton = false;
         },
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
 
-    showHeader: function() {
-      if (this.activeHeader == false) {
-        this.header = "";
+    showHeader() {
+      if (this.activeHeader === false) {
+        this.header = '';
       }
     },
-    showContent: function() {
-      if (this.activeContent == false) {
-        this.content = "";
+    showContent() {
+      if (this.activeContent === false) {
+        this.content = '';
       }
     },
-    showSubHeader: function() {
-      if (this.activeSubHeader == false) {
-        this.subHeader = "";
+    showSubHeader() {
+      if (this.activeSubHeader === false) {
+        this.subHeader = '';
       }
     },
-    showButton: function() {
-      if (this.activeButton == false) {
-        this.buttonTitle = "";
+    showButton() {
+      if (this.activeButton === false) {
+        this.buttonTitle = '';
       }
     },
 
-    getTextAndMedia: function(sectionId) {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "site-elements/TextAndMedia",
-        "get"
+    getTextAndMedia(sectionId) {
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'site-elements/TextAndMedia',
+        'get'
       );
-      var formData = new FormData();
-      formData.set("sectionId", sectionId);
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
-          this.textAndMediaId = response.data[0]["id"];
-          this.header = response.data[0]["header"];
-          this.content = response.data[0]["content"];
-          this.mediaName = response.data[0]["media"];
+      const formData = new FormData();
+      formData.set('sectionId', sectionId);
+
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
+          this.textAndMediaId = response.data[0].id;
+          this.header = response.data[0].header;
+          this.content = response.data[0].content;
+          this.mediaName = response.data[0].media;
           this.media =
-            this.getUrlToContents() + "builder/body/" + this.mediaName + "";
-          this.mediaAlign = response.data[0]["media_align"];
-          this.buttonId = response.data[0]["button_id"];
-          this.buttonAlign = response.data[0]["button_align"];
-          this.subHeader = response.data[0]["subheader"];
-          this.textAlign = response.data[0]["text_align"];
-          this.buttonTitle = response.data[0]["title"];
-          this.buttonUrl = response.data[0]["url"];
-          this.buttonTarget = response.data[0]["target"];
-          this.buttonColor = response.data[0]["color"];
-          this.buttonColorHover = response.data[0]["color_hover"];
-          this.buttonstyle = response.data[0]["style"];
+            this.$getUrlToContents() + 'builder/body/' + this.mediaName + '';
+          this.mediaAlign = response.data[0].media_align;
+          this.buttonId = response.data[0].button_id;
+          this.buttonAlign = response.data[0].button_align;
+          this.subHeader = response.data[0].subheader;
+          this.textAlign = response.data[0].text_align;
+          this.buttonTitle = response.data[0].title;
+          this.buttonUrl = response.data[0].url;
+          this.buttonTarget = response.data[0].target;
+          this.buttonColor = response.data[0].color;
+          this.buttonColorHover = response.data[0].color_hover;
+          this.buttonstyle = response.data[0].style;
 
-          if (response.data[0]["header"] == null) {
+          if (response.data[0].header == null) {
             this.activeHeader = false;
           }
 
-          if (response.data[0]["subheader"] == null) {
+          if (response.data[0].subheader == null) {
             this.activeSubHeader = false;
           }
 
-          if (response.data[0]["title"] == null) {
+          if (response.data[0].title == null) {
             this.activeButton = false;
           }
 
-          if (response.data[0]["content"] == null) {
+          if (response.data[0].content == null) {
             this.activeContent = false;
           }
 
           this.forceRerender();
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
 
-    openEditModuleModal: function(id, title, required, date) {
+    openEditModuleModal(id, title, required, date) {
       this.moduleId = id;
       this.moduleTitle = title;
       this.moduleRequired = required;

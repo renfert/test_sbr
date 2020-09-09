@@ -29,20 +29,37 @@
                 ></el-button>
               </el-tooltip>
             </el-col>
-            <el-col :span="5">
-              <h4>{{lang["question-list"]}}</h4>
+            <el-col :md="5" :lg="20">
+              <h4>{{ lang['question-list'] }}</h4>
             </el-col>
           </el-row>
 
-          <draggable v-model="questionList" ghost-class="ghost" @end="finishRepositioning">
+          <draggable
+            v-model="questionList"
+            ghost-class="ghost"
+            @end="finishRepositioning"
+          >
             <transition-group type="transition" name="flip-list">
-              <div class="sortable" v-for="element in questionList" :key="element.id">
+              <div
+                class="sortable"
+                v-for="element in questionList"
+                :key="element.id"
+              >
                 <li class="module" :id="element.id">
                   <div class="question-box">
                     <!-- Edit question -->
                     <el-button
                       class="sbr-primary mr-1"
-                      @click.prevent="openEditQuestionModal(element.id,element.question,element.type_question_id, element.weight, element.feedback,element.image)"
+                      @click.prevent="
+                        openEditQuestionModal(
+                          element.id,
+                          element.question,
+                          element.type_question_id,
+                          element.weight,
+                          element.feedback,
+                          element.image
+                        )
+                      "
                       size="mini"
                       icon="el-icon-edit"
                       circle
@@ -77,7 +94,9 @@
 
                     <el-divider direction="vertical"></el-divider>
 
-                    <a class="lesson-title" slot="reference">{{element.question}}</a>
+                    <a class="lesson-title" slot="reference">{{
+                      element.question
+                    }}</a>
                   </div>
                 </li>
               </div>
@@ -88,14 +107,19 @@
       <!-- End accordion -->
 
       <div class="text-center mt-5" v-else>
-        <img class="image-no-results mb-4" src="@/assets/img/general/ux/not_found.png" alt />
+        <img
+          class="image-no-results mb-4"
+          src="@/assets/img/general/ux/not_found.png"
+          alt
+        />
         <br />
         <el-button
           size="small"
           class="sbr-purple"
           @click.prevent="createNewQuestionEvent()"
           type="primary"
-        >{{lang["create-first-question"]}}</el-button>
+          >{{ lang['create-first-question'] }}</el-button
+        >
       </div>
       <hr class="mb-5 mt-5" />
     </div>
@@ -103,113 +127,96 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
-import draggable from "vuedraggable";
-import $ from "jquery";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
+import draggable from 'vuedraggable';
+import $ from 'jquery';
 
-import { eventBus } from "@/components/newcourse/App";
-import { FacebookLoader } from "vue-content-loader";
-import { mapState } from "vuex";
-
-Vue.use(VueAxios, axios);
-Vue.use(ElementUI);
+import { eventBus } from '@/components/newcourse/App';
+import { FacebookLoader } from 'vue-content-loader';
+import { mapState } from 'vuex';
 
 export default {
-  mixins: [domains, alerts],
   components: {
     draggable,
     FacebookLoader
   },
-  props: ["exam-id"],
+  props: ['exam-id'],
   data: () => {
     return {
       questionList: null,
-      moduleId: "",
-      moduleTitle: "",
-      moduleReleaseDate: "",
-      moduleRequired: "",
+      moduleId: '',
+      moduleTitle: '',
+      moduleReleaseDate: '',
+      moduleRequired: '',
       loadingContent: false,
       counter: 1,
-      questionId: "",
-      question: "",
-      type: "",
-      weight: "",
-      automaticFeedback: "",
-      questionImage: ""
+      questionId: '',
+      question: '',
+      type: '',
+      weight: '',
+      automaticFeedback: '',
+      questionImage: ''
     };
   },
   mounted() {
-    eventBus.$on(
-      "new-question",
-      function() {
-        this.getQuestions(this.examId);
-      }.bind(this)
-    );
+    eventBus.$on('new-question', () => {
+      this.getQuestions(this.examId);
+    });
 
     this.getQuestions(this.examId);
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   methods: {
-    createNewAnswerEvent: function() {
-      eventBus.$emit("open-answer-modal");
+    createNewAnswerEvent() {
+      eventBus.$emit('open-answer-modal');
     },
-    finishRepositioning: function() {
+    finishRepositioning() {
       this.reorderQuestionPositions();
     },
 
-    createNewQuestionEvent: function() {
-      var formData = new FormData();
-      formData.set("examId", this.examId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "question",
-        "createTemporary"
+    createNewQuestionEvent() {
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'question',
+        'createTemporary'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
-          var data = {
+      formData.set('examId', this.examId);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
+          const data = {
             questionId: response.data,
             examId: this.examId
           };
-          eventBus.$emit("open-question-modal", data);
+          eventBus.$emit('open-question-modal', data);
         },
-        function() {
-          this.errorMessage();
-        }.bind(this)
-      );
-    },
-
-    editQuestion: function() {
-      var form = document.getElementById("form-module");
-      var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("module", "edit");
-      axios.post(urlToBeUsedInTheRequest, formData).then(
         () => {
-          this.successMessage();
-          this.actionsToBePerformedAfterEdit();
-        },
-        function() {
-          this.errorMessage();
-        }.bind(this)
+          this.$errorMessage();
+        }
       );
     },
 
-    openEditQuestionModal: function(
-      id,
-      question,
-      type,
-      weight,
-      feedback,
-      image
-    ) {
-      var questionInformation = {
+    editQuestion() {
+      const form = document.getElementById('form-module');
+      const formData = new FormData(form);
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'module',
+        'edit'
+      );
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        () => {
+          this.$successMessage();
+          this.getQuestions(this.course);
+          this.modal = false;
+        },
+        () => {
+          this.$errorMessage();
+        }
+      );
+    },
+
+    openEditQuestionModal(id, question, type, weight, feedback, image) {
+      const questionInformation = {
         questionId: id,
         question: question,
         type: type,
@@ -218,77 +225,65 @@ export default {
         image: image,
         examId: this.examId
       };
-      eventBus.$emit("new-open-modal-edit-question", questionInformation);
+      eventBus.$emit('new-open-modal-edit-question', questionInformation);
     },
 
-    deleteQuestion: function(id) {
-      var formData = new FormData();
-      formData.set("questionId", id);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "question",
-        "delete"
+    deleteQuestion(id) {
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'question',
+        'delete'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+      formData.set('questionId', id);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
           this.getQuestions(this.course);
-          this.successMessage();
+          this.$successMessage();
         },
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
 
-    reorderQuestionPositions: function() {
-      var ar = [];
-      $(".module").each(function(index) {
-        var id = $(this).attr("id");
+    reorderQuestionPositions() {
+      const ar = [];
+      $('.module').each((index) => {
+        const id = $(this).attr('id');
         ar.push({ id: id, index: index });
       });
-      var formData = new FormData();
-      $.each(ar, function(index, value) {
-        formData.set("module[" + value.id + "]", value.index);
+
+      const formData = new FormData();
+      $.each(ar, (index, value) => {
+        formData.set('module[' + value.id + ']', value.index);
       });
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "module",
-        "reorder"
+
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'module',
+        'reorder'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        () => {
-          /* Success callback */
-        },
-        function() {
-          this.errorMessage();
-        }.bind(this)
-      );
+
+      this.$request.post(urlToBeUsedInTheRequest, formData);
     },
-    getQuestions: function(examId) {
+    getQuestions(examId) {
       this.loadingContent = true;
-      var formData = new FormData();
-      formData.set("examId", examId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "question",
-        "listing"
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'question',
+        'listing'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
+      formData.set('examId', examId);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
           this.questionList = response.data;
-          setTimeout(
-            function() {
-              this.loadingContent = false;
-            }.bind(this),
-            1000
-          );
+          setTimeout(() => {
+            this.loadingContent = false;
+          }, 1000);
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
-    },
-    actionsToBePerformedAfterEdit() {
-      this.getQuestions(this.course);
-      this.modal = false;
     }
   }
 };
@@ -308,7 +303,7 @@ export default {
 }
 
 .question-title {
-  font-family: "Poppins", sans-serif !important;
+  font-family: 'Poppins', sans-serif !important;
   font-weight: 400;
   font-size: 16px;
   margin-left: 5px;
@@ -334,7 +329,7 @@ export default {
   margin: 0px !important;
   padding: 0px !important;
   font-size: 13px;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: 600;
 }
 
@@ -394,7 +389,7 @@ li {
 }
 
 .lesson span {
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   margin-top: 3em;
   font-size: 1em;
 }

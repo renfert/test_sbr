@@ -1,10 +1,12 @@
 <template>
-  <div class="main">
-    <el-tag class="mb-3" v-if="answers != null">{{lang["correct-answer-information"]}}</el-tag>
+  <div>
+    <el-tag class="mb-3" v-if="answersList != null">{{
+      lang['correct-answer-information']
+    }}</el-tag>
 
     <bullet-list-loader
       class="mt-3"
-      v-if="loadingContent == true"
+      v-if="content == false"
       :speed="2"
       width="700"
       height="200"
@@ -14,37 +16,47 @@
 
     <div v-else>
       <ul class="list-group">
-        <draggable v-model="answers" ghost-class="ghost" @end="finishRepositioning">
+        <draggable
+          v-model="answersList"
+          ghost-class="ghost"
+          @end="reorderAnswerPositions"
+        >
           <transition-group type="transition" name="flip-list">
             <li
-              v-for="element in answers"
+              v-for="element in answersList"
               :key="element.id"
               class="list-group-item d-flex justify-content-between align-items-center sortable"
             >
-              <div :id="element.id" class="custom-control custom-checkbox answer">
+              <div
+                :id="element.id"
+                class="custom-control custom-checkbox answer"
+              >
                 <input
-                  @change="mark($event,element.id)"
-                  :checked="element.correct != null? true :false"
+                  @change="markAsCorrectAnswer($event, element.id)"
+                  :checked="element.correctAnswer != null ? true : false"
                   type="checkbox"
-                  :name="'check'+element.id"
+                  :name="'check' + element.id"
                   class="custom-control-input"
-                  :id="'correct'+element.id"
+                  :id="'correct' + element.id"
                 />
-                <label class="custom-control-label" :for="'correct'+element.id">
-                  <span class="answer-text">{{element.answer}}</span>
+                <label
+                  class="custom-control-label"
+                  :for="'correct' + element.id"
+                >
+                  <span class="answer-text">{{ element.answer }}</span>
                 </label>
               </div>
               <div class="action-buttons float-right">
-                <!-- Edit answer -->
                 <el-button
                   size="mini"
-                  @click.prevent="openEditAnswerModal(element.id,element.answer)"
+                  @click.prevent="
+                    openEditAnswerModal(element.id, element.answer)
+                  "
                   class="sbr-primary"
                   icon="el-icon-edit"
                   circle
                 ></el-button>
 
-                <!-- Delete answer -->
                 <el-button
                   size="mini"
                   @click.prevent="deleteAnswer(element.id)"
@@ -54,33 +66,50 @@
                   circle
                 ></el-button>
 
-                <!-- Move answer -->
-                <el-button class="handle sbr-neutral" size="mini" icon="el-icon-rank" circle></el-button>
+                <el-button
+                  class="handle sbr-neutral"
+                  size="mini"
+                  icon="el-icon-rank"
+                  circle
+                ></el-button>
               </div>
             </li>
           </transition-group>
         </draggable>
       </ul>
     </div>
-    <!-- End accordion -->
 
-    <!--  Modal edit answer -->
+    <!---------------------
+      Modal to edit answer
+    ----------------------->
     <div>
       <el-dialog
-        :visible.sync="modalEditAnswer"
+        :visible.sync="modal"
         append-to-body
         :title="lang['edit-answer']"
         center
         top="5vh"
+        width="30%"
       >
         <form id="form-edit-answer" @submit.prevent="editAnswer()">
           <div class="form-row">
             <!-- Answer id -->
-            <input type="number" class="hide" name="answerId" v-model="answerId" />
+            <input
+              type="number"
+              class="hide"
+              name="answerId"
+              v-model="answerId"
+            />
             <div class="form-group col-xl-12 col-md-12">
               <!-- Answer -->
-              <h4>{{lang["answer"]}}</h4>
-              <el-input type="textarea" rows="5" required v-model="answer" name="answer"></el-input>
+              <h4>{{ lang['answer'] }}</h4>
+              <el-input
+                type="textarea"
+                rows="5"
+                required
+                v-model="answer"
+                name="answer"
+              ></el-input>
             </div>
           </div>
           <div class="form-row">
@@ -89,186 +118,171 @@
                 class="sbr-btn sbr-primary"
                 native-type="submit"
                 size="medium"
-              >{{lang["save-button"]}}</el-button>
+                >{{ lang['save-button'] }}</el-button
+              >
             </div>
           </div>
         </form>
       </el-dialog>
     </div>
-    <!-- End  modal new module -->
+    <!---------------------
+      End modal to edit answer
+    ----------------------->
   </div>
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
-import draggable from "vuedraggable";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-import $ from "jquery";
+import draggable from 'vuedraggable';
+import $ from 'jquery';
 
-import { eventBus } from "@/components/newcourse/App";
-import { BulletListLoader } from "vue-content-loader";
-import { mapState } from "vuex";
-
-Vue.use(VueAxios, axios);
-Vue.use(ElementUI);
+import { eventBus } from '@/components/newcourse/App';
+import { BulletListLoader } from 'vue-content-loader';
+import { mapState } from 'vuex';
 
 export default {
-  mixins: [domains, alerts],
   components: {
     draggable,
     BulletListLoader
   },
   data: () => {
     return {
-      answers: null,
-      answer: "",
-      answerId: "",
-      modalEditAnswer: false,
+      answersList: null,
+      correctAnswer: '',
+
+      answer: '',
+      answerId: '',
+
+      modal: false,
       loading: false,
-      correct: "",
-      loadingContent: false
+      content: false
     };
   },
-  props: ["question-id"],
+  props: ['question-id'],
   mounted() {
-    eventBus.$on(
-      "new-answer",
-      function() {
-        this.getAnswers(this.questionId);
-      }.bind(this)
-    );
+    eventBus.$on('new-answer', () => {
+      this.getAnswers(this.questionId);
+    });
 
-    eventBus.$on(
-      "new-open-modal-edit-question",
-      function(response) {
-        this.getAnswers(response["questionId"]);
-      }.bind(this)
-    );
+    eventBus.$on('new-open-modal-edit-question', (response) => {
+      this.getAnswers(response.questionId);
+    });
 
     this.getAnswers(this.questionId);
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   methods: {
-    editAnswer: function() {
-      var form = document.getElementById("form-edit-answer");
-      var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("answer", "edit");
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+    editAnswer() {
+      const form = document.getElementById('form-edit-answer');
+      const formData = new FormData(form);
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'answer',
+        'edit'
+      );
+
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
-          this.successMessage();
-          this.actionsToBePerformedAfterEdit();
+          this.$successMessage();
+          this.getAnswers(this.questionId);
+          this.modal = false;
         },
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    mark: function(e, id) {
-      var status;
-      e.target.checked == true ? (status = "correct") : (status = null);
-      var formData = new FormData();
-      formData.set("answerId", id);
-      formData.set("status", status);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "answer",
-        "changeStatus"
+    markAsCorrectAnswer(e, id) {
+      let status;
+      e.target.checked === true ? (status = 'correct') : (status = null);
+
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'answer',
+        'changeStatus'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+      formData.set('answerId', id);
+      formData.set('status', status);
+
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {},
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    openEditAnswerModal: function(id, answer) {
+    openEditAnswerModal(id, answer) {
       this.answerId = id;
       this.answer = answer;
-      this.modalEditAnswer = true;
+      this.modal = true;
     },
-    deleteAnswer: function(id) {
-      var formData = new FormData();
-      formData.set("answerId", id);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "answer",
-        "delete"
+    deleteAnswer(id) {
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'answer',
+        'delete'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+      formData.set('answerId', id);
+
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
           this.getAnswers(this.questionId);
-          this.successMessage();
+          this.$successMessage();
         },
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    finishRepositioning: function() {
-      this.reorderAnswerPositions();
-    },
-    reorderAnswerPositions: function() {
-      var ar = [];
-      $(".answer").each(function(index) {
-        var id = $(this).attr("id");
+    reorderAnswerPositions() {
+      const ar = [];
+      const formData = new FormData();
+
+      $('.answer').each((index) => {
+        const id = $(this).attr('id');
         ar.push({ id: id, index: index });
       });
-      var formData = new FormData();
-      $.each(ar, function(index, value) {
-        formData.set("answer[" + value.id + "]", value.index);
+
+      $.each(ar, (index, value) => {
+        formData.set('answer[' + value.id + ']', value.index);
       });
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "answer",
-        "reorder"
+
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'answer',
+        'reorder'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        () => {},
         () => {
-          /* Success callback */
-        },
-        function() {
-          this.errorMessage();
-        }.bind(this)
+          this.$errorMessage();
+        }
       );
     },
-    getAnswers: function(questionId) {
-      this.loadingContent = true;
-      var formData = new FormData();
-      formData.set("questionId", questionId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "answer",
-        "listing"
+    getAnswers(questionId) {
+      this.content = false;
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'answer',
+        'listing'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
+      formData.set('questionId', questionId);
+
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
           this.reorderAnswerPositions();
-          this.answers = response.data;
-          setTimeout(
-            function() {
-              this.loadingContent = false;
-            }.bind(this),
-            1000
-          );
+          this.answersList = response.data;
+          this.content = true;
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
-    },
-    actionsToBePerformedAfterEdit() {
-      this.getAnswers(this.questionId);
-      this.modalEditAnswer = false;
     }
   }
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 .answer-text {
   display: block;
@@ -289,7 +303,7 @@ export default {
 .btn-link {
   padding: 0px !important;
   font-size: 13px;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: 600;
 }
 
@@ -349,7 +363,7 @@ li {
 }
 
 .lesson span {
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   margin-top: 3em;
   font-size: 1em;
 }

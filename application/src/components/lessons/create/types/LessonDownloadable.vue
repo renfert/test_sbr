@@ -1,8 +1,7 @@
 <template>
-  <!--  Modal new lesson -->
   <div>
     <el-dialog
-      :visible.sync="modalCreateDownloadable"
+      :visible.sync="modal"
       :title="lang['create-new-lesson']"
       center
       top="5vh"
@@ -14,7 +13,7 @@
           <input type="text" class="hide" name="type_mylesson_id" value="4" />
           <div class="form-group col-xl-12 col-md-12">
             <!-- Lesson name -->
-            <label class="col-form-label">{{lang["name"]}} *</label>
+            <label class="col-form-label">{{ lang['name'] }} *</label>
             <el-input required v-model="name" name="title"></el-input>
           </div>
         </div>
@@ -23,6 +22,7 @@
             <!-- Downloadable file upload -->
             <label class="col-form-label">Downloadable file *</label>
             <upload
+              :key="key"
               do-upload="true"
               box-height="200"
               return-name="path"
@@ -38,7 +38,8 @@
               class="sbr-primary"
               v-loading="loading"
               native-type="submit"
-            >{{lang["save-button"]}}</el-button>
+              >{{ lang['save-button'] }}</el-button
+            >
           </div>
         </div>
       </form>
@@ -48,76 +49,57 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import Upload from "@/components/helper/HelperUpload";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-
-import { eventBus } from "@/components/newcourse/App";
-import { eventUpload } from "@/components/helper/HelperUpload";
-import { mapState } from "vuex";
-
-Vue.use(VueAxios, axios);
+import Upload from '@/components/helper/HelperUpload';
+import { eventBus } from '@/components/newcourse/App';
+import { mapState } from 'vuex';
 
 export default {
-  mixins: [domains, alerts],
-  props: ["module-id"],
+  props: ['module-id'],
   components: {
     Upload
   },
   data: () => {
     return {
-      name: "",
-      modalCreateDownloadable: false,
-      loading: false
+      name: '',
+      modal: false,
+      loading: false,
+      key: 0
     };
   },
   mounted() {
-    eventBus.$on(
-      "new-downloadable",
-      function() {
-        this.modalCreateDownloadable = true;
-      }.bind(this)
-    );
+    eventBus.$on('new-downloadable', () => {
+      this.modal = true;
+    });
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   methods: {
-    /* Create a new lesson */
-    create: function() {
+    forceUpdate() {
+      this.key++;
+    },
+    create() {
       this.loading = true;
-      var form = document.getElementById("form-lesson-downloadable");
-      var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "lesson",
-        "create"
+      const form = document.getElementById('form-lesson-downloadable');
+      const formData = new FormData(form);
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'lesson',
+        'create'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
-          /* Success callback */
-          this.successMessage();
-          this.actionsToBePerformedAfterRegistration();
+          this.$successMessage();
+          form.reset();
+          eventBus.$emit('new-lesson');
+          this.forceUpdate();
+          this.modal = false;
           this.loading = false;
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
-    },
-    actionsToBePerformedAfterRegistration() {
-      this.name = "";
-      this.modalCreateDownloadable = false;
-      eventBus.$emit("new-lesson");
-      eventUpload.$emit("clear");
     }
   }
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
-</style>

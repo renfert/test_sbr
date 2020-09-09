@@ -1,19 +1,29 @@
 <template>
   <div>
     <el-dialog
-      :visible.sync="modalCreateAnswer"
+      :visible.sync="modal"
       :title="lang['create-new-answer']"
       center
+      width="30%"
       top="5vh"
     >
       <form id="form-answer" @submit.prevent="createAnswer()">
         <div class="form-row">
           <div class="form-group col-xl-12 col-md-12">
-            <!-- Question id -->
-            <input type="number" class="hide" v-model="questionId" name="questionId" />
-            <!-- Answer -->
-            <h4>{{lang["answer"]}}</h4>
-            <el-input type="textarea" rows="5" required v-model="answer" name="answer"></el-input>
+            <input
+              type="number"
+              class="hide"
+              v-model="questionId"
+              name="questionId"
+            />
+            <h4>{{ lang['answer'] }}</h4>
+            <el-input
+              type="textarea"
+              rows="5"
+              required
+              v-model="answer"
+              name="answer"
+            ></el-input>
           </div>
         </div>
         <div class="form-row">
@@ -22,7 +32,8 @@
               v-loading="loading"
               class="sbr-primary"
               native-type="submit"
-            >{{lang["save-button"]}}</el-button>
+              >{{ lang['save-button'] }}</el-button
+            >
           </div>
         </div>
       </form>
@@ -31,71 +42,56 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-
-import { eventBus } from "@/components/newcourse/App";
-import { mapState } from "vuex";
-
-Vue.use(VueAxios, axios);
+import { eventBus } from '@/components/newcourse/App';
+import { mapState } from 'vuex';
 
 export default {
-  mixins: [domains, alerts],
   data: () => {
     return {
-      answer: "",
-      modalCreateAnswer: false,
-      loading: false,
-      questionId: ""
+      questionId: '',
+      answer: '',
+      modal: false,
+      loading: false
     };
   },
   mounted() {
-    /* Get new answer click event */
-    eventBus.$on(
-      "open-answer-modal",
-      function(questionId) {
-        this.modalCreateAnswer = true;
-        this.questionId = questionId;
-      }.bind(this)
-    );
+    eventBus.$on('open-answer-modal', (questionId) => {
+      this.modal = true;
+      this.questionId = questionId;
+    });
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   methods: {
-    createAnswer: function() {
+    createAnswer() {
       this.loading = true;
-      var form = document.getElementById("form-answer");
-      var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "answer",
-        "create"
+
+      const form = document.getElementById('form-answer');
+      const formData = new FormData(form);
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'answer',
+        'create'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
-          this.successMessage();
-          this.actionsToBePerformedAfterRegistration();
+          this.$successMessage();
           this.loading = false;
+          this.modal = false;
+          document.getElementById('form-answer').reset();
+          eventBus.$emit('new-answer');
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
+        () => {
+          this.$errorMessage();
         }
       );
-    },
-    actionsToBePerformedAfterRegistration() {
-      (this.answer = ""), (this.modalCreateAnswer = false);
-      eventBus.$emit("new-answer");
     }
   }
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
+<style scoped>
 .textarea-question {
   height: 100px !important;
 }

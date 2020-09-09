@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="card-box" v-if="loadingContent == true">
+    <div class="card-box" v-if="content == false">
       <facebook-loader
         :speed="2"
         width="700"
@@ -11,13 +11,15 @@
     </div>
 
     <div v-else>
-      <!-- Category list -->
       <div class="card-box table-responsive" v-if="categoryList != null">
-        <h4>{{ lang["list-category"] }}</h4>
+        <h4>{{ lang['list-category'] }}</h4>
         <div style="margin-bottom: 10px">
           <el-row>
-            <el-col :span="6">
-              <el-input v-model="filters[0].value" placeholder="Search"></el-input>
+            <el-col :xs="24" :lg="6">
+              <el-input
+                v-model="filters[0].value"
+                placeholder="Search"
+              ></el-input>
             </el-col>
           </el-row>
         </div>
@@ -35,7 +37,6 @@
           ></el-table-column>
           <el-table-column label="Actions" align="center">
             <template slot-scope="scope">
-              <!-- Edit category -->
               <el-button
                 size="small"
                 class="sbr-primary"
@@ -44,7 +45,6 @@
                 circle
               ></el-button>
 
-              <!-- Delete category -->
               <el-popconfirm
                 confirmButtonText="Ok"
                 cancelButtonText="No, Thanks"
@@ -64,87 +64,84 @@
           </el-table-column>
         </data-tables>
       </div>
-      <!-- End category list -->
 
-      <!-- No categories found content -->
       <div class="text-center mt-5" v-else>
-        <h4>{{ lang["no-categories-found"] }}</h4>
-        <img class="image-no-results" src="@/assets/img/general/ux/not_found.png" alt />
+        <h4>{{ lang['no-categories-found'] }}</h4>
+        <img
+          class="image-no-results"
+          src="@/assets/img/general/ux/not_found.png"
+        />
       </div>
-      <!-- No categories found content end -->
     </div>
 
-    <!-- Category edit modal -->
+    <!--------------------
+      Category edit modal
+    --------------------->
     <div>
-      <el-dialog :visible.sync="modal" :title="categoryName" center width="40%" top="5vh">
+      <el-dialog
+        :visible.sync="modal"
+        :title="categoryName"
+        center
+        width="40%"
+        top="5vh"
+      >
         <div class="form-group">
-          <label>{{ lang["new-name"] }}</label>
+          <label>{{ lang['new-name'] }}</label>
           <el-input name="name" v-model="newCategoryName"></el-input>
         </div>
         <div class="form-group">
           <el-button
-            @click.prevent="editCategory(categoryId, newCategoryName)"
+            @click.prevent="editCategory(categoryId)"
             class="sbr-primary"
-          >{{ lang["save-button"] }}</el-button>
+            >{{ lang['save-button'] }}</el-button
+          >
         </div>
       </el-dialog>
     </div>
-    <!-- End category edit modal -->
+    <!--------------------
+      End category edit modal
+    --------------------->
   </div>
-  <!-- End col-12 -->
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
-import lang from "element-ui/lib/locale/lang/en";
-import locale from "element-ui/lib/locale";
+import Vue from 'vue';
+import { FacebookLoader } from 'vue-content-loader';
+import { DataTables, DataTablesServer } from 'vue-data-tables';
+import { eventBus } from '@/components/categories/App';
+import { mapState } from 'vuex';
 
-import { FacebookLoader } from "vue-content-loader";
-import { DataTables, DataTablesServer } from "vue-data-tables";
-import { eventBus } from "@/components/categories/App";
-import { mapState } from "vuex";
-
-locale.use(lang);
 Vue.use(DataTables);
 Vue.use(DataTablesServer);
-Vue.use(ElementUI);
-Vue.use(VueAxios, axios);
 
 export default {
   components: {
     FacebookLoader
   },
-  mixins: [domains, alerts],
-  data: function() {
+  data: () => {
     return {
-      titles: [{ prop: "name", label: "Name" }],
-      categoryList: [],
-      filters: [{ prop: "name", value: "" }],
-      tableProps: { defaultSort: { prop: "name", order: "descending" } },
-      categoryId: "",
-      categoryName: "",
-      newCategoryName: "",
-      loadingContent: false,
+      titles: [{ prop: 'name', label: 'Name' }],
+      filters: [{ prop: 'name', value: '' }],
+      tableProps: { defaultSort: { prop: 'name', order: 'descending' } },
+
+      categoryList: null,
+      categoryId: '',
+      categoryName: '',
+      newCategoryName: '',
+
+      content: false,
       modal: false
     };
   },
   created() {
     this.getCategories();
-    eventBus.$on(
-      "new-category",
-      function() {
-        this.getCategories();
-      }.bind(this)
-    );
+
+    eventBus.$on('new-category', () => {
+      this.getCategories();
+    });
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   methods: {
     openModalToEditCategory(id, name) {
@@ -152,99 +149,74 @@ export default {
       this.categoryId = id;
       this.modal = true;
     },
-    editCategory(id, name) {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "category",
-        "edit"
+    editCategory(id) {
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'category',
+        'edit'
       );
-      var formData = new FormData();
-      formData.set("name", name);
-      formData.set("id", id);
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
-          // success callback
-          if (response.data == false) {
+      formData.set('name', this.newCategoryName);
+      formData.set('id', id);
+
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
+          if (response.data === false) {
             this.categoryAlreadyExistsMessage();
           } else {
-            this.successMessage();
-            this.actionsToBePerformedAfterEdit();
+            this.$successMessage();
+            this.getCategories();
+            this.newCategoryName = '';
+            this.modal = false;
           }
         },
-        function() {
-          // Failure callback
-          this.errorMessage();
+        () => {
+          this.$errorMessage();
         }
       );
     },
-    /* Delete a category function */
     deleteCategory(id) {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "category",
-        "delete"
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'category',
+        'delete'
       );
-      var formData = new FormData();
-      formData.set("id", id);
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+      const formData = new FormData();
+      formData.set('id', id);
+
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
-          // success callback
-          this.successMessage();
+          this.$successMessage();
           this.getCategories();
         },
         () => {
-          // Failure callback
-          this.errorMessage();
+          this.$errorMessage();
         }
       );
     },
     getCategories() {
-      this.loadingContent = true;
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "category",
-        "listing"
+      this.content = false;
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'category',
+        'listing'
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        response => {
-          // success callback
+
+      this.$request.get(urlToBeUsedInTheRequest).then(
+        (response) => {
           this.categoryList = response.data;
-          setTimeout(
-            function() {
-              this.loadingContent = false;
-            }.bind(this),
-            1000
-          );
+          this.content = true;
         },
-        function() {
-          // Failure callback
-          this.errorMessage();
+        () => {
+          this.$errorMessage();
         }
       );
     },
     categoryAlreadyExistsMessage() {
       this.$notify({
-        title: this.lang["error"],
-        message: this.lang["category-already-exists"],
-        type: "warning",
+        title: this.lang.error,
+        message: this.lang['category-already-exists'],
+        type: 'warning',
         duration: 3500
       });
-    },
-    actionsToBePerformedAfterEdit() {
-      this.newCategoryName = "";
-      this.getCategories();
-      this.modal = false;
     }
   }
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
-.image-no-results {
-  width: 15%;
-}
-.box-no-results {
-  background-color: #fcfcfc;
-}
-.text-no-results {
-  margin-top: 25%;
-}
-</style>

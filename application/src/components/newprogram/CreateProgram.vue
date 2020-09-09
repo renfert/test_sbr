@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div v-if="showContent == true">
-      <h4 class="fw-700">{{ lang["create-program"] }}</h4>
+    <div v-if="content == true">
+      <h4 class="fw-700">{{ lang['create-program'] }}</h4>
       <br />
       <form @submit.prevent="createProgram()" id="form-program">
         <el-tabs tab-position="top">
@@ -12,15 +12,20 @@
             <div class="row mt-5">
               <div class="col-10">
                 <div class="form-group">
-                  <label>{{ lang["name"] }}</label>
-                  <el-input required name="title" :placeholder="lang['name']" v-model="programName"></el-input>
+                  <label>{{ lang['name'] }}</label>
+                  <el-input
+                    required
+                    name="title"
+                    :placeholder="lang['name']"
+                    v-model="program.name"
+                  ></el-input>
                 </div>
                 <div class="form-group">
-                  <label>{{ lang["start-date"] }}</label>
+                  <label>{{ lang['start-date'] }}</label>
                   <br />
                   <el-date-picker
                     name="release_date"
-                    v-model="programRelease"
+                    v-model="program.releaseDate"
                     type="date"
                     format="yyyy/MM/dd"
                     value-format="yyyy-MM-dd"
@@ -28,11 +33,11 @@
                   ></el-date-picker>
                 </div>
                 <div class="form-group">
-                  <label>{{ lang["end-date"] }}</label>
+                  <label>{{ lang['end-date'] }}</label>
                   <br />
                   <el-date-picker
                     name="expiration_date"
-                    v-model="programExpiration"
+                    v-model="program.expirationDate"
                     type="date"
                     format="yyyy/MM/dd"
                     value-format="yyyy-MM-dd"
@@ -41,13 +46,15 @@
                 </div>
                 <div class="form-group">
                   <!-- Program description -->
-                  <textarea class="hide" v-model="programDescription" name="description"></textarea>
-                  <label class="col-form-label">
-                    {{
-                    lang["description"]
-                    }}
-                  </label>
-                  <wysiwyg v-model="programDescription" />
+                  <textarea
+                    class="hide"
+                    v-model="program.description"
+                    name="description"
+                  ></textarea>
+                  <label class="col-form-label">{{
+                    lang['description']
+                  }}</label>
+                  <wysiwyg v-model="program.description" />
                 </div>
               </div>
             </div>
@@ -74,7 +81,8 @@
                       class="sbr-purple"
                       @click.prevent="addCourse()"
                       type="primary"
-                    >{{ lang["add-course"] }}</el-button>
+                      >{{ lang['add-course'] }}</el-button
+                    >
                   </el-form-item>
                 </el-form>
                 <div class="mb-5">
@@ -114,61 +122,50 @@
           </el-tab-pane>
         </el-tabs>
         <br />
-        <el-button native-type="submit" class="sbr-primary">
-          {{
-          lang["save-button"]
-          }}
-        </el-button>
+        <el-button native-type="submit" class="sbr-primary">{{
+          lang['save-button']
+        }}</el-button>
       </form>
     </div>
     <helper-progress></helper-progress>
     <program-created
-      :class="programId == '' ? 'hide' : ''"
-      :program-name="programName"
-      :program-id="programId"
+      :class="program.id == '' ? 'hide' : ''"
+      :program-name="program.name"
+      :program-id="program.id"
     ></program-created>
   </div>
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import draggable from "vuedraggable";
-import ProgramCreated from "@/components/newprogram/ProgramCreated";
-import HelperProgress from "@/components/helper/HelperProgress.vue";
-import wysiwyg from "vue-wysiwyg";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-import ElementUI from "element-ui";
-import Upload from "@/components/helper/HelperUpload";
-import $ from "jquery";
+import Vue from 'vue';
+import draggable from 'vuedraggable';
+import ProgramCreated from '@/components/newprogram/ProgramCreated';
+import HelperProgress from '@/components/helper/HelperProgress.vue';
+import wysiwyg from 'vue-wysiwyg';
+import Upload from '@/components/helper/HelperUpload';
+import $ from 'jquery';
+import { mapState } from 'vuex';
 
 Vue.use(wysiwyg, {
   hideModules: { image: true, code: true, table: true, hyperlink: true }
 });
 
-Vue.use(ElementUI);
-Vue.use(VueAxios, axios);
-
-import { mapState } from "vuex";
-
 export default {
-  mixins: [domains, alerts],
-  data: function() {
+  data: () => {
     return {
-      programId: "",
-      programName: "",
-      programDescription: "",
-      programRelease: "",
-      programExpiration: "",
-
-      course: "",
+      program: {
+        id: '',
+        name: '',
+        description: '',
+        releaseDate: '',
+        expirationDate: ''
+      },
+      course: '',
       coursesList: [],
       selectedCourses: [],
 
       modal: false,
-      showContent: true,
+      content: true,
 
       cont: 0
     };
@@ -184,77 +181,70 @@ export default {
     this.getCourses();
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   methods: {
-    removeCourse: function() {
-      $(document).ready(function() {
-        $(document).on("click", ".remove-course", function() {
-          let el = $(this)
-            .parent()
-            .parent();
+    removeCourse() {
+      $(document).ready(() => {
+        $(document).on('click', '.remove-course', () => {
+          const el = $(this).parent().parent();
           el.remove();
         });
       });
     },
-    repositioning: function() {
-      $(".courses-position").each(function(index) {
-        $(this).attr("name", "courses[" + index + "]");
+    repositioning() {
+      $('.courses-position').each((index, element) => {
+        $(element).attr('name', 'courses[' + index + ']');
       });
     },
-    addCourse: function() {
-      let course = this.coursesList.find(element => element.key == this.course);
+    addCourse() {
+      const course = this.coursesList.find(
+        (element) => element.key === this.course
+      );
 
-      let obj = {
+      const obj = {
         id: this.course,
         text:
-          "\
-            <i style='cursor:pointer !important;' class='remove-course el-icon-delete sbr-text-danger mr-5'></i>\
-            <input class='courses-position hide' name='courses[" +
+          "<i style='cursor:pointer !important;' class='remove-course el-icon-delete sbr-text-danger mr-5'></i><input class='courses-position hide' name='courses[" +
           this.cont +
           "]' value='" +
           this.course +
-          "'>\
-            " +
+          "'>" +
           course.label +
-          "\
-          "
+          ''
       };
       this.cont++;
       this.selectedCourses.push(obj);
     },
-    getCourses: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "program",
-        "getCourses"
+    getCourses() {
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'program',
+        'getCourses'
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        response => {
-          // success callback
+      this.$request.get(urlToBeUsedInTheRequest).then(
+        (response) => {
           this.coursesList = response.data;
         },
-        // Failure callback
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    createProgram: function() {
-      var form = document.getElementById("form-program");
-      var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "program",
-        "create"
+    createProgram() {
+      const form = document.getElementById('form-program');
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'program',
+        'create'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
-          this.programId = response.data;
-          this.showContent = false;
+      const formData = new FormData(form);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
+          this.program.id = response.data;
+          this.content = false;
         },
-        // Failure callback
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     }
   }

@@ -1,33 +1,34 @@
 <template>
   <div>
-    <!-------- 
+    <!--------
     Template base
     ---------->
     <top-bar
-      v-if="currentRoute != null &&
-      currentRoute != 'marketplace' && 
-      currentRoute != 'products' && 
-      currentRoute != 'product' && 
-      currentRoute != 'viewcourse' &&
-      currentRoute != 'invalidsession' &&
-      currentRoute != 'purchase' &&
-      currentRoute != 'site' &&
-      currentRoute != '404' &&
-      currentRoute != 'auth'
+      v-if="
+        currentRoute != null &&
+        currentRoute != 'marketplace' &&
+        currentRoute != 'products' &&
+        currentRoute != 'product' &&
+        currentRoute != 'viewcourse' &&
+        currentRoute != 'invalidsession' &&
+        currentRoute != 'purchase' &&
+        currentRoute != 'site' &&
+        currentRoute != '404' &&
+        currentRoute != 'auth'
       "
     ></top-bar>
     <div
       v-if="
-          currentRoute != null &&
-          currentRoute != 'marketplace' &&
-          currentRoute != 'products' &&
-          currentRoute != 'product' && 
-          currentRoute != 'viewcourse' &&
-          currentRoute != 'invalidsession' &&
-          currentRoute != 'purchase' &&
-          currentRoute != 'site' &&
-          currentRoute != '404' &&
-          currentRoute != 'auth'
+        currentRoute != null &&
+        currentRoute != 'marketplace' &&
+        currentRoute != 'products' &&
+        currentRoute != 'product' &&
+        currentRoute != 'viewcourse' &&
+        currentRoute != 'invalidsession' &&
+        currentRoute != 'purchase' &&
+        currentRoute != 'site' &&
+        currentRoute != '404' &&
+        currentRoute != 'auth'
       "
     >
       <admin-left-bar
@@ -65,35 +66,28 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import UpgradePlan from "@/components/plans/UpgradePlan";
-import TheTrialExpired from "@/components/template/TheTrialExpired";
-import AdminLeftBar from "@/components/template/TheLeftBar/Admin";
-import InstructorLeftBar from "@/components/template/TheLeftBar/Instructor";
-import StudentLeftBar from "@/components/template/TheLeftBar/Student";
-import TopBar from "@/components/template/TheTopBar";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-import headerTags from "@/mixins/headerTags";
-import integrations from "@/mixins/integrations";
-import verify from "@/mixins/verify";
-import { mapMutations } from "vuex";
+import UpgradePlan from '@/components/plans/UpgradePlan';
+import TheTrialExpired from '@/components/template/TheTrialExpired';
+import AdminLeftBar from '@/components/template/TheLeftBar/Admin';
+import InstructorLeftBar from '@/components/template/TheLeftBar/Instructor';
+import StudentLeftBar from '@/components/template/TheLeftBar/Student';
+import TopBar from '@/components/template/TheTopBar';
+import headerTags from '@/mixins/headerTags';
+import integrations from '@/mixins/integrations';
 
-Vue.use(VueAxios, axios);
+import { mapMutations } from 'vuex';
 
 export default {
-  mixins: [domains, alerts, headerTags, integrations, verify],
+  mixins: [headerTags, integrations],
   data: () => {
     return {
       userRoleId: null,
       currentRoute: null,
-      logo: "",
-      userName: "",
-      userAvatar: "",
-      userId: "",
-      plan: ""
+      logo: '',
+      userName: '',
+      userAvatar: '',
+      userId: '',
+      plan: ''
     };
   },
   components: {
@@ -110,14 +104,14 @@ export default {
       this.getCompanyInformation();
       this.getUserProfile();
       if (
-        this.$route.name != "marketplace" &&
-        this.$route.name != "invalidsession" &&
-        this.$route.name != "products" &&
-        this.$route.name != "product" &&
-        this.$route.name != "404" &&
-        this.$route.name != "auth"
+        this.$route.name !== 'marketplace' &&
+        this.$route.name !== 'invalidsession' &&
+        this.$route.name !== 'products' &&
+        this.$route.name !== 'product' &&
+        this.$route.name !== '404' &&
+        this.$route.name !== 'auth'
       ) {
-        this.verifySession();
+        this.$verifySession();
       }
     }
   },
@@ -131,72 +125,62 @@ export default {
     this.getUserProfile();
   },
   methods: {
-    ...mapMutations(["setLang", "setUser", "setPlan"]),
-    getLanguage: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "settings",
-        "getSettingsInformation"
+    ...mapMutations(['setLang', 'setUser', 'setCompany']),
+    getLanguage() {
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'settings',
+        'getSettingsInformation'
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        function(response) {
-          this.logo = response.data["logo"];
-          let lang = require("../language/" +
-            response.data["lang"] +
-            "/lang.json");
-          this.setLang(lang);
-        }.bind(this)
-      );
+      this.$request.get(urlToBeUsedInTheRequest).then((response) => {
+        this.logo = response.data.logo;
+        const lang = require('../language/' +
+          response.data.lang +
+          '/lang.json');
+        this.setLang(lang);
+      });
     },
     getCompanyInformation() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "company",
-        "getCompanyInformation"
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'company',
+        'getCompanyInformation'
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        function(response) {
-          this.plan = response.data["plan"];
-          this.setPlan(response.data["plan"]);
-        }.bind(this)
-      );
+      this.$request.get(urlToBeUsedInTheRequest).then((response) => {
+        this.plan = response.data.plan;
+        const companyObj = {
+          plan: response.data.plan,
+          country: response.data.country,
+          name: response.data.name,
+          subdomain: response.data.subdomain,
+          expiration: response.data.expiration
+        };
+        this.setCompany(companyObj);
+      });
     },
-    getUserProfile: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "user",
-        "getUserProfile"
+    getUserProfile() {
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'user',
+        'getUserProfile'
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        function(response) {
-          this.userName = response.data["name"];
-          this.userAvatar = response.data["avatar"];
-          this.userId = response.data["id"];
-          this.userRoleId = response.data["myrole_id"];
-
-          let userObj = {
-            id: response.data["id"],
-            role: response.data["myrole_id"]
-          };
-          this.setUser(userObj);
-        }.bind(this)
-      );
+      this.$request.get(urlToBeUsedInTheRequest).then((response) => {
+        this.userName = response.data.name;
+        this.userAvatar = response.data.avatar;
+        this.userId = response.data.id;
+        this.userRoleId = response.data.myrole_id;
+        const userObj = {
+          name: response.data.name,
+          email: response.data.email,
+          id: response.data.id,
+          role: response.data.myrole_id,
+          avatar: response.data.avatar
+        };
+        this.setUser(userObj);
+      });
     }
   }
 };
 </script>
 
 <style>
-.overlay {
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.8);
-}
-.overlay.open {
-  position: fixed;
-  z-index: 100;
-  opacity: 0.6;
-}
-
 .fade-enter {
   opacity: 0;
 }

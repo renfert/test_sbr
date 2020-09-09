@@ -1,89 +1,78 @@
 <template>
   <div class="card-box table-responsive">
-    <h4>{{ lang["create-category"] }}</h4>
+    <h4>{{ lang['create-category'] }}</h4>
     <el-form id="form-category" :inline="true">
       <el-form-item>
-        <el-input required name="name" :placeholder="lang['name']" v-model="categoryName"></el-input>
+        <el-input
+          required
+          name="name"
+          :placeholder="lang['name']"
+          v-model="categoryName"
+        ></el-input>
       </el-form-item>
       <el-form-item>
         <el-button
           @click.prevent="createCategory()"
-          v-loading="loadingButton"
+          v-loading="loading"
           class="sbr-primary"
           native-type="submit"
           type="primary"
-        >{{ lang["save-button"] }}</el-button>
+          >{{ lang['save-button'] }}</el-button
+        >
       </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-import { eventBus } from "@/components/categories/App";
-import { mapState } from "vuex";
+import { eventBus } from '@/components/categories/App';
+import { mapState } from 'vuex';
 
-Vue.use(ElementUI);
-Vue.use(VueAxios, axios);
 export default {
-  mixins: [domains, alerts],
-  data: function() {
+  data: () => {
     return {
-      categoryName: "",
-      loadingButton: false
+      categoryName: '',
+      loading: false
     };
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   methods: {
-    createCategory: function() {
-      this.loadingButton = true;
-      var form = document.getElementById("form-category");
-      var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "category",
-        "create"
+    createCategory() {
+      this.loading = true;
+
+      const form = document.getElementById('form-category');
+      const formData = new FormData(form);
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'category',
+        'create'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
-          /* Success callback */
-          this.loadingButton = false;
-          if (response.data == false) {
+
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
+          this.loading = false;
+          if (response.data === false) {
             this.categoryAlreadyExistsMessage();
           } else {
-            this.successMessage();
-            this.actionsToBePerformedAfterRegistration();
+            this.$successMessage();
+            form.reset();
+            eventBus.$emit('new-category');
           }
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
     categoryAlreadyExistsMessage() {
       this.$notify({
-        title: this.lang["error"],
-        message: this.lang["category-already-exists"],
-        type: "warning",
+        title: this.lang.error,
+        message: this.lang['category-already-exists'],
+        type: 'warning',
         duration: 3500
       });
-    },
-    actionsToBePerformedAfterRegistration() {
-      this.categoryName = ""; // Clear a category name input
-      eventBus.$emit("new-category"); // Emit a event to list component update the table of categories.
     }
   }
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
-</style>

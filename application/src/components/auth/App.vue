@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div>
     <div class="loader">
       <div class="inner one"></div>
       <div class="inner two"></div>
@@ -9,64 +9,55 @@
 </template>
 
 <script>
-import Vue from "vue";
-import VueHead from "vue-head";
-import ElementUI from "element-ui";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
+import Vue from 'vue';
+import VueHead from 'vue-head';
 
-import { mapState } from "vuex";
+import { mapState } from 'vuex';
 
-Vue.use(VueAxios, axios);
 Vue.use(VueHead);
-Vue.use(ElementUI);
 
 export default {
-  mixins: [domains, alerts],
   mounted() {
     this.verifyValidityOfJwt();
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   methods: {
     verifyValidityOfJwt() {
-      var formData = new FormData();
-      formData.set("jwt", this.$route.params.jwt);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "verify",
-        "verifyValidityOfJwt"
+      const formData = new FormData();
+      formData.set('jwt', this.$route.params.jwt);
+
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'verify',
+        'verifyValidityOfJwt'
       );
-      axios
-        .post(urlToBeUsedInTheRequest, formData)
-        .then(response => {
-          if (response.data == true) {
-            setTimeout(
-              function() {
-                this.$router.push({ name: "home" });
-              }.bind(this),
-              3000
-            );
+
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
+          if (response.data === true) {
+            setTimeout(() => {
+              this.$router.push({ name: 'home' });
+            }, 3000);
           } else {
-            this.errorMessage();
+            this.$errorMessage();
           }
-        })
-        .catch(() => {
-          this.errorMessage();
-        });
+        },
+        () => {
+          this.$errorMessage();
+        }
+      );
     }
   },
   head: {
     title: {
-      inner: "Authentication"
+      inner: 'Authentication'
     },
     meta: [
-      { name: "charset", content: "utf-8" },
-      { name: "description", content: "Learn and technology" },
-      { name: "viewport", content: "width=device-width, initial-scale=1.0" },
-      { name: "author", content: "Sabiorealm" }
+      { name: 'charset', content: 'utf-8' },
+      { name: 'description', content: 'Learn and technology' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
+      { name: 'author', content: 'Sabiorealm' }
     ]
   }
 };
@@ -139,4 +130,3 @@ export default {
   }
 }
 </style>
-

@@ -11,39 +11,32 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import VueHead from "vue-head";
-import verify from "@/mixins/verify";
-import CategoryCreate from "@/components/categories/CategoryCreate.vue";
-import CategoryList from "@/components/categories/CategoryList.vue";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
+import Vue from 'vue';
+import VueHead from 'vue-head';
+import CategoryCreate from '@/components/categories/CategoryCreate.vue';
+import CategoryList from '@/components/categories/CategoryList.vue';
+
 export const eventBus = new Vue();
 
-Vue.use(VueAxios, axios);
 Vue.use(VueHead);
+
 export default {
-  mixins: [verify, domains, alerts],
   components: {
     CategoryCreate,
     CategoryList
   },
   created() {
-    this.blockStudentAccess();
+    this.$blockStudentAccess();
   },
   head: {
     title: {
-      inner: "Categories"
+      inner: 'Categories'
     },
     meta: [
-      { name: "charset", content: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1.0" },
-      { name: "author", content: "Sabiorealm" }
+      { name: 'charset', content: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
+      { name: 'author', content: 'Sabiorealm' }
     ]
   }
 };
 </script>
-
-<style></style>

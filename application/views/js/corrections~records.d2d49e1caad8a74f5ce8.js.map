@@ -1,1 +1,0 @@
-{"version":3,"sources":["webpack:///./src/assets/img/general/ux/no_exams.png"],"names":["module","exports"],"mappings":"0GAAAA,EAAOC,QAAU,IAA0B","file":"js/corrections~records.d2d49e1caad8a74f5ce8.js","sourcesContent":["module.exports = __webpack_public_path__ + \"img/no_exams.b5baf10f.png\";"],"sourceRoot":""}

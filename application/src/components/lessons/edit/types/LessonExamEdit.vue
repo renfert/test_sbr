@@ -1,17 +1,30 @@
 <template>
   <div>
-    <el-dialog :visible.sync="modalEditExam" :title="lang['edit-exam']" center top="5vh">
-      <div class="form-row" style="margin-top:-30px !important;">
+    <el-dialog
+      :visible.sync="modal"
+      :title="lang['edit-exam']"
+      center
+      top="5vh"
+    >
+      <div class="form-row" style="margin-top: -30px !important">
         <div class="form-group col-xl-12 col-md-12">
           <ul>
             <li @click.prevent="accessFirstStep()">
-              <a class="form-wizard-link" :class="active == 1 ? 'active' : '' " href="#">
-                <span>{{lang["basic-information"]}}</span>
+              <a
+                class="form-wizard-link"
+                :class="activeTab == 1 ? 'active' : ''"
+                href="#"
+              >
+                <span>{{ lang['basic-information'] }}</span>
               </a>
             </li>
             <li @click.prevent="accessSecondStep()">
-              <a class="form-wizard-link" :class="active == 2 ? 'active' : '' " href="#">
-                <span>{{lang["questions"]}}</span>
+              <a
+                class="form-wizard-link"
+                :class="activeTab == 2 ? 'active' : ''"
+                href="#"
+              >
+                <span>{{ lang['questions'] }}</span>
               </a>
             </li>
           </ul>
@@ -21,35 +34,47 @@
       <div class="card-box" v-if="showExamFirstStep">
         <form id="form-lesson-exam-edit">
           <div class="form-row">
-            <!-- Lesson id -->
-            <input type="number" class="hide" name="lessonId" :value="lessonId" />
+            <input
+              type="number"
+              class="hide"
+              name="lessonId"
+              :value="exam.id"
+            />
             <div class="form-group col-xl-12 col-md-12">
               <!-- Lesson name -->
-              <label class="col-form-label">{{lang["name"]}} *</label>
-              <el-input required v-model="name" name="title"></el-input>
+              <label class="col-form-label">{{ lang['name'] }} *</label>
+              <el-input required v-model="exam.name" name="title"></el-input>
             </div>
           </div>
           <div class="form-row">
             <div class="form-group col-xl-12 col-md-12">
               <!-- Lesson duration -->
-              <label class="col-form-label">{{lang["duration"]}}</label>
+              <label class="col-form-label">{{ lang['duration'] }}</label>
               <br />
-              <el-input-number name="time" v-model="duration"></el-input-number>
+              <el-input-number
+                name="time"
+                v-model="exam.duration"
+              ></el-input-number>
             </div>
           </div>
           <div class="form-row">
             <div class="form-group col-xl-12 col-md-12">
               <!-- Lesson approval -->
-              <label class="col-form-label">{{lang["approval"]}}</label>
+              <label class="col-form-label">{{ lang['approval'] }}</label>
               <br />
-              <el-input-number name="approval" v-model="approval" :min="0" :max="100"></el-input-number>
+              <el-input-number
+                name="approval"
+                v-model="exam.approvalPercent"
+                :min="0"
+                :max="100"
+              ></el-input-number>
             </div>
           </div>
           <div class="form-row">
             <div class="form-group col-xl-12 col-md-12">
               <!-- Lesson retest -->
               <label class="col-form-label">
-                {{lang["number-of-re-tests"]}}
+                {{ lang['number-of-re-tests'] }}
                 <el-popover
                   placement="top-start"
                   title="Re-test"
@@ -63,7 +88,10 @@
                 </el-popover>
               </label>
               <br />
-              <el-input-number name="retest" v-model="retest"></el-input-number>
+              <el-input-number
+                name="retest"
+                v-model="exam.numberOfRetests"
+              ></el-input-number>
             </div>
           </div>
         </form>
@@ -71,121 +99,106 @@
 
       <!-- Questions -->
       <div v-if="showexamSecondStep">
-        <question-list :exam-id="lessonId"></question-list>
-        <el-button
-          @click.prevent="modalEditExam = false"
-          class="sbr-primary"
-        >{{lang["save-button"]}}</el-button>
+        <question-list :exam-id="exam.id"></question-list>
+        <el-button @click.prevent="modal = false" class="sbr-primary">{{
+          lang['save-button']
+        }}</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import QuestionList from "@/components/questions/QuestionList";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-
-import { eventBus } from "@/components/newcourse/App";
-import { mapState } from "vuex";
-
-Vue.use(VueAxios, axios);
+import QuestionList from '@/components/questions/QuestionList';
+import { eventBus } from '@/components/newcourse/App';
+import { mapState } from 'vuex';
 
 export default {
-  mixins: [domains, alerts],
   components: {
     QuestionList
   },
   data: () => {
     return {
-      name: "",
-      approval: "",
-      duration: "",
-      retest: "",
-      modalEditExam: false,
+      exam: {
+        id: '',
+        name: '',
+        approvalPercent: '',
+        duration: '',
+        numberOfRetests: '',
+        mode: 'edit'
+      },
+      modal: false,
       loading: false,
-      active: 1,
-      examMode: "edit",
+      activeTab: 1,
       showexamSecondStep: false,
-      showExamFirstStep: true,
-      lessonId: ""
+      showExamFirstStep: true
     };
   },
   mounted() {
-    eventBus.$on(
-      "edit-lesson-8",
-      function(response) {
-        this.showExamFirstStep = true;
-        this.showexamSecondStep = false;
-        this.active = 1;
-        this.modalEditExam = true;
-        this.lessonId = response[0]["id"];
-        this.name = response[0]["title"];
-        this.approval = response[0]["approval"];
-        this.duration = response[0]["time"];
-        this.retest = response[0]["retest"];
-      }.bind(this)
-    );
+    eventBus.$on('edit-lesson-8', (response) => {
+      this.showExamFirstStep = true;
+      this.showexamSecondStep = false;
+      this.activeTab = 1;
+      this.modal = true;
+      this.exam.id = response[0].id;
+      this.exam.name = response[0].title;
+      this.exam.approvalPercent = response[0].approval;
+      this.exam.duration = response[0].time;
+      this.exam.numberOfRetests = response[0].retest;
+    });
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   methods: {
     accessFirstStep() {
-      this.active = 1;
+      this.activeTab = 1;
       this.showExamFirstStep = true;
       this.showexamSecondStep = false;
     },
     accessSecondStep() {
-      if (this.name == "") {
+      if (this.exam.name === '') {
         this.requiredNameMessage();
       } else {
         this.edit();
-        this.active = 2;
+        this.activeTab = 2;
         this.showExamFirstStep = false;
         this.showexamSecondStep = true;
       }
     },
 
-    /* Edit a lesson */
-    edit: function() {
+    edit() {
       this.showExamFirstStep = true;
       this.showexamSecondStep = false;
       this.loading = true;
-      var form = document.getElementById("form-lesson-exam-edit");
-      var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("lesson", "edit");
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+      const form = document.getElementById('form-lesson-exam-edit');
+      const formData = new FormData(form);
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'lesson',
+        'edit'
+      );
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
-          /* Success callback */
-          this.actionsToBePerformedAfterEdit();
+          eventBus.$emit('new-lesson');
           this.loading = false;
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
     requiredNameMessage() {
       this.$notify({
-        title: this.lang["error"],
-        message: this.lang["required-name"],
-        type: "error",
+        title: this.lang.error,
+        message: this.lang['required-name'],
+        type: 'error',
         duration: 3500
       });
-    },
-    actionsToBePerformedAfterEdit() {
-      eventBus.$emit("new-lesson");
     }
   }
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 .el-step__title {
   font-size: 5px !important;
@@ -232,7 +245,7 @@ export default {
   text-decoration: none;
   font-size: 1em;
   line-height: 2;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   padding: 5px;
 }
 
@@ -247,7 +260,7 @@ export default {
   text-decoration: none;
   font-size: 1em;
   line-height: 2;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   background-color: #00a9b4;
   -webkit-transition: all 0.5s cubic-bezier(0.29, 1.42, 0.79, 1) 0s;
   -moz-transition: all 0.5s cubic-bezier(0.29, 1.42, 0.79, 1) 0s;
@@ -262,7 +275,7 @@ export default {
   font-size: 0.85rem;
   line-height: 2;
   font-style: normal;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 /* ----------------- End default sizes ----- */

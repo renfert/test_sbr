@@ -5,12 +5,17 @@
       class="integration-image"
       src="@/assets/img/apps/mercadopago.png"
       alt="mercadopago"
-      style="width:100px;padding-bottom:10px;"
+      style="width: 100px; padding-bottom: 10px"
     />
     <br />
     <form id="form-mp" @submit.prevent="captureCurrency()">
       <div class="form-group">
-        <el-input :type="typeInput" v-model="accessToken" name="id" placeholder="ACCESS TOKEN">
+        <el-input
+          :type="typeInput"
+          v-model="accessToken"
+          name="id"
+          placeholder="ACCESS TOKEN"
+        >
           <el-button
             @click.prevent="changeInputType()"
             slot="append"
@@ -22,14 +27,22 @@
           class="sbr-btn sbr-primary mt-3"
           native-type="submit"
           type="primary"
-        >{{lang["save-button"]}}</el-button>
+          >{{ lang['save-button'] }}</el-button
+        >
         <br />
 
         <div class="mt-5">
-          <p>{{lang["how-get-access-token"]}}</p>
-          <el-select v-model="code" name="country" :placeholder="lang['select-your-country']">
+          <p>{{ lang['how-get-access-token'] }}</p>
+          <el-select
+            v-model="code"
+            name="country"
+            :placeholder="lang['select-your-country']"
+          >
             <!-- Argentina -->
-            <a target="_blank" href="https://www.mercadopago.com/mla/account/credentials">
+            <a
+              target="_blank"
+              href="https://www.mercadopago.com/mla/account/credentials"
+            >
               <el-option label="ar" value="ar">
                 <span style="float: left">Argentina</span>
                 <span style="float: right; color: #8492a6; font-size: 13px">
@@ -39,7 +52,10 @@
             </a>
 
             <!-- Uruguay -->
-            <a target="_blank" href="https://www.mercadopago.com/mlu/account/credentials">
+            <a
+              target="_blank"
+              href="https://www.mercadopago.com/mlu/account/credentials"
+            >
               <el-option label="uy" value="uy">
                 <span style="float: left">Uruguay</span>
                 <span style="float: right; color: #8492a6; font-size: 13px">
@@ -48,7 +64,10 @@
               </el-option>
             </a>
 
-            <a target="_blank" href="https://www.mercadopago.com/mco/account/credentials">
+            <a
+              target="_blank"
+              href="https://www.mercadopago.com/mco/account/credentials"
+            >
               <!-- Colombia -->
               <el-option label="co" value="co">
                 <span style="float: left">Colombia</span>
@@ -59,7 +78,10 @@
             </a>
 
             <!-- México -->
-            <a target="_blank" href="https://www.mercadopago.com/mlm/account/credentials">
+            <a
+              target="_blank"
+              href="https://www.mercadopago.com/mlm/account/credentials"
+            >
               <el-option label="mx" value="mx">
                 <span style="float: left">México</span>
                 <span style="float: right; color: #8492a6; font-size: 13px">
@@ -69,7 +91,10 @@
             </a>
 
             <!-- Chile -->
-            <a target="_blank" href="https://www.mercadopago.com/mlc/account/credentials">
+            <a
+              target="_blank"
+              href="https://www.mercadopago.com/mlc/account/credentials"
+            >
               <el-option label="cl" value="cl">
                 <span style="float: left">Chile</span>
                 <span style="float: right; color: #8492a6; font-size: 13px">
@@ -78,7 +103,10 @@
               </el-option>
             </a>
 
-            <a target="_blank" href="https://www.mercadopago.com/mlb/account/credentials">
+            <a
+              target="_blank"
+              href="https://www.mercadopago.com/mlb/account/credentials"
+            >
               <el-option label="br" value="br">
                 <span style="float: left">Brasil</span>
                 <span style="float: right; color: #8492a6; font-size: 13px">
@@ -87,7 +115,10 @@
               </el-option>
             </a>
 
-            <a target="_blank" href="https://www.mercadopago.com/mpe/account/credentials">
+            <a
+              target="_blank"
+              href="https://www.mercadopago.com/mpe/account/credentials"
+            >
               <el-option label="pe" value="pe">
                 <span style="float: left">Peru</span>
                 <span style="float: right; color: #8492a6; font-size: 13px">
@@ -96,7 +127,10 @@
               </el-option>
             </a>
 
-            <a target="_blank" href="https://www.mercadopago.com/mlv/account/credentials">
+            <a
+              target="_blank"
+              href="https://www.mercadopago.com/mlv/account/credentials"
+            >
               <el-option label="ven" value="ven">
                 <span style="float: left">Venezuela</span>
                 <span style="float: right; color: #8492a6; font-size: 13px">
@@ -115,45 +149,39 @@
     <el-dialog :visible.sync="modal" width="50%">
       <span slot="title">
         <div class="text-center">
-          <img class="text-center" style="width:15%" src="@/assets/img/apps/mercadopago.png" alt />
-          <h3 class="fw-700">{{lang["mercado-pago-success"]}}</h3>
+          <img
+            class="text-center"
+            style="width: 15%"
+            src="@/assets/img/apps/mercadopago.png"
+            alt
+          />
+          <h3 class="fw-700">{{ lang['mercado-pago-success'] }}</h3>
         </div>
       </span>
       <div class="text-center">
-        <h3>{{lang["ready-for-sales"]}}</h3>
+        <h3>{{ lang['ready-for-sales'] }}</h3>
         <p>
-          {{lang["course-currency"]}}
+          {{ lang['course-currency'] }}
           :
-          <b>{{currency}}</b>
+          <b>{{ currency }}</b>
         </p>
-        <img style="width:30%;" src="@/assets/img/apps/mercadopago.gif" alt />
+        <img style="width: 30%" src="@/assets/img/apps/mercadopago.gif" alt />
       </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import ElementUI from "element-ui";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-
-import { mapState } from "vuex";
-
-Vue.use(VueAxios, axios);
-Vue.use(ElementUI);
+import { mapState } from 'vuex';
 
 export default {
-  mixins: [domains, alerts],
   data: () => {
     return {
-      code: "",
+      code: '',
       loading: false,
-      accessToken: "",
-      typeInput: "password",
-      currency: "",
+      accessToken: '',
+      typeInput: 'password',
+      currency: '',
       modal: false
     };
   },
@@ -161,66 +189,63 @@ export default {
     this.getMpAccessToken();
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   methods: {
-    changeInputType: function() {
-      if (this.typeInput == "password") {
-        this.typeInput = "text";
+    changeInputType() {
+      if (this.typeInput === 'password') {
+        this.typeInput = 'text';
       } else {
-        this.typeInput = "password";
+        this.typeInput = 'password';
       }
     },
-    getMpAccessToken: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "integrations",
-        "getIntegrations"
+    getMpAccessToken() {
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'integrations',
+        'getIntegrations'
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        response => {
-          response.data["mp_access_token"] == "default"
-            ? (this.accessToken = "teste")
-            : (this.accessToken = response.data["mp_access_token"]);
+      this.$request.get(urlToBeUsedInTheRequest).then(
+        (response) => {
+          response.data.mp_access_token === 'default'
+            ? (this.accessToken = '')
+            : (this.accessToken = response.data.mp_access_token);
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    saveMpAccessToken: function() {
-      var formData = new FormData();
-      formData.set("id", this.accessToken);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "integrations",
-        "saveMpAccessToken"
+    saveMpAccessToken() {
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'integrations',
+        'saveMpAccessToken'
       );
-      axios.post(urlToBeUsedInTheRequest, formData);
+      formData.set('id', this.accessToken);
+      this.$request.post(urlToBeUsedInTheRequest, formData);
     },
-    saveCurrency: function(currency) {
-      var formData = new FormData();
-      formData.set("currency", currency);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "settings",
-        "editCurrency"
+    saveCurrency(currency) {
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'settings',
+        'editCurrency'
       );
-      axios.post(urlToBeUsedInTheRequest, formData);
+      formData.set('currency', currency);
+      this.$request.post(urlToBeUsedInTheRequest, formData);
     },
-    captureCurrency: function() {
+    captureCurrency() {
       this.loading = true;
-      const mercadopago = require("mercadopago");
-      //Set credentials
+      const mercadopago = require('mercadopago');
 
       mercadopago.configure({
         sandbox: false,
         access_token: this.accessToken
       });
 
-      // Create a object with preference
-      let preference = {
+      const preference = {
         items: [
           {
-            title: "Na",
+            title: 'Na',
             unit_price: 2000,
             quantity: 1
           }
@@ -229,26 +254,19 @@ export default {
 
       mercadopago.preferences
         .create(preference)
-        .catch(
-          function() {
-            this.$message.error(this.lang["invalid-access-token"]);
-            this.loading = false;
-          }.bind(this)
-        )
-        .then(
-          function(res) {
-            this.currency = res.response.items[0].currency_id;
-            this.saveCurrency(res.response.items[0].currency_id);
-            this.saveMpAccessToken();
-            this.loading = false;
-            this.modal = true;
-          }.bind(this)
-        );
+        .catch((err) => {
+          console.log(err);
+          this.$message.error(this.lang['invalid-access-token']);
+          this.loading = false;
+        })
+        .then((res) => {
+          this.currency = res.response.items[0].currency_id;
+          this.saveCurrency(res.response.items[0].currency_id);
+          this.saveMpAccessToken();
+          this.loading = false;
+          this.modal = true;
+        });
     }
   }
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
-</style>

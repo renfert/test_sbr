@@ -3,32 +3,25 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-import VCalendar from "v-calendar";
+import Vue from 'vue';
+import VCalendar from 'v-calendar';
 
-import { mapState } from "vuex";
+import { mapState } from 'vuex';
 
 Vue.use(VCalendar, {
-  componentPrefix: "vc"
+  componentPrefix: 'vc'
 });
 
-Vue.use(VueAxios, axios);
-
 export default {
-  mixins: [domains, alerts],
-  data: function() {
+  data: () => {
     return {
       attrs: [
         {
           highlight: true,
           popover: {
-            label: "You just hovered over today's date!"
+            label: ''
           },
-          dates: "2020-05-05"
+          dates: ''
         }
       ]
     };
@@ -37,18 +30,21 @@ export default {
     this.getUserEvents();
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   methods: {
-    getUserEvents: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("calendar", "get");
-      axios.get(urlToBeUsedInTheRequest).then(
-        response => {
+    getUserEvents() {
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'calendar',
+        'get'
+      );
+
+      this.$request.get(urlToBeUsedInTheRequest).then(
+        (response) => {
           this.attrs = response.data;
         },
         () => {
-          // Failure callback
-          this.errorMessage();
+          this.$errorMessage();
         }
       );
     }

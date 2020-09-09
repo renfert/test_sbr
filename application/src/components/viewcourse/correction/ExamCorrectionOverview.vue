@@ -17,27 +17,32 @@
     <div class="overview" v-else>
       <el-row>
         <h3 class="text-center">
-          {{lang["exam-status"]}}
+          {{ lang['exam-status'] }}
           <b>
             <a
               class="text-warning"
               href="#"
               v-if="parseInt(overview['waitingEvaluationQuestions']) != 0"
-            >{{lang["in-progress"]}}</a>
+              >{{ lang['in-progress'] }}</a
+            >
 
-            <a class="text-success" href="#" v-else>{{lang["finished"]}}</a>
+            <a class="text-success" href="#" v-else>{{ lang['finished'] }}</a>
           </b>
         </h3>
       </el-row>
 
       <el-row>
         <el-col :span="12" class="p-3">
-          <h4>{{lang["required-for-approval"]}}</h4>
-          <el-progress :text-inside="true" :stroke-width="26" :percentage="parseInt(approval)"></el-progress>
+          <h4>{{ lang['required-for-approval'] }}</h4>
+          <el-progress
+            :text-inside="true"
+            :stroke-width="26"
+            :percentage="parseInt(approval)"
+          ></el-progress>
         </el-col>
 
         <el-col :span="12" class="p-3">
-          <h4>{{lang["your-current-score"]}}</h4>
+          <h4>{{ lang['your-current-score'] }}</h4>
           <el-progress
             :status="yourScoreProgressBar"
             :text-inside="true"
@@ -50,64 +55,60 @@
 
       <ul class="list-group">
         <!-- Total questions -->
-        <li class="list-group-item d-flex justify-content-between align-items-center">
+        <li
+          class="list-group-item d-flex justify-content-between align-items-center"
+        >
           <i class="far fa-question-circle"></i>
-          {{lang['total-questions']}}
-          <span
-            class="badge badge-primary badge-pill"
-          >{{overview["totalQuestions"]}}</span>
+          {{ lang['total-questions'] }}
+          <span class="badge badge-primary badge-pill">{{
+            overview['totalQuestions']
+          }}</span>
         </li>
 
         <!-- Correct questions -->
-        <li class="list-group-item d-flex justify-content-between align-items-center">
+        <li
+          class="list-group-item d-flex justify-content-between align-items-center"
+        >
           <i class="far fa-check-circle text-success"></i>
-          {{lang['correct-questions']}}
-          <span
-            class="badge badge-primary badge-pill"
-          >{{overview["totalCorrectQuestions"]}}</span>
+          {{ lang['correct-questions'] }}
+          <span class="badge badge-primary badge-pill">{{
+            overview['totalCorrectQuestions']
+          }}</span>
         </li>
 
         <!-- Wrong questions -->
-        <li class="list-group-item d-flex justify-content-between align-items-center">
+        <li
+          class="list-group-item d-flex justify-content-between align-items-center"
+        >
           <i class="far fa-times-circle text-danger"></i>
-          {{lang['wrong-questions']}}
-          <span
-            class="badge badge-primary badge-pill"
-          >{{overview["totalWrongQuestions"]}}</span>
+          {{ lang['wrong-questions'] }}
+          <span class="badge badge-primary badge-pill">{{
+            overview['totalWrongQuestions']
+          }}</span>
         </li>
 
         <!-- Questions waiting evaluation    -->
-        <li class="list-group-item d-flex justify-content-between align-items-center">
+        <li
+          class="list-group-item d-flex justify-content-between align-items-center"
+        >
           <i class="fas fa-spinner text-warning"></i>
-          {{lang['questions-waiting-evaluation']}}
-          <span
-            class="badge badge-primary badge-pill"
-          >{{overview["waitingEvaluationQuestions"]}}</span>
+          {{ lang['questions-waiting-evaluation'] }}
+          <span class="badge badge-primary badge-pill">{{
+            overview['waitingEvaluationQuestions']
+          }}</span>
         </li>
       </ul>
     </div>
   </div>
 </template>
 
-
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import ElementUI from "element-ui";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-
-import { FacebookLoader } from "vue-content-loader";
-import { mapState } from "vuex";
-import { eventCorrection } from "@/components/viewcourse/correction/ExamCorrection";
-
-Vue.use(VueAxios, axios);
-Vue.use(ElementUI);
+import { FacebookLoader } from 'vue-content-loader';
+import { mapState } from 'vuex';
+import { eventCorrection } from '@/components/viewcourse/correction/ExamCorrection';
 
 export default {
-  props: ["approval", "exam-id", "student-id"],
-  mixins: [domains, alerts],
+  props: ['approval', 'exam-id', 'student-id'],
   data: () => {
     return {
       overview: [],
@@ -121,64 +122,56 @@ export default {
     this.getExamOverview(this.examId, this.studentId);
   },
   mounted() {
-    eventCorrection.$on(
-      "open-exam-correction",
-      function(data) {
-        this.getExamOverview(data["examId"], data["studentId"]);
-      }.bind(this)
-    );
+    eventCorrection.$on('open-exam-correction', (data) => {
+      this.getExamOverview(data.examId, data.studentId);
+    });
   },
   methods: {
-    getExamOverview: function(examId, studentId) {
+    getExamOverview(examId, studentId) {
       this.loadingContent = true;
-      var formData = new FormData();
-      formData.set("examId", examId);
-      formData.set("studentId", studentId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "exam",
-        "getExamOverview"
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'exam',
+        'getExamOverview'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
-          /* Success callback */
+      formData.set('examId', examId);
+      formData.set('studentId', studentId);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
           this.overview = response.data[0];
-          setTimeout(
-            function() {
-              this.loadingContent = false;
-            }.bind(this),
-            1000
-          );
+          setTimeout(() => {
+            this.loadingContent = false;
+          }, 1000);
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     }
   },
   watch: {
-    studentId: function() {
+    studentId() {
       this.getExamOverview(this.examId, this.studentId);
     }
   },
 
   computed: {
-    ...mapState(["lang"]),
-    yourScoreProgressBar: function() {
-      var type = "";
-      if (this.overview["yourScore"] <= parseInt(this.approval) / 2) {
-        type = "exception";
+    ...mapState(['lang']),
+    yourScoreProgressBar() {
+      let type = '';
+      if (this.overview.yourScore <= parseInt(this.approval) / 2) {
+        type = 'exception';
       }
 
       if (
-        this.overview["yourScore"] > parseInt(this.approval) / 2 &&
-        this.overview["yourScore"] < parseInt(this.approval)
+        this.overview.yourScore > parseInt(this.approval) / 2 &&
+        this.overview.yourScore < parseInt(this.approval)
       ) {
-        type = "warning";
+        type = 'warning';
       }
 
-      if (this.overview["yourScore"] >= parseInt(this.approval)) {
-        type = "success";
+      if (this.overview.yourScore >= parseInt(this.approval)) {
+        type = 'success';
       }
       return type;
     }

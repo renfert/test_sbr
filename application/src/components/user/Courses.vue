@@ -15,16 +15,24 @@
         <div style="margin-bottom: 10px">
           <el-row>
             <el-col :md="6" :xs="18" class="mr-3">
-              <el-input v-model="filters[0].value" placeholder="Search"></el-input>
+              <el-input
+                v-model="filters[0].value"
+                placeholder="Search"
+              ></el-input>
             </el-col>
             <el-col :span="2">
-              <el-button @click.prevent="addCourse()" class="sbr-purple" icon="el-icon-plus" circle></el-button>
+              <el-button
+                @click.prevent="addCourse()"
+                class="sbr-purple"
+                icon="el-icon-plus"
+                circle
+              ></el-button>
             </el-col>
           </el-row>
         </div>
         <data-tables
           :pagination-props="{ background: true, pageSizes: [5] }"
-          :data="enrolledCourses   "
+          :data="enrolledCourses"
           :filters="filters"
         >
           <el-table-column
@@ -41,7 +49,7 @@
               <el-popconfirm
                 confirmButtonText="Ok"
                 cancelButtonText="No, Thanks"
-                :title="lang['remove-course-question'] + scope.row.title  + '?'"
+                :title="lang['remove-course-question'] + scope.row.title + '?'"
                 @onConfirm="removeCourseFromUser(scope.row.id)"
               >
                 <el-button
@@ -60,19 +68,31 @@
 
       <div class="row mb-5 mt-5" v-else>
         <div class="col-12 text-center">
-          <img class="no-results-img" src="@/assets/img/general/ux/no_courses.png" alt="No persons" />
-          <h4 class="no-results-text">{{lang["no-results-courses-in-user"]}}</h4>
+          <img
+            class="no-results-img"
+            src="@/assets/img/general/ux/no_courses.png"
+            alt="No persons"
+          />
+          <h4 class="no-results-text">
+            {{ lang['no-results-courses-in-user'] }}
+          </h4>
           <el-button
             class="sbr-purple mt-3"
             @click="addCourse()"
             type="primary"
-          >{{lang["add-course"]}}</el-button>
+            >{{ lang['add-course'] }}</el-button
+          >
         </div>
       </div>
     </div>
 
     <!-- Add new course dialog -->
-    <el-dialog :visible.sync="modal" :title="lang['join-courses']" center top="5vh">
+    <el-dialog
+      :visible.sync="modal"
+      :title="lang['join-courses']"
+      center
+      top="5vh"
+    >
       <facebook-loader
         v-if="loadingContentModal == true"
         :speed="2"
@@ -98,7 +118,8 @@
             v-loading="loadingButton"
             @click="enrollUserIntoCourses()"
             type="primary"
-          >{{lang["save-button"]}}</el-button>
+            >{{ lang['save-button'] }}</el-button
+          >
         </div>
 
         <div class="row mb-5 mt-5" v-else>
@@ -108,7 +129,9 @@
               src="@/assets/img/general/ux/no_courses.png"
               alt="No courses"
             />
-            <h4 class="no-results-text">{{lang["all-courses-already-added"]}}</h4>
+            <h4 class="no-results-text">
+              {{ lang['all-courses-already-added'] }}
+            </h4>
           </div>
         </div>
       </div>
@@ -118,35 +141,27 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import ElementUI from "element-ui";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
+import Vue from 'vue';
 
-import { FacebookLoader } from "vue-content-loader";
-import { DataTables, DataTablesServer } from "vue-data-tables";
-import { mapState } from "vuex";
+import { FacebookLoader } from 'vue-content-loader';
+import { DataTables, DataTablesServer } from 'vue-data-tables';
+import { mapState } from 'vuex';
 
 Vue.use(DataTables);
 Vue.use(DataTablesServer);
-Vue.use(ElementUI);
-Vue.use(VueAxios, axios);
 
 export default {
   components: {
     FacebookLoader
   },
-  mixins: [domains, alerts],
-  props: ["user-id"],
-  data: function() {
+  props: ['user-id'],
+  data: () => {
     return {
-      titles: [{ prop: "title", label: "Title" }],
+      titles: [{ prop: 'title', label: 'Title' }],
       enrolledCourses: [],
       notEnrolledCourses: [],
-      filters: [{ prop: "title", value: "" }],
-      tableProps: { defaultSort: { prop: "title", order: "descending" } },
+      filters: [{ prop: 'title', value: '' }],
+      tableProps: { defaultSort: { prop: 'title', order: 'descending' } },
       modal: false,
       courses: [],
       loadingButton: false,
@@ -159,111 +174,95 @@ export default {
     this.getNotEnrolledCourses();
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   methods: {
-    removeCourseFromUser: function(courseId) {
-      var formData = new FormData();
-      formData.set("courseId", courseId);
-      formData.set("userId", this.userId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "user",
-        "removeCourseFromUser"
+    removeCourseFromUser(courseId) {
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'user',
+        'removeCourseFromUser'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+      formData.set('courseId', courseId);
+      formData.set('userId', this.userId);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
-          // success callback
           this.getEnrolledCourses();
           this.getNotEnrolledCourses();
-          this.successMessage();
+          this.$successMessage();
         },
-        // Failure callback
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
 
-    addCourse: function() {
+    addCourse() {
       this.modal = true;
     },
-    enrollUserIntoCourses: function() {
+    enrollUserIntoCourses() {
       this.loadingButton = true;
-      var formData = new FormData();
-      formData.set("userId", this.userId);
-      formData.set("courses", this.courses);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "user",
-        "enrollUserIntoCourses"
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'user',
+        'enrollUserIntoCourses'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+      formData.set('userId', this.userId);
+      formData.set('courses', this.courses);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
-          // success callback
           this.loadingButton = false;
-          this.successMessage();
+          this.$successMessage();
           this.modal = false;
           this.getEnrolledCourses();
           this.getNotEnrolledCourses();
           this.courses = [];
         },
-        // Failure callback
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
     getEnrolledCourses() {
       this.loadingContent = true;
-      var formData = new FormData();
-      formData.set("userId", this.userId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "user",
-        "getEnrolledCourses"
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'user',
+        'getEnrolledCourses'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
-          // success callback
+      formData.set('userId', this.userId);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
           this.enrolledCourses = response.data;
-          setTimeout(
-            function() {
-              this.loadingContent = false;
-            }.bind(this),
-            1000
-          );
+          setTimeout(() => {
+            this.loadingContent = false;
+          }, 1000);
         },
-        // Failure callback
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    getNotEnrolledCourses: function() {
+    getNotEnrolledCourses() {
       this.loadingContentModal = true;
-      var formData = new FormData();
-      formData.set("userId", this.userId);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "user",
-        "getNotEnrolledCourses"
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'user',
+        'getNotEnrolledCourses'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
-        response => {
-          // success callback
+      formData.set('userId', this.userId);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        (response) => {
           this.notEnrolledCourses = response.data;
-          setTimeout(
-            function() {
-              this.loadingContentModal = false;
-            }.bind(this),
-            1000
-          );
+          setTimeout(() => {
+            this.loadingContentModal = false;
+          }, 1000);
         },
-        // Failure callback
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     }
   }
 };
 </script>
-
-

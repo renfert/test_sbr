@@ -1,6 +1,5 @@
 <template>
   <div class="main" v-loading="loading">
-    <lang></lang>
     <div>
       <ul class="list-group">
         <draggable v-model="socialMedias" ghost-class="ghost">
@@ -10,10 +9,16 @@
               :key="element.id"
               class="list-group-item d-flex justify-content-between align-items-center"
             >
-              <span class="text-eadtools">{{element.name}}</span>
+              <span class="text-eadtools">{{ element.name }}</span>
               <div class="action-icons">
                 <i
-                  @click.prevent="openEditSocialMediaModal(element.id,element.name,element.url)"
+                  @click.prevent="
+                    openEditSocialMediaModal(
+                      element.id,
+                      element.name,
+                      element.url
+                    )
+                  "
                   class="el-icon-edit text-primary links"
                 ></i>
                 <i
@@ -31,106 +36,79 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import VueTheMask from "vue-the-mask";
-import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
-import Lang from "@/components/helper/HelperLang.vue";
-import draggable from "vuedraggable";
-import lang from "element-ui/lib/locale/lang/en";
-import locale from "element-ui/lib/locale";
-import { eventLang } from "@/components/helper/HelperLang";
-import { eventBus } from "@/components/site/App";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
+import draggable from 'vuedraggable';
 
-locale.use(lang);
-Vue.use(VueTheMask);
-Vue.use(VueTheMask);
-Vue.use(VueAxios, axios);
-Vue.use(ElementUI);
+import { eventBus } from '@/components/site/App';
+import { mapState } from 'vuex';
 
 export default {
-  mixins: [domains, alerts],
   components: {
-    draggable,
-    Lang
+    draggable
   },
   data: () => {
     return {
-      lang: {},
       socialMedias: null,
       loading: false
     };
   },
   mounted() {
-    eventLang.$on(
-      "lang",
-      function(response) {
-        this.lang = response;
-      }.bind(this)
-    );
-
-    eventBus.$on(
-      "social-media-list-update",
-      function() {
-        this.updateSocialMediaListArray();
-      }.bind(this)
-    );
     this.updateSocialMediaListArray();
+
+    eventBus.$on('social-media-list-update', () => {
+      this.updateSocialMediaListArray();
+    });
+  },
+  computed: {
+    ...mapState(['lang'])
   },
   methods: {
-    openEditSocialMediaModal: function(id, name, url) {
-      let data = {
+    openEditSocialMediaModal(id, name, url) {
+      const data = {
         id: id,
         name: name,
         url: url
       };
-      eventBus.$emit("edit-social-media", data);
+      eventBus.$emit('edit-social-media', data);
     },
-    deleteSocialMedia: function(id) {
-      var formData = new FormData();
-      formData.set("socialMediaId", id);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "social",
-        "delete"
+    deleteSocialMedia(id) {
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'social',
+        'delete'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+      formData.set('socialMediaId', id);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
-          eventBus.$emit("new-change-footer");
+          eventBus.$emit('new-change-footer');
           this.updateSocialMediaListArray();
-          this.successMessage();
+          this.$successMessage();
         },
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
 
-    updateSocialMediaListArray: function() {
+    updateSocialMediaListArray() {
       this.loading = true;
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "social",
-        "listing"
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'social',
+        'listing'
       );
-      axios.post(urlToBeUsedInTheRequest).then(
-        response => {
+      this.$request.post(urlToBeUsedInTheRequest).then(
+        (response) => {
           this.socialMedias = response.data;
           this.loading = false;
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     }
   }
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 .action-icons {
   float: right;
@@ -152,7 +130,7 @@ export default {
 .btn-link {
   padding: 0px !important;
   font-size: 13px;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: 600;
 }
 

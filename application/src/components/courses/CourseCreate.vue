@@ -1,131 +1,102 @@
 <template>
-  <div class="col-12">
-    <div>
-      <div class="two-column-card mt-5">
-        <!-- Create a new course --->
+  <div class="two-column-card mt-5">
+    <div class="item-card">
+      <div v-if="courseList == null">
+        <h4>{{ lang['no-results-course-title'] }}</h4>
+        <br />
+        <router-link to="/newcourse">
+          <el-button class="sbr-primary mt-4">
+            {{ lang['new-course-button'] }}
+          </el-button>
+        </router-link>
+      </div>
+      <div v-else>
+        <h3>
+          {{ lang['courses-already-created'] }}
+          <b class="sbr-text-primary">{{ numberTotalOfCoursesCreated }}</b>
+        </h3>
+        <router-link to="/newcourse">
+          <el-button class="sbr-primary mt-4">
+            {{ lang['new-course-button'] }}
+          </el-button>
+        </router-link>
+      </div>
+    </div>
 
-        <div class="item-card">
-          <div v-if="courseList == null">
-            <h4>{{ lang["no-results-course-title"] }}</h4>
-            <br />
-            <router-link to="/newcourse">
-              <el-button class="sbr-primary mt-4">
-                {{
-                lang["new-course-button"]
-                }}
-              </el-button>
-            </router-link>
-          </div>
-          <div v-else>
-            <h3>
-              {{ lang["courses-already-created"] }}
-              <b
-                class="sbr-text-primary"
-              >{{ numberTotalOfCoursesCreated }}</b>
-            </h3>
-            <router-link to="/newcourse">
-              <el-button class="sbr-primary mt-4">
-                {{
-                lang["new-course-button"]
-                }}
-              </el-button>
-            </router-link>
-          </div>
-        </div>
+    <div class="divider"></div>
 
-        <div class="divider"></div>
-
-        <!-- See how to create a course --->
-        <div class="item-card item-video-course">
-          <h3 class="text-box">See how is easy to create a course</h3>
-          <a
-            id="play-video"
-            class="video-play-button"
-            @click.prevent="videoOverlay = true"
-            href="#"
-          >
-            <span></span>
-          </a>
-          <div id="video-overlay" class="video-overlay" :class="videoOverlay == true ? 'open' : ''">
-            <a @click.prevent="videoOverlay = false" class="video-overlay-close">&times;</a>
-            <iframe
-              width="560"
-              height="315"
-              src="https://www.youtube.com/embed/lQyl0PUle5E"
-              frameborder="0"
-              allowfullscreen
-            ></iframe>
-          </div>
-        </div>
+    <!-- See how to create a course --->
+    <div class="item-card item-video-course">
+      <h3 class="text-box">See how is easy to create a course</h3>
+      <a
+        id="play-video"
+        class="video-play-button"
+        @click.prevent="videoOverlay = true"
+        href="#"
+      >
+        <span></span>
+      </a>
+      <div
+        id="video-overlay"
+        class="video-overlay"
+        :class="videoOverlay == true ? 'open' : ''"
+      >
+        <a @click.prevent="videoOverlay = false" class="video-overlay-close"
+          >&times;</a
+        >
+        <iframe
+          width="560"
+          height="315"
+          src="https://www.youtube.com/embed/lQyl0PUle5E"
+          frameborder="0"
+          allowfullscreen
+        ></iframe>
       </div>
     </div>
   </div>
-  <!-- End col-12 -->
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-
-import { eventBus } from "@/components/courses/App";
-import { mapState } from "vuex";
-
-Vue.use(VueAxios, axios);
+import { eventBus } from '@/components/courses/App';
+import { mapState } from 'vuex';
 
 export default {
-  mixins: [domains, alerts],
   data: () => {
     return {
       courseList: [],
-      numberTotalOfCoursesCreated: "",
-      videoOverlay: false,
-      loadingContent: false
+      numberTotalOfCoursesCreated: '',
+      videoOverlay: false
     };
   },
   created() {
     this.getCourses();
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   mounted() {
-    eventBus.$on(
-      "course-deleted",
-      function() {
-        this.getCourses();
-      }.bind(this)
-    );
+    eventBus.$on('course-deleted', () => {
+      this.getCourses();
+    });
   },
   methods: {
     getCourses() {
-      this.loadingContent = true;
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "course",
-        "listing"
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'course',
+        'listing'
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        response => {
-          // success callback
+      this.$request.get(urlToBeUsedInTheRequest).then(
+        (response) => {
           this.courseList = response.data;
-          setTimeout(
-            function() {
-              this.loadingContent = false;
-            }.bind(this),
-            1000
-          );
           if (response.data == null) {
             this.numberTotalOfCoursesCreated = 0;
           } else {
             this.numberTotalOfCoursesCreated = response.data.length;
           }
         },
-        // Failure callback
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     }
   }
@@ -133,14 +104,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-/* =============
-
-    - Layout
-    - Play button
-    - Mobile
-
-============= */
-
 /* =============
    Layout
 ============= */
@@ -197,7 +160,7 @@ export default {
 }
 
 .video-play-button:before {
-  content: "";
+  content: '';
   position: absolute;
   z-index: 0;
   left: 50%;
@@ -212,7 +175,7 @@ export default {
 }
 
 .video-play-button:after {
-  content: "";
+  content: '';
   position: absolute;
   z-index: 1;
   left: 50%;
@@ -307,7 +270,7 @@ export default {
 }
 
 /* =============
-  Mobile  
+  Mobile
 ============= */
 
 @media only screen and (max-width: 600px) {

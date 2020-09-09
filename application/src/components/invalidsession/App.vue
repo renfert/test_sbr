@@ -1,4 +1,4 @@
-<template >
+<template>
   <!-- partial:index.partial.html -->
   <section class="page_404">
     <div class="container">
@@ -22,10 +22,6 @@
   <!-- partial -->
 </template>
 
-<script>
-export default {};
-</script>
-
 <style>
 /*======================
     404 page
@@ -34,7 +30,7 @@ export default {};
 .page_404 {
   padding: 40px 0;
   background: #fff;
-  font-family: "Arvo", serif;
+  font-family: 'Arvo', serif;
 }
 
 .page_404 img {

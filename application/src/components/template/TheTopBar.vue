@@ -1,6 +1,5 @@
 <template>
   <div class="topbar">
-    <lang></lang>
     <header>
       <router-link to="/"></router-link>
       <!-- Icon menu for mobile -->
@@ -15,19 +14,22 @@
 
     <div
       class="top-trial"
-      v-if="trialBar != false && role == 1 && daysToExpiration >= 0 && plan == 'trial'"
+      v-if="
+        trialBar != false &&
+        role == 1 &&
+        daysToExpiration >= 0 &&
+        plan == 'trial'
+      "
     >
       <span>
-        {{lang["trial-expiration-date-info-pt1"]}}
-        <b>{{daysToExpiration}}</b>
-        {{lang["trial-expiration-date-info-pt2"]}} | {{lang["upgrade-plan-info-pt1"]}}
-        <a
-          @click="upgradePlan()"
-          href="javascript:void(0)"
-        >
-          <b>{{lang["plan"]}}</b>
+        {{ lang['trial-expiration-date-info-pt1'] }}
+        <b>{{ daysToExpiration }}</b>
+        {{ lang['trial-expiration-date-info-pt2'] }} |
+        {{ lang['upgrade-plan-info-pt1'] }}
+        <a @click="upgradePlan()" href="javascript:void(0)">
+          <b>{{ lang['plan'] }}</b>
         </a>
-        {{lang["upgrade-plan-info-pt2"]}}
+        {{ lang['upgrade-plan-info-pt2'] }}
       </span>
     </div>
   </div>
@@ -35,111 +37,64 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import { eventLang } from "@/components/helper/HelperLang";
-import { eventPlan } from "@/components/plans/UpgradePlan";
-import Lang from "@/components/helper/HelperLang";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
+import Vue from 'vue';
+import { eventPlan } from '@/components/plans/UpgradePlan';
+import { mapState } from 'vuex';
 export const eventTemplate = new Vue();
 
-Vue.use(VueAxios, axios);
 export default {
-  components: {
-    Lang
-  },
-  props: ["trial-bar"],
-  mixins: [domains, alerts],
+  props: ['trial-bar'],
   data: () => {
     return {
       role: 1,
-      logo: "",
-      lang: {},
+      logo: '',
       daysToExpiration: 0,
-      currentDate: "",
-      plan: ""
+      currentDate: ''
     };
   },
+  computed: {
+    ...mapState(['lang', 'plan'])
+  },
   created() {
-    this.getCompanyPlan();
-    this.getUserProfile();
     this.getCurrentDate();
     this.getCompanyLogo();
   },
-  mounted() {
-    eventLang.$on(
-      "lang",
-      function(response) {
-        this.lang = response;
-      }.bind(this)
-    );
-  },
   methods: {
-    toogleSidebar: function() {
-      eventTemplate.$emit("change-leftbar-class");
+    toogleSidebar() {
+      eventTemplate.$emit('change-leftbar-class');
     },
-    upgradePlan: function() {
-      eventPlan.$emit("upgrade-plan", "trial-topbar");
+    upgradePlan() {
+      eventPlan.$emit('upgrade-plan', 'trial-topbar');
     },
-    getCompanyLogo: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "settings",
-        "getSettingsInformation"
+    getCompanyLogo() {
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'settings',
+        'getSettingsInformation'
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        function(response) {
-          this.logo = response.data["logo"];
-        }.bind(this)
-      );
+      this.$request.get(urlToBeUsedInTheRequest).then((response) => {
+        this.logo = response.data.logo;
+      });
     },
-    getCompanyPlan: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "company",
-        "getCompanyInformation"
+    getRemainingTrialDays() {
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'company',
+        'getCompanyInformation'
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        function(response) {
-          this.plan = response.data["plan"];
-        }.bind(this)
-      );
+      this.$request.get(urlToBeUsedInTheRequest).then((response) => {
+        this.calculateDifferenceBetweenDates(response.data.expiration);
+      });
     },
-    getUserProfile: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "user",
-        "getUserProfile"
+    getCurrentDate() {
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'verify',
+        'getCurrentDate'
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        function(response) {
-          this.role = response.data["myrole_id"];
-        }.bind(this)
-      );
+      this.$request.get(urlToBeUsedInTheRequest).then((response) => {
+        this.currentDate = response.data;
+        this.getRemainingTrialDays();
+      });
     },
-    getRemainingTrialDays: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "company",
-        "getCompanyInformation"
-      );
-      axios.get(urlToBeUsedInTheRequest).then(
-        function(response) {
-          this.calculateDifferenceBetweenDates(response.data["expiration"]);
-        }.bind(this)
-      );
-    },
-    getCurrentDate: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "verify",
-        "getCurrentDate"
-      );
-      axios.get(urlToBeUsedInTheRequest).then(
-        function(response) {
-          this.currentDate = response.data;
-          this.getRemainingTrialDays();
-        }.bind(this)
-      );
-    },
-    calculateDifferenceBetweenDates: function(expirationDate) {
+    calculateDifferenceBetweenDates(expirationDate) {
       const _MS_PER_DAY = 1000 * 60 * 60 * 24;
 
       // a and b are javascript Date objects
@@ -151,9 +106,9 @@ export default {
         return Math.floor((utc2 - utc1) / _MS_PER_DAY);
       }
 
-      const a = new Date(this.currentDate),
-        b = new Date(expirationDate),
-        difference = dateDiffInDays(a, b);
+      const a = new Date(this.currentDate);
+      const b = new Date(expirationDate);
+      const difference = dateDiffInDays(a, b);
 
       this.daysToExpiration = difference;
     }
@@ -205,7 +160,7 @@ header ul li a {
   transition: 0.5s;
   color: white;
   font-size: 1.3em;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 .logo-nav {

@@ -2,21 +2,38 @@
   <div v-loading="loading">
     <div>
       <ul class="list-group">
-        <draggable v-model="links" ghost-class="ghost" @end="finishRepositioning">
+        <draggable
+          v-model="links"
+          ghost-class="ghost"
+          @end="reorderLinkPositions()"
+        >
           <transition-group type="transition" name="flip-list">
             <li
               v-for="element in links"
               :key="element.id"
               class="list-group-item d-flex justify-content-between align-items-center"
             >
-              <span class="text-eadtools">{{element.title}}</span>
+              <span class="text-eadtools">{{ element.title }}</span>
               <div class="action-icons">
                 <i
-                  @click.prevent="openEditLinkModal(element.id,element.title,element.url,element.target)"
+                  @click.prevent="
+                    openEditLinkModal(
+                      element.id,
+                      element.title,
+                      element.url,
+                      element.target
+                    )
+                  "
                   class="el-icon-edit text-primary links"
                 ></i>
-                <i @click.prevent="deleteLink(element.id)" class="el-icon-delete text-danger links"></i>
-                <i class="el-icon-rank handle linkPosition" :id="element.id"></i>
+                <i
+                  @click.prevent="deleteLink(element.id)"
+                  class="el-icon-delete text-danger links"
+                ></i>
+                <i
+                  class="el-icon-rank handle linkPosition"
+                  :id="element.id"
+                ></i>
               </div>
             </li>
           </transition-group>
@@ -27,112 +44,104 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import ElementUI from "element-ui";
-import draggable from "vuedraggable";
-import $ from "jquery";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
+import draggable from 'vuedraggable';
+import $ from 'jquery';
 
-import { eventBus } from "@/components/site/App";
-import { mapState } from "vuex";
-
-Vue.use(VueAxios, axios);
-Vue.use(ElementUI);
+import { eventBus } from '@/components/site/App';
+import { mapState } from 'vuex';
 
 export default {
-  mixins: [domains, alerts],
   components: {
     draggable
   },
   data: () => {
     return {
-      links: null,
+      links: [],
       loading: false
     };
   },
   mounted() {
-    eventBus.$on(
-      "link-list-update",
-      function() {
-        this.updateLinkListArray();
-      }.bind(this)
-    );
-    this.updateLinkListArray();
+    this.getLinks();
+    eventBus.$on('link-list-update', () => {
+      this.getLinks();
+    });
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   methods: {
-    openEditLinkModal: function(id, title, url, target) {
-      let data = {
+    openEditLinkModal(id, title, url, target) {
+      const data = {
         id: id,
         title: title,
         url: url,
         target: target
       };
-      eventBus.$emit("edit-link", data);
+      eventBus.$emit('edit-link', data);
     },
-    deleteLink: function(id) {
-      var formData = new FormData();
-      formData.set("linkId", id);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("link", "delete");
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+    deleteLink(id) {
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'link',
+        'delete'
+      );
+      formData.set('linkId', id);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
-          this.updateLinkListArray();
-          this.successMessage();
-          eventBus.$emit("link-list-update");
+          this.getLinks();
+          this.$successMessage();
         },
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    finishRepositioning: function() {
-      this.reorderLinkPositions();
-    },
-    reorderLinkPositions: function() {
-      var ar = [];
-      $(".linkPosition").each(function(index) {
-        var id = $(this).attr("id");
+    reorderLinkPositions() {
+      const ar = [];
+      $('.linkPosition').each((index, element) => {
+        const id = $(element).attr('id');
         ar.push({ id: id, index: index });
       });
-      var formData = new FormData();
-      $.each(ar, function(index, value) {
-        formData.set("links[" + value.id + "]", value.index);
+
+      const formData = new FormData();
+      $.each(ar, (index, value) => {
+        formData.set('links[' + value.id + ']', value.index);
       });
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("link", "reorder");
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'link',
+        'reorder'
+      );
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
-          /* Success callback */
-          eventBus.$emit("link-list-update");
+          this.getLinks();
+          eventBus.$emit('link-list-update');
         },
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    updateLinkListArray: function() {
+    getLinks() {
       this.loading = true;
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest("link", "listing");
-      axios.post(urlToBeUsedInTheRequest).then(
-        response => {
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'link',
+        'listing'
+      );
+      this.$request.post(urlToBeUsedInTheRequest).then(
+        (response) => {
           this.links = response.data;
           this.loading = false;
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     }
   }
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 .action-icons {
   float: right;

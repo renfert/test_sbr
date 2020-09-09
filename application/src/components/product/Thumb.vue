@@ -6,11 +6,11 @@
         <ul class="edu_inline_info">
           <li>
             <i class="ti-agenda mr-2"></i>
-            {{lang["modules"]}}: {{ modulesTotal }}
+            {{ lang['modules'] }}: {{ modulesTotal }}
           </li>
           <li>
             <i class="ti-control-forward"></i>
-            {{lang["lessons"]}}: {{ lessonsTotal }}
+            {{ lang['lessons'] }}: {{ lessonsTotal }}
           </li>
         </ul>
       </div>
@@ -20,7 +20,7 @@
         <img
           :key="elementKey"
           class="pro_img img-fluid w100"
-          v-lazy="getUrlToContents() + 'course/' + photo + ''"
+          v-lazy="$getUrlToContents() + 'course/' + photo + ''"
         />
       </div>
 
@@ -29,16 +29,19 @@
           <li>
             <div class="ins_info">
               <div class="ins_info_thumb">
-                <img :src="getUrlToContents() + 'avatar/' + instructorPhoto + ''" class="img-fluid" />
+                <img
+                  :src="$getUrlToContents() + 'avatar/' + instructorPhoto + ''"
+                  class="img-fluid"
+                />
               </div>
               <div class="ins_info_caption">
-                <span>{{ lang["instructor"] }}</span>
+                <span>{{ lang['instructor'] }}</span>
                 <h4>{{ instructorName }}</h4>
               </div>
             </div>
           </li>
           <li v-if="category != 'default'">
-            <span>{{lang["category"]}}</span>
+            <span>{{ lang['category'] }}</span>
             {{ category }}
           </li>
           <li v-if="reviews != null">
@@ -60,39 +63,30 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-import VueLazyload from "vue-lazyload";
-import ElementUI from "element-ui";
+import Vue from 'vue';
+import VueLazyload from 'vue-lazyload';
 
-import { mapState } from "vuex";
-
-Vue.use(VueAxios, axios);
-Vue.use(ElementUI);
+import { mapState } from 'vuex';
 
 Vue.use(VueLazyload, {
   preLoad: 1.3,
-  error: "https://sbrfiles.s3.amazonaws.com/images/image-not-available.png",
-  loading: "https://sbrfiles.s3.amazonaws.com/gifs/loading7.gif",
+  error: 'https://sbrfiles.s3.amazonaws.com/images/image-not-available.png',
+  loading: 'https://sbrfiles.s3.amazonaws.com/gifs/loading7.gif',
   attempt: 1
 });
 
 export default {
-  mixins: [domains, alerts],
   props: [
-    "title",
-    "category",
-    "modules-total",
-    "lessons-total",
-    "reviews",
-    "photo",
-    "instructor-name",
-    "instructor-photo",
-    "total-reviews",
-    "total-rate"
+    'title',
+    'category',
+    'modules-total',
+    'lessons-total',
+    'reviews',
+    'photo',
+    'instructor-name',
+    'instructor-photo',
+    'total-reviews',
+    'total-rate'
   ],
   data: () => {
     return {
@@ -102,13 +96,13 @@ export default {
   },
 
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   watch: {
-    totalRate: function() {
+    totalRate() {
       this.rate = parseInt((this.totalRate / this.totalReviews).toFixed(0));
     },
-    photo: function() {
+    photo() {
       this.elementKey++;
     }
   }
@@ -116,15 +110,6 @@ export default {
 </script>
 
 <style scoped>
-/* =============
-  == Products page style==
-
-    - Layout
-		- Fonts
-		- Mobile	
-
-============= */
-
 /* =============
    Layout
 ============= */
@@ -189,8 +174,8 @@ ul {
   margin-top: 0 !important;
 }
 
-[class*=" ti-"],
-[class^="ti-"] {
+[class*=' ti-'],
+[class^='ti-'] {
   font-family: themify;
   speak: none;
   font-style: normal;
@@ -212,7 +197,7 @@ ul {
   right: 0;
   top: 0;
   position: absolute;
-  content: "";
+  content: '';
   bottom: 0;
   opacity: 0.5;
   border-radius: 1rem;
@@ -307,7 +292,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   word-break: break-word !important;
   color: #2d3954;
 }
@@ -337,5 +322,18 @@ a {
   text-decoration: none;
   background-color: transparent;
   -webkit-text-decoration-skip: objects;
+}
+
+/* =============
+   Mobile
+============= */
+
+@media only screen and (max-width: 600px) {
+  .instructor_over_info ul li:nth-child(3) {
+    display: none;
+  }
+  .instructor_over_info ul li:nth-child(2) {
+    display: none;
+  }
 }
 </style>

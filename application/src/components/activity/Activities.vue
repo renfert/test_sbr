@@ -1,14 +1,17 @@
 <template>
-  <div class="main" v-loading="loading">
-    <lang></lang>
+  <div v-loading="content">
     <div class="row" v-if="activities != null">
       <div class="col-12 col-md-12 mb-5">
         <div
           class="card-widget"
-          style="overflow-y: scroll; height:500px;border-radius:10px 0px 0px 10px !important;"
+          style="
+            overflow-y: scroll;
+            height: 500px;
+            border-radius: 10px 0px 0px 10px !important;
+          "
         >
           <div class="activities-title text-center mb-5">
-            <h3>{{lang['last-activities']}}</h3>
+            <h3>{{ lang['last-activities'] }}</h3>
           </div>
 
           <!-- Activity -->
@@ -16,131 +19,157 @@
             class="activity-item mb-4"
             v-for="element in activities"
             :key="element.id"
-            style="display:flex;align-items:center;"
+            style="display: flex; align-items: center"
           >
-            <div class="row" style="width:100%;">
+            <div class="row" style="width: 100%">
               <div class="col-12 col-md-2">
                 <el-avatar
                   :size="70"
                   fit="contain"
-                  :src="getUrlToContents() + 'avatar/'+element.avatar+''"
+                  :src="$getUrlToContents() + 'avatar/' + element.avatar + ''"
                 ></el-avatar>
               </div>
               <div class="col-10 text-left">
                 <!-- Course created -->
-                <div class="activity-info" v-if="element.type == 'course-created' ">
+                <div
+                  class="activity-info"
+                  v-if="element.type == 'course-created'"
+                >
                   <h4>
-                    <router-link :to="'/user/'+element.create_user">
-                      <b class="sbr-text-primary">{{element.name}}</b>
+                    <router-link :to="'/user/' + element.create_user">
+                      <b class="sbr-text-primary">{{ element.name }}</b>
                     </router-link>
-                    {{lang["activity-course-created"]}}
-                    <router-link class="mr-1" :to="'/viewcourse/'+element.mycourse_id">
-                      <b class="sbr-text-primary">{{element.title}}</b>
+                    {{ lang['activity-course-created'] }}
+                    <router-link
+                      class="mr-1"
+                      :to="'/viewcourse/' + element.mycourse_id"
+                    >
+                      <b class="sbr-text-primary">{{ element.title }}</b>
                     </router-link>
 
                     <i class="ti-blackboard text-success"></i>
                   </h4>
-                  <span>{{processDateTime(element.date)}}</span>
+                  <span>{{ processDateTime(element.date) }}</span>
                 </div>
 
                 <!-- Course deleted -->
-                <div class="activity-info" v-if="element.type == 'course-deleted' ">
+                <div
+                  class="activity-info"
+                  v-if="element.type == 'course-deleted'"
+                >
                   <h4>
-                    <router-link :to="'/user/'+element.create_user">
-                      <b class="sbr-text-primary">{{element.name}}</b>
+                    <router-link :to="'/user/' + element.create_user">
+                      <b class="sbr-text-primary">{{ element.name }}</b>
                     </router-link>
-                    {{lang["activity-course-deleted"]}}
-                    <b
-                      class="sbr-text-primary"
-                    >{{element.course_title}}</b>
+                    {{ lang['activity-course-deleted'] }}
+                    <b class="sbr-text-primary">{{ element.course_title }}</b>
                     <i class="ti-trash text-danger"></i>
                   </h4>
-                  <span>{{processDateTime(element.date)}}</span>
+                  <span>{{ processDateTime(element.date) }}</span>
                 </div>
 
                 <!-- Course edited -->
-                <div class="activity-info" v-if="element.type == 'course-edited' ">
+                <div
+                  class="activity-info"
+                  v-if="element.type == 'course-edited'"
+                >
                   <h4>
-                    <router-link :to="'/user/'+element.create_user">
-                      <b class="sbr-text-primary">{{element.name}}</b>
+                    <router-link :to="'/user/' + element.create_user">
+                      <b class="sbr-text-primary">{{ element.name }}</b>
                     </router-link>
-                    {{lang["activity-course-edited"]}}
-                    <router-link class="mr-1" :to="'/viewcourse/'+element.mycourse_id">
-                      <b class="sbr-text-primary">{{element.title}}</b>
+                    {{ lang['activity-course-edited'] }}
+                    <router-link
+                      class="mr-1"
+                      :to="'/viewcourse/' + element.mycourse_id"
+                    >
+                      <b class="sbr-text-primary">{{ element.title }}</b>
                     </router-link>
                     <i class="ti-pencil-alt text-warning"></i>
                   </h4>
-                  <span>{{processDateTime(element.date)}}</span>
+                  <span>{{ processDateTime(element.date) }}</span>
                 </div>
 
                 <!-- Lesson finished -->
-                <div class="activity-info" v-if="element.type == 'lesson-finished' ">
+                <div
+                  class="activity-info"
+                  v-if="element.type == 'lesson-finished'"
+                >
                   <h4>
-                    <router-link :to="'/user/'+element.create_user">
-                      <b class="sbr-text-primary">{{element.name}}</b>
+                    <router-link :to="'/user/' + element.create_user">
+                      <b class="sbr-text-primary">{{ element.name }}</b>
                     </router-link>
-                    {{lang["activity-finished-lesson"]}}
-                    <b
-                      class="sbr-text-primary"
-                    >{{element.lessonTitle}}</b>
-                    {{lang["in-the-course"]}}
-                    <router-link class="mr-1" :to="'/viewcourse/'+element.mycourse_id">
-                      <b class="sbr-text-primary">{{element.title}}</b>
+                    {{ lang['activity-finished-lesson'] }}
+                    <b class="sbr-text-primary">{{ element.lessonTitle }}</b>
+                    {{ lang['in-the-course'] }}
+                    <router-link
+                      class="mr-1"
+                      :to="'/viewcourse/' + element.mycourse_id"
+                    >
+                      <b class="sbr-text-primary">{{ element.title }}</b>
                     </router-link>
                     <i class="ti-arrow-circle-down text-success"></i>
                   </h4>
-                  <span>{{processDateTime(element.date)}}</span>
+                  <span>{{ processDateTime(element.date) }}</span>
                 </div>
 
                 <!-- Course finished -->
-                <div class="activity-info" v-if="element.type == 'course-finished' ">
+                <div
+                  class="activity-info"
+                  v-if="element.type == 'course-finished'"
+                >
                   <h4>
-                    <router-link :to="'/user/'+element.create_user">
-                      <b class="sbr-text-primary">{{element.name}}</b>
+                    <router-link :to="'/user/' + element.create_user">
+                      <b class="sbr-text-primary">{{ element.name }}</b>
                     </router-link>
-                    {{lang["activity-course-finished"]}}
-                    <router-link class="mr-1" :to="'/viewcourse/'+element.mycourse_id">
-                      <b class="sbr-text-primary">{{element.title}}</b>
+                    {{ lang['activity-course-finished'] }}
+                    <router-link
+                      class="mr-1"
+                      :to="'/viewcourse/' + element.mycourse_id"
+                    >
+                      <b class="sbr-text-primary">{{ element.title }}</b>
                     </router-link>
                     <i class="ti-arrow-circle-down text-success"></i>
                   </h4>
-                  <span>{{processDateTime(element.date)}}</span>
+                  <span>{{ processDateTime(element.date) }}</span>
                 </div>
 
                 <!-- Logout -->
-                <div class="activity-info" v-if="element.type == 'logout' ">
+                <div class="activity-info" v-if="element.type == 'logout'">
                   <h4>
-                    <router-link :to="'/user/'+element.create_user">
-                      <b class="sbr-text-primary">{{element.name}}</b>
+                    <router-link :to="'/user/' + element.create_user">
+                      <b class="sbr-text-primary">{{ element.name }}</b>
                     </router-link>
-                    {{lang["activity-logout"]}}
+                    {{ lang['activity-logout'] }}
                     <i class="ti-shift-left text-danger"></i>
                   </h4>
-                  <span>{{processDateTime(element.date)}}</span>
+                  <span>{{ processDateTime(element.date) }}</span>
                 </div>
 
                 <!-- Login -->
-                <div class="activity-info" v-if="element.type == 'login' ">
+                <div class="activity-info" v-if="element.type == 'login'">
                   <h4>
-                    <router-link :to="'/user/'+element.create_user">
-                      <b class="sbr-text-primary">{{element.name}}</b>
+                    <router-link :to="'/user/' + element.create_user">
+                      <b class="sbr-text-primary">{{ element.name }}</b>
                     </router-link>
-                    {{lang["activity-login"]}}
+                    {{ lang['activity-login'] }}
                     <i class="ti-shift-right text-success"></i>
                   </h4>
-                  <span>{{processDateTime(element.date)}}</span>
+                  <span>{{ processDateTime(element.date) }}</span>
                 </div>
 
                 <!-- Program created -->
-                <div class="activity-info" v-if="element.type == 'program-created' ">
+                <div
+                  class="activity-info"
+                  v-if="element.type == 'program-created'"
+                >
                   <h4>
-                    <router-link :to="'/user/'+element.id">
-                      <b class="sbr-text-primary">{{element.name}}</b>
+                    <router-link :to="'/user/' + element.id">
+                      <b class="sbr-text-primary">{{ element.name }}</b>
                     </router-link>
-                    {{lang["activity-program-created"]}}
+                    {{ lang['activity-program-created'] }}
                     <i class="ti-layers-alt text-success"></i>
                   </h4>
-                  <span>{{processDateTime(element.date)}}</span>
+                  <span>{{ processDateTime(element.date) }}</span>
                 </div>
               </div>
             </div>
@@ -149,125 +178,85 @@
         </div>
       </div>
     </div>
-
-    <div class="row mb-5" v-else>
-      <div class="col-12 text-center">
-        <img
-          class="no-results-img"
-          src="@/assets/img/general/ux/no_notification.png"
-          alt="No activities"
-        />
-        <h4 class="no-results-text">{{lang["no-activities"]}}</h4>
-      </div>
-    </div>
   </div>
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import VueTheMask from "vue-the-mask";
-import ElementUI from "element-ui";
-import Lang from "@/components/helper/HelperLang.vue";
-import "element-ui/lib/theme-chalk/index.css";
-import lang from "element-ui/lib/locale/lang/en";
-import locale from "element-ui/lib/locale";
-import { eventLang } from "@/components/helper/HelperLang";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
-
-locale.use(lang);
-Vue.use(VueTheMask);
-Vue.use(VueTheMask);
-Vue.use(VueAxios, axios);
-Vue.use(ElementUI);
+import { mapState } from 'vuex';
 
 export default {
-  components: {
-    Lang
-  },
-  mixins: [domains, alerts],
   data: () => {
     return {
-      lang: {},
-      loading: false,
+      content: false,
       activities: [],
-      currentDate: ""
+      currentDate: ''
     };
   },
-  mounted() {
-    eventLang.$on(
-      "lang",
-      function(response) {
-        this.lang = response;
-      }.bind(this)
-    );
-
+  computed: {
+    ...mapState(['lang', 'company'])
+  },
+  created() {
     this.getCurrentDate();
     this.listActivities();
   },
   methods: {
-    listActivities: function() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "activity",
-        "listingAll"
+    listActivities() {
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'activity',
+        'listingAll'
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        response => {
+      this.$request.get(urlToBeUsedInTheRequest).then(
+        (response) => {
           this.activities = response.data;
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
     getCurrentDate() {
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "verify",
-        "getCurrentDate"
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'verify',
+        'getCurrentDate'
       );
-      axios.get(urlToBeUsedInTheRequest).then(
-        response => {
+      this.$request.get(urlToBeUsedInTheRequest).then(
+        (response) => {
           this.currentDate = response.data;
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
     },
-    processDateTime: function(date) {
-      var dt1 = new Date(this.currentDate);
-      var dt2 = new Date(date);
-      var diffTime = Math.abs(dt2 - dt1);
-      var diffinMinutes = diffTime / (1000 * 60);
-      var diffInHours = diffTime / (1000 * 60 * 60);
+    processDateTime(date) {
+      const dt1 = new Date(this.currentDate);
+      const dt2 = new Date(date);
+      const diffTime = Math.abs(dt2 - dt1);
+      const diffinMinutes = diffTime / (1000 * 60);
+      const diffInHours = diffTime / (1000 * 60 * 60);
 
-      var day = dt2.getDate();
-      var month = dt2.getMonth();
-      var year = dt2.getFullYear();
+      const day = dt2.getDate();
+      const month = dt2.getMonth();
+      const year = dt2.getFullYear();
 
       if (diffinMinutes > 60) {
         if (diffInHours < 24) {
           return (
-            this.lang["activity-about-time-hour"] +
+            this.lang['activity-about-time-hour'] +
             Math.round(diffInHours) +
-            this.lang["activity-time-hour-ago"]
+            this.lang['activity-time-hour-ago']
           );
         } else {
-          return day + "/" + month + "/" + year;
+          return day + '/' + month + '/' + year;
         }
       } else {
-        return this.lang["activity-few-minutes-ago"];
+        return this.lang['activity-few-minutes-ago'];
       }
     }
   }
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 .user-avatar {
   width: 70px;
@@ -301,27 +290,5 @@ export default {
 
 .activity-item:hover {
   background-color: rgba(214, 211, 211, 0.4);
-}
-
-::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  background-color: #f5f5f5;
-}
-
-::-webkit-scrollbar {
-  width: 2px;
-  background-color: #f5f5f5;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: #0ae;
-  background-image: -webkit-gradient(
-    linear,
-    0 0,
-    0 100%,
-    color-stop(0.5, rgba(255, 255, 255, 0.2)),
-    color-stop(0.5, transparent),
-    to(transparent)
-  );
 }
 </style>

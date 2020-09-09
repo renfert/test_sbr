@@ -1,8 +1,7 @@
 <template>
-  <!--  Modal new lesson -->
   <div>
     <el-dialog
-      :visible.sync="modalCreateWebinar"
+      :visible.sync="modal"
       :title="lang['create-new-lesson']"
       center
       top="5vh"
@@ -15,32 +14,37 @@
           <input type="text" class="hide" name="type_mylesson_id" value="6" />
           <div class="form-group col-xl-12 col-md-12">
             <!-- Lesson name -->
-            <label class="col-form-label">{{lang["name"]}} *</label>
-            <el-input required v-model="name" name="title"></el-input>
+            <label class="col-form-label">{{ lang['name'] }} *</label>
+            <el-input required v-model="webinar.name" name="title"></el-input>
           </div>
         </div>
         <div class="form-row">
           <div class="form-group col-xl-12 col-md-12">
             <!-- Lesson url -->
-            <label class="col-form-label">{{lang["url"]}} *</label>
-            <el-input required v-model="url" name="url"></el-input>
+            <label class="col-form-label">{{ lang['url'] }} *</label>
+            <el-input required v-model="webinar.url" name="url"></el-input>
           </div>
         </div>
         <div class="form-row">
           <div class="form-group col-xl-12 col-md-12">
             <!-- Lesson description -->
-            <label class="col-form-label">{{lang["description"]}}</label>
-            <el-input type="textarea" name="description" rows="3" v-model="description"></el-input>
+            <label class="col-form-label">{{ lang['description'] }}</label>
+            <el-input
+              type="textarea"
+              name="description"
+              rows="3"
+              v-model="webinar.description"
+            ></el-input>
           </div>
         </div>
         <div class="form-row">
           <div class="form-group col-xl-12 col-md-12">
             <!-- Lesson date -->
-            <label class="col-form-label">{{lang["date"]}} *</label>
+            <label class="col-form-label">{{ lang['date'] }} *</label>
             <div class="block">
               <el-date-picker
                 required
-                v-model="date"
+                v-model="webinar.date"
                 type="date"
                 name="date"
                 format="yyyy/MM/dd"
@@ -53,16 +57,16 @@
         <div class="form-row">
           <div class="form-group col-xl-12 col-md-12">
             <!-- Lesson Schedule -->
-            <label class="col-form-label">{{lang["schedule"]}} *</label>
+            <label class="col-form-label">{{ lang['schedule'] }} *</label>
             <div class="block">
               <el-time-select
                 required
-                v-model="schedule"
+                v-model="webinar.schedule"
                 name="time"
                 :picker-options="{
-                                start: '00:00',
-                                end: '23:30'
-                            }"
+                  start: '00:00',
+                  end: '23:30'
+                }"
                 placeholder="Select time"
               ></el-time-select>
             </div>
@@ -74,91 +78,64 @@
               class="sbr-primary"
               v-loading="loading"
               native-type="submit"
-            >{{lang["save-button"]}}</el-button>
+              >{{ lang['save-button'] }}</el-button
+            >
           </div>
         </div>
       </form>
     </el-dialog>
   </div>
-  <!-- End  modal new module -->
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import domains from "@/mixins/domains";
-import alerts from "@/mixins/alerts";
+import { eventBus } from '@/components/newcourse/App';
+import { mapState } from 'vuex';
 
-import { eventBus } from "@/components/newcourse/App";
-import { mapState } from "vuex";
-
-Vue.use(VueAxios, axios);
 export default {
-  mixins: [domains, alerts],
-  props: ["module-id"],
+  props: ['module-id'],
   data: () => {
     return {
-      name: "",
-      modalCreateWebinar: false,
-      loading: false,
-      url: "",
-      date: "",
-      description: "",
-      schedule: ""
+      webinar: {
+        name: '',
+        url: '',
+        date: '',
+        description: '',
+        schedule: ''
+      },
+      modal: false,
+      loading: false
     };
   },
   mounted() {
-    /* Get new video click event */
-    eventBus.$on(
-      "new-webinar",
-      function() {
-        this.modalCreateWebinar = true;
-      }.bind(this)
-    );
+    eventBus.$on('new-webinar', () => {
+      this.modal = true;
+    });
   },
   computed: {
-    ...mapState(["lang"])
+    ...mapState(['lang'])
   },
   methods: {
-    /* Create a new lesson */
-    create: function() {
+    create() {
       this.loading = true;
-      var form = document.getElementById("form-lesson-webinar");
-      var formData = new FormData(form);
-      var urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
-        "lesson",
-        "create"
+      const form = document.getElementById('form-lesson-webinar');
+      const formData = new FormData(form);
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'lesson',
+        'create'
       );
-      axios.post(urlToBeUsedInTheRequest, formData).then(
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
-          /* Success callback */
-          this.successMessage();
-          this.actionsToBePerformedAfterRegistration();
+          this.$successMessage();
+          form.reset();
+          eventBus.$emit('new-lesson');
+          this.modal = false;
           this.loading = false;
         },
-        /* Error callback */
-        function() {
-          this.errorMessage();
-        }.bind(this)
+        () => {
+          this.$errorMessage();
+        }
       );
-    },
-    actionsToBePerformedAfterRegistration() {
-      this.name = "";
-      this.url = "";
-      this.description = "";
-      this.date = "";
-      this.schedule = "";
-      this.modalCreateWebinar = false;
-      eventBus.$emit("new-lesson");
     }
   }
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
-.modal {
-  z-index: 100 !important;
-}
-</style>
