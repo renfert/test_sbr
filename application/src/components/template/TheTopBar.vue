@@ -16,9 +16,9 @@
       class="top-trial"
       v-if="
         trialBar != false &&
-        role == 1 &&
+        user.role == 1 &&
         daysToExpiration >= 0 &&
-        plan == 'trial'
+        company.plan == 'trial'
       "
     >
       <span>
@@ -53,7 +53,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['lang', 'plan'])
+    ...mapState(['lang', 'company', 'user'])
   },
   created() {
     this.getCurrentDate();
