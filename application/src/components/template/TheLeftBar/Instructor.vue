@@ -128,7 +128,7 @@ export default {
         'doLogout'
       );
       this.$request.get(urlToBeUsedInTheRequest).then(() => {
-        window.location.href = this.getDomainNameToNavigation();
+        window.location.href = this.$getDomainNameToNavigation();
       });
     }
   }
