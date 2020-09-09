@@ -66,6 +66,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
   data: () => {
     return {
@@ -77,6 +79,9 @@ export default {
   },
   created() {
     this.programId = this.$route.params.id;
+  },
+  computed: {
+    ...mapState(['lang', 'userRole'])
   },
   mounted() {
     this.listingCoursesToViewProgram();
