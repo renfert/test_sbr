@@ -200,7 +200,7 @@ export default {
     HelperProgress
   },
   created() {
-    this.programId = this.$route.params.id;
+    this.program.id = this.$route.params.id;
   },
   mounted() {
     this.getProgram();
@@ -294,7 +294,7 @@ export default {
         'program',
         'getProgramCourses'
       );
-      formData.set('programId', this.programId);
+      formData.set('programId', this.program.id);
       this.$request.post(urlToBeUsedInTheRequest, formData).then(
         (response) => {
           response.data.forEach((element) => {
