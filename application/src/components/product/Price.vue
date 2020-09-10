@@ -42,9 +42,9 @@
 
     <div class="ed_view_price pl-4">
       <span>Acctual Price</span>
-      <span v-if="price == null" class="facts-1">
-        {{ lang['free-course'] }}
-      </span>
+      <span v-if="price == null" class="facts-1">{{
+        lang['free-course']
+      }}</span>
       <h2 v-else :style="primaryColor" class="theme-cl">$ {{ price }}</h2>
     </div>
 
@@ -122,7 +122,7 @@
             <!-- Mercado pago -->
             <div v-if="paymentPlatform == 'mercadopago'">
               <form
-                :action="this.getCurrentDomainName() + 'payment/process'"
+                :action="this.$getCurrentDomainName() + 'payment/process'"
                 method="POST"
                 v-if="preferenceId != null"
               >
@@ -215,7 +215,7 @@
             :placeholder="lang['confirm-password']"
           />
 
-          <input type="text" name="role" value="Student" class="hide" />
+          <input type="text" name="role" value="3" class="hide" />
 
           <!-- Sign in button -->
           <button
@@ -313,7 +313,7 @@
         </form>
       </div>
 
-      <div v-if="proceedToPayment" class="fade-in">
+      <div v-loading="loadingPayment" v-if="proceedToPayment" class="fade-in">
         <div class="row">
           <div class="col-8 mt-3">
             <h2 class="fw-600" :style="primaryColor">
@@ -324,7 +324,7 @@
             <div v-if="paymentPlatform == 'mercadopago'">
               <form
                 v-if="preferenceId != null"
-                :action="this.getCurrentDomainName() + 'payment/process'"
+                :action="this.$getCurrentDomainName() + 'payment/process'"
                 method="POST"
               >
                 <script
@@ -393,6 +393,7 @@ export default {
       createAnAccount: true,
       login: false,
       loading: false,
+      loadingPayment: false,
       password: '',
       confirmPassword: '',
       proceedToPayment: false,
@@ -459,9 +460,8 @@ export default {
         }
       });
     },
-    createMpPreference(courseTitle, coursePrice, courseId) {
-      // Mercado pago SDK
-      const mercadopago = require('mercadopago');
+    getMpAccessToken() {
+      this.loadingPayment = true;
       // Get credentials
       const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'integrations',
@@ -469,14 +469,22 @@ export default {
       );
       this.$request.get(urlToBeUsedInTheRequest).then(
         (response) => {
-          this.mpAccessToken = response.data.mp_access_token;
+          this.createMpPreference(
+            this.courseTitle,
+            this.price,
+            this.courseId,
+            response.data.mp_access_token
+          );
+          this.loadingPayment = false;
         },
         () => {
           this.$errorMessage();
         }
       );
-
-      const token = this.mpAccessToken;
+    },
+    createMpPreference(courseTitle, coursePrice, courseId, token) {
+      // Mercado pago SDK
+      const mercadopago = require('mercadopago');
 
       mercadopago.configure({
         sandbox: false,
@@ -610,7 +618,7 @@ export default {
             this.login = false;
             this.createAnAccount = false;
             this.proceedToPayment = true;
-            this.activeSession();
+            this.checkActiveSession();
             eventLogin.$emit('new-login');
           } else {
             this.wrongPasswordOrUser = true;
@@ -641,7 +649,7 @@ export default {
             this.login = false;
             this.createAnAccount = false;
             this.proceedToPayment = true;
-            this.activeSession();
+            this.checkActiveSession();
             eventLogin.$emit('new-login');
           } else {
             this.wrongPasswordOrUser = true;
@@ -719,8 +727,8 @@ export default {
     },
     courseId() {
       this.checkEnrolledUser();
-      if (this.price !== null) {
-        this.createMpPreference(this.courseTitle, this.price, this.courseId);
+      if (this.price !== null && this.paymentPlatform === 'mercadopago') {
+        this.getMpAccessToken();
       }
     }
   },
