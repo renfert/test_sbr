@@ -42,9 +42,9 @@
 
     <div class="ed_view_price pl-4">
       <span>Acctual Price</span>
-      <span v-if="price == null" class="facts-1">
-        {{ lang['free-course'] }}
-      </span>
+      <span v-if="price == null" class="facts-1">{{
+        lang['free-course']
+      }}</span>
       <h2 v-else :style="primaryColor" class="theme-cl">$ {{ price }}</h2>
     </div>
 
@@ -122,7 +122,7 @@
             <!-- Mercado pago -->
             <div v-if="paymentPlatform == 'mercadopago'">
               <form
-                :action="this.getCurrentDomainName() + 'payment/process'"
+                :action="this.$getCurrentDomainName() + 'payment/process'"
                 method="POST"
                 v-if="preferenceId != null"
               >
@@ -215,7 +215,7 @@
             :placeholder="lang['confirm-password']"
           />
 
-          <input type="text" name="role" value="Student" class="hide" />
+          <input type="text" name="role" value="3" class="hide" />
 
           <!-- Sign in button -->
           <button
@@ -324,7 +324,7 @@
             <div v-if="paymentPlatform == 'mercadopago'">
               <form
                 v-if="preferenceId != null"
-                :action="this.getCurrentDomainName() + 'payment/process'"
+                :action="this.$getCurrentDomainName() + 'payment/process'"
                 method="POST"
               >
                 <script
@@ -459,9 +459,7 @@ export default {
         }
       });
     },
-    createMpPreference(courseTitle, coursePrice, courseId) {
-      // Mercado pago SDK
-      const mercadopago = require('mercadopago');
+    getMpAccessToken() {
       // Get credentials
       const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'integrations',
@@ -469,14 +467,21 @@ export default {
       );
       this.$request.get(urlToBeUsedInTheRequest).then(
         (response) => {
-          this.mpAccessToken = response.data.mp_access_token;
+          this.createMpPreference(
+            this.courseTitle,
+            this.price,
+            this.courseId,
+            response.data.mp_access_token
+          );
         },
         () => {
           this.$errorMessage();
         }
       );
-
-      const token = this.mpAccessToken;
+    },
+    createMpPreference(courseTitle, coursePrice, courseId, token) {
+      // Mercado pago SDK
+      const mercadopago = require('mercadopago');
 
       mercadopago.configure({
         sandbox: false,
@@ -610,7 +615,7 @@ export default {
             this.login = false;
             this.createAnAccount = false;
             this.proceedToPayment = true;
-            this.activeSession();
+            this.checkActiveSession();
             eventLogin.$emit('new-login');
           } else {
             this.wrongPasswordOrUser = true;
@@ -641,7 +646,7 @@ export default {
             this.login = false;
             this.createAnAccount = false;
             this.proceedToPayment = true;
-            this.activeSession();
+            this.checkActiveSession();
             eventLogin.$emit('new-login');
           } else {
             this.wrongPasswordOrUser = true;
@@ -720,7 +725,7 @@ export default {
     courseId() {
       this.checkEnrolledUser();
       if (this.price !== null) {
-        this.createMpPreference(this.courseTitle, this.price, this.courseId);
+        this.getMpAccessToken();
       }
     }
   },
