@@ -313,7 +313,7 @@
         </form>
       </div>
 
-      <div v-if="proceedToPayment" class="fade-in">
+      <div v-loading="loadingPayment" v-if="proceedToPayment" class="fade-in">
         <div class="row">
           <div class="col-8 mt-3">
             <h2 class="fw-600" :style="primaryColor">
@@ -393,6 +393,7 @@ export default {
       createAnAccount: true,
       login: false,
       loading: false,
+      loadingPayment: false,
       password: '',
       confirmPassword: '',
       proceedToPayment: false,
@@ -460,6 +461,7 @@ export default {
       });
     },
     getMpAccessToken() {
+      this.loadingPayment = true;
       // Get credentials
       const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'integrations',
@@ -473,6 +475,7 @@ export default {
             this.courseId,
             response.data.mp_access_token
           );
+          this.loadingPayment = false;
         },
         () => {
           this.$errorMessage();
@@ -724,7 +727,7 @@ export default {
     },
     courseId() {
       this.checkEnrolledUser();
-      if (this.price !== null) {
+      if (this.price !== null && this.paymentPlatform === 'mercadopago') {
         this.getMpAccessToken();
       }
     }
