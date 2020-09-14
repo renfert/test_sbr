@@ -56,7 +56,7 @@
 
         <el-menu-item index="6">
           <i class="dripicons-list"></i>
-          <router-link to="categories">
+          <router-link to="/categories">
             <span class="menuMain">{{ lang['categories-nav'] }}</span>
           </router-link>
         </el-menu-item>

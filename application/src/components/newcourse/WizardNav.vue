@@ -39,16 +39,18 @@
         </a>
       </li>
     </ul>
-    <hr class="mt-5" />
 
     <!------------------------
             Basic information text
     -------------------------->
-    <div clas="row text-center" v-if="active1">
-      <div class="col-12 text-center">
-        <h3 class="sbr-text-grey">{{ lang['basic-information'] }}</h3>
-      </div>
-    </div>
+    <el-row clas="center" v-if="active1">
+      <el-col :span="24" class="center m-b-40 m-t-40">
+        <h3 class="sbr-text-grey">
+          <i class="el-icon-warning-outline"></i>
+          {{ lang['basic-information'] }}
+        </h3>
+      </el-col>
+    </el-row>
 
     <!------------------------
             Content text

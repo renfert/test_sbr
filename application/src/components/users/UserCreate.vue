@@ -36,10 +36,11 @@
       :inline="false"
       class="demo-form-inline"
     >
-      <el-row>
+      <el-row class="m-b-10" :gutter="20">
         <!-- Username -->
-        <el-col :md="8" class="mr-5 mb-3">
+        <el-col :sm="8" class="m-b-10">
           <el-input
+            clearable
             required
             name="name"
             :placeholder="lang['name']"
@@ -48,8 +49,9 @@
         </el-col>
 
         <!-- Email -->
-        <el-col :md="8" class="mr-5 mb-3">
+        <el-col :md="8" class="m-b-10">
           <el-input
+            clearable
             required
             type="email"
             name="email"
@@ -59,10 +61,11 @@
         </el-col>
       </el-row>
 
-      <el-row>
+      <el-row class="m-b-20" :gutter="20">
         <!-- Password -->
-        <el-col :md="8" class="mr-5 mb-3">
+        <el-col :md="8" class="m-b-10">
           <el-input
+            clearable
             required
             type="password"
             name="password"
@@ -72,7 +75,7 @@
         </el-col>
 
         <!-- Role -->
-        <el-col :md="8" class="mr-5 mb-3">
+        <el-col :md="8" class="m-b-10">
           <el-select
             required
             name="role"

@@ -1,7 +1,7 @@
 <template>
   <div class="content-page">
     <div class="card-box">
-      <h4 class="fw-700 mb-5">{{ lang['integrations'] }}</h4>
+      <h4 class="fw-700 m-b-30">{{ lang['integrations'] }}</h4>
       <template>
         <!-- Desktop -->
         <div class="desktop-tabs">

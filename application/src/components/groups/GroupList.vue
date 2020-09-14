@@ -86,17 +86,25 @@
           width="40%"
           top="5vh"
         >
-          <div class="form-group">
-            <label>{{ lang['new-name'] }}</label>
-            <el-input name="name" v-model="group.newName"></el-input>
-          </div>
-          <div class="form-group">
-            <el-button
-              class="sbr-primary"
-              @click.prevent="editGroup(group.id, group.newName)"
-              >{{ lang['save-button'] }}</el-button
-            >
-          </div>
+          <el-row :gutter="20">
+            <el-col :sm="12" class="m-b-10">
+              <div>
+                <el-input
+                  :placeholder="lang['new-name']"
+                  clearable
+                  name="name"
+                  v-model="group.newName"
+                ></el-input>
+              </div>
+            </el-col>
+            <el-col :sm="12">
+              <el-button
+                class="sbr-primary"
+                @click.prevent="editGroup(group.id, group.newName)"
+                >{{ lang['save-button'] }}</el-button
+              >
+            </el-col>
+          </el-row>
         </el-dialog>
 
         <!------------------

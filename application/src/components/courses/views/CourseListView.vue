@@ -8,34 +8,24 @@
       primaryColor="#f0f0f0"
       secondaryColor="#d9d9d9"
     ></facebook-loader>
-
-    <div class="row mt-5 mb-5" v-else>
-      <div
-        class="col-12 col-md-4 list-courses"
-        v-for="element in courseList"
-        :key="element.id"
-      >
+    <el-row v-else>
+      <el-col :sm="8" v-for="element in courseList" :key="element.id">
         <!-------------
           Course card
         --------------->
-        <div class="card">
-          <!-- Card image -->
+        <el-card :body-style="{ padding: '0px' }" shadow="hover">
           <img
+            class="card-image"
             v-if="element.expirationDays < 0 || element.releaseDays > 0"
             v-lazy="$getUrlToContents() + 'course/' + element.photo + ''"
-            style="height: 200px; cursor: not-allowed"
-            class="card-img-top"
           />
           <router-link v-else :to="'/viewcourse/' + element.id">
             <!-- Card image -->
             <img
               v-lazy="$getUrlToContents() + 'course/' + element.photo + ''"
-              style="height: 200px"
               class="card-img-top"
             />
           </router-link>
-
-          <!-- Card content -->
           <div class="card-body">
             <!-- Title -->
             <h4
@@ -52,7 +42,6 @@
                 element.title
               }}</router-link>
             </h4>
-
             <!-- Course progress -->
             <el-progress
               v-if="
@@ -122,12 +111,13 @@
               </template>
             </el-row>
           </div>
-        </div>
+        </el-card>
+
         <!-------------
           End course card
         --------------->
-      </div>
-    </div>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -205,7 +195,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.card a {
-  color: #647b9c !important;
+.card-img-top {
+  width: 100%;
+  height: 200px !important;
+}
+
+.card-title a {
+  font-family: 'Poppins', sans-serif;
+  word-break: break-word !important;
+  color: #647b9c;
+  text-decoration: none;
+  font-size: 15px;
+}
+
+.card-body {
+  padding: 30px;
 }
 </style>

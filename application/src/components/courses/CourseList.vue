@@ -1,9 +1,6 @@
 <template>
-  <div
-    class="card-box table-responsive mt-5 pr-0 pl-0"
-    v-if="courseList != null"
-  >
-    <div class="dropdown pull-right">
+  <div class="card-box m-t-30" v-if="courseList != null">
+    <div class="m-b-30">
       <a
         @click="changeCourseVisualization()"
         href="javascript:void(0)"
@@ -13,25 +10,29 @@
       >
         <i
           v-if="courseVisualization == 'list'"
-          class="mdi mdi-view-list mdi-36px pr-4"
+          class="mdi mdi-view-list mdi-36px pr-4 sbr-text-grey"
         ></i>
-        <i v-else class="mdi mdi-table mdi-36px pr-4"></i>
+        <i v-else class="mdi mdi-table mdi-36px pr-4 sbr-text-grey"></i>
       </a>
     </div>
     <course-list-view v-if="courseVisualization == 'list'"></course-list-view>
     <course-table-view v-else></course-table-view>
   </div>
 
-  <div class="row mb-5 mt-5" v-else>
-    <div class="col-12 text-center">
+  <el-row v-else class="center m-t-40">
+    <el-col>
       <img
-        class="no-results-img"
+        class="not-found-image"
         src="@/assets/img/general/ux/no_courses.png"
-        alt="No persons"
       />
       <h4 class="no-results-text">{{ lang['no-courses-found'] }}</h4>
-    </div>
-  </div>
+      <router-link to="/newcourse">
+        <el-button class="sbr-primary mt-4">
+          {{ lang['new-course-button'] }}
+        </el-button>
+      </router-link>
+    </el-col>
+  </el-row>
 </template>
 
 <script>
@@ -86,16 +87,3 @@ export default {
   }
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
-.image-no-results {
-  width: 15%;
-}
-.box-no-results {
-  background-color: #fcfcfc;
-}
-.text-no-results {
-  margin-top: 25%;
-}
-</style>

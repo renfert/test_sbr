@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="card-box mt-5" v-if="programList != null">
+    <div class="card-box m-t-30" v-if="programList != null">
       <div class="dropdown pull-right">
         <a
           @click="changeProgramVisualization()"
@@ -24,16 +24,21 @@
       <program-table-view v-else></program-table-view>
     </div>
 
-    <div class="row mb-5 mt-5" v-else>
-      <div class="col-12 text-center">
+    <el-row class="center m-t-30" v-else>
+      <el-col :sm="24">
         <img
-          class="no-results-img"
+          class="not-found-image"
           src="@/assets/img/general/ux/no_programs.png"
           alt="No programs"
         />
-        <h4 class="no-results-text">{{ lang['no-programs-found'] }}</h4>
-      </div>
-    </div>
+        <h4>{{ lang['no-programs-found'] }}</h4>
+        <router-link to="/newprogram">
+          <el-button class="sbr-primary mt-3">
+            {{ lang['new-program-button'] }}
+          </el-button>
+        </router-link>
+      </el-col>
+    </el-row>
   </div>
   <!-- End col-12 -->
 </template>
@@ -67,16 +72,3 @@ export default {
   }
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
-.image-no-results {
-  width: 15%;
-}
-.box-no-results {
-  background-color: #fcfcfc;
-}
-.text-no-results {
-  margin-top: 25%;
-}
-</style>

@@ -13,7 +13,7 @@
       <!--------------
         Banner profile
       --------------->
-      <div class="row" style="background-color: #f3f6f6">
+      <el-row style="background-color: #f3f6f6">
         <div class="img-container">
           <div class="img-profile-container">
             <el-avatar
@@ -33,17 +33,17 @@
           <h4>{{ userEmail }}</h4>
           <br />
         </div>
-      </div>
+      </el-row>
 
       <!--------------
        Profile charts
       --------------->
       <div class="profile-charts mt-5">
-        <div class="row">
+        <el-row :gutter="20">
           <!--------------
           Courses chart
           --------------->
-          <div class="col-12 col-md-6 mb-5">
+          <el-col :sm="12" :xs="24">
             <div class="card-widget" style="height: 350px">
               <GChart
                 class="mt-5"
@@ -52,12 +52,12 @@
                 :options="coursesChartOptions"
               />
             </div>
-          </div>
+          </el-col>
 
           <!--------------
           Exams
           --------------->
-          <div class="col-12 col-md-6 mb-5">
+          <el-col :sm="12" :xs="24">
             <div
               class="card-widget"
               style="
@@ -128,8 +128,8 @@
                 </div>
               </el-row>
             </div>
-          </div>
-        </div>
+          </el-col>
+        </el-row>
         <user-activities :user-id="userId"></user-activities>
       </div>
     </div>

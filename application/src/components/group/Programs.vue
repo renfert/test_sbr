@@ -1,5 +1,5 @@
 <template>
-  <div class="m-5">
+  <div>
     <facebook-loader
       v-if="content == false"
       :speed="2"
@@ -10,10 +10,10 @@
     ></facebook-loader>
 
     <div v-else>
-      <div class="course-content" v-if="programsBelongingToTheGroup != null">
-        <div class="mb-5">
+      <div v-if="programsBelongingToTheGroup != null">
+        <div>
           <el-row>
-            <el-col :md="6" :xs="18" class="mr-3">
+            <el-col :sm="6" :xs="18">
               <el-input
                 v-model="table.filters[0].value"
                 placeholder="Search"
@@ -64,23 +64,20 @@
         </data-tables>
       </div>
 
-      <div v-else>
-        <div class="row mb-5">
-          <div class="col-12 text-center">
-            <img
-              class="no-results-img"
-              src="@/assets/img/general/ux/not_found.png"
-              alt="No activities"
-            />
-            <h4 class="no-results-text mb-3">
-              {{ lang['no-results-programs-in-group'] }}
-            </h4>
-            <el-button class="sbr-primary" @click="addProgram()">{{
-              lang['add-program']
-            }}</el-button>
-          </div>
-        </div>
-      </div>
+      <el-row class="center m-t-40 m-b-40" v-else>
+        <el-col :sm="24">
+          <img
+            class="not-found-image"
+            src="@/assets/img/general/ux/not_found.png"
+          />
+          <h4>
+            {{ lang['no-results-instructors-in-group'] }}
+          </h4>
+          <el-button class="sbr-primary" @click="addProgram()">{{
+            lang['add-program']
+          }}</el-button>
+        </el-col>
+      </el-row>
     </div>
 
     <!-----------------------
@@ -120,18 +117,15 @@
           >
         </div>
 
-        <div v-else>
-          <div class="row mb-5">
-            <div class="col-12 text-center">
-              <img
-                class="no-results-img"
-                src="@/assets/img/general/ux/not_found.png"
-                alt="No activities"
-              />
-              <h4>{{ lang['all-programs-already-added'] }}</h4>
-            </div>
-          </div>
-        </div>
+        <el-row v-else class="center">
+          <el-col :sm="24">
+            <img
+              class="not-found-image"
+              src="@/assets/img/general/ux/not_found.png"
+            />
+            <h4>{{ lang['all-programs-already-added'] }}</h4>
+          </el-col>
+        </el-row>
       </div>
     </el-dialog>
     <!-----------------------

@@ -1,16 +1,17 @@
 <template>
-  <div class="col-md-6 col-12">
+  <el-col :sm="24">
     <br />
     <img
-      class="integration-image"
+      style="width: 100px"
+      class="m-b-10"
       src="@/assets/img/apps/mercadopago.png"
-      alt="mercadopago"
-      style="width: 100px; padding-bottom: 10px"
     />
     <br />
     <form id="form-mp" @submit.prevent="captureCurrency()">
       <div class="form-group">
         <el-input
+          clearable
+          class="m-b-10"
           :type="typeInput"
           v-model="accessToken"
           name="id"
@@ -168,7 +169,7 @@
         <img style="width: 30%" src="@/assets/img/apps/mercadopago.gif" alt />
       </div>
     </el-dialog>
-  </div>
+  </el-col>
 </template>
 
 <script>

@@ -1,7 +1,7 @@
 <template>
   <!-- Content page -->
   <div class="content-page">
-    <div class="text-center">
+    <div class="center">
       <!-- Group tabs -->
       <div id="tabs">
         <el-tabs type="border-card">

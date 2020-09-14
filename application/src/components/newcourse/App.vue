@@ -60,4 +60,7 @@ export default {
   padding-left: 0px !important;
   padding-right: 0px !important;
 }
+.content-page {
+  background-color: #f9f9f9 !important;
+}
 </style>

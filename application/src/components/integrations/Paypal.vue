@@ -1,11 +1,14 @@
 <template>
-  <div class="col-md-6 col-12 mt-3">
+  <el-col class="m-t-20" :sm="24">
     <img
-      class="integration-image pr-5 pb-3"
+      style="width: 100px"
+      class="m-b-10"
       src="@/assets/img/apps/paypal.png"
     />
     <form @submit.prevent="savePaypalClientId()" id="form-tag-manager">
       <el-input
+        clearable
+        class="m-b-10"
         :type="typeInput"
         v-model="id"
         name="id"
@@ -24,7 +27,7 @@
         >{{ lang['save-button'] }}</el-button
       >
     </form>
-  </div>
+  </el-col>
 </template>
 
 <script>

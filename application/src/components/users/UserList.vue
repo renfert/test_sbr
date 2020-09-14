@@ -12,8 +12,8 @@
       <div>
         <h4>{{ lang['list-users'] }}</h4>
         <div style="margin-bottom: 10px">
-          <el-row>
-            <el-col :md="6" :xs="16">
+          <el-row :gutter="20">
+            <el-col :sm="6" :xs="16">
               <el-input
                 v-model="filters[0].value"
                 placeholder="Search"
