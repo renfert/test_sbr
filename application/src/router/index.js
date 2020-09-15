@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+
 Vue.use(Router);
 
 const routes = [
@@ -9,7 +10,7 @@ const routes = [
     component: () =>
       import(
         /* webpackChunkName: "marketplace" */ '@/components/marketplace/App'
-      ),
+        ),
     alias: '/index'
   },
   {
@@ -42,7 +43,7 @@ const routes = [
     component: () =>
       import(
         /* webpackChunkName: "invalidsession" */ '@/components/invalidsession/App'
-      )
+        )
   },
   {
     name: 'categories',
@@ -56,7 +57,7 @@ const routes = [
     component: () =>
       import(
         /* webpackChunkName: "certificates" */ '@/components/certificates/App'
-      )
+        )
   },
   {
     name: 'corrections',
@@ -64,7 +65,7 @@ const routes = [
     component: () =>
       import(
         /* webpackChunkName: "corrections" */ '@/components/corrections/App'
-      )
+        )
   },
   {
     name: 'editcourse',
@@ -78,7 +79,7 @@ const routes = [
     component: () =>
       import(
         /* webpackChunkName: "editprogram" */ '@/components/editprogram/App'
-      )
+        )
   },
   {
     name: 'auth',
@@ -110,7 +111,7 @@ const routes = [
     component: () =>
       import(
         /* webpackChunkName: "integrations" */ '@/components/integrations/App'
-      )
+        )
   },
   {
     name: 'leads',
@@ -166,7 +167,7 @@ const routes = [
     component: () =>
       import(
         /* webpackChunkName: "purchaseinprocess" */ '@/components/purchase/App'
-      )
+        )
   },
   {
     name: 'records',
@@ -213,6 +214,13 @@ const routes = [
       )
   },
   {
+    name: 'sabiorealm-social',
+    path: '/sabiorealm-social',
+    component: () => {
+      import('@/components/sabiorealm-social/App');
+    }
+  },
+  {
     name: '404',
     path: '*',
     component: () =>
@@ -224,7 +232,7 @@ const router = new Router({
   routes,
   mode: 'history',
   scrollBehavior() {
-    return { x: 0, y: 0 };
+    return {x: 0, y: 0};
   }
 });
 export default router;
