@@ -216,9 +216,8 @@ const routes = [
   {
     name: 'sabiorealm-social',
     path: '/sabiorealm-social',
-    component: () => {
-      import('@/components/sabiorealm-social/App');
-    }
+    component: () =>
+      import('@/components/sabiorealm-social/App')
   },
   {
     name: '404',
