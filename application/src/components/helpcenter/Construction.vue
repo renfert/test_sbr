@@ -5,6 +5,7 @@
       src="@/assets/img/general/ux/no_persons.png"
       alt="No courses"
     />
+    {{ lang['go-to-course'] }}
     <h4 class="no-results-text">{{ lang['under-construction-title'] }}</h4>
     <p>{{ lang['under-construction-subtitle'] }}</p>
   </div>
