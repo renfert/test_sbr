@@ -175,7 +175,7 @@ export default {
 .banner-btn {
   margin: 1.5rem auto 0;
   display: flex;
-  height: 44px;
+  height: auto;
   font-weight: 600;
   color: #fff !important;
   align-items: center;

@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div class="container-site pt-5">
+    <div class="container-site m-t-40">
       <!-- Row -->
-      <div class="row">
-        <div class="col-lg-4 col-md-12 col-sm-12 order-2 order-lg-1 order-md-2">
+      <el-row :gutter="40">
+        <el-col :sm="6" :xs="12">
           <div class="page_sidebar hide-23">
             <!-- Search Form -->
             <form class="form-inline addons mb-3">
@@ -112,29 +112,33 @@
               </div>
             </div>
           </div>
-        </div>
+        </el-col>
 
-        <div class="col-lg-8 col-md-12 col-sm-12 order-1 order-lg-2 order-md-1">
+        <el-col :sm="18" :xs="24">
           <!-- Row -->
-          <div
+          <el-row
             id="top-list"
-            class="row align-items-center mb-3"
+            class="align-items-center m-b-30"
             v-if="courseList != null"
           >
-            <div class="col-lg-6 col-md-6 col-sm-12 founded-courses">
+            <el-col :span="24" class="founded-courses">
               {{ lang['we-found'] }}
               <strong>
                 <b>{{ courseList.length }}</b>
               </strong>
               {{ lang['courses'] }}
-            </div>
-          </div>
+            </el-col>
+          </el-row>
           <!-- /Row -->
 
-          <div class="row courses-grid" v-if="visibleCourses != null">
+          <el-row
+            :gutter="20"
+            class="courses-grid"
+            v-if="visibleCourses != null"
+          >
             <!-- Cource Grid  -->
-            <div
-              class="col-lg-6 col-md-6 col-sm-6"
+            <el-col
+              :span="12"
               v-for="element in visibleCourses"
               :key="element.id"
             >
@@ -218,8 +222,8 @@
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
+            </el-col>
+          </el-row>
 
           <div class="row" v-else>
             <div class="col-12 text-center">
@@ -280,8 +284,8 @@
               </ul>
             </div>
           </div>
-        </div>
-      </div>
+        </el-col>
+      </el-row>
       <!-- Row -->
     </div>
   </div>
@@ -686,6 +690,11 @@ input[type='radio'] {
 /* =============
    Courses list
 ============= */
+.image {
+  width: 100%;
+  display: block;
+}
+
 .education_block_grid {
   width: 100%;
   background: #ffffff;
@@ -747,7 +756,6 @@ input[type='radio'] {
 }
 
 .education_block_footer {
-  padding: 1rem 1.5rem;
   width: 100%;
   display: flex;
   vertical-align: middle;
@@ -808,5 +816,11 @@ input[type='radio'] {
 
 .courses-grid {
   box-shadow: -10px 0px 10px -10px #e6ebf1;
+}
+
+.img-fluid,
+.img-thumbnail {
+  max-width: 100%;
+  height: auto;
 }
 </style>
