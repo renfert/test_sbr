@@ -1,19 +1,19 @@
 <template>
   <div class="content-page">
-    <available-plans></available-plans>
+    <construction></construction>
   </div>
 </template>
 
 <script>
 import Vue from 'vue';
 import VueHead from 'vue-head';
-import AvailablePlans from '@/components/plans/AvailablePlans';
+import Construction from '@/components/helpcenter/Construction.vue';
 
 Vue.use(VueHead);
 
 export default {
   components: {
-    AvailablePlans
+    Construction
   },
   created() {
     this.$verifyAdministratorPrivileges();

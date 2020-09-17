@@ -9,9 +9,9 @@
         >
           <transition-group type="transition" name="flip-list">
             <li
+              class="list-group-item"
               v-for="element in links"
               :key="element.id"
-              class="list-group-item d-flex justify-content-between align-items-center"
             >
               <span class="text-eadtools">{{ element.title }}</span>
               <div class="action-icons">

@@ -195,7 +195,7 @@ export default {
       const fileName = file.name;
       const fileExt = this.formatExtension(fileName.split('.').pop());
 
-      const newFileName = this.generateFileName(40) + '.' + fileExt;
+      const newFileName = this.generateFileName(30) + '.' + fileExt;
       eventProgress.$emit('new-progress');
 
       AWS.config.update({
@@ -260,7 +260,7 @@ export default {
         region: 'us-east-1'
       });
 
-      const folderName = this.generateFileName(30);
+      const folderName = this.generateFileName(20);
       const keyName = this.subDomainName + '/uploads/html/' + folderName + '/';
 
       const bucket = new S3({

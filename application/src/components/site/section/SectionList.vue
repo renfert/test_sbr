@@ -4,13 +4,13 @@
       <draggable
         v-model="sections"
         ghost-class="ghost"
-        @end="finishRepositioning"
+        @end="reorderSectionPositions()"
       >
         <transition-group type="transition" name="flip-list">
           <li
             v-for="element in sections"
             :key="element.id"
-            class="list-group-item d-flex justify-content-between align-items-center sortable"
+            class="list-group-item sortable"
           >
             <!-- Banner -->
             <span class="sbr-text-primary" v-if="element.banner_id != 1"
@@ -136,14 +136,11 @@ export default {
         }
       );
     },
-    finishRepositioning() {
-      this.reorderLinkPositions();
-    },
-    reorderLinkPositions() {
+    reorderSectionPositions() {
       const ar = [];
 
-      $('.sectionPosition').each((index) => {
-        const id = $(this).attr('id');
+      $('.sectionPosition').each((index, element) => {
+        const id = $(element).attr('id');
         ar.push({ id: id, index: index });
       });
 

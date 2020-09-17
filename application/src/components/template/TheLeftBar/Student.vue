@@ -66,9 +66,7 @@
         <el-row>
           <!-- Profile -->
           <router-link class="pr-4" to="/profile">
-            <el-avatar
-              :src="$getUrlToContents() + 'avatar/' + userAvatar + ''"
-            />
+            <el-avatar :src="$getUrlToContents() + 'avatar/' + userAvatar" />
           </router-link>
 
           <!-- Notification -->

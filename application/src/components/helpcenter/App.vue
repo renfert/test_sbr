@@ -1,6 +1,7 @@
 <template>
   <div class="content-page">
     <construction></construction>
+    <img :src="$getUrlToContents() + '/avatar/' + user.avatar" alt="" />
   </div>
 </template>
 
@@ -8,10 +9,15 @@
 import Vue from 'vue';
 import VueHead from 'vue-head';
 import Construction from '@/components/helpcenter/Construction.vue';
+import { mapState } from 'vuex';
+
 Vue.use(VueHead);
 export default {
   components: {
     Construction
+  },
+  computed: {
+    ...mapState(['user'])
   },
   head: {
     title: {
