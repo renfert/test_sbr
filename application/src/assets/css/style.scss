@@ -176,6 +176,8 @@ p-r-15 {
 
 p-r-20 {
   padding-right: 5px;
+}
+
 .p-l-10 {
   padding-left: 10px !important;
 }
@@ -508,6 +510,8 @@ Element UI Custom
 .el-transfer {
   text-align: left;
   display: inline-block;
+}
+
 // El select
 .el-select-dropdown {
   z-index: 9999 !important;
@@ -636,8 +640,8 @@ Element UI Custom
 }
 
 /* =============
-   Buttons
-============= */
+    Buttons
+    ============= */
 
 .mercadopago-button {
   width: 80% !important;
@@ -694,8 +698,8 @@ Element UI Custom
 }
 
 /* =============
-Certificates
-============= */
+    Certificates
+    ============= */
 
 // Classic certificate template
 .classic-template {
@@ -756,8 +760,8 @@ Certificates
 }
 
 /* =============
-Mobile
-============= */
+    Mobile
+    ============= */
 @media (max-width: 768px) {
   body {
     overflow-x: hidden;
@@ -792,31 +796,31 @@ Mobile
     animation: slide 2s forwards;
     animation-delay: 2s;
   }
+}
 
-  @media only screen and (max-width: 600px) {
-    .content-page {
-      margin-top: 25%;
-    }
+@media only screen and (max-width: 600px) {
+  .content-page {
+    margin-top: 25%;
+  }
+}
+
+@media (max-width: 480px) {
+  .side-menu.retracted {
+    position: fixed;
+    top: 0;
+    left: -500px;
+    transition: 1s;
   }
 
-  @media (max-width: 480px) {
-    .side-menu.retracted {
-      position: fixed;
-      top: 0;
-      left: -500px;
-      transition: 1s;
-    }
-
-    .side-menu.opened {
-      position: fixed;
-      top: 0;
-      display: initial;
-      transition: 1s;
-      left: 0;
-    }
+  .side-menu.opened {
+    position: fixed;
+    top: 0;
+    display: initial;
+    transition: 1s;
+    left: 0;
   }
+}
 
-  .mobile-topbar {
-    display: none;
-  }
+.mobile-topbar {
+  display: none;
 }
