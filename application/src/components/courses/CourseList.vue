@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="card-box table-responsive mt-5 pr-0 pl-0"
-    v-if="courseList != null"
-  >
+  <div class="card-box table-responsive pr-0 pl-0" v-if="courseList != null">
     <div class="dropdown pull-right">
       <a
         @click="changeCourseVisualization()"
