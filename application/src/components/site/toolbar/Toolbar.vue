@@ -3,8 +3,8 @@
     <el-container>
       <el-aside class="fixed-aside">
         <el-menu class="el-menu-vertical-demo">
-          <div class="back mt-5">
-            <router-link to="/home">
+          <div class="back m-t-40">
+            <router-link class="sbr-text-primary" to="/home">
               <i class="el-icon-back"></i>
               {{ lang['back'] }}
             </router-link>
@@ -67,7 +67,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 .fixed-aside {
-  width: 370px !important;
+  width: 25% !important;
   position: fixed;
   z-index: 2001;
   top: 0;
@@ -87,7 +87,7 @@ export default {
 }
 
 .el-menu {
-  width: 350px !important;
+  width: 100% !important;
 }
 
 .el-menu-item {
@@ -132,6 +132,15 @@ export default {
 @media only screen and (max-width: 600px) {
   .el-aside {
     position: fixed !important;
+  }
+  .fixed-aside {
+    width: 100% !important;
+    position: fixed;
+    z-index: 2001;
+    top: 0;
+    bottom: 0;
+    background: #fff;
+    border-right: 1px solid #dbd3d3;
   }
 }
 </style>

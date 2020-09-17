@@ -78,7 +78,12 @@
                 />
               </el-avatar>
             </label>
-            <input :value="person.avatar" name="avatar" type="text" />
+            <input
+              class="hide"
+              :value="person.avatar"
+              name="avatar"
+              type="text"
+            />
             <input
               id="file-input"
               type="file"
@@ -330,6 +335,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+#file-input {
+  display: none;
+}
+
 .action-icons {
   float: right;
   margin-left: 0%;

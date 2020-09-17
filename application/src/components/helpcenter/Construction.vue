@@ -1,17 +1,12 @@
 <template>
-  <div class="mt-5 text-center pr-5 pl-5">
-    <el-row :gutter="40">
-      <el-col :sm="12" :xs="24">
-        <div style="width: 100%; background-color: red">
-          <h1>teste</h1>
-        </div>
-      </el-col>
-      <el-col :sm="12">
-        <div style="width: 100%; background-color: green">
-          <h1>teste</h1>
-        </div>
-      </el-col>
-    </el-row>
+  <div class="m-t-10 text-center construction">
+    <img
+      class="no-results-img"
+      src="@/assets/img/general/ux/no_persons.png"
+      alt="No courses"
+    />
+    <h3 class="m-t-40 fw-700">{{ lang['under-construction-title'] }}</h3>
+    <p>{{ lang['under-construction-subtitle'] }}</p>
   </div>
 </template>
 
@@ -23,3 +18,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.construction {
+  padding: 0% 10%;
+}
+</style>

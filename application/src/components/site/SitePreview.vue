@@ -118,27 +118,27 @@
                 :key="element.id"
               >
                 <i
-                  v-if="element.name == 'facebook'"
+                  v-if="element.name == 'Facebook'"
                   class="fab fa-facebook-f fa-lg white-text fa-2x social-icon"
                 ></i>
                 <i
-                  v-if="element.name == 'instagram'"
+                  v-if="element.name == 'Instagram'"
                   class="fab fa-instagram fa-lg white-text fa-2x social-icon"
                 ></i>
                 <i
-                  v-if="element.name == 'linkedin'"
+                  v-if="element.name == 'Linkedin'"
                   class="fab fa-linkedin-in fa-lg white-text fa-2x social-icon"
                 ></i>
                 <i
-                  v-if="element.name == 'twitter'"
+                  v-if="element.name == 'Twitter'"
                   class="fab fa-twitter fa-lg white-text fa-2x social-icon"
                 ></i>
                 <i
-                  v-if="element.name == 'pinterest'"
+                  v-if="element.name == 'Pinterest'"
                   class="fab fa-pinterest fa-lg white-text fa-2x"
                 ></i>
                 <i
-                  v-if="element.name == 'youtube'"
+                  v-if="element.name == 'Youtube'"
                   class="fab fa-youtube fa-lg white-text fa-2x social-icon"
                 ></i>
               </a>
@@ -244,6 +244,11 @@ export default {
     // When reorder section
     eventBus.$on('reorder-section', () => {
       this.getBody();
+    });
+
+    // When change footer
+    eventBus.$on('new-change-footer', () => {
+      this.getFooter();
     });
   },
   computed: {
@@ -358,7 +363,7 @@ export default {
           this.footerColor = response.data[0].color;
           this.copyright = response.data[0].copyright;
           this.loading = false;
-          this.updateSocialMediaListArray();
+          this.getSocialMedias();
         },
         () => {
           this.$errorMessage();
@@ -403,7 +408,7 @@ export default {
         }
       );
     },
-    updateSocialMediaListArray() {
+    getSocialMedias() {
       this.loading = true;
       const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'social',

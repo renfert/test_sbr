@@ -4,7 +4,7 @@
       <course-create></course-create>
     </div>
 
-    <div class="mb-5">
+    <div class="m-b-40">
       <course-list></course-list>
     </div>
   </div>

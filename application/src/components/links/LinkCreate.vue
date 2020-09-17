@@ -18,11 +18,12 @@
         </div>
         <div class="form-group">
           <label>{{ lang['target'] }}</label>
-          <div class="block">
-            <select class="form-select" name="target" v-model="link.target">
-              <option value="_new">{{ lang['new-window'] }}</option>
-              <option value="_blank">{{ lang['same-window'] }}</option>
-            </select>
+          <div>
+            <el-select name="target" v-model="link.target" placeholder="Select">
+              <el-option :label="lang['new-window']" value="_new"> </el-option>
+              <el-option :label="lang['same-window']" value="_blank">
+              </el-option>
+            </el-select>
           </div>
         </div>
         <div class="form-group">

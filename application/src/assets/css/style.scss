@@ -176,6 +176,20 @@ p-r-15 {
 
 p-r-20 {
   padding-right: 5px;
+.p-l-10 {
+  padding-left: 10px !important;
+}
+
+.p-l-20 {
+  padding-left: 20px !important;
+}
+
+.p-l-30 {
+  padding-left: 30px !important;
+}
+
+.p-l-40 {
+  padding-left: 40px !important;
 }
 
 .p-t-10 {
@@ -199,8 +213,16 @@ p-r-20 {
   margin-right: 10px !important;
 }
 
-.m-r-15 {
-  margin-right: 15px !important;
+.m-r-20 {
+  margin-right: 20px !important;
+}
+
+.m-r-30 {
+  margin-right: 30px !important;
+}
+
+.m-r-40 {
+  margin-right: 40px !important;
 }
 
 .m-l-5 {
@@ -213,6 +235,26 @@ p-r-20 {
 
 .m-l-15 {
   margin-left: 15px !important;
+}
+
+.m-l-20 {
+  margin-left: 20px !important;
+}
+
+.m-l-25 {
+  margin-left: 25px !important;
+}
+
+.m-l-30 {
+  margin-left: 30px !important;
+}
+
+.m-l-35 {
+  margin-left: 35px !important;
+}
+
+.m-l-40 {
+  margin-left: 40px !important;
 }
 
 .m-t-5 {
@@ -309,6 +351,39 @@ p-r-20 {
 /* =============
    Extras
 ============= */
+
+.integration-image {
+  width: 150px;
+}
+
+.no-results-img {
+  width: 150px;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.list-group {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  padding-left: 0;
+  margin-bottom: 0;
+}
+
+.list-group-item {
+  position: relative;
+  display: block;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: -1px;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+}
 
 label {
   font-weight: 500;
@@ -433,6 +508,9 @@ Element UI Custom
 .el-transfer {
   text-align: left;
   display: inline-block;
+// El select
+.el-select-dropdown {
+  z-index: 9999 !important;
 }
 
 // Dialog

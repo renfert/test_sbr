@@ -8,28 +8,27 @@
       top="5vh"
     >
       <form id="form-social" @submit.prevent="createSocialMedia()">
+        <label>{{ lang['social-media'] }}</label>
         <div class="form-group">
-          <label>{{ lang['social-media'] }}</label>
-          <div class="block">
-            <select
-              class="form-select"
-              name="socialMedia"
-              v-model="socialMedia"
-            >
-              <option value="facebook">Facebook</option>
-              <option value="instagram">Instagram</option>
-              <option value="linkedin">Linkedin</option>
-              <option value="twitter">Twitter</option>
-              <option value="pinterest">Pinterest</option>
-              <option value="youtube">Youtube</option>
-            </select>
-          </div>
+          <el-select
+            name="socialMedia"
+            v-model="socialMedia"
+            placeholder="Select"
+          >
+            <el-option label="Facebook" value="facebook"> </el-option>
+            <el-option label="Instagram" value="instagram"> </el-option>
+            <el-option label="Linkedin" value="linkedin"> </el-option>
+            <el-option label="Twitter" value="twitter"> </el-option>
+            <el-option label="Pinterest" value="pinterest"> </el-option>
+            <el-option label="Youtube" value="youtube"> </el-option>
+          </el-select>
         </div>
+
         <div class="form-group">
           <label>{{ lang['url'] }}</label>
           <el-input name="url" v-model="url"></el-input>
         </div>
-        <div class="form-group">
+        <div>
           <el-button class="sbr-btn sbr-primary" native-type="submit">{{
             lang['save-button']
           }}</el-button>
@@ -63,7 +62,7 @@ export default {
     createSocialMedia() {
       const form = document.getElementById('form-social');
       const formData = new FormData(form);
-      const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'social',
         'create'
       );

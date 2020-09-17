@@ -48,9 +48,9 @@
                   name="b-7"
                   type="radio"
                 />
-                <label for="b-7" class="checkbox-custom-label">
-                  {{ lang['all'] }}
-                </label>
+                <label for="b-7" class="checkbox-custom-label">{{
+                  lang['all']
+                }}</label>
               </li>
               <li>
                 <input
@@ -61,9 +61,9 @@
                   name="b-8"
                   type="radio"
                 />
-                <label for="b-8" class="checkbox-custom-label">
-                  {{ lang['free-course'] }}
-                </label>
+                <label for="b-8" class="checkbox-custom-label">{{
+                  lang['free-course']
+                }}</label>
               </li>
               <li>
                 <input
@@ -74,9 +74,9 @@
                   name="b-9"
                   type="radio"
                 />
-                <label for="b-9" class="checkbox-custom-label">
-                  {{ lang['paid-courses'] }}
-                </label>
+                <label for="b-9" class="checkbox-custom-label">{{
+                  lang['paid-courses']
+                }}</label>
               </li>
             </ul>
           </div>
@@ -106,9 +106,9 @@
                 v-for="element in categories"
                 :key="element.id"
               >
-                <a href="javascript:void(0)" class="tag-cloud-lin">
-                  {{ element.name }}
-                </a>
+                <a href="javascript:void(0)" class="tag-cloud-lin">{{
+                  element.name
+                }}</a>
               </div>
             </div>
           </div>
@@ -179,11 +179,11 @@
                   <ul>
                     <li>
                       <i class="ti-agenda mr-2"></i>
-                      Modules: {{ element.totalModules }}
+                      {{ lang['modules'] }}: {{ element.totalModules }}
                     </li>
                     <li>
                       <i class="ti-control-skip-forward mr-2"></i>
-                      Lessons: {{ element.totalLessons }}
+                      {{ lang['lessons'] }}: {{ element.totalLessons }}
                     </li>
                   </ul>
                 </div>

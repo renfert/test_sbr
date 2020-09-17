@@ -78,7 +78,7 @@ export default {
         'background-color': this.buttonColor,
         display: this.banner.title == null ? 'none' : 'initial',
         '--color-hover': this.buttonColorHover,
-        'border-radius': this.buttonStyle === 'plain' ? '0px' : '50px'
+        'border-radius': this.buttonStyle === 'Plain' ? '0px' : '50px'
       };
     },
     styleHeader() {
