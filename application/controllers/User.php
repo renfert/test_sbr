@@ -1,5 +1,5 @@
 <?php
-header("Access-Control-Allow-Origin: *");      
+header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
 defined('BASEPATH') OR exit('No direct script access allowed');
 class User extends CI_Controller {
@@ -14,13 +14,13 @@ class User extends CI_Controller {
     }
 
     /* ---------------------
-        Create a new user 
+        Create a new user
     -----------------------*/
 	public function create(){
-        
+
         /*-------------------
-            verifyUserCreate method will check 
-            within the customer plan if there are users 
+            verifyUserCreate method will check
+            within the customer plan if there are users
             available for registration
         -------------------*/
         if($this->Verify_Model->verifyUserCreate($this->input->post("role"))){
@@ -39,16 +39,16 @@ class User extends CI_Controller {
         }
     }
 
-    
+
     /* ---------------------
-        Delete a user 
+        Delete a user
     -----------------------*/
     public function delete(){
         $userId = $this->input->post("id");
         $resultUserDelete = $this->User_Model->delete($userId);
         echo json_encode($resultUserDelete);
     }
-    
+
 
     /* -----------------------
         Import massively users
@@ -62,7 +62,7 @@ class User extends CI_Controller {
         }
     }
 
-    
+
     /* ---------------------
         Listing all users
     -----------------------*/
@@ -71,7 +71,7 @@ class User extends CI_Controller {
         echo json_encode($userList);
     }
 
-    
+
     /* ---------------------
         Get a specific user
     -----------------------*/
@@ -83,7 +83,7 @@ class User extends CI_Controller {
 
 
     /* ---------------------
-        Get all exams from specific user 
+        Get all exams from specific user
     -----------------------*/
     public function getUserExams(){
         $userId = $this->input->post("userId");
@@ -91,7 +91,7 @@ class User extends CI_Controller {
         echo json_encode($result);
     }
 
-    
+
 
     /* ---------------------
         Get user profile
@@ -109,11 +109,11 @@ class User extends CI_Controller {
         $courseId = $this->input->post("courseId");
         $result = $this->User_Model->getInstructors($courseId);
         echo json_encode($result);
-    }  
-    
+    }
+
 
     /* -------------------------------------------------
-        Get all courses that a specific user is enrolled 
+        Get all courses that a specific user is enrolled
     --------------------------------------------------*/
     public function getEnrolledCourses(){
         $userId = $this->input->post("userId");
@@ -122,9 +122,9 @@ class User extends CI_Controller {
     }
 
 
-   
+
     /* -------------------------------------------------
-        Get all programs that a specific user is enrolled 
+        Get all programs that a specific user is enrolled
     --------------------------------------------------*/
     public function getEnrolledPrograms(){
         $userId = $this->input->post("userId");
@@ -142,7 +142,7 @@ class User extends CI_Controller {
         echo json_encode($result);
     }
 
-    
+
     /* ------------------------------------------------------------
         Get all programs that a specific user is not yet enrolled in
     -------------------------------------------------------------*/
@@ -159,7 +159,7 @@ class User extends CI_Controller {
     public function enrollUserIntoCourses(){
         $userId = $this->input->post("userId");
         $courses = $this->input->post("courses");
-        $arrayCourses = explode (",", $courses); 
+        $arrayCourses = explode (",", $courses);
         $result = $this->User_Model->enrollUserIntoCourses($userId,$arrayCourses);
     }
 
@@ -170,7 +170,7 @@ class User extends CI_Controller {
     public function enrollUserIntoPrograms(){
         $userId = $this->input->post("userId");
         $programs = $this->input->post("programs");
-        $arrayPrograms = explode (",", $programs); 
+        $arrayPrograms = explode (",", $programs);
         $result = $this->User_Model->enrollUserIntoPrograms($userId,$arrayPrograms);
     }
 
@@ -200,22 +200,22 @@ class User extends CI_Controller {
     public function editProfile(){
         if($this->input->post("password")){
             $data = array(
-                'name' => applySecurityFunctions($this->input->post("name")), 
+                'name' => applySecurityFunctions($this->input->post("name")),
                 'description' => $this->input->post("description"),
                 'avatar' => $this->input->post("avatar"),
                 'password' => md5($this->input->post("password"))
             );
         }else{
             $data = array(
-                'name' => applySecurityFunctions($this->input->post("name")), 
+                'name' => applySecurityFunctions($this->input->post("name")),
                 'description' => $this->input->post("description"),
                 'avatar' => $this->input->post("avatar"),
             );
         }
-        
+
         $resultEdit = $this->User_Model->editProfile(getUserId(), $data);
         echo json_encode($resultEdit);
-        
+
     }
 
     /* ------------------------------------------------------------
@@ -226,5 +226,5 @@ class User extends CI_Controller {
         echo json_encode($logoff);
     }
 
-    
+
 }

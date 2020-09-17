@@ -1,42 +1,52 @@
 <template>
-  <div class="content-page">
-    <el-card class="box-card" style="max-width: 570px">
+  <div>
+    <el-card class="box-card" style="max-width: 570px;margin-bottom: 10px" v-for="(publication,index) in publications"
+             :key="index">
       <div slot="header" class="clearfix">
         <el-row>
           <el-col :md="3">
-
-            <el-avatar
-              :src="$getUrlToContents() + 'avatar/' + user.avatar"
-            />
+            <router-link class="pr-4" to="/profile">
+              <el-avatar
+                :src="$getUrlToContents() + 'avatar/' + user.avatar + ''"
+              />
+            </router-link>
           </el-col>
-          <el-col :md="12" class="p-t-10">
-
+          <el-col :md="6" class="p-t-10">
             <b><span class="link">{{ user.name }}</span></b><br>
-            <i
-              style="color: rgba(43,33,40,0.66)">{{
-                new Date().toLocaleString(new Date().getTimezoneOffset(), {dateStyle: "full"})
-              }}</i>
           </el-col>
         </el-row>
-
       </div>
-
-      <wysiwyg v-model="publication"/>
+      <div v-html="publication.description">
+      </div>
       <br>
-      <el-button @click="publish()" type="primary" round>{{ lang['publish'] }}</el-button>
+      <el-row>
+        <p style="color: rgba(43,33,40,0.66)">
+          <el-button @click="doPublicationLike(publication.id)" type="success" circle><i class="fas fa-thumbs-up"></i>
+          </el-button>
+          {{ new Date(publication.created).toLocaleString(new Date().getTimezoneOffset(), {dateStyle: "full"}) }}
+        </p>
+      </el-row>
+      <el-row>
+        <el-input :placeholder="lang['publication-comment']" v-model="comment[index]">
+
+          <span slot="suffix" v-if="comment[index]">
+            <i @click="saveComment()" class="fas fa-paper-plane over" style="margin-top: 10px;font-size:large;"
+               :title="lang['publish']"></i>
+          </span>
+        </el-input>
+      </el-row>
+      <br>
     </el-card>
-    <br>
-    <PostList :publications="publications"/>
+
   </div>
 </template>
 
 <script>
 import Vue from 'vue';
 import VueHead from 'vue-head';
-import { mapState } from 'vuex';
 
 import wysiwyg from 'vue-wysiwyg';
-import PostList from "@/components/sabiorealm-social/PostList";
+import {mapState} from "vuex";
 
 export const eventBus = new Vue();
 
@@ -44,35 +54,21 @@ Vue.use(VueHead);
 
 Vue.use(wysiwyg, {});
 export default {
+  props: ['publications'],
   data: () => {
     return {
-      publication: '',
-      comment: [],
-      publications: []
+      comment: []
     };
   },
-  computed: {
-    ...mapState(['lang', 'user'])
-  },
-  components: {PostList},
+  components: {},
   created() {
     this.$verifyAdministratorPrivileges();
-    this.getPublications();
+  },
+  computed: {
+
+    ...mapState(['lang', 'user']),
   },
   methods: {
-    async publish() {
-      const form = new FormData();
-      form.append('myuser_id', this.user.id);
-      form.append('description', this.publication);
-      const data = await this.$request.post('http://localhost/sbr_rep/SocialNetwork/savePublication', form);
-      if (data.status === 200) {
-        console.log(data);
-        this.$messagePublished();
-        // eslint-disable-next-line eqeqeq
-      } else if (data.data == false) {
-        this.$errorMessage();
-      }
-    },
     async saveComment() {
       const form = new FormData();
       form.append('myuser_id', this.user.id);
@@ -80,11 +76,6 @@ export default {
       form.append('social_publication_id', 1);
       const data = await this.$request.post('http://localhost/sbr_rep/SocialNetwork/saveComment', form);
       console.log(data);
-    },
-    getPublications() {
-      this.$request.post('http://localhost/sbr_rep/SocialNetwork/getPublications').then((response) => {
-        this.publications = response.data;
-      });
     },
     // eslint-disable-next-line camelcase
     doPublicationLike(publication_id) {
@@ -99,6 +90,7 @@ export default {
   }
 };
 </script>
+
 <style type="text/scss">
 
 .image {
