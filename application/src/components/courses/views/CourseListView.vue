@@ -1,5 +1,5 @@
 <template>
-  <div class="col-auto">
+  <div>
     <facebook-loader
       v-if="content == false"
       :speed="2"

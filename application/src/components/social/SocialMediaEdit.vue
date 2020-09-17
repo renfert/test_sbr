@@ -18,14 +18,14 @@
         <div class="form-group">
           <label>{{ lang['social-media'] }}</label>
           <div class="block">
-            <select class="form-select" name="socialMedia" v-model="name">
-              <option value="facebook">Facebook</option>
-              <option value="instagram">Instagram</option>
-              <option value="linkedin">Linkedin</option>
-              <option value="twitter">Twitter</option>
-              <option value="pinterest">Pinterest</option>
-              <option value="youtube">Youtube</option>
-            </select>
+            <el-select name="socialMedia" v-model="name" placeholder="Select">
+              <el-option label="Facebook" value="facebook"> </el-option>
+              <el-option label="Instagram" value="instagram"> </el-option>
+              <el-option label="Linkedin" value="linkedin"> </el-option>
+              <el-option label="Twitter" value="twitter"> </el-option>
+              <el-option label="Pinterest" value="pinterest"> </el-option>
+              <el-option label="Youtube" value="youtube"> </el-option>
+            </el-select>
           </div>
         </div>
         <div class="form-group">
@@ -72,7 +72,7 @@ export default {
     editSocialMedia() {
       const form = document.getElementById('form-social');
       const formData = new FormData(form);
-      const urlToBeUsedInTheRequest = this.getUrlToMakeRequest(
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'social',
         'edit'
       );
