@@ -78,7 +78,7 @@ export default {
       form.append('myuser_id', this.user.id);
       form.append('comment', this.comment);
       form.append('social_publication_id', 1);
-      const data = await this.$request.post('http://localhost/sbr_rep/SocialNetwork/saveComment', form);
+      const data = await this.$request.post(this.$getUrlToMakeRequest('SocialNetwork', 'saveComment'), form);
       console.log(data);
     },
     // eslint-disable-next-line camelcase
@@ -88,7 +88,7 @@ export default {
       const form = new FormData();
       form.append('social_publication_id', publication_id);
       form.append('myuser_id', this.user.id);
-      this.$request.post('http://localhost/sbr_rep/SocialNetwork/checkIfLike').then((response) => {
+      this.$request.post(this.$getUrlToMakeRequest('SocialNetwork','checkIfLike')).then((response) => {
         console.log(response);
       });
       return true;
@@ -102,7 +102,7 @@ export default {
       const form = new FormData();
       form.append('social_publication_id', publication_id);
       form.append('myuser_id', this.user.id);
-      this.$request.post('http://localhost/sbr_rep/SocialNetwork/doLike', form).then((response) => {
+      this.$request.post(this.$getUrlToMakeRequest('SocialNetwork','doLike'), form).then((response) => {
         console.log(response.data);
       });
     }

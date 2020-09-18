@@ -179,7 +179,7 @@ export default {
     },
     async statusDaemon() {
       setInterval(() => {
-        this.$request.post('http://localhost/sbr_rep/User/updateStatus');
+        this.$request.post(this.$getUrlToMakeRequest('user', 'updateStatus'));
       }, 1800);
     }
   }

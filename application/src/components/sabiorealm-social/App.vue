@@ -61,7 +61,7 @@ export default {
       const form = new FormData();
       form.append('myuser_id', this.user.id);
       form.append('description', this.publication);
-      const data = await this.$request.post('http://localhost/sbr_rep/SocialNetwork/savePublication', form);
+      const data = await this.$request.post(this.$getUrlToMakeRequest('SocialNetwork', 'savePublication'), form);
       if (data.status === 200) {
         console.log(data);
         this.$messagePublished();
@@ -77,11 +77,11 @@ export default {
       form.append('myuser_id', this.user.id);
       form.append('comment', this.comment);
       form.append('social_publication_id', 1);
-      const data = await this.$request.post('http://localhost/sbr_rep/SocialNetwork/saveComment', form);
+      const data = await this.$request.post(this.$getUrlToMakeRequest('SocialNetwork','saveComment'), form);
       console.log(data);
     },
     getPublications() {
-      this.$request.post('http://localhost/sbr_rep/SocialNetwork/getPublications').then((response) => {
+      this.$request.post(this.$getUrlToMakeRequest('SocialNetwork','getPublications')).then((response) => {
         this.publications = response.data;
       });
     },
@@ -91,12 +91,12 @@ export default {
       const form = new FormData();
       form.append('social_publication_id', publication_id);
       form.append('myuser_id', this.user.id);
-      this.$request.post('http://localhost/sbr_rep/SocialNetwork/doLike', form).then((response) => {
+      this.$request.post(this.$getUrlToMakeRequest('SocialNetwork','doLike'), form).then((response) => {
         console.log(response.data);
       });
     },
     getOnlineUsers() {
-      this.$request.post('http://localhost/sbr_rep/SocialNetwork/getOnlineUsers').then((response) => {
+      this.$request.post(this.$getUrlToMakeRequest('SocialNetwork','getOnlineUsers')).then((response) => {
         console.log(response);
       });
     }
