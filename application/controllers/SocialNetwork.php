@@ -59,7 +59,7 @@ class SocialNetwork extends CI_Controller
     if (strlen($data['description']) > 0) {
       $data['prev_comment'] = substr($data['comment'], 0, 97) . '...';
       echo json_encode($this->Social_Network_Model->saveComment($data));
-    }else{
+    } else {
       echo json_encode(false);
 
     }
@@ -68,7 +68,19 @@ class SocialNetwork extends CI_Controller
   public function doLike()
   {
     $data = $this->input->post();
-    echo(json_encode($this->Social_Network_Model->saveLike($data)));
+    echo json_encode($this->Social_Network_Model->saveLike($data));
   }
 
+  public function checkIfLike()
+  {
+
+    $data = $this->input->post();
+    echo json_encode( $this->Social_Network_Model->getLikeByPublicationId($data['social_publication_id'], $data['myuser_id']));
+  }
+
+  public function getOnlineUsers(){
+    $data=$this->input->get();
+
+   echo json_encode($this->Social_Network_Model->getUsersWithStatusOn());
+  }
 }

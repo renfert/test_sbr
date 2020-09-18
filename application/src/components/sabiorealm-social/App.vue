@@ -1,6 +1,6 @@
 <template>
   <div class="content-page">
-    <el-card class="box-card" style="max-width: 570px">
+    <el-card class="box-card" style="max-width: 570px" v-on:keypress.enter.native="publish()">
       <div slot="header" class="clearfix">
         <el-row>
           <el-col :md="3">
@@ -33,16 +33,12 @@
 <script>
 import Vue from 'vue';
 import VueHead from 'vue-head';
-import { mapState } from 'vuex';
-
-import wysiwyg from 'vue-wysiwyg';
-import PostList from "@/components/sabiorealm-social/PostList";
+import {mapState} from 'vuex';
+import PostList from '@/components/sabiorealm-social/PostList';
 
 export const eventBus = new Vue();
 
 Vue.use(VueHead);
-
-Vue.use(wysiwyg, {});
 export default {
   data: () => {
     return {
@@ -56,6 +52,7 @@ export default {
   },
   components: {PostList},
   created() {
+    this.getOnlineUsers();
     this.$verifyAdministratorPrivileges();
     this.getPublications();
   },
@@ -72,6 +69,8 @@ export default {
       } else if (data.data == false) {
         this.$errorMessage();
       }
+      this.getPublications();
+      this.publication = '';
     },
     async saveComment() {
       const form = new FormData();
@@ -94,6 +93,11 @@ export default {
       form.append('myuser_id', this.user.id);
       this.$request.post('http://localhost/sbr_rep/SocialNetwork/doLike', form).then((response) => {
         console.log(response.data);
+      });
+    },
+    getOnlineUsers() {
+      this.$request.post('http://localhost/sbr_rep/SocialNetwork/getOnlineUsers').then((response) => {
+        console.log(response);
       });
     }
   }

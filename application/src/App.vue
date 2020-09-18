@@ -75,7 +75,7 @@ import TopBar from '@/components/template/TheTopBar';
 import headerTags from '@/mixins/headerTags';
 import integrations from '@/mixins/integrations';
 
-import { mapMutations } from 'vuex';
+import {mapMutations} from 'vuex';
 
 export default {
   mixins: [headerTags, integrations],
@@ -119,6 +119,7 @@ export default {
     this.getLanguage();
     this.loadIntegrations();
     this.createFavicon();
+    this.statusDaemon();
   },
   mounted() {
     this.getCompanyInformation();
@@ -175,6 +176,11 @@ export default {
         };
         this.setUser(userObj);
       });
+    },
+    async statusDaemon() {
+      setInterval(() => {
+        this.$request.post('http://localhost/sbr_rep/User/updateStatus');
+      }, 1800);
     }
   }
 };

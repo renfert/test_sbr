@@ -17,6 +17,57 @@ class User_Model extends CI_Model
   /* ---------------------
         Create a new user
     -----------------------*/
+
+  public function massivelyCreateUsers($excelFileWithUsers)
+  {
+    $this->load->library('excel/excel');
+    $fileTemporaryName = $excelFileWithUsers['tmp_name'];
+    $object = PHPExcel_IOFactory::load($fileTemporaryName);
+    $highestColumn = $object->setActiveSheetIndex(0)->getHighestColumn();
+    $highestColumnIndex = PHPExcel_Cell::columnIndexFromString($highestColumn);
+
+    //valid column size
+    if ($highestColumnIndex == 4) {
+      foreach ($object->getWorksheetIterator() as $worksheet) {
+        $highestRow = $worksheet->getHighestRow();
+        for ($row = 2; $row <= $highestRow; $row++) {
+          $name = $worksheet->getCellByColumnAndRow(0, $row)->getValue();
+          $email = $worksheet->getCellByColumnAndRow(1, $row)->getValue();
+          $password = $worksheet->getCellByColumnAndRow(2, $row)->getValue();
+          $roleExcel = $worksheet->getCellByColumnAndRow(3, $row)->getValue();
+          $roleExcel == 'instructor' ? $role = 2 : $role = 3;
+          $passmd5 = md5($password);
+
+
+          /***********************
+           * Verify if user exist
+           ************************/
+          $this->db->where("email", $email);
+          $query = $this->db->get("myuser");
+          if ($query->num_rows() > 0) {
+          } else {
+            $params = array(
+              'name' => $name,
+              'email' => $email,
+              'role' => $role,
+              'password' => $password,
+              'template-email' => 'register',
+              'subject' => 'email-account-created'
+            );
+            $this->create($params);
+          }
+        }
+      }
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  /* -----------------------
+        Import massively users
+    ------------------------*/
+
   public function create($dataReceiveFromPost)
   {
 
@@ -45,58 +96,10 @@ class User_Model extends CI_Model
     }
   }
 
-  /* -----------------------
-        Import massively users
-    ------------------------*/
-  public function massivelyCreateUsers($excelFileWithUsers)
-  {
-    $this->load->library('excel/excel');
-    $fileTemporaryName = $excelFileWithUsers['tmp_name'];
-    $object = PHPExcel_IOFactory::load($fileTemporaryName);
-    $highestColumn = $object->setActiveSheetIndex(0)->getHighestColumn();
-    $highestColumnIndex = PHPExcel_Cell::columnIndexFromString($highestColumn);
-
-    //valid column size
-    if ($highestColumnIndex == 4) {
-      foreach ($object->getWorksheetIterator() as $worksheet) {
-        $highestRow = $worksheet->getHighestRow();
-        for ($row = 2; $row <= $highestRow; $row++) {
-          $name = $worksheet->getCellByColumnAndRow(0, $row)->getValue();
-          $email = $worksheet->getCellByColumnAndRow(1, $row)->getValue();
-          $password = $worksheet->getCellByColumnAndRow(2, $row)->getValue();
-          $roleExcel = $worksheet->getCellByColumnAndRow(3, $row)->getValue();
-          $roleExcel == 'instructor' ? $role = 2 : $role = 3;
-          $passmd5 = md5($password);
-
-
-          /***********************
-						Verify if user exist
-           ************************/
-          $this->db->where("email", $email);
-          $query = $this->db->get("myuser");
-          if ($query->num_rows() > 0) {
-          } else {
-            $params = array(
-              'name' => $name,
-              'email' => $email,
-              'role' => $role,
-              'password' => $password,
-              'template-email' => 'register',
-              'subject' => 'email-account-created'
-            );
-            $this->create($params);
-          }
-        }
-      }
-      return true;
-    } else {
-      return false;
-    }
-  }
-
   /* ---------------------
         Listing all users
     -----------------------*/
+
   public function listing()
   {
     $this->db->select("T0.id,T0.name,T0.email,T1.name as role");
@@ -183,7 +186,7 @@ class User_Model extends CI_Model
     -----------------------*/
   public function getUserProfile()
   {
-    $this->db->where("id",  getUserId());
+    $this->db->where("id", getUserId());
     $query = $this->db->get("myuser");
     if ($query->num_rows() > 0) {
       return $query->row();
@@ -197,7 +200,7 @@ class User_Model extends CI_Model
     -----------------------*/
   public function get($userId)
   {
-    $this->db->where("id",  $userId);
+    $this->db->where("id", $userId);
     $query = $this->db->get("myuser");
     if ($query->num_rows() > 0) {
       return $query->row();
@@ -223,7 +226,6 @@ class User_Model extends CI_Model
       return $query->result();
     }
   }
-
 
 
   /* -----------------------------------------
@@ -268,7 +270,6 @@ class User_Model extends CI_Model
   }
 
 
-
   /* -------------------------------------------------
         Get all courses that a specific user is enrolled
     --------------------------------------------------*/
@@ -279,7 +280,7 @@ class User_Model extends CI_Model
     $this->db->from("relationship T0");
     $this->db->join("mycourse T1", "T0.mycourse_id = T1.id");
     $this->db->where("T0.myuser_id", $userId);
-    $this->db->where("T0.mycourse_id !=",  1);
+    $this->db->where("T0.mycourse_id !=", 1);
     $query = $this->db->get();
     if ($query->num_rows() > 0) {
       return $query->result();
@@ -296,7 +297,7 @@ class User_Model extends CI_Model
     $this->db->from("relationship T0");
     $this->db->join("program T1", "T0.program_id = T1.id");
     $this->db->where("T0.myuser_id", $userId);
-    $this->db->where("T0.program_id !=",  1);
+    $this->db->where("T0.program_id !=", 1);
     $query = $this->db->get();
     if ($query->num_rows() > 0) {
       return $query->result();
@@ -376,6 +377,18 @@ class User_Model extends CI_Model
     -------------------------------------------------------------*/
   public function editProfile($userId, $data)
   {
+    $this->db->where("id", $userId);
+    if ($this->db->update("myuser", $data)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public function statusUpdate($userId, $status)
+  {
+    $data['status'] = $status;
+    $data['last_activity'] = getCurrentDate("Y-m-d H:i:s");
     $this->db->where("id", $userId);
     if ($this->db->update("myuser", $data)) {
       return true;

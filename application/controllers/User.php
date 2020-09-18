@@ -218,6 +218,12 @@ class User extends CI_Controller {
 
     }
 
+    public function updateStatus(){
+      $data=$this->input->post();
+      echo json_encode($this->User_Model->statusUpdate(getUserId(),"on"));
+
+    }
+
     /* ------------------------------------------------------------
         Logoff
     -------------------------------------------------------------*/

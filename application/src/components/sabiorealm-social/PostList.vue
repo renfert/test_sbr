@@ -21,7 +21,9 @@
       <br>
       <el-row>
         <p style="color: rgba(43,33,40,0.66)">
-          <el-button @click="doPublicationLike(publication.id)" type="success" circle><i class="fas fa-thumbs-up"></i>
+          <el-button @load="getLike(publication.id)" @click="doPublicationLike(publication.id,$event)"
+                     circle><i class="fas fa-thumbs-up"
+                               style="color:#4a5568"></i>
           </el-button>
           {{ new Date(publication.created).toLocaleString(new Date().getTimezoneOffset(), {dateStyle: "full"}) }}
         </p>
@@ -67,6 +69,8 @@ export default {
   computed: {
 
     ...mapState(['lang', 'user']),
+    // eslint-disable-next-line vue/no-async-in-computed-properties
+
   },
   methods: {
     async saveComment() {
@@ -78,8 +82,23 @@ export default {
       console.log(data);
     },
     // eslint-disable-next-line camelcase
+    getLike(publication_id, event) {
+      // eslint-disable-next-line vue/no-async-in-computed-properties
+      console.log('gaa');
+      const form = new FormData();
+      form.append('social_publication_id', publication_id);
+      form.append('myuser_id', this.user.id);
+      this.$request.post('http://localhost/sbr_rep/SocialNetwork/checkIfLike').then((response) => {
+        console.log(response);
+      });
+      return true;
+    },
+    // eslint-disable-next-line camelcase
     doPublicationLike(publication_id) {
-      console.log(publication_id);
+      // event.currentTarget.children[0].style.color = 'rgb(255, 255, 255)';
+      event.currentTarget.style.backgroundColor = '#67C23A';
+      event.currentTarget.children[0].style.color = 'white';
+      console.log(event);
       const form = new FormData();
       form.append('social_publication_id', publication_id);
       form.append('myuser_id', this.user.id);

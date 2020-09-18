@@ -23,7 +23,7 @@ class Social_Network_Model extends CI_Model
     SP.media_path,SP.media_realname,SP.media_type,SP.created,SP.modified");
     $this->db->from("social_publications SP");
     $this->db->join("myuser U", "U.id=SP.myuser_id");
-    $this->db->order_by("created","DESC");
+    $this->db->order_by("created", "DESC");
     $query = $this->db->get();
     if ($res = $query->result()) return $res;
     else return null;
@@ -90,6 +90,24 @@ class Social_Network_Model extends CI_Model
     }
     $this->db->replace("social_likes", $socialEntity);
     return true;
+  }
+
+  public function getLikeByPublicationId($social_publication_id, $myuser_id)
+  {
+    $this->db->select("*");
+    $this->db->from("social_likes");
+    $this->db->where("social_publication_id", $social_publication_id);
+    $this->db->where("myuser_id", $myuser_id);
+    return $this->db->get()->result()[0];
+  }
+
+  public function getUsersWithStatusOn()
+  {
+    $mydate = getCurrentDate("Y-m-d H:i:s");
+    $this->db->select("*");
+    $this->db->from("myuser");
+    $this->db->where("last_activity > ".$mydate." - INTERVAL 5 MINUTE");
+    return $this->db->error()?:false;
   }
 
 }
