@@ -70,9 +70,9 @@
         <el-col :sm="24">
           <img
             class="not-found-image"
-            src="@/assets/img/general/ux/not_found.png"
+            src="@/assets/img/general/ux/students.svg"
           />
-          <h4>
+          <h4 class="sbr-text-grey">
             {{ lang['no-results-students-in-group'] }}
           </h4>
           <el-button class="sbr-primary" @click="addStudent()">{{
@@ -122,17 +122,17 @@
           >
         </div>
 
-        <div v-else>
-          <el-row>
-            <el-col :sm="24">
-              <img
-                class="not-found-image"
-                src="@/assets/img/general/ux/not_found.png"
-              />
-              <h4>{{ lang['all-students-already-added'] }}</h4>
-            </el-col>
-          </el-row>
-        </div>
+        <el-row v-else class="center">
+          <el-col :sm="24">
+            <img
+              class="not-found-image"
+              src="@/assets/img/general/ux/students.svg"
+            />
+            <h4 class="sbr-text-grey">
+              {{ lang['all-students-already-added'] }}
+            </h4>
+          </el-col>
+        </el-row>
       </div>
     </el-dialog>
     <!------------------------

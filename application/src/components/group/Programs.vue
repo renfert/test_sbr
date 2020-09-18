@@ -68,9 +68,9 @@
         <el-col :sm="24">
           <img
             class="not-found-image"
-            src="@/assets/img/general/ux/not_found.png"
+            src="@/assets/img/general/ux/no_programs.svg"
           />
-          <h4>
+          <h4 class="sbr-text-grey">
             {{ lang['no-results-instructors-in-group'] }}
           </h4>
           <el-button class="sbr-primary" @click="addProgram()">{{
@@ -121,9 +121,11 @@
           <el-col :sm="24">
             <img
               class="not-found-image"
-              src="@/assets/img/general/ux/not_found.png"
+              src="@/assets/img/general/ux/no_programs.svg"
             />
-            <h4>{{ lang['all-programs-already-added'] }}</h4>
+            <h4 class="sbr-text-grey">
+              {{ lang['all-programs-already-added'] }}
+            </h4>
           </el-col>
         </el-row>
       </div>

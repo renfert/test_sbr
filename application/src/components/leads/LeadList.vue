@@ -52,10 +52,10 @@
   <div class="m-t-40 center" v-else>
     <img
       class="not-found-image"
-      src="@/assets/img/general/ux/not_found.png"
+      src="@/assets/img/general/ux/leads.svg"
       alt="No leads"
     />
-    <h4>{{ lang['no-leads-found'] }}</h4>
+    <h4 class="sbr-text-grey">{{ lang['no-leads-found'] }}</h4>
   </div>
 </template>
 

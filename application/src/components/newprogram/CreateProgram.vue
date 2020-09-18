@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="card-box">
     <div v-if="content == true">
       <h4 class="fw-700">{{ lang['create-program'] }}</h4>
       <br />
@@ -9,8 +9,8 @@
             Basic information tab
           ----------------------->
           <el-tab-pane label="Basic information">
-            <div class="row mt-5">
-              <div class="col-10">
+            <el-row class="m-t-40">
+              <el-col :sm="14" class="col-10">
                 <div class="form-group">
                   <label>{{ lang['name'] }}</label>
                   <el-input
@@ -56,14 +56,14 @@
                   }}</label>
                   <wysiwyg v-model="program.description" />
                 </div>
-              </div>
-            </div>
+              </el-col>
+            </el-row>
           </el-tab-pane>
           <!--------------------
           Courses tab
           ----------------------->
           <el-tab-pane label="Courses">
-            <div class="mt-5">
+            <div class="m-t-40">
               <div>
                 <el-form :inline="true" class="demo-form-inline">
                   <el-form-item>
@@ -85,7 +85,7 @@
                     >
                   </el-form-item>
                 </el-form>
-                <div class="mb-5">
+                <div class="m-b-40">
                   <ul class="list-group">
                     <draggable ghost-class="ghost" @end="repositioning">
                       <transition-group type="transition" name="flip-list">
@@ -107,8 +107,8 @@
           Image tab
           ----------------------->
           <el-tab-pane label="Image">
-            <div class="row mt-5">
-              <div class="col-md-6 col-12">
+            <el-row class="m-t-40">
+              <el-col :sm="12" :xs="24">
                 <upload
                   do-upload="true"
                   box-height="200"
@@ -117,8 +117,8 @@
                   bucket-key="uploads/program"
                   acceptable=".png,.jpg,.jpeg"
                 ></upload>
-              </div>
-            </div>
+              </el-col>
+            </el-row>
           </el-tab-pane>
         </el-tabs>
         <br />
@@ -205,7 +205,7 @@ export default {
       const obj = {
         id: this.course,
         text:
-          "<i style='cursor:pointer !important;' class='remove-course el-icon-delete sbr-text-danger mr-5'></i><input class='courses-position hide' name='courses[" +
+          "<i  style='cursor:pointer !important;' class='m-r-20 remove-course el-icon-delete sbr-text-danger'></i><input class='courses-position hide' name='courses[" +
           this.cont +
           "]' value='" +
           this.course +

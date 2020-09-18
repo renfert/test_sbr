@@ -3,6 +3,7 @@
     <form class="card-box" id="form-first-step">
       <div class="form-wizard-content show" data-tab-content="info">
         <div class="card-course">
+          {{ course.mode }}
           <el-row :gutter="24" class="m-b-40">
             <el-col :sm="12" :xs="24">
               <!-- Course id -->
@@ -456,6 +457,7 @@ export default {
   created() {
     this.getCategories();
     this.getGlobalCurrency();
+    this.course.mode = 'create';
   },
   mounted() {
     eventBus.$on('access-first-step', () => {
@@ -463,7 +465,11 @@ export default {
     });
 
     eventBus.$on('access-second-step', () => {
-      this.course.mode === 'create' ? this.createCourse() : this.editCourse();
+      if (this.course.mode === 'create') {
+        this.createCourse();
+      } else {
+        this.editCourse();
+      }
     });
 
     eventBus.$on('access-third-step', () => {

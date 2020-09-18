@@ -1,5 +1,5 @@
 <template>
-  <el-col class="m-t-20" :sm="24">
+  <el-col class="m-t-20" :sm="12" :xs="24">
     <img
       style="width: 100px"
       class="m-b-10"

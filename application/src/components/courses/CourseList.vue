@@ -1,20 +1,22 @@
 <template>
   <div class="card-box m-t-30" v-if="courseList != null">
-    <div class="m-b-30">
-      <a
-        @click="changeCourseVisualization()"
-        href="javascript:void(0)"
-        class="dropdown-toggle arrow-none card-drop"
-        data-toggle="dropdown"
-        aria-expanded="false"
-      >
-        <i
-          v-if="courseVisualization == 'list'"
-          class="mdi mdi-view-list mdi-36px pr-4 sbr-text-grey"
-        ></i>
-        <i v-else class="mdi mdi-table mdi-36px pr-4 sbr-text-grey"></i>
-      </a>
-    </div>
+    <el-row class="m-b-40">
+      <div>
+        <a
+          @click="changeCourseVisualization()"
+          href="javascript:void(0)"
+          class="dropdown-toggle arrow-none card-drop float-right"
+          data-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <i
+            v-if="courseVisualization == 'list'"
+            class="mdi mdi-view-list mdi-36px pr-4 sbr-text-grey"
+          ></i>
+          <i v-else class="mdi mdi-table mdi-36px pr-4 sbr-text-grey"></i>
+        </a>
+      </div>
+    </el-row>
     <course-list-view v-if="courseVisualization == 'list'"></course-list-view>
     <course-table-view v-else></course-table-view>
   </div>
@@ -23,7 +25,7 @@
     <el-col>
       <img
         class="not-found-image"
-        src="@/assets/img/general/ux/no_courses.png"
+        src="@/assets/img/general/ux/no_courses.svg"
       />
       <h4 class="no-results-text">{{ lang['no-courses-found'] }}</h4>
       <router-link to="/newcourse">

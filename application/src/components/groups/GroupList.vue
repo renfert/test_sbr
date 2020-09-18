@@ -114,16 +114,14 @@
     </div>
   </div>
 
-  <div class="row mb-5 mt-5" v-else>
-    <div class="col-12 text-center">
-      <img
-        class="no-results-img"
-        src="@/assets/img/general/ux/no_persons.png"
-        alt="No persons"
-      />
-      <h4 class="no-results-text">{{ lang['no-results-group-title'] }}</h4>
-    </div>
-  </div>
+  <el-row class="center m-t-40" v-else>
+    <img
+      class="no-results-img"
+      src="@/assets/img/general/ux/no_groups.svg"
+      alt="No persons"
+    />
+    <h4 class="sbr-text-grey">{{ lang['no-results-group-title'] }}</h4>
+  </el-row>
 </template>
 
 <script>

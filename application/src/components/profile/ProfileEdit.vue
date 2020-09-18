@@ -11,8 +11,9 @@
               <img :src="$getUrlToContents() + 'avatar/' + avatar + ''" />
             </el-avatar>
           </label>
-          <input :value="avatar" name="avatar" type="text" />
+          <input class="hide" :value="avatar" name="avatar" type="text" />
           <input
+            class="hide"
             id="file-input"
             type="file"
             @change.prevent="uploadAvatar($event)"
@@ -34,10 +35,13 @@
         ></el-input>
       </div>
 
-      <label>{{ lang['change-password'] }}</label>
-      <el-switch class="m-4" v-model="changePassword"></el-switch>
+      <div class="form-group">
+        <label>{{ lang['change-password'] }}</label>
+        <br />
+        <el-switch v-model="changePassword"></el-switch>
+      </div>
 
-      <div v-if="changePassword">
+      <div class="m-b-30" v-if="changePassword">
         <!-- Password -->
         <div class="form-group">
           <label>{{ lang['new-password'] }}</label>
@@ -56,7 +60,7 @@
         </div>
       </div>
 
-      <div class="form-group">
+      <div class="form-group m-t-40">
         <el-button native-type="submit" class="sbr-primary">{{
           lang['save-button']
         }}</el-button>

@@ -8,9 +8,8 @@
         class="sbr-purple"
         v-if="company.plan == 'bussiness'"
         @click.prevent="modal = true"
-        type="primary"
-        size="small"
-        >{{ lang['massive-import'] }}</el-button
+      >
+        <i class="el-icon-upload2"></i> {{ lang['massive-import'] }}</el-button
       >
 
       <el-button
@@ -82,18 +81,27 @@
             v-model="role"
             :placeholder="lang['select-role']"
           >
-            <el-option
-              style="pointer-events: auto !important; z-index: 9999 !important"
-              value="2"
-              :label="lang['instructor']"
-              >{{ lang['instructor'] }}</el-option
-            >
-            <el-option
-              style="pointer-events: auto !important; z-index: 9999 !important"
-              value="3"
-              :label="lang['student']"
-              >{{ lang['student'] }}</el-option
-            >
+            <el-option value="2" :label="lang['instructor']">
+              <span style="float: left">{{ lang['instructor'] }}</span>
+              <span style="float: right">
+                <img
+                  style="width: 50px"
+                  src="@/assets/img/general/ux/instructor.svg"
+                  alt="en"
+                />
+              </span>
+            </el-option>
+
+            <el-option value="3" :label="lang['student']">
+              <span style="float: left">{{ lang['student'] }}</span>
+              <span style="float: right">
+                <img
+                  style="width: 50px"
+                  src="@/assets/img/general/ux/graduation_cap.svg"
+                  alt="en"
+                />
+              </span>
+            </el-option>
           </el-select>
         </el-col>
       </el-row>
@@ -117,13 +125,17 @@
         width="40%"
         top="5vh"
       >
-        <div class="text-center">
-          <a
-            download
-            href="https://cdn.eadtools.com/files/import_user.xlsx"
-            class="sbr-btn sbr-purple mb-5"
-            >{{ lang['download-template'] }}</a
-          >
+        <div class="center m-b-20">
+          <b>
+            <a
+              download
+              href="https://cdn.eadtools.com/files/import_user.xlsx"
+              class="sbr-text-primary"
+            >
+              <i class="el-icon-download"></i>
+              {{ lang['download-template'] }}</a
+            >
+          </b>
         </div>
 
         <div class="center">

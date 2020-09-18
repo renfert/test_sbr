@@ -67,9 +67,9 @@
         <el-col :md="24">
           <img
             class="not-found-image"
-            src="@/assets/img/general/ux/not_found.png"
+            src="@/assets/img/general/ux/no_courses.svg"
           />
-          <h4 class="fw-500">
+          <h4 class="sbr-text-grey">
             {{ lang['no-results-courses-in-group'] }}
           </h4>
           <el-button class="sbr-primary" @click="addCourse()">{{
@@ -97,7 +97,7 @@
         secondaryColor="#d9d9d9"
       ></facebook-loader>
 
-      <div v-else>
+      <div v-else class="center">
         <div v-if="coursesNotBelongingToTheGroup != null">
           <template>
             <el-transfer
@@ -119,7 +119,7 @@
           <el-col>
             <img
               class="not-found-image"
-              src="@/assets/img/general/ux/not_found.png"
+              src="@/assets/img/general/ux/no_courses.svg"
             />
             <h4>{{ lang['all-courses-already-added'] }}</h4>
           </el-col>

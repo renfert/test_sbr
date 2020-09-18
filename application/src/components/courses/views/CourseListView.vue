@@ -8,7 +8,7 @@
       primaryColor="#f0f0f0"
       secondaryColor="#d9d9d9"
     ></facebook-loader>
-    <el-row v-else>
+    <el-row :gutter="24" v-else>
       <el-col :sm="8" v-for="element in courseList" :key="element.id">
         <!-------------
           Course card
@@ -210,5 +210,16 @@ export default {
 
 .card-body {
   padding: 30px;
+}
+
+.el-col {
+  margin-bottom: 2rem;
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.el-card {
+  border-radius: 20px;
 }
 </style>

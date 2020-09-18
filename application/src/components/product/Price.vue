@@ -40,16 +40,12 @@
       </div>
     </div>
 
-    <div class="ed_view_price pl-4">
-      <span>Acctual Price</span>
+    <div class="ed_view_price pl-4 m-b-40">
+      <span>{{ lang['current-price'] }}</span>
       <span v-if="price == null" class="facts-1">{{
         lang['free-course']
       }}</span>
       <h2 v-else :style="primaryColor" class="theme-cl">$ {{ price }}</h2>
-    </div>
-
-    <div class="ed_view_short pl-4 pr-4 pb-2">
-      <p v-html="description"></p>
     </div>
 
     <div class="ed_view_link">

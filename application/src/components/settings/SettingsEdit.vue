@@ -5,8 +5,8 @@
     <form id="form-settings" @submit.prevent="editSettings">
       <el-tabs :tab-position="tabPosition">
         <el-tab-pane :label="lang['school-information']">
-          <div class="row" style="padding-left: 15px">
-            <div class="col-md-6 col-12">
+          <el-row :gutter="40">
+            <el-col :sm="8" :xs="24">
               <div class="form-group">
                 <!-- School name -->
                 <label>{{ lang['school-name'] }}</label>
@@ -31,8 +31,8 @@
                 bucket-key="uploads/settings"
                 acceptable=".png,.jpg,.jpeg"
               ></upload>
-            </div>
-            <div class="col-md-6 col-12">
+            </el-col>
+            <el-col :sm="8" :xs="24">
               <div class="form-group">
                 <label>{{ lang['description'] }}</label>
                 <el-input
@@ -55,8 +55,8 @@
                 bucket-key="uploads/settings"
                 acceptable=".png,.jpg,.jpeg"
               ></upload>
-            </div>
-          </div>
+            </el-col>
+          </el-row>
         </el-tab-pane>
 
         <el-tab-pane :label="lang['contact-information']">

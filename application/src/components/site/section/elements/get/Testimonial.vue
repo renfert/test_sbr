@@ -1,6 +1,6 @@
 <template>
   <div class="container-site top-13">
-    <div class="text-center mb-5">
+    <div class="center m-b-40">
       <h1>{{ header }}</h1>
       <h3>{{ subheader }}</h3>
     </div>

@@ -66,11 +66,11 @@
       </div>
 
       <div class="center m-t-40" v-else>
-        <h4>{{ lang['no-categories-found'] }}</h4>
         <img
           class="not-found-image"
-          src="@/assets/img/general/ux/not_found.png"
+          src="@/assets/img/general/ux/no_categories.svg"
         />
+        <h4 class="sbr-text-grey">{{ lang['no-categories-found'] }}</h4>
       </div>
     </div>
 

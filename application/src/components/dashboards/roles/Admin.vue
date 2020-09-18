@@ -12,8 +12,11 @@
           />
           <el-row class="center" v-else>
             <el-col>
-              <img class="w-40" src="@/assets/img/general/ux/not_found.png" />
-              <h4 class="no-results-text">{{ lang['no-data'] }}</h4>
+              <img
+                class="not-found-image"
+                src="@/assets/img/general/ux/data_not_found.svg"
+              />
+              <h4 class="sbr-text-grey">{{ lang['no-data'] }}</h4>
             </el-col>
           </el-row>
         </div>
@@ -30,8 +33,11 @@
           />
           <el-row class="center" v-else>
             <el-col>
-              <img class="w-40" src="@/assets/img/general/ux/not_found.png" />
-              <h4 class="no-results-text">{{ lang['no-data'] }}</h4>
+              <img
+                class="not-found-image"
+                src="@/assets/img/general/ux/data_not_found.svg"
+              />
+              <h4 class="sbr-text-grey">{{ lang['no-data'] }}</h4>
             </el-col>
           </el-row>
         </div>

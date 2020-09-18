@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div class="container-site m-t-40">
+    <div class="container-site pt-5">
       <!-- Row -->
-      <el-row :gutter="40">
-        <el-col :sm="6" :xs="12">
+      <div class="row">
+        <div class="col-lg-4 col-md-12 col-sm-12 order-2 order-lg-1 order-md-2">
           <div class="page_sidebar hide-23">
             <!-- Search Form -->
             <form class="form-inline addons mb-3">
@@ -48,9 +48,9 @@
                   name="b-7"
                   type="radio"
                 />
-                <label for="b-7" class="checkbox-custom-label">{{
-                  lang['all']
-                }}</label>
+                <label for="b-7" class="checkbox-custom-label">
+                  {{ lang['all'] }}
+                </label>
               </li>
               <li>
                 <input
@@ -61,9 +61,9 @@
                   name="b-8"
                   type="radio"
                 />
-                <label for="b-8" class="checkbox-custom-label">{{
-                  lang['free-course']
-                }}</label>
+                <label for="b-8" class="checkbox-custom-label">
+                  {{ lang['free-course'] }}
+                </label>
               </li>
               <li>
                 <input
@@ -74,9 +74,9 @@
                   name="b-9"
                   type="radio"
                 />
-                <label for="b-9" class="checkbox-custom-label">{{
-                  lang['paid-courses']
-                }}</label>
+                <label for="b-9" class="checkbox-custom-label">
+                  {{ lang['paid-courses'] }}
+                </label>
               </li>
             </ul>
           </div>
@@ -106,39 +106,35 @@
                 v-for="element in categories"
                 :key="element.id"
               >
-                <a href="javascript:void(0)" class="tag-cloud-lin">{{
-                  element.name
-                }}</a>
+                <a href="javascript:void(0)" class="tag-cloud-lin">
+                  {{ element.name }}
+                </a>
               </div>
             </div>
           </div>
-        </el-col>
+        </div>
 
-        <el-col :sm="18" :xs="24">
+        <div class="col-lg-8 col-md-12 col-sm-12 order-1 order-lg-2 order-md-1">
           <!-- Row -->
-          <el-row
+          <div
             id="top-list"
-            class="align-items-center m-b-30"
+            class="row align-items-center mb-3"
             v-if="courseList != null"
           >
-            <el-col :span="24" class="founded-courses">
+            <div class="col-lg-6 col-md-6 col-sm-12 founded-courses">
               {{ lang['we-found'] }}
               <strong>
                 <b>{{ courseList.length }}</b>
               </strong>
               {{ lang['courses'] }}
-            </el-col>
-          </el-row>
+            </div>
+          </div>
           <!-- /Row -->
 
-          <el-row
-            :gutter="20"
-            class="courses-grid"
-            v-if="visibleCourses != null"
-          >
+          <div class="row courses-grid" v-if="visibleCourses != null">
             <!-- Cource Grid  -->
-            <el-col
-              :span="12"
+            <div
+              class="col-lg-6 col-md-6 col-sm-6"
               v-for="element in visibleCourses"
               :key="element.id"
             >
@@ -222,21 +218,21 @@
                   </div>
                 </div>
               </div>
-            </el-col>
-          </el-row>
-
-          <div class="row" v-else>
-            <div class="col-12 text-center">
-              <img
-                class="w-50"
-                src="@/assets/img/general/ux/not_found.png"
-                alt="No activities"
-              />
-              <h4 class="sbr-empty-state-text">
-                {{ lang['no-courses-found'] }}
-              </h4>
             </div>
           </div>
+
+          <el-row style="margin-top: 20%" v-else>
+            <el-col :span="24" class="center">
+              <img
+                class="not-found-image"
+                src="@/assets/img/general/ux/no_courses_found.svg"
+                alt="No activities"
+              />
+              <h5 class="sbr-text-grey">
+                {{ lang['no-courses-found'] }}
+              </h5>
+            </el-col>
+          </el-row>
 
           <!-- Pagination -->
           <div
@@ -284,8 +280,8 @@
               </ul>
             </div>
           </div>
-        </el-col>
-      </el-row>
+        </div>
+      </div>
       <!-- Row -->
     </div>
   </div>
@@ -507,6 +503,12 @@ h4 {
   font-size: 21px;
 }
 
+h5 {
+  line-height: 20px;
+  font-size: 16px;
+  color: rgb(187, 181, 181);
+}
+
 a {
   color: #4a5682;
   text-decoration: none;
@@ -690,11 +692,6 @@ input[type='radio'] {
 /* =============
    Courses list
 ============= */
-.image {
-  width: 100%;
-  display: block;
-}
-
 .education_block_grid {
   width: 100%;
   background: #ffffff;
@@ -756,6 +753,7 @@ input[type='radio'] {
 }
 
 .education_block_footer {
+  padding: 1rem 1.5rem;
   width: 100%;
   display: flex;
   vertical-align: middle;
@@ -816,11 +814,5 @@ input[type='radio'] {
 
 .courses-grid {
   box-shadow: -10px 0px 10px -10px #e6ebf1;
-}
-
-.img-fluid,
-.img-thumbnail {
-  max-width: 100%;
-  height: auto;
 }
 </style>

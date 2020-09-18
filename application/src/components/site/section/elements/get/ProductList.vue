@@ -1,9 +1,9 @@
 <template>
   <div class="top-13">
     <div class="container-site">
-      <div class="text-center mb-5">
+      <div class="center m-b-40">
         <h1>{{ header }}</h1>
-        <h4>{{ subheader }}</h4>
+        <h4 class="sbr-text-grey">{{ subheader }}</h4>
       </div>
       <carousel
         :navigationEnabled="true"
@@ -245,6 +245,7 @@ h3 {
 h4 {
   line-height: 24px;
   font-size: 18px;
+  color: #2d3954af;
 }
 
 h5 {

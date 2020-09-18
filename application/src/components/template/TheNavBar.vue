@@ -87,22 +87,16 @@
       </ul>
     </header>
     <!-- End Navbar -->
-    <login></login>
   </div>
 </template>
 
 <script>
-/* eslint-disable */
-import Login from '@/components/login/Login';
 import { eventBus } from '@/components/site/App';
 import { eventLogin } from '@/components/login/Login';
 import { mapState } from 'vuex';
 
 export default {
   props: ['full-screen-button'],
-  components: {
-    Login
-  },
   data: () => {
     return {
       logo: '',
@@ -331,13 +325,13 @@ header {
   justify-content: space-between;
   align-items: center;
   transform: 0.4s;
+  padding: 0px 15%;
   z-index: 2000;
   transition: 0.2s;
 }
 
 header a {
   flex: 0 0 20%;
-  margin-left: 15%;
 }
 
 header ul {
@@ -346,7 +340,6 @@ header ul {
   justify-content: flex-end;
   align-items: center;
   margin: 0px !important;
-  margin-right: 15% !important;
 }
 
 header ul li {

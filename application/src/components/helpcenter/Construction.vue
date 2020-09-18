@@ -1,5 +1,5 @@
 <template>
-  <div class="m-t-10 text-center construction">
+  <div class="m-t-10 center construction">
     <img
       class="no-results-img"
       src="@/assets/img/general/ux/no_persons.png"

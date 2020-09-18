@@ -255,17 +255,10 @@ export default {
     ...mapState(['lang']),
     styleHeader() {
       if (this.$route.name === 'site') {
-        if (this.fullScreenMode === true) {
-          return {
-            'background-color': this.headerColor,
-            width: '100%'
-          };
-        } else {
-          return {
-            'background-color': this.headerColor,
-            width: '80%'
-          };
-        }
+        return {
+          'background-color': this.headerColor,
+          width: '100%'
+        };
       } else {
         return {
           'background-color': this.headerColor,

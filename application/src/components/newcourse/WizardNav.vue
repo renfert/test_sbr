@@ -4,36 +4,37 @@
       <li
         class="box"
         :class="active2 == true || active3 == true ? 'active' : ''"
-        @click.prevent="accessFirstStep"
       >
         <a class="form-wizard-link" href="#">
-          <span class="numberCircle active">1</span>
+          <span @click.prevent="accessFirstStep()" class="numberCircle active"
+            >1</span
+          >
         </a>
       </li>
-      <li
-        class="box"
-        :class="active3 == true ? 'active' : ''"
-        @click.prevent="accessSecondStep"
-      >
+      <li class="box" :class="active3 == true ? 'active' : ''">
         <a
           class="form-wizard-link"
           :class="active2 == true ? 'active' : ''"
           href="#"
         >
           <span
+            @click.prevent="accessSecondStep()"
             class="numberCircle v-step-3"
             :class="active2 == true || active3 == true ? 'active' : ''"
             >2</span
           >
         </a>
       </li>
-      <li class="box" @click.prevent="accessThirdStep">
+      <li class="box">
         <a
           class="form-wizard-link"
           :class="active3 == true ? 'active' : ''"
           href="#"
         >
-          <span class="numberCircle" :class="active3 == true ? 'active' : ''"
+          <span
+            @click.prevent="accessThirdStep()"
+            class="numberCircle"
+            :class="active3 == true ? 'active' : ''"
             >3</span
           >
         </a>

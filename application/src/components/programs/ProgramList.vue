@@ -24,14 +24,14 @@
       <program-table-view v-else></program-table-view>
     </div>
 
-    <el-row class="center m-t-30" v-else>
+    <el-row class="center m-t-40" v-else>
       <el-col :sm="24">
         <img
           class="not-found-image"
-          src="@/assets/img/general/ux/no_programs.png"
+          src="@/assets/img/general/ux/no_programs.svg"
           alt="No programs"
         />
-        <h4>{{ lang['no-programs-found'] }}</h4>
+        <h4 class="sbr-text-grey">{{ lang['no-programs-found'] }}</h4>
         <router-link to="/newprogram">
           <el-button class="sbr-primary mt-3">
             {{ lang['new-program-button'] }}
