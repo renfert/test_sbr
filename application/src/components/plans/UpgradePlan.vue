@@ -70,27 +70,28 @@
                 </div>
 
                 <br />
-                <button
+                <el-button
                   :disabled="loading"
                   v-loading="loading"
                   @click="upgradePlan()"
-                  class="sbr-btn sbr-primary"
+                  class="sbr-primary"
+                  icon="el-icon-sell"
+                  type="primary"
                 >
-                  {{ lang['upgrade-plan-button'] }}
-                  <i class="el-icon-sell"></i>
-                </button>
-                <br />
-                <button
+                  {{ lang['upgrade-plan-button'] }}</el-button
+                >
+                <el-button
                   @click="
                     comparativePlans = true;
                     mainCard = false;
                     checkoutCard = false;
                   "
-                  class="sbr-btn sbr-purple mt-4"
+                  class="sbr-purple"
+                  icon="el-icon-guide"
+                  type="primary"
                 >
-                  {{ lang['view-plan-comparison'] }}
-                  <i class="el-icon-guide"></i>
-                </button>
+                  {{ lang['view-plan-comparison'] }}</el-button
+                >
               </div>
             </div>
           </div>

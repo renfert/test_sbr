@@ -3,7 +3,6 @@
     v-if="
       daysToExpiration < 0 &&
       plan == 'trial' &&
-      currentRouteName != 'home' &&
       currentRouteName != 'marketplace' &&
       currentRouteName != 'products' &&
       currentRouteName != 'product'
@@ -21,26 +20,29 @@
         <h2>{{ lang['trial-expired'] }}</h2>
         <h3>{{ lang['trial-expired-message'] }}</h3>
         <div class="buttons text-center">
-          <button
+          <el-button
             :disabled="loading"
             v-loading="loading"
             @click="upgradePlan()"
-            class="sbr-btn sbr-primary mr-4 mb-5"
+            class="sbr-primary"
+            icon="el-icon-sell"
+            type="primary"
           >
-            {{ lang['upgrade-plan-button'] }}
-            <i class="el-icon-sell"></i>
-          </button>
-          <button
+            {{ lang['upgrade-plan-button'] }}</el-button
+          >
+
+          <el-button
             @click="
               trialContent = false;
               comparisonPlansContent = true;
               checkoutContent = false;
             "
-            class="sbr-btn sbr-purple"
+            class="sbr-purple"
+            icon="el-icon-guide"
+            type="primary"
           >
-            {{ lang['view-plan-comparison'] }}
-            <i class="el-icon-guide"></i>
-          </button>
+            {{ lang['view-plan-comparison'] }}</el-button
+          >
         </div>
       </div>
 
@@ -146,8 +148,8 @@ export default {
     };
   },
   created() {
-    this.getCurrentDate();
     this.getCompanyInformation();
+    this.getCurrentDate();
   },
   methods: {
     getCompanyInformation() {

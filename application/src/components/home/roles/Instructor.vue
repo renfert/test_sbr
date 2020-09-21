@@ -10,7 +10,7 @@
       <div class="row">
         <div class="col-md-6 col-12 mb-3">
           <!-- Courses -->
-          <a href="courses">
+          <router-link to="/courses">
             <div class="card-widget">
               <div class="title-widget text-center">
                 <img
@@ -23,11 +23,11 @@
                 </h3>
               </div>
             </div>
-          </a>
+          </router-link>
         </div>
         <div class="col-md-6 col-12 mb-3">
           <!-- Users -->
-          <a href="users">
+          <a href="javascript:void(0)">
             <div class="card-widget">
               <div class="title-widget text-center">
                 <img

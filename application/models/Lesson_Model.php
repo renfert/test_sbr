@@ -74,7 +74,9 @@ class Lesson_Model extends CI_Model
       );
       $this->db->insert("lesson_status", $data);
     }
+
   }
+
 
   public function enrollUserIntoLesson($lessonId, $courseId, $userId)
   {

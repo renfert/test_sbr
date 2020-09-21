@@ -1,17 +1,11 @@
 <template>
   <div :class="displayContentThirdStep == false ? 'hide' : 'main'">
-    <div class="creation-content">
-      <div class="img-container">
-        <div class="text-container">
-          <h4>{{ lang['course-created-successfully'] }}</h4>
-          <h1>{{ course.name }}</h1>
-        </div>
+    <el-row class="center m-t-40 m-b-40">
+      <h3 class="m-b-40">{{ lang['course-created-successfully'] }}</h3>
+      <img class="w-30" src="@/assets/img/general/ux/test.svg" />
+    </el-row>
 
-        <img src="@/assets/img/general/ux/course_completed.png" />
-      </div>
-    </div>
-
-    <div class="row row-actions">
+    <div class="row">
       <div class="col-12 col-md-3">
         <router-link :to="'/viewcourse/' + this.course.id">
           <div class="card-box card-action">
@@ -69,7 +63,7 @@
       center
       top="5vh"
     >
-      <div v-if="usersList != null" v-loading="loading">
+      <div class="center" v-if="usersList != null" v-loading="loading">
         <template>
           <el-transfer
             filterable
@@ -95,8 +89,8 @@
           </div>
           <div class="col-6">
             <img
-              class="image-no-results"
-              src="@/assets/img/general/ux/no_persons.png"
+              class="no-results-img"
+              src="@/assets/img/general/ux/students.svg"
               alt
             />
           </div>
@@ -251,18 +245,6 @@ export default {
    Layout
 ============= */
 
-.creation-content {
-  position: fixed;
-  z-index: 9;
-  top: 0;
-  left: 0;
-  right: 0;
-}
-
-.row-actions {
-  margin-top: 23%;
-}
-
 .card-action {
   text-align: center;
   text-transform: uppercase;
@@ -271,8 +253,8 @@ export default {
 }
 
 .card-action:hover {
-  -webkit-box-shadow: 0px 0px 5px 0px #00a9b4;
-  box-shadow: 0px 0px 5px 0px #00a9b4;
+  -webkit-box-shadow: 0px 0px 5px 0px #009cd8;
+  box-shadow: 0px 0px 5px 0px #009cd8;
 }
 
 .card-action img {
@@ -292,7 +274,8 @@ export default {
 }
 
 .img-container img {
-  width: inherit !important;
+  width: 30% !important;
+  margin-left: 250px;
 }
 
 .text-container {

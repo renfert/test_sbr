@@ -52,7 +52,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #0ae;
+  background-color: $primary-color;
 
   background-image: -webkit-gradient(
     linear,
@@ -123,7 +123,7 @@ b {
   font-weight: 600;
 }
 
-a:hover {
+a {
   outline: 0;
   text-decoration: none;
 }
@@ -141,6 +141,12 @@ a:focus {
 /* =============
 Helper clasess
 ============= */
+
+.flex {
+  display: flex;
+  justify-items: center;
+  align-items: center;
+}
 
 .fw-800 {
   font-weight: 800;
@@ -160,6 +166,30 @@ Helper clasess
 
 .p-30 {
   padding: 30px !important;
+}
+
+p-r-5 {
+  padding-right: 5px;
+}
+
+p-r-10 {
+  padding-right: 10px;
+}
+
+p-r-15 {
+  padding-right: 15px;
+}
+
+p-r-20 {
+  padding-right: 20px;
+}
+
+p-r-30 {
+  padding-right: 30px;
+}
+
+p-r-40 {
+  padding-right: 40px;
 }
 
 .p-l-10 {
@@ -295,6 +325,26 @@ Helper clasess
   margin-bottom: 40px !important;
 }
 
+.w-10 {
+  width: 10%;
+}
+
+.w-20 {
+  width: 20%;
+}
+
+.w-30 {
+  width: 30%;
+}
+
+.w-40 {
+  width: 40%;
+}
+
+.w-50 {
+  width: 50%;
+}
+
 .hide {
   display: none;
 }
@@ -312,6 +362,10 @@ Helper clasess
 }
 .float-left {
   float: left;
+}
+
+.text-left {
+  text-align: left;
 }
 
 /* =============
@@ -377,16 +431,6 @@ label {
   box-shadow: 0px 0px 3px 0px #aca9a9;
 }
 
-.chart {
-  position: relative;
-  display: inline-block;
-  width: 110px;
-  height: 110px;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  text-align: center;
-}
-
 .chart canvas {
   position: absolute;
   top: 0;
@@ -430,6 +474,10 @@ label {
   color: white;
 }
 
+.not-found-image {
+  width: 150px;
+}
+
 .is-circle:hover {
   color: white;
 }
@@ -456,8 +504,12 @@ label {
   color: $purple-color !important;
 }
 
+.sbr-text-neutral {
+  color: #c0c0c7 !important;
+}
+
 .sbr-text-grey {
-  color: #9e9c9c !important;
+  color: rgb(187, 181, 181);
 }
 
 .sbr-text-danger {
@@ -468,13 +520,43 @@ label {
   box-shadow: 0px 0px 3px 0px $primary-color;
 }
 
+.sbr-text-white {
+  color: white !important;
+}
+
 /* =============
 Element UI Custom
 ============= */
 
+// Button
+.el-button {
+  font-size: 0.9rem;
+  border-radius: 15px;
+  border: none !important;
+  transition: all 0.2s ease-in-out 0s;
+  font-weight: 700;
+}
+
+.el-button:hover,
+.el-button:focus {
+  color: #313133;
+  transform: translateX(3px) !important;
+}
+
+// Transfer
+.el-transfer {
+  text-align: left;
+  display: inline-block;
+}
+
 // El select
 .el-select-dropdown {
   z-index: 9999 !important;
+}
+
+.el-select-dropdown__item.selected {
+  color: $primary-color;
+  font-weight: 700;
 }
 
 // Dialog
@@ -600,8 +682,8 @@ Element UI Custom
 }
 
 /* =============
-   Buttons
-============= */
+    Buttons
+    ============= */
 
 .mercadopago-button {
   width: 80% !important;
@@ -629,7 +711,7 @@ Element UI Custom
 .sbr-primary {
   color: white !important;
   background-color: $primary-color !important;
-  box-shadow: 0 2px 5px rgba(0, 225, 240, 0.5) !important;
+  box-shadow: 0 10px 20px -10px rgba(0, 225, 240, 0.5);
 }
 
 .sbr-secondary {
@@ -658,8 +740,8 @@ Element UI Custom
 }
 
 /* =============
-Certificates
-============= */
+    Certificates
+    ============= */
 
 // Classic certificate template
 .classic-template {
@@ -720,8 +802,8 @@ Certificates
 }
 
 /* =============
-Mobile
-============= */
+    Mobile
+    ============= */
 @media (max-width: 768px) {
   body {
     overflow-x: hidden;
@@ -756,31 +838,31 @@ Mobile
     animation: slide 2s forwards;
     animation-delay: 2s;
   }
+}
 
-  @media only screen and (max-width: 600px) {
-    .content-page {
-      margin-top: 25%;
-    }
+@media only screen and (max-width: 600px) {
+  .content-page {
+    margin-top: 25%;
+  }
+}
+
+@media (max-width: 480px) {
+  .side-menu.retracted {
+    position: fixed;
+    top: 0;
+    left: -500px;
+    transition: 1s;
   }
 
-  @media (max-width: 480px) {
-    .side-menu.retracted {
-      position: fixed;
-      top: 0;
-      left: -500px;
-      transition: 1s;
-    }
-
-    .side-menu.opened {
-      position: fixed;
-      top: 0;
-      display: initial;
-      transition: 1s;
-      left: 0;
-    }
+  .side-menu.opened {
+    position: fixed;
+    top: 0;
+    display: initial;
+    transition: 1s;
+    left: 0;
   }
+}
 
-  .mobile-topbar {
-    display: none;
-  }
+.mobile-topbar {
+  display: none;
 }

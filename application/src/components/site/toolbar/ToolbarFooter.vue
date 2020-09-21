@@ -3,7 +3,7 @@
     <div v-for="element in footerArray" :key="element.id">
       <el-submenu index="3">
         <template slot="title">
-          <i class="el-icon-menu"></i>
+          <i class="el-icon-menu sbr-text-primary"></i>
           <span>Footer</span>
         </template>
         <form id="form-footer">

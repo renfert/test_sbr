@@ -1,5 +1,5 @@
 <template>
-  <div class="m-5">
+  <div>
     <facebook-loader
       v-if="content == false"
       :speed="2"
@@ -10,11 +10,10 @@
     ></facebook-loader>
 
     <div v-else>
-      <!-- Students list  -->
-      <div class="course-content" v-if="studentsBelongingToTheGroup != null">
-        <div class="mb-5">
+      <div v-if="studentsBelongingToTheGroup != null">
+        <div>
           <el-row>
-            <el-col :md="6" :xs="18" class="mr-3">
+            <el-col :sm="6" :xs="18">
               <el-input
                 v-model="table.filters[0].value"
                 placeholder="Search"
@@ -67,23 +66,20 @@
       <!-- Students list content -->
 
       <!-- No students found  -->
-      <div v-else>
-        <div class="row mb-5">
-          <div class="col-12 text-center">
-            <img
-              class="no-results-img"
-              src="@/assets/img/general/ux/not_found.png"
-              alt="No activities"
-            />
-            <h4 class="no-results-text mb-3">
-              {{ lang['no-results-students-in-group'] }}
-            </h4>
-            <el-button class="sbr-primary" @click="addStudent()">{{
-              lang['add-student']
-            }}</el-button>
-          </div>
-        </div>
-      </div>
+      <el-row v-else class="center m-t-40 m-b-40">
+        <el-col :sm="24">
+          <img
+            class="not-found-image"
+            src="@/assets/img/general/ux/students.svg"
+          />
+          <h4 class="sbr-text-grey">
+            {{ lang['no-results-students-in-group'] }}
+          </h4>
+          <el-button class="sbr-primary" @click="addStudent()">{{
+            lang['add-student']
+          }}</el-button>
+        </el-col>
+      </el-row>
       <!-- No Students found content end -->
     </div>
 
@@ -106,7 +102,7 @@
       ></facebook-loader>
 
       <div v-else>
-        <div v-if="studentsNotBelongingToTheGroup != null">
+        <div class="center" v-if="studentsNotBelongingToTheGroup != null">
           <template>
             <el-transfer
               filterable
@@ -126,18 +122,17 @@
           >
         </div>
 
-        <div v-else>
-          <div class="row mb-5">
-            <div class="col-12 text-center">
-              <img
-                class="no-results-img"
-                src="@/assets/img/general/ux/not_found.png"
-                alt="No activities"
-              />
-              <h4>{{ lang['all-students-already-added'] }}</h4>
-            </div>
-          </div>
-        </div>
+        <el-row v-else class="center">
+          <el-col :sm="24">
+            <img
+              class="not-found-image"
+              src="@/assets/img/general/ux/students.svg"
+            />
+            <h4 class="sbr-text-grey">
+              {{ lang['all-students-already-added'] }}
+            </h4>
+          </el-col>
+        </el-row>
       </div>
     </el-dialog>
     <!------------------------

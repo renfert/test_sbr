@@ -1,5 +1,5 @@
 <template>
-  <div class="m-5">
+  <div>
     <facebook-loader
       v-if="content == false"
       :speed="2"
@@ -10,16 +10,16 @@
     ></facebook-loader>
 
     <div v-else>
-      <div class="course-content" v-if="instructorsBelongingToTheGroup != null">
-        <div class="mb-5">
+      <div v-if="instructorsBelongingToTheGroup != null">
+        <div>
           <el-row>
-            <el-col :md="6" :xs="18" class="mr-3">
+            <el-col :sm="6" :xs="18">
               <el-input
                 v-model="table.filters[0].value"
                 placeholder="Search"
               ></el-input>
             </el-col>
-            <el-col :span="2">
+            <el-col :sm="2">
               <el-button
                 @click.prevent="addInstructor"
                 class="sbr-purple"
@@ -65,23 +65,20 @@
         </data-tables>
       </div>
 
-      <div v-else>
-        <div class="row mb-5">
-          <div class="col-12 text-center">
-            <img
-              class="no-results-img"
-              src="@/assets/img/general/ux/not_found.png"
-              alt="No activities"
-            />
-            <h4 class="no-results-text mb-3">
-              {{ lang['no-results-instructors-in-group'] }}
-            </h4>
-            <el-button class="sbr-primary" @click="addInstructor()">{{
-              lang['add-instructor']
-            }}</el-button>
-          </div>
-        </div>
-      </div>
+      <el-row class="center m-t-40 m-b-40" v-else>
+        <el-col :sm="24">
+          <img
+            class="not-found-image"
+            src="@/assets/img/general/ux/instructor.svg"
+          />
+          <h4 class="sbr-text-grey">
+            {{ lang['no-results-instructors-in-group'] }}
+          </h4>
+          <el-button class="sbr-primary" @click="addInstructor()">{{
+            lang['add-instructor']
+          }}</el-button>
+        </el-col>
+      </el-row>
     </div>
 
     <!-------------------------
@@ -103,7 +100,7 @@
       ></facebook-loader>
 
       <div v-else>
-        <div v-if="instructorsNotBelongingToTheGroup != null">
+        <div class="center" v-if="instructorsNotBelongingToTheGroup != null">
           <template>
             <el-transfer
               filterable
@@ -123,20 +120,22 @@
           >
         </div>
 
-        <div v-else>
-          <div class="row mb-5">
-            <div class="col-12 text-center">
-              <img
-                class="no-results-img"
-                src="@/assets/img/general/ux/not_found.png"
-                alt="No activities"
-              />
-              <h4>{{ lang['all-instructors-already-added'] }}</h4>
-            </div>
-          </div>
-        </div>
+        <el-row v-else class="center">
+          <el-col :sm="24">
+            <img
+              class="not-found-image"
+              src="@/assets/img/general/ux/instructor.svg"
+            />
+            <h4 class="sbr-text-grey">
+              {{ lang['all-instructors-already-added'] }}
+            </h4>
+          </el-col>
+        </el-row>
       </div>
     </el-dialog>
+    <!-------------------------
+    End add new instructor modal
+    --------------------------->
   </div>
 </template>
 

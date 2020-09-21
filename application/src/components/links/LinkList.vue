@@ -24,11 +24,11 @@
                       element.target
                     )
                   "
-                  class="el-icon-edit text-primary links"
+                  class="el-icon-edit sbr-text-primary links"
                 ></i>
                 <i
                   @click.prevent="deleteLink(element.id)"
-                  class="el-icon-delete text-danger links"
+                  class="el-icon-delete sbr-text-danger links"
                 ></i>
                 <i
                   class="el-icon-rank handle linkPosition"

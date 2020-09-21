@@ -1,7 +1,6 @@
 <template>
   <div class="content-page">
     <construction></construction>
-    <img :src="$getUrlToContents() + '/avatar/' + user.avatar" alt="" />
   </div>
 </template>
 
@@ -31,3 +30,5 @@ export default {
   }
 };
 </script>
+
+<style scoped></style>

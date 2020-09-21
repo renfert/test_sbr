@@ -255,17 +255,10 @@ export default {
     ...mapState(['lang']),
     styleHeader() {
       if (this.$route.name === 'site') {
-        if (this.fullScreenMode === true) {
-          return {
-            'background-color': this.headerColor,
-            width: '100%'
-          };
-        } else {
-          return {
-            'background-color': this.headerColor,
-            width: '80%'
-          };
-        }
+        return {
+          'background-color': this.headerColor,
+          width: '100%'
+        };
       } else {
         return {
           'background-color': this.headerColor,
@@ -531,13 +524,13 @@ header {
   justify-content: space-between;
   align-items: center;
   transform: 0.4s;
-  padding: 0px 15%;
   z-index: 2000;
   transition: 0.2s;
 }
 
 header a {
   flex: 0 0 20%;
+  margin-left: 15%;
 }
 
 header ul {
@@ -546,6 +539,7 @@ header ul {
   justify-content: flex-end;
   align-items: center;
   margin: 0px !important;
+  margin-right: 15% !important;
 }
 
 header ul li {
@@ -571,7 +565,6 @@ header.sticky {
   box-shadow: 0px 0px 3px 0px #aca9a9;
   background-color: white !important;
   height: 75px;
-  padding: 0px 15%;
   animation: smoothScroll 1.2s forwards;
 }
 

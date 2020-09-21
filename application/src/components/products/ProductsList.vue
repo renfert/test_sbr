@@ -48,9 +48,9 @@
                   name="b-7"
                   type="radio"
                 />
-                <label for="b-7" class="checkbox-custom-label">{{
-                  lang['all']
-                }}</label>
+                <label for="b-7" class="checkbox-custom-label">
+                  {{ lang['all'] }}
+                </label>
               </li>
               <li>
                 <input
@@ -61,9 +61,9 @@
                   name="b-8"
                   type="radio"
                 />
-                <label for="b-8" class="checkbox-custom-label">{{
-                  lang['free-course']
-                }}</label>
+                <label for="b-8" class="checkbox-custom-label">
+                  {{ lang['free-course'] }}
+                </label>
               </li>
               <li>
                 <input
@@ -74,9 +74,9 @@
                   name="b-9"
                   type="radio"
                 />
-                <label for="b-9" class="checkbox-custom-label">{{
-                  lang['paid-courses']
-                }}</label>
+                <label for="b-9" class="checkbox-custom-label">
+                  {{ lang['paid-courses'] }}
+                </label>
               </li>
             </ul>
           </div>
@@ -106,9 +106,9 @@
                 v-for="element in categories"
                 :key="element.id"
               >
-                <a href="javascript:void(0)" class="tag-cloud-lin">{{
-                  element.name
-                }}</a>
+                <a href="javascript:void(0)" class="tag-cloud-lin">
+                  {{ element.name }}
+                </a>
               </div>
             </div>
           </div>
@@ -221,18 +221,18 @@
             </div>
           </div>
 
-          <div class="row" v-else>
-            <div class="col-12 text-center">
+          <el-row style="margin-top: 20%" v-else>
+            <el-col :span="24" class="center">
               <img
-                class="w-50"
-                src="@/assets/img/general/ux/not_found.png"
+                class="not-found-image"
+                src="@/assets/img/general/ux/no_courses_found.svg"
                 alt="No activities"
               />
-              <h4 class="sbr-empty-state-text">
+              <h5 class="sbr-text-grey">
                 {{ lang['no-courses-found'] }}
-              </h4>
-            </div>
-          </div>
+              </h5>
+            </el-col>
+          </el-row>
 
           <!-- Pagination -->
           <div
@@ -501,6 +501,12 @@ h3 {
 h4 {
   line-height: 26px;
   font-size: 21px;
+}
+
+h5 {
+  line-height: 20px;
+  font-size: 16px;
+  color: rgb(187, 181, 181);
 }
 
 a {

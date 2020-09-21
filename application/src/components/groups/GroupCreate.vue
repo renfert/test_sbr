@@ -4,6 +4,7 @@
     <el-form id="form-group" :inline="true">
       <el-form-item>
         <el-input
+          clearable
           required
           name="name"
           :placeholder="lang['name']"

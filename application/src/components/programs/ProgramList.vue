@@ -1,22 +1,6 @@
 <template>
   <div>
-    <div class="card-box mt-5" v-if="programList != null">
-      <div class="dropdown pull-right">
-        <a
-          @click="changeProgramVisualization()"
-          href="javascript:void(0)"
-          class="dropdown-toggle arrow-none card-drop"
-          data-toggle="dropdown"
-          aria-expanded="false"
-        >
-          <i
-            v-if="programVisualization == 'list'"
-            class="mdi mdi-view-list mdi-36px"
-          ></i>
-          <i v-else class="mdi mdi-table mdi-36px"></i>
-        </a>
-      </div>
-
+    <div class="card-box m-t-30" v-if="programList != null">
       <program-list-view
         :program-list="programList"
         v-if="programVisualization == 'list'"
@@ -24,16 +8,21 @@
       <program-table-view v-else></program-table-view>
     </div>
 
-    <div class="row mb-5 mt-5" v-else>
-      <div class="col-12 text-center">
+    <el-row class="center m-t-40" v-else>
+      <el-col :sm="24">
         <img
-          class="no-results-img"
-          src="@/assets/img/general/ux/no_programs.png"
+          class="not-found-image"
+          src="@/assets/img/general/ux/no_programs.svg"
           alt="No programs"
         />
-        <h4 class="no-results-text">{{ lang['no-programs-found'] }}</h4>
-      </div>
-    </div>
+        <h4 class="sbr-text-grey">{{ lang['no-programs-found'] }}</h4>
+        <router-link to="/newprogram">
+          <el-button class="sbr-primary mt-3">
+            {{ lang['new-program-button'] }}
+          </el-button>
+        </router-link>
+      </el-col>
+    </el-row>
   </div>
   <!-- End col-12 -->
 </template>
@@ -67,16 +56,3 @@ export default {
   }
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
-.image-no-results {
-  width: 15%;
-}
-.box-no-results {
-  background-color: #fcfcfc;
-}
-.text-no-results {
-  margin-top: 25%;
-}
-</style>

@@ -1,7 +1,7 @@
 <template>
   <el-submenu index="2">
     <template slot="title">
-      <i class="el-icon-menu"></i>
+      <i class="el-icon-menu sbr-text-primary"></i>
       <span>Body</span>
     </template>
     <el-menu-item-group title="Sections">

@@ -4,51 +4,54 @@
       <li
         class="box"
         :class="active2 == true || active3 == true ? 'active' : ''"
-        @click.prevent="accessFirstStep"
       >
         <a class="form-wizard-link" href="#">
-          <span class="numberCircle active">1</span>
+          <span @click.prevent="accessFirstStep()" class="numberCircle active"
+            >1</span
+          >
         </a>
       </li>
-      <li
-        class="box"
-        :class="active3 == true ? 'active' : ''"
-        @click.prevent="accessSecondStep"
-      >
+      <li class="box" :class="active3 == true ? 'active' : ''">
         <a
           class="form-wizard-link"
           :class="active2 == true ? 'active' : ''"
-          href="#"
+          href="javascript:void(0)"
         >
           <span
+            @click.prevent="accessSecondStep()"
             class="numberCircle v-step-3"
             :class="active2 == true || active3 == true ? 'active' : ''"
             >2</span
           >
         </a>
       </li>
-      <li class="box" @click.prevent="accessThirdStep">
+      <li class="box">
         <a
           class="form-wizard-link"
           :class="active3 == true ? 'active' : ''"
           href="#"
         >
-          <span class="numberCircle" :class="active3 == true ? 'active' : ''"
+          <span
+            @click.prevent="accessThirdStep()"
+            class="numberCircle"
+            :class="active3 == true ? 'active' : ''"
             >3</span
           >
         </a>
       </li>
     </ul>
-    <hr class="mt-5" />
 
     <!------------------------
             Basic information text
     -------------------------->
-    <div clas="row text-center" v-if="active1">
-      <div class="col-12 text-center">
-        <h3 class="sbr-text-grey">{{ lang['basic-information'] }}</h3>
-      </div>
-    </div>
+    <el-row clas="center" v-if="active1">
+      <el-col :span="24" class="center m-b-40 m-t-40">
+        <h3 class="sbr-text-grey">
+          <i class="el-icon-warning-outline"></i>
+          {{ lang['basic-information'] }}
+        </h3>
+      </el-col>
+    </el-row>
 
     <!------------------------
             Content text
@@ -103,7 +106,7 @@ export default {
     },
 
     accessThirdStep() {
-      // Emit event to inform the attempt to access the second step
+      // Emit event to inform the attempt to access the third step
       eventBus.$emit('access-third-step');
       this.active1 = false;
       this.active2 = false;

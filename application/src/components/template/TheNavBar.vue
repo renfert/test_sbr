@@ -87,22 +87,16 @@
       </ul>
     </header>
     <!-- End Navbar -->
-    <login></login>
   </div>
 </template>
 
 <script>
-/* eslint-disable */
-import Login from '@/components/login/Login';
 import { eventBus } from '@/components/site/App';
 import { eventLogin } from '@/components/login/Login';
 import { mapState } from 'vuex';
 
 export default {
   props: ['full-screen-button'],
-  components: {
-    Login
-  },
   data: () => {
     return {
       logo: '',

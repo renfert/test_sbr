@@ -1,13 +1,13 @@
 <template>
   <div>
-    <h3 class="mb-5">
+    <h3>
       {{ lang['current-plan'] }}
       <b class="sbr-text-primary">{{ company.plan }}</b>
     </h3>
 
-    <div class="row text-center">
+    <el-row :gutter="20">
       <!-- Basic plan -->
-      <div class="col-md-6 col-12">
+      <el-col :sm="12" :xs="24">
         <article class="pricing-column">
           <div
             class="inner-box card-box"
@@ -134,11 +134,11 @@
             </ul>
           </div>
         </article>
-      </div>
+      </el-col>
       <!-- End basic plan -->
 
       <!-- Pro plan -->
-      <div class="col-md-6 col-12">
+      <el-col :sm="12" :xs="24">
         <article class="pricing-column">
           <div
             class="inner-box card-box"
@@ -265,11 +265,13 @@
             </ul>
           </div>
         </article>
-      </div>
+      </el-col>
       <!-- End pro plan -->
+    </el-row>
 
+    <el-row :gutter="20">
       <!-- Growt plan -->
-      <div class="col-md-6 col-12">
+      <el-col :sm="12" :xs="24">
         <article class="pricing-column">
           <div
             class="inner-box card-box"
@@ -396,11 +398,11 @@
             </ul>
           </div>
         </article>
-      </div>
+      </el-col>
       <!-- End pro plan -->
 
       <!-- Bussiness plan -->
-      <div class="col-md-6 col-12">
+      <el-col :sm="12" :xs="24">
         <article class="pricing-column">
           <div
             class="inner-box card-box"
@@ -499,12 +501,11 @@
             </ul>
           </div>
         </article>
-      </div>
+      </el-col>
       <!-- End bussiness plan -->
-    </div>
-    <hr class="mb-5" />
+    </el-row>
 
-    <div class="text-center mb-5">
+    <div class="center">
       <div class="col-12">
         <h2 class="mb-4">
           <i class="fas fa-gem sbr-text-primary"></i>

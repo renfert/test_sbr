@@ -65,12 +65,12 @@
         </data-tables>
       </div>
 
-      <div class="text-center mt-5" v-else>
-        <h4>{{ lang['no-categories-found'] }}</h4>
+      <div class="center m-t-40" v-else>
         <img
-          class="image-no-results"
-          src="@/assets/img/general/ux/not_found.png"
+          class="not-found-image"
+          src="@/assets/img/general/ux/no_categories.svg"
         />
+        <h4 class="sbr-text-grey">{{ lang['no-categories-found'] }}</h4>
       </div>
     </div>
 
@@ -85,17 +85,23 @@
         width="40%"
         top="5vh"
       >
-        <div class="form-group">
-          <label>{{ lang['new-name'] }}</label>
-          <el-input name="name" v-model="newCategoryName"></el-input>
-        </div>
-        <div class="form-group">
-          <el-button
-            @click.prevent="editCategory(categoryId)"
-            class="sbr-primary"
-            >{{ lang['save-button'] }}</el-button
-          >
-        </div>
+        <el-row :gutter="20">
+          <el-col :sm="12">
+            <el-input
+              :placeholder="lang['new-name']"
+              clearable
+              name="name"
+              v-model="newCategoryName"
+            ></el-input>
+          </el-col>
+          <el-col :sm="12">
+            <el-button
+              @click.prevent="editCategory(categoryId)"
+              class="sbr-primary"
+              >{{ lang['save-button'] }}</el-button
+            >
+          </el-col>
+        </el-row>
       </el-dialog>
     </div>
     <!--------------------

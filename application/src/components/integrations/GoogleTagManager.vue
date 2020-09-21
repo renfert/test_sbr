@@ -1,10 +1,12 @@
 <template>
-  <div class="col-md-6 col-12">
-    <img class="integration-image" src="@/assets/img/apps/tagmanager.jpg" />
+  <el-col :sm="12" :xs="24">
+    <img style="width: 150px" src="@/assets/img/apps/tagmanager.jpg" />
     <form @submit.prevent="saveTagManager()" id="form-tag-manager">
       <el-input
+        clearable
         v-model="id"
         name="id"
+        class="m-b-10"
         :placeholder="lang['tracking-id']"
       ></el-input>
       <el-button
@@ -14,7 +16,7 @@
         >{{ lang['save-button'] }}</el-button
       >
     </form>
-  </div>
+  </el-col>
 </template>
 
 <script>

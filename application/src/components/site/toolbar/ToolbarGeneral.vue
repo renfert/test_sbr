@@ -3,11 +3,11 @@
     <div>
       <el-submenu index="0">
         <template slot="title">
-          <i class="el-icon-menu"></i>
+          <i class="el-icon-menu sbr-text-primary"></i>
           <span>General</span>
         </template>
         <form id="form-general">
-          <el-menu-item-group class="mb-5" :title="lang['color']">
+          <el-menu-item-group class="m-b-30" :title="lang['color']">
             <el-menu-item>
               <input type="text" v-model="color" name="color" class="hide" />
               <el-color-picker

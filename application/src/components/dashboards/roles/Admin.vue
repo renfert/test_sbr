@@ -1,50 +1,48 @@
 <template>
   <div>
-    <div class="row">
+    <el-row :gutter="20">
       <!-- Students -->
-      <div class="col-12 col-md-6 mb-5">
-        <div class="card-widget chart">
+      <el-col :sm="12" :xs="24" class="m-b-30">
+        <div class="card-widget">
           <GChart
             v-if="usersData != null"
             type="ColumnChart"
             :data="usersData"
             :options="usersChartOptions"
           />
-          <div class="row mb-5" v-else>
-            <div class="col-12 text-center">
+          <el-row class="center" v-else>
+            <el-col>
               <img
-                style="width: 40%"
-                src="@/assets/img/general/ux/not_found.png"
-                alt="No activities"
+                class="not-found-image"
+                src="@/assets/img/general/ux/data_not_found.svg"
               />
-              <h4 class="no-results-text">{{ lang['no-data'] }}</h4>
-            </div>
-          </div>
+              <h4 class="sbr-text-grey">{{ lang['no-data'] }}</h4>
+            </el-col>
+          </el-row>
         </div>
-      </div>
+      </el-col>
 
       <!-- Courses -->
-      <div class="col-12 col-md-6 mb-5">
-        <div class="card-widget chart">
+      <el-col :sm="12" :xs="24" class="m-b-30">
+        <div class="card-widget">
           <GChart
             v-if="coursesData != null"
             type="PieChart"
             :data="coursesData"
             :options="coursesChartOptions"
           />
-          <div class="row mb-5" v-else>
-            <div class="col-12 text-center">
+          <el-row class="center" v-else>
+            <el-col>
               <img
-                style="width: 40%"
-                src="@/assets/img/general/ux/not_found.png"
-                alt="No activities"
+                class="not-found-image"
+                src="@/assets/img/general/ux/data_not_found.svg"
               />
-              <h4 class="no-results-text">{{ lang['no-data'] }}</h4>
-            </div>
-          </div>
+              <h4 class="sbr-text-grey">{{ lang['no-data'] }}</h4>
+            </el-col>
+          </el-row>
         </div>
-      </div>
-    </div>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -112,53 +110,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.chart {
-  width: 100%;
-  height: 300px;
-  max-height: 100%;
-}
-
-@media only screen and (max-width: 600px) {
-  .chart {
-    height: 100%;
-  }
-}
-
-.user-avatar {
-  width: 70px;
-}
-
 .card-widget {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   background-color: white;
   border-radius: 10px;
   padding: 30px;
+  max-width: 100%;
+  height: 250px;
 }
 
 .card-widget:hover {
   box-shadow: 0 0px 7px rgba(70, 67, 67, 0.25), 0 5px 5px rgba(70, 67, 67, 0.25);
-}
-
-::-webkit-scrollbar-track {
-  background-color: #f5f5f5;
-}
-
-::-webkit-scrollbar {
-  width: 2px;
-  background-color: #f5f5f5;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: #0ae;
-
-  background-image: -webkit-gradient(
-    linear,
-    0 0,
-    0 100%,
-    color-stop(0.5, rgba(255, 255, 255, 0.2)),
-    color-stop(0.5, transparent),
-    to(transparent)
-  );
 }
 </style>

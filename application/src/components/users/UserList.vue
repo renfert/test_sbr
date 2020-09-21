@@ -12,8 +12,8 @@
       <div>
         <h4>{{ lang['list-users'] }}</h4>
         <div style="margin-bottom: 10px">
-          <el-row>
-            <el-col :md="6" :xs="16">
+          <el-row :gutter="20">
+            <el-col :sm="8" :xs="16">
               <el-input
                 v-model="filters[0].value"
                 placeholder="Search"
@@ -87,15 +87,9 @@
   </div>
   <!-- End User list -->
 
-  <div class="row mb-5 mt-5" v-else>
-    <div class="col-12 text-center">
-      <img
-        class="no-results-img"
-        src="@/assets/img/general/ux/no_persons.png"
-        alt="No persons"
-      />
-      <h4 class="no-results-text">{{ lang['no-results-user-title'] }}</h4>
-    </div>
+  <div class="center m-t-40" v-else>
+    <img class="not-found-image" src="@/assets/img/general/ux/no_users.svg" />
+    <h4 class="sbr-text-grey">{{ lang['no-results-user-title'] }}</h4>
   </div>
 </template>
 
