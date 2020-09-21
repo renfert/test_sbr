@@ -1,12 +1,12 @@
 <template>
   <div class="content-page">
-    <el-card class="box-card" style="max-width: 570px" v-on:keypress.enter.native="publish()">
+    <el-card class="box-card" style="max-width: 570px" v-on:keydown.enter.native="publish()">
       <div slot="header" class="clearfix">
         <el-row>
           <el-col :md="3">
 
             <el-avatar
-              :src="$getUrlToContents() + 'avatar/' + user.avatar"
+              :src="$getUrlToContents() + 'avatar/' + user.avatar+''"
             />
           </el-col>
           <el-col :md="12" class="p-t-10">
@@ -56,6 +56,12 @@ export default {
     this.$verifyAdministratorPrivileges();
     this.getPublications();
   },
+  mounted() {
+
+    setInterval(() => {
+      this.getPublications();
+    }, 2300);
+  },
   methods: {
     async publish() {
       const form = new FormData();
@@ -63,7 +69,7 @@ export default {
       form.append('description', this.publication);
       const data = await this.$request.post(this.$getUrlToMakeRequest('SocialNetwork', 'savePublication'), form);
       if (data.status === 200) {
-        console.log(data);
+        // console.log(data);
         this.$messagePublished();
         // eslint-disable-next-line eqeqeq
       } else if (data.data == false) {
@@ -72,16 +78,8 @@ export default {
       this.getPublications();
       this.publication = '';
     },
-    async saveComment() {
-      const form = new FormData();
-      form.append('myuser_id', this.user.id);
-      form.append('comment', this.comment);
-      form.append('social_publication_id', 1);
-      const data = await this.$request.post(this.$getUrlToMakeRequest('SocialNetwork','saveComment'), form);
-      console.log(data);
-    },
     getPublications() {
-      this.$request.post(this.$getUrlToMakeRequest('SocialNetwork','getPublications')).then((response) => {
+      this.$request.post(this.$getUrlToMakeRequest('SocialNetwork', 'getPublications')).then((response) => {
         this.publications = response.data;
       });
     },
@@ -91,12 +89,12 @@ export default {
       const form = new FormData();
       form.append('social_publication_id', publication_id);
       form.append('myuser_id', this.user.id);
-      this.$request.post(this.$getUrlToMakeRequest('SocialNetwork','doLike'), form).then((response) => {
-        console.log(response.data);
+      this.$request.post(this.$getUrlToMakeRequest('SocialNetwork', 'doLike'), form).then((response) => {
+        // console.log(response.data);
       });
     },
     getOnlineUsers() {
-      this.$request.post(this.$getUrlToMakeRequest('SocialNetwork','getOnlineUsers')).then((response) => {
+      this.$request.post(this.$getUrlToMakeRequest('SocialNetwork', 'getOnlineUsers')).then((response) => {
         console.log(response);
       });
     }

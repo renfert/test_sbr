@@ -106,8 +106,18 @@ class Social_Network_Model extends CI_Model
     $mydate = getCurrentDate("Y-m-d H:i:s");
     $this->db->select("*");
     $this->db->from("myuser");
-    $this->db->where("last_activity > ".$mydate." - INTERVAL 5 MINUTE");
-    return $this->db->error()?:false;
+    $this->db->where("last_activity > '" . $mydate . "' - INTERVAL 5 MINUTE");
+    return $this->db->get()->result() ?: false;
   }
 
+  public function getCommentByPublicationId($publication_id)
+  {
+    $this->db->select("SC.prev_comment, SC.comment, SC.created, SC.modified, U.name username, U.avatar, U.myrole_id , SP.id");
+    $this->db->from("social_comments SC");
+    $this->db->join("myuser U", "U.id=SC.myuser_id");
+    $this->db->join("social_publications SP", "SP.id=SC.social_publication_id");
+    $this->db->where("social_publication_id", $publication_id);
+    $this->db->order_by("created", "DESC");
+    return $this->db->get()->result() ?: false;
+  }
 }

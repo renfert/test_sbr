@@ -56,7 +56,7 @@ class SocialNetwork extends CI_Controller
   public function saveComment()
   {
     $data = $this->input->post();
-    if (strlen($data['description']) > 0) {
+    if (strlen($data['comment']) > 0) {
       $data['prev_comment'] = substr($data['comment'], 0, 97) . '...';
       echo json_encode($this->Social_Network_Model->saveComment($data));
     } else {
@@ -79,8 +79,14 @@ class SocialNetwork extends CI_Controller
   }
 
   public function getOnlineUsers(){
-    $data=$this->input->get();
 
    echo json_encode($this->Social_Network_Model->getUsersWithStatusOn());
+  }
+  public function getCommentsByPub(){
+
+    $data=$this->input->post();
+
+    echo json_encode($this->Social_Network_Model->getCommentByPublicationId($data['social_publication_id']));
+
   }
 }

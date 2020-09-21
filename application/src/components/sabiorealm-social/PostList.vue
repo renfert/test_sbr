@@ -29,15 +29,28 @@
         </p>
       </el-row>
       <el-row>
-        <el-input :placeholder="lang['publication-comment']" v-model="comment[index]">
+        <el-col :md="24">
+
+          <el-input @keyup.enter.native="saveComment(publication.id,index)"
+                    :placeholder="lang['publication-comment']"
+                    v-model="comment[index]">
 
           <span slot="suffix" v-if="comment[index]">
-            <i @click="saveComment()" class="fas fa-paper-plane over" style="margin-top: 10px;font-size:large;"
+            <i @click="saveComment(publication.id,index)" class="fas fa-paper-plane over"
+               style="margin-top: 10px;font-size:large;"
                :title="lang['publish']"></i>
+
           </span>
-        </el-input>
+            <span slot="suffix" v-if="loading">
+          <i class="el-icon-loading center" style="font-size: 25px;margin-top: 10px;font-size:large;color: #009cd8;"></i>
+          </span>
+          </el-input>
+        </el-col>
+        <el-col :md="1">
+        </el-col>
       </el-row>
       <br>
+      <SubCommentary :publication_id="publication.id"/>
     </el-card>
 
   </div>
@@ -48,7 +61,8 @@ import Vue from 'vue';
 import VueHead from 'vue-head';
 
 import wysiwyg from 'vue-wysiwyg';
-import {mapState} from "vuex";
+import {mapState} from 'vuex';
+import SubCommentary from '@/components/sabiorealm-social/SubCommentary';
 
 export const eventBus = new Vue();
 
@@ -59,37 +73,41 @@ export default {
   props: ['publications'],
   data: () => {
     return {
-      comment: []
+      comment: [],
+      update: [],
+      loading: false
     };
   },
-  components: {},
+  components: {SubCommentary},
   created() {
     this.$verifyAdministratorPrivileges();
   },
   computed: {
 
-    ...mapState(['lang', 'user']),
+    ...mapState(['lang', 'user'])
     // eslint-disable-next-line vue/no-async-in-computed-properties
 
   },
   methods: {
-    async saveComment() {
+    // eslint-disable-next-line camelcase
+    async saveComment(publication_id, index) {
+      this.loading = true;
       const form = new FormData();
       form.append('myuser_id', this.user.id);
-      form.append('comment', this.comment);
-      form.append('social_publication_id', 1);
-      const data = await this.$request.post(this.$getUrlToMakeRequest('SocialNetwork', 'saveComment'), form);
-      console.log(data);
+      form.append('comment', this.comment[index]);
+      form.append('social_publication_id', publication_id);
+      this.comment[index] = '';
+      await this.$request.post(this.$getUrlToMakeRequest('SocialNetwork', 'saveComment'), form);
+      this.loading = false;
     },
     // eslint-disable-next-line camelcase
     getLike(publication_id, event) {
       // eslint-disable-next-line vue/no-async-in-computed-properties
-      console.log('gaa');
       const form = new FormData();
       form.append('social_publication_id', publication_id);
       form.append('myuser_id', this.user.id);
-      this.$request.post(this.$getUrlToMakeRequest('SocialNetwork','checkIfLike')).then((response) => {
-        console.log(response);
+      this.$request.post(this.$getUrlToMakeRequest('SocialNetwork', 'checkIfLike')).then((response) => {
+        // console.log(response);
       });
       return true;
     },
@@ -98,14 +116,15 @@ export default {
       // event.currentTarget.children[0].style.color = 'rgb(255, 255, 255)';
       event.currentTarget.style.backgroundColor = '#67C23A';
       event.currentTarget.children[0].style.color = 'white';
-      console.log(event);
+      // console.log(event);
       const form = new FormData();
       form.append('social_publication_id', publication_id);
       form.append('myuser_id', this.user.id);
-      this.$request.post(this.$getUrlToMakeRequest('SocialNetwork','doLike'), form).then((response) => {
-        console.log(response.data);
+      this.$request.post(this.$getUrlToMakeRequest('SocialNetwork', 'doLike'), form).then((response) => {
+        // console.log(response.data);
       });
     }
+
   }
 };
 </script>
