@@ -1,9 +1,8 @@
 <template>
-  <div :class="displayContentFirstStep == false ? 'hide' : 'main'">
+  <div :class="displayContentFirstStep == false ? 'hide' : ''">
     <form class="card-box" id="form-first-step">
       <div class="form-wizard-content show" data-tab-content="info">
         <div class="card-course">
-          {{ course.mode }}
           <el-row :gutter="24" class="m-b-40">
             <el-col :sm="12" :xs="24">
               <!-- Course id -->
@@ -457,24 +456,23 @@ export default {
   created() {
     this.getCategories();
     this.getGlobalCurrency();
-    this.course.mode = 'create';
-  },
-  mounted() {
     eventBus.$on('access-first-step', () => {
       this.displayContentFirstStep = true;
     });
 
     eventBus.$on('access-second-step', () => {
-      if (this.course.mode === 'create') {
-        this.createCourse();
-      } else {
-        this.editCourse();
-      }
+      console.log('Gol');
+      this.course.mode === 'create' ? this.createCourse() : this.editCourse();
     });
 
     eventBus.$on('access-third-step', () => {
       this.course.mode === 'create' ? this.createCourse() : this.editCourse();
     });
+  },
+  beforeDestroy() {
+    eventBus.$off('access-first-step', this.listener);
+    eventBus.$off('access-second-step', this.listener);
+    eventBus.$off('access-third-step', this.listener);
   },
   methods: {
     createCourse() {

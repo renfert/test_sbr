@@ -25,7 +25,7 @@
             <el-row class="text-left">
               <el-col
                 class="m-r-40"
-                :sm="6"
+                :sm="8"
                 style="border-right: 2px solid #009cd8"
               >
                 <h2 class="sbr-text-white">Information</h2>
@@ -47,7 +47,7 @@
                   <span class="sbr-text-grey">{{ userEmail }}</span>
                 </h4>
               </el-col>
-
+              <!--
               <el-col :sm="12">
                 <h2 class="sbr-text-white">Data</h2>
                 <br />
@@ -55,6 +55,7 @@
                 <h4><i class="el-icon-document"></i> Programs: 14</h4>
                 <h4><i class="el-icon-user"></i> Groups: 14</h4>
               </el-col>
+              !-->
             </el-row>
           </el-row>
         </div>
@@ -76,7 +77,6 @@
                   coursesData[2][1] !== 0 &&
                   coursesData[3][1] !== 0
                 "
-                class="mt-5"
                 type="PieChart"
                 :data="coursesData"
                 :options="coursesChartOptions"
@@ -85,7 +85,7 @@
               Courses not found
               --------------->
               <el-row v-else>
-                <div class="text-center m-t-40">
+                <div class="text-center">
                   <img
                     class="not-found-image"
                     src="@/assets/img/general/ux/data_not_found.svg"
@@ -152,7 +152,7 @@
               Exams not found
               --------------->
               <el-row v-else>
-                <div class="text-center m-t-40">
+                <div class="text-center">
                   <img
                     class="not-found-image"
                     src="@/assets/img/general/ux/data_not_found.svg"

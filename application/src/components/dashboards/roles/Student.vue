@@ -1,9 +1,9 @@
 <template>
   <div class="main">
-    <div class="row mb-5">
+    <div class="row">
       <!-- Courses -->
       <div class="col-12 col-md-12">
-        <div class="card-widget">
+        <div class="card-box">
           <GChart
             v-if="coursesData"
             type="PieChart"

@@ -1,22 +1,6 @@
 <template>
   <div>
     <div class="card-box m-t-30" v-if="programList != null">
-      <div class="dropdown pull-right">
-        <a
-          @click="changeProgramVisualization()"
-          href="javascript:void(0)"
-          class="dropdown-toggle arrow-none card-drop"
-          data-toggle="dropdown"
-          aria-expanded="false"
-        >
-          <i
-            v-if="programVisualization == 'list'"
-            class="mdi mdi-view-list mdi-36px"
-          ></i>
-          <i v-else class="mdi mdi-table mdi-36px"></i>
-        </a>
-      </div>
-
       <program-list-view
         :program-list="programList"
         v-if="programVisualization == 'list'"

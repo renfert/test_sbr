@@ -15,7 +15,7 @@
         <a
           class="form-wizard-link"
           :class="active2 == true ? 'active' : ''"
-          href="#"
+          href="javascript:void(0)"
         >
           <span
             @click.prevent="accessSecondStep()"
@@ -106,7 +106,7 @@ export default {
     },
 
     accessThirdStep() {
-      // Emit event to inform the attempt to access the second step
+      // Emit event to inform the attempt to access the third step
       eventBus.$emit('access-third-step');
       this.active1 = false;
       this.active2 = false;

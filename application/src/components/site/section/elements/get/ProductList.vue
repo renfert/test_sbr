@@ -56,11 +56,11 @@
                 <ul>
                   <li>
                     <i class="ti-agenda mr-2"></i>
-                    Modules: {{ element.totalModules }}
+                    {{ lang['modules'] }}: {{ element.totalModules }}
                   </li>
                   <li>
                     <i class="ti-control-skip-forward mr-2"></i>
-                    Lessons: {{ element.totalLessons }}
+                    {{ lang['lessons'] }}: {{ element.totalLessons }}
                   </li>
                 </ul>
               </div>
