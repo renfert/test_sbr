@@ -74,7 +74,6 @@ class Lesson_Model extends CI_Model
       );
       $this->db->insert("lesson_status", $data);
     }
-
   }
 
 
@@ -257,12 +256,17 @@ class Lesson_Model extends CI_Model
     $this->db->update("lesson_status", $data);
 
     $courseId = $this->getCourseIdByLessonId($lessonId);
+    $courseArray = $this->Course_Model->get($courseId);
+    $courseCertificate = $courseArray->certificate;
+
     $courseProgress = $this->Course_Model->userProgress($courseId, $studentId);
     $this->Activity_Model->save("lesson-finished", $courseId, $lessonId, null, 1, null, null, null, null);
     if ($courseProgress  >= 99) {
       $this->Course_Model->updateCourseStatus($courseId, $studentId, "finished");
-      $this->Course_Model->generateCertificate($courseId, $studentId);
       $this->Activity_Model->save("course-finished", $courseId, 1, null, 1, null, null, null, null);
+      if ($courseCertificate != null) {
+        $this->Course_Model->generateCertificate($courseId, $studentId);
+      }
     } else {
       $this->Course_Model->updateCourseStatus($courseId, $studentId, "in-progress");
     }

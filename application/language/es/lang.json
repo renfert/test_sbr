@@ -1,6 +1,6 @@
 {
-  "dashboard-nav": "Dashboard",
-  "home-nav": "Home",
+  "dashboard-nav": "Reportes",
+  "home-nav": "Página de inicio  ",
   "courses-nav": "Cursos",
   "my-courses-nav": "Mis cursos",
   "categories-nav": "Categorías",
@@ -67,6 +67,8 @@
   "hello": "Hola",
 
   "new-course": "Crear nuevo curso",
+
+  "tags": "Etiquetas",
 
   "new-course-message": "Hemos separado las mejores herramientas para que puedas empezar a crear tu curso online de forma rápida y sencilla. Haga clic en el botón de abajo para que podamos iniciar el proceso de creación de un nuevo curso.",
 

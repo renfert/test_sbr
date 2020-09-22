@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="m-t-40 m-l-40">
     <facebook-loader
       v-if="content == false"
       :speed="2"
@@ -12,7 +12,7 @@
     <div v-else>
       <div v-if="instructorsBelongingToTheGroup != null">
         <div>
-          <el-row>
+          <el-row :gutter="40">
             <el-col :sm="6" :xs="18">
               <el-input
                 v-model="table.filters[0].value"

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="m-t-40 m-l-40">
     <facebook-loader
       v-if="loadingContent == true"
       :speed="2"

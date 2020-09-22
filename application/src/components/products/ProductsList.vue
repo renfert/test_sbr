@@ -98,7 +98,7 @@
             </div>
 
             <!-- Price filter -->
-            <h4 class="side_title">Tags</h4>
+            <h4 class="side_title">{{ lang['tags'] }}</h4>
             <div class="popular_tags">
               <!-- Tags -->
               <div

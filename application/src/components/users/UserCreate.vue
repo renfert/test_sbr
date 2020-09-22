@@ -139,9 +139,16 @@
         </div>
 
         <div class="center">
-          <h3 v-if="loadingMassiveImportButton" class="sbr-text-grey">
-            {{ lang['please-wait'] }}
-          </h3>
+          <div v-if="loadingMassiveImportButton">
+            <h3 class="sbr-text-grey">
+              {{ lang['please-wait'] }}
+            </h3>
+            <img
+              src="https://sbrfiles.s3.amazonaws.com/gifs/loader4.gif"
+              style="width: 25%"
+              alt
+            />
+          </div>
           <form
             v-loading="loadingMassiveImportButton"
             id="form-massive"

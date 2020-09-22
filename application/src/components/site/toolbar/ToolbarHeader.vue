@@ -162,7 +162,6 @@ export default {
       this.$request.get(urlToBeUsedInTheRequest).then(
         (response) => {
           this.headerArray = response.data;
-          console.log(response.data);
           this.logoSize = parseInt(response.data[0].logo_size);
           this.headerColor = response.data[0].color;
           if (response.data[0].color === 'transparent') {

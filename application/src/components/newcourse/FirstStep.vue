@@ -34,8 +34,9 @@
                 class="sbr-purple"
                 size="small"
                 @click.prevent="modal = true"
-                >{{ lang['advanced-settings'] }}</el-button
-              >
+                >{{ lang['advanced-settings'] }}
+                <i class="el-icon-setting"></i>
+              </el-button>
             </el-col>
 
             <!-- Course description -->
@@ -167,7 +168,7 @@
                 <money
                   name="price"
                   v-model="course.price"
-                  class="text-field"
+                  class="price"
                   v-bind="money"
                   >12323</money
                 >
@@ -461,7 +462,6 @@ export default {
     });
 
     eventBus.$on('access-second-step', () => {
-      console.log('Gol');
       this.course.mode === 'create' ? this.createCourse() : this.editCourse();
     });
 
@@ -554,3 +554,32 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+input[type='radio'] {
+  display: none;
+}
+input[type='radio']:checked + label {
+  border: 5px solid #009cd8;
+}
+
+.v-money.price {
+  -webkit-appearance: none;
+  background-color: #fff;
+  background-image: none;
+  border-radius: 4px;
+  border: 1px solid #dcdfe6;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  color: #606266;
+  display: inline-block;
+  font-size: inherit;
+  height: 40px;
+  line-height: 40px;
+  outline: 0;
+  padding: 0 15px;
+  -webkit-transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+  transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+  width: 100%;
+}
+</style>

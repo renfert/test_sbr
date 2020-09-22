@@ -231,12 +231,13 @@ export default {
     processDateTime(date) {
       const dt1 = new Date(this.currentDate);
       const dt2 = new Date(date);
+
       const diffTime = Math.abs(dt2 - dt1);
       const diffinMinutes = diffTime / (1000 * 60);
       const diffInHours = diffTime / (1000 * 60 * 60);
 
       const day = dt2.getDate();
-      const month = dt2.getMonth();
+      const month = dt2.getMonth() + 1;
       const year = dt2.getFullYear();
 
       if (diffinMinutes > 60) {

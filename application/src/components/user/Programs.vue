@@ -1,5 +1,5 @@
 <template>
-  <div class="m-5">
+  <div class="m-t-40 m-l-40">
     <facebook-loader
       v-if="loadingContent == true"
       :speed="2"
@@ -103,7 +103,7 @@
       ></facebook-loader>
 
       <div v-else>
-        <div v-if="notEnrolledPrograms != null">
+        <div class="center" v-if="notEnrolledPrograms != null">
           <template>
             <el-transfer
               filterable
@@ -127,10 +127,9 @@
         <el-row v-else>
           <div class="center">
             <img
-              class="not-found-image"
+              class="not-found-image m-b-10"
               src="@/assets/img/general/ux/no_programs.svg"
             />
-            <br />
             <h4 class="sbr-text-grey">
               {{ lang['all-programs-already-added'] }}
             </h4>
