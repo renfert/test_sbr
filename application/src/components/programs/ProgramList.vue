@@ -16,7 +16,7 @@
           alt="No programs"
         />
         <h4 class="sbr-text-grey">{{ lang['no-programs-found'] }}</h4>
-        <router-link to="/newprogram">
+        <router-link v-if="user.role != 3" to="/newprogram">
           <el-button class="sbr-primary mt-3">
             {{ lang['new-program-button'] }}
           </el-button>
