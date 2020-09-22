@@ -3,5 +3,6 @@ application/config/database.php
 application/.htaccess
 application/cache/*
 application/node_modules
+application/views*
 ci_sessions
 vendor

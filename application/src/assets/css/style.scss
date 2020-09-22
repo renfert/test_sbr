@@ -39,7 +39,7 @@ body {
   background-color: #fff;
   font-size: 13px;
   font-weight: 400;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Roboto', sans-serif;
   margin: 0;
   color: #647b9c;
   margin: 0px;
@@ -125,7 +125,7 @@ b {
 
 a {
   outline: 0;
-  text-decoration: none;
+  text-decoration: none !important;
 }
 
 a:active {
