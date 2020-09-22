@@ -3,8 +3,8 @@
     <div v-for="element in textAndMediaArray" :key="element.id">
       <!-- Left side media position -->
 
-      <div class="row" v-if="element.media_align == 'left'">
-        <div class="col-md-6 col-12">
+      <el-row :gutter="40" v-if="element.media_align == 'left'">
+        <el-col :sm="12" :xs="24">
           <img
             :src="$getUrlToContents() + 'builder/body/' + element.media + ''"
             v-if="
@@ -23,34 +23,34 @@
               ></video>
             </vue-plyr>
           </div>
-        </div>
-        <div class="col-md-6 col-12 content-right">
+        </el-col>
+        <el-col :sm="12" :xs="24" class="content-right">
           <h1>{{ element.header }}</h1>
-          <h3>{{ element.subheader }}</h3>
-          <p class="mb-4 mt-4">{{ element.content }}</p>
+          <h4>{{ element.subheader }}</h4>
+          <p class="m-b-40">{{ element.content }}</p>
           <a :href="element.url" :target="element.target">
             <span class="btn text-btn" :style="styleButton">{{
               element.title
             }}</span>
           </a>
-        </div>
-      </div>
+        </el-col>
+      </el-row>
       <!-- End side media position -->
 
       <!-- Right side media position -->
 
-      <div class="row" v-if="element.media_align == 'right'">
-        <div class="col-md-6 col-12 content-left">
+      <el-row :gutter="40" v-if="element.media_align == 'right'">
+        <el-col :sm="12" :xs="24" class="content-left">
           <h1>{{ element.header }}</h1>
-          <h3>{{ element.subheader }}</h3>
-          <p class="mb-4 mt-4">{{ element.content }}</p>
+          <h4>{{ element.subheader }}</h4>
+          <p class="m-b-40">{{ element.content }}</p>
           <a :href="element.url" :target="element.target">
             <span class="btn text-btn" :style="styleButton">{{
               element.title
             }}</span>
           </a>
-        </div>
-        <div class="col-md-6 col-12">
+        </el-col>
+        <el-col :sm="12" :xs="24">
           <img
             :src="$getUrlToContents() + 'builder/body/' + element.media + ''"
             v-if="
@@ -69,14 +69,14 @@
               ></video>
             </vue-plyr>
           </div>
-        </div>
-      </div>
+        </el-col>
+      </el-row>
       <!-- End side media position -->
 
       <!-- Top side media position -->
       <div v-if="element.media_align == 'top'" class="text-center">
-        <div class="row">
-          <div class="col-12 col-md-12">
+        <el-row>
+          <el-col :sm="24" :xs="24">
             <img
               :src="$getUrlToContents() + 'builder/body/' + element.media + ''"
               v-if="
@@ -95,39 +95,39 @@
                 ></video>
               </vue-plyr>
             </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-12 col-md-12 text-align-bottom">
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :sm="24" :xs="24" class="text-align-bottom">
             <h1>{{ element.header }}</h1>
             <h3>{{ element.subheader }}</h3>
-            <p class="mb-4 mt-4">{{ element.content }}</p>
+            <p class="m-b-30">{{ element.content }}</p>
             <a :href="element.url" :target="element.target">
               <span class="btn text-btn" :style="styleButton">{{
                 element.title
               }}</span>
             </a>
-          </div>
-        </div>
+          </el-col>
+        </el-row>
       </div>
       <!-- End side media position -->
 
       <!-- Bottom side media position -->
       <div v-if="element.media_align == 'bottom'" class="text-center">
-        <div class="row">
-          <div class="col-12 col-md-12 text-align-top">
+        <el-row>
+          <el-col :sm="24" :xs="24" class="text-align-top">
             <h1>{{ element.header }}</h1>
-            <h3>{{ element.subheader }}</h3>
+            <h4>{{ element.subheader }}</h4>
             <p class="mb-4 mt-4">{{ element.content }}</p>
             <a :href="element.url" :target="element.target">
               <span class="btn text-btn" :style="styleButton">{{
                 element.title
               }}</span>
             </a>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-12 col-md-12">
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :sm="24" :xs="24">
             <img
               :src="$getUrlToContents() + 'builder/body/' + element.media + ''"
               v-if="
@@ -146,8 +146,8 @@
                 ></video>
               </vue-plyr>
             </div>
-          </div>
-        </div>
+          </el-col>
+        </el-row>
       </div>
       <!-- End side media position -->
     </div>
@@ -306,6 +306,7 @@ h3 {
 h4 {
   line-height: 24px;
   font-size: 18px;
+  color: #2d3954af !important;
 }
 
 a {

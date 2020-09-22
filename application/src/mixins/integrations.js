@@ -19,6 +19,9 @@ const integrations = {
       handler: function (newValue) {
         this.loadIntegrations();
       }
+    },
+    $route() {
+      this.currentRoute = this.$route.name;
     }
   },
   methods: {

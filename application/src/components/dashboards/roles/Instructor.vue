@@ -3,7 +3,7 @@
     <div class="row">
       <!-- Courses -->
       <div class="col-12 col-md-12 mb-5">
-        <div class="card-widget">
+        <div class="card-box">
           <GChart
             v-if="coursesData != null"
             type="PieChart"

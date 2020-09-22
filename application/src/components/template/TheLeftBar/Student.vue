@@ -19,56 +19,54 @@
         </el-row>
       </el-menu-item>
 
-      <el-menu-item index="1">
-        <i class="dripicons-home" />
-        <router-link to="/home">
+      <router-link to="/home">
+        <el-menu-item index="1">
+          <i class="dripicons-home" />
           <span class="menuMain">{{ lang['home-nav'] }}</span>
-        </router-link>
-      </el-menu-item>
+        </el-menu-item>
+      </router-link>
 
-      <el-menu-item index="2">
-        <i class="dripicons-graph-bar" />
-        <router-link to="/dashboard">
+      <router-link to="/dashboard">
+        <el-menu-item index="2">
+          <i class="dripicons-graph-bar" />
           <span class="menuMain">{{ lang['dashboard-nav'] }}</span>
-        </router-link>
-      </el-menu-item>
+        </el-menu-item>
+      </router-link>
 
-      <el-menu-item index="3">
-        <i class="dripicons-media-next" />
-        <router-link to="/courses">
+      <router-link to="/courses">
+        <el-menu-item index="3">
+          <i class="dripicons-media-next" />
           <span class="menuMain">{{ lang['courses-nav'] }}</span>
-        </router-link>
-      </el-menu-item>
+        </el-menu-item>
+      </router-link>
 
-      <el-menu-item v-if="plan != 'starter'" index="4">
-        <i class="dripicons-to-do" />
-        <router-link to="/programs">
+      <router-link to="/programs">
+        <el-menu-item v-if="plan != 'starter'" index="4">
+          <i class="dripicons-to-do" />
           <span class="menuMain">{{ lang['programs-nav'] }}</span>
-        </router-link>
-      </el-menu-item>
+        </el-menu-item>
+      </router-link>
 
-      <el-menu-item v-if="plan != 'starter'" index="5">
-        <i class="dripicons-copy" />
-        <router-link to="/records">
+      <router-link to="/records">
+        <el-menu-item v-if="plan != 'starter'" index="5">
+          <i class="dripicons-copy" />
           <span class="menuMain">{{ lang['school-records'] }}</span>
-        </router-link>
-      </el-menu-item>
+        </el-menu-item>
+      </router-link>
 
-      <el-menu-item v-if="plan != 'starter'" index="6">
-        <i class="dripicons-star" />
-        <router-link to="/certificates">
+      <router-link to="/certificates">
+        <el-menu-item v-if="plan != 'starter'" index="6">
+          <i class="dripicons-star" />
           <span class="menuMain">{{ lang['certificates-nav'] }}</span>
-        </router-link>
-      </el-menu-item>
+        </el-menu-item>
+      </router-link>
 
       <!-- User information -->
       <el-menu-item index="7" class="menu-item-user">
         <el-row>
           <!-- Profile -->
           <router-link class="pr-4" to="/profile">
-            <el-avatar
-              :src="$getUrlToContents() + 'avatar/' + userAvatar + ''"
-            />
+            <el-avatar :src="$getUrlToContents() + 'avatar/' + userAvatar" />
           </router-link>
 
           <!-- Notification -->

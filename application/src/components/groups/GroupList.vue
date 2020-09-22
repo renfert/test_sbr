@@ -86,17 +86,25 @@
           width="40%"
           top="5vh"
         >
-          <div class="form-group">
-            <label>{{ lang['new-name'] }}</label>
-            <el-input name="name" v-model="group.newName"></el-input>
-          </div>
-          <div class="form-group">
-            <el-button
-              class="sbr-primary"
-              @click.prevent="editGroup(group.id, group.newName)"
-              >{{ lang['save-button'] }}</el-button
-            >
-          </div>
+          <el-row :gutter="20">
+            <el-col :sm="12" class="m-b-10">
+              <div>
+                <el-input
+                  :placeholder="lang['new-name']"
+                  clearable
+                  name="name"
+                  v-model="group.newName"
+                ></el-input>
+              </div>
+            </el-col>
+            <el-col :sm="12">
+              <el-button
+                class="sbr-primary"
+                @click.prevent="editGroup(group.id, group.newName)"
+                >{{ lang['save-button'] }}</el-button
+              >
+            </el-col>
+          </el-row>
         </el-dialog>
 
         <!------------------
@@ -106,16 +114,14 @@
     </div>
   </div>
 
-  <div class="row mb-5 mt-5" v-else>
-    <div class="col-12 text-center">
-      <img
-        class="no-results-img"
-        src="@/assets/img/general/ux/no_persons.png"
-        alt="No persons"
-      />
-      <h4 class="no-results-text">{{ lang['no-results-group-title'] }}</h4>
-    </div>
-  </div>
+  <el-row class="center m-t-40" v-else>
+    <img
+      class="no-results-img"
+      src="@/assets/img/general/ux/no_groups.svg"
+      alt="No persons"
+    />
+    <h4 class="sbr-text-grey">{{ lang['no-results-group-title'] }}</h4>
+  </el-row>
 </template>
 
 <script>

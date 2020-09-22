@@ -1,12 +1,20 @@
 <template>
-  <div class="row">
-    <div class="col-md-3 col-12" v-if="fullScreen == false">
+  <el-row>
+    <el-col :sm="4" :xs="24" v-if="fullScreen == false">
       <toolbar></toolbar>
-    </div>
-    <div :class="fullScreen == false ? 'col-xl-9 col-12' : 'col-12'">
+    </el-col>
+    <el-col
+      style="margin-left: 13%"
+      :sm="24"
+      :xs="24"
+      v-if="fullScreen == false"
+    >
       <site-preview class="preview" :full-screen-button="true"></site-preview>
-    </div>
-  </div>
+    </el-col>
+    <el-col v-else :sm="24">
+      <site-preview class="preview" :full-screen-button="true"></site-preview>
+    </el-col>
+  </el-row>
 </template>
 
 <script>

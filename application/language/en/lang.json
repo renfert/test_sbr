@@ -38,6 +38,10 @@
 
   "enroll-now": "Enroll now",
 
+  "hello": "Hello",
+
+  "new-course-message": "We have separated the best tools so that you can start creating your online course quickly and easily. Click on the button below so that we can start the process of creating a new course.",
+
   "welcome-to-sabiorealm": "Welcome to Sabiorealm",
   "welcome-message-pt1": "How about we start with some basic activities so you can get to know our platform a little better?",
   "welcome-message-pt2": "Do not be shy! if you have any doubts on how to start we will be available in the chat. You can call us!",
@@ -341,6 +345,7 @@
   "share": "Share",
   "join-students": "Join students",
   "create-new-course": "New course",
+  "new-course": "Create new course ",
   "select-role": "User role",
 
   "program-expired": "The program expired on: ",
@@ -429,9 +434,13 @@
 
   "storage": "Storage",
 
+  "current-price": "Current price",
+
+  "tags": "Tags",
+
   "required-name": "Name is a required field.",
   "choose-your-content": "Choose your content",
-  "lessons": "lessons",
+  "lessons": "Lessons",
   "url": "Url",
   "target": "Target",
   "same-window": "Same window",

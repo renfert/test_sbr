@@ -1,18 +1,22 @@
 <template>
-  <div :class="displayContentFirstStep == false ? 'hide' : 'main'">
-    <form id="form-first-step">
+  <div :class="displayContentFirstStep == false ? 'hide' : ''">
+    <form class="card-box" id="form-first-step">
       <div class="form-wizard-content show" data-tab-content="info">
         <div class="card-course">
-          <div class="form-row">
-            <div class="form-group col-12 col-md-6">
+          <el-row :gutter="24" class="m-b-40">
+            <el-col :sm="12" :xs="24">
               <!-- Course id -->
               <input class="hide" type="text" v-model="course.id" name="id" />
               <!-- Course name -->
-              <label class="col-form-label">{{ lang['name'] }} *</label>
-              <el-input name="title" v-model="course.name"></el-input>
+              <label>{{ lang['name'] }} *</label>
+              <el-input
+                class="m-b-20"
+                name="title"
+                v-model="course.name"
+              ></el-input>
               <!-- Course category -->
               <label class="col-form-label">{{ lang['category'] }}</label>
-              <el-select class="mb-5" v-model="course.category">
+              <el-select class="m-b-30" v-model="course.category">
                 <el-option
                   :value="1"
                   :label="lang['default-category']"
@@ -30,25 +34,13 @@
                 class="sbr-purple"
                 size="small"
                 @click.prevent="modal = true"
-                >{{ lang['advanced-settings'] }}</el-button
-              >
-            </div>
+                >{{ lang['advanced-settings'] }}
+                <i class="el-icon-setting"></i>
+              </el-button>
+            </el-col>
 
             <!-- Course description -->
-            <div class="form-group col-xl-6 col-md-6">
-              <textarea
-                class="hide"
-                v-model="course.description"
-                name="description"
-              ></textarea>
-              <label class="col-form-label">{{ lang['description'] }}</label>
-              <wysiwyg v-model="course.description" />
-            </div>
-          </div>
-
-          <div class="form-row">
-            <!-- Course image -->
-            <div class="form-group col-xl-6 col-md-6">
+            <el-col :sm="12" :xs="24">
               <label class="col-form-label"
                 >{{ lang['image'] }} (1900x1200 px)</label
               >
@@ -60,9 +52,22 @@
                 bucket-key="uploads/course"
                 acceptable=".png,.jpg,.jpeg"
               ></upload>
-            </div>
+            </el-col>
+          </el-row>
+
+          <el-row :gutter="40">
+            <!-- Course image -->
+            <el-col :sm="12" :xs="24">
+              <textarea
+                class="hide"
+                v-model="course.description"
+                name="description"
+              ></textarea>
+              <label class="col-form-label">{{ lang['description'] }}</label>
+              <wysiwyg v-model="course.description" />
+            </el-col>
             <!-- Course video preview -->
-            <div class="form-group col-xl-6 col-md-6">
+            <el-col :sm="12" :xs="24">
               <label class="col-form-label">{{ lang['video-preview'] }}</label>
               <upload
                 do-upload="true"
@@ -72,8 +77,8 @@
                 bucket-key="uploads/preview"
                 acceptable=".mp4,.mov"
               ></upload>
-            </div>
-          </div>
+            </el-col>
+          </el-row>
         </div>
       </div>
 
@@ -163,7 +168,7 @@
                 <money
                   name="price"
                   v-model="course.price"
-                  class="text-field"
+                  class="price"
                   v-bind="money"
                   >12323</money
                 >
@@ -452,8 +457,6 @@ export default {
   created() {
     this.getCategories();
     this.getGlobalCurrency();
-  },
-  mounted() {
     eventBus.$on('access-first-step', () => {
       this.displayContentFirstStep = true;
     });
@@ -465,6 +468,11 @@ export default {
     eventBus.$on('access-third-step', () => {
       this.course.mode === 'create' ? this.createCourse() : this.editCourse();
     });
+  },
+  beforeDestroy() {
+    eventBus.$off('access-first-step', this.listener);
+    eventBus.$off('access-second-step', this.listener);
+    eventBus.$off('access-third-step', this.listener);
   },
   methods: {
     createCourse() {
@@ -546,3 +554,32 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+input[type='radio'] {
+  display: none;
+}
+input[type='radio']:checked + label {
+  border: 5px solid #009cd8;
+}
+
+.v-money.price {
+  -webkit-appearance: none;
+  background-color: #fff;
+  background-image: none;
+  border-radius: 4px;
+  border: 1px solid #dcdfe6;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  color: #606266;
+  display: inline-block;
+  font-size: inherit;
+  height: 40px;
+  line-height: 40px;
+  outline: 0;
+  padding: 0 15px;
+  -webkit-transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+  transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+  width: 100%;
+}
+</style>

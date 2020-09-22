@@ -1,5 +1,5 @@
 <template>
-  <div class="m-5">
+  <div class="m-t-40 m-l-40">
     <facebook-loader
       v-if="loadingContent == true"
       :speed="2"
@@ -9,10 +9,10 @@
       secondaryColor="#d9d9d9"
     ></facebook-loader>
 
-    <div v-else>
+    <div v-else class="m-b-40">
       <!-- Programs list content -->
       <div class="program-content" v-if="enrolledPrograms != null">
-        <div style="margin-bottom: 10px">
+        <div>
           <el-row>
             <el-col :md="6" :xs="18" class="mr-3">
               <el-input
@@ -66,21 +66,24 @@
       </div>
       <!-- Programs list content -->
 
-      <div class="row mb-5 mt-5" v-else>
-        <div class="col-12 text-center">
+      <!--------------
+      Programs not found
+      --------------->
+      <el-row v-else>
+        <div class="text-center m-t-40">
           <img
-            class="no-results-img"
-            src="@/assets/img/general/ux/no_programs.png"
-            alt="No programs"
+            class="not-found-image"
+            src="@/assets/img/general/ux/no_programs.svg"
           />
-          <h4 class="no-results-text">
+          <br />
+          <h4 class="sbr-text-grey">
             {{ lang['no-results-programs-in-user'] }}
           </h4>
-          <el-button class="sbr-purple mt-3" @click="addProgram()">{{
+          <el-button class="sbr-purple" @click="addProgram()">{{
             lang['add-program']
           }}</el-button>
         </div>
-      </div>
+      </el-row>
     </div>
 
     <!-- Add new program dialog -->
@@ -100,7 +103,7 @@
       ></facebook-loader>
 
       <div v-else>
-        <div v-if="notEnrolledPrograms != null">
+        <div class="center" v-if="notEnrolledPrograms != null">
           <template>
             <el-transfer
               filterable
@@ -118,18 +121,20 @@
           >
         </div>
 
-        <div class="row mb-5 mt-5" v-else>
-          <div class="col-12 text-center">
+        <!--------------
+      No programs
+      --------------->
+        <el-row v-else>
+          <div class="center">
             <img
-              class="no-results-img"
-              src="@/assets/img/general/ux/no_programs.png"
-              alt="No programs"
+              class="not-found-image m-b-10"
+              src="@/assets/img/general/ux/no_programs.svg"
             />
-            <h4 class="no-results-text">
+            <h4 class="sbr-text-grey">
               {{ lang['all-programs-already-added'] }}
             </h4>
           </div>
-        </div>
+        </el-row>
       </div>
     </el-dialog>
   </div>

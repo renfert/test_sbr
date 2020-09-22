@@ -1,25 +1,25 @@
 <template>
   <el-submenu index="2">
     <template slot="title">
-      <i class="el-icon-menu"></i>
+      <i class="el-icon-menu sbr-text-primary"></i>
       <span>Body</span>
     </template>
     <el-menu-item-group title="Sections">
-      <div class="list-block">
+      <div class="m-l-40 m-r-40">
         <!---------------
           Section list
         ---------------->
-        <div class="row align-items-center">
+        <el-row>
           <section-list></section-list>
-        </div>
+        </el-row>
 
         <!---------------
           Create new section
         ---------------->
-        <div class="align-items-center">
-          <div class="mt-3">
-            <div class="row">
-              <div>
+        <div>
+          <div class="m-t-40 m-b-40">
+            <el-row>
+              <el-col :span="12">
                 <el-select
                   v-model="section"
                   :placeholder="lang['select-an-element']"
@@ -41,17 +41,16 @@
                     >{{ lang['text-and-media'] }}</el-option
                   >
                 </el-select>
-              </div>
-              <div>
-                <el-button
-                  v-loading="loading"
-                  native-type="submit"
-                  @click.prevent="createSection()"
-                  size="medium"
-                  icon="el-icon-circle-plus-outline"
-                ></el-button>
-              </div>
-            </div>
+              </el-col>
+
+              <el-button
+                v-loading="loading"
+                native-type="submit"
+                @click.prevent="createSection()"
+                size="medium"
+                icon="el-icon-circle-plus-outline"
+              ></el-button>
+            </el-row>
           </div>
         </div>
       </div>

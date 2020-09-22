@@ -1,12 +1,12 @@
 <template>
-  <div class="col-auto">
+  <div>
     <h4>{{ lang['list-course'] }}</h4>
-    <div style="margin-bottom: 10px">
-      <el-row>
-        <el-col :xs="16" :lg="6">
+    <div class="m-b-40">
+      <el-row :gutter="40">
+        <el-col :sm="8" :xs="16">
           <el-input v-model="filters[0].value" placeholder="Search"></el-input>
         </el-col>
-        <el-col v-if="courseList != null" :span="6">
+        <el-col v-if="courseList != null" :sm="6" :xs="4">
           <export-excel :data="courseList" name="courses.xls">
             <el-tooltip
               class="item"
@@ -44,7 +44,7 @@
             <el-button
               size="small"
               class="sbr-primary mt-2"
-              v-if="roleId != 3"
+              v-if="user.role != 3"
               type="primary"
               icon="el-icon-edit"
               circle

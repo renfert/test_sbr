@@ -19,47 +19,47 @@
         </el-row>
       </el-menu-item>
 
-      <el-menu-item index="1">
-        <i class="dripicons-home"></i>
-        <router-link to="/home">
+      <router-link to="/home">
+        <el-menu-item index="1">
+          <i class="dripicons-home"></i>
           <span class="menuMain">{{ lang['home-nav'] }}</span>
-        </router-link>
-      </el-menu-item>
+        </el-menu-item>
+      </router-link>
 
-      <el-menu-item index="2">
-        <i class="dripicons-graph-bar"></i>
-        <router-link to="/dashboard">
+      <router-link to="/dashboard">
+        <el-menu-item index="2">
+          <i class="dripicons-graph-bar"></i>
           <span class="menuMain">{{ lang['dashboard-nav'] }}</span>
-        </router-link>
-      </el-menu-item>
+        </el-menu-item>
+      </router-link>
 
-      <el-menu-item index="3">
-        <i class="dripicons-media-next"></i>
-        <router-link to="/courses">
+      <router-link to="/courses">
+        <el-menu-item index="3">
+          <i class="dripicons-media-next"></i>
           <span class="menuMain">{{ lang['courses-nav'] }}</span>
-        </router-link>
-      </el-menu-item>
+        </el-menu-item>
+      </router-link>
 
-      <el-menu-item index="4" v-if="plan != 'starter'">
-        <i class="dripicons-to-do"></i>
-        <router-link to="/programs">
+      <router-link to="/programs">
+        <el-menu-item index="4" v-if="plan != 'starter'">
+          <i class="dripicons-to-do"></i>
           <span class="menuMain">{{ lang['programs-nav'] }}</span>
-        </router-link>
-      </el-menu-item>
+        </el-menu-item>
+      </router-link>
 
-      <el-menu-item index="5" v-if="plan != 'starter'">
-        <i class="dripicons-message"></i>
-        <router-link to="/corrections">
+      <router-link to="/corrections">
+        <el-menu-item index="5" v-if="plan != 'starter'">
+          <i class="dripicons-message"></i>
           <span class="menuMain">{{ lang['corrections-nav'] }}</span>
-        </router-link>
-      </el-menu-item>
+        </el-menu-item>
+      </router-link>
 
-      <el-menu-item index="6">
-        <i class="dripicons-list"></i>
-        <router-link to="/categories">
+      <router-link to="/categories">
+        <el-menu-item index="6">
+          <i class="dripicons-list"></i>
           <span class="menuMain">{{ lang['categories-nav'] }}</span>
-        </router-link>
-      </el-menu-item>
+        </el-menu-item>
+      </router-link>
 
       <!-- User information -->
       <el-menu-item index="7" class="menu-item-user">

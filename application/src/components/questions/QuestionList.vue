@@ -109,7 +109,7 @@
       <div class="text-center mt-5" v-else>
         <img
           class="image-no-results mb-4"
-          src="@/assets/img/general/ux/not_found.png"
+          src="@/assets/img/general/ux/questions.svg"
           alt
         />
         <br />

@@ -2,9 +2,7 @@
   <div>
     <!-- Navbar -->
     <div v-if="showMobile" class="sidebar-mobile">
-      <span @click.prevent="toogleSidebar" class="sidebar-mobile-close-button"
-        >✕</span
-      >
+      <span @click.prevent="toogleSidebar" class="sidebar-mobile-close-button">✕</span>
       <ul>
         <!-- Products -->
         <li>
@@ -14,9 +12,7 @@
         </li>
 
         <li v-for="element in links" :key="element.id">
-          <a :href="element.url" :target="element.target">
-            {{ element.title }}
-          </a>
+          <a :href="element.url" :target="element.target">{{ element.title }}</a>
         </li>
 
         <!-- Login button -->
@@ -26,15 +22,16 @@
             href="javascript:void(0)"
             :style="linkButtonMobile"
             @click.prevent="openLoginModal()"
-            >Login</a
-          >
+          >Login</a>
         </li>
 
         <li class="pt-5" v-else>
           <router-link to="/home">
-            <span class="link-button" :style="linkButtonMobile">{{
+            <span class="link-button" :style="linkButtonMobile">
+              {{
               lang['go-to-platform']
-            }}</span>
+              }}
+            </span>
           </router-link>
         </li>
       </ul>
@@ -64,19 +61,12 @@
 
         <!-- Links -->
         <li v-for="element in links" :key="element.id">
-          <a :href="element.url" :target="element.target">
-            {{ element.title }}
-          </a>
+          <a :href="element.url" :target="element.target">{{ element.title }}</a>
         </li>
 
         <!-- Login button -->
         <li v-if="activeSession == false">
-          <a
-            class="link-button"
-            href="javascript:void(0)"
-            @click.prevent="openLoginModal()"
-            >Login</a
-          >
+          <a class="link-button" href="javascript:void(0)" @click.prevent="openLoginModal()">Login</a>
         </li>
 
         <li v-else>
@@ -86,38 +76,41 @@
         </li>
       </ul>
     </header>
+    <login></login>
     <!-- End Navbar -->
   </div>
 </template>
 
 <script>
-import { eventBus } from '@/components/site/App';
-import { eventLogin } from '@/components/login/Login';
-import { mapState } from 'vuex';
+/* eslint-disable */
+import { eventBus } from "@/components/site/App";
+import { eventLogin } from "@/components/login/Login";
+import { mapState } from "vuex";
+import Login from "@/components/login/Login";
 
 export default {
-  props: ['full-screen-button'],
+  props: ["full-screen-button"],
   data: () => {
     return {
-      logo: '',
-      logoSize: '',
+      logo: "",
+      logoSize: "",
       sections: null,
       loadingHeader: false,
       loadingSection: false,
       loadingFooter: false,
-      footerColor: '',
-      copyright: '',
+      footerColor: "",
+      copyright: "",
       links: [],
       socialMedias: [],
-      headerColor: '',
+      headerColor: "",
       activeSession: false,
       showMobile: false,
-      primaryColor: '',
-      navMobile: 'display:initial !important'
+      primaryColor: "",
+      navMobile: "display:initial !important"
     };
   },
   mounted() {
-    eventLogin.$on('new-login', () => {
+    eventLogin.$on("new-login", () => {
       this.getSession();
     });
 
@@ -126,33 +119,36 @@ export default {
     this.listHeader();
     this.navBarSticky();
   },
+  components: {
+    Login
+  },
   computed: {
     styleHeader() {
       return {
-        'background-color':
-          this.headerColor === 'transparent'
+        "background-color":
+          this.headerColor === "transparent"
             ? this.primaryColor
             : this.headerColor,
-        width: '100%'
+        width: "100%"
       };
     },
     styleBorder() {
       return {
         border:
-          this.headerColor === 'transparent'
-            ? '1px solid #969bb5'
-            : '1px solid white',
-        padding: '5px 15px 5px 15px'
+          this.headerColor === "transparent"
+            ? "1px solid #969bb5"
+            : "1px solid white",
+        padding: "5px 15px 5px 15px"
       };
     },
     linkButtonMobile() {
       return {
-        color: '#fff',
-        border: '1px solid ' + this.primaryColor + '',
-        'background-color': this.primaryColor
+        color: "#fff",
+        border: "1px solid " + this.primaryColor + "",
+        "background-color": this.primaryColor
       };
     },
-    ...mapState(['lang'])
+    ...mapState(["lang"])
   },
   methods: {
     toogleSidebar() {
@@ -161,31 +157,31 @@ export default {
         : (this.showMobile = true);
     },
     enterPlatform() {
-      window.location.href = 'home';
+      window.location.href = "home";
     },
     openLoginModal() {
-      eventLogin.$emit('open-login-modal');
+      eventLogin.$emit("open-login-modal");
     },
     navBarSticky() {
-      window.addEventListener('scroll', () => {
-        const header = document.querySelector('header');
-        header.classList.toggle('sticky', window.scrollY > 0);
+      window.addEventListener("scroll", () => {
+        const header = document.querySelector("header");
+        header.classList.toggle("sticky", window.scrollY > 0);
       });
     },
     listHeader() {
       this.loadingHeader = true;
       const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        'builder',
-        'listHeader'
+        "builder",
+        "listHeader"
       );
       this.$request.get(urlToBeUsedInTheRequest).then(
         (response) => {
           this.logo =
             this.$getUrlToContents() +
-            'builder/header/' +
+            "builder/header/" +
             response.data[0].logo +
-            '';
-          this.logoSize = response.data[0].logo_size + '%';
+            "";
+          this.logoSize = response.data[0].logo_size + "%";
           this.headerColor = response.data[0].color;
           this.loadingHeader = false;
           this.updateLinkListArray();
@@ -196,17 +192,17 @@ export default {
       );
     },
     changeMobileButtonClass() {
-      if (this.navMobile === 'display:none !important;') {
-        this.navMobile = 'display:initial !important;';
+      if (this.navMobile === "display:none !important;") {
+        this.navMobile = "display:initial !important;";
       } else {
-        this.navMobile = 'display:none !important;';
+        this.navMobile = "display:none !important;";
       }
     },
     listFooter() {
       this.loadingFooter = true;
       const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        'builder',
-        'listFooter'
+        "builder",
+        "listFooter"
       );
       this.$request.get(urlToBeUsedInTheRequest).then(
         (response) => {
@@ -221,13 +217,13 @@ export default {
       );
     },
     fullScreen() {
-      eventBus.$emit('full-screen');
+      eventBus.$emit("full-screen");
     },
     updateSectionListArray() {
       this.loadingSection = true;
       const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        'section',
-        'listing'
+        "section",
+        "listing"
       );
       this.$request.post(urlToBeUsedInTheRequest).then(
         (response) => {
@@ -241,8 +237,8 @@ export default {
     },
     updateLinkListArray() {
       const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        'link',
-        'listing'
+        "link",
+        "listing"
       );
       this.$request.post(urlToBeUsedInTheRequest).then(
         (response) => {
@@ -256,8 +252,8 @@ export default {
     updateSocialMediaListArray() {
       this.loading = true;
       const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        'social',
-        'listing'
+        "social",
+        "listing"
       );
       this.$request.post(urlToBeUsedInTheRequest).then(
         (response) => {
@@ -271,8 +267,8 @@ export default {
     },
     getPrimaryColor() {
       const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        'settings',
-        'getSettingsInformation'
+        "settings",
+        "getSettingsInformation"
       );
       this.$request.post(urlToBeUsedInTheRequest).then(
         (response) => {
@@ -285,8 +281,8 @@ export default {
     },
     getSession() {
       const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        'Mysessions',
-        'activeSession'
+        "Mysessions",
+        "activeSession"
       );
       this.$request.post(urlToBeUsedInTheRequest).then(
         (response) => {
@@ -354,7 +350,7 @@ header ul li a {
   transition: 0.5s;
   color: white;
   font-size: 1.3em;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 /* =============
@@ -437,7 +433,7 @@ header.sticky {
   transition: 0.5s;
   color: white;
   font-size: 1.2em;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 @media only screen and (max-width: 1024px) {

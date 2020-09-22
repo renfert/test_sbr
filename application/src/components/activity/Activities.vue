@@ -1,7 +1,7 @@
 <template>
   <div v-loading="content">
-    <div class="row" v-if="activities != null">
-      <div class="col-12 col-md-12 mb-5">
+    <el-row v-if="activities != null">
+      <el-col :span="24">
         <div
           class="card-widget"
           style="
@@ -11,25 +11,25 @@
           "
         >
           <div class="activities-title text-center mb-5">
-            <h3>{{ lang['last-activities'] }}</h3>
+            <h4>{{ lang['last-activities'] }}</h4>
           </div>
 
           <!-- Activity -->
           <div
-            class="activity-item mb-4"
+            class="activity-item m-b-20"
             v-for="element in activities"
             :key="element.id"
             style="display: flex; align-items: center"
           >
-            <div class="row" style="width: 100%">
-              <div class="col-12 col-md-2">
+            <el-row style="width: 100%">
+              <el-col :sm="2">
                 <el-avatar
                   :size="70"
                   fit="contain"
                   :src="$getUrlToContents() + 'avatar/' + element.avatar + ''"
                 ></el-avatar>
-              </div>
-              <div class="col-10 text-left">
+              </el-col>
+              <el-col :sm="12" class="col-10 text-left">
                 <!-- Course created -->
                 <div
                   class="activity-info"
@@ -171,13 +171,13 @@
                   </h4>
                   <span>{{ processDateTime(element.date) }}</span>
                 </div>
-              </div>
-            </div>
+              </el-col>
+            </el-row>
           </div>
           <!-- End Activity -->
         </div>
-      </div>
-    </div>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -231,12 +231,13 @@ export default {
     processDateTime(date) {
       const dt1 = new Date(this.currentDate);
       const dt2 = new Date(date);
+
       const diffTime = Math.abs(dt2 - dt1);
       const diffinMinutes = diffTime / (1000 * 60);
       const diffInHours = diffTime / (1000 * 60 * 60);
 
       const day = dt2.getDate();
-      const month = dt2.getMonth();
+      const month = dt2.getMonth() + 1;
       const year = dt2.getFullYear();
 
       if (diffinMinutes > 60) {
@@ -281,14 +282,16 @@ export default {
 .activity-item {
   height: auto;
   cursor: pointer;
-  background-color: rgba(230, 230, 230, 0.4);
+  background-color: rgba(255, 255, 255, 0.959);
   padding: 10px;
   border-radius: 20px;
   display: flex;
   align-items: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
 
 .activity-item:hover {
-  background-color: rgba(214, 211, 211, 0.4);
+  box-shadow: 0 3px 3px rgba(0, 155, 216, 0.397),
+    0 3px 3px rgba(63, 205, 207, 0.438);
 }
 </style>

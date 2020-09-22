@@ -4,17 +4,18 @@
       <!--------------
       Widgets
       --------------->
-      <div class="row mb-3">
-        <div class="col-12">
+      <el-row>
+        <el-col :span="12">
           <b>{{ lang['basic-information'] }}</b>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-4 col-12 mb-3">
+        </el-col>
+      </el-row>
+
+      <el-row class="m-t-30" :gutter="20">
+        <el-col :sm="8" :xs="24">
           <!-- Courses -->
           <a href="courses">
             <div class="card-widget">
-              <div class="title-widget text-center">
+              <div class="title-widget">
                 <img
                   src="@/assets/img/general/ux/widgets/admin/courses.png"
                   alt
@@ -26,12 +27,13 @@
               </div>
             </div>
           </a>
-        </div>
-        <div class="col-md-4 col-12 mb-3">
+        </el-col>
+
+        <el-col :sm="8" :xs="24">
           <!-- Users -->
           <a href="users">
             <div class="card-widget">
-              <div class="title-widget text-center">
+              <div class="title-widget">
                 <img
                   src="@/assets/img/general/ux/widgets/admin/enrolled.png"
                   alt
@@ -43,12 +45,13 @@
               </div>
             </div>
           </a>
-        </div>
-        <div class="col-md-4 col-12 mb-3">
+        </el-col>
+
+        <el-col :sm="8" :xs="24">
           <!-- Storage -->
           <a href="javascript:void(0)">
             <div class="card-widget">
-              <div class="title-widget text-center">
+              <div class="title-widget">
                 <img
                   src="@/assets/img/general/ux/widgets/admin/storage.png"
                   alt
@@ -69,8 +72,8 @@
               </div>
             </div>
           </a>
-        </div>
-      </div>
+        </el-col>
+      </el-row>
 
       <!--------------
       End Widgets
@@ -79,12 +82,12 @@
       <!--------------
       Shortcuts
       --------------->
-      <div class="row">
+      <el-row class="m-t-30" :gutter="20">
         <!-- View my marketplace -->
-        <div class="col-md-4 col-12 mb-3">
+        <el-col :sm="8" :xs="24">
           <a target="_blank" href="/products">
             <div class="card-widget">
-              <div class="title-widget text-center">
+              <div class="title-widget">
                 <img
                   src="@/assets/img/general/ux/shortcuts/coursespage.png"
                   alt
@@ -93,13 +96,12 @@
               </div>
             </div>
           </a>
-        </div>
-
+        </el-col>
         <!-- View my home page -->
-        <div class="col-md-4 col-12 mb-3">
+        <el-col :sm="8" :xs="24">
           <a target="_blank" href="/">
             <div class="card-widget">
-              <div class="title-widget text-center">
+              <div class="title-widget">
                 <img
                   src="@/assets/img/general/ux/shortcuts/marketplace.png"
                   alt
@@ -108,13 +110,12 @@
               </div>
             </div>
           </a>
-        </div>
-
-        <div class="col-md-4 col-12 mb-3">
-          <!-- New course -->
+        </el-col>
+        <!-- New course -->
+        <el-col :sm="8" :xs="24">
           <a href="newcourse">
             <div class="card-widget">
-              <div class="title-widget text-center">
+              <div class="title-widget">
                 <img
                   src="@/assets/img/general/ux/shortcuts/new_course.png"
                   alt
@@ -123,26 +124,26 @@
               </div>
             </div>
           </a>
-        </div>
-      </div>
+        </el-col>
+      </el-row>
 
-      <div class="row">
-        <div class="col-md-4 col-12 mb-3">
-          <!-- New user -->
+      <el-row class="m-t-30" :gutter="20">
+        <!-- New user -->
+        <el-col :sm="8" :xs="24">
           <a href="users">
             <div class="card-widget">
-              <div class="title-widget text-center">
+              <div class="title-widget">
                 <img src="@/assets/img/general/ux/shortcuts/add_user.png" alt />
                 <h4>{{ lang['create-user'] }}</h4>
               </div>
             </div>
           </a>
-        </div>
-        <div class="col-md-4 col-12 mb-3">
-          <!-- Customize -->
+        </el-col>
+        <!-- Customize -->
+        <el-col :sm="8" :xs="24">
           <a href="site">
             <div class="card-widget">
-              <div class="title-widget text-center">
+              <div class="title-widget">
                 <img
                   src="@/assets/img/general/ux/shortcuts/customize.png"
                   alt
@@ -151,20 +152,19 @@
               </div>
             </div>
           </a>
-        </div>
-
-        <div class="col-md-4 col-12 mb-3">
-          <!-- Settings -->
+        </el-col>
+        <!-- Settings -->
+        <el-col :sm="8" :xs="24">
           <a href="settings">
             <div class="card-widget">
-              <div class="title-widget text-center">
+              <div class="title-widget">
                 <img src="@/assets/img/general/ux/shortcuts/settings.png" alt />
                 <h4>{{ lang['settings-nav'] }}</h4>
               </div>
             </div>
           </a>
-        </div>
-      </div>
+        </el-col>
+      </el-row>
 
       <!--------------
                 End shortcuts
@@ -174,7 +174,7 @@
       Activities
       ---------------->
 
-      <Activities class="mt-5"></Activities>
+      <Activities class="m-t-30"></Activities>
 
       <!---------------
         End activities
@@ -405,6 +405,7 @@ export default {
   background-color: white;
   border-radius: 10px;
   padding: 30px;
+  text-align: center;
 }
 
 .card-widget:hover {

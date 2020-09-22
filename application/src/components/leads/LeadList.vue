@@ -1,5 +1,5 @@
 <template>
-  <div class="card-box table-responsive" v-if="leadList != null">
+  <div class="card-box" v-if="leadList != null">
     <facebook-loader
       v-if="content == false"
       :speed="2"
@@ -10,7 +10,7 @@
 
     <div v-else>
       <el-row>
-        <el-col :md="6" :xs="16" class="mr-3">
+        <el-col :sm="6" :xs="16" class="mr-3">
           <el-input
             v-model="table.filters[0].value"
             placeholder="Search"
@@ -49,15 +49,13 @@
     </data-tables>
   </div>
 
-  <div class="mt-5" v-else>
-    <div class="text-center">
-      <img
-        class="no-results-img"
-        src="@/assets/img/general/ux/not_found.png"
-        alt="No leads"
-      />
-      <h4 class="no-results-text">{{ lang['no-leads-found'] }}</h4>
-    </div>
+  <div class="m-t-40 center" v-else>
+    <img
+      class="not-found-image"
+      src="@/assets/img/general/ux/leads.svg"
+      alt="No leads"
+    />
+    <h4 class="sbr-text-grey">{{ lang['no-leads-found'] }}</h4>
   </div>
 </template>
 

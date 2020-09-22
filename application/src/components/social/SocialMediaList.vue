@@ -52,10 +52,10 @@ export default {
     };
   },
   mounted() {
-    this.updateSocialMediaListArray();
+    this.getSocialMedias();
 
     eventBus.$on('social-media-list-update', () => {
-      this.updateSocialMediaListArray();
+      this.getSocialMedias();
     });
   },
   computed: {
@@ -80,7 +80,7 @@ export default {
       this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
           eventBus.$emit('new-change-footer');
-          this.updateSocialMediaListArray();
+          this.getSocialMedias();
           this.$successMessage();
         },
         () => {
@@ -89,7 +89,7 @@ export default {
       );
     },
 
-    updateSocialMediaListArray() {
+    getSocialMedias() {
       this.loading = true;
       const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'social',

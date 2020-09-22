@@ -1,105 +1,94 @@
 <template>
-  <div :class="displayContentFirstStep == false ? 'hide' : 'main'">
-    <form id="form-first-step">
+  <div
+    v-loading="loading"
+    :class="displayContentFirstStep == false ? 'hide' : 'main'"
+  >
+    <form class="card-box" id="form-first-step">
       <div class="form-wizard-content show" data-tab-content="info">
-        <div class="row">
-          <div class="col-12">
-            <div class="card-box" v-loading="loading">
-              <div class="form-row">
-                <div class="form-group col-12 col-md-6">
-                  <!-- Course id -->
-                  <input
-                    class="hide"
-                    type="text"
-                    v-model="course.id"
-                    name="id"
-                  />
+        <el-row :gutter="24" class="m-b-40">
+          <el-col :sm="12" :xs="24">
+            <!-- Course id -->
+            <input class="hide" type="text" v-model="course.id" name="id" />
+            <!-- Course name -->
+            <label>{{ lang['name'] }} *</label>
+            <el-input
+              class="m-b-20"
+              name="title"
+              v-model="course.name"
+            ></el-input>
 
-                  <!-- Course name -->
-                  <label class="col-form-label">{{ lang['name'] }} *</label>
-                  <el-input
-                    @change="editCourse(false)"
-                    name="title"
-                    v-model="course.name"
-                  ></el-input>
+            <!-- Course category -->
+            <label class="col-form-label">{{ lang['category'] }}</label>
+            <el-select class="mb-5" v-model="course.category">
+              <el-option
+                value="1"
+                :label="lang['without-category']"
+              ></el-option>
+              <el-option
+                v-for="item in categories"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
+              ></el-option>
+            </el-select>
 
-                  <!-- Course category -->
-                  <label class="col-form-label">{{ lang['category'] }}</label>
-                  <el-select class="mb-5" v-model="course.category">
-                    <el-option
-                      value="1"
-                      :label="lang['without-category']"
-                    ></el-option>
-                    <el-option
-                      v-for="item in categories"
-                      :key="item.id"
-                      :label="item.name"
-                      :value="item.id"
-                    ></el-option>
-                  </el-select>
+            <!-- Advanced configurations button -->
+            <el-button
+              class="sbr-purple"
+              size="small"
+              @click.prevent="modal = true"
+            >
+              {{ lang['advanced-settings'] }}
+              <i class="el-icon-setting"></i>
+            </el-button>
+          </el-col>
 
-                  <!-- Advanced configurations button -->
-                  <el-button
-                    @click.prevent="modal = true"
-                    size="small"
-                    class="sbr-purple"
-                  >
-                    {{ lang['advanced-settings'] }}
-                    <i class="el-icon-setting"></i>
-                  </el-button>
-                </div>
+          <!-- Course image -->
+          <el-col :sm="12" :xs="24">
+            <label class="col-form-label"
+              >{{ lang['image'] }} (1900x1200 px)</label
+            >
+            <upload
+              v-if="course.image != ''"
+              :src-img="course.image"
+              :src-name="course.imageName"
+              do-upload="true"
+              box-height="200"
+              return-name="photo"
+              input-name="file"
+              bucket-key="uploads/course"
+              acceptable=".png,.jpg,.jpeg"
+            ></upload>
+          </el-col>
+        </el-row>
 
-                <!-- Course description -->
-                <div class="form-group col-xl-6 col-md-6">
-                  <textarea
-                    class="hide"
-                    v-model="course.description"
-                    name="description"
-                  ></textarea>
-                  <label class="col-form-label">
-                    {{ lang['description'] }}
-                  </label>
-                  <wysiwyg v-model="course.description" />
-                </div>
-              </div>
-
-              <div class="form-row">
-                <!-- Course image -->
-                <div class="form-group col-xl-6 col-md-6">
-                  <label class="col-form-label">{{ lang['image'] }}</label>
-                  <upload
-                    v-if="course.image != ''"
-                    :src-img="course.image"
-                    :src-name="course.imageName"
-                    do-upload="true"
-                    box-height="200"
-                    return-name="photo"
-                    input-name="file"
-                    bucket-key="uploads/course"
-                    acceptable=".png,.jpg"
-                  ></upload>
-                </div>
-                <!-- Course video preview -->
-                <div class="form-group col-xl-6 col-md-6">
-                  <label class="col-form-label">
-                    {{ lang['video-preview'] }}
-                  </label>
-                  <upload
-                    v-if="course.previewVideo != ''"
-                    :src-img="course.previewVideo"
-                    :src-name="course.previewVideoName"
-                    do-upload="true"
-                    box-height="200"
-                    return-name="preview"
-                    input-name="file"
-                    bucket-key="uploads/preview"
-                    acceptable=".mp4,.mov"
-                  ></upload>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <el-row :gutter="40">
+          <!-- Course description -->
+          <el-col :sm="12" :xs="24">
+            <textarea
+              class="hide"
+              v-model="course.description"
+              name="description"
+            ></textarea>
+            <label class="col-form-label">{{ lang['description'] }}</label>
+            <wysiwyg v-model="course.description" />
+          </el-col>
+          <!-- Course video preview -->
+          <el-col :sm="12" :xs="24">
+            <label class="col-form-label">{{ lang['video-preview'] }}</label>
+            <upload
+              v-if="course.previewVideo != ''"
+              :src-img="course.previewVideo"
+              :src-name="course.previewVideoName"
+              do-upload="true"
+              box-height="200"
+              return-name="preview"
+              input-name="filePreview"
+              bucket-key="uploads/preview"
+              acceptable=".mp4,.mov"
+            ></upload>
+          </el-col>
+        </el-row>
       </div>
 
       <!-----------------------
@@ -172,9 +161,9 @@
             Payment tab
           ------------>
           <el-tab-pane :label="lang['sales']" name="sales" class="mt-4">
-            <label class="col-form-label">
-              {{ lang['free-course-question'] }}
-            </label>
+            <label class="col-form-label">{{
+              lang['free-course-question']
+            }}</label>
             <br />
             <el-switch
               active-color="#009cd8"
@@ -190,16 +179,16 @@
                 <money
                   name="price"
                   v-model="course.price"
-                  class="text-field"
+                  class="price"
                   v-bind="money"
                   >12323</money
                 >
               </div>
               <br />
               <div class="form-group">
-                <label class="col-form-label">
-                  {{ lang['select-payment-platform'] }}
-                </label>
+                <label class="col-form-label">{{
+                  lang['select-payment-platform']
+                }}</label>
                 <el-select
                   v-model="course.paymentPlatform"
                   placeholder="Select"
@@ -226,9 +215,9 @@
                 </el-select>
               </div>
               <div class="form-group">
-                <label class="col-form-label">
-                  {{ lang['select-currency'] }}
-                </label>
+                <label class="col-form-label">{{
+                  lang['select-currency']
+                }}</label>
                 <br />
 
                 <!------------------------
@@ -264,10 +253,9 @@
                         target="_blank"
                         class="text-white"
                         to="/integrations"
-                        >{{
-                          lang['click-to-configure-mercadopago']
-                        }}</router-link
                       >
+                        {{ lang['click-to-configure-mercadopago'] }}
+                      </router-link>
                     </p>
                   </el-alert>
                 </div>
@@ -327,9 +315,9 @@
 
               <!-- Course certificate  -->
               <div class="col-xl-4 col-md-4">
-                <label for="exampleInputEmail1">{{
-                  lang['certificate']
-                }}</label>
+                <label for="exampleInputEmail1">
+                  {{ lang['certificate'] }}
+                </label>
                 <div class="input-group">
                   <el-switch
                     v-model="useCertificate"
@@ -487,20 +475,22 @@ export default {
     ...mapState(['lang'])
   },
   mounted() {
-    /* Access first step */
     eventBus.$on('access-first-step', () => {
       this.displayContentFirstStep = true;
     });
 
-    /*  Access second step */
     eventBus.$on('access-second-step', () => {
       this.editCourse();
     });
 
-    /*  Access Third step */
     eventBus.$on('access-third-step', () => {
       this.editCourse();
     });
+  },
+  beforeDestroy() {
+    eventBus.$off('access-first-step', this.listener);
+    eventBus.$off('access-second-step', this.listener);
+    eventBus.$off('access-third-step', this.listener);
   },
   methods: {
     getGlobalCurrency() {
@@ -666,5 +656,25 @@ input[type='radio'] {
 }
 input[type='radio']:checked + label {
   border: 5px solid royalblue;
+}
+
+.v-money.price {
+  -webkit-appearance: none;
+  background-color: #fff;
+  background-image: none;
+  border-radius: 4px;
+  border: 1px solid #dcdfe6;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  color: #606266;
+  display: inline-block;
+  font-size: inherit;
+  height: 40px;
+  line-height: 40px;
+  outline: 0;
+  padding: 0 15px;
+  -webkit-transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+  transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+  width: 100%;
 }
 </style>

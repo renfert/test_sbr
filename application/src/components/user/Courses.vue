@@ -1,5 +1,5 @@
 <template>
-  <div class="m-5">
+  <div class="m-t-40 m-l-40">
     <facebook-loader
       v-if="loadingContent == true"
       :speed="2"
@@ -9,12 +9,12 @@
       secondaryColor="#d9d9d9"
     ></facebook-loader>
 
-    <div v-else>
+    <div v-else class="m-b-40">
       <!-- Courses list content -->
       <div class="course-content" v-if="enrolledCourses != null">
-        <div style="margin-bottom: 10px">
+        <div>
           <el-row>
-            <el-col :md="6" :xs="18" class="mr-3">
+            <el-col :md="6" :xs="18">
               <el-input
                 v-model="filters[0].value"
                 placeholder="Search"
@@ -66,24 +66,24 @@
       </div>
       <!-- Courses list content -->
 
-      <div class="row mb-5 mt-5" v-else>
-        <div class="col-12 text-center">
+      <!--------------
+      Courses not found
+      --------------->
+      <el-row v-else>
+        <div class="text-center m-t-40">
           <img
-            class="no-results-img"
-            src="@/assets/img/general/ux/no_courses.png"
-            alt="No persons"
+            class="not-found-image"
+            src="@/assets/img/general/ux/no_courses.svg"
           />
-          <h4 class="no-results-text">
+          <br />
+          <h4 class="sbr-text-grey">
             {{ lang['no-results-courses-in-user'] }}
           </h4>
-          <el-button
-            class="sbr-purple mt-3"
-            @click="addCourse()"
-            type="primary"
-            >{{ lang['add-course'] }}</el-button
-          >
+          <el-button class="sbr-purple" @click="addCourse()" type="primary">{{
+            lang['add-course']
+          }}</el-button>
         </div>
-      </div>
+      </el-row>
     </div>
 
     <!-- Add new course dialog -->
@@ -103,7 +103,7 @@
       ></facebook-loader>
 
       <div v-else>
-        <div v-if="notEnrolledCourses != null">
+        <div v-if="notEnrolledCourses != null" class="center">
           <template>
             <el-transfer
               filterable
@@ -126,7 +126,7 @@
           <div class="col-12 text-center">
             <img
               class="no-results-img"
-              src="@/assets/img/general/ux/no_courses.png"
+              src="@/assets/img/general/ux/no_courses.svg"
               alt="No courses"
             />
             <h4 class="no-results-text">

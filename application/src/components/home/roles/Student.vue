@@ -10,7 +10,7 @@
       <div class="row">
         <div class="col-md-4 col-12 mb-3">
           <!-- Courses finished -->
-          <a href="courses">
+          <router-link to="/courses">
             <div class="card-widget">
               <div class="title-widget text-center">
                 <img
@@ -23,11 +23,11 @@
                 </h3>
               </div>
             </div>
-          </a>
+          </router-link>
         </div>
         <div class="col-md-4 col-12 mb-3">
           <!-- Courses in progress -->
-          <a href="users">
+          <router-link to="/courses">
             <div class="card-widget">
               <div class="title-widget text-center">
                 <img
@@ -40,12 +40,12 @@
                 </h3>
               </div>
             </div>
-          </a>
+          </router-link>
         </div>
 
         <div class="col-md-4 col-12 mb-3">
           <!-- Courses not started -->
-          <a href="users">
+          <router-link to="/courses">
             <div class="card-widget">
               <div class="title-widget text-center">
                 <img
@@ -58,7 +58,7 @@
                 </h3>
               </div>
             </div>
-          </a>
+          </router-link>
         </div>
       </div>
 

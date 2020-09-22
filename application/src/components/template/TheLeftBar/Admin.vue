@@ -24,20 +24,37 @@
         </el-row>
       </el-menu-item>
 
-      <!--- End sidemenu administrator role -->
-      <el-menu-item index="2">
-        <i class="dripicons-home"></i>
-        <router-link to="/home">
-          <span class="menuMain">{{ lang['home-nav'] }}</span>
+      <el-menu-item>
+        <router-link to="/newcourse">
+          <el-button
+            style="
+              width: 100%;
+              height: 100%;
+              position: absolute;
+              left: 0;
+              border-radius: 5px;
+            "
+            class="sbr-primary"
+            type="primary"
+            >{{ lang['new-course'] }}</el-button
+          >
         </router-link>
       </el-menu-item>
 
-      <el-menu-item index="3">
-        <i class="dripicons-graph-bar"></i>
-        <router-link to="/dashboard">
+      <router-link to="/home">
+        <el-menu-item index="2">
+          <i class="dripicons-home"></i>
+
+          <span class="menuMain">{{ lang['home-nav'] }}</span>
+        </el-menu-item>
+      </router-link>
+
+      <router-link to="/dashboard">
+        <el-menu-item index="3">
+          <i class="dripicons-graph-bar"></i>
           <span class="menuMain">{{ lang['dashboard-nav'] }}</span>
-        </router-link>
-      </el-menu-item>
+        </el-menu-item>
+      </router-link>
 
       <el-submenu index="4">
         <template slot="title">
@@ -47,26 +64,26 @@
           </a>
         </template>
 
-        <el-menu-item index="5">
-          <i class="dripicons-media-next"></i>
-          <router-link to="/courses">
+        <router-link to="/courses">
+          <el-menu-item index="5">
+            <i class="dripicons-media-next"></i>
             <span class="menuMain">{{ lang['my-courses-nav'] }}</span>
-          </router-link>
-        </el-menu-item>
+          </el-menu-item>
+        </router-link>
 
-        <el-menu-item index="6">
-          <i class="dripicons-list"></i>
-          <router-link to="categories">
+        <router-link to="/categories">
+          <el-menu-item index="6">
+            <i class="dripicons-list"></i>
             <span class="menuMain">{{ lang['categories-nav'] }}</span>
-          </router-link>
-        </el-menu-item>
+          </el-menu-item>
+        </router-link>
 
-        <el-menu-item index="7">
-          <i class="dripicons-to-do"></i>
-          <router-link to="/programs">
+        <router-link to="/programs">
+          <el-menu-item index="7">
+            <i class="dripicons-to-do"></i>
             <span class="menuMain">{{ lang['programs-nav'] }}</span>
-          </router-link>
-        </el-menu-item>
+          </el-menu-item>
+        </router-link>
       </el-submenu>
 
       <el-submenu index="8">
@@ -77,34 +94,34 @@
           </a>
         </template>
 
-        <el-menu-item index="9">
-          <i class="dripicons-user-id"></i>
-          <router-link to="/users">
+        <router-link to="/users">
+          <el-menu-item index="9">
+            <i class="dripicons-user-id"></i>
             <span class="menuMain">{{ lang['users-nav'] }}</span>
-          </router-link>
-        </el-menu-item>
+          </el-menu-item>
+        </router-link>
 
-        <el-menu-item index="10">
-          <i class="dripicons-user-group"></i>
-          <router-link to="/groups">
+        <router-link to="/groups">
+          <el-menu-item index="10">
+            <i class="dripicons-user-group"></i>
             <span class="menuMain">{{ lang['groups-nav'] }}</span>
-          </router-link>
-        </el-menu-item>
+          </el-menu-item>
+        </router-link>
 
-        <el-menu-item index="11">
-          <i class="dripicons-experiment"></i>
-          <router-link to="/leads">
+        <router-link to="/leads">
+          <el-menu-item index="11">
+            <i class="dripicons-experiment"></i>
             <span class="menuMain">{{ lang['leads-nav'] }}</span>
-          </router-link>
-        </el-menu-item>
+          </el-menu-item>
+        </router-link>
       </el-submenu>
 
-      <el-menu-item index="12">
-        <i class="dripicons-browser"></i>
-        <router-link to="/site">
+      <router-link to="/site">
+        <el-menu-item index="12">
+          <i class="dripicons-browser"></i>
           <span class="menuMain">{{ lang['site-nav'] }}</span>
-        </router-link>
-      </el-menu-item>
+        </el-menu-item>
+      </router-link>
 
       <el-submenu index="13">
         <template slot="title">
@@ -114,19 +131,19 @@
           </a>
         </template>
 
-        <el-menu-item index="14">
-          <i class="dripicons-web"></i>
-          <router-link to="/settings">
+        <router-link to="/settings">
+          <el-menu-item index="14">
+            <i class="dripicons-web"></i>
             <span class="menuMain">{{ lang['general-settings-nav'] }}</span>
-          </router-link>
-        </el-menu-item>
+          </el-menu-item>
+        </router-link>
 
-        <el-menu-item index="15">
-          <i class="dripicons-cart"></i>
-          <router-link to="/integrations">
+        <router-link to="/integrations">
+          <el-menu-item index="15">
+            <i class="dripicons-cart"></i>
             <span class="menuMain">{{ lang['integrations-nav'] }}</span>
-          </router-link>
-        </el-menu-item>
+          </el-menu-item>
+        </router-link>
       </el-submenu>
 
       <el-submenu index="16">
@@ -137,19 +154,19 @@
           </a>
         </template>
 
-        <el-menu-item index="17">
-          <i class="dripicons-rocket"></i>
-          <router-link to="/plans">
+        <router-link to="/plans">
+          <el-menu-item index="17">
+            <i class="dripicons-rocket"></i>
             <span class="menuMain">{{ lang['plans-nav'] }}</span>
-          </router-link>
-        </el-menu-item>
+          </el-menu-item>
+        </router-link>
 
-        <el-menu-item index="18">
-          <i class="dripicons-question"></i>
-          <router-link to="/helpcenter">
+        <router-link to="/helpcenter">
+          <el-menu-item index="18">
+            <i class="dripicons-question"></i>
             <span class="menuMain">{{ lang['help-center-nav'] }}</span>
-          </router-link>
-        </el-menu-item>
+          </el-menu-item>
+        </router-link>
       </el-submenu>
 
       <!-- User information -->

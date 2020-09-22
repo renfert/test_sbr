@@ -35,23 +35,18 @@
         </vac>
 
         <div class="controls">
-          <el-button-group>
-            <el-button
-              class="sbr-primary"
-              @click="prevQuestion()"
-              type="primary"
-              icon="el-icon-arrow-left"
-              >Previous question</el-button
-            >
-            <el-button
-              class="sbr-primary"
-              @click="nextQuestion()"
-              type="primary"
-            >
-              Next question
-              <i class="el-icon-arrow-right"></i>
-            </el-button>
-          </el-button-group>
+          <el-button
+            class="sbr-primary"
+            @click="prevQuestion()"
+            type="primary"
+            icon="el-icon-arrow-left"
+            >Previous question</el-button
+          >
+          <el-button class="sbr-primary" @click="nextQuestion()" type="primary">
+            Next question
+            <i class="el-icon-arrow-right"></i>
+          </el-button>
+
           <br />
           <br />
 

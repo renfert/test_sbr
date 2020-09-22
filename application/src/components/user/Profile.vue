@@ -13,59 +13,95 @@
       <!--------------
         Banner profile
       --------------->
-      <div class="row" style="background-color: #f3f6f6">
-        <div class="img-container">
-          <div class="img-profile-container">
+      <el-row>
+        <div class="card-box m-t-40">
+          <el-row>
             <el-avatar
-              :size="150"
+              class="profile-avatar"
+              :size="100"
               fit="contain"
               :src="$getUrlToContents() + 'avatar/' + userAvatar + ''"
             ></el-avatar>
-          </div>
-          <img src="@/assets/img/general/ux/profile_bg.png" />
+            <el-row class="text-left">
+              <el-col
+                class="m-r-40"
+                :sm="8"
+                style="border-right: 2px solid #009cd8"
+              >
+                <h2 class="sbr-text-white">Information</h2>
+                <br />
+                <h4>
+                  <span class="sbr-text-white m-r-5">NAME : </span>
+                  <span class="sbr-text-grey">{{ userName }}</span>
+                </h4>
+                <h4 v-if="role == 2">
+                  <span class="sbr-text-white m-r-5">ROLE : </span>
+                  <span class="sbr-text-grey">{{ lang['instructor'] }}</span>
+                </h4>
+                <h4 v-else class="text-sabiorealm">
+                  <span class="sbr-text-white m-r-5">ROLE : </span>
+                  <span class="sbr-text-grey">{{ lang['student'] }}</span>
+                </h4>
+                <h4>
+                  <span class="sbr-text-white m-r-5">EMAIL : </span>
+                  <span class="sbr-text-grey">{{ userEmail }}</span>
+                </h4>
+              </el-col>
+              <!--
+              <el-col :sm="12">
+                <h2 class="sbr-text-white">Data</h2>
+                <br />
+                <h4><i class="el-icon-notebook-1"></i> Courses: 14</h4>
+                <h4><i class="el-icon-document"></i> Programs: 14</h4>
+                <h4><i class="el-icon-user"></i> Groups: 14</h4>
+              </el-col>
+              !-->
+            </el-row>
+          </el-row>
         </div>
-        <div class="profile-info mt-4">
-          <h2>{{ userName }}</h2>
-          <span v-if="role == 2" class="text-sabiorealm">{{
-            lang['instructor']
-          }}</span>
-          <span v-else class="text-sabiorealm">{{ lang['student'] }}</span>
-          <h4>{{ userEmail }}</h4>
-          <br />
-        </div>
-      </div>
+      </el-row>
 
       <!--------------
        Profile charts
       --------------->
       <div class="profile-charts mt-5">
-        <div class="row">
+        <el-row :gutter="20" class="m-b-40">
           <!--------------
           Courses chart
           --------------->
-          <div class="col-12 col-md-6 mb-5">
-            <div class="card-widget" style="height: 350px">
+          <el-col :sm="12" :xs="24">
+            <div class="card-widget" style="height: 250px">
               <GChart
-                class="mt-5"
+                v-if="
+                  coursesData[1][1] !== 0 &&
+                  coursesData[2][1] !== 0 &&
+                  coursesData[3][1] !== 0
+                "
                 type="PieChart"
                 :data="coursesData"
                 :options="coursesChartOptions"
               />
+              <!--------------
+              Courses not found
+              --------------->
+              <el-row v-else>
+                <div class="text-center">
+                  <img
+                    class="not-found-image"
+                    src="@/assets/img/general/ux/data_not_found.svg"
+                  />
+                  <br />
+                  <h4 class="sbr-text-grey">{{ lang['no-courses-found'] }}</h4>
+                </div>
+              </el-row>
             </div>
-          </div>
+          </el-col>
 
           <!--------------
           Exams
           --------------->
-          <div class="col-12 col-md-6 mb-5">
-            <div
-              class="card-widget"
-              style="
-                overflow-y: scroll;
-                height: 350px;
-                border-radius: 10px 0px 0px 10px !important;
-              "
-            >
+          <el-col :sm="12" :xs="24">
+            <div class="card-widget" style="overflow-y: scroll; height: 250px">
               <div v-if="exams != null">
                 <h3 class="exams-title">{{ lang['exams'] }}</h3>
 
@@ -115,22 +151,19 @@
               <!--------------
               Exams not found
               --------------->
-              <el-row class="mt-5" v-else>
+              <el-row v-else>
                 <div class="text-center">
                   <img
-                    class="no-results-img"
-                    src="@/assets/img/general/ux/no_exams.png"
-                    alt="No persons"
-                    style="width: 30%"
+                    class="not-found-image"
+                    src="@/assets/img/general/ux/data_not_found.svg"
                   />
                   <br />
-                  <h4 class="no-results-text">{{ lang['no-results-exam'] }}</h4>
+                  <h4 class="sbr-text-grey">{{ lang['no-results-exam'] }}</h4>
                 </div>
               </el-row>
             </div>
-          </div>
-        </div>
-        <user-activities :user-id="userId"></user-activities>
+          </el-col>
+        </el-row>
       </div>
     </div>
   </div>
@@ -139,7 +172,6 @@
 
 <script>
 import Vue from 'vue';
-import UserActivities from '@/components/activity/UserActivities';
 import VueGoogleCharts from 'vue-google-charts';
 
 import { FacebookLoader } from 'vue-content-loader';
@@ -152,8 +184,7 @@ Vue.use(VueGoogleCharts);
 
 export default {
   components: {
-    FacebookLoader,
-    UserActivities
+    FacebookLoader
   },
   props: ['user-id'],
   data: () => {
@@ -246,6 +277,16 @@ export default {
   margin-top: -15px !important;
 }
 
+.profile-row {
+  background-color: rgba(27, 87, 84, 0.192);
+}
+
+.profile-avatar {
+  margin-top: -8%;
+  right: 0px !important;
+  position: absolute;
+}
+
 .profile-info {
   margin-left: 35%;
   text-align: left;
@@ -302,6 +343,29 @@ h4 {
     color-stop(0.5, transparent),
     to(transparent)
   );
+}
+
+.card-box {
+  box-shadow: 0 2px 10px 0 #009bd877 !important;
+  border-radius: 0 12px 12px 0 !important;
+  border-left: 3px solid #009cd8;
+  background-color: rgb(55, 58, 67);
+  padding: 50px !important;
+}
+
+.el-avatar {
+  border: 3px solid #009cd8 !important;
+  transition: all 0.2s ease-in-out 0s !important;
+  cursor: pointer !important;
+}
+
+.el-avatar:hover {
+  transform: translateX(5px) !important;
+  box-shadow: 0 10px 20px 0 #009bd877 !important;
+}
+
+.el-tabs--border-card > .el-tabs__content {
+  padding: 0px !important;
 }
 
 .exams-title {

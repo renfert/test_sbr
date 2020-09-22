@@ -3,7 +3,7 @@
     <div v-for="element in headerArray" :key="element.id">
       <el-submenu index="1">
         <template slot="title">
-          <i class="el-icon-menu"></i>
+          <i class="el-icon-menu sbr-text-primary"></i>
           <span>Header</span>
         </template>
         <form id="form-header">
@@ -82,7 +82,7 @@
           </el-menu-item-group>
         </form>
         <el-menu-item-group title="Links">
-          <div class="list-block">
+          <div class="p-l-40 m-b-40 m-r-40">
             <link-list></link-list>
             <br />
             <el-button

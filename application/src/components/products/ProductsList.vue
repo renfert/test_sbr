@@ -98,7 +98,7 @@
             </div>
 
             <!-- Price filter -->
-            <h4 class="side_title">Tags</h4>
+            <h4 class="side_title">{{ lang['tags'] }}</h4>
             <div class="popular_tags">
               <!-- Tags -->
               <div
@@ -175,11 +175,11 @@
                   <ul>
                     <li>
                       <i class="ti-agenda mr-2"></i>
-                      Modules: {{ element.totalModules }}
+                      {{ lang['modules'] }}: {{ element.totalModules }}
                     </li>
                     <li>
                       <i class="ti-control-skip-forward mr-2"></i>
-                      Lessons: {{ element.totalLessons }}
+                      {{ lang['lessons'] }}: {{ element.totalLessons }}
                     </li>
                   </ul>
                 </div>
@@ -221,18 +221,18 @@
             </div>
           </div>
 
-          <div class="row" v-else>
-            <div class="col-12 text-center">
+          <el-row style="margin-top: 20%" v-else>
+            <el-col :span="24" class="center">
               <img
-                class="w-50"
-                src="@/assets/img/general/ux/not_found.png"
+                class="not-found-image"
+                src="@/assets/img/general/ux/no_courses_found.svg"
                 alt="No activities"
               />
-              <h4 class="sbr-empty-state-text">
+              <h5 class="sbr-text-grey">
                 {{ lang['no-courses-found'] }}
-              </h4>
-            </div>
-          </div>
+              </h5>
+            </el-col>
+          </el-row>
 
           <!-- Pagination -->
           <div
@@ -501,6 +501,12 @@ h3 {
 h4 {
   line-height: 26px;
   font-size: 21px;
+}
+
+h5 {
+  line-height: 20px;
+  font-size: 16px;
+  color: rgb(187, 181, 181);
 }
 
 a {

@@ -168,10 +168,10 @@ header ul li a {
 }
 
 .top-trial {
-  height: 80%;
+  height: 50px;
   width: 100%;
   background-color: #009cd8 !important;
-  position: absolute !important;
+  position: relative !important;
   overflow: hidden;
   text-align: center;
 }
@@ -181,10 +181,9 @@ header ul li a {
   text-align: center;
   color: white;
   font-size: 1.2em;
-  margin-top: 0.7% !important;
-  font-weight: 400;
   margin-left: 230px;
-  line-height: 2.5;
+  line-height: 3;
+  font-weight: 500;
 }
 
 .top-trial span a {

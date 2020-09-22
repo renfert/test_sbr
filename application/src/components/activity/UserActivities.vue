@@ -249,7 +249,7 @@ export default {
       const diffInHours = diffTime / (1000 * 60 * 60);
 
       const day = dt2.getDate();
-      const month = dt2.getMonth();
+      const month = dt2.getMonth() + 1;
       const year = dt2.getFullYear();
 
       if (diffinMinutes > 60) {

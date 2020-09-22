@@ -3,7 +3,7 @@
     <div v-for="element in footerArray" :key="element.id">
       <el-submenu index="3">
         <template slot="title">
-          <i class="el-icon-menu"></i>
+          <i class="el-icon-menu sbr-text-primary"></i>
           <span>Footer</span>
         </template>
         <form id="form-footer">
@@ -27,7 +27,7 @@
           </el-menu-item-group>
         </form>
         <el-menu-item-group :title="lang['social-medias']">
-          <div class="list-block">
+          <div class="m-l-40 m-r-40 m-b-40">
             <social-media-list></social-media-list>
             <br />
             <el-button
@@ -71,6 +71,7 @@ export default {
     changeColor() {
       setTimeout(() => {
         this.editFooter();
+        eventBus.$emit('new-change-footer');
       }, 100);
     },
 

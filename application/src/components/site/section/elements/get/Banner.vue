@@ -78,7 +78,7 @@ export default {
         'background-color': this.buttonColor,
         display: this.banner.title == null ? 'none' : 'initial',
         '--color-hover': this.buttonColorHover,
-        'border-radius': this.buttonStyle === 'plain' ? '0px' : '50px'
+        'border-radius': this.buttonStyle === 'Plain' ? '0px' : '50px'
       };
     },
     styleHeader() {
@@ -175,7 +175,7 @@ export default {
 .banner-btn {
   margin: 1.5rem auto 0;
   display: flex;
-  height: 44px;
+  height: auto;
   font-weight: 600;
   color: #fff !important;
   align-items: center;

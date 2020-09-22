@@ -1,6 +1,6 @@
 <template>
   <div class="content-page">
-    <h2 class="text-center mb-5">{{ group.name }}</h2>
+    <h2 class="center m-b-30">{{ group.name }}</h2>
 
     <el-tabs type="border-card">
       <el-tab-pane>

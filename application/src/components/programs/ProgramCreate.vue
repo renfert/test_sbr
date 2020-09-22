@@ -1,17 +1,8 @@
 <template>
-  <div>
+  <div v-if="programList != null">
     <div class="two-column-card mt-5">
       <div class="item-card">
-        <div v-if="programList == null">
-          <h4>{{ lang['no-results-program-title'] }}</h4>
-          <br />
-          <router-link to="/newprogram">
-            <el-button class="sbr-primary mt-3">
-              {{ lang['new-program-button'] }}
-            </el-button>
-          </router-link>
-        </div>
-        <div v-else>
+        <div>
           <h3>
             {{ lang['courses-already-created'] }}
             <b class="sbr-text-primary">{{ totalPrograms }}</b>

@@ -8,10 +8,15 @@
 import Vue from 'vue';
 import VueHead from 'vue-head';
 import Construction from '@/components/helpcenter/Construction.vue';
+import { mapState } from 'vuex';
+
 Vue.use(VueHead);
 export default {
   components: {
     Construction
+  },
+  computed: {
+    ...mapState(['user'])
   },
   head: {
     title: {
@@ -25,3 +30,5 @@ export default {
   }
 };
 </script>
+
+<style scoped></style>
