@@ -557,6 +557,8 @@
   "second-step-course": "Step 2",
   "third-step-course": "Step 3",
   "publication-comment": "Put your comment",
-  "message-published": "Has been published"
-
+  "message-published": "Has been published",
+  "view-more":  "View more",
+  "users-status": "Users status",
+  "enter-text": "Enter text"
 }

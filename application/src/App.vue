@@ -66,6 +66,7 @@
 </template>
 
 <script>
+import Vue from 'vue';
 import UpgradePlan from '@/components/plans/UpgradePlan';
 import TheTrialExpired from '@/components/template/TheTrialExpired';
 import AdminLeftBar from '@/components/template/TheLeftBar/Admin';
@@ -177,10 +178,10 @@ export default {
         this.setUser(userObj);
       });
     },
-    async statusDaemon() {
+    statusDaemon() {
       setInterval(() => {
         this.$request.post(this.$getUrlToMakeRequest('user', 'updateStatus'));
-      }, 1800);
+      }, 2300);
     }
   }
 };

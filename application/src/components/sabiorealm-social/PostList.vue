@@ -1,27 +1,72 @@
 <template>
   <div>
     <el-card class="box-card" style="max-width: 570px;margin-bottom: 10px" v-for="(publication,index) in publications"
-             :key="index">
+             :key="index" @load="hide($event)">
       <div slot="header" class="clearfix">
         <el-row>
-          <el-col :md="3">
+          <el-col :md="3" :sm="4" :xs="4">
             <router-link class="pr-4" to="/profile">
               <el-avatar
                 :src="$getUrlToContents() + 'avatar/' + user.avatar + ''"
               />
             </router-link>
           </el-col>
-          <el-col :md="6" class="p-t-10">
-            <b><span class="link">{{ user.name }}</span></b><br>
+          <el-col :md="17" :sm="14" :xs="14" class="p-t-10">
+            <router-link :to="'user/'+user.id">
+              <b><span class="link">{{ user.name }}</span></b><br>
+            </router-link>
+          </el-col>
+          <el-col :md="2" :sm="3" :xs="3">
+            <el-button @click="checkEdit(index)" type="primary" icon="el-icon-edit" circle
+                       size="small"></el-button>
+          </el-col>
+
+          <el-col :md="2" :sm="2" :xs="2">
+            <el-popconfirm
+              confirmButtonText="Ok"
+              cancelButtonText="No, Thanks"
+              placement="right"
+              title="Are u sure to delete this?"
+              @onConfirm="deletePost(publication.id)"
+            >
+              <el-button
+                size="small"
+                class="sbr-danger ml-1"
+                slot="reference"
+                icon="el-icon-delete"
+                circle
+              ></el-button>
+            </el-popconfirm>
           </el-col>
         </el-row>
       </div>
-      <div v-html="publication.description">
+      <div v-if="publication.description.length>=280 ">
+        <div v-html="publication.description" :ref="'show['+index+']'" style="
+  overflow: hidden;
+text-overflow: ellipsis;
+display: -webkit-box;
+-webkit-line-clamp: 3;
+-webkit-box-orient: vertical;">
+        </div>
+        <br>
+        <b><a class="linknav" @click.prevent="viewMore(index)">{{ lang["view-more"] }}</a></b>
+      </div>
+      <div v-else>
+        <div v-html="publication.description">
+        </div>
       </div>
       <br>
+      <el-input
+        v-if="editinput[index]"
+        type="textarea"
+        :rows="2"
+        :placeholder="lang['enter-text']"
+        v-model="publication.description">
+      </el-input>
       <el-row>
         <p style="color: rgba(43,33,40,0.66)">
           <el-button @load="getLike(publication.id)" @click="doPublicationLike(publication.id,$event)"
+
                      circle><i class="fas fa-thumbs-up"
                                style="color:#4a5568"></i>
           </el-button>
@@ -42,7 +87,8 @@
 
           </span>
             <span slot="suffix" v-if="loading">
-          <i class="el-icon-loading center" style="font-size: 25px;margin-top: 10px;font-size:large;color: #009cd8;"></i>
+          <i class="el-icon-loading center"
+             style="font-size: 25px;margin-top: 10px;font-size:large;color: #009cd8;"></i>
           </span>
           </el-input>
         </el-col>
@@ -63,11 +109,9 @@ import VueHead from 'vue-head';
 import wysiwyg from 'vue-wysiwyg';
 import {mapState} from 'vuex';
 import SubCommentary from '@/components/sabiorealm-social/SubCommentary';
-
-export const eventBus = new Vue();
+import {eventBus} from '@/components/sabiorealm-social/App';
 
 Vue.use(VueHead);
-
 Vue.use(wysiwyg, {});
 export default {
   props: ['publications'],
@@ -75,12 +119,12 @@ export default {
     return {
       comment: [],
       update: [],
-      loading: false
+      loading: false,
+      editinput: []
     };
   },
   components: {SubCommentary},
   created() {
-    this.$verifyAdministratorPrivileges();
   },
   computed: {
 
@@ -99,6 +143,8 @@ export default {
       this.comment[index] = '';
       await this.$request.post(this.$getUrlToMakeRequest('SocialNetwork', 'saveComment'), form);
       this.loading = false;
+      eventBus.$emit('social-load-commentaries');
+      eventBus.$emit('social-update-post');
     },
     // eslint-disable-next-line camelcase
     getLike(publication_id, event) {
@@ -123,6 +169,22 @@ export default {
       this.$request.post(this.$getUrlToMakeRequest('SocialNetwork', 'doLike'), form).then((response) => {
         // console.log(response.data);
       });
+    },
+    // eslint-disable-next-line camelcase
+    deletePost(publication_id) {
+      const form = new FormData();
+      form.append('social_publication_id', publication_id);
+      this.$request.post(this.$getUrlToMakeRequest('SocialNetwork', 'deletePost'), form).then((response) => {
+        eventBus.$emit('social-update-post');
+        eventBus.$emit('social-load-commentaries');
+      });
+    },
+    viewMore(index) {
+      console.log(this.$refs['show[' + index + ']'].target);
+    },
+    checkEdit(id) {
+      this.editinput[id] = true;
+      console.log(this.editinput);
     }
 
   }

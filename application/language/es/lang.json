@@ -756,5 +756,8 @@
 
   "publication-comment": "Ingresar tu comentario",
 
-  "message-published": "Publicado"
+  "message-published": "Publicado",
+  "view-more":  "Ver más",
+  "users-status": "Estados de usuarios",
+  "enter-text": "Ingresar texto"
 }

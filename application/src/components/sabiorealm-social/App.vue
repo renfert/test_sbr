@@ -1,32 +1,48 @@
 <template>
   <div class="content-page">
-    <el-card class="box-card" style="max-width: 570px" v-on:keydown.enter.native="publish()">
-      <div slot="header" class="clearfix">
-        <el-row>
-          <el-col :md="3">
+    <el-row :gutter="8">
+      <el-col :md="6" :sm="24" :xs="24">
+        <UserStatus/>
+        <br>
+      </el-col>
+      <el-col :md="18" :sm="24" :xs="24">
+        <el-card class="box-card" style="max-width: 570px">
+          <div slot="header" class="clearfix">
+            <el-row>
+              <el-col :md="3" :sm="4" :xs="4">
 
-            <el-avatar
-              :src="$getUrlToContents() + 'avatar/' + user.avatar+''"
-            />
-          </el-col>
-          <el-col :md="12" class="p-t-10">
+                <el-avatar
+                  :src="$getUrlToContents() + 'avatar/' + user.avatar+''"
+                />
+              </el-col>
+              <el-col :md="17" :sm="20" :xs="20" class="p-t-10">
+                <router-link :to="'user/'+user.id">
+                  <b><span class="link">{{ user.name }}</span></b><br>
+                </router-link>
+              </el-col>
 
-            <b><span class="link">{{ user.name }}</span></b><br>
-            <i
-              style="color: rgba(43,33,40,0.66)">{{
-                new Date().toLocaleString(new Date().getTimezoneOffset(), {dateStyle: "full"})
-              }}</i>
-          </el-col>
-        </el-row>
+            </el-row>
 
-      </div>
-
-      <wysiwyg v-model="publication"/>
-      <br>
-      <el-button @click="publish()" type="primary" round>{{ lang['publish'] }}</el-button>
-    </el-card>
-    <br>
-    <PostList :publications="publications"/>
+          </div>
+          <el-input
+            type="textarea"
+            :rows="2"
+            :placeholder="lang['enter-text']"
+            v-model="publication">
+          </el-input>
+          <br>
+          <br>
+          <el-button @click="publish()" type="primary" round>{{ lang['publish'] }}</el-button>
+          &nbsp;
+          <i
+            style="color: rgba(43,33,40,0.66)">{{
+              new Date().toLocaleString(new Date().getTimezoneOffset(), {dateStyle: "full"})
+            }}</i>
+        </el-card>
+        <br>
+        <PostList :publications="publications"/>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -35,10 +51,10 @@ import Vue from 'vue';
 import VueHead from 'vue-head';
 import {mapState} from 'vuex';
 import PostList from '@/components/sabiorealm-social/PostList';
-
-export const eventBus = new Vue();
+import UserStatus from '@/components/sabiorealm-social/UserStatus';
 
 Vue.use(VueHead);
+export const eventBus = new Vue();
 export default {
   data: () => {
     return {
@@ -47,20 +63,27 @@ export default {
       publications: []
     };
   },
+  head: {
+    title: {
+      inner: 'Courses'
+    },
+    meta: [
+      {name: 'charset', content: 'utf-8'},
+      {name: 'viewport', content: 'width=device-width, initial-scale=1.0'},
+      {name: 'author', content: 'Sabiorealm'}
+    ]
+  },
   computed: {
     ...mapState(['lang', 'user'])
   },
-  components: {PostList},
+  components: {UserStatus, PostList},
   created() {
-    this.getOnlineUsers();
-    this.$verifyAdministratorPrivileges();
     this.getPublications();
   },
   mounted() {
-
-    setInterval(() => {
+    eventBus.$on('social-update-post', () => {
       this.getPublications();
-    }, 2300);
+    });
   },
   methods: {
     async publish() {
@@ -75,7 +98,8 @@ export default {
       } else if (data.data == false) {
         this.$errorMessage();
       }
-      this.getPublications();
+      eventBus.$emit('social-update-post');
+      eventBus.$emit('social-load-commentaries');
       this.publication = '';
     },
     getPublications() {
@@ -93,11 +117,7 @@ export default {
         // console.log(response.data);
       });
     },
-    getOnlineUsers() {
-      this.$request.post(this.$getUrlToMakeRequest('SocialNetwork', 'getOnlineUsers')).then((response) => {
-        console.log(response);
-      });
-    }
+
   }
 };
 </script>

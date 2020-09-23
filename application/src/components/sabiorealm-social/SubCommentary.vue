@@ -2,38 +2,52 @@
   <div>
     <hr>
     <div v-for="(comment,index) in comments" :key="index"
-         style="margin-bottom: 4px;background-color: rgba(92,99,216,0.04);border-radius: 10px;padding: 10px">
+         style="margin-bottom: 4px;background-color: rgba(92,99,216,0.1);border-radius: 10px;padding: 10px">
 
       <div style="font-size: 12px;color:#009cd8;">
 
+        <el-row :gutter="2">
+          <el-col :md="2" :sm="3" :xs="3">
 
-          <el-row :gutter="2">
-            <el-col :md="2" >
+            <el-avatar size="small"
+                       :src="$getUrlToContents() + 'avatar/' + comment.avatar+''"
+            />
+          </el-col>
+          <el-col :md="12" :sm="10" :xs="10" style="margin-top: 8px">
 
-              <el-avatar size="small"
-                         :src="$getUrlToContents() + 'avatar/' + comment.avatar+''"
-              />
-            </el-col>
-            <el-col :md="12" style="margin-top: 8px">
-
-              <a href="#">
-
-                {{ comment.username }}</a>
-            </el-col>
-          </el-row>
+            <router-link :to="'user/'+user.id">
+              {{ comment.username }}
+            </router-link>
+          </el-col>
+        </el-row>
 
       </div>
       <el-row justify="start">
-        <el-col :md="24">
-          <div v-html="comment.comment" style="overflow-wrap: anywhere" >
+
+        <el-col :md="22">
+          <div v-html="comment.comment" style="overflow-wrap: anywhere">
+          </div>
+        </el-col>
+
+      </el-row>
+      <br>
+      <el-row justify="center">
+
+        <el-col :md="2" :sm="4" :xs="4">
+          <el-button
+            circle><i class="fas fa-thumbs-up"
+                      style="color:#4a5568"></i>
+          </el-button>
+
+        </el-col>
+        <el-col :md="10" :sm="15" :xs="15" style="margin-top:10px">
+
+          <div style="color:#909399; font-size:10px">
+            {{ new Date(comment.created).toLocaleString(new Date().getTimezoneOffset(), {dateStyle: "full"}) }} -
+            {{ new Date(comment.created).toLocaleTimeString() }}
           </div>
         </el-col>
       </el-row>
-      <br>
-      <div style="color:#909399; font-size:10px">
-        {{ new Date(comment.created).toLocaleString(new Date().getTimezoneOffset(), {dateStyle: "full"}) }} -
-        {{new Date(comment.created).toLocaleTimeString()}}
-      </div>
     </div>
   </div>
 </template>
@@ -43,9 +57,8 @@ import Vue from 'vue';
 import VueHead from 'vue-head';
 
 import wysiwyg from 'vue-wysiwyg';
-import {mapState} from "vuex";
-
-export const eventBus = new Vue();
+import {mapState} from 'vuex';
+import {eventBus} from '@/components/sabiorealm-social/App';
 
 Vue.use(VueHead);
 
@@ -58,12 +71,17 @@ export default {
     };
   },
   components: {},
-  created() {
-    this.$verifyAdministratorPrivileges();
+  mounted() {
     setInterval(() => {
-
       this.loadCommentaries();
-    }, 1200);
+    }, 2900);
+    eventBus.$on('social-load-commentaries', () => {
+      console.log('cargando comentarios');
+      this.loadCommentaries();
+    });
+  },
+  created() {
+    this.loadCommentaries();
   },
   computed: {
     ...mapState(['lang', 'user'])
@@ -71,7 +89,7 @@ export default {
 
   },
   methods: {
-    async loadCommentaries() {
+    loadCommentaries() {
       const form = new FormData();
       form.append('social_publication_id', this.publication_id);
       this.$request.post(this.$getUrlToMakeRequest('SocialNetwork', 'getCommentsByPub'),

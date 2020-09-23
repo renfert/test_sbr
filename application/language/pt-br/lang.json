@@ -713,5 +713,7 @@
   "first-step-course": "Etapa 1 ",
   "second-step-course": "Etapa 2",
   "third-step-course": "Etapa 3",
-  "message-published": "Foi publicado"
+  "message-published": "Foi publicado",
+  "view-more":  "Ver mais",
+  "enter-text": "Inserir texto"
 }

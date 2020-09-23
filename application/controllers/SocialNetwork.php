@@ -83,10 +83,15 @@ class SocialNetwork extends CI_Controller
    echo json_encode($this->Social_Network_Model->getUsersWithStatusOn());
   }
   public function getCommentsByPub(){
-
     $data=$this->input->post();
 
     echo json_encode($this->Social_Network_Model->getCommentByPublicationId($data['social_publication_id']));
 
+  }
+
+  public function deletePost(){
+    $data=$this->input->post();
+
+    echo json_encode($this->Social_Network_Model->deletePostByPublicationId($data['social_publication_id']));
   }
 }

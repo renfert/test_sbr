@@ -25,6 +25,7 @@ class Social_Network_Model extends CI_Model
     $this->db->join("myuser U", "U.id=SP.myuser_id");
     $this->db->order_by("created", "DESC");
     $query = $this->db->get();
+
     if ($res = $query->result()) return $res;
     else return null;
 
@@ -105,7 +106,7 @@ class Social_Network_Model extends CI_Model
   {
     $mydate = getCurrentDate("Y-m-d H:i:s");
     $this->db->select("*");
-    $this->db->from("myuser");
+    $this->db->from("myuser U");
     $this->db->where("last_activity > '" . $mydate . "' - INTERVAL 5 MINUTE");
     return $this->db->get()->result() ?: false;
   }
@@ -119,5 +120,12 @@ class Social_Network_Model extends CI_Model
     $this->db->where("social_publication_id", $publication_id);
     $this->db->order_by("created", "DESC");
     return $this->db->get()->result() ?: false;
+  }
+
+  public function deletePostByPublicationId($publication_id)
+  {
+    $this->db->where("id", $publication_id);
+    $this->db->delete("social_publications");
+    return true;
   }
 }
