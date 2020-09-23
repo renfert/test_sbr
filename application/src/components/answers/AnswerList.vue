@@ -33,7 +33,7 @@
               >
                 <input
                   @change="markAsCorrectAnswer($event, element.id)"
-                  :checked="element.correctAnswer != null ? true : false"
+                  :checked="element.correct != null ? true : false"
                   type="checkbox"
                   :name="'check' + element.id"
                   class="custom-control-input"
