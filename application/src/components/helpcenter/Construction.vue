@@ -1,6 +1,5 @@
 <template>
   <div class="center construction">
-    <!--
     <div>
       <el-row class="flex" :gutter="120">
         <el-col :sm="2" :xs="8">
@@ -19,7 +18,6 @@
         </el-col>
       </el-row>
     </div>
-    !-->
     <img
       class="not-found-image"
       src="@/assets/img/general/ux/construction.svg"
