@@ -1,3 +1,4 @@
+application/helpers/production_helper.php
 application/.htaccess
 application/cache/*
 application/node_modules
