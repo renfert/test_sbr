@@ -562,5 +562,9 @@
   "users-status": "Users status",
   "enter-text": "Enter text",
   "publish-in": "Publish in",
-  "group-default": "All"
+  "group-default": "All",
+  "attach-image": "Attach image",
+  "select-group": "Select group",
+  "see": "See",
+  "groups": "Groups"
 }

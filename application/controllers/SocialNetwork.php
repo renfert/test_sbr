@@ -105,4 +105,9 @@ class SocialNetwork extends CI_Controller
     echo json_encode($this->Social_Network_Model->getAllGroups());
 
   }
+
+  public function getAllCourses()
+  {
+    echo json_encode($this->Social_Network_Model->getAllCourses());
+  }
 }

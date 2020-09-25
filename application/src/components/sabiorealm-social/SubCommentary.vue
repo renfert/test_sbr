@@ -1,53 +1,60 @@
 <template>
   <div>
     <hr>
-    <div v-for="(comment,index) in comments" :key="index"
-         style="margin-bottom: 4px;background-color: rgba(92,99,216,0.1);border-radius: 10px;padding: 10px">
+    <a @click.prevent="viewComments=!viewComments">
+      <b v-if="n_comments>0">
+        {{ lang['see'] }} {{ n_comments }} {{ lang['comments'] }} <i class="fas fa-angle-down"></i>
+      </b>
+    </a>
+    <div v-if="viewComments">
+      <div v-for="(comment,index) in comments" :key="index"
+           style="margin-bottom: 4px;background-color: rgba(92,99,216,0.1);border-radius: 10px;padding: 10px">
 
-      <div style="font-size: 12px;color:#009cd8;">
+        <div style="font-size: 12px;color:#009cd8;">
 
-        <el-row :gutter="2">
-          <el-col :md="2" :sm="3" :xs="3">
+          <el-row :gutter="2">
+            <el-col :md="2" :sm="3" :xs="3">
 
-            <el-avatar size="small"
-                       :src="$getUrlToContents() + 'avatar/' + comment.avatar+''"
-            />
+              <el-avatar size="small"
+                         :src="$getUrlToContents() + 'avatar/' + comment.avatar+''"
+              />
+            </el-col>
+            <el-col :md="12" :sm="10" :xs="10" style="margin-top: 8px">
+
+              <router-link :to="'user/'+user.id">
+                {{ comment.username }}
+              </router-link>
+            </el-col>
+          </el-row>
+
+        </div>
+        <el-row justify="start">
+
+          <el-col :md="22">
+            <div v-html="comment.comment" style="overflow-wrap: anywhere">
+            </div>
           </el-col>
-          <el-col :md="12" :sm="10" :xs="10" style="margin-top: 8px">
 
-            <router-link :to="'user/'+user.id">
-              {{ comment.username }}
-            </router-link>
+        </el-row>
+        <br>
+        <el-row justify="center">
+
+          <el-col :md="2" :sm="4" :xs="4">
+            <el-button
+              circle><i class="fas fa-thumbs-up"
+                        style="color:#4a5568"></i>
+            </el-button>
+
+          </el-col>
+          <el-col :md="10" :sm="15" :xs="15" style="margin-top:10px">
+
+            <div style="color:#909399; font-size:10px">
+              {{ new Date(comment.created).toLocaleString(new Date().getTimezoneOffset(), {dateStyle: "full"}) }} -
+              {{ new Date(comment.created).toLocaleTimeString() }}
+            </div>
           </el-col>
         </el-row>
-
       </div>
-      <el-row justify="start">
-
-        <el-col :md="22">
-          <div v-html="comment.comment" style="overflow-wrap: anywhere">
-          </div>
-        </el-col>
-
-      </el-row>
-      <br>
-      <el-row justify="center">
-
-        <el-col :md="2" :sm="4" :xs="4">
-          <el-button
-            circle><i class="fas fa-thumbs-up"
-                      style="color:#4a5568"></i>
-          </el-button>
-
-        </el-col>
-        <el-col :md="10" :sm="15" :xs="15" style="margin-top:10px">
-
-          <div style="color:#909399; font-size:10px">
-            {{ new Date(comment.created).toLocaleString(new Date().getTimezoneOffset(), {dateStyle: "full"}) }} -
-            {{ new Date(comment.created).toLocaleTimeString() }}
-          </div>
-        </el-col>
-      </el-row>
     </div>
   </div>
 </template>
@@ -67,7 +74,9 @@ export default {
   props: ['publication_id'],
   data: () => {
     return {
-      comments: []
+      comments: [],
+      n_comments: 0,
+      viewComments: false
     };
   },
   components: {},
@@ -76,7 +85,6 @@ export default {
       this.loadCommentaries();
     }, 2900);
     eventBus.$on('social-load-commentaries', () => {
-      console.log('cargando comentarios');
       this.loadCommentaries();
     });
   },
@@ -95,8 +103,9 @@ export default {
       this.$request.post(this.$getUrlToMakeRequest('SocialNetwork', 'getCommentsByPub'),
         form)
         .then((response) => {
-            this.comments = response.data;
-          }
+          this.comments = response.data;
+          this.n_comments = this.comments.length;
+        }
         );
     }
   }

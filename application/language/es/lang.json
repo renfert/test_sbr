@@ -762,5 +762,10 @@
   "enter-text": "Ingresar texto",
 
   "publish-in": "Publicar en",
-  "group-default": "Todos"
+  "group-default": "Todos",
+
+  "attach-image": "Adjuntar imagen",
+  "select-group": "Seleccionar grupo",
+  "see": "Ver",
+  "groups": "Grupos"
 }

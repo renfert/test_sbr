@@ -5,19 +5,31 @@
       <div slot="header" class="clearfix">
         <el-row>
           <el-col :md="3" :sm="4" :xs="4">
-            <router-link class="pr-4" to="/profile">
-              <el-avatar
-                :src="$getUrlToContents() + 'avatar/' + user.avatar + ''"
-              />
-            </router-link>
+            <el-avatar
+              :src="$getUrlToContents() + 'avatar/' + user.avatar + ''"
+            />
           </el-col>
           <el-col :md="17" :sm="14" :xs="14" class="p-t-10">
             <router-link :to="'user/'+user.id">
-              <b><span class="link">{{ user.name }}</span>  <i class="fas fa-caret-right" style="font-size: 15px"></i> {{publication.group_name==='default'?lang['group-default']:publication.group_name}}</b><br>
+              <b><span class="link">{{ user.name }} </span>
+                <i class="fas fa-caret-right" style="font-size: 15px"></i>
+              </b>
             </router-link>
+            <b>
+              <a v-if="publication.group_id >1">
+                {{ publication.group_name }}
+              </a>
+              <a v-else-if="publication.course_id>1">
+                {{ publication.course_name }}
+              </a>
+              <a v-else>
+                {{ lang['group-default'] }}
+              </a>
+            </b>
           </el-col>
           <el-col :md="2" :sm="3" :xs="3">
-            <el-button @click="checkEdit(index)" type="primary" icon="el-icon-edit" circle
+            <el-button @click="editPost(publication.id,publication.description)" type="primary" icon="el-icon-edit"
+                       circle
                        size="small"></el-button>
           </el-col>
 
@@ -40,33 +52,27 @@
           </el-col>
         </el-row>
       </div>
-      <div v-if="publication.description.length>=280 ">
-        <div v-html="publication.description" :ref="'show['+index+']'" style="
-  overflow: hidden;
-text-overflow: ellipsis;
-display: -webkit-box;
--webkit-line-clamp: 3;
--webkit-box-orient: vertical;">
-        </div>
-        <br>
-        <b><a class="linknav" @click.prevent="viewMore(index)">{{ lang["view-more"] }}</a></b>
-      </div>
-      <div v-else>
-        <div v-html="publication.description">
-        </div>
-      </div>
+      <!--      <div v-if="publication.description.length>=280 ">-->
+
+      <!--<div v-html="publication.description" style="-->
+      <!--  overflow: hidden;-->
+      <!--text-overflow: ellipsis;-->
+      <!--display: -webkit-box;-->
+      <!-- -webkit-line-clamp: 3;-->
+      <!-- -webkit-box-orient: vertical;">-->
+      <!--        </div>-->
+      <!--        <b><a class="linknav" @click.prevent="viewMore(index)">{{ lang["view-more"] }}</a></b>-->
+      <!--      </div>-->
+      <!--      <div v-else>-->
+      <!--        <div v-html="publication.description">-->
+      <!--        </div>-->
+      <!--      </div>-->
+
+      {{ publication.description }}
       <br>
-      <el-input
-        v-if="editinput[index]"
-        type="textarea"
-        :rows="2"
-        :placeholder="lang['enter-text']"
-        v-model="publication.description">
-      </el-input>
       <el-row>
         <p style="color: rgba(43,33,40,0.66)">
           <el-button @load="getLike(publication.id)" @click="doPublicationLike(publication.id,$event)"
-
                      circle><i class="fas fa-thumbs-up"
                                style="color:#4a5568"></i>
           </el-button>
@@ -98,7 +104,29 @@ display: -webkit-box;
       <br>
       <SubCommentary :publication_id="publication.id"/>
     </el-card>
-
+    <el-dialog
+      :title="lang['edit']"
+      :visible.sync="editDialog"
+      width="50%"
+    >
+      <el-row :md="24" justify="center">
+        <el-input
+          type="textarea"
+          :rows="2"
+          :placeholder="lang['enter-text']"
+          v-model="editText">
+        </el-input>
+        <br>
+        <br>
+        <el-button @click="publish()" type="primary" round>
+          <i class="el-icon-loading"
+             style="color: white;" v-if="loading"></i>
+          <i class="far fa-paper-plane" v-else></i> {{
+            lang['publish']
+          }}
+        </el-button>
+      </el-row>
+    </el-dialog>
   </div>
 </template>
 
@@ -120,7 +148,9 @@ export default {
       comment: [],
       update: [],
       loading: false,
-      editinput: []
+      editDialog: false,
+      editText: '',
+      publication_id: null
     };
   },
   components: {SubCommentary},
@@ -176,15 +206,35 @@ export default {
       form.append('social_publication_id', publication_id);
       this.$request.post(this.$getUrlToMakeRequest('SocialNetwork', 'deletePost'), form).then((response) => {
         eventBus.$emit('social-update-post');
-        eventBus.$emit('social-load-commentaries');
+        setTimeout(() => {
+          eventBus.$emit('social-load-commentaries');
+        }, 500);
       });
     },
-    viewMore(index) {
-      console.log(this.$refs['show[' + index + ']'].target);
+    editPost(id, description) {
+      this.editDialog = true;
+      this.editText = description;
+      this.publication_id = id;
     },
-    checkEdit(id) {
-      this.editinput[id] = true;
-      console.log(this.editinput);
+    async publish() {
+      this.loading = true;
+      const form = new FormData();
+      form.append('id', this.publication_id);
+      form.append('description', this.editText);
+      const data = await this.$request.post(this.$getUrlToMakeRequest('SocialNetwork', 'savePublication'), form);
+      if (data.status === 200 && this.editText.length > 0) {
+        this.$messagePublished();
+        // eslint-disable-next-line eqeqeq
+      } else if (data.data == false) {
+        this.$errorMessage();
+      }
+      eventBus.$emit('social-update-post');
+      setTimeout(() => {
+        eventBus.$emit('social-load-commentaries');
+      }, 500);
+      this.editText = '';
+      this.loading = false;
+      this.editDialog = false;
     }
 
   }

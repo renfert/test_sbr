@@ -34,36 +34,59 @@
           <br>
           <el-row justify="between">
             <el-col :md="6" :xs="10" :sm="8">
-              <el-button @click="publish()" type="primary" round><i class="far fa-paper-plane"></i> {{
+              <el-button @click="publish()" type="primary" round>
+                <i class="el-icon-loading"
+                   style="color: white;" v-if="loading"></i>
+                <i class="far fa-paper-plane" v-else></i> {{
                   lang['publish']
                 }}
               </el-button>
             </el-col>
             <el-col :md="9" :xs="11" :sm="8">
-              <el-button type="warning" round><i class="far fa-images"></i> Adjuntar imagen</el-button>
+              <el-button
+                @click="uploadImage()"
+                type="warning"
+                round><i class="far fa-images" type="file"></i> {{ lang['attach-image'] }}
+              </el-button>
               <input
                 class="upload"
-                @change.prevent="uploadFile($event)"
-                type="file"
-                accept="image/*"
+                ref="inputImage"
+                @change.prevent="uploadToServer($event)"
+                accept='image/*'
+                type='file'
+                hidden
               />
             </el-col>
             <el-col style="margin-top:9px" :md="8" :xs="12" :sm="5" class="link">
-              &nbsp; <a @click="showGroups()">{{ lang['publish-in'] }} <i class="fas fa-angle-right"
-                                                                          style="font-size: 12px"></i> {{
-                mygroup_name
+              &nbsp; <a @click="showSections()">{{ lang['publish-in'] }} <i class="fas fa-angle-right"
+                                                                            style="font-size: 12px"></i> {{
+                section_name
               }}</a>
             </el-col>
           </el-row>
+          <br>
+          <el-row v-if="newFileName.length>0">
+            <center>
+              <img :src="$getUrlToContents() + 'social/'+newFileName+''" width="150px" height="250px">
+            </center>
+          </el-row>
         </el-card>
         <el-dialog
-          title="Select group"
+          :title="lang['select-an-element']"
           :visible.sync="dialogVisible"
           width="30%">
-          <el-row :md="24" justify="center" :gutter="24">
-            <el-button @click="selectGroup(group.id,group.name)" type="warning" round size="small"
+          <b>{{ lang['groups'] }}</b>
+          <el-row :md="24" justify="center">
+            <el-button @click="selectSection(group.id,group.name,'group')" round size="small"
                        v-for="(group,index) in groups"
                        :key="index">{{ group.name == 'default' ? lang['group-default'] : group.name }}
+            </el-button>
+          </el-row>
+          <b>{{ lang['courses'] }}</b>
+          <el-row :md="24" justify="center">
+            <el-button @click="selectSection(course.id,course.title,'course')" round size="small"
+                       v-for="(course,index) in courses"
+                       :key="index">{{ course.title == 'default' ? lang['group-default'] : course.title }}
             </el-button>
           </el-row>
         </el-dialog>
@@ -78,14 +101,11 @@
 <script>
 import Vue from 'vue';
 import VueHead from 'vue-head';
-import { mapState } from 'vuex';
+import {mapState} from 'vuex';
 import PostList from '@/components/sabiorealm-social/PostList';
 import UserStatus from '@/components/sabiorealm-social/UserStatus';
-import { eventProgress } from '@/components/helper/HelperProgress';
 import Progress from '@/components/helper/HelperProgress';
-import AWS from 'aws-sdk/global';
-import S3 from 'aws-sdk/clients/s3';
-import { eventUpload } from '@/components/helper/HelperUpload';
+import UploadFile from '@/mixins/upload';
 
 Vue.use(VueHead);
 
@@ -98,9 +118,15 @@ export default {
       publications: [],
       dialogVisible: false,
       groups: [],
-      mygroup_id: 1,
-      mygroup_name: 'default',
-      subDomainName: ''
+      courses: [],
+      section_id: 1,
+      section_name: 'default',
+      section_type: '',
+      subDomainName: '',
+      uploadFile: new UploadFile(),
+      realFileName: '',
+      newFileName: '',
+      loading: false,
     };
   },
   head: {
@@ -108,41 +134,55 @@ export default {
       inner: 'Courses'
     },
     meta: [
-      { name: 'charset', content: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
-      { name: 'author', content: 'Sabiorealm' }
+      {name: 'charset', content: 'utf-8'},
+      {name: 'viewport', content: 'width=device-width, initial-scale=1.0'},
+      {name: 'author', content: 'Sabiorealm'}
     ]
   },
   computed: {
     ...mapState(['lang', 'user'])
   },
-  components: { UserStatus, PostList, Progress},
+  components: {UserStatus, PostList, Progress},
   created() {
+    this.getSubDomainName();
     this.getPublications();
   },
   mounted() {
     eventBus.$on('social-update-post', () => {
       this.getPublications();
     });
-    this.mygroup_name = this.lang['group-default'];
+    this.section_name = this.lang['group-default'];
   },
   methods: {
     async publish() {
+      this.loading = true;
       const form = new FormData();
       form.append('myuser_id', this.user.id);
-      form.append('group_id', this.mygroup_id);
+      if (this.section_type === 'group') {
+        form.append('group_id', this.section_id);
+        form.append('course_id', 1);
+      } else if (this.section_type === 'course') {
+        form.append('group_id', 1);
+        form.append('course_id', this.section_id);
+      } else {
+        form.append('group_id', 1);
+        form.append('course_id', 1);
+      }
       form.append('description', this.publication);
       const data = await this.$request.post(this.$getUrlToMakeRequest('SocialNetwork', 'savePublication'), form);
       if (data.status === 200 && this.publication.length > 0) {
-        // console.log(data);
         this.$messagePublished();
         // eslint-disable-next-line eqeqeq
       } else if (data.data == false) {
         this.$errorMessage();
       }
       eventBus.$emit('social-update-post');
-      eventBus.$emit('social-load-commentaries');
+      setTimeout(() => {
+        eventBus.$emit('social-load-commentaries');
+      }, 500);
       this.publication = '';
+      this.loading = false;
+      this.newFileName = '';
     },
     getPublications() {
       this.$request.post(this.$getUrlToMakeRequest('SocialNetwork', 'getPublications')).then((response) => {
@@ -160,94 +200,20 @@ export default {
       });
     },
 
-    showGroups() {
+    showSections() {
       this.$request.get(this.$getUrlToMakeRequest('SocialNetwork', 'getAllGroups')).then((response) => {
         this.groups = response.data;
       });
+      this.$request.get(this.$getUrlToMakeRequest('SocialNetwork', 'getAllCourses')).then((response) => {
+        this.courses = response.data;
+      });
       this.dialogVisible = true;
     },
-    selectGroup(group_id, group_name) {
-      this.mygroup_id = group_id;
-      this.mygroup_name = group_name == 'default' ? this.lang['group-default'] : group_name;
+    selectSection(id, name, type) {
+      this.section_type = type;
+      this.section_id = id;
+      this.section_name = name === 'default' ? this.lang['group-default'] : name;
       this.dialogVisible = false;
-    },
-    formatExtension(ext) {
-      if (
-        ext === 'mp4' ||
-        ext === 'avi' ||
-        ext === 'mov' ||
-        ext === 'flv' ||
-        ext === 'wmv' ||
-        ext === 'MP4' ||
-        ext === 'AVI' ||
-        ext === 'MOV' ||
-        ext === 'FLV' ||
-        ext === 'WMV'
-      ) {
-        return 'mp4';
-      } else {
-        return ext;
-      }
-    },
-    generateFileName(length) {
-      const today = new Date();
-      const time = today.getHours() + today.getMinutes() + today.getSeconds();
-
-      let result = '';
-      const characters =
-        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-      const charactersLength = characters.length;
-      for (let i = 0; i < length; i++) {
-        result += characters.charAt(
-          Math.floor(Math.random() * charactersLength)
-        );
-      }
-      return result + time;
-    },
-    uploadFile(event) {
-      const file = event.target.files[0];
-      const fileName = file.name;
-      const fileExt = this.formatExtension(fileName.split('.').pop());
-
-      const newFileName = this.generateFileName(40) + '.' + fileExt;
-      eventProgress.$emit('new-progress');
-
-      AWS.config.update({
-        accessKeyId: 'AKIA5AQZS5JMAWUELDG7',
-        secretAccessKey: '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',
-        region: 'us-east-1'
-      });
-
-      console.log(newFileName);
-      const bucket = new S3({ params: { Bucket: 'sabiorealm' } });
-      const params = {
-        Key:
-          '' +
-          this.subDomainName +
-          '/' +
-          'uploads/flags' +
-          '/' +
-          newFileName +
-          '',
-        ContentType: file.type,
-        Body: file
-      };
-
-      bucket
-        .upload(params)
-        .on('httpUploadProgress', (evt) => {
-          const percentCompleted = Math.round(
-            parseInt((evt.loaded * 100) / evt.total)
-          );
-          eventProgress.$emit('new-percent', percentCompleted);
-        })
-        .send(() => {
-          event.target.value = null;
-          const el = event.target.parentElement.children[0];
-          el.value = newFileName;
-          eventProgress.$emit('finish-progress');
-          eventUpload.$emit('finish-upload');
-        });
     },
     getSubDomainName() {
       const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
@@ -262,6 +228,15 @@ export default {
           this.$errorMessage();
         }
       );
+    },
+    uploadImage() {
+      this.$refs.inputImage.click();
+    },
+    uploadToServer(event) {
+      const file = this.uploadFile.upload(event, this.subDomainName, 'social');
+      this.realFileName = file.fileName;
+      this.newFileName = file.newFileName;
+      console.log(this.newFileName);
     }
   }
 };

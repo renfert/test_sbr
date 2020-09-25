@@ -719,5 +719,10 @@
 
   "publish-in": "Publicar em",
 
-  "group-default": "Todos"
+  "group-default": "Todos",
+
+  "attach-image": "Anexar imagem",
+  "select-group": "Selecione um grupo",
+  "see": "See",
+  "groups": "Grupos"
 }
