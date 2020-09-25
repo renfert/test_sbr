@@ -94,7 +94,7 @@
                             ></el-button>
                           </el-popconfirm>
                         </template>
-                        <!-- Move module -->
+                        <!-- module date -->
                         <el-tooltip
                           class="item"
                           effect="dark"
@@ -102,13 +102,62 @@
                           placement="top-start"
                         >
                           <el-button
-                            class="handle sbr-neutral mr-1"
+                            class="sbr-neutral mr-1"
                             type="purple"
                             size="small"
-                            icon="el-icon-rank"
+                            icon="el-icon-date"
                             circle
                           ></el-button>
                         </el-tooltip>
+                        <!--Lock module-->
+                        <div class="m-l-20 m-t-10 m-r-20">
+                          <el-popover
+                            placement="top-start"
+                            width="600"
+                            trigger="click"
+                          >
+                            <div>
+                              <el-row class="flex" :gutter="120">
+                                <el-col :sm="2" :xs="8">
+                                  <img
+                                    class="sabio"
+                                    src="@/assets/gifs/sabio.gif"
+                                    alt=""
+                                  />
+                                </el-col>
+                                <el-col :sm="20" :xs="16">
+                                  <div class="message-wrapper them">
+                                    <div class="text-wrapper animated fadeIn">
+                                      <h3>
+                                        {{ lang['hello'] }}
+                                        <b class="sbr-text-neutral"
+                                          >{{ user.name }}!</b
+                                        >
+                                      </h3>
+                                      <h4>
+                                        {{ lang['required-module'] }}
+                                      </h4>
+                                    </div>
+                                  </div>
+                                </el-col>
+                              </el-row>
+                            </div>
+                            <div class="padlock-container" slot="reference">
+                              <span
+                                @click.prevent="
+                                  changeLockClass($event.target, element.id)
+                                "
+                                class="lock"
+                                :class="
+                                  element.required_to_next == 'on'
+                                    ? ''
+                                    : 'unlocked'
+                                "
+                              ></span>
+                            </div>
+                          </el-popover>
+                        </div>
+
                         <el-divider direction="vertical"></el-divider>
                         <span class="moduleTitle">{{ element.title }}</span>
                       </template>
@@ -196,20 +245,6 @@
                 placeholder="Pick a day"
               ></el-date-picker>
             </div>
-            <div class="form-group col-xl-6 col-md-6">
-              <!-- Module requirement -->
-              <label style="margin-bottom: 4%" class="col-form-label">{{
-                lang['required-module']
-              }}</label>
-              <br />
-              <div class="input-group">
-                <el-switch
-                  name="required"
-                  v-model="myModule.required"
-                  active-color="#09dfff"
-                ></el-switch>
-              </div>
-            </div>
           </div>
           <div class="form-row">
             <div class="form-group col-xl-6 col-md-6">
@@ -217,7 +252,7 @@
                 v-loading="loading"
                 class="sbr-primary"
                 type="primary"
-                @click.prevent="editModule()"
+                @click.prevent="editModuleName()"
                 size="medium"
                 >{{ lang['save-button'] }}</el-button
               >
@@ -493,13 +528,13 @@ export default {
       this.loading = false;
     },
 
-    editModule() {
+    editModuleName() {
       this.loadingButton = true;
       const form = document.getElementById('form-module');
       const formData = new FormData(form);
       const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'module',
-        'edit'
+        'editName'
       );
       this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
@@ -533,6 +568,25 @@ export default {
       this.modal = true;
     },
 
+    changeLockClass(el, moduleId) {
+      if (el.className === 'lock') {
+        el.classList.toggle('unlocked');
+        this.updateModuleRequirement('unlocked', moduleId);
+      } else {
+        el.className = 'lock';
+        this.updateModuleRequirement('lock', moduleId);
+      }
+    },
+    updateModuleRequirement(status, moduleId) {
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'module',
+        'updateModuleRequirement'
+      );
+      formData.set('status', status);
+      formData.set('id', moduleId);
+      this.$request.post(urlToBeUsedInTheRequest, formData);
+    },
     deleteModule(id) {
       const formData = new FormData();
       const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
@@ -703,6 +757,73 @@ li {
 
 .text-no-results {
   margin-top: 10%;
+}
+
+/* Locked */
+
+.padlock-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
+}
+
+.lock {
+  width: 24px;
+  height: 21px;
+  border: 3px solid #ff5153;
+  border-radius: 5px;
+  position: relative;
+  cursor: pointer;
+  -webkit-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
+}
+.lock:after {
+  content: '';
+  display: block;
+  background: #ff5153;
+  width: 3px;
+  height: 7px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -3.5px 0 0 -2px;
+  -webkit-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
+}
+.lock:before {
+  content: '';
+  display: block;
+  width: 16px;
+  height: 13px;
+  bottom: 100%;
+  position: absolute;
+  left: 50%;
+  margin-left: -8.5px;
+  border: 3px solid #ff5153;
+  border-top-right-radius: 50%;
+  border-top-left-radius: 50%;
+  border-bottom: 0;
+  -webkit-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
+}
+
+/* Unlocked */
+.unlocked {
+  transform: rotate(10deg);
+}
+.unlocked:before {
+  bottom: 130%;
+  left: 31%;
+  margin-left: -13px;
+  transform: rotate(-45deg);
+}
+.unlocked,
+.unlocked:before {
+  border-color: #5fadbf;
+}
+.unlocked:after {
+  background: #5fadbf;
 }
 
 /* =============

@@ -22,6 +22,8 @@
   "plans-nav": "Planes",
   "help-center-nav": "Centro de Ayuda",
 
+  "required-module": "Haga clic en el candado para bloquear o desbloquear este módulo. Al bloquear un módulo, el alumno debe completar todas las actividades relacionadas con él antes de poder pasar al siguiente.",
+
   "dates": "Fechas",
   "sales": "Ventas",
   "select-payment-platform": "Seleccione la plataforma de pago para este curso",
@@ -480,7 +482,6 @@
 
   "no-results-course-title": "No has creado un curso todavía",
   "new-course-button": "Crear curso",
-  "required-module": "Modulo Obligatorio",
   "courses-already-created": "Curso ya creado:",
   "list-course": "Lista de cursos",
 

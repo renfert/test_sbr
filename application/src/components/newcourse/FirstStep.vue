@@ -101,7 +101,7 @@
                 >{{ lang['start-date'] }}
                 <el-popover
                   placement="bottom-start"
-                  width="800"
+                  width="700"
                   trigger="hover"
                 >
                   <div>

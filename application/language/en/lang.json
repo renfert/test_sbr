@@ -501,7 +501,7 @@
 
   "no-results-course-title": "You haven't created any course yet",
   "new-course-button": "Create a new course",
-  "required-module": "Required module",
+  "required-module": "Click on the padlock to lock or unlock this module. When blocking a module the student must complete all activities related to it before he can go to the next one.",
   "courses-already-created": "Courses already created:",
   "list-course": "List of courses",
 

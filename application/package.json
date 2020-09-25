@@ -1,5 +1,5 @@
 {
-  "name": "sabiorealms",
+  "name": "sabiorealm",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -69,5 +69,8 @@
     "sass-loader": "^8.0.2",
     "vue-cli-plugin-webpack-bundle-analyzer": "^2.0.0",
     "vue-template-compiler": "^2.6.10"
+  },
+  "engines": {
+    "node": ">=10.21.0"
   }
 }

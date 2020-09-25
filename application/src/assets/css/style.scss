@@ -372,6 +372,62 @@ p-r-40 {
    Extras
 ============= */
 
+.message-wrapper {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  margin: 10.66667px 0;
+  padding: 15.66667px 0;
+  padding-right: 10%;
+  transition: all 0.2s ease-in-out 0s !important;
+  cursor: pointer;
+}
+
+.message-wrapper:hover {
+  transform: translateY(5px);
+}
+
+.message-wrapper.them .text-wrapper {
+  background: white;
+  float: left;
+}
+
+.message-wrapper .circle-wrapper {
+  height: 42.66667px;
+  width: 42.66667px;
+  border-radius: 50%;
+}
+
+.message-wrapper .text-wrapper {
+  padding: 15.66667px;
+  min-height: 42.66667px;
+  width: 100%;
+  margin: 0 10.66667px;
+  border-radius: 10px;
+  font-weight: 300;
+  position: relative;
+}
+
+.message-wrapper.them .text-wrapper:before {
+  border-width: 0px 20px 30px 0;
+  border-color: transparent white transparent transparent;
+  position: absolute;
+  top: 0;
+  left: -6px;
+}
+
+.message-wrapper .text-wrapper:before {
+  content: '';
+  width: 0;
+  height: 0;
+  border-style: solid;
+}
+
+.sabio {
+  width: 150px;
+  cursor: pointer;
+}
+
 .integration-image {
   width: 150px;
 }
@@ -527,6 +583,7 @@ label {
 /* =============
 Element UI Custom
 ============= */
+
 // Popover
 .el-popover {
   z-index: 20000 !important;
@@ -614,6 +671,11 @@ Element UI Custom
 }
 
 // Switch
+
+.el-switch__label {
+  color: #8a8a8f !important;
+}
+
 .el-switch__label.is-active {
   color: $primary-color !important;
 }
@@ -722,6 +784,12 @@ Element UI Custom
   color: white !important;
   background-color: $secondary-color !important;
   box-shadow: 0 2px 5px rgba(0, 0, 205, 0.5) !important;
+}
+
+.sbr-warning {
+  color: white !important;
+  background-color: #ffc107 !important;
+  box-shadow: 0 2px 5px #b3890c !important;
 }
 
 .sbr-danger {
