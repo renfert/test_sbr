@@ -560,5 +560,7 @@
   "message-published": "Has been published",
   "view-more":  "View more",
   "users-status": "Users status",
-  "enter-text": "Enter text"
+  "enter-text": "Enter text",
+  "publish-in": "Publish in",
+  "group-default": "All"
 }

@@ -75,23 +75,34 @@ class SocialNetwork extends CI_Controller
   {
 
     $data = $this->input->post();
-    echo json_encode( $this->Social_Network_Model->getLikeByPublicationId($data['social_publication_id'], $data['myuser_id']));
+    echo json_encode($this->Social_Network_Model->getLikeByPublicationId($data['social_publication_id'], $data['myuser_id']));
   }
 
-  public function getOnlineUsers(){
+  public function getOnlineUsers()
+  {
 
-   echo json_encode($this->Social_Network_Model->getUsersWithStatusOn());
+    echo json_encode($this->Social_Network_Model->getUsersWithStatusOn());
   }
-  public function getCommentsByPub(){
-    $data=$this->input->post();
+
+  public function getCommentsByPub()
+  {
+    $data = $this->input->post();
 
     echo json_encode($this->Social_Network_Model->getCommentByPublicationId($data['social_publication_id']));
 
   }
 
-  public function deletePost(){
-    $data=$this->input->post();
+  public function deletePost()
+  {
+    $data = $this->input->post();
 
     echo json_encode($this->Social_Network_Model->deletePostByPublicationId($data['social_publication_id']));
+  }
+
+  public function getAllGroups()
+  {
+
+    echo json_encode($this->Social_Network_Model->getAllGroups());
+
   }
 }

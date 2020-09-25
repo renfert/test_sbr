@@ -759,5 +759,8 @@
   "message-published": "Publicado",
   "view-more":  "Ver más",
   "users-status": "Estados de usuarios",
-  "enter-text": "Ingresar texto"
+  "enter-text": "Ingresar texto",
+
+  "publish-in": "Publicar en",
+  "group-default": "Todos"
 }

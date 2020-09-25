@@ -715,5 +715,9 @@
   "third-step-course": "Etapa 3",
   "message-published": "Foi publicado",
   "view-more":  "Ver mais",
-  "enter-text": "Inserir texto"
+  "enter-text": "Inserir texto",
+
+  "publish-in": "Publicar em",
+
+  "group-default": "Todos"
 }

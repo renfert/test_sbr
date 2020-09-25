@@ -13,7 +13,7 @@
           </el-col>
           <el-col :md="17" :sm="14" :xs="14" class="p-t-10">
             <router-link :to="'user/'+user.id">
-              <b><span class="link">{{ user.name }}</span></b><br>
+              <b><span class="link">{{ user.name }}</span>  <i class="fas fa-caret-right" style="font-size: 15px"></i> {{publication.group_name==='default'?lang['group-default']:publication.group_name}}</b><br>
             </router-link>
           </el-col>
           <el-col :md="2" :sm="3" :xs="3">
@@ -26,7 +26,7 @@
               confirmButtonText="Ok"
               cancelButtonText="No, Thanks"
               placement="right"
-              title="Are u sure to delete this?"
+              :title="lang['delete']+' ?'"
               @onConfirm="deletePost(publication.id)"
             >
               <el-button

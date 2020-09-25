@@ -19,10 +19,11 @@ class Social_Network_Model extends CI_Model
   public function getPublications()
   {
 
-    $this->db->select("SP.id,SP.myuser_id,U.name username,SP.group_id,SP.pub_url,SP.prev_description,SP.description,
-    SP.media_path,SP.media_realname,SP.media_type,SP.created,SP.modified");
+    $this->db->select("SP.id,SP.myuser_id,U.name username,SP.group_id,SP.pub_url,SP.description,
+    SP.media_path,SP.media_realname,SP.media_type,G.name group_name,SP.created,SP.modified");
     $this->db->from("social_publications SP");
     $this->db->join("myuser U", "U.id=SP.myuser_id");
+    $this->db->join("mygroup G", "G.id=SP.group_id");
     $this->db->order_by("created", "DESC");
     $query = $this->db->get();
 
@@ -127,5 +128,12 @@ class Social_Network_Model extends CI_Model
     $this->db->where("id", $publication_id);
     $this->db->delete("social_publications");
     return true;
+  }
+
+  public function getAllGroups()
+  {
+    $this->db->select("*");
+    $this->db->from("mygroup");
+    return $this->db->get()->result() ?: false;
   }
 }
