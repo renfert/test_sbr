@@ -104,7 +104,7 @@
                               element.title
                             )
                           "
-                          class="sbr-neutral mr-1"
+                          class="sbr-warning mr-1"
                           type="purple"
                           size="small"
                           icon="el-icon-date"
@@ -112,20 +112,21 @@
                         ></el-button>
 
                         <!--Lock module-->
-                        <div class="m-l-20 m-t-10 m-r-20">
-                          <div class="padlock-container" slot="reference">
-                            <span
-                              @click.prevent="
-                                changeLockClass($event.target, element.id)
-                              "
-                              class="lock"
-                              :class="
-                                element.required_to_next == 'on'
-                                  ? ''
-                                  : 'unlocked'
-                              "
-                            ></span>
-                          </div>
+                        <div>
+                          <el-button
+                            @click.prevent="
+                              changeLockClass($event.target, element.id)
+                            "
+                            class="sbr-secondary mr-1"
+                            type="purple"
+                            size="small"
+                            :icon="
+                              element.required_to_next == 'on'
+                                ? 'el-icon-lock'
+                                : 'el-icon-unlock'
+                            "
+                            circle
+                          ></el-button>
                         </div>
 
                         <el-divider direction="vertical"></el-divider>
@@ -589,11 +590,12 @@ export default {
     },
 
     changeLockClass(el, moduleId) {
-      if (el.className === 'lock') {
-        el.classList.toggle('unlocked');
+      console.log(el);
+      if (el.className === 'el-icon-lock') {
+        el.className = 'el-icon-unlock';
         this.updateModuleRequirement('unlocked', moduleId);
       } else {
-        el.className = 'lock';
+        el.className = 'el-icon-lock';
         this.updateModuleRequirement('lock', moduleId);
       }
     },

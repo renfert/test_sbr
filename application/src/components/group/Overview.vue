@@ -6,36 +6,47 @@
           <div style="display: flex; justify-content: center">
             <div class="ins_info_thumb">
               <img
-                src="http://www.nretnil.com/avatar/LawrenceEzekielAmos.png"
+                src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
                 class="img-fluid"
               />
             </div>
           </div>
           <div class="m-b-30">
             <h4>Robert</h4>
-            <span>robert@gmail.com</span>
+            <span>robert@sabiorealm.com</span>
           </div>
           <el-collapse v-model="activeNames" @change="handleChange">
             <el-collapse-item title="Cursos" name="1">
-              <div>
-                Consistent with real life: in line with the process and logic of
-                real life, and comply with languages and habits that the users
-                are used to;
-              </div>
-              <div>
-                Consistent within interface: all elements should be consistent,
-                such as: design style, icons and texts, position of elements,
-                etc.
+              <div style="text-align: left">
+                <span>Excel - 100% </span>
+                <br />
+                <span>Liderazgo - 75% </span>
               </div>
             </el-collapse-item>
-            <el-collapse-item title="Programas" name="2">
-              <div>
-                Operation feedback: enable the users to clearly perceive their
-                operations by style updates and interactive effects;
-              </div>
-              <div>
-                Visual feedback: reflect current state by updating or
-                rearranging elements of the page.
+          </el-collapse>
+        </div>
+      </el-col>
+
+      <el-col :sm="8">
+        <div class="card-box center">
+          <div style="display: flex; justify-content: center">
+            <div class="ins_info_thumb">
+              <img
+                src="https://s3.amazonaws.com/wordpress-cdn.eadbox.com/2019/03/18151926/depoimento_gentil.png"
+                class="img-fluid"
+              />
+            </div>
+          </div>
+          <div class="m-b-30">
+            <h4>Claudia</h4>
+            <span>claudia@sabiorealm.com</span>
+          </div>
+          <el-collapse v-model="activeNames" @change="handleChange">
+            <el-collapse-item title="Cursos" name="1">
+              <div style="text-align: left">
+                <span>Excel - 30% </span>
+                <br />
+                <span>Liderazgo - 15% </span>
               </div>
             </el-collapse-item>
           </el-collapse>
@@ -53,71 +64,15 @@
             </div>
           </div>
           <div class="m-b-30">
-            <h4>Robert</h4>
-            <span>robert@gmail.com</span>
+            <h4>Thiago</h4>
+            <span>thiago@sabiorealm.com</span>
           </div>
           <el-collapse v-model="activeNames" @change="handleChange">
             <el-collapse-item title="Cursos" name="1">
-              <div>
-                Consistent with real life: in line with the process and logic of
-                real life, and comply with languages and habits that the users
-                are used to;
-              </div>
-              <div>
-                Consistent within interface: all elements should be consistent,
-                such as: design style, icons and texts, position of elements,
-                etc.
-              </div>
-            </el-collapse-item>
-            <el-collapse-item title="Programas" name="2">
-              <div>
-                Operation feedback: enable the users to clearly perceive their
-                operations by style updates and interactive effects;
-              </div>
-              <div>
-                Visual feedback: reflect current state by updating or
-                rearranging elements of the page.
-              </div>
-            </el-collapse-item>
-          </el-collapse>
-        </div>
-      </el-col>
-
-      <el-col :sm="8">
-        <div class="card-box center">
-          <div style="display: flex; justify-content: center">
-            <div class="ins_info_thumb">
-              <img
-                src="http://www.nretnil.com/avatar/LawrenceEzekielAmos.png"
-                class="img-fluid"
-              />
-            </div>
-          </div>
-          <div class="m-b-30">
-            <h4>Robert</h4>
-            <span>robert@gmail.com</span>
-          </div>
-          <el-collapse v-model="activeNames" @change="handleChange">
-            <el-collapse-item title="Cursos" name="1">
-              <div>
-                Consistent with real life: in line with the process and logic of
-                real life, and comply with languages and habits that the users
-                are used to;
-              </div>
-              <div>
-                Consistent within interface: all elements should be consistent,
-                such as: design style, icons and texts, position of elements,
-                etc.
-              </div>
-            </el-collapse-item>
-            <el-collapse-item title="Programas" name="2">
-              <div>
-                Operation feedback: enable the users to clearly perceive their
-                operations by style updates and interactive effects;
-              </div>
-              <div>
-                Visual feedback: reflect current state by updating or
-                rearranging elements of the page.
+              <div style="text-align: left">
+                <span>Excel - 100% </span>
+                <br />
+                <span>Liderazgo - 100% </span>
               </div>
             </el-collapse-item>
           </el-collapse>

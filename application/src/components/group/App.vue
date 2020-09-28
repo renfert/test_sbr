@@ -11,7 +11,7 @@
         <overview :group-id="group.id"></overview>
       </el-tab-pane>
 
-      <el-tab-pane>
+      <el-tab-pane v-if="user.role == 1">
         <span slot="label">
           <i class="mdi mdi-book-outline"></i>
           {{ lang['courses'] }}
@@ -19,7 +19,7 @@
         <courses :group-id="group.id"></courses>
       </el-tab-pane>
 
-      <el-tab-pane>
+      <el-tab-pane v-if="user.role == 1">
         <span slot="label">
           <i class="mdi mdi-account-multiple-outline"></i>
           {{ lang['students'] }}
@@ -27,7 +27,7 @@
         <students :group-id="group.id"></students>
       </el-tab-pane>
 
-      <el-tab-pane>
+      <el-tab-pane v-if="user.role == 1">
         <span slot="label">
           <i class="mdi mdi-account-star-outline"></i>
           {{ lang['instructors'] }}
@@ -35,7 +35,7 @@
         <instructors :group-id="group.id"></instructors>
       </el-tab-pane>
 
-      <el-tab-pane>
+      <el-tab-pane v-if="user.role == 1">
         <span slot="label">
           <i class="mdi mdi-account-star-outline"></i>
           {{ lang['programs'] }}
@@ -71,11 +71,11 @@ export default {
   },
   created() {
     this.group.id = this.$route.params.id;
-    this.$verifyAdministratorPrivileges();
+    this.$blockStudentAccess();
     this.getGroup();
   },
   computed: {
-    ...mapState(['lang'])
+    ...mapState(['lang', 'user'])
   },
   methods: {
     getGroup() {

@@ -37,6 +37,7 @@
             <template slot-scope="scope">
               <!-- Edit group -->
               <el-tooltip
+                v-if="user.role == 1"
                 class="item"
                 effect="dark"
                 :content="lang['edit-group']"
@@ -64,6 +65,7 @@
 
               <!-- Delete group -->
               <el-tooltip
+                v-if="user.role == 1"
                 class="item"
                 effect="dark"
                 :content="lang['delete-group']"
@@ -175,7 +177,7 @@ export default {
     });
   },
   computed: {
-    ...mapState(['lang'])
+    ...mapState(['lang', 'user'])
   },
   methods: {
     openModalToEditGroup(id, name) {

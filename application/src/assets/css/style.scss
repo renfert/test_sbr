@@ -9,7 +9,7 @@ $secondary-color: #29277f;
 $danger-color: #dc143c;
 $purple-color: #6a5acd;
 $neutral-color: #f8f8ff;
-
+$warning-color: #ffba00;
 /* =============
   == Core List==
 
@@ -24,7 +24,6 @@ $neutral-color: #f8f8ff;
 /* =============
    Common
 ============= */
-
 html {
   position: relative;
   min-height: 100%;
@@ -853,6 +852,11 @@ Element UI Custom
   color: white !important;
   background-color: $primary-color !important;
   box-shadow: 0 10px 20px -10px rgba(0, 225, 240, 0.5);
+}
+
+.sbr-warning {
+  color: white !important;
+  background-color: $warning-color !important;
 }
 
 .sbr-secondary {
