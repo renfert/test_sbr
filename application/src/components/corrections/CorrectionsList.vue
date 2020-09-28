@@ -85,7 +85,7 @@
       <div class="col-12 text-center">
         <img
           class="no-results-img"
-          src="@/assets/img/general/ux/no_exams.png"
+          src="@/assets/img/general/ux/data_not_found.svg"
           alt="No persons"
         />
         <h4 class="no-results-text">

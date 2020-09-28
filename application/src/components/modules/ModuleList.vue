@@ -95,67 +95,37 @@
                           </el-popconfirm>
                         </template>
                         <!-- module date -->
-                        <el-tooltip
-                          class="item"
-                          effect="dark"
-                          :content="lang['reposition-module']"
-                          placement="top-start"
-                        >
-                          <el-button
-                            class="sbr-neutral mr-1"
-                            type="purple"
-                            size="small"
-                            icon="el-icon-date"
-                            circle
-                          ></el-button>
-                        </el-tooltip>
+
+                        <el-button
+                          @click.prevent="
+                            openModalEditModuleDate(
+                              element.id,
+                              element.release_date,
+                              element.title
+                            )
+                          "
+                          class="sbr-neutral mr-1"
+                          type="purple"
+                          size="small"
+                          icon="el-icon-date"
+                          circle
+                        ></el-button>
+
                         <!--Lock module-->
                         <div class="m-l-20 m-t-10 m-r-20">
-                          <el-popover
-                            placement="top-start"
-                            width="600"
-                            trigger="click"
-                          >
-                            <div>
-                              <el-row class="flex" :gutter="120">
-                                <el-col :sm="2" :xs="8">
-                                  <img
-                                    class="sabio"
-                                    src="@/assets/gifs/sabio.gif"
-                                    alt=""
-                                  />
-                                </el-col>
-                                <el-col :sm="20" :xs="16">
-                                  <div class="message-wrapper them">
-                                    <div class="text-wrapper animated fadeIn">
-                                      <h3>
-                                        {{ lang['hello'] }}
-                                        <b class="sbr-text-neutral"
-                                          >{{ user.name }}!</b
-                                        >
-                                      </h3>
-                                      <h4>
-                                        {{ lang['required-module'] }}
-                                      </h4>
-                                    </div>
-                                  </div>
-                                </el-col>
-                              </el-row>
-                            </div>
-                            <div class="padlock-container" slot="reference">
-                              <span
-                                @click.prevent="
-                                  changeLockClass($event.target, element.id)
-                                "
-                                class="lock"
-                                :class="
-                                  element.required_to_next == 'on'
-                                    ? ''
-                                    : 'unlocked'
-                                "
-                              ></span>
-                            </div>
-                          </el-popover>
+                          <div class="padlock-container" slot="reference">
+                            <span
+                              @click.prevent="
+                                changeLockClass($event.target, element.id)
+                              "
+                              class="lock"
+                              :class="
+                                element.required_to_next == 'on'
+                                  ? ''
+                                  : 'unlocked'
+                              "
+                            ></span>
+                          </div>
                         </div>
 
                         <el-divider direction="vertical"></el-divider>
@@ -213,11 +183,11 @@
     </div>
 
     <!-------------------
-    Modal edit module
+    Modal edit module name
     --------------------->
     <div>
       <el-dialog :visible.sync="modal" :title="myModule.title" center top="5vh">
-        <form id="form-module" @submit.prevent="editModule()">
+        <form id="form-module-name">
           <div class="form-row">
             <!-- Module id -->
             <input type="number" class="hide" name="id" v-model="myModule.id" />
@@ -233,21 +203,6 @@
           </div>
           <div class="form-row">
             <div class="form-group col-xl-6 col-md-6">
-              <!-- Module release date -->
-              <label class="col-form-label">{{ lang['start-date'] }}</label>
-              <br />
-              <el-date-picker
-                v-model="myModule.releaseDate"
-                name="date"
-                type="date"
-                format="yyyy/MM/dd"
-                value-format="yyyy-MM-dd"
-                placeholder="Pick a day"
-              ></el-date-picker>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group col-xl-6 col-md-6">
               <el-button
                 v-loading="loading"
                 class="sbr-primary"
@@ -257,6 +212,50 @@
                 >{{ lang['save-button'] }}</el-button
               >
             </div>
+          </div>
+        </form>
+      </el-dialog>
+
+      <!-------------------
+      Modal edit module date
+      --------------------->
+      <el-dialog
+        :visible.sync="modalDate"
+        :title="myModule.title"
+        center
+        top="5vh"
+      >
+        <form id="form-module-date">
+          <!-- Module id -->
+          <input type="number" class="hide" name="id" v-model="myModule.id" />
+          <div class="form-group">
+            <h4 class="alert-sbr">
+              <i class="el-icon-info sbr-text-primary"></i>
+              {{ lang['module-information'] }}
+            </h4>
+            <hr />
+
+            <!-- Module release date -->
+            <label class="col-form-label">{{ lang['start-date'] }}</label>
+            <br />
+            <el-date-picker
+              v-model="myModule.releaseDate"
+              name="date"
+              type="date"
+              format="yyyy/MM/dd"
+              value-format="yyyy-MM-dd"
+              placeholder="Pick a day"
+            ></el-date-picker>
+          </div>
+          <div class="form-group">
+            <el-button
+              @click.prevent="editModuleReleaseDate()"
+              v-loading="loading"
+              class="sbr-primary"
+              type="primary"
+              size="medium"
+              >{{ lang['save-button'] }}</el-button
+            >
           </div>
         </form>
       </el-dialog>
@@ -487,6 +486,7 @@ export default {
       },
       modules: [],
       modal: false,
+      modalDate: false,
       modalChooseLessons: false,
       content: false,
       loading: false
@@ -508,7 +508,6 @@ export default {
     upgradePlan() {
       eventPlan.$emit('upgrade-plan', 'feature');
     },
-
     openModuleModal() {
       eventBus.$emit('open-module-modal');
     },
@@ -530,7 +529,7 @@ export default {
 
     editModuleName() {
       this.loadingButton = true;
-      const form = document.getElementById('form-module');
+      const form = document.getElementById('form-module-name');
       const formData = new FormData(form);
       const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'module',
@@ -548,24 +547,45 @@ export default {
         }
       );
     },
+    editModuleReleaseDate() {
+      this.loadingButton = true;
+      const form = document.getElementById('form-module-date');
+      const formData = new FormData(form);
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'module',
+        'editReleaseDate'
+      );
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        () => {
+          this.$successMessage();
+          this.getModules(this.courseId);
+          this.modalDate = false;
+          this.loading = false;
+        },
+        () => {
+          this.$errorMessage();
+        }
+      );
+    },
 
     openEditModuleModal(id, title, required, date) {
       this.myModule.id = id;
       this.myModule.title = title;
-
-      if (required === 'on') {
-        this.myModule.required = true;
-      } else {
-        this.myModule.required = false;
-      }
-
-      if (date == null || date === '' || date === '0000-00-00') {
+      this.modal = true;
+    },
+    openModalEditModuleDate(id, releaseDate, title) {
+      this.myModule.id = id;
+      this.myModule.title = title;
+      if (
+        releaseDate == null ||
+        releaseDate === '' ||
+        releaseDate === '0000-00-00'
+      ) {
         this.myModule.releaseDate = '';
       } else {
-        this.myModule.releaseDate = date;
+        this.myModule.releaseDate = releaseDate;
       }
-
-      this.modal = true;
+      this.modalDate = true;
     },
 
     changeLockClass(el, moduleId) {
@@ -769,7 +789,7 @@ li {
 }
 
 .lock {
-  width: 24px;
+  width: 27px;
   height: 21px;
   border: 3px solid #ff5153;
   border-radius: 5px;

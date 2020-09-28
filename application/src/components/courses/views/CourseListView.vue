@@ -15,7 +15,6 @@
         --------------->
         <el-card :body-style="{ padding: '0px' }" shadow="hover">
           <img
-            class="card-image"
             v-if="element.expirationDays < 0 || element.releaseDays > 0"
             v-lazy="$getUrlToContents() + 'course/' + element.photo + ''"
           />
@@ -83,31 +82,42 @@
               <i class="el-icon-more-outline"></i>
             </el-divider>
             <el-row v-if="user.role != 3">
-              <router-link :to="'/editcourse/' + element.id">
-                <el-button
-                  size="small"
-                  class="sbr-primary mr-2"
-                  type="primary"
-                  icon="el-icon-edit"
-                  circle
-                ></el-button>
-              </router-link>
+              <el-tooltip
+                v-if="element.editPrivilege == 'on' || user.role == 1"
+                class="item"
+                effect="dark"
+                :content="lang['edit-course']"
+                placement="top"
+              >
+                <router-link :to="'/editcourse/' + element.id">
+                  <i
+                    class="el-icon-edit-outline table-icon table-icon-primary m-r-20"
+                  ></i>
+                </router-link>
+              </el-tooltip>
               <template>
-                <el-popconfirm
-                  confirmButtonText="Ok"
-                  cancelButtonText="No, Thanks"
-                  placement="right"
-                  :title="lang['question-delete-course'] + element.title + '?'"
-                  @onConfirm="deleteCourse(element.id)"
+                <el-tooltip
+                  v-if="element.deletePrivilege == 'on' || user.role == 1"
+                  class="item"
+                  effect="dark"
+                  :content="lang['delete-course']"
+                  placement="top"
                 >
-                  <el-button
-                    size="small"
-                    slot="reference"
-                    class="sbr-danger"
-                    icon="el-icon-delete"
-                    circle
-                  ></el-button>
-                </el-popconfirm>
+                  <el-popconfirm
+                    confirmButtonText="Ok"
+                    cancelButtonText="No, Thanks"
+                    placement="right"
+                    :title="
+                      lang['question-delete-course'] + element.title + '?'
+                    "
+                    @onConfirm="deleteCourse(element.id)"
+                  >
+                    <i
+                      slot="reference"
+                      class="el-icon-delete table-icon table-icon-danger"
+                    ></i>
+                  </el-popconfirm>
+                </el-tooltip>
               </template>
             </el-row>
           </div>

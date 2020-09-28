@@ -416,7 +416,9 @@ import { Money } from 'v-money';
 import { eventBus } from '@/components/newcourse/App';
 import { mapState } from 'vuex';
 
-Vue.use(wysiwyg, {});
+Vue.use(wysiwyg, {
+  hideModules: { image: true, code: true }
+});
 
 export default {
   components: {

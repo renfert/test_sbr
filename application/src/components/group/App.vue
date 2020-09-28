@@ -5,6 +5,14 @@
     <el-tabs type="border-card">
       <el-tab-pane>
         <span slot="label">
+          <i class="el-icon-s-data"></i>
+          {{ lang['overview'] }}
+        </span>
+        <overview :group-id="group.id"></overview>
+      </el-tab-pane>
+
+      <el-tab-pane>
+        <span slot="label">
           <i class="mdi mdi-book-outline"></i>
           {{ lang['courses'] }}
         </span>
@@ -44,6 +52,7 @@ import Courses from '@/components/group/Courses';
 import Students from '@/components/group/Students';
 import Instructors from '@/components/group/Instructors';
 import Programs from '@/components/group/Programs';
+import Overview from '@/components/group/Overview';
 import VueHead from 'vue-head';
 import { mapState } from 'vuex';
 
@@ -92,7 +101,8 @@ export default {
     Courses,
     Students,
     Instructors,
-    Programs
+    Programs,
+    Overview
   }
 };
 </script>

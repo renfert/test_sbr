@@ -60,8 +60,8 @@
             Basic information text
     -------------------------->
     <el-row clas="center" v-if="active1">
-      <el-col :span="24" class="center m-b-40 m-t-40">
-        <h3 class="sbr-text-grey">
+      <el-col :span="24" class="center m-b-10 m-t-10">
+        <h3>
           <i class="el-icon-warning-outline"></i>
           {{ lang['basic-information'] }}
         </h3>
@@ -73,7 +73,7 @@
     -------------------------->
     <div clas="row text-center" v-if="active2">
       <div class="col-12 text-center">
-        <h3 class="sbr-text-grey">{{ lang['content'] }}</h3>
+        <h3>{{ lang['content'] }}</h3>
       </div>
     </div>
 
@@ -81,9 +81,7 @@
             Publish text
     -------------------------->
     <div clas="row text-center" v-if="active3">
-      <div class="col-12 text-center">
-        <h3 class="sbr-text-grey">{{ lang['publish'] }}</h3>
-      </div>
+      <div class="col-12 text-center"></div>
     </div>
   </div>
 </template>

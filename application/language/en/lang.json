@@ -515,6 +515,27 @@
   "testimonial": "Testimonial",
   "persons": "Persons",
 
+  "upload-a-file": "Upload a file",
+
+  "module-information": "You can set a launch date for this module. Students will not be able to access the content related to this module before the established date.",
+
+  "manage-user": "Manage user",
+  "delete-user": "Delete user",
+
+  "edit-category": "Edit category",
+  "delete-category": "Delete caregory",
+
+  "edit-group": "Edit group",
+  "delete-group": "Delete group",
+  "manage-group": "Manage group",
+
+  "edit-course": "Edit course",
+  "delete-course": "Delete course",
+
+  "change-visualization": "Change visualization",
+
+  "no-students-found": "You don't have students",
+
   "create-group": "Create a new group",
   "list-group": "List of groups",
   "group-already-exists": "This group already exists",

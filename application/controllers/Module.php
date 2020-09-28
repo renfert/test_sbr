@@ -42,6 +42,8 @@ class Module extends CI_Controller
   public function editReleaseDate()
   {
     $this->input->post("date") == '' ? $releaseDate = null : $releaseDate =  $this->input->post("date");
+    $result = $this->Module_Model->editReleaseDate($this->input->post("id"), $releaseDate);
+    echo json_encode($result);
   }
 
 
@@ -52,9 +54,11 @@ class Module extends CI_Controller
       'id' => $this->input->post("id"),
       'title' => $this->input->post("title"),
     );
-    $resultModuleEdit = $this->Module_Model->editName($dataReceiveFromPost);
-    echo json_encode($resultModuleEdit);
+    $result = $this->Module_Model->editName($dataReceiveFromPost);
+    echo json_encode($result);
   }
+
+
 
 
   public function listing()

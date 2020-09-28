@@ -1,85 +1,76 @@
 <template>
-  <div :class="displayContentFirstStep == false ? 'hide' : ''">
-    <form class="card-box" id="form-first-step">
-      <div class="form-wizard-content show" data-tab-content="info">
-        <div class="card-course">
-          <el-row :gutter="24" class="m-b-40">
-            <el-col :sm="12" :xs="24">
-              <!-- Course id -->
-              <input class="hide" type="text" v-model="course.id" name="id" />
-              <!-- Course name -->
-              <label>{{ lang['name'] }} *</label>
-              <el-input
-                class="m-b-20"
-                name="title"
-                v-model="course.name"
-              ></el-input>
-              <!-- Course category -->
-              <label class="col-form-label">{{ lang['category'] }}</label>
-              <el-select class="m-b-30" v-model="course.category">
-                <el-option
-                  :value="1"
-                  :label="lang['default-category']"
-                ></el-option>
-                <el-option
-                  v-for="item in categories"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id"
-                ></el-option>
-              </el-select>
+  <div :class="displayContentFirstStep == false ? 'hide' : 'main'">
+    <form id="form-first-step">
+      <div class="form-wizard-content show card-box" data-tab-content="info">
+        <el-row :gutter="24" class="m-b-40">
+          <el-col :sm="12" :xs="24">
+            <!-- Course id -->
+            <input class="hide" type="text" v-model="course.id" name="id" />
+            <!-- Course name -->
+            <label class="col-form-label">{{ lang['name'] }} *</label>
+            <el-input name="title" v-model="course.name"></el-input>
+            <!-- Course category -->
+            <label class="col-form-label">{{ lang['category'] }}</label>
+            <el-select class="mb-5" v-model="course.category">
+              <el-option
+                :value="1"
+                :label="lang['default-category']"
+              ></el-option>
+              <el-option
+                v-for="item in categories"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
+              ></el-option>
+            </el-select>
 
-              <!-- Advanced configurations button -->
-              <el-button
-                class="sbr-purple"
-                size="small"
-                @click.prevent="modal = true"
-                >{{ lang['advanced-settings'] }}
-                <i class="el-icon-setting"></i>
-              </el-button>
-            </el-col>
+            <!-- Advanced configurations button -->
+            <el-button
+              class="sbr-purple"
+              size="small"
+              @click.prevent="modal = true"
+              >{{ lang['advanced-settings'] }}</el-button
+            >
+          </el-col>
 
-            <!-- Course description -->
-            <el-col :sm="12" :xs="24">
-              <label class="col-form-label"
-                >{{ lang['image'] }} (1900x1200 px)</label
-              >
-              <upload
-                do-upload="true"
-                box-height="200"
-                return-name="photo"
-                input-name="file"
-                bucket-key="uploads/course"
-                acceptable=".png,.jpg,.jpeg"
-              ></upload>
-            </el-col>
-          </el-row>
+          <el-col :sm="12" :xs="24">
+            <label class="col-form-label"
+              >{{ lang['image'] }} (1900x1200 px)</label
+            >
+            <upload
+              do-upload="true"
+              box-height="200"
+              return-name="photo"
+              input-name="file"
+              bucket-key="uploads/course"
+              acceptable=".png,.jpg,.jpeg"
+            ></upload>
+          </el-col>
+        </el-row>
 
-          <el-row :gutter="40">
-            <!-- Course image -->
-            <el-col :sm="12" :xs="24">
-              <textarea
-                class="hide"
-                v-model="course.description"
-                name="description"
-              ></textarea>
-              <label class="col-form-label">{{ lang['description'] }}</label>
-              <wysiwyg v-model="course.description" />
-            </el-col>
-            <!-- Course video preview -->
-            <el-col :sm="12" :xs="24">
-              <label class="col-form-label">{{ lang['video-preview'] }}</label>
-              <upload
-                do-upload="true"
-                box-height="200"
-                return-name="preview"
-                input-name="filePreview"
-                bucket-key="uploads/preview"
-                acceptable=".mp4,.mov"
-              ></upload>
-            </el-col>
-          </el-row>
-        </div>
+        <el-row :gutter="40">
+          <el-col :sm="12" :xs="24">
+            <textarea
+              class="hide"
+              v-model="course.description"
+              name="description"
+            ></textarea>
+            <label class="col-form-label">{{ lang['description'] }}</label>
+            <wysiwyg v-model="course.description" />
+          </el-col>
+
+          <el-col :sm="12" :xs="24">
+            <label class="col-form-label">{{ lang['video-preview'] }}</label>
+            <upload
+              do-upload="true"
+              box-height="200"
+              return-name="preview"
+              input-name="filePreview"
+              bucket-key="uploads/preview"
+              acceptable=".mp4,.mov"
+            ></upload>
+          </el-col>
+        </el-row>
       </div>
 
       <!-- Modal advanced settings -->
@@ -97,53 +88,7 @@
           <el-tab-pane :label="lang['dates']" name="dates" class="mt-4">
             <!-- Course release date -->
             <div class="form-group">
-              <label class="col-form-label"
-                >{{ lang['start-date'] }}
-                <el-popover
-                  placement="bottom-start"
-                  width="700"
-                  trigger="hover"
-                >
-                  <div>
-                    <el-row class="flex" :gutter="120">
-                      <el-col :sm="2" :xs="8">
-                        <img
-                          class="sabio"
-                          src="@/assets/gifs/sabio.gif"
-                          alt=""
-                        />
-                      </el-col>
-                      <el-col :sm="20" :xs="16">
-                        <div class="message-wrapper them">
-                          <div class="text-wrapper animated fadeIn">
-                            <h4>
-                              A data de inicio marca a data em que voce pretende
-                              lancar seu curso. Antes de colocar uma data de
-                              inicio tenha em mente que:
-                            </h4>
-                            <h4>
-                              <i class="el-icon-info sbr-text-primary">
-                                Os alunos nao poderam acessar o curso antes da
-                                data de inicio</i
-                              >
-                            </h4>
-                            <h4>
-                              <i class="el-icon-info sbr-text-primary">
-                                Este curso ficara vizivel no catalogo de
-                                cursos</i
-                              >
-                            </h4>
-                          </div>
-                        </div>
-                      </el-col>
-                    </el-row>
-                  </div>
-                  <i
-                    slot="reference"
-                    class="el-icon-question sbr-text-primary"
-                  ></i>
-                </el-popover>
-              </label>
+              <label class="col-form-label">{{ lang['start-date'] }}</label>
               <div class="input-group">
                 <el-date-picker
                   v-model="course.releaseDate"
@@ -443,7 +388,7 @@ import { eventBus } from '@/components/newcourse/App';
 import { mapState } from 'vuex';
 
 Vue.use(wysiwyg, {
-  hideModules: { image: true }
+  hideModules: { image: true, code: true }
 });
 
 export default {
@@ -503,6 +448,8 @@ export default {
   created() {
     this.getCategories();
     this.getGlobalCurrency();
+  },
+  mounted() {
     eventBus.$on('access-first-step', () => {
       this.displayContentFirstStep = true;
     });
@@ -514,11 +461,6 @@ export default {
     eventBus.$on('access-third-step', () => {
       this.course.mode === 'create' ? this.createCourse() : this.editCourse();
     });
-  },
-  beforeDestroy() {
-    eventBus.$off('access-first-step', this.listener);
-    eventBus.$off('access-second-step', this.listener);
-    eventBus.$off('access-third-step', this.listener);
   },
   methods: {
     createCourse() {
@@ -602,13 +544,6 @@ export default {
 </script>
 
 <style scoped>
-input[type='radio'] {
-  display: none;
-}
-input[type='radio']:checked + label {
-  border: 5px solid #009cd8;
-}
-
 .v-money.price {
   -webkit-appearance: none;
   background-color: #fff;
@@ -627,91 +562,5 @@ input[type='radio']:checked + label {
   -webkit-transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
   transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
   width: 100%;
-}
-
-.dots span {
-  width: 10px;
-  height: 10px;
-  margin: 0 5px;
-  background-color: #9b9b90;
-  border-radius: 50%;
-  display: inline-block;
-  animation-name: dots;
-  animation-duration: 2s;
-  animation-iteration-count: infinite;
-  animation-timing-function: ease-in-out;
-}
-
-.dots span:nth-child(2) {
-  background-color: #3f4240;
-  animation-delay: 0.4s;
-}
-
-.dots span:nth-child(3) {
-  background-color: #9b9b90;
-  animation-delay: 0.8s;
-}
-
-@keyframes dots {
-  50% {
-    opacity: 0;
-    transform: scale(0.7) translate(10px);
-  }
-}
-
-.message-wrapper {
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  margin: 10.66667px 0;
-  padding: 15.66667px 0;
-  padding-right: 10%;
-  transition: all 0.2s ease-in-out 0s !important;
-  cursor: pointer;
-}
-
-.message-wrapper:hover {
-  transform: translateY(5px);
-}
-
-.message-wrapper.them .text-wrapper {
-  background: white;
-  float: left;
-}
-
-.message-wrapper .circle-wrapper {
-  height: 42.66667px;
-  width: 42.66667px;
-  border-radius: 50%;
-}
-
-.message-wrapper .text-wrapper {
-  padding: 15.66667px;
-  min-height: 42.66667px;
-  width: 100%;
-  margin: 0 10.66667px;
-  border-radius: 10px;
-  font-weight: 300;
-  position: relative;
-}
-
-.message-wrapper.them .text-wrapper:before {
-  border-width: 0px 20px 30px 0;
-  border-color: transparent white transparent transparent;
-  position: absolute;
-  top: 0;
-  left: -6px;
-}
-
-.message-wrapper .text-wrapper:before {
-  content: '';
-  width: 0;
-  height: 0;
-  border-style: solid;
-}
-
-.sabio {
-  width: 150px;
-  cursor: pointer;
 }
 </style>

@@ -36,40 +36,52 @@
           <el-table-column label="Actions" align="center">
             <template slot-scope="scope">
               <!-- Edit group -->
-              <el-button
-                class="sbr-primary mr-1"
-                @click="openModalToEditGroup(scope.row.id, scope.row.name)"
-                size="small"
-                icon="el-icon-edit"
-                circle
-              ></el-button>
+              <el-tooltip
+                class="item"
+                effect="dark"
+                :content="lang['edit-group']"
+                placement="top"
+              >
+                <i
+                  @click="openModalToEditGroup(scope.row.id, scope.row.name)"
+                  class="el-icon-edit-outline table-icon table-icon-primary m-r-20"
+                ></i>
+              </el-tooltip>
+
+              <!-- Manage group -->
+              <el-tooltip
+                class="item"
+                effect="dark"
+                :content="lang['manage-group']"
+                placement="top"
+              >
+                <router-link :to="'/group/' + scope.row.id">
+                  <i
+                    class="el-icon-set-up table-icon table-icon-purple m-r-20"
+                  ></i>
+                </router-link>
+              </el-tooltip>
 
               <!-- Delete group -->
-              <el-popconfirm
-                confirmButtonText="Ok"
-                cancelButtonText="No, Thanks"
-                placement="right"
-                :title="lang['question-delete-group'] + scope.row.name + '?'"
-                @onConfirm="deleteGroup(scope.row.id)"
+              <el-tooltip
+                class="item"
+                effect="dark"
+                :content="lang['delete-group']"
+                placement="top"
               >
-                <el-button
-                  size="small"
-                  class="sbr-danger mr-1"
-                  slot="reference"
-                  icon="el-icon-delete"
-                  circle
-                ></el-button>
-              </el-popconfirm>
-              <!-- Manage group -->
-              <router-link :to="'/group/' + scope.row.id">
-                <el-button
-                  class="sbr-secondary"
-                  type="success"
-                  size="small"
-                  icon="el-icon-magic-stick"
-                  circle
-                ></el-button>
-              </router-link>
+                <el-popconfirm
+                  confirmButtonText="Ok"
+                  cancelButtonText="No, Thanks"
+                  placement="right"
+                  :title="lang['question-delete-group'] + scope.row.name + '?'"
+                  @onConfirm="deleteGroup(scope.row.id)"
+                >
+                  <i
+                    slot="reference"
+                    class="el-icon-delete table-icon table-icon-danger"
+                  ></i>
+                </el-popconfirm>
+              </el-tooltip>
             </template>
           </el-table-column>
         </data-tables>

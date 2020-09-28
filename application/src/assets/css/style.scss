@@ -372,6 +372,48 @@ p-r-40 {
    Extras
 ============= */
 
+.ins_info_thumb {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 7px;
+}
+
+.table-icon {
+  color: grey;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.table-icon-primary:hover {
+  color: $primary-color;
+}
+
+.table-icon-secondary:hover {
+  color: $secondary-color;
+}
+
+.table-icon-purple:hover {
+  color: $purple-color;
+}
+
+.table-icon-danger:hover {
+  color: #dc143c;
+}
+
+.alert-sbr {
+  box-shadow: -3px 0px 0px 0px #009cd8;
+  padding: 2%;
+  border-radius: 5px;
+}
+
+.alert-sbr i {
+  font-size: 1rem;
+  padding: 5px;
+}
+
 .message-wrapper {
   position: relative;
   overflow: hidden;
@@ -583,6 +625,39 @@ label {
 /* =============
 Element UI Custom
 ============= */
+
+// Popcomfirm buttons
+.el-popconfirm__action > button:nth-child(2) {
+  background-color: $danger-color !important;
+}
+
+.el-popconfirm__action > button:nth-child(2):hover {
+  color: #fff !important;
+}
+
+.el-popconfirm__action > button:nth-child(1) {
+  color: $primary-color !important;
+}
+
+// Wysing
+.editr--toolbar {
+  background: #fff !important;
+  border-bottom: none !important;
+  padding: 10px !important;
+}
+
+.editr {
+  border-radius: 14px !important;
+}
+
+.editr--toolbar a {
+  color: #4a5874 !important;
+  fill: #4a5874 !important;
+}
+
+.editr--content {
+  padding: 8% 4% !important;
+}
 
 // Popover
 .el-popover {

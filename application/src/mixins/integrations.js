@@ -46,13 +46,16 @@ const integrations = {
         });
 
         /* Tawk to */
+        console.log(this.currentRoute);
         if (
           this.currentRoute !== '/' &&
+          this.currentRoute !== 'marketplace' &&
           this.currentRoute !== '/site' &&
           this.currentRoute !== '/products' &&
           this.currentRoute !== '/product' &&
           parseInt(this.user.role) === 1
         ) {
+          console.log(this.currentRoute);
           /* eslint-disable */
           const Tawk_API = Tawk_API || {};
           (() => {

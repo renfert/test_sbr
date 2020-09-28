@@ -5,6 +5,7 @@
     ---------->
     <top-bar
       v-if="
+        loaded == true &&
         currentRoute != null &&
         currentRoute != 'marketplace' &&
         currentRoute != 'products' &&
@@ -19,6 +20,7 @@
     ></top-bar>
     <div
       v-if="
+        loaded == true &&
         currentRoute != null &&
         currentRoute != 'marketplace' &&
         currentRoute != 'products' &&
@@ -58,7 +60,8 @@
     </div>
 
     <transition name="fade" mode="out-in">
-      <router-view></router-view>
+      <router-view v-if="loaded == true"></router-view>
+      <div v-else id="loading"></div>
     </transition>
     <upgrade-plan></upgrade-plan>
     <the-trial-expired></the-trial-expired>
@@ -87,7 +90,8 @@ export default {
       userName: '',
       userAvatar: '',
       userId: '',
-      plan: ''
+      plan: '',
+      loaded: false
     };
   },
   components: {
@@ -117,12 +121,10 @@ export default {
   },
   created() {
     this.getLanguage();
-    this.loadIntegrations();
-    this.createFavicon();
   },
   mounted() {
-    this.getCompanyInformation();
-    this.getUserProfile();
+    this.loadIntegrations();
+    this.createFavicon();
   },
   methods: {
     ...mapMutations(['setLang', 'setUser', 'setCompany']),
@@ -137,6 +139,7 @@ export default {
           response.data.lang +
           '/lang.json');
         this.setLang(lang);
+        this.getCompanyInformation();
       });
     },
     getCompanyInformation() {
@@ -154,6 +157,7 @@ export default {
           expiration: response.data.expiration
         };
         this.setCompany(companyObj);
+        this.getUserProfile();
       });
     },
     getUserProfile() {
@@ -174,6 +178,9 @@ export default {
           avatar: response.data.avatar
         };
         this.setUser(userObj);
+        setTimeout(() => {
+          this.loaded = true;
+        }, 2000);
       });
     }
   }
@@ -181,6 +188,31 @@ export default {
 </script>
 
 <style>
+#sbrmain {
+  display: none;
+}
+
+.loaded {
+  display: initial !important;
+}
+
+.hide {
+  display: none !important;
+}
+
+#loading {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  width: 100vw;
+  height: 100vh;
+  background-color: white;
+  background-image: url('https://sbrfiles.s3.amazonaws.com/gifs/loader.gif');
+  background-repeat: no-repeat;
+  background-position: center;
+}
 .fade-enter {
   opacity: 0;
 }

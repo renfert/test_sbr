@@ -105,6 +105,19 @@ class Module_Model extends CI_Model
     }
   }
 
+  public function editReleaseDate($moduleId, $releaseDate)
+  {
+    $data = array(
+      'release_date' => $releaseDate,
+    );
+    $this->db->where("id", $moduleId);
+    if ($this->db->update("mymodule", $data)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
 
 
   public function delete($moduleId)
