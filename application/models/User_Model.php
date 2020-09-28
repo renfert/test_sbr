@@ -254,7 +254,7 @@ class User_Model extends CI_Model
         array_push($courses, $courseId);
       }
 
-      $this->db->select("T0.myuser_id");
+      $this->db->select("T0.myuser_id, T1.email, T1.name,T1.avatar");
       $this->db->distinct();
       $this->db->from("relationship T0 ");
       $this->db->join("myuser T1", "T0.myuser_id = T1.id");
@@ -274,10 +274,11 @@ class User_Model extends CI_Model
     --------------------------------------------------*/
   public function getEnrolledCourses($userId)
   {
-    $this->db->select("T1.id,T1.title");
+    $this->db->select("T1.id,T1.title, T2.edit, T2.delete");
     $this->db->distinct();
     $this->db->from("relationship T0");
     $this->db->join("mycourse T1", "T0.mycourse_id = T1.id");
+    $this->db->join("user_privileges T2",  "T1.id = T2.mycourse_id AND T2.myuser_id = {$userId}", "left");
     $this->db->where("T0.myuser_id", $userId);
     $this->db->where("T0.mycourse_id !=",  1);
     $query = $this->db->get();

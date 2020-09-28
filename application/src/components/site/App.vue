@@ -3,23 +3,14 @@
     <el-col :sm="4" :xs="24" v-if="fullScreen == false">
       <toolbar></toolbar>
     </el-col>
-    <el-col
-      style="margin-left: 13%"
-      :sm="24"
-      :xs="24"
-      v-if="fullScreen == false"
-    >
-      <site-preview class="preview" :full-screen-button="true"></site-preview>
-    </el-col>
-    <el-col v-else :sm="24">
-      <site-preview class="preview" :full-screen-button="true"></site-preview>
+    <el-col style="margin-left: 13%" :sm="24" :xs="24">
+      <preview class="preview" :full-screen-button="true"></preview>
     </el-col>
   </el-row>
 </template>
 
 <script>
 import Toolbar from '@/components/site/toolbar/Toolbar.vue';
-import SitePreview from '@/components/site/SitePreview.vue';
 import Vue from 'vue';
 import VueHead from 'vue-head';
 
@@ -55,7 +46,7 @@ export default {
   },
   components: {
     Toolbar,
-    SitePreview
+    Preview: () => import('@/components/site/SitePreview.vue')
   }
 };
 </script>

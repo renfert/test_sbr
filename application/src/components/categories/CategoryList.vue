@@ -37,29 +37,39 @@
           ></el-table-column>
           <el-table-column label="Actions" align="center">
             <template slot-scope="scope">
-              <el-button
-                size="small"
-                class="sbr-primary"
-                @click="openModalToEditCategory(scope.row.id, scope.row.name)"
-                icon="el-icon-edit"
-                circle
-              ></el-button>
-
-              <el-popconfirm
-                confirmButtonText="Ok"
-                cancelButtonText="No, Thanks"
-                placement="right"
-                :title="lang['question-delete-category'] + scope.row.name + '?'"
-                @onConfirm="deleteCategory(scope.row.id)"
+              <el-tooltip
+                class="item"
+                effect="dark"
+                :content="lang['edit-category']"
+                placement="top"
               >
-                <el-button
-                  size="small"
-                  class="sbr-danger ml-1"
-                  slot="reference"
-                  icon="el-icon-delete"
-                  circle
-                ></el-button>
-              </el-popconfirm>
+                <i
+                  @click="openModalToEditCategory(scope.row.id, scope.row.name)"
+                  class="el-icon-edit-outline table-icon table-icon-primary m-r-20"
+                ></i>
+              </el-tooltip>
+
+              <el-tooltip
+                class="item"
+                effect="dark"
+                :content="lang['delete-category']"
+                placement="top"
+              >
+                <el-popconfirm
+                  confirmButtonText="Ok"
+                  cancelButtonText="No, Thanks"
+                  placement="right"
+                  :title="
+                    lang['question-delete-category'] + scope.row.name + '?'
+                  "
+                  @onConfirm="deleteCategory(scope.row.id)"
+                >
+                  <i
+                    slot="reference"
+                    class="el-icon-delete table-icon table-icon-danger"
+                  ></i>
+                </el-popconfirm>
+              </el-tooltip>
             </template>
           </el-table-column>
         </data-tables>

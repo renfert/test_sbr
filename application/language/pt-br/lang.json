@@ -421,9 +421,30 @@
 
   "no-results-course-title": "Você ainda não criou nenhum curso",
   "new-course-button": "Criar um novo curso",
-  "required-module": "Módulo requerido",
+  "required-module": "Clique no cadeado para bloquear ou desbloquear este módulo. Ao bloquear um módulo, o aluno deve concluir todas as atividades relacionadas a ele antes de passar para o próximo.  ",
   "courses-already-created": "Cursos já criados:",
   "list-course": "Lista de cursos",
+
+  "upload-a-file": "Carregar arquivo",
+
+  "manage-user": "Administrar usuário",
+  "delete-user": "Deletar usuário",
+
+  "change-visualization": "Alterar visualização",
+
+  "no-students-found": "Você não tem alunos",
+
+  "edit-category": "Editar categoria",
+  "delete-category": "Deletar categoria",
+
+  "edit-group": "Editar grupo",
+  "delete-group": "Deletar grupo",
+  "manage-group": "Administrar grupo",
+
+  "edit-course": "Editar curso",
+  "delete-course": "Deletar curso",
+
+  "module-information": "Você pode definir uma data de lançamento para este módulo. Os alunos não poderão acessar o conteúdo relacionado a este módulo antes da data estabelecida.",
 
   "no-results-program-title": "Você ainda não criou nenhum programa",
   "new-program-button": "Criar um novo programa",

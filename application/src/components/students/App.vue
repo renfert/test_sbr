@@ -1,16 +1,15 @@
 <template>
   <div class="content-page">
-    <group-create v-if="user.role == 1"></group-create>
-    <group-list></group-list>
+    <div>
+      <students-list></students-list>
+    </div>
   </div>
 </template>
 
 <script>
 import Vue from 'vue';
-import GroupCreate from '@/components/groups/GroupCreate.vue';
-import GroupList from '@/components/groups/GroupList.vue';
 import VueHead from 'vue-head';
-import { mapState } from 'vuex';
+import StudentsList from '@/components/students/StudentsList.vue';
 
 export const eventBus = new Vue();
 
@@ -18,18 +17,14 @@ Vue.use(VueHead);
 
 export default {
   components: {
-    GroupCreate,
-    GroupList
-  },
-  computed: {
-    ...mapState(['user'])
+    StudentsList
   },
   created() {
     this.$blockStudentAccess();
   },
   head: {
     title: {
-      inner: 'Groups'
+      inner: 'Students'
     },
     meta: [
       { name: 'charset', content: 'utf-8' },

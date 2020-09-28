@@ -48,6 +48,8 @@ class Course_Model extends CI_Model
             T0.photo,
             T0.validity,
             T2.enroll_date,
+            T3.edit as editPrivilege,
+            T3.delete as deletePrivilege,
             DATE_FORMAT(T0.release_date, '%d/%m/%Y') as release_date,
             DATE_FORMAT(T0.expiration_date, '%d/%m/%Y') as expiration_date,
             DATEDIFF(T0.expiration_date, '$currentDate') as expirationDays,
@@ -60,6 +62,7 @@ class Course_Model extends CI_Model
     $this->db->from("mycourse T0");
     $this->db->join("relationship T1", "T0.id = T1.mycourse_id");
     $this->db->join("course_helper T2", "T0.id = T2.mycourse_id");
+    $this->db->join("user_privileges T3", "T0.id = T3.mycourse_id", "left");
     $this->db->where("T1.myuser_id", getUserId());
     $this->db->where("T0.id !=", 1);
     $this->db->where("T2.myuser_id", getUserId());
@@ -486,6 +489,56 @@ class Course_Model extends CI_Model
     $query = $this->db->get();
     if ($query->num_rows() > 0) {
       return $query->result()[0];
+    }
+  }
+
+  public function changeCourseEditingPrivileges($courseId, $userId, $privilegeStatus)
+  {
+    $this->db->select("*");
+    $this->db->from("user_privileges");
+    $this->db->where("myuser_id", $userId);
+    $this->db->where("mycourse_id", $courseId);
+    $query = $this->db->get();
+    if ($query->num_rows() > 0) {
+      $data = array(
+        "edit" => $privilegeStatus
+      );
+      $this->db->where("myuser_id", $userId);
+      $this->db->where("mycourse_id", $courseId);
+      $this->db->update("user_privileges", $data);
+    } else {
+      $data = array(
+        "myuser_id" => $userId,
+        "mycourse_id" => $courseId,
+        "program_id" => 1,
+        "edit" => "on"
+      );
+      $this->db->insert("user_privileges", $data);
+    }
+  }
+
+  public function changeCourseDeletePrivileges($courseId, $userId, $privilegeStatus)
+  {
+    $this->db->select("*");
+    $this->db->from("user_privileges");
+    $this->db->where("myuser_id", $userId);
+    $this->db->where("mycourse_id", $courseId);
+    $query = $this->db->get();
+    if ($query->num_rows() > 0) {
+      $data = array(
+        "delete" => $privilegeStatus
+      );
+      $this->db->where("myuser_id", $userId);
+      $this->db->where("mycourse_id", $courseId);
+      $this->db->update("user_privileges", $data);
+    } else {
+      $data = array(
+        "myuser_id" => $userId,
+        "mycourse_id" => $courseId,
+        "program_id" => 1,
+        "delete" => "on"
+      );
+      $this->db->insert("user_privileges", $data);
     }
   }
 }

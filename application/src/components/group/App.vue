@@ -5,13 +5,21 @@
     <el-tabs type="border-card">
       <el-tab-pane>
         <span slot="label">
+          <i class="el-icon-s-data"></i>
+          {{ lang['overview'] }}
+        </span>
+        <overview :group-id="group.id"></overview>
+      </el-tab-pane>
+
+      <el-tab-pane v-if="user.role == 1">
+        <span slot="label">
           <i class="mdi mdi-book-outline"></i>
           {{ lang['courses'] }}
         </span>
         <courses :group-id="group.id"></courses>
       </el-tab-pane>
 
-      <el-tab-pane>
+      <el-tab-pane v-if="user.role == 1">
         <span slot="label">
           <i class="mdi mdi-account-multiple-outline"></i>
           {{ lang['students'] }}
@@ -19,7 +27,7 @@
         <students :group-id="group.id"></students>
       </el-tab-pane>
 
-      <el-tab-pane>
+      <el-tab-pane v-if="user.role == 1">
         <span slot="label">
           <i class="mdi mdi-account-star-outline"></i>
           {{ lang['instructors'] }}
@@ -27,7 +35,7 @@
         <instructors :group-id="group.id"></instructors>
       </el-tab-pane>
 
-      <el-tab-pane>
+      <el-tab-pane v-if="user.role == 1">
         <span slot="label">
           <i class="mdi mdi-account-star-outline"></i>
           {{ lang['programs'] }}
@@ -44,6 +52,7 @@ import Courses from '@/components/group/Courses';
 import Students from '@/components/group/Students';
 import Instructors from '@/components/group/Instructors';
 import Programs from '@/components/group/Programs';
+import Overview from '@/components/group/Overview';
 import VueHead from 'vue-head';
 import { mapState } from 'vuex';
 
@@ -62,11 +71,11 @@ export default {
   },
   created() {
     this.group.id = this.$route.params.id;
-    this.$verifyAdministratorPrivileges();
+    this.$blockStudentAccess();
     this.getGroup();
   },
   computed: {
-    ...mapState(['lang'])
+    ...mapState(['lang', 'user'])
   },
   methods: {
     getGroup() {
@@ -92,7 +101,8 @@ export default {
     Courses,
     Students,
     Instructors,
-    Programs
+    Programs,
+    Overview
   }
 };
 </script>

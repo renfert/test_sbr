@@ -1,13 +1,8 @@
 <template>
   <div>
-    <div class="row mt-5">
-      <div
-        class="col-12 col-md-4 list-programs"
-        v-for="element in programList"
-        :key="element.id"
-      >
-        <!-- Card -->
-        <div class="card">
+    <el-row :gutter="24">
+      <el-col :sm="8" v-for="element in programList" :key="element.id">
+        <el-card :body-style="{ padding: '0px' }" shadow="hover">
           <!-- Card image -->
           <img
             v-if="element.expirationDays < 0 || element.releaseDays > 0"
@@ -96,10 +91,10 @@
               </template>
             </el-row>
           </div>
-        </div>
-        <!-- Card -->
-      </div>
-    </div>
+          <!-- Card -->
+        </el-card>
+      </el-col>
+    </el-row>
   </div>
   <!-- End col-12 -->
 </template>
@@ -152,3 +147,13 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.card-body {
+  padding: 30px !important;
+}
+
+.el-card {
+  border-radius: 20px;
+}
+</style>

@@ -9,7 +9,7 @@ $secondary-color: #29277f;
 $danger-color: #dc143c;
 $purple-color: #6a5acd;
 $neutral-color: #f8f8ff;
-
+$warning-color: #ffba00;
 /* =============
   == Core List==
 
@@ -24,7 +24,6 @@ $neutral-color: #f8f8ff;
 /* =============
    Common
 ============= */
-
 html {
   position: relative;
   min-height: 100%;
@@ -372,6 +371,104 @@ p-r-40 {
    Extras
 ============= */
 
+.ins_info_thumb {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 7px;
+}
+
+.table-icon {
+  color: grey;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.table-icon-primary:hover {
+  color: $primary-color;
+}
+
+.table-icon-secondary:hover {
+  color: $secondary-color;
+}
+
+.table-icon-purple:hover {
+  color: $purple-color;
+}
+
+.table-icon-danger:hover {
+  color: #dc143c;
+}
+
+.alert-sbr {
+  box-shadow: -3px 0px 0px 0px #009cd8;
+  padding: 2%;
+  border-radius: 5px;
+}
+
+.alert-sbr i {
+  font-size: 1rem;
+  padding: 5px;
+}
+
+.message-wrapper {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  margin: 10.66667px 0;
+  padding: 15.66667px 0;
+  padding-right: 10%;
+  transition: all 0.2s ease-in-out 0s !important;
+  cursor: pointer;
+}
+
+.message-wrapper:hover {
+  transform: translateY(5px);
+}
+
+.message-wrapper.them .text-wrapper {
+  background: white;
+  float: left;
+}
+
+.message-wrapper .circle-wrapper {
+  height: 42.66667px;
+  width: 42.66667px;
+  border-radius: 50%;
+}
+
+.message-wrapper .text-wrapper {
+  padding: 15.66667px;
+  min-height: 42.66667px;
+  width: 100%;
+  margin: 0 10.66667px;
+  border-radius: 10px;
+  font-weight: 300;
+  position: relative;
+}
+
+.message-wrapper.them .text-wrapper:before {
+  border-width: 0px 20px 30px 0;
+  border-color: transparent white transparent transparent;
+  position: absolute;
+  top: 0;
+  left: -6px;
+}
+
+.message-wrapper .text-wrapper:before {
+  content: '';
+  width: 0;
+  height: 0;
+  border-style: solid;
+}
+
+.sabio {
+  width: 150px;
+  cursor: pointer;
+}
+
 .integration-image {
   width: 150px;
 }
@@ -528,6 +625,44 @@ label {
 Element UI Custom
 ============= */
 
+// Popcomfirm buttons
+.el-popconfirm__action > button:nth-child(2) {
+  background-color: $danger-color !important;
+}
+
+.el-popconfirm__action > button:nth-child(2):hover {
+  color: #fff !important;
+}
+
+.el-popconfirm__action > button:nth-child(1) {
+  color: $primary-color !important;
+}
+
+// Wysing
+.editr--toolbar {
+  background: #fff !important;
+  border-bottom: none !important;
+  padding: 10px !important;
+}
+
+.editr {
+  border-radius: 14px !important;
+}
+
+.editr--toolbar a {
+  color: #4a5874 !important;
+  fill: #4a5874 !important;
+}
+
+.editr--content {
+  padding: 8% 4% !important;
+}
+
+// Popover
+.el-popover {
+  z-index: 20000 !important;
+}
+
 // Button
 .el-button {
   font-size: 0.9rem;
@@ -610,6 +745,11 @@ Element UI Custom
 }
 
 // Switch
+
+.el-switch__label {
+  color: #8a8a8f !important;
+}
+
 .el-switch__label.is-active {
   color: $primary-color !important;
 }
@@ -714,10 +854,21 @@ Element UI Custom
   box-shadow: 0 10px 20px -10px rgba(0, 225, 240, 0.5);
 }
 
+.sbr-warning {
+  color: white !important;
+  background-color: $warning-color !important;
+}
+
 .sbr-secondary {
   color: white !important;
   background-color: $secondary-color !important;
   box-shadow: 0 2px 5px rgba(0, 0, 205, 0.5) !important;
+}
+
+.sbr-warning {
+  color: white !important;
+  background-color: #ffc107 !important;
+  box-shadow: 0 2px 5px #b3890c !important;
 }
 
 .sbr-danger {

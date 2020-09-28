@@ -22,6 +22,27 @@
   "plans-nav": "Planes",
   "help-center-nav": "Centro de Ayuda",
 
+  "required-module": "Haga clic en el candado para bloquear o desbloquear este módulo. Al bloquear un módulo, el alumno debe completar todas las actividades relacionadas con él antes de poder pasar al siguiente.",
+
+  "upload-a-file": "Cargar un archivo",
+
+  "module-information": "Puede establecer una fecha de lanzamiento para este módulo. Los estudiantes no podrán acceder a los contenidos relacionados con este módulo antes de la fecha establecida.",
+
+  "manage-user": "Administrar usuario",
+  "delete-user": "Borrar usuario",
+
+  "edit-category": "Editar categoría",
+  "delete-category": "Borrar categoría",
+
+  "edit-group": "Editar grupo",
+  "delete-group": "Borrar grupo",
+  "manage-group": "Administrar grupo",
+
+  "edit-course": "Editar curso",
+  "delete-course": "Borrar curso",
+
+  "change-visualization": "Cambiar visualización",
+
   "dates": "Fechas",
   "sales": "Ventas",
   "select-payment-platform": "Seleccione la plataforma de pago para este curso",
@@ -134,7 +155,7 @@
   "list-category": "Categorías creadas",
   "category-already-exists": "Esta categoría ya existe",
   "category-created-success": "Categoría creada",
-  "question-delete-category": "Categoría borrada: ",
+  "question-delete-category": "Borrar categoría : ",
   "category-edited-success": "Categoría editada",
   "category-deleted-success": "Category deleted successfully",
   "no-results-category-title": "No has creado ninguna categoría todavía",
@@ -480,13 +501,14 @@
 
   "no-results-course-title": "No has creado un curso todavía",
   "new-course-button": "Crear curso",
-  "required-module": "Modulo Obligatorio",
   "courses-already-created": "Curso ya creado:",
   "list-course": "Lista de cursos",
 
   "no-results-program-title": "No has creado un programa todavía",
   "new-program-button": "Crear un programa",
-  "programs-already-created": "El programa ya fue creado:",
+  "programs-already-created": "Programas creados:",
+
+  "no-students-found": "No tienes estudiantes",
 
   "section-created-success": "Sección creada",
   "banner-edited-success": "Banner editado",

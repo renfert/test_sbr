@@ -152,4 +152,22 @@ class Course extends CI_Controller
     $result = $this->Course_Model->getCourseCreator($courseId);
     echo json_encode($result);
   }
+
+  public function changeCourseEditingPrivileges()
+  {
+    $courseId = $this->input->post("courseId");
+    $userId = $this->input->post("userId");
+    $this->input->post("privilegeStatus") == "null" ? $privilegeStatus = "on" : $privilegeStatus = null;
+    $result = $this->Course_Model->changeCourseEditingPrivileges($courseId, $userId, $privilegeStatus);
+    echo json_encode($result);
+  }
+
+  public function changeCourseDeletePrivileges()
+  {
+    $courseId = $this->input->post("courseId");
+    $userId = $this->input->post("userId");
+    $this->input->post("privilegeStatus") == "null" ? $privilegeStatus = "on" : $privilegeStatus = null;
+    $result = $this->Course_Model->changeCourseDeletePrivileges($courseId, $userId, $privilegeStatus);
+    echo json_encode($result);
+  }
 }

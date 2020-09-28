@@ -5,16 +5,16 @@
       <input
         :name="inputName"
         class="upload"
-        @change.prevent="preview($event, doUpload)"
+        @change.prevent="preview($event)"
         :accept="acceptable"
         type="file"
       />
       <div class="drop-message" :class="messageClass">
-        <span class="file-icon" :class="icon"></span>
+        <img v-if="icon != ''" style="width: 40px" :src="icon" />
         <p>{{ message }}</p>
       </div>
       <div class="drop-preview on" style="text-align: center">
-        <div class="drop-img">
+        <div :style="style" class="drop-img">
           <img class="preview" :src="previewImg" alt />
         </div>
       </div>
@@ -40,8 +40,8 @@ export const eventUpload = new Vue();
 export default {
   data: () => {
     return {
-      icon: 'fas fa-cloud-upload-alt',
-      message: 'Upload a file',
+      icon: require('@/assets/img/icons/upload.png'),
+      message: '',
       src: '',
       messageClass: '',
       realName: '',
@@ -63,6 +63,7 @@ export default {
     'src-real-name'
   ],
   created() {
+    this.message = this.lang['upload-a-file'];
     this.checkStorageAvailability();
     this.getSubDomainName();
   },
@@ -72,7 +73,7 @@ export default {
       this.srcName !== null &&
       this.srcName !== ''
     ) {
-      this.loadDefaultName();
+      this.name = this.srcName;
       this.message = this.srcRealName;
       this.realName = this.srcRealName;
     }
@@ -82,92 +83,88 @@ export default {
       this.srcImg != null &&
       this.srcImg !== ''
     ) {
-      this.loadDefaultImg();
+      this.loadPreview();
     }
   },
   methods: {
-    preview(event, upload) {
+    preview(event) {
+      /* --------------------------
+        File information
+      -------------------------- */
+      const input = event.target;
+      const fullName = input.value;
+      const fileName = fullName.split(/(\\|\/)/g).pop();
+      const fileExtension = fullName.split('.').pop();
+
+      /* --------------------------
+        Check storage availability
+      -------------------------- */
       if (this.storageAvailability) {
         const ins = this;
-        if (upload !== undefined) {
-          ins.upload(event);
-        }
-        const input = event.target;
-        const fullName = input.value;
-        const fileName = fullName.split(/(\\|\/)/g).pop();
-        const fileExtension = fullName.split('.').pop();
 
-        this.realName = fileName;
+        /* --------------------------
+        Check if file upload is enabled
+        -------------------------- */
+        if (this.doUpload !== undefined) {
+          /* --------------------------
+          Check if extension is valid
+          -------------------------- */
+          if (input.files && input.files[0]) {
+            const acceptable = ins.acceptable;
+            if (
+              acceptable.indexOf(fileExtension) === -1 &&
+              acceptable !== '.*'
+            ) {
+              ins.message = 'Invalid extension: ' + fileExtension + '';
+              ins.icon = require('@/assets/img/icons/invalid.png');
+              input.value = '';
+            } else {
+              this.upload(event);
+              this.message = fileName;
+              this.realName = fileName;
 
-        if (input.files && input.files[0]) {
-          const acceptable = ins.acceptable;
-          if (acceptable.indexOf(fileExtension) === -1 && acceptable !== '.*') {
-            ins.message = 'Invalid extension: ' + fileExtension + '';
-            ins.icon = 'fas fa-exclamation-triangle sbr-text-danger';
-            input.value = '';
-          } else {
-            /*  Chance image or icon preview */
-            switch (fileExtension) {
-              case 'png':
-                ins.messageClass = 'hide';
-                ins.render(input);
-                break;
-              case 'jpg':
-                ins.render(input);
-                ins.messageClass = 'hide';
-                break;
-              case 'jpeg':
-                ins.render(input);
-                ins.messageClass = 'hide';
-                break;
-              case 'xlsx':
-                ins.icon = 'fas fa-file-pdf text-default';
-                ins.message = fileName;
-                break;
-              case 'pdf':
-                ins.icon = 'fas fa-file-excel text-default';
-                ins.message = fileName;
-                break;
-              case 'docx':
-                ins.icon = 'fas fa-file-word text-default';
-                ins.message = fileName;
-                break;
-              case 'mp4':
-                ins.icon = 'fas fa-file-video text-default';
-                ins.message = fileName;
-                break;
-              case 'mov':
-                ins.icon = 'fas fa-file-video text-default';
-                ins.message = fileName;
-                break;
-              case 'mp3':
-                ins.icon = 'fas fa-file-audio text-default';
-                ins.message = fileName;
-                break;
-              case 'pptx':
-                ins.icon = 'fas fa-file-powerpoint text-default';
-                ins.message = fileName;
-                break;
-              case 'zip':
-                ins.icon = 'fas fa-file-archive text-default';
-                ins.message = fileName;
-                break;
-              default:
-                ins.icon = 'fas fa-file text-default';
-                ins.message = fileName;
+              if (
+                fileExtension === 'png' ||
+                fileExtension === 'jpg' ||
+                fileExtension === 'jpeg'
+              ) {
+                this.renderImage(input);
+              } else {
+                this.loadIcon();
+              }
             }
           }
         }
       } else {
         eventPlan.$emit('upgrade-plan', 'storage');
-        this.icon = 'fas fa-lock sbr-text-danger';
+        this.icon = require('@/assets/img/icons/invalid.png');
         this.message = 'Full storage';
         this.previewImg = '';
         this.realName = '';
         this.src = '';
       }
     },
-    render(input) {
+    loadPreview() {
+      if (this.srcName != null) {
+        const array = this.srcName.split('.', 2);
+        const extension = array[1];
+
+        if (
+          extension === 'png' ||
+          extension === 'jpg' ||
+          extension === 'jpeg'
+        ) {
+          this.previewImg = this.srcImg;
+          this.messageClass = 'hide';
+          this.icon = '';
+        } else {
+          this.loadIcon();
+        }
+      }
+    },
+    renderImage(input) {
+      this.message = '';
+      this.icon = '';
       const reader = new FileReader();
       reader.onload = (e) => {
         const div = input.parentElement;
@@ -295,45 +292,8 @@ export default {
         }
       );
     },
-    loadDefaultName() {
-      this.name = this.srcName;
-    },
-    loadDefaultImg() {
-      if (this.srcName != null) {
-        const array = this.srcName.split('.', 2);
-        const extension = array[1];
-
-        if (
-          extension === 'png' ||
-          extension === 'jpg' ||
-          extension === 'jpeg'
-        ) {
-          this.previewImg = this.srcImg;
-          this.messageClass = 'hide';
-          this.icon = '';
-        } else {
-          this.loadIcon(extension);
-        }
-      }
-    },
-    loadIcon(extension) {
-      switch (extension) {
-        case 'mp4':
-          this.icon = 'fas fa-file-video sbr-text-primary';
-          break;
-        case 'pdf':
-          this.icon = 'fas fa-file-pdf sbr-text-primary';
-          break;
-        case 'zip':
-          this.icon = 'fas fa-file-archive sbr-text-primary';
-          break;
-        case 'mp3':
-          this.icon = 'fas fa-file-audio sbr-text-primary';
-          break;
-        default:
-          this.icon = 'fas fa-cloud-upload-alt sbr-text-primary';
-          break;
-      }
+    loadIcon() {
+      this.icon = require('@/assets/img/icons/success.png');
     },
     generateFileName(length) {
       const today = new Date();
@@ -382,8 +342,8 @@ export default {
   border: 2px solid #ccc;
   -webkit-transition: border-color 0.15s linear;
   transition: border-color 0.15s linear;
-  border-radius: 4px;
-  border: 2px solid #ccc;
+  border-radius: 30px;
+  border: 2px dashed #ccc;
 }
 
 .drop-area:hover {
@@ -413,7 +373,9 @@ export default {
 .drop-img {
   width: 100%;
   height: 210px;
-  display: inline-block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   overflow: hidden;
   padding: 2px;
   position: relative;
@@ -421,9 +383,9 @@ export default {
 
 .drop-preview img {
   max-width: 100%;
-  width: 50%;
-  vertical-align: middle;
+  width: 40%;
   border-style: none;
+  border-radius: 10px;
 }
 
 .drop-message {

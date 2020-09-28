@@ -6,9 +6,7 @@
         :class="active2 == true || active3 == true ? 'active' : ''"
       >
         <a class="form-wizard-link" href="#">
-          <span @click.prevent="accessFirstStep()" class="numberCircle active"
-            >1</span
-          >
+          <span class="numberCircle active">1</span>
         </a>
       </li>
       <li class="box" :class="active3 == true ? 'active' : ''">
@@ -18,7 +16,6 @@
           href="javascript:void(0)"
         >
           <span
-            @click.prevent="accessSecondStep()"
             class="numberCircle v-step-3"
             :class="active2 == true || active3 == true ? 'active' : ''"
             >2</span
@@ -31,22 +28,40 @@
           :class="active3 == true ? 'active' : ''"
           href="#"
         >
-          <span
-            @click.prevent="accessThirdStep()"
-            class="numberCircle"
-            :class="active3 == true ? 'active' : ''"
+          <span class="numberCircle" :class="active3 == true ? 'active' : ''"
             >3</span
           >
         </a>
       </li>
     </ul>
 
+    <el-row class="action-buttons m-t-40">
+      <el-button
+        @click.prevent="previousStep()"
+        v-if="currentStep != 1"
+        class="sbr-primary"
+        size="small"
+        type="primary"
+      >
+        <i class="el-icon-back"></i> Previous step</el-button
+      >
+      <el-button
+        @click.prevent="nextStep()"
+        v-if="currentStep != 3"
+        class="sbr-primary"
+        size="small"
+        type="primary"
+      >
+        Next step <i class="el-icon-right"></i
+      ></el-button>
+    </el-row>
+
     <!------------------------
             Basic information text
     -------------------------->
     <el-row clas="center" v-if="active1">
-      <el-col :span="24" class="center m-b-40 m-t-40">
-        <h3 class="sbr-text-grey">
+      <el-col :span="24" class="center m-b-10 m-t-10">
+        <h3>
           <i class="el-icon-warning-outline"></i>
           {{ lang['basic-information'] }}
         </h3>
@@ -58,7 +73,7 @@
     -------------------------->
     <div clas="row text-center" v-if="active2">
       <div class="col-12 text-center">
-        <h3 class="sbr-text-grey">{{ lang['content'] }}</h3>
+        <h3>{{ lang['content'] }}</h3>
       </div>
     </div>
 
@@ -66,9 +81,7 @@
             Publish text
     -------------------------->
     <div clas="row text-center" v-if="active3">
-      <div class="col-12 text-center">
-        <h3 class="sbr-text-grey">{{ lang['publish'] }}</h3>
-      </div>
+      <div class="col-12 text-center"></div>
     </div>
   </div>
 </template>
@@ -82,13 +95,36 @@ export default {
     return {
       active1: true,
       active2: false,
-      active3: false
+      active3: false,
+      currentStep: 1
     };
   },
   computed: {
     ...mapState(['lang'])
   },
   methods: {
+    nextStep() {
+      if (this.currentStep !== 3) {
+        this.currentStep++;
+
+        if (this.currentStep === 2) {
+          this.accessSecondStep();
+        } else {
+          this.accessThirdStep();
+        }
+      }
+    },
+    previousStep() {
+      if (this.currentStep !== 1) {
+        this.currentStep--;
+
+        if (this.currentStep === 2) {
+          this.accessSecondStep();
+        } else {
+          this.accessFirstStep();
+        }
+      }
+    },
     accessSecondStep() {
       // Emit event to inform the attempt to access the second step
       eventBus.$emit('access-second-step');
@@ -173,10 +209,10 @@ export default {
   position: absolute;
   background: white;
   z-index: 1;
-  font-size: 1.5rem;
+  font-size: 1rem;
   line-height: 2;
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   font-style: normal;
   font-family: 'Poppins', sans-serif;
   border-radius: 50%;
@@ -242,5 +278,10 @@ export default {
 
 #container .box.active:nth-child(2)::after {
   border-bottom: 8px solid #009cd8 !important;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: space-between;
 }
 </style>

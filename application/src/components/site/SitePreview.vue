@@ -37,7 +37,7 @@
     </div>
 
     <header :style="this.styleHeader">
-      <a :href="$getDomainNameToNavigation()">
+      <router-link to="/">
         <img
           v-if="stickyMode == false && logo != null"
           class="logo-nav"
@@ -45,7 +45,7 @@
           :width="logoSize"
         />
         <img v-else class="logo-nav" :src="logoSticky" :width="logoSize" />
-      </a>
+      </router-link>
 
       <!-- Icon menu for mobile -->
       <ul class="ul-mobile">
