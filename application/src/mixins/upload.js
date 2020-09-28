@@ -66,22 +66,25 @@ export default class UploadFile {
       ContentType: file.type,
       Body: file
     };
+    return new Promise((resolve, reject) => {
+      bucket
+        .upload(params)
+        .on('httpUploadProgress', (evt) => {
+          const percentCompleted = Math.round(
+            parseInt((evt.loaded * 100) / evt.total)
+          );
+          eventProgress.$emit('new-percent', percentCompleted);
+        })
+        .send(() => {
+          event.target.value = null;
+          const el = event.target.parentElement.children[0];
+          el.value = newFileName;
+          eventProgress.$emit('finish-progress');
+          eventUpload.$emit('finish-upload');
+          resolve({fileName, newFileName});
+        });
 
-    bucket
-      .upload(params)
-      .on('httpUploadProgress', (evt) => {
-        const percentCompleted = Math.round(
-          parseInt((evt.loaded * 100) / evt.total)
-        );
-        eventProgress.$emit('new-percent', percentCompleted);
-      })
-      .send(() => {
-        event.target.value = null;
-        const el = event.target.parentElement.children[0];
-        el.value = newFileName;
-        eventProgress.$emit('finish-progress');
-        eventUpload.$emit('finish-upload');
-      });
-    return {fileName, newFileName};
+    });
+
   }
 }

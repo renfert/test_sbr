@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-card class="box-card" style="max-width: 570px;margin-bottom: 10px" v-for="(publication,index) in publications"
+    <el-card class="box-card" style="max-width: 800px;margin-bottom: 10px" v-for="(publication,index) in publications"
              :key="index" @load="hide($event)">
       <div slot="header" class="clearfix">
         <el-row>
@@ -10,8 +10,8 @@
             />
           </el-col>
           <el-col :md="17" :sm="14" :xs="14" class="p-t-10">
-            <router-link :to="'user/'+user.id">
-              <b><span class="link">{{ user.name }} </span>
+            <router-link :to="'user/'+publication.myuser_id">
+              <b><span class="link">{{ publication.username }} </span>
                 <i class="fas fa-caret-right" style="font-size: 15px"></i>
               </b>
             </router-link>
@@ -27,29 +27,31 @@
               </a>
             </b>
           </el-col>
-          <el-col :md="2" :sm="3" :xs="3">
-            <el-button @click="editPost(publication.id,publication.description)" type="primary" icon="el-icon-edit"
-                       circle
-                       size="small"></el-button>
-          </el-col>
+          <div v-if="user.id===publication.myuser_id">
 
-          <el-col :md="2" :sm="2" :xs="2">
-            <el-popconfirm
-              confirmButtonText="Ok"
-              cancelButtonText="No, Thanks"
-              placement="right"
-              :title="lang['delete']+' ?'"
-              @onConfirm="deletePost(publication.id)"
-            >
-              <el-button
-                size="small"
-                class="sbr-danger ml-1"
-                slot="reference"
-                icon="el-icon-delete"
-                circle
-              ></el-button>
-            </el-popconfirm>
-          </el-col>
+            <el-col :md="2" :sm="3" :xs="3">
+              <el-button @click="editPost(publication.id,publication.description)" type="primary" icon="el-icon-edit"
+                         circle
+                         size="small"></el-button>
+            </el-col>
+            <el-col :md="2" :sm="2" :xs="2">
+              <el-popconfirm
+                confirmButtonText="Ok"
+                cancelButtonText="No, Thanks"
+                placement="right"
+                :title="lang['delete']+' ?'"
+                @onConfirm="deletePost(publication.id)"
+              >
+                <el-button
+                  size="small"
+                  class="sbr-danger ml-1"
+                  slot="reference"
+                  icon="el-icon-delete"
+                  circle
+                ></el-button>
+              </el-popconfirm>
+            </el-col>
+          </div>
         </el-row>
       </div>
       <!--      <div v-if="publication.description.length>=280 ">-->
@@ -67,8 +69,17 @@
       <!--        <div v-html="publication.description">-->
       <!--        </div>-->
       <!--      </div>-->
+      <el-row>
+        <div v-html="publication.description">
 
-      {{ publication.description }}
+        </div>
+      </el-row>
+      <br>
+      <el-row v-if="publication.media_path" justify="center" align="start" :gutter="50">
+        <center>
+          <img :src="$getUrlToContents() + 'social/'+publication.media_path" style="border-radius: 7px" height="250vh" onerror="this.onerror=null">
+        </center>
+      </el-row>
       <br>
       <el-row>
         <p style="color: rgba(43,33,40,0.66)">
@@ -225,6 +236,7 @@ export default {
       if (data.status === 200 && this.editText.length > 0) {
         this.$messagePublished();
         // eslint-disable-next-line eqeqeq
+
       } else if (data.data == false) {
         this.$errorMessage();
       }
@@ -240,7 +252,6 @@ export default {
   }
 };
 </script>
-
 <style type="text/scss">
 
 .image {

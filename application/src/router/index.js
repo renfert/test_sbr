@@ -211,13 +211,34 @@ const routes = [
     component: () =>
       import(
         /* webpackChunkName: "viewprogram" */ '@/components/viewprogram/App'
-      )
+        )
   },
   {
     name: 'sabiorealm-social',
     path: '/sabiorealm-social',
     component: () =>
-      import('@/components/sabiorealm-social/App')
+      import('@/components/sabiorealm-social/App'),
+    children: [
+      {
+        name: 'my-profile',
+        path: '/my-profile',
+        component: () =>
+          import('@/components/sabiorealm-social/App')
+      },
+      {
+        name: 'my-profile',
+        path: '/courses/:course_id',
+        component: () =>
+          import('@/components/sabiorealm-social/App')
+      },
+      {
+        name: 'my-profile',
+        path: '/groups/:group_id',
+        component: () =>
+          import('@/components/sabiorealm-social/App')
+      }
+    ]
+
   },
   {
     name: '404',

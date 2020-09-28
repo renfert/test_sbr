@@ -27,7 +27,6 @@ class Social_Network_Model extends CI_Model
     $this->db->join("mycourse C", "C.id=SP.course_id");
     $this->db->order_by("created", "DESC");
     $query = $this->db->get();
-
     if ($res = $query->result()) return $res;
     else return null;
 

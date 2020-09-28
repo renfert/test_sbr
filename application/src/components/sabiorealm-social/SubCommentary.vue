@@ -76,14 +76,21 @@ export default {
     return {
       comments: [],
       n_comments: 0,
-      viewComments: false
+      viewComments: false,
+      prueba: 0
     };
   },
   components: {},
-  mounted() {
-    setInterval(() => {
-      this.loadCommentaries();
-    }, 2900);
+  async mounted() {
+    // while (true) {
+    //   this.loadCommentaries();
+    //
+    //   await this.sleep(5000);
+    // }
+    await setInterval(async() => {
+      await this.loadCommentaries();
+    }, 5000);
+    // eslint-disable-next-line no-unreachable
     eventBus.$on('social-load-commentaries', () => {
       this.loadCommentaries();
     });
@@ -93,21 +100,20 @@ export default {
   },
   computed: {
     ...mapState(['lang', 'user'])
-    // eslint-disable-next-line vue/no-async-in-computed-properties
 
   },
   methods: {
-    loadCommentaries() {
+    sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    },
+    async loadCommentaries() {
       const form = new FormData();
       form.append('social_publication_id', this.publication_id);
-      this.$request.post(this.$getUrlToMakeRequest('SocialNetwork', 'getCommentsByPub'),
-        form)
-        .then((response) => {
-          this.comments = response.data;
-          this.n_comments = this.comments.length;
-        }
-        );
+      const {data} = await this.$request.post(this.$getUrlToMakeRequest('SocialNetwork', 'getCommentsByPub'),
+        form);
+      this.comments = data;
+      this.n_comments = this.comments.length;
     }
   }
-};
+}
 </script>

@@ -1,12 +1,12 @@
 <template>
-  <div class="content-page">
+  <div ref="content" class="content-page" @touchmove="detectBottom($event)" @scroll="detectBottom($event)">
     <el-row :gutter="8">
       <el-col :md="6" :sm="24" :xs="24">
         <UserStatus/>
         <br>
       </el-col>
       <el-col :md="18" :sm="24" :xs="24">
-        <el-card class="box-card" style="max-width: 570px">
+        <el-card class="box-card" style="max-width: 800px">
           <div slot="header" class="clearfix">
             <el-row>
               <el-col :md="3" :sm="4" :xs="4">
@@ -65,9 +65,9 @@
             </el-col>
           </el-row>
           <br>
-          <el-row v-if="newFileName.length>0">
+          <el-row v-if="newFileName.length>0" justify="center" align="start" :gutter="50">
             <center>
-              <img :src="$getUrlToContents() + 'social/'+newFileName+''" width="150px" height="250px">
+              <img :src="$getUrlToContents() + 'social/'+newFileName" style="border-radius: 7px" height="250vh">
             </center>
           </el-row>
         </el-card>
@@ -126,7 +126,7 @@ export default {
       uploadFile: new UploadFile(),
       realFileName: '',
       newFileName: '',
-      loading: false,
+      loading: false
     };
   },
   head: {
@@ -142,8 +142,28 @@ export default {
   computed: {
     ...mapState(['lang', 'user'])
   },
+  watch: {
+    // detectBottom() {
+    //   window.addEventListener('scroll', () => {
+    //     if (document.height === window.pageYOffset + window.innerHeight) {
+    //       // hit bottom
+    //       console.log('estas abajoooo');
+    //     } else {
+    //       console.log('sigue bajando');
+    //     }
+    //   });
+    // }
+  },
   components: {UserStatus, PostList, Progress},
   created() {
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset + window.innerHeight >= this.$el.clientHeight) {
+        console.log('Actualizar!');
+      } else {
+        console.log('sigue bajando');
+      }
+    });
+
     this.getSubDomainName();
     this.getPublications();
   },
@@ -155,6 +175,7 @@ export default {
   },
   methods: {
     async publish() {
+
       this.loading = true;
       const form = new FormData();
       form.append('myuser_id', this.user.id);
@@ -168,7 +189,13 @@ export default {
         form.append('group_id', 1);
         form.append('course_id', 1);
       }
-      form.append('description', this.publication);
+
+      if (this.newFileName.length > 0) {
+        form.append('media_path', this.newFileName);
+        form.append('media_realname', this.realFileName);
+        form.append('media_type', this.newFileName.split('.').pop());
+      }
+      form.append('description', this.urlify(this.publication));
       const data = await this.$request.post(this.$getUrlToMakeRequest('SocialNetwork', 'savePublication'), form);
       if (data.status === 200 && this.publication.length > 0) {
         this.$messagePublished();
@@ -177,12 +204,13 @@ export default {
         this.$errorMessage();
       }
       eventBus.$emit('social-update-post');
-      setTimeout(() => {
+      await setTimeout(() => {
         eventBus.$emit('social-load-commentaries');
       }, 500);
       this.publication = '';
       this.loading = false;
       this.newFileName = '';
+      this.realFileName = '';
     },
     getPublications() {
       this.$request.post(this.$getUrlToMakeRequest('SocialNetwork', 'getPublications')).then((response) => {
@@ -233,11 +261,29 @@ export default {
       this.$refs.inputImage.click();
     },
     uploadToServer(event) {
-      const file = this.uploadFile.upload(event, this.subDomainName, 'social');
-      this.realFileName = file.fileName;
-      this.newFileName = file.newFileName;
-      console.log(this.newFileName);
+      this.uploadFile.upload(event, this.subDomainName, 'social').then((response) => {
+        this.newFileName = response.newFileName;
+        this.realFileName = response.fileName;
+      });
+    },
+    detectBottom(event) {
+      console.log(event.touches[0]);
+      if (window.pageYOffset + window.innerHeight >= this.$el.clientHeight) {
+        console.log('Actualizar!');
+      } else {
+        console.log();
+        console.log('sigue bajando');
+      }
+    },
+    urlify(text) {
+      const urlRegex = /(https?:\/\/[^\s]+)/g;
+      return text.replace(urlRegex, (url) => {
+        return '<a target="_blank" href="' + url + '">' + url + '</a>';
+      });
+      // or alternatively
+      // return text.replace(urlRegex, '<a href="$1">$1</a>')
     }
+
   }
 };
 </script>
