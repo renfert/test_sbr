@@ -136,7 +136,7 @@ export default {
         'doLogout'
       );
       this.$request.get(urlToBeUsedInTheRequest).then(() => {
-        router.push('/marketplace');
+        router.push('/');
       });
     }
   }
