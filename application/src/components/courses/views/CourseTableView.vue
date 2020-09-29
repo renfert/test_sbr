@@ -40,24 +40,22 @@
 
       <el-table-column label="Actions" align="center">
         <template slot-scope="scope">
-          <router-link :to="'/editcourse/' + scope.row.id">
-            <el-button
-              size="small"
-              class="sbr-primary mt-2"
-              v-if="user.role != 3"
-              type="primary"
-              icon="el-icon-edit"
-              circle
-            ></el-button>
-          </router-link>
+          <el-tooltip
+            v-if="scope.row.editPrivilege == 'on' || user.role == 1"
+            class="item"
+            effect="dark"
+            :content="lang['edit-course']"
+            placement="top"
+          >
+            <router-link :to="'/editcourse/' + scope.row.id">
+              <i
+                v-if="user.role != 3"
+                class="el-icon-edit-outline table-icon table-icon-primary m-r-20"
+              ></i>
+            </router-link>
+          </el-tooltip>
           <router-link :to="'/viewcourse/' + scope.row.id">
-            <el-button
-              size="small"
-              class="sbr-secondary"
-              type="success"
-              icon="el-icon-video-play"
-              circle
-            ></el-button>
+            <i class="el-icon-video-play table-icon table-icon-purple"></i>
           </router-link>
         </template>
       </el-table-column>

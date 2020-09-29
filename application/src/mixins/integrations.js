@@ -48,6 +48,7 @@ const integrations = {
         /* Tawk to */
         if (
           this.currentRoute !== '/' &&
+          this.currentRoute !== 'marketplace' &&
           this.currentRoute !== '/site' &&
           this.currentRoute !== '/products' &&
           this.currentRoute !== '/product' &&

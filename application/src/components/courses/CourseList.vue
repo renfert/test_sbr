@@ -5,15 +5,28 @@
         <a
           @click="changeCourseVisualization()"
           href="javascript:void(0)"
-          class="dropdown-toggle arrow-none card-drop float-right"
+          class="float-right"
           data-toggle="dropdown"
           aria-expanded="false"
         >
-          <i
+          <el-tooltip
             v-if="courseVisualization == 'list'"
-            class="mdi mdi-view-list mdi-36px pr-4 sbr-text-grey"
-          ></i>
-          <i v-else class="mdi mdi-table mdi-36px pr-4 sbr-text-grey"></i>
+            :content="lang['change-visualization']"
+            placement="top"
+          >
+            <i
+              style="font-size: 2em"
+              class="el-icon-c-scale-to-original sbr-text-grey"
+            ></i>
+          </el-tooltip>
+
+          <el-tooltip
+            v-else
+            :content="lang['change-visualization']"
+            placement="top"
+          >
+            <i style="font-size: 2em" class="el-icon-menu sbr-text-grey"></i>
+          </el-tooltip>
         </a>
       </div>
     </el-row>

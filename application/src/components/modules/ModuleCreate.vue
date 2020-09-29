@@ -20,13 +20,13 @@
             v-model="courseId"
           />
 
-          <div class="form-group col-xl-12 col-md-12">
+          <div class="form-group col-xl-12 col-md-12 m-b-40">
             <!-- Module name -->
             <label class="col-form-label">{{ lang['name'] }} *</label>
             <el-input required v-model="myModule.name" name="title"></el-input>
           </div>
         </div>
-        <div class="form-row">
+        <div class="form-row hide">
           <div class="form-group col-xl-6 col-md-6">
             <!-- Module release date -->
             <label class="col-form-label">{{ lang['start-date'] }} *</label>

@@ -40,6 +40,13 @@
         </el-menu-item>
       </router-link>
 
+      <router-link to="/groups">
+        <el-menu-item index="10">
+          <i class="dripicons-user-group"></i>
+          <span class="menuMain">{{ lang['groups-nav'] }}</span>
+        </el-menu-item>
+      </router-link>
+
       <router-link to="/programs">
         <el-menu-item index="4" v-if="plan != 'starter'">
           <i class="dripicons-to-do"></i>
@@ -92,6 +99,7 @@
 </template>
 
 <script>
+import router from '@/router';
 import { mapState } from 'vuex';
 import { eventTemplate } from '@/components/template/TheTopBar';
 
@@ -128,7 +136,7 @@ export default {
         'doLogout'
       );
       this.$request.get(urlToBeUsedInTheRequest).then(() => {
-        window.location.href = this.$getDomainNameToNavigation();
+        router.push('/');
       });
     }
   }

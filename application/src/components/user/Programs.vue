@@ -14,7 +14,7 @@
       <div class="program-content" v-if="enrolledPrograms != null">
         <div>
           <el-row>
-            <el-col :md="6" :xs="18" class="mr-3">
+            <el-col :md="6" :xs="18">
               <el-input
                 v-model="filters[0].value"
                 placeholder="Search"
@@ -52,13 +52,10 @@
                 :title="lang['remove-program-question'] + scope.row.title + '?'"
                 @onConfirm="removeProgramFromUser(scope.row.id)"
               >
-                <el-button
-                  class="sbr-danger"
-                  size="small"
+                <i
                   slot="reference"
-                  icon="el-icon-delete"
-                  circle
-                ></el-button>
+                  class="el-icon-delete table-icon table-icon-danger"
+                ></i>
               </el-popconfirm>
             </template>
           </el-table-column>

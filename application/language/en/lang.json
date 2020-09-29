@@ -501,7 +501,7 @@
 
   "no-results-course-title": "You haven't created any course yet",
   "new-course-button": "Create a new course",
-  "required-module": "Required module",
+  "required-module": "Click on the padlock to lock or unlock this module. When blocking a module the student must complete all activities related to it before he can go to the next one.",
   "courses-already-created": "Courses already created:",
   "list-course": "List of courses",
 
@@ -514,6 +514,27 @@
   "select-an-element": "Select an element",
   "testimonial": "Testimonial",
   "persons": "Persons",
+
+  "upload-a-file": "Upload a file",
+
+  "module-information": "You can set a launch date for this module. Students will not be able to access the content related to this module before the established date.",
+
+  "manage-user": "Manage user",
+  "delete-user": "Delete user",
+
+  "edit-category": "Edit category",
+  "delete-category": "Delete caregory",
+
+  "edit-group": "Edit group",
+  "delete-group": "Delete group",
+  "manage-group": "Manage group",
+
+  "edit-course": "Edit course",
+  "delete-course": "Delete course",
+
+  "change-visualization": "Change visualization",
+
+  "no-students-found": "You don't have students",
 
   "create-group": "Create a new group",
   "list-group": "List of groups",

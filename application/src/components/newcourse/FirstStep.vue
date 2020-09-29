@@ -1,85 +1,76 @@
 <template>
-  <div :class="displayContentFirstStep == false ? 'hide' : ''">
-    <form class="card-box" id="form-first-step">
-      <div class="form-wizard-content show" data-tab-content="info">
-        <div class="card-course">
-          <el-row :gutter="24" class="m-b-40">
-            <el-col :sm="12" :xs="24">
-              <!-- Course id -->
-              <input class="hide" type="text" v-model="course.id" name="id" />
-              <!-- Course name -->
-              <label>{{ lang['name'] }} *</label>
-              <el-input
-                class="m-b-20"
-                name="title"
-                v-model="course.name"
-              ></el-input>
-              <!-- Course category -->
-              <label class="col-form-label">{{ lang['category'] }}</label>
-              <el-select class="m-b-30" v-model="course.category">
-                <el-option
-                  :value="1"
-                  :label="lang['default-category']"
-                ></el-option>
-                <el-option
-                  v-for="item in categories"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id"
-                ></el-option>
-              </el-select>
+  <div :class="displayContentFirstStep == false ? 'hide' : 'main'">
+    <form id="form-first-step">
+      <div class="form-wizard-content show card-box" data-tab-content="info">
+        <el-row :gutter="24" class="m-b-40">
+          <el-col :sm="12" :xs="24">
+            <!-- Course id -->
+            <input class="hide" type="text" v-model="course.id" name="id" />
+            <!-- Course name -->
+            <label class="col-form-label">{{ lang['name'] }} *</label>
+            <el-input name="title" v-model="course.name"></el-input>
+            <!-- Course category -->
+            <label class="col-form-label">{{ lang['category'] }}</label>
+            <el-select class="mb-5" v-model="course.category">
+              <el-option
+                :value="1"
+                :label="lang['default-category']"
+              ></el-option>
+              <el-option
+                v-for="item in categories"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
+              ></el-option>
+            </el-select>
 
-              <!-- Advanced configurations button -->
-              <el-button
-                class="sbr-purple"
-                size="small"
-                @click.prevent="modal = true"
-                >{{ lang['advanced-settings'] }}
-                <i class="el-icon-setting"></i>
-              </el-button>
-            </el-col>
+            <!-- Advanced configurations button -->
+            <el-button
+              class="sbr-purple"
+              size="small"
+              @click.prevent="modal = true"
+              >{{ lang['advanced-settings'] }}</el-button
+            >
+          </el-col>
 
-            <!-- Course description -->
-            <el-col :sm="12" :xs="24">
-              <label class="col-form-label"
-                >{{ lang['image'] }} (1900x1200 px)</label
-              >
-              <upload
-                do-upload="true"
-                box-height="200"
-                return-name="photo"
-                input-name="file"
-                bucket-key="uploads/course"
-                acceptable=".png,.jpg,.jpeg"
-              ></upload>
-            </el-col>
-          </el-row>
+          <el-col :sm="12" :xs="24">
+            <label class="col-form-label"
+              >{{ lang['image'] }} (1900x1200 px)</label
+            >
+            <upload
+              do-upload="true"
+              box-height="200"
+              return-name="photo"
+              input-name="file"
+              bucket-key="uploads/course"
+              acceptable=".png,.jpg,.jpeg"
+            ></upload>
+          </el-col>
+        </el-row>
 
-          <el-row :gutter="40">
-            <!-- Course image -->
-            <el-col :sm="12" :xs="24">
-              <textarea
-                class="hide"
-                v-model="course.description"
-                name="description"
-              ></textarea>
-              <label class="col-form-label">{{ lang['description'] }}</label>
-              <wysiwyg v-model="course.description" />
-            </el-col>
-            <!-- Course video preview -->
-            <el-col :sm="12" :xs="24">
-              <label class="col-form-label">{{ lang['video-preview'] }}</label>
-              <upload
-                do-upload="true"
-                box-height="200"
-                return-name="preview"
-                input-name="filePreview"
-                bucket-key="uploads/preview"
-                acceptable=".mp4,.mov"
-              ></upload>
-            </el-col>
-          </el-row>
-        </div>
+        <el-row :gutter="40">
+          <el-col :sm="12" :xs="24">
+            <textarea
+              class="hide"
+              v-model="course.description"
+              name="description"
+            ></textarea>
+            <label class="col-form-label">{{ lang['description'] }}</label>
+            <wysiwyg v-model="course.description" />
+          </el-col>
+
+          <el-col :sm="12" :xs="24">
+            <label class="col-form-label">{{ lang['video-preview'] }}</label>
+            <upload
+              do-upload="true"
+              box-height="200"
+              return-name="preview"
+              input-name="filePreview"
+              bucket-key="uploads/preview"
+              acceptable=".mp4,.mov"
+            ></upload>
+          </el-col>
+        </el-row>
       </div>
 
       <!-- Modal advanced settings -->
@@ -397,7 +388,7 @@ import { eventBus } from '@/components/newcourse/App';
 import { mapState } from 'vuex';
 
 Vue.use(wysiwyg, {
-  hideModules: { image: true }
+  hideModules: { image: true, code: true }
 });
 
 export default {
@@ -457,6 +448,8 @@ export default {
   created() {
     this.getCategories();
     this.getGlobalCurrency();
+  },
+  mounted() {
     eventBus.$on('access-first-step', () => {
       this.displayContentFirstStep = true;
     });
@@ -556,13 +549,6 @@ export default {
 </script>
 
 <style scoped>
-input[type='radio'] {
-  display: none;
-}
-input[type='radio']:checked + label {
-  border: 5px solid #009cd8;
-}
-
 .v-money.price {
   -webkit-appearance: none;
   background-color: #fff;

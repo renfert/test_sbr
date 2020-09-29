@@ -52,13 +52,10 @@
                 "
                 @onConfirm="removeInstructorFromGroup(scope.row.id)"
               >
-                <el-button
-                  class="sbr-danger"
-                  size="small"
+                <i
                   slot="reference"
-                  icon="el-icon-delete"
-                  circle
-                ></el-button>
+                  class="el-icon-delete table-icon table-icon-danger"
+                ></i>
               </el-popconfirm>
             </template>
           </el-table-column>

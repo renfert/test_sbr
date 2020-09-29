@@ -32,14 +32,14 @@ class Program_Model extends CI_Model
 
   /* =============================================
   Edit a program
-  Return: (BOOLEAN) 
+  Return: (BOOLEAN)
   ==============================================  */
   public function edit($dataReceiveFromPost, $courses, $programId)
   {
     $programCoursesArray = $this->getCoursesInsideProgram($programId);
 
     /* =============================================
-    Make a comparison to see if it is necessary to 
+    Make a comparison to see if it is necessary to
     exclude any course from the program.
     ============================================== */
     $personsEnrolledIntoProgram = $this->getAllUsersIntoProgram($programId);
@@ -58,7 +58,7 @@ class Program_Model extends CI_Model
     }
 
     /* =============================================
-    Make a comparison to see if it is necessary to 
+    Make a comparison to see if it is necessary to
     add any program course.
     ============================================== */
 
@@ -130,7 +130,7 @@ class Program_Model extends CI_Model
 
   /* =============================================
   Save array of courses into a program
-  Return: (BOOLEAN) 
+  Return: (BOOLEAN)
   ==============================================  */
   public function saveCoursesIntoProgram($programId, $courses)
   {
@@ -147,7 +147,7 @@ class Program_Model extends CI_Model
 
   /* =============================================
   Enroll a array of users into a program
-  Return: (BOOLEAN) 
+  Return: (BOOLEAN)
   ==============================================  */
   public function enrollUsersIntoProgram($programId, $users)
   {
@@ -159,7 +159,7 @@ class Program_Model extends CI_Model
 
   /* =============================================
   Remove user from a program
-  Return: (BOOLEAN) 
+  Return: (BOOLEAN)
   ==============================================  */
   public function removeUserFromProgram($userId, $programId)
   {
@@ -187,7 +187,7 @@ class Program_Model extends CI_Model
 
   /* =============================================
   Enroll a user into a program
-  Return: (BOOLEAN) 
+  Return: (BOOLEAN)
   ==============================================  */
   public function enrollUserIntoProgram($programId, $userId)
   {
@@ -219,7 +219,7 @@ class Program_Model extends CI_Model
 
   /* =============================================
   List all programs for the currently logged in user
-  Return: (ARRAY) : Array of arrays of program objects. 
+  Return: (ARRAY) : Array of arrays of program objects.
   ==============================================  */
   public function listing()
   {
@@ -227,9 +227,9 @@ class Program_Model extends CI_Model
     $this->db->select("
             T1.id,
             T1.title,
-            T1.photo, 
-            DATE_FORMAT(T1.release_date, '%d/%m/%Y') as release_date, 
-            DATE_FORMAT(T1.expiration_date, '%d/%m/%Y') as expiration_date, 
+            T1.photo,
+            DATE_FORMAT(T1.release_date, '%d/%m/%Y') as release_date,
+            DATE_FORMAT(T1.expiration_date, '%d/%m/%Y') as expiration_date,
             DATEDIFF(T1.expiration_date, '$currentDate') as expirationDays,
             DATEDIFF(T1.release_date, '$currentDate') as releaseDays,
             (SELECT count( DISTINCT T3.mylesson_id) FROM program_has_mycourse T2 INNER JOIN lesson_status T3 ON T2.mycourse_id = T3.mycourse_id WHERE T2.program_id = T1.id ) as lessons,
@@ -249,7 +249,7 @@ class Program_Model extends CI_Model
 
   /* =============================================
   List all courses from specific program
-  Return: (ARRAY) : Array of arrays of course objects. 
+  Return: (ARRAY) : Array of arrays of course objects.
   ==============================================  */
   public function listingCoursesToViewProgram($programId, $userId)
   {
@@ -274,7 +274,7 @@ class Program_Model extends CI_Model
 
   /* =============================================
   Get all courses
-  Return: (ARRAY) : Array of arrays of course objects. 
+  Return: (ARRAY) : Array of arrays of course objects.
   ==============================================  */
   public function getCourses()
   {
@@ -292,7 +292,7 @@ class Program_Model extends CI_Model
 
   /* =============================================
   Get all courses from specific program
-  Return: (ARRAY) : Array of arrays of course objects. 
+  Return: (ARRAY) : Array of arrays of course objects.
   ==============================================  */
   public function getProgramCourses($programId)
   {
@@ -312,7 +312,7 @@ class Program_Model extends CI_Model
 
   /* =============================================
   Take all users enrolled into specific program
-  Return: (ARRAY) : Array of users id. 
+  Return: (ARRAY) : Array of users id.
   ==============================================  */
   private function getAllUsersIntoProgram($programId)
   {
@@ -335,7 +335,7 @@ class Program_Model extends CI_Model
 
   /* =============================================
   Take all courses from specific program
-  Return: (ARRAY) : Array of arrays of user objects. 
+  Return: (ARRAY) : Array of arrays of user objects.
   ==============================================  */
   private function getAllCoursesIntoProgram($programId)
   {
@@ -352,7 +352,7 @@ class Program_Model extends CI_Model
 
   /* =============================================
   Delete a specific program
-  Return: (BOOLEAN) 
+  Return: (BOOLEAN)
   ==============================================  */
   public function delete($programId)
   {
@@ -376,6 +376,10 @@ class Program_Model extends CI_Model
     /* Delete from activities */
     $this->db->where("program_id", $programId);
     $this->db->delete("activities");
+
+    /* Delete user_privileges */
+    $this->db->where("program_id", $programId);
+    $this->db->delete("user_privileges");
 
     /* Delete program */
     $this->db->where("id", $programId);

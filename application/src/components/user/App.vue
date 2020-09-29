@@ -18,7 +18,7 @@
               <i class="mdi mdi-book-outline"></i>
               {{ lang['courses'] }}
             </span>
-            <courses :user-id="userId"></courses>
+            <courses :user-id="userId" :user-role="roleId"></courses>
           </el-tab-pane>
 
           <el-tab-pane>
@@ -52,7 +52,8 @@ export default {
     return {
       userId: '',
       name: '',
-      avatar: ''
+      avatar: '',
+      roleId: ''
     };
   },
   created() {
@@ -71,6 +72,7 @@ export default {
       this.$request.post(urlToBeUsedInTheRequest, formData).then((response) => {
         this.name = response.data.name;
         this.avatar = response.data.avatar;
+        this.roleId = response.data.myrole_id;
       });
     }
   },

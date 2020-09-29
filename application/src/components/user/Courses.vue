@@ -52,14 +52,36 @@
                 :title="lang['remove-course-question'] + scope.row.title + '?'"
                 @onConfirm="removeCourseFromUser(scope.row.id)"
               >
-                <el-button
-                  class="sbr-danger"
-                  size="small"
+                <i
                   slot="reference"
-                  icon="el-icon-delete"
-                  circle
-                ></el-button>
+                  class="el-icon-delete table-icon table-icon-danger"
+                ></i>
               </el-popconfirm>
+            </template>
+          </el-table-column>
+
+          <el-table-column
+            v-if="userRole == 2"
+            label="User privilegies"
+            align="center"
+          >
+            <template slot-scope="scope">
+              <!-- Edit course -->
+              <i
+                @click.prevent="
+                  changeCourseEditingPrivileges(scope.row.id, scope.row.edit)
+                "
+                class="el-icon-edit-outline table-icon table-icon-primary m-r-20"
+                :class="scope.row.edit == 'on' ? 'primary-active' : ''"
+              ></i>
+              <!-- Delete course -->
+              <i
+                @click.prevent="
+                  changeCourseDeletePrivileges(scope.row.id, scope.row.delete)
+                "
+                class="el-icon-delete table-icon table-icon-danger"
+                :class="scope.row.delete == 'on' ? 'danger-active' : ''"
+              ></i>
             </template>
           </el-table-column>
         </data-tables>
@@ -154,7 +176,7 @@ export default {
   components: {
     FacebookLoader
   },
-  props: ['user-id'],
+  props: ['user-id', 'user-role'],
   data: () => {
     return {
       titles: [{ prop: 'title', label: 'Title' }],
@@ -196,7 +218,42 @@ export default {
         }
       );
     },
-
+    changeCourseEditingPrivileges(courseId, privilegeStatus) {
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'course',
+        'changeCourseEditingPrivileges'
+      );
+      formData.set('courseId', courseId);
+      formData.set('userId', this.userId);
+      formData.set('privilegeStatus', privilegeStatus);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        () => {
+          this.getEnrolledCourses();
+        },
+        () => {
+          this.$errorMessage();
+        }
+      );
+    },
+    changeCourseDeletePrivileges(courseId, privilegeStatus) {
+      const formData = new FormData();
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'course',
+        'changeCourseDeletePrivileges'
+      );
+      formData.set('courseId', courseId);
+      formData.set('userId', this.userId);
+      formData.set('privilegeStatus', privilegeStatus);
+      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+        () => {
+          this.getEnrolledCourses();
+        },
+        () => {
+          this.$errorMessage();
+        }
+      );
+    },
     addCourse() {
       this.modal = true;
     },
@@ -266,3 +323,13 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.primary-active {
+  color: #009cd8 !important;
+}
+
+.danger-active {
+  color: #dc143c !important;
+}
+</style>

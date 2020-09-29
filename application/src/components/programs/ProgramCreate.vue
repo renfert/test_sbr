@@ -4,7 +4,7 @@
       <div class="item-card">
         <div>
           <h3>
-            {{ lang['courses-already-created'] }}
+            {{ lang['programs-already-created'] }}
             <b class="sbr-text-primary">{{ totalPrograms }}</b>
           </h3>
           <router-link to="/newprogram">

@@ -205,7 +205,7 @@ export default {
       const obj = {
         id: this.course,
         text:
-          "<i  style='cursor:pointer !important;' class='m-r-20 remove-course el-icon-delete sbr-text-danger'></i><input class='courses-position hide' name='courses[" +
+          "<i  style='cursor:pointer !important;' class='m-r-20 remove-course el-icon-delete table-icon table-icon-danger'></i><input class='courses-position hide' name='courses[" +
           this.cont +
           "]' value='" +
           this.course +

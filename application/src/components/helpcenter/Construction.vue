@@ -1,25 +1,5 @@
 <template>
   <div class="center construction">
-    <!--
-    <div>
-      <el-row class="flex" :gutter="120">
-        <el-col :sm="2" :xs="8">
-          <img class="sabio" src="@/assets/gifs/sabio.gif" alt="" />
-        </el-col>
-        <el-col :sm="20" :xs="16">
-          <div class="message-wrapper them">
-            <div class="text-wrapper animated fadeIn">
-              <div class="dots m-t-10">
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-            </div>
-          </div>
-        </el-col>
-      </el-row>
-    </div>
-    !-->
     <img
       class="not-found-image"
       src="@/assets/img/general/ux/construction.svg"

@@ -1,6 +1,6 @@
 <template>
   <div class="content-page">
-    <group-create></group-create>
+    <group-create v-if="user.role == 1"></group-create>
     <group-list></group-list>
   </div>
 </template>
@@ -10,6 +10,7 @@ import Vue from 'vue';
 import GroupCreate from '@/components/groups/GroupCreate.vue';
 import GroupList from '@/components/groups/GroupList.vue';
 import VueHead from 'vue-head';
+import { mapState } from 'vuex';
 
 export const eventBus = new Vue();
 
@@ -20,8 +21,11 @@ export default {
     GroupCreate,
     GroupList
   },
+  computed: {
+    ...mapState(['user'])
+  },
   created() {
-    this.$verifyAdministratorPrivileges();
+    this.$blockStudentAccess();
   },
   head: {
     title: {

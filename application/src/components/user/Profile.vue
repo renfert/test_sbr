@@ -28,23 +28,23 @@
                 :sm="8"
                 style="border-right: 2px solid #009cd8"
               >
-                <h2 class="sbr-text-white">Information</h2>
+                <h2 class="sbr-text-grey">Information</h2>
                 <br />
                 <h4>
-                  <span class="sbr-text-white m-r-5">NAME : </span>
-                  <span class="sbr-text-grey">{{ userName }}</span>
+                  <span class="m-r-5">NAME : </span>
+                  <span>{{ userName }}</span>
                 </h4>
                 <h4 v-if="role == 2">
-                  <span class="sbr-text-white m-r-5">ROLE : </span>
-                  <span class="sbr-text-grey">{{ lang['instructor'] }}</span>
+                  <span class="m-r-5">ROLE : </span>
+                  <span>{{ lang['instructor'] }}</span>
                 </h4>
                 <h4 v-else class="text-sabiorealm">
-                  <span class="sbr-text-white m-r-5">ROLE : </span>
-                  <span class="sbr-text-grey">{{ lang['student'] }}</span>
+                  <span class="m-r-5">ROLE : </span>
+                  <span>{{ lang['student'] }}</span>
                 </h4>
                 <h4>
-                  <span class="sbr-text-white m-r-5">EMAIL : </span>
-                  <span class="sbr-text-grey">{{ userEmail }}</span>
+                  <span class="m-r-5">EMAIL : </span>
+                  <span>{{ userEmail }}</span>
                 </h4>
               </el-col>
               <!--
@@ -346,22 +346,21 @@ h4 {
 }
 
 .card-box {
-  box-shadow: 0 2px 10px 0 #009bd877 !important;
+  box-shadow: 0 0px 4px 0 #009bd877 !important;
   border-radius: 0 12px 12px 0 !important;
   border-left: 3px solid #009cd8;
-  background-color: rgb(55, 58, 67);
   padding: 50px !important;
 }
 
 .el-avatar {
-  border: 3px solid #009cd8 !important;
+  border: 2px solid #009cd8 !important;
   transition: all 0.2s ease-in-out 0s !important;
   cursor: pointer !important;
 }
 
 .el-avatar:hover {
   transform: translateX(5px) !important;
-  box-shadow: 0 10px 20px 0 #009bd877 !important;
+  box-shadow: 0 5px 20px 0 #009bd877 !important;
 }
 
 .el-tabs--border-card > .el-tabs__content {

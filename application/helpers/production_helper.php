@@ -1,7 +1,11 @@
 <?php
 function production()
 {
-  return false;
+  if ($_SERVER['HTTP_HOST'] == 'localhost') {
+    return false;
+  } else {
+    return true;
+  }
 }
 
 function getUserId()

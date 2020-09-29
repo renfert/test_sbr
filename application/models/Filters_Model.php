@@ -71,6 +71,17 @@ class Filters_Model extends CI_Model
     return $title;
   }
 
+  public function filterStudentsByEmail($email)
+  {
+    if ($email == null or $email == '') {
+      $email = "T1.email LIKE '%'";
+    } else {
+      $email = "T1.email LIKE '%" . $email . "%'";
+    }
+
+    return $email;
+  }
+
   public function filterEmptyFields($field, $rules)
   {
     if (in_array($field, $rules)) {

@@ -54,31 +54,37 @@
           <el-table-column label="Actions" align="center">
             <template slot-scope="scope">
               <!-- Manage user -->
-              <router-link :to="'/user/' + scope.row.id">
-                <el-button
-                  size="small"
-                  class="sbr-primary"
-                  icon="el-icon-user"
-                  circle
-                ></el-button>
-              </router-link>
+              <el-tooltip
+                class="item"
+                effect="dark"
+                :content="lang['manage-user']"
+                placement="top"
+              >
+                <router-link class="m-r-20" :to="'/user/' + scope.row.id">
+                  <i class="el-icon-set-up table-icon table-icon-purple"></i>
+                </router-link>
+              </el-tooltip>
 
               <!-- Delete User -->
-              <el-popconfirm
-                confirmButtonText="Ok"
-                cancelButtonText="No, Thanks"
-                placement="right"
-                :title="lang['question-delete-user'] + scope.row.name + '?'"
-                @onConfirm="deleteUser(scope.row.id)"
+              <el-tooltip
+                class="item"
+                effect="dark"
+                :content="lang['delete-user']"
+                placement="top"
               >
-                <el-button
-                  size="small"
-                  class="sbr-danger ml-1"
-                  slot="reference"
-                  icon="el-icon-delete"
-                  circle
-                ></el-button>
-              </el-popconfirm>
+                <el-popconfirm
+                  confirmButtonText="Ok"
+                  cancelButtonText="No, Thanks"
+                  placement="right"
+                  :title="lang['question-delete-user'] + scope.row.name + '?'"
+                  @onConfirm="deleteUser(scope.row.id)"
+                >
+                  <i
+                    slot="reference"
+                    class="el-icon-delete table-icon table-icon-danger"
+                  ></i>
+                </el-popconfirm>
+              </el-tooltip>
             </template>
           </el-table-column>
         </data-tables>
