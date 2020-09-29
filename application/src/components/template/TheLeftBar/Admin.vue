@@ -202,6 +202,7 @@
 </template>
 
 <script>
+import router from '@/router';
 import { eventTemplate } from '@/components/template/TheTopBar';
 import { mapState } from 'vuex';
 
@@ -238,7 +239,7 @@ export default {
         'doLogout'
       );
       this.$request.get(urlToBeUsedInTheRequest).then(() => {
-        window.location.href = this.$getDomainNameToNavigation();
+        router.push('/marketplace');
       });
     }
   }

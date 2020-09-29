@@ -99,6 +99,7 @@
 </template>
 
 <script>
+import router from '@/router';
 import { mapState } from 'vuex';
 import { eventTemplate } from '@/components/template/TheTopBar';
 
@@ -135,7 +136,7 @@ export default {
         'doLogout'
       );
       this.$request.get(urlToBeUsedInTheRequest).then(() => {
-        window.location.href = this.$getDomainNameToNavigation();
+        router.push('/marketplace');
       });
     }
   }
