@@ -109,6 +109,13 @@ class User extends CI_Controller
   }
 
 
+  public function getUserCourseProgress()
+  {
+    $userId = $this->input->post("userId");
+    $courseId = $this->input->post("courseId");
+    $result = $this->Course_Model->userProgress($courseId, $userId);
+    echo json_encode($result);
+  }
 
   /* ---------------------
       Get user profile

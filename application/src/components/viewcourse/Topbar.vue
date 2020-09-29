@@ -5,14 +5,15 @@
     ----------------->
     <div class="mobile-topbar">
       <i @click="changeLeftBarClass()" class="mdi mdi-menu mdi-24px pr-5"></i>
-      <a class="pr-5" :href="$getDomainNameToNavigation() + 'courses'">
+      <router-link to="/courses">
         <el-button
           size="medium"
           class="sbr-primary"
           icon="el-icon-back"
           circle
         ></el-button>
-      </a>
+      </router-link>
+
       <el-button
         class="sbr-btn sbr-primary mr-3"
         @click="prevLesson()"

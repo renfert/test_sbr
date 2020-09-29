@@ -170,6 +170,12 @@ class User_Model extends CI_Model
       return false;
     }
 
+    /* Delete from user_privileges */
+    $this->db->where("myuser_id", $userId);
+    if ($this->db->delete("user_privileges") == false) {
+      return false;
+    }
+
     $this->db->where("id", $userId);
     if ($this->db->delete("myuser") == false) {
       return false;

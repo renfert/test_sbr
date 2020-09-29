@@ -21,6 +21,34 @@ $warning-color: #ffba00;
    - Mobile
 
 ============= */
+
+/* =============
+   Pagination
+============= */
+.pagination {
+  display: inline-flex !important;
+}
+
+.pagination > li > a,
+.pagination > li > a,
+.pagination > li > span {
+  padding: 0;
+  margin: 5px;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+}
+
+.page-link {
+  border-radius: 50px !important;
+}
+
+.page-link.active {
+  color: white !important;
+  background-color: $primary-color !important;
+}
+
 /* =============
    Common
 ============= */

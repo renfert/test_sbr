@@ -440,6 +440,12 @@ class Course_Model extends CI_Model
       return false;
     }
 
+    /* Delete from user_privileges */
+    $this->db->where("mycourse_id", $courseId);
+    if ($this->db->delete("user_privileges") == false) {
+      return false;
+    }
+
     /* Delete from mycourse */
     $this->db->where("id", $courseId);
     if ($this->db->delete("mycourse") == false) {
