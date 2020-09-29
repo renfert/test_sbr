@@ -7,12 +7,40 @@
     />
     <h3 class="m-t-40 fw-700">{{ lang['under-construction-title'] }}</h3>
     <p>{{ lang['under-construction-subtitle'] }}</p>
+    {{ activeName }}
+    <el-tabs v-model="activeName">
+      <el-tab-pane label="User" name="first">
+        <div v-if="activeName == 'first'">
+          <span
+            >Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure sed,
+            possimus magnam aliquid cum fugiat accusamus labore quibusdam
+            ratione alias veniam, totam iusto assumenda optio sit dolor porro
+            soluta quod!</span
+          >
+        </div>
+      </el-tab-pane>
+      <el-tab-pane label="Config" name="second">
+        <div v-if="activeName == 'second'">
+          <span
+            >Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt
+            molestiae animi eligendi porro minima molestias, corrupti tempora
+            ullam. Doloribus et reiciendis dolor consequatur, exercitationem
+            ratione iste consectetur sed ea cumque!</span
+          >
+        </div>
+      </el-tab-pane>
+    </el-tabs>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
 export default {
+  data: () => {
+    return {
+      activeName: 'first'
+    };
+  },
   computed: {
     ...mapState(['lang'])
   }
