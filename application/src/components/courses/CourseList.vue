@@ -41,10 +41,10 @@
         src="@/assets/img/general/ux/no_courses.svg"
       />
       <h4 class="no-results-text">{{ lang['no-courses-found'] }}</h4>
-      <router-link to="/newcourse">
-        <el-button class="sbr-primary mt-4">
-          {{ lang['new-course-button'] }}
-        </el-button>
+      <router-link v-if="user.role != 3" to="/newcourse">
+        <el-button class="sbr-primary mt-4">{{
+          lang['new-course-button']
+        }}</el-button>
       </router-link>
     </el-col>
   </el-row>
