@@ -391,7 +391,7 @@ export default {
       session: false,
       registeredUser: false,
       userId: '',
-      modal: true,
+      modal: false,
       createAnAccount: true,
       login: false,
       loading: false,
