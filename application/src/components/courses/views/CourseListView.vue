@@ -15,6 +15,7 @@
         --------------->
         <el-card :body-style="{ padding: '0px' }" shadow="hover">
           <img
+            class="card-img-top"
             v-if="element.expirationDays < 0 || element.releaseDays > 0"
             v-lazy="$getUrlToContents() + 'course/' + element.photo + ''"
           />
@@ -208,6 +209,7 @@ export default {
 .card-img-top {
   width: 100%;
   height: 200px !important;
+  max-width: 100% !important;
 }
 
 .card-title a {

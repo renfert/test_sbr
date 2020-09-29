@@ -462,6 +462,11 @@ export default {
       this.course.mode === 'create' ? this.createCourse() : this.editCourse();
     });
   },
+  beforeDestroy() {
+    eventBus.$off('access-first-step', this.listener);
+    eventBus.$off('access-second-step', this.listener);
+    eventBus.$off('access-third-step', this.listener);
+  },
   methods: {
     createCourse() {
       const form = document.getElementById('form-first-step');
