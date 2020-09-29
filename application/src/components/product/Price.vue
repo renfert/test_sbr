@@ -45,7 +45,9 @@
       <span v-if="price == null" class="facts-1">{{
         lang['free-course']
       }}</span>
-      <h2 v-else :style="primaryColor" class="theme-cl">$ {{ price }}</h2>
+      <h2 v-else :style="primaryColor" class="theme-cl">
+        {{ this.currency }} {{ price }}
+      </h2>
     </div>
 
     <div class="ed_view_link">
