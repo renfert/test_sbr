@@ -83,6 +83,7 @@
 </template>
 
 <script>
+import router from '@/router';
 import Vue from 'vue';
 import { mapState } from 'vuex';
 export const eventLogin = new Vue();
@@ -121,7 +122,7 @@ export default {
       this.$request.post(urlToBeUsedInTheRequest, formData).then(
         (response) => {
           if (response.data === true) {
-            window.location.href = this.$getDomainNameToNavigation() + 'home';
+            router.push('/home');
           } else {
             this.login.wrongPasswordOrUserMessage = true;
           }
