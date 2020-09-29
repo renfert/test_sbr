@@ -1,5 +1,6 @@
 <template>
   <div class="center construction">
+    <!--
     <div>
       <el-row class="flex" :gutter="120">
         <el-col :sm="2" :xs="8">
@@ -25,6 +26,7 @@
     />
     <h3 class="m-t-40 fw-700">{{ lang['under-construction-title'] }}</h3>
     <p>{{ lang['under-construction-subtitle'] }}</p>
+    -->
   </div>
 </template>
 
