@@ -3,7 +3,7 @@
     <el-card style="">
 
       <el-row>
-        {{ lang['admin-view-topbar'] }}
+       <b> {{ lang['admin-view-topbar'] }}</b>
       </el-row>
 
       <el-row v-for="(user) in users">
@@ -23,7 +23,7 @@
       </div>
 
       <el-row>
-        {{ lang['instructor-view-topbar'] }}
+        <b>{{ lang['instructor-view-topbar'] }}</b>
       </el-row>
       <el-row v-for="(user) in users">
         <div v-if="user.myrole_id==2">
@@ -38,7 +38,7 @@
 
       </el-row>
       <el-row>
-        {{ lang['student-view-topbar'] }}
+        <b>{{ lang['student-view-topbar'] }}</b>
       </el-row>
       <el-row v-for="(user) in users">
         <div v-if="user.myrole_id==3">

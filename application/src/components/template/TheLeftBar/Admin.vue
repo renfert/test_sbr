@@ -151,9 +151,19 @@
           </router-link>
         </el-menu-item>
       </el-submenu>
+      <router-link to="/profile-social">
+      <el-menu-item index="19">
+        <template slot="title">
 
+          <i class="el-icon-share"></i>
+          <a href="javascript:void(0)" class="waves-effect">
+            <span class="menuMain">Social</span>
+          </a>
+        </template>
+      </el-menu-item>
+      </router-link>
       <!-- User information -->
-      <el-menu-item index="19" class="menu-item-user" v-if="collapse != true">
+      <el-menu-item index="20" class="menu-item-user" v-if="collapse != true">
         <el-row>
           <!-- Profile -->
           <router-link to="/profile" class="pr-4">

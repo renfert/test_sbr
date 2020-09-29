@@ -4,13 +4,13 @@
              :key="index" @load="hide($event)">
       <div slot="header" class="clearfix">
         <el-row>
-          <el-col :md="3" :sm="4" :xs="4">
+          <el-col :md="2" :sm="4" :xs="4">
             <el-avatar
               :src="$getUrlToContents() + 'avatar/' + user.avatar + ''"
             />
           </el-col>
-          <el-col :md="17" :sm="14" :xs="14" class="p-t-10">
-            <router-link :to="'user/'+publication.myuser_id">
+          <el-col :md="18" :sm="14" :xs="14" class="p-t-10">
+            <router-link :to="'/user/'+publication.myuser_id">
               <b><span class="link">{{ publication.username }} </span>
                 <i class="fas fa-caret-right" style="font-size: 15px"></i>
               </b>
@@ -27,14 +27,16 @@
               </a>
             </b>
           </el-col>
-          <div v-if="user.id===publication.myuser_id">
+          <div v-if="user.id===publication.myuser_id ">
 
             <el-col :md="2" :sm="3" :xs="3">
               <el-button @click="editPost(publication.id,publication.description)" type="primary" icon="el-icon-edit"
                          circle
                          size="small"></el-button>
             </el-col>
-            <el-col :md="2" :sm="2" :xs="2">
+          </div>
+          <div v-if="user.role===1 || user.id===publication.myuser_id ">
+            <el-col :md="1" :sm="2" :xs="2">
               <el-popconfirm
                 confirmButtonText="Ok"
                 cancelButtonText="No, Thanks"
@@ -69,24 +71,28 @@
       <!--        <div v-html="publication.description">-->
       <!--        </div>-->
       <!--      </div>-->
-      <el-row>
-        <div v-html="publication.description">
-
+      <el-row >
+        <div v-html="publication.description" style="word-break: break-word;text-overflow: ellipsis;-webkit-line-break: after-white-space;-webkit-box-orient: vertical; ">
         </div>
       </el-row>
       <br>
       <el-row v-if="publication.media_path" justify="center" align="start" :gutter="50">
         <center>
-          <img :src="$getUrlToContents() + 'social/'+publication.media_path" style="border-radius: 7px" height="250vh" onerror="this.onerror=null">
+          <img :src="$getUrlToContents() + 'social/'+publication.media_path" style="border-radius: 7px" height="250vh"
+               onerror="this.onerror=null">
         </center>
       </el-row>
       <br>
       <el-row>
         <p style="color: rgba(43,33,40,0.66)">
-          <el-button @load="getLike(publication.id)" @click="doPublicationLike(publication.id,$event)"
+          <el-button
+            size="mini"
+            :type="publication.i_like_it?'primary':''"
+                     @click="doPublicationLike(publication.id,$event)"
                      circle><i class="fas fa-thumbs-up"
-                               style="color:#4a5568"></i>
+                               :style="publication.i_like_it?'color:white':'color:#4a5568'"></i>
           </el-button>
+          {{ publication.likes > 0 ? publication.likes + ' likes,' : '' }}
           {{ new Date(publication.created).toLocaleString(new Date().getTimezoneOffset(), {dateStyle: "full"}) }}
         </p>
       </el-row>
@@ -109,8 +115,6 @@
           </span>
           </el-input>
         </el-col>
-        <el-col :md="1">
-        </el-col>
       </el-row>
       <br>
       <SubCommentary :publication_id="publication.id"/>
@@ -123,7 +127,7 @@
       <el-row :md="24" justify="center">
         <el-input
           type="textarea"
-          :rows="2"
+          :rows="3"
           :placeholder="lang['enter-text']"
           v-model="editText">
         </el-input>
@@ -153,7 +157,7 @@ import {eventBus} from '@/components/sabiorealm-social/App';
 Vue.use(VueHead);
 Vue.use(wysiwyg, {});
 export default {
-  props: ['publications'],
+  props: ['type', 'typeid'],
   data: () => {
     return {
       comment: [],
@@ -161,11 +165,45 @@ export default {
       loading: false,
       editDialog: false,
       editText: '',
-      publication_id: null
+      publication_id: null,
+      publications: []
     };
   },
   components: {SubCommentary},
   created() {
+    switch (this.type) {
+      case 'all': {
+        this.getPublications();
+        break;
+      }
+      case 'group': {
+        this.getPublicationByGroup();
+        break;
+      }
+      case 'course': {
+        this.getPublicationByCourse();
+        break;
+      }
+    }
+  },
+  mounted() {
+    eventBus.$on('social-update-post', () => {
+      switch (this.type) {
+        case 'all': {
+          this.getPublications();
+          break;
+        }
+        case 'group': {
+          this.getPublicationByGroup();
+          break;
+        }
+
+        case 'course': {
+          this.getPublicationByCourse();
+          break;
+        }
+      }
+    });
   },
   computed: {
 
@@ -174,18 +212,41 @@ export default {
 
   },
   methods: {
+    getPublicationByGroup() {
+      const form = new FormData();
+      form.append('myuser_id', this.user.id);
+      form.append('group_id', this.typeid);
+      this.$request.post(this.$getUrlToMakeRequest('SocialNetwork', 'getPublicationsByGroup'), form).then((response) => {
+        this.publications = response.data;
+      });
+    },
+    getPublicationByCourse() {
+      const form = new FormData();
+      form.append('myuser_id', this.user.id);
+      form.append('course_id', this.typeid);
+      this.$request.post(this.$getUrlToMakeRequest('SocialNetwork', 'getPublicationsByCourse'), form).then((response) => {
+        this.publications = response.data;
+      });
+    },
+    getPublications() {
+      const form = new FormData();
+      form.append('myuser_id', this.user.id);
+      this.$request.post(this.$getUrlToMakeRequest('SocialNetwork', 'getPublications'), form).then((response) => {
+        this.publications = response.data;
+      });
+    },
     // eslint-disable-next-line camelcase
     async saveComment(publication_id, index) {
       this.loading = true;
       const form = new FormData();
       form.append('myuser_id', this.user.id);
-      form.append('comment', this.comment[index]);
+      form.append('comment', this.urlify(this.comment[index]));
       form.append('social_publication_id', publication_id);
       this.comment[index] = '';
       await this.$request.post(this.$getUrlToMakeRequest('SocialNetwork', 'saveComment'), form);
       this.loading = false;
-      eventBus.$emit('social-load-commentaries');
       eventBus.$emit('social-update-post');
+      eventBus.$emit('social-load-commentaries');
     },
     // eslint-disable-next-line camelcase
     getLike(publication_id, event) {
@@ -200,15 +261,11 @@ export default {
     },
     // eslint-disable-next-line camelcase
     doPublicationLike(publication_id) {
-      // event.currentTarget.children[0].style.color = 'rgb(255, 255, 255)';
-      event.currentTarget.style.backgroundColor = '#67C23A';
-      event.currentTarget.children[0].style.color = 'white';
-      // console.log(event);
       const form = new FormData();
       form.append('social_publication_id', publication_id);
       form.append('myuser_id', this.user.id);
-      this.$request.post(this.$getUrlToMakeRequest('SocialNetwork', 'doLike'), form).then((response) => {
-        // console.log(response.data);
+      this.$request.post(this.$getUrlToMakeRequest('SocialNetwork', 'doPublicationLike'), form).then((response) => {
+        eventBus.$emit('social-update-post');
       });
     },
     // eslint-disable-next-line camelcase
@@ -236,7 +293,6 @@ export default {
       if (data.status === 200 && this.editText.length > 0) {
         this.$messagePublished();
         // eslint-disable-next-line eqeqeq
-
       } else if (data.data == false) {
         this.$errorMessage();
       }
@@ -247,8 +303,13 @@ export default {
       this.editText = '';
       this.loading = false;
       this.editDialog = false;
+    },
+    urlify(text) {
+      const urlRegex = /(https?:\/\/[^\s]+)/g;
+      return text.replace(urlRegex, (url) => {
+        return '<a target="_blank" href="' + url + '">' + url + '</a>';
+      });
     }
-
   }
 };
 </script>

@@ -18,7 +18,8 @@ class SocialNetwork extends CI_Controller
 
   public function getPublications()
   {
-    $pubs = $this->Social_Network_Model->getPublications();
+    $data = $this->input->post();
+    $pubs = $this->Social_Network_Model->getPublications($data['myuser_id']);
     echo json_encode($pubs);
   }
 
@@ -65,17 +66,17 @@ class SocialNetwork extends CI_Controller
     }
   }
 
-  public function doLike()
+  public function doPublicationLike()
   {
     $data = $this->input->post();
-    echo json_encode($this->Social_Network_Model->saveLike($data));
+
+    echo json_encode($this->Social_Network_Model->savePublicationLike($data));
   }
 
-  public function checkIfLike()
+  public function doCommentaryLike()
   {
-
     $data = $this->input->post();
-    echo json_encode($this->Social_Network_Model->getLikeByPublicationId($data['social_publication_id'], $data['myuser_id']));
+    echo json_encode($this->Social_Network_Model->saveCommentaryLike($data));
   }
 
   public function getOnlineUsers()
@@ -88,7 +89,7 @@ class SocialNetwork extends CI_Controller
   {
     $data = $this->input->post();
 
-    echo json_encode($this->Social_Network_Model->getCommentByPublicationId($data['social_publication_id']));
+    echo json_encode($this->Social_Network_Model->getCommentsByPublicationId($data['social_publication_id'], $data['myuser_id']));
 
   }
 
@@ -97,6 +98,14 @@ class SocialNetwork extends CI_Controller
     $data = $this->input->post();
 
     echo json_encode($this->Social_Network_Model->deletePostByPublicationId($data['social_publication_id']));
+  }
+
+  public function deleteComment()
+  {
+
+    $data = $this->input->post();
+
+    echo json_encode($this->Social_Network_Model->deleteCommentById($data['social_comment_id']));
   }
 
   public function getAllGroups()
@@ -109,5 +118,19 @@ class SocialNetwork extends CI_Controller
   public function getAllCourses()
   {
     echo json_encode($this->Social_Network_Model->getAllCourses());
+  }
+
+  public function getPublicationsByGroup()
+  {
+
+    $data = $this->input->post();
+    echo json_encode($this->Social_Network_Model->getPublicationsByGroupId($data['group_id'],$data['myuser_id']));
+  }
+
+  public function getPublicationsByCourse()
+  {
+
+    $data = $this->input->post();
+    echo json_encode($this->Social_Network_Model->getPublicationsByCourseId($data['course_id'],$data['myuser_id']));
   }
 }

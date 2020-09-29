@@ -24,38 +24,93 @@
               <router-link :to="'user/'+user.id">
                 {{ comment.username }}
               </router-link>
+              <div style="color:#909399; font-size:10px;display:inline-block;white-space: nowrap">
+                {{ new Date(comment.created).toLocaleString(new Date().getTimezoneOffset(), {dateStyle: "full"}) }} -
+                {{ new Date(comment.created).toLocaleTimeString() }}
+              </div>
             </el-col>
           </el-row>
 
         </div>
         <el-row justify="start">
 
-          <el-col :md="22">
+          <el-col :md="20" :sm="10">
             <div v-html="comment.comment" style="overflow-wrap: anywhere">
             </div>
           </el-col>
+          <div v-if="user.id===comment.myuser_id ">
+            <el-col :md="2" :sm="1" :xs="3">
 
+              <el-button type="primary" icon="el-icon-edit"
+                         circle
+                         @click="editComment(comment.id,comment.comment)"
+                         size="small"></el-button>
+
+            </el-col>
+          </div>
+
+          <div v-if="user.role===1 || user.id===comment.myuser_id ">
+            <el-col :md="1" :sm="1" :xs="2">
+              <el-popconfirm
+                confirmButtonText="Ok"
+                cancelButtonText="No, Thanks"
+                placement="right"
+                :title="lang['delete']+' ?'"
+                @onConfirm="deleteComment(comment.id)"
+              >
+                <el-button
+                  size="small"
+                  class="sbr-danger ml-1"
+                  slot="reference"
+                  icon="el-icon-delete"
+                  circle
+                ></el-button>
+              </el-popconfirm>
+            </el-col>
+          </div>
         </el-row>
         <br>
         <el-row justify="center">
 
-          <el-col :md="2" :sm="4" :xs="4">
-            <el-button
-              circle><i class="fas fa-thumbs-up"
-                        style="color:#4a5568"></i>
+          <el-col :md="4" :sm="4" :xs="4">
+
+            <el-button :type="comment.i_like_it?'primary':''"
+                       @click="doCommentaryLike(comment.id)"
+                       circle><i class="fas fa-thumbs-up"
+                                 :style="comment.i_like_it?'color:white':'color:#4a5568'"></i>
             </el-button>
 
-          </el-col>
-          <el-col :md="10" :sm="15" :xs="15" style="margin-top:10px">
+            {{ comment.likes > 0 ? comment.likes + ' likes' : '' }}
 
-            <div style="color:#909399; font-size:10px">
-              {{ new Date(comment.created).toLocaleString(new Date().getTimezoneOffset(), {dateStyle: "full"}) }} -
-              {{ new Date(comment.created).toLocaleTimeString() }}
-            </div>
           </el-col>
         </el-row>
+
       </div>
     </div>
+
+    <el-dialog
+      :title="lang['edit']"
+      :visible.sync="editDialog"
+      width="50%"
+    >
+      <el-row :md="24" justify="center">
+        <el-input
+          type="textarea"
+          :rows="3"
+          :placeholder="lang['enter-text']"
+          v-model="editText">
+        </el-input>
+        <br>
+        <br>
+        <el-button @click="saveComment()" type="primary" round>
+          <i class="el-icon-loading"
+             style="color: white;" v-if="loading"></i>
+          <i class="far fa-paper-plane" v-else></i> {{
+            lang['publish']
+          }}
+        </el-button>
+      </el-row>
+    </el-dialog>
   </div>
 </template>
 
@@ -74,10 +129,15 @@ export default {
   props: ['publication_id'],
   data: () => {
     return {
+      editText: '',
+      comment_id: '',
+      editDialog: false,
       comments: [],
       n_comments: 0,
       viewComments: false,
-      prueba: 0
+      prueba: 0,
+      loading: false,
+      commentUpdateHandle: null
     };
   },
   components: {},
@@ -87,7 +147,7 @@ export default {
     //
     //   await this.sleep(5000);
     // }
-    await setInterval(async() => {
+    this.commentUpdateHandle = await setInterval(async () => {
       await this.loadCommentaries();
     }, 5000);
     // eslint-disable-next-line no-unreachable
@@ -109,11 +169,52 @@ export default {
     async loadCommentaries() {
       const form = new FormData();
       form.append('social_publication_id', this.publication_id);
+      form.append('myuser_id', this.user.id);
       const {data} = await this.$request.post(this.$getUrlToMakeRequest('SocialNetwork', 'getCommentsByPub'),
         form);
       this.comments = data;
       this.n_comments = this.comments.length;
+    },
+    // eslint-disable-next-line camelcase
+    doCommentaryLike(comment_id) {
+      const form = new FormData();
+      form.append('social_comment_id', comment_id);
+      form.append('myuser_id', this.user.id);
+      this.$request.post(this.$getUrlToMakeRequest('SocialNetwork', 'doCommentaryLike'), form).then((response) => {
+
+        eventBus.$emit('social-update-post');
+        eventBus.$emit('social-load-commentaries');
+      });
+    },
+    // eslint-disable-next-line camelcase
+    deleteComment(comment_id) {
+      const form = new FormData();
+      form.append('social_comment_id', comment_id);
+      this.$request.post(this.$getUrlToMakeRequest('SocialNetwork', 'deleteComment'), form).then((response) => {
+        eventBus.$emit('social-update-post');
+        eventBus.$emit('social-load-commentaries');
+      });
+    },
+    editComment(id, description) {
+      this.editDialog = true;
+      this.editText = description;
+      this.comment_id = id;
+    },
+    // eslint-disable-next-line camelcase
+    async saveComment() {
+      this.loading = true;
+      const form = new FormData();
+      form.append('id', this.comment_id);
+      form.append('comment', this.editText);
+      const {data} = await this.$request.post(this.$getUrlToMakeRequest('SocialNetwork', 'saveComment'), form);
+      this.loading = false;
+      this.editDialog = false;
+      eventBus.$emit('social-load-commentaries');
+      eventBus.$emit('social-update-post');
     }
+  },
+  beforeDestroy() {
+    clearInterval(this.commentUpdateHandle);
   }
-}
+};
 </script>

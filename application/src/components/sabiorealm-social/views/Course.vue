@@ -1,18 +1,24 @@
 <template>
-    <router-view></router-view>
-    <!--    <el-row :gutter="8">-->
-    <!--      <el-col :md="6" :sm="24" :xs="24">-->
-    <!--        <UserStatus/>-->
-    <!--        <br>-->
-    <!--      </el-col>-->
-    <!--      <el-col :md="18" :sm="24" :xs="24">-->
-    <!--        <MyPublication  />-->
-    <!--        <br>-->
-    <!--&lt;!&ndash;        <PostList type="course" :typeid="this.$route.params.course_id"/>&ndash;&gt;-->
-    <!--&lt;!&ndash;        <PostList type="group" :typeid= "this.$route.params.group_id"/>&ndash;&gt;-->
-    <!--        <PostList type="all" />-->
-    <!--      </el-col>-->
-    <!--    </el-row>-->
+  <div ref="content" class="content-page" @touchmove="detectBottom($event)" @scroll="detectBottom($event)">
+    <el-card shadow="always" style="background-color: #009cd8;color:white;text-align: center" class="h1">
+      {{ course_name }}
+    </el-card>
+    <br>
+    <el-row :gutter="8">
+      <el-col :md="6" :sm="24" :xs="24">
+        <UserStatus/>
+        <br>
+        <GroupFilter/>
+        <br>
+      </el-col>
+      <el-col :md="18" :sm="24" :xs="24">
+
+        <MyPublication to="course" :myid="this.$route.params.course_id"/>
+        <br>
+        <PostList type="course" :typeid="this.$route.params.course_id"/>
+      </el-col>
+    </el-row>
+  </div>
 </template>
 
 <script>
@@ -23,21 +29,19 @@ import PostList from '@/components/sabiorealm-social/PostList';
 import UserStatus from '@/components/sabiorealm-social/UserStatus';
 import MyPublication from '@/components/sabiorealm-social/MyPublication';
 
+import {eventBus} from '@/components/sabiorealm-social/App';
+import GroupFilter from "@/components/sabiorealm-social/GroupFilter";
 Vue.use(VueHead);
 
-export const eventBus = new Vue();
 export default {
-  data: () => {
+  data() {
     return {
-      publication: '',
-      comment: [],
-      publications: [],
-      activeName: 'first'
+      course_name: ''
     };
   },
   head: {
     title: {
-      inner: 'Social'
+      inner: 'Course '
     },
     meta: [
       {name: 'charset', content: 'utf-8'},
@@ -48,7 +52,7 @@ export default {
   computed: {
     ...mapState(['lang', 'user'])
   },
-  components: {MyPublication, UserStatus, PostList},
+  components: {GroupFilter, UserStatus, PostList, MyPublication},
   created() {
     window.addEventListener('scroll', () => {
       if (window.pageYOffset + window.innerHeight >= this.$el.clientHeight) {
@@ -58,8 +62,19 @@ export default {
         console.log('sigue bajando');
       }
     });
+    this.getCourseName();
+  },
+  mounted() {
+    this.section_name = this.lang['group-default'];
   },
   methods: {
+    getCourseName() {
+      const form = new FormData();
+      form.append('courseId', this.$route.params.course_id);
+      this.$request.post(this.$getUrlToMakeRequest('course', 'get'), form).then((response) => {
+        this.course_name = response.data.title;
+      });
+    },
     detectBottom(event) {
       console.log(event.touches[0]);
       if (window.pageYOffset + window.innerHeight >= this.$el.clientHeight) {
@@ -69,12 +84,17 @@ export default {
         console.log();
         console.log('sigue bajando');
       }
-    },
+    }
 
   }
 };
 </script>
 <style type="text/scss">
+
+.image {
+  border-radius: 100%;
+}
+
 .link {
   color: #0c7cd5;
   font-size: medium;
