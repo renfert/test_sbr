@@ -23,13 +23,22 @@ const domains = {
       return url;
     },
     $getUrlToMakeRequest(controler, model) {
+      const domainName = getDomain();
       const url =
         process.env.NODE_ENV === 'production'
-          ? this.company.domain + '/' + controler + '/' + model
-          : process.env.VUE_APP_URL_DEV + controler + '/' + model;
+          ? '' + domainName + '/' + controler + '/' + model
+          : '' + process.env.VUE_APP_URL_DEV + controler + '/' + model;
       return url;
     }
   }
 };
+
+function getDomain() {
+  const entireUrl = window.location.href;
+  const entireUrlDividedIntoTwoParts = entireUrl.split('/');
+  const domainName =
+    entireUrlDividedIntoTwoParts[0] + '//' + entireUrlDividedIntoTwoParts[2];
+  return domainName;
+}
 
 export default domains;
