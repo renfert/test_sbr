@@ -25,7 +25,7 @@ const domains = {
     $getUrlToMakeRequest(controler, model) {
       const url =
         process.env.NODE_ENV === 'production'
-          ? this.comany.domain + '/' + controler + '/' + model
+          ? this.company.domain + '/' + controler + '/' + model
           : process.env.VUE_APP_URL_DEV + controler + '/' + model;
       return url;
     }
