@@ -132,12 +132,15 @@
             </div>
             <!-- Paypal -->
             <div v-else>
-              <paypal-button
-                v-if="courseId"
-                :currency="currency"
-                :price="price"
-                :course-id="this.courseId"
-              ></paypal-button>
+              <div id="pbutton1">
+                <paypal-button
+                  name="pbutton1"
+                  v-if="courseId"
+                  :currency="currency"
+                  :price="price"
+                  :course-id="this.courseId"
+                ></paypal-button>
+              </div>
             </div>
           </div>
         </div>
@@ -334,12 +337,15 @@
 
             <!-- Paypal -->
             <div v-else>
-              <paypal-button
-                v-if="courseId"
-                :currency="currency"
-                :price="price"
-                :course-id="this.courseId"
-              ></paypal-button>
+              <div id="pbutton2">
+                <paypal-button
+                  name="pbutton2"
+                  v-if="courseId"
+                  :currency="currency"
+                  :price="price"
+                  :course-id="this.courseId"
+                ></paypal-button>
+              </div>
             </div>
           </div>
 
@@ -385,7 +391,7 @@ export default {
       session: false,
       registeredUser: false,
       userId: '',
-      modal: false,
+      modal: true,
       createAnAccount: true,
       login: false,
       loading: false,

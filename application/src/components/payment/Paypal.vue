@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <div style="width: 100%" v-loading="loading" id="paypal-button"></div>
-  </div>
+  <div id="main" style="width: 100%"></div>
 </template>
 
 <script>
@@ -12,11 +10,10 @@ Vue.use(LoadScript);
 const md5 = require('md5');
 
 export default {
-  props: ['currency', 'price', 'course-id'],
+  props: ['currency', 'price', 'course-id', 'name'],
   data: () => {
     return {
-      paypalClientId: '',
-      loading: false
+      paypalClientId: ''
     };
   },
   mounted() {
@@ -68,7 +65,6 @@ export default {
           .Buttons({
             commit: true,
             createOrder: (data, actions) => {
-              this.loading = true;
               return actions.order.create({
                 purchase_units: [
                   {
@@ -100,7 +96,6 @@ export default {
 
                   this.$request.post(urlToBeUsedInTheRequest, formData).then(
                     (response) => {
-                      console.log(response);
                       if (response.data == true) {
                         this.$router.push(
                           '/purchase/success/' + this.courseId + ''
@@ -121,7 +116,7 @@ export default {
               label: 'buynow'
             }
           })
-          .render('#paypal-button');
+          .render('#' + this.name);
       });
     }
   }
