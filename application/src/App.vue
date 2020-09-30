@@ -121,6 +121,9 @@ export default {
   },
   created() {
     this.getLanguage();
+    this.loadIntegrations();
+    this.createFavicon();
+    this.statusDaemon();
   },
   mounted() {
     this.loadIntegrations();
@@ -182,6 +185,11 @@ export default {
           this.loaded = true;
         }, 2000);
       });
+    },
+    statusDaemon() {
+      setInterval(() => {
+        this.$request.post(this.$getUrlToMakeRequest('user', 'updateStatus'));
+      }, 2300);
     }
   }
 };

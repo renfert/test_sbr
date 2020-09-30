@@ -33,6 +33,13 @@ const alerts = {
         message: this.lang['user-already-exists'],
         type: 'error'
       });
+    },
+    $messagePublished() {
+      this.$message({
+        message: this.lang['message-published'],
+        type: 'success',
+        duration: 2000
+      });
     }
   }
 };

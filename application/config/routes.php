@@ -14,3 +14,4 @@ $route['purchase/(:any)/(:any)'] = 'pages/index';
 $route['viewprogram/(:num)'] = 'pages/index';
 $route['editprogram/(:num)'] = 'pages/index';
 $route['group/(:num)'] = 'pages/index';
+$route['social/(:num)'] = 'pages/index';

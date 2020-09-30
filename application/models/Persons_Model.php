@@ -6,12 +6,12 @@ class Persons_Model extends CI_Model {
 	public function __construct(){
 		parent::__construct();
     }
-    
-    
-    /* 
+
+
+    /*
     =============================================
-    Returns: Id of the last registered person 
-    ============================================== 
+    Returns: Id of the last registered person
+    ==============================================
     */
 	public function create($testimonialId){
         $position = $this->getPositionForThisPerson();
@@ -23,6 +23,7 @@ class Persons_Model extends CI_Model {
             "position" => $position
         );
         $this->db->insert("persons", $data);
+        
         $personId =  $this->db->insert_id();
 
         /* Insert into testimonial_has_persons */
@@ -34,10 +35,10 @@ class Persons_Model extends CI_Model {
         return $personId;
     }
 
-    /* 
+    /*
     =============================================
     Get position for link
-    ============================================== 
+    ==============================================
     */
     private function getPositionForThisPerson(){
         $this->db->select("count(id) as totalPersons");
@@ -50,11 +51,11 @@ class Persons_Model extends CI_Model {
         return $numberOfPersons;
     }
 
-    
-    /* 
+
+    /*
     =============================================
     Returns: Boolean - TRUE if the edit was successful and FALSE if not.
-    ============================================== 
+    ==============================================
     */
 	public function edit($dataReceiveFromPost){
         $data = array(
@@ -69,15 +70,15 @@ class Persons_Model extends CI_Model {
         }else{
             return false;
         }
-        
+
     }
 
-    
-    /* 
+
+    /*
     =============================================
     Returns: Boolean - TRUE if the delete was successful and FALSE if not.
-    ============================================== 
-    */ 
+    ==============================================
+    */
 	public function delete($personId){
         /* Delete from testimonial_has_persons */
         $this->db->where("persons_id", $personId);
@@ -91,12 +92,12 @@ class Persons_Model extends CI_Model {
             return false;
         }
     }
-    
-    
-    /* 
+
+
+    /*
     =============================================
-    Returns: Array of objects 
-    ============================================== 
+    Returns: Array of objects
+    ==============================================
     */
     public function listing($testimonialId){
         $this->db->select("*");
@@ -110,11 +111,11 @@ class Persons_Model extends CI_Model {
         }
     }
 
-    
-    /* 
+
+    /*
     =============================================
     Reorder positions
-    ============================================== 
+    ==============================================
     */
 	public function reorder($persons){
         $x = 0;

@@ -783,5 +783,21 @@
 
   "first-step-course": "Paso 1 ",
   "second-step-course": "Paso 2",
-  "third-step-course": "Paso 3"
+  "third-step-course": "Paso 3",
+
+
+  "publication-comment": "Ingresar tu comentario",
+
+  "message-published": "Publicado",
+  "view-more":  "Ver más",
+  "users-status": "Estados de usuarios",
+  "enter-text": "Ingresar texto",
+
+  "publish-in": "Publicar en",
+  "group-default": "Todos",
+
+  "attach-image": "Adjuntar imagen",
+  "select-group": "Seleccionar grupo",
+  "see": "Ver",
+  "groups": "Grupos"
 }

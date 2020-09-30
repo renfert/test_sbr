@@ -10,6 +10,7 @@ $danger-color: #dc143c;
 $purple-color: #6a5acd;
 $neutral-color: #f8f8ff;
 $warning-color: #ffba00;
+$success-color: #67c23a;
 /* =============
   == Core List==
 
@@ -1039,6 +1040,9 @@ Element UI Custom
     display: initial;
     transition: 1s;
     left: 0;
+  }
+  .linknav {
+    color: #0c7cd5;
   }
 }
 
