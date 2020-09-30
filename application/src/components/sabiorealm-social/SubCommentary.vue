@@ -1,6 +1,5 @@
 <template>
   <div>
-    <hr />
     <a @click.prevent="viewComments = !viewComments">
       <b v-if="n_comments > 0">
         {{ lang['see'] }} {{ n_comments }} {{ lang['comments'] }}

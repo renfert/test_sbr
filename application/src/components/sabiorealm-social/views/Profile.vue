@@ -1,8 +1,8 @@
 <template>
   <div ref="content" class="content-page">
-    <el-row :gutter="40">
+    <el-row :gutter="40" style="display: flex">
       <el-col :md="11" :sm="24" :xs="24">
-        <my-publication></my-publication>
+        <my-publication style="position: fixed"></my-publication>
       </el-col>
 
       <el-col :md="13">
@@ -18,7 +18,7 @@
           </h3>
           <el-button
             style="padding: 0px; font-size: 0.8rem"
-            class="sbr-text-primary"
+            class="sbr-text-primary m-b-40"
             type="text"
           >
             &nbsp;
@@ -28,7 +28,6 @@
               Public
             </a>
           </el-button>
-          <hr />
           <post-list type="all"></post-list>
         </div>
       </el-col>

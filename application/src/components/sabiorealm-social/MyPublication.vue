@@ -58,7 +58,7 @@
           </div>
           <fieldset>
             <textarea
-              :placeholder="lang['enter-text']"
+              placeholder="Escreva alguma coisa..."
               v-model="publication"
               rows="2"
             ></textarea>

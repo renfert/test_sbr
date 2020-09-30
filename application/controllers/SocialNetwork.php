@@ -55,7 +55,6 @@ class SocialNetwork extends CI_Controller
   {
     $data = $this->input->post();
     if (strlen($data['comment']) > 0) {
-      $data['prev_comment'] = substr($data['comment'], 0, 97) . '...';
       echo json_encode($this->Social_Network_Model->saveComment($data));
     } else {
       echo json_encode(false);
@@ -65,7 +64,6 @@ class SocialNetwork extends CI_Controller
   public function doPublicationLike()
   {
     $data = $this->input->post();
-
     echo json_encode($this->Social_Network_Model->savePublicationLike($data));
   }
 

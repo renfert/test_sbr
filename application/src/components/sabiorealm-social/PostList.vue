@@ -1,127 +1,129 @@
 <template>
   <div>
-    <div
-      class="box-card"
-      v-for="(publication, index) in publications"
-      :key="index"
-      @load="hide($event)"
-    >
-      <div slot="header" class="clearfix">
-        <el-row style="display: flex; align-items: center">
-          <el-col :md="2" :sm="4" :xs="4">
-            <img
-              :src="$getUrlToContents() + 'avatar/' + user.avatar + ''"
-              class="avatar-md"
-            />
-          </el-col>
-          <el-col :md="18" :sm="14" :xs="14" class="p-t-10">
-            <router-link :to="'/user/' + publication.myuser_id">
-              <b
-                ><span class="link">{{ publication.username }} </span>
-                <i class="fas fa-caret-right" style="font-size: 15px"></i>
-              </b>
-            </router-link>
-            <b>
-              <a v-if="publication.group_id > 1">
-                {{ publication.group_name }}
-              </a>
-              <a v-else-if="publication.course_id > 1">
-                {{ publication.course_name }}
-              </a>
-              <a v-else>
-                {{ lang['group-default'] }}
-              </a>
-            </b>
-            <h5>
-              {{
-                new Date(publication.created).toLocaleString(
-                  new Date().getTimezoneOffset(),
-                  {
-                    dateStyle: 'full'
-                  }
-                )
-              }}
-            </h5>
-          </el-col>
-          <div v-if="user.id === publication.myuser_id">
-            <el-col :md="2" :sm="3" :xs="3">
-              <el-button
-                @click="editPost(publication.id, publication.description)"
-                type="primary"
-                icon="el-icon-edit"
-                circle
-                size="small"
-              ></el-button>
-            </el-col>
-          </div>
-          <div v-if="user.role === 1 || user.id === publication.myuser_id">
-            <el-col :md="1" :sm="2" :xs="2">
-              <el-popconfirm
-                confirmButtonText="Ok"
-                cancelButtonText="No, Thanks"
-                placement="right"
-                :title="lang['delete'] + ' ?'"
-                @onConfirm="deletePost(publication.id)"
-              >
-                <el-button
-                  size="small"
-                  class="sbr-danger ml-1"
-                  slot="reference"
-                  icon="el-icon-delete"
-                  circle
-                ></el-button>
-              </el-popconfirm>
-            </el-col>
-          </div>
-        </el-row>
-      </div>
-      <!--      <div v-if="publication.description.length>=280 ">-->
-
-      <!--<div v-html="publication.description" style="-->
-      <!--  overflow: hidden;-->
-      <!--text-overflow: ellipsis;-->
-      <!--display: -webkit-box;-->
-      <!-- -webkit-line-clamp: 3;-->
-      <!-- -webkit-box-orient: vertical;">-->
-      <!--        </div>-->
-      <!--        <b><a class="linknav" @click.prevent="viewMore(index)">{{ lang["view-more"] }}</a></b>-->
-      <!--      </div>-->
-      <!--      <div v-else>-->
-      <!--        <div v-html="publication.description">-->
-      <!--        </div>-->
-      <!--      </div>-->
-      <el-row>
-        <div
-          v-html="publication.description"
-          style="
-            word-break: break-word;
-            text-overflow: ellipsis;
-            -webkit-line-break: after-white-space;
-            -webkit-box-orient: vertical;
-          "
-        ></div>
-      </el-row>
-      <br />
-      <el-row
-        v-if="publication.media_path"
-        justify="center"
-        align="start"
-        :gutter="50"
+    <div v-if="publications != null">
+      <div
+        class="box-card publication-card m-b-40"
+        v-for="(publication, index) in publications"
+        :key="index"
+        @load="hide($event)"
       >
-        <center>
-          <img
-            :src="$getUrlToContents() + 'social/' + publication.media_path"
-            style="border-radius: 7px"
-            height="250vh"
-            onerror="this.onerror=null"
-          />
-        </center>
-      </el-row>
-      <br />
-      <el-row>
-        <p style="color: rgba(43, 33, 40, 0.66)">
+        <!-- Publication header -->
+        <div>
+          <el-row
+            :gutter="60"
+            class="m-b-40"
+            style="display: flex; align-items: center"
+          >
+            <el-col :md="2" :sm="4" :xs="4">
+              <img
+                :src="$getUrlToContents() + 'avatar/' + user.avatar + ''"
+                class="avatar-md"
+              />
+            </el-col>
+            <el-col :md="18" :sm="14" :xs="14">
+              <router-link class="link" :to="'/user/' + publication.myuser_id">
+                <span>{{ publication.username }} </span>
+                <i class="fas fa-caret-right" style="font-size: 15px"></i>
+              </router-link>
+              <b>
+                <a v-if="publication.group_id > 1">
+                  {{ publication.group_name }}
+                </a>
+                <a v-else-if="publication.course_id > 1">
+                  {{ publication.course_name }}
+                </a>
+                <a v-else>
+                  {{ lang['group-default'] }}
+                </a>
+              </b>
+              <h5 class="no-margin">
+                {{
+                  new Date(publication.created).toLocaleString(
+                    new Date().getTimezoneOffset(),
+                    {
+                      dateStyle: 'full'
+                    }
+                  )
+                }}
+              </h5>
+            </el-col>
+            <el-col
+              v-if="user.id === publication.myuser_id"
+              :md="2"
+              :sm="3"
+              :xs="3"
+            >
+              <div style="display: flex; align-items: center">
+                <!-- Edit button -->
+                <div>
+                  <div
+                    @click="editPost(publication.id, publication.description)"
+                    class="icon-border"
+                  >
+                    <i
+                      class="el-icon-edit-outline table-icon table-icon-primary m-t-10"
+                    ></i>
+                  </div>
+                </div>
+                <!-- Delete button -->
+                <div>
+                  <el-popconfirm
+                    confirmButtonText="Ok"
+                    cancelButtonText="No, Thanks"
+                    placement="right"
+                    :title="lang['delete'] + ' ?'"
+                    @onConfirm="deletePost(publication.id)"
+                  >
+                    <div slot="reference" class="icon-border">
+                      <i
+                        class="el-icon-delete table-icon table-icon-danger m-t-10"
+                      ></i>
+                    </div>
+                  </el-popconfirm>
+                </div>
+              </div>
+            </el-col>
+            <el-col
+              v-if="user.role === 1 || user.id === publication.myuser_id"
+              :md="1"
+              :sm="2"
+              :xs="2"
+            >
+            </el-col>
+          </el-row>
+        </div>
+        <!-- End publication header -->
+
+        <el-row>
+          <div
+            v-html="publication.description"
+            style="
+              font-size: 1.2em;
+              word-break: break-word;
+              text-overflow: ellipsis;
+              -webkit-line-break: after-white-space;
+              -webkit-box-orient: vertical;
+            "
+          ></div>
+        </el-row>
+        <br />
+        <el-row
+          v-if="publication.media_path"
+          justify="center"
+          align="start"
+          :gutter="50"
+        >
+          <center>
+            <img
+              class="preview_img"
+              :src="$getUrlToContents() + 'social/' + publication.media_path"
+            />
+          </center>
+        </el-row>
+        <br />
+        <el-row>
           <el-button
-            size="mini"
+            class="m-r-10"
             :type="publication.i_like_it ? 'primary' : ''"
             @click="doPublicationLike(publication.id, $event)"
             circle
@@ -130,58 +132,68 @@
               :style="publication.i_like_it ? 'color:white' : 'color:#4a5568'"
             ></i>
           </el-button>
-          {{ publication.likes > 0 ? publication.likes + ' likes,' : '' }}
-        </p>
-      </el-row>
-      <el-row>
-        <el-col :md="24">
+          {{ publication.likes > 0 ? publication.likes + ' likes' : '' }}
+        </el-row>
+        <hr />
+        <el-row class="m-b-30">
+          <el-col :md="24">
+            <el-input
+              @keyup.enter.native="saveComment(publication.id, index)"
+              :placeholder="lang['publication-comment']"
+              v-model="comment[index]"
+            >
+              <span slot="suffix" v-if="comment[index]">
+                <i
+                  @click="saveComment(publication.id, index)"
+                  class="fas fa-paper-plane over"
+                  style="margin-top: 10px; font-size: large"
+                  :title="lang['publish']"
+                ></i>
+              </span>
+              <span slot="suffix" v-if="loading">
+                <i
+                  class="el-icon-loading center"
+                  style="
+                    font-size: 25px;
+                    margin-top: 10px;
+                    font-size: large;
+                    color: #009cd8;
+                  "
+                ></i>
+              </span>
+            </el-input>
+          </el-col>
+        </el-row>
+        <SubCommentary :publication_id="publication.id" />
+      </div>
+      <el-dialog :title="lang['edit']" :visible.sync="editDialog" width="50%">
+        <el-row :md="24" justify="center">
           <el-input
-            @keyup.enter.native="saveComment(publication.id, index)"
-            :placeholder="lang['publication-comment']"
-            v-model="comment[index]"
+            type="textarea"
+            :rows="3"
+            :placeholder="lang['enter-text']"
+            v-model="editText"
           >
-            <span slot="suffix" v-if="comment[index]">
-              <i
-                @click="saveComment(publication.id, index)"
-                class="fas fa-paper-plane over"
-                style="margin-top: 10px; font-size: large"
-                :title="lang['publish']"
-              ></i>
-            </span>
-            <span slot="suffix" v-if="loading">
-              <i
-                class="el-icon-loading center"
-                style="
-                  font-size: 25px;
-                  margin-top: 10px;
-                  font-size: large;
-                  color: #009cd8;
-                "
-              ></i>
-            </span>
           </el-input>
-        </el-col>
-      </el-row>
-      <br />
-      <SubCommentary :publication_id="publication.id" />
+          <br />
+          <br />
+          <el-button @click="publish()" type="primary" round>
+            <i class="el-icon-loading" style="color: white" v-if="loading"></i>
+            <i class="far fa-paper-plane" v-else></i> {{ lang['publish'] }}
+          </el-button>
+        </el-row>
+      </el-dialog>
     </div>
-    <el-dialog :title="lang['edit']" :visible.sync="editDialog" width="50%">
-      <el-row :md="24" justify="center">
-        <el-input
-          type="textarea"
-          :rows="3"
-          :placeholder="lang['enter-text']"
-          v-model="editText"
-        >
-        </el-input>
-        <br />
-        <br />
-        <el-button @click="publish()" type="primary" round>
-          <i class="el-icon-loading" style="color: white" v-if="loading"></i>
-          <i class="far fa-paper-plane" v-else></i> {{ lang['publish'] }}
-        </el-button>
-      </el-row>
-    </el-dialog>
+    <div class="center" style="margin-top: 15%; padding: 0px 10%" v-else>
+      <img
+        class="not-found-image"
+        src="@/assets/img/social/no_publications.svg"
+        alt=""
+      />
+      <h4 class="sbr-text-grey m-t-30 fw-700">
+        Nao ha publicacoes disponiveis
+      </h4>
+    </div>
   </div>
 </template>
 
@@ -206,7 +218,8 @@ export default {
       editDialog: false,
       editText: '',
       publication_id: null,
-      publications: []
+      publications: [],
+      showButtons: false
     };
   },
   components: { SubCommentary },
@@ -387,13 +400,48 @@ export default {
 }
 
 .link {
-  color: #0c7cd5;
-  font-size: medium;
+  font-family: 'Poppins', sans-serif !important;
+  word-break: break-word !important;
+  color: #647b9c !important;
+  line-height: 24px;
+  font-size: 18px !important;
 }
 
 .over:hover {
   transition: 1.2s;
   color: #009cd8;
   cursor: pointer;
+}
+
+.icon-border {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  text-align: center;
+}
+
+.buttons_hide {
+  display: none;
+}
+
+.publication-card {
+  background-color: rgb(251, 251, 255);
+  padding: 30px;
+  border-radius: 20px;
+}
+
+.preview_img {
+  border-style: none;
+  height: auto;
+  width: 90%;
+  object-fit: cover;
+  border-radius: 20px;
+}
+
+.el-input__suffix {
+  right: 5px;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+  padding-right: 10px;
 }
 </style>

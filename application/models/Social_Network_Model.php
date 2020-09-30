@@ -12,23 +12,24 @@ class Social_Network_Model extends CI_Model
   public function getPublications()
   {
 
-    $this->db->select("SP.id,SP.myuser_id,U.name username,SP.mygroup_id,SP.mycourse_id, C.title course_name,SP.pub_url,SP.description,
-    SP.media_path,SP.media_realname,SP.media_type,G.name group_name,SP.created,SP.modified");
-    $this->db->from("social_publications SP");
-    $this->db->join("myuser U", "U.id=SP.myuser_id");
-    $this->db->join("mygroup G", "G.id=SP.mygroup_id");
-    $this->db->join("mycourse C", "C.id=SP.mycourse_id");
+    $this->db->select("T0.id,T0.myuser_id,T1.name username,T0.mygroup_id,T0.mycourse_id, T3.title course_name,T0.pub_url,T0.description,
+    T0.media_path,T0.media_realname,T0.media_type,T2.name group_name,T0.created,T0.modified");
+    $this->db->from("social_publications T0");
+    $this->db->join("myuser T1", "T1.id=T0.myuser_id");
+    $this->db->join("mygroup T2", "T2.id=T0.mygroup_id");
+    $this->db->join("mycourse T3", "T3.id=T0.mycourse_id");
+    $this->db->where("T0.id !=", 1);
     $this->db->order_by("created", "DESC");
     $query = $this->db->get();
     if ($res = $query->result()) {
       foreach ($res as $q) {
         $this->db->select("count(*) likes");
         $this->db->from("social_likes");
-        $this->db->where("social_publications_id", $q->id);
+        $this->db->where("social_publication_id", $q->id);
         $q->likes = $this->db->get()->result()[0]->likes;
         $this->db->select("*");
         $this->db->from("social_likes");
-        $this->db->where("social_publications_id", $q->id);
+        $this->db->where("social_publication_id", $q->id);
         $this->db->where("myuser_id", getUserId());
         $q->i_like_it = $this->db->get()->result() ? true : false;
       }
@@ -38,10 +39,10 @@ class Social_Network_Model extends CI_Model
 
   public function getCommentsByPublicationId($publication_id, $myuser_id)
   {
-    $this->db->select("SC.prev_comment, SC.comment, SC.created, SC.modified, U.name username, U.avatar,U.id myuser_id, U.myrole_id , SC.id");
-    $this->db->from("social_comments SC");
-    $this->db->join("myuser U", "U.id=SC.myuser_id");
-    $this->db->join("social_publications SP", "SP.id=SC.social_publication_id");
+    $this->db->select("T0.comment, T0.created, T0.modified, T1.name username, T1.avatar,T1.id myuser_id, T1.myrole_id , T0.id");
+    $this->db->from("social_comments T0");
+    $this->db->join("myuser T1", "T1.id=T0.myuser_id");
+    $this->db->join("social_publications SP", "SP.id=T0.social_publication_id");
     $this->db->where("social_publication_id", $publication_id);
     $this->db->order_by("created", "DESC");
     if ($res = $this->db->get()->result()) {
@@ -103,19 +104,27 @@ class Social_Network_Model extends CI_Model
 
   public function savePublicationLike($socialEntity)
   {
+    $now = getCurrentDate("Y-m-d H:i:s");
     if (isset($socialEntity['social_publication_id'])) {
       $this->db->select("*");
+      $this->db->from('social_likes');
       $this->db->where("social_publication_id", $socialEntity['social_publication_id']);
       $this->db->where("myuser_id", $socialEntity['myuser_id']);
-      $this->db->from('social_likes');
       if ($this->db->get()->result()) {
+        echo "Boa";
         $this->db->where("social_publication_id", $socialEntity['social_publication_id']);
         $this->db->where("myuser_id", $socialEntity['myuser_id']);
         $this->db->delete("social_likes");
-      } else
-        $this->db->replace("social_likes", $socialEntity);
+      } else {
+        $data = array(
+          "social_publication_id" => $socialEntity['social_publication_id'],
+          "myuser_id" => getUserId(),
+          "social_comment_id" => 1,
+          "created" => $now
+        );
+        $this->db->insert("social_likes", $data);
+      }
     }
-    //    $this->db->replace("social_likes", $socialEntity);
     return true;
   }
 

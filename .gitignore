@@ -1,7 +1,10 @@
 application/.htaccess
 application/cache/*
 application/node_modules
-application/views
+application/views/css
+application/views/js
+application/views/img
+application/views/index.html
 ci_sessions
 vendor
 
