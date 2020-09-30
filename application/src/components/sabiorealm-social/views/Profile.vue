@@ -2,15 +2,13 @@
   <div ref="content" class="content-page">
     <el-row :gutter="8">
       <el-col :md="6" :sm="24" :xs="24">
-        <UserStatus />
-        <br />
-        <GroupFilter />
+        <group-filter></group-filter>
         <br />
       </el-col>
       <el-col :md="18" :sm="24" :xs="24">
-        <MyPublication />
+        <my-publication></my-publication>
         <br />
-        <PostList type="all" />
+        <post-list type="all"></post-list>
       </el-col>
     </el-row>
   </div>
@@ -21,7 +19,6 @@ import Vue from 'vue';
 import VueHead from 'vue-head';
 import { mapState } from 'vuex';
 import PostList from '@/components/sabiorealm-social/PostList';
-import UserStatus from '@/components/sabiorealm-social/UserStatus';
 import MyPublication from '@/components/sabiorealm-social/MyPublication';
 import GroupFilter from '@/components/sabiorealm-social/GroupFilter';
 
@@ -50,7 +47,7 @@ export default {
   computed: {
     ...mapState(['lang', 'user'])
   },
-  components: { GroupFilter, MyPublication, UserStatus, PostList },
+  components: { GroupFilter, MyPublication, PostList },
   created() {
     window.addEventListener('scroll', () => {
       if (window.pageYOffset + window.innerHeight >= this.$el.clientHeight) {

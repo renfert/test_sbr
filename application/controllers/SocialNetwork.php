@@ -18,8 +18,7 @@ class SocialNetwork extends CI_Controller
 
   public function getPublications()
   {
-    $data = $this->input->post();
-    $pubs = $this->Social_Network_Model->getPublications($data['myuser_id']);
+    $pubs = $this->Social_Network_Model->getPublications();
     echo json_encode($pubs);
   }
 

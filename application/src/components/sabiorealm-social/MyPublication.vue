@@ -1,46 +1,36 @@
 <template>
   <div>
-    <el-card class="box-card" style="max-width: 800px">
+    <el-card class="box-card">
       <div slot="header" class="clearfix">
-        <el-row>
+        <el-row style="display: flex; align-items: center">
           <el-col :md="2" :sm="4" :xs="4">
-            <el-avatar
-              size="large"
+            <img
               :src="$getUrlToContents() + 'avatar/' + user.avatar + ''"
+              class="avatar-md"
             />
           </el-col>
-          <el-col :md="17" :sm="20" :xs="20" class="p-t-10">
+          <el-col :md="17" :sm="20" :xs="20">
             <router-link :to="'/user/' + user.id">
-              <b
-                ><span class="link">{{ user.name }}</span></b
-              >
-              <i class="fas fa-check-circle"></i><br />
-              <div style="font-size: 12px">
-                <div v-if="user.role === 1">
-                  {{ lang['admin-view-topbar'] }}
-                </div>
-                <div v-else-if="user.role === 2">
-                  {{ lang['instructor'] }}
-                </div>
-                <div v-else-if="user.role === 3">
-                  {{ lang['student'] }}
-                </div>
-              </div>
+              <h3>{{ user.name }}</h3>
             </router-link>
+            <div style="font-size: 12px">
+              <div v-if="user.role === 1">
+                {{ lang['admin-view-topbar'] }}
+              </div>
+              <div v-else-if="user.role === 2">
+                {{ lang['instructor'] }}
+              </div>
+              <div v-else-if="user.role === 3">
+                {{ lang['student'] }}
+              </div>
+            </div>
           </el-col>
         </el-row>
       </div>
 
       <el-row>
-        <el-col
-          v-if="!to"
-          style="margin-top: 9px"
-          :md="8"
-          :xs="12"
-          :sm="5"
-          class="link"
-        >
-          <el-button type="text">
+        <el-col v-if="!to" :md="8" :xs="12" :sm="5" class="link">
+          <el-button class="sbr-text-primary" type="text">
             &nbsp;
             <a @click="showSections()"
               >{{ lang['publish-in'] }}
@@ -98,6 +88,50 @@
       :visible.sync="dialogVisible"
       width="30%"
     >
+      <h4>Onde voce gostaria de realizar a publicacao?</h4>
+      <!-- Public -->
+      <el-row @click="selectPublic()" class="publish-location">
+        <el-col :sm="4">
+          <img
+            style="width: 50px"
+            src="@/assets/img/general/ux/clock.png"
+            alt=""
+          />
+        </el-col>
+        <el-col :sm="20">
+          <h3 style="margin: 0px">Publico</h3>
+          <h4 style="margin: 0px">Qualquer pessoa pode ver</h4>
+        </el-col>
+      </el-row>
+
+      <!-- Specific group -->
+      <el-row class="publish-location">
+        <el-col :sm="4">
+          <img
+            style="width: 50px"
+            src="@/assets/img/general/ux/clock.png"
+            alt=""
+          />
+        </el-col>
+        <el-col :sm="14">
+          <h3 class="m-b-20" style="margin: 0px">Grupo especifico</h3>
+          <el-select
+            @change="selectSection('group')"
+            v-model="select"
+            class="m-b-20"
+            filterable
+            placeholder="Select"
+          >
+            <el-option
+              v-for="(group, index) in groups"
+              :key="index"
+              :label="group.name"
+              :value="{ id: group.id, name: group.name }"
+            >
+            </el-option>
+          </el-select>
+        </el-col>
+      </el-row>
       <b>{{ lang['groups'] }}</b>
       <el-row :md="24" justify="center">
         <el-button
@@ -109,6 +143,18 @@
           >{{ group.name == 'default' ? lang['group-default'] : group.name }}
         </el-button>
       </el-row>
+      <b>{{ lang['groups'] }}</b>
+      <el-row :md="24" justify="center">
+        <el-button
+          @click="selectSection(group.id, group.name, 'group')"
+          round
+          size="small"
+          v-for="(group, index) in groups"
+          :key="index"
+          >{{ group.name == 'default' ? lang['group-default'] : group.name }}
+        </el-button>
+      </el-row>
+
       <b>{{ lang['courses'] }}</b>
       <el-row :md="24" justify="center">
         <el-button
@@ -158,6 +204,7 @@ export default {
       dialogVisible: false,
       groups: [],
       courses: [],
+      select: '',
       section_id: 1,
       section_name: 'default',
       section_type: '',
@@ -174,7 +221,7 @@ export default {
   methods: {
     showSections() {
       this.$request
-        .get(this.$getUrlToMakeRequest('SocialNetwork', 'getAllGroups'))
+        .get(this.$getUrlToMakeRequest('group', 'listing'))
         .then((response) => {
           this.groups = response.data;
         });
@@ -185,11 +232,10 @@ export default {
         });
       this.dialogVisible = true;
     },
-    selectSection(id, name, type) {
+    selectSection(type) {
       this.section_type = type;
-      this.section_id = id;
-      this.section_name =
-        name === 'default' ? this.lang['group-default'] : name;
+      this.section_id = this.select.id;
+      this.section_name = this.select.name;
       this.dialogVisible = false;
     },
     async publish() {
@@ -269,4 +315,24 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.box-card {
+  border-radius: 30px;
+  padding: 4%;
+}
+
+.publish-location {
+  display: flex;
+  align-items: center;
+  margin: 0px;
+  margin-bottom: 5%;
+  padding: 3%;
+  border-radius: 20px;
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.publish-location:hover {
+  background-color: #f8f8ff;
+}
+</style>

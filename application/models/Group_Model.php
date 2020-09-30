@@ -85,8 +85,8 @@ class Group_Model extends CI_Model
     $this->db->select("T1.id, T1.name");
     $this->db->from("relationship T0");
     $this->db->join("mygroup T1", "T0.mygroup_id = T1.id");
-    $this->db->where("myuser_id", getUserId());
-    $this->db->where("mygroup_id !=", 1);
+    $this->db->where("T0.myuser_id", getUserId());
+    $this->db->where("T0.mygroup_id !=", 1);
     $query = $this->db->get();
     if ($query->num_rows() > 0) {
       return $query->result();

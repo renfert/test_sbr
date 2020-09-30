@@ -218,25 +218,21 @@ const routes = [
       import(
         /* webpackChunkName: "viewprogram" */ '@/components/viewprogram/App'
       )
-
   },
   {
     name: 'groups-social',
     path: '/groups-social/:group_id',
-    component: () =>
-      import('@/components/sabiorealm-social/views/Group')
+    component: () => import('@/components/sabiorealm-social/views/Group')
   },
   {
     name: 'courses-social',
     path: '/courses-social/:course_id',
-    component: () =>
-      import('@/components/sabiorealm-social/views/Course')
+    component: () => import('@/components/sabiorealm-social/views/Course')
   },
   {
-    name: 'profile-social',
-    path: '/profile-social',
-    component: () =>
-      import('@/components/sabiorealm-social/views/Profile')
+    name: 'social',
+    path: '/social',
+    component: () => import('@/components/sabiorealm-social/views/Profile')
   },
   {
     name: '404',
@@ -244,7 +240,6 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "404" */ '@/components/404/App')
   }
-
 ];
 const router = new Router({
   routes,

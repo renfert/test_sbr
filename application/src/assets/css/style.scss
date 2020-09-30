@@ -400,6 +400,13 @@ p-r-40 {
    Extras
 ============= */
 
+.avatar-md {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 .ins_info_thumb {
   width: 45px;
   height: 45px;
@@ -714,13 +721,31 @@ Element UI Custom
 }
 
 // El select
+
+.el-scrollbar__wrap {
+  overflow: hidden !important;
+}
+
+.el-select-dropdown__list {
+  list-style: none;
+  padding: 0px 0;
+  margin: 10px 0px 15px 0px;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
 .el-select-dropdown {
   z-index: 9999 !important;
 }
 
+.el-select-dropdown__item {
+  color: #647b9c;
+  font-weight: 500;
+}
+
 .el-select-dropdown__item.selected {
-  color: $primary-color;
-  font-weight: 700;
+  color: #647b9c;
+  font-weight: 500;
 }
 
 // Dialog
