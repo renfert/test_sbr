@@ -1,6 +1,6 @@
 <template>
   <div style="">
-    <el-card style="">
+    <el-card class="box-card">
       <div slot="header" class="clearfix">My social relationships</div>
       <el-row>
         <b>{{ lang['groups'] }}</b>
@@ -109,4 +109,9 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.box-card {
+  border-radius: 30px;
+  padding: 4%;
+}
+</style>

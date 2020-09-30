@@ -1,17 +1,17 @@
 <template>
   <div>
-    <el-card
+    <div
       class="box-card"
-      style="max-width: 800px; margin-bottom: 10px"
       v-for="(publication, index) in publications"
       :key="index"
       @load="hide($event)"
     >
       <div slot="header" class="clearfix">
-        <el-row>
+        <el-row style="display: flex; align-items: center">
           <el-col :md="2" :sm="4" :xs="4">
-            <el-avatar
+            <img
               :src="$getUrlToContents() + 'avatar/' + user.avatar + ''"
+              class="avatar-md"
             />
           </el-col>
           <el-col :md="18" :sm="14" :xs="14" class="p-t-10">
@@ -32,6 +32,16 @@
                 {{ lang['group-default'] }}
               </a>
             </b>
+            <h5>
+              {{
+                new Date(publication.created).toLocaleString(
+                  new Date().getTimezoneOffset(),
+                  {
+                    dateStyle: 'full'
+                  }
+                )
+              }}
+            </h5>
           </el-col>
           <div v-if="user.id === publication.myuser_id">
             <el-col :md="2" :sm="3" :xs="3">
@@ -121,14 +131,6 @@
             ></i>
           </el-button>
           {{ publication.likes > 0 ? publication.likes + ' likes,' : '' }}
-          {{
-            new Date(publication.created).toLocaleString(
-              new Date().getTimezoneOffset(),
-              {
-                dateStyle: 'full'
-              }
-            )
-          }}
         </p>
       </el-row>
       <el-row>
@@ -162,7 +164,7 @@
       </el-row>
       <br />
       <SubCommentary :publication_id="publication.id" />
-    </el-card>
+    </div>
     <el-dialog :title="lang['edit']" :visible.sync="editDialog" width="50%">
       <el-row :md="24" justify="center">
         <el-input

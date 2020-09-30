@@ -24,11 +24,11 @@ class Social_Network_Model extends CI_Model
       foreach ($res as $q) {
         $this->db->select("count(*) likes");
         $this->db->from("social_likes");
-        $this->db->where("social_publication_id", $q->id);
+        $this->db->where("social_publications_id", $q->id);
         $q->likes = $this->db->get()->result()[0]->likes;
         $this->db->select("*");
         $this->db->from("social_likes");
-        $this->db->where("social_publication_id", $q->id);
+        $this->db->where("social_publications_id", $q->id);
         $this->db->where("myuser_id", getUserId());
         $q->i_like_it = $this->db->get()->result() ? true : false;
       }

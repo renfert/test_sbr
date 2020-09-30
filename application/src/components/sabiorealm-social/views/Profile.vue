@@ -1,14 +1,36 @@
 <template>
   <div ref="content" class="content-page">
-    <el-row :gutter="8">
-      <el-col :md="6" :sm="24" :xs="24">
-        <group-filter></group-filter>
-        <br />
-      </el-col>
-      <el-col :md="18" :sm="24" :xs="24">
+    <el-row :gutter="40">
+      <el-col :md="11" :sm="24" :xs="24">
         <my-publication></my-publication>
-        <br />
-        <post-list type="all"></post-list>
+      </el-col>
+
+      <el-col :md="13">
+        <div>
+          <h3 class="center">
+            <i class="el-icon-chat-dot-square sbr-text-primary"></i> Feed
+            <i class="el-icon-arrow-right"></i> Public
+            <img
+              style="width: 18px"
+              src="@/assets/img/social/world.png"
+              alt=""
+            />
+          </h3>
+          <el-button
+            style="padding: 0px; font-size: 0.8rem"
+            class="sbr-text-primary"
+            type="text"
+          >
+            &nbsp;
+            <a
+              >Exibir em
+              <i class="fas fa-angle-right" style="font-size: 12px"></i>
+              Public
+            </a>
+          </el-button>
+          <hr />
+          <post-list type="all"></post-list>
+        </div>
       </el-col>
     </el-row>
   </div>
@@ -20,7 +42,6 @@ import VueHead from 'vue-head';
 import { mapState } from 'vuex';
 import PostList from '@/components/sabiorealm-social/PostList';
 import MyPublication from '@/components/sabiorealm-social/MyPublication';
-import GroupFilter from '@/components/sabiorealm-social/GroupFilter';
 
 Vue.use(VueHead);
 
@@ -47,7 +68,7 @@ export default {
   computed: {
     ...mapState(['lang', 'user'])
   },
-  components: { GroupFilter, MyPublication, PostList },
+  components: { MyPublication, PostList },
   created() {
     window.addEventListener('scroll', () => {
       if (window.pageYOffset + window.innerHeight >= this.$el.clientHeight) {

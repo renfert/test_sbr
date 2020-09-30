@@ -1,89 +1,99 @@
 <template>
   <div>
-    <el-card class="box-card">
-      <div slot="header" class="clearfix">
-        <el-row style="display: flex; align-items: center">
-          <el-col :md="2" :sm="4" :xs="4">
-            <img
-              :src="$getUrlToContents() + 'avatar/' + user.avatar + ''"
-              class="avatar-md"
-            />
-          </el-col>
-          <el-col :md="17" :sm="20" :xs="20">
-            <router-link :to="'/user/' + user.id">
-              <h3>{{ user.name }}</h3>
-            </router-link>
-            <div style="font-size: 12px">
-              <div v-if="user.role === 1">
-                {{ lang['admin-view-topbar'] }}
-              </div>
-              <div v-else-if="user.role === 2">
-                {{ lang['instructor'] }}
-              </div>
-              <div v-else-if="user.role === 3">
-                {{ lang['student'] }}
-              </div>
-            </div>
-          </el-col>
+    <aside>
+      <div class="card-box">
+        <div>
+          <h3 class="center">
+            <i class="el-icon-edit sbr-text-primary"></i> Criar nova publicacao
+          </h3>
+          <hr />
+          <el-row :gutter="60" style="display: flex; align-items: center">
+            <el-col :md="2" :sm="4" :xs="4">
+              <img
+                :src="$getUrlToContents() + 'avatar/' + user.avatar + ''"
+                class="avatar-md"
+              />
+            </el-col>
+            <el-col :md="20" :sm="20" :xs="20">
+              <router-link :to="'/user/' + user.id">
+                <h3 style="margin: 0px !important">
+                  {{ user.name }}
+                </h3>
+              </router-link>
+
+              <el-button
+                style="padding: 0px; font-size: 0.8rem"
+                class="sbr-text-primary"
+                type="text"
+              >
+                &nbsp;
+                <a @click="showSections()"
+                  >{{ lang['publish-in'] }}
+                  <i class="fas fa-angle-right" style="font-size: 12px"></i>
+                  {{ section_name }}</a
+                >
+              </el-button>
+            </el-col>
+          </el-row>
+        </div>
+
+        <el-row>
+          <el-col v-if="!to" :md="8" :xs="12" :sm="5" class="link"> </el-col>
         </el-row>
-      </div>
-
-      <el-row>
-        <el-col v-if="!to" :md="8" :xs="12" :sm="5" class="link">
-          <el-button class="sbr-text-primary" type="text">
-            &nbsp;
-            <a @click="showSections()"
-              >{{ lang['publish-in'] }}
-              <i class="fas fa-angle-right" style="font-size: 12px"></i>
-              {{ section_name }}</a
+        <br />
+        <div class="publication_area m-b-30">
+          <div style="width: 100%; text-align: right; padding-top: 3%">
+            <img
+              class="widget_publication m-r-10"
+              style="width: 25px"
+              src="@/assets/img/social/photo.png"
+              @click="uploadImage()"
+            />
+            <img
+              class="widget_publication"
+              style="width: 25px"
+              src="@/assets/img/social/emoticon.png"
+              @click="uploadImage()"
+            />
+          </div>
+          <fieldset>
+            <textarea
+              :placeholder="lang['enter-text']"
+              v-model="publication"
+              rows="2"
+            ></textarea>
+            <el-row
+              v-if="newFileName.length > 0"
+              justify="center"
+              align="start"
+              :gutter="50"
             >
-          </el-button>
-        </el-col>
-      </el-row>
-      <br />
-      <el-input
-        type="textarea"
-        :rows="2"
-        :placeholder="lang['enter-text']"
-        v-model="publication"
-      >
-      </el-input>
-      <br />
-      <br />
-      <el-button size="small" @click="publish()" type="primary" round>
-        <i class="el-icon-loading" style="color: white" v-if="loading"></i>
-        <i class="far fa-paper-plane" v-else></i> {{ lang['publish'] }}
-      </el-button>
-      <el-button size="small" @click="uploadImage()" type="warning" round
-        ><i class="far fa-images" type="file"></i> {{ lang['attach-image'] }}
-      </el-button>
-      <input
-        class="upload"
-        ref="inputImage"
-        @change.prevent="uploadToServer($event)"
-        accept="image/*"
-        type="file"
-        hidden
-      />
-
-      <br />
-      <el-row
-        v-if="newFileName.length > 0"
-        justify="center"
-        align="start"
-        :gutter="50"
-      >
-        <center>
-          <img
-            :src="$getUrlToContents() + 'social/' + newFileName"
-            style="border-radius: 7px"
-            height="250vh"
-          />
-        </center>
-      </el-row>
-    </el-card>
+              <center>
+                <img
+                  class="preview_img"
+                  :src="$getUrlToContents() + 'social/' + newFileName"
+                />
+              </center>
+            </el-row>
+          </fieldset>
+        </div>
+        <el-button @click="publish()" type="primary" class="sbr-primary">
+          <i class="el-icon-loading" style="color: white" v-if="loading"></i>
+          <i class="far fa-paper-plane" v-else></i> {{ lang['publish'] }}
+        </el-button>
+        <input
+          class="upload"
+          ref="inputImage"
+          @change.prevent="uploadToServer($event)"
+          accept="image/*"
+          type="file"
+          hidden
+        />
+      </div>
+    </aside>
 
     <el-dialog
+      top="5vh"
       :title="lang['select-an-element']"
       :visible.sync="dialogVisible"
       width="30%"
@@ -92,11 +102,7 @@
       <!-- Public -->
       <el-row @click="selectPublic()" class="publish-location">
         <el-col :sm="4">
-          <img
-            style="width: 50px"
-            src="@/assets/img/general/ux/clock.png"
-            alt=""
-          />
+          <img style="width: 50px" src="@/assets/img/social/world.png" alt="" />
         </el-col>
         <el-col :sm="20">
           <h3 style="margin: 0px">Publico</h3>
@@ -109,7 +115,7 @@
         <el-col :sm="4">
           <img
             style="width: 50px"
-            src="@/assets/img/general/ux/clock.png"
+            src="@/assets/img/general/ux/join_persons.png"
             alt=""
           />
         </el-col>
@@ -132,41 +138,34 @@
           </el-select>
         </el-col>
       </el-row>
-      <b>{{ lang['groups'] }}</b>
-      <el-row :md="24" justify="center">
-        <el-button
-          @click="selectSection(group.id, group.name, 'group')"
-          round
-          size="small"
-          v-for="(group, index) in groups"
-          :key="index"
-          >{{ group.name == 'default' ? lang['group-default'] : group.name }}
-        </el-button>
-      </el-row>
-      <b>{{ lang['groups'] }}</b>
-      <el-row :md="24" justify="center">
-        <el-button
-          @click="selectSection(group.id, group.name, 'group')"
-          round
-          size="small"
-          v-for="(group, index) in groups"
-          :key="index"
-          >{{ group.name == 'default' ? lang['group-default'] : group.name }}
-        </el-button>
-      </el-row>
 
-      <b>{{ lang['courses'] }}</b>
-      <el-row :md="24" justify="center">
-        <el-button
-          @click="selectSection(course.id, course.title, 'course')"
-          round
-          size="small"
-          v-for="(course, index) in courses"
-          :key="index"
-          >{{
-            course.title == 'default' ? lang['group-default'] : course.title
-          }}
-        </el-button>
+      <!-- Specific course -->
+      <el-row class="publish-location">
+        <el-col :sm="4">
+          <img
+            style="width: 50px"
+            src="@/assets/img/general/ux/view_course.png"
+            alt=""
+          />
+        </el-col>
+        <el-col :sm="14">
+          <h3 class="m-b-20" style="margin: 0px">Curso especifico</h3>
+          <el-select
+            @change="selectSection('course')"
+            v-model="select"
+            class="m-b-20"
+            filterable
+            placeholder="Select"
+          >
+            <el-option
+              v-for="(course, index) in courses"
+              :key="index"
+              :label="course.title"
+              :value="{ id: course.id, name: course.title }"
+            >
+            </el-option>
+          </el-select>
+        </el-col>
       </el-row>
     </el-dialog>
 
@@ -243,14 +242,14 @@ export default {
       const form = new FormData();
       form.append('myuser_id', this.user.id);
       if (this.section_type === 'group') {
-        form.append('group_id', this.section_id);
-        form.append('course_id', 1);
+        form.append('mygroup_id', this.section_id);
+        form.append('mycourse_id', 1);
       } else if (this.section_type === 'course') {
-        form.append('group_id', 1);
-        form.append('course_id', this.section_id);
+        form.append('mygroup_id', 1);
+        form.append('mycourse_id', this.section_id);
       } else {
-        form.append('group_id', 1);
-        form.append('course_id', 1);
+        form.append('mygroup_id', 1);
+        form.append('mycourse_id', 1);
       }
       if (this.newFileName.length > 0) {
         form.append('media_path', this.newFileName);
@@ -334,5 +333,46 @@ export default {
 
 .publish-location:hover {
   background-color: #f8f8ff;
+}
+
+.publication_area {
+  display: inline-block;
+  padding: 0% 5% 0% 5%;
+  border: 1px solid #e4e4e4 !important;
+  width: 100% !important;
+  border-radius: 14px !important;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 250px !important;
+  border-radius: 14px !important;
+  border: 2px solid #ccc;
+  -webkit-transition: border-color 0.15s linear !important;
+  transition: border-color 0.15s linear !important;
+}
+
+.publication_area textarea {
+  border: none;
+  resize: none;
+  width: 100%;
+  color: #647b9c;
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 15px !important;
+  height: auto;
+  box-sizing: border-box;
+  display: block;
+}
+
+.widget_publication:hover {
+  transform: translateY(-1px);
+  cursor: pointer;
+}
+
+.preview_img {
+  border-style: none;
+  margin-bottom: 10%;
+  height: auto;
+  width: 90%;
+  object-fit: cover;
+  border-radius: 20px;
 }
 </style>

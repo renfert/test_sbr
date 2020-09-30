@@ -45,7 +45,6 @@ class SocialNetwork extends CI_Controller
     if (strlen($data['description']) > 0) {
 
       $this->User_Model->getUserProfile();
-      $data['prev_description'] = substr($data['description'], 0, 97) . '...';
       $res = $this->Social_Network_Model->savePublication($data);
       echo json_encode($res);
     } else
