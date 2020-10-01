@@ -9,15 +9,15 @@
     >
       <div class="text-center mb-3">
         <el-radio-group v-model="content">
-          <el-radio-button label="Overview"></el-radio-button>
-          <el-radio-button label="Questions"></el-radio-button>
+          <el-radio-button label="1">{{ lang['overview'] }}</el-radio-button>
+          <el-radio-button label="2">{{ lang['questions'] }}</el-radio-button>
         </el-radio-group>
       </div>
 
       <!-- Exam correction overview -->
       <exam-correction-overview
         :student-id="studentId"
-        v-if="content == 'Overview' && approval != '' && studentId != ''"
+        v-if="content == '1' && approval != '' && studentId != ''"
         :approval="approval"
         :exam-id="examId"
       ></exam-correction-overview>
@@ -52,7 +52,7 @@ export default {
       examId: '',
       studentId: '',
       approval: '',
-      content: 'Overview'
+      content: '1'
     };
   },
   computed: {
@@ -61,7 +61,7 @@ export default {
   mounted() {
     eventCorrection.$on('open-exam-correction', (data) => {
       const examId = data.examId;
-      this.content = 'Overview';
+      this.content = '1';
       this.examId = data.examId;
       this.studentId = data.studentId;
       this.getExam(examId);

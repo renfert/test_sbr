@@ -51,7 +51,7 @@
             :key="title.label"
           ></el-table-column>
 
-          <el-table-column label="Actions" align="center">
+          <el-table-column :label="lang['actions']" align="center">
             <template slot-scope="scope">
               <!-- Manage user -->
               <el-tooltip
@@ -129,6 +129,9 @@ export default {
     };
   },
   created() {
+    this.titles[0].label = this.lang.name;
+    this.titles[1].label = this.lang['select-role'];
+
     this.getUsers();
 
     eventBus.$on('new-user', () => {

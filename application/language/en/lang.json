@@ -169,6 +169,10 @@
 
   "exam-in-progress": "This exam is in progress",
 
+  "progress": "Progress",
+
+  "status": "Status",
+
   "write-your-question": "Write your question",
   "question-weight": "Question weight",
   "question-edited-success": "Question edited successfully",
@@ -384,6 +388,8 @@
   "edit": "Edit",
   "rate-question": "Rate question",
 
+  "evaluate-exam": "Evaluate exam",
+
   "feedback": "Feedback",
   "question-in-process-of-evaluation": "This question is still being evaluated",
   "no-feedbacks": "There are no feedbacks available.",
@@ -417,6 +423,8 @@
   "last-activities": "Last activities",
 
   "shortcuts": "Shortcuts",
+
+  "others": "Others",
 
   "create-user": "Create a new user",
   "list-users": "List of users",
@@ -582,7 +590,10 @@
 
   "school-records": "School records",
 
+  "actions": "Actions",
+
   "exams": "Exams",
+  "exam": "Exam",
 
   "thanks-for-your-avaliation": "Thank's for your avaliation",
 
@@ -595,6 +606,9 @@
   "re-rest-info": "Set to 0 if the student has only one opportunity to take the exam.",
   "next-step-button": "Next step",
   "previous-step-button": "Previous step",
+
+  "next-lesson": "Next lesson",
+  "previous-lesson": "Previous lesson",
 
   "create-new-lesson": "Create a new lesson",
   "lesson-created-success": "Lesson created successfully",
@@ -660,6 +674,11 @@
   "download-template": "Download template",
   "invalid-character": "You are using some invalid character",
 
+  "downloadable": "Downloadable",
+
+  "logo-size": "Logo size",
+  "sections": "Sections",
+
   "please-wait": "Please wait, this may take a few minutes ...",
 
   "invalid-access-token": "Invalid credentials, please review your information.",
@@ -706,6 +725,10 @@
   "add-new-social": "Add new social media",
   "social-medias": "Social medias",
   "social-media": "Social media",
+
+  "new-users": "New users",
+
+  "course": "Course",
 
   "how-would-you-rate-this-course": "How would you rate this course?",
 

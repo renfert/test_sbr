@@ -35,9 +35,10 @@ export default {
     };
   },
   computed: {
-    ...mapState(['user'])
+    ...mapState(['user', 'lang'])
   },
   created() {
+    this.coursesChartOptions.title = this.lang.courses;
     this.getCourses();
   },
   methods: {

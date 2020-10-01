@@ -63,19 +63,35 @@
           {{ lang['create-account'] }}
           <i class="ti-angle-right"></i>
         </button>
+
+        <div class="options text-center">
+          <p class="pt-1">
+            {{ lang['already-have-account'] }}
+            <a @click.prevent="login()" href="javascript:void(0)">{{
+              lang['go-to-platform']
+            }}</a>
+          </p>
+        </div>
       </form>
     </el-dialog>
+    <login></login>
   </div>
 </template>
 
 <script>
 import Vue from 'vue';
+/* eslint-disable */
+import { eventLogin } from '@/components/login/Login';
+import Login from '@/components/login/Login';
 
 import { mapState } from 'vuex';
 
 export const eventLead = new Vue();
 
 export default {
+  components: {
+    Login
+  },
   props: ['course-id'],
   data: () => {
     return {
@@ -108,6 +124,9 @@ export default {
     ...mapState(['lang'])
   },
   methods: {
+    login() {
+      eventLogin.$emit('open-login-modal');
+    },
     getColor() {
       const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'settings',

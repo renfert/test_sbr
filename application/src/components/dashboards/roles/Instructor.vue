@@ -49,6 +49,7 @@ export default {
     ...mapState(['lang'])
   },
   mounted() {
+    this.coursesChartOptions.title = this.lang.courses;
     this.getCourses();
   },
   methods: {

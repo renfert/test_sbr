@@ -24,6 +24,9 @@
 
   "edit-program": "Editar programa",
 
+  "next-lesson": "Próxima lição",
+  "previous-lesson": "Lição anterior",
+
   "dates": "Datas",
   "sales": "Vendas",
   "select-payment-platform": "Selecione a plataforma de pagamento para este curso",
@@ -53,6 +56,16 @@
   "user-already-exists": "Este usuário já existe, escolha outro e-mail.",
 
   "course-validity": "Este curso é válido por:",
+
+  "actions": "Ações",
+
+  "others": "Outros",
+
+  "downloadable": "Descarregavel",
+
+  "logo-size": "Tamanho do logotipo",
+
+  "sections": "Seções",
 
   "days": "dias",
 
@@ -549,6 +562,9 @@
   "school-records": "Registros escolares",
 
   "exams": "Exames",
+  "exam": "Exame",
+
+  "evaluate-exam": "Avaliar exame",
 
   "thanks-for-your-avaliation": "Obrigado pela sua avaliação",
 
@@ -642,6 +658,14 @@
   "media-align": "Alinhamento da mídia",
   "content": "Conteúdo",
   "transparent-header": "Header transparente",
+
+  "new-users": "Novos usuários",
+
+  "progress": "Progresso",
+
+  "status": "Status",
+
+  "course": "Curso",
 
   "courses": "Cursos",
 

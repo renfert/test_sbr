@@ -172,10 +172,9 @@
         <a
           v-if="element.answer != '' && element.answer != null"
           download
-          class="sbr-btn sbr-primary"
           :href="'' + $getUrlToContents() + 'answers/' + element.answer"
-          >{{ lang['download-answer'] }}</a
-        >
+          >{{ lang['download-answer'] }} <i class="el-icon-bottom"></i
+        ></a>
 
         <el-tag v-else type="danger mb-2">{{ lang['answer-empty'] }}</el-tag>
         <div>

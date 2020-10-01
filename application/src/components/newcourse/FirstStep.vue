@@ -265,7 +265,7 @@
           <!----------
             Others tab
           ------------>
-          <el-tab-pane label="Others" name="third" class="mt-4">
+          <el-tab-pane :label="lang['others']" name="third" class="mt-4">
             <div class="row">
               <!-- Course reviews -->
               <div class="col-xl-4 col-md-4">
