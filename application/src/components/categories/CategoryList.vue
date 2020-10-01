@@ -35,7 +35,7 @@
             :label="title.label"
             :key="title.label"
           ></el-table-column>
-          <el-table-column label="Actions" align="center">
+          <el-table-column :label="lang['actions']" align="center">
             <template slot-scope="scope">
               <el-tooltip
                 class="item"
@@ -150,6 +150,8 @@ export default {
     };
   },
   created() {
+    this.titles[0].label = this.lang.name;
+
     this.getCategories();
 
     eventBus.$on('new-category', () => {

@@ -1,5 +1,11 @@
 <template>
-  <vc-calendar :attributes="attrs" is-inline is-expanded></vc-calendar>
+  <vc-calendar
+    v-if="locale != null"
+    :locale="locale"
+    :attributes="attrs"
+    is-inline
+    is-expanded
+  ></vc-calendar>
 </template>
 
 <script>
@@ -23,16 +29,33 @@ export default {
           },
           dates: ''
         }
-      ]
+      ],
+      locale: null
     };
   },
   mounted() {
     this.getUserEvents();
+    this.getSettingsInformation();
   },
   computed: {
     ...mapState(['lang'])
   },
   methods: {
+    getSettingsInformation() {
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'settings',
+        'getSettingsInformation'
+      );
+
+      this.$request.get(urlToBeUsedInTheRequest).then(
+        (response) => {
+          this.locale = response.data.lang;
+        },
+        () => {
+          this.$errorMessage();
+        }
+      );
+    },
     getUserEvents() {
       const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'calendar',

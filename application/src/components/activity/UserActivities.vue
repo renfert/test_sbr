@@ -11,7 +11,7 @@
           "
         >
           <div class="activities-title text-center mb-5">
-            <h3>Last activities</h3>
+            <h3>{{ lang['last-activities'] }}</h3>
           </div>
 
           <!-- Activity -->

@@ -19,12 +19,12 @@
         :label="title.label"
         :key="title.label"
       ></el-table-column>
-      <el-table-column label="Progress" align="center">
+      <el-table-column :label="lang['progress']" align="center">
         <template slot-scope="scope">{{
           parseInt((100 * scope.row.finishedLessons) / scope.row.lessons)
         }}</template>
       </el-table-column>
-      <el-table-column label="Status" align="center">
+      <el-table-column :label="lang['status']" align="center">
         <template slot-scope="scope">
           <p
             v-if="
@@ -90,6 +90,7 @@ export default {
     };
   },
   created() {
+    this.titles[0].label = this.lang.course;
     this.getRecords();
   },
   computed: {

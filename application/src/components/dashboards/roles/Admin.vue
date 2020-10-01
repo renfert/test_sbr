@@ -73,6 +73,8 @@ export default {
     ...mapState(['lang'])
   },
   mounted() {
+    this.usersChartOptions.title = this.lang['new-users'];
+    this.coursesChartOptions.title = this.lang.courses;
     this.getRegisteredUsersPerMonth();
     this.getCourses();
   },

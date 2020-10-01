@@ -1137,4 +1137,40 @@ a {
     width: 100%;
   }
 }
+
+@media only screen and (min-width: 800px) {
+  .ed_view_box {
+    display: block;
+    position: relative;
+    border-radius: 0.5rem;
+    background: #fff;
+    padding: 12px;
+    margin-bottom: 30px;
+    margin-top: -40vh;
+    transition: 1s;
+  }
+
+  .property_video.sm .thumb .pro_img {
+    min-height: 120px;
+    max-height: 120px;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .ed_view_box {
+    display: block;
+    position: relative;
+    border-radius: 0.5rem;
+    background: #fff;
+    padding: 12px;
+    margin-bottom: 30px;
+    margin-top: -40vh;
+    transition: 1s;
+  }
+
+  .property_video.sm .thumb .pro_img {
+    min-height: 220px;
+    max-height: 220px;
+  }
+}
 </style>

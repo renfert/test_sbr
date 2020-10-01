@@ -20,25 +20,14 @@
         :label="title.label"
         :key="title.label"
       ></el-table-column>
-      <el-table-column label="Actions" align="center">
-        <template slot-scope="scope">
-          <el-button
-            type="primary"
-            @click="printCertificate(scope.row.course)"
-            size="medium"
-            icon="el-icon-edit"
-            circle
-          ></el-button>
-        </template>
-      </el-table-column>
     </data-tables>
   </div>
 
-  <div class="row gap-10" v-else>
+  <div class="row m-t-40" v-else>
     <div class="col-12 text-center">
       <img
-        style="width: 25%"
-        src="@/assets/img/general/ux/no_documents.png"
+        class="no-results-img"
+        src="@/assets/img/general/ux/certificate.svg"
         alt="No activities"
       />
       <h4 class="no-results-text">{{ lang['no-certificates'] }}</h4>

@@ -22,6 +22,9 @@
   "plans-nav": "Planes",
   "help-center-nav": "Centro de Ayuda",
 
+  "next-lesson": "Siguiente",
+  "previous-lesson": "Anterior",
+
   "required-module": "Haga clic en el candado para bloquear o desbloquear este módulo. Al bloquear un módulo, el alumno debe completar todas las actividades relacionadas con él antes de poder pasar al siguiente.",
 
   "upload-a-file": "Cargar un archivo",
@@ -76,6 +79,8 @@
   "actual-price": "Precio actual",
 
   "average-rating": "Puntuación media",
+
+  "actions": "Acciones",
 
   "lesson": "Lección",
 
@@ -370,6 +375,10 @@
   "create-new-course": "Nuevo curso",
   "select-role": "Rol de usuario",
 
+  "others": "Otros",
+
+  "downloadable": "Descargable",
+
   "join-persons": "Agregar personas",
 
   "course-created-successfully": "Curso creado con éxito",
@@ -547,6 +556,12 @@
   "school-records": "Historial académico",
 
   "exams": "Exámenes",
+  "exam": "Examen",
+
+  "evaluate-exam": "Evaluar examen",
+
+  "logo-size": "Tamaño del logo",
+  "sections": "Bloques",
 
   "thanks-for-your-avaliation": "Gracias por tu validación",
 
@@ -637,7 +652,7 @@
 
   "name": "Nombre",
   "password": "Contraseña",
-  "email": "Email",
+  "email": "Correo",
   "instructor": "Instructor",
   "student": "Alumno",
   "category": "Categoría",
@@ -669,9 +684,17 @@
   "primary-color": "Color primario",
   "secondary-color": "Color secundario",
   "copyright": "Copyright",
-  "add-new-social": "Agregar social media",
-  "social-medias": "Social medias",
-  "social-media": "Social media",
+  "add-new-social": "Agregar rede social",
+  "social-medias": "Redes Sociales",
+  "social-media": "Rede social",
+
+  "new-users": "Nuevos usuarios",
+
+  "course": "Curso",
+
+  "progress": "Progreso",
+
+  "status": "Estado",
 
   "add-new-lesson": "Agregar nueva lección",
 
@@ -679,7 +702,7 @@
   "comment": "Comentario",
 
   "number-of-courses-to-be-listed": "Número total de cursos que se incluirán en la lista",
-  "text-and-media": "Text and media",
+  "text-and-media": "Texto y medios",
   "media": "Media",
   "media-align": "Media align",
   "content": "Contenido",

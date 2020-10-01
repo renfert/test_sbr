@@ -42,7 +42,7 @@
               ></upload>
             </el-menu-item>
           </el-menu-item-group>
-          <el-menu-item-group title="Logo size">
+          <el-menu-item-group :title="lang['logo-size']">
             <el-menu-item>
               <div class="block">
                 <input

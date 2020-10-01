@@ -82,12 +82,24 @@ class Group_Model extends CI_Model
 
   public function listing()
   {
-    $this->db->select("*");
-    $this->db->from("mygroup T0");
-    $this->db->where("T0.id !=", 1);
-    $query = $this->db->get();
-    if ($query->num_rows() > 0) {
-      return $query->result();
+    if (getUserId() == 1) {
+      $this->db->select("*");
+      $this->db->from("mygroup T0");
+      $this->db->where("T0.id !=", 1);
+      $query = $this->db->get();
+      if ($query->num_rows() > 0) {
+        return $query->result();
+      }
+    } else {
+      $this->db->select("*");
+      $this->db->from("relationship T0");
+      $this->db->join("mygroup T1", "T0.mygroup_id = T1.id");
+      $this->db->where("T1.id !=", 1);
+      $this->db->where("T0.myuser_id", getUserId());
+      $query = $this->db->get();
+      if ($query->num_rows() > 0) {
+        return $query->result();
+      }
     }
   }
 

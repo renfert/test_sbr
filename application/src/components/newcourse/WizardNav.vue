@@ -43,7 +43,8 @@
         size="small"
         type="primary"
       >
-        <i class="el-icon-back"></i> Previous step</el-button
+        <i class="el-icon-back"></i>
+        {{ lang['previous-step-button'] }}</el-button
       >
       <el-button
         @click.prevent="nextStep()"
@@ -52,7 +53,7 @@
         size="small"
         type="primary"
       >
-        Next step <i class="el-icon-right"></i
+        {{ lang['next-step-button'] }} <i class="el-icon-right"></i
       ></el-button>
     </el-row>
 
