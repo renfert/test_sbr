@@ -771,15 +771,20 @@ export default {
 }
 
 .ed_view_box {
+  width: 25%;
   border: 4px solid #f4f8fa;
   display: block;
-  position: relative;
+  position: fixed;
   border-radius: 0.5rem;
   background: #fff;
   padding: 12px;
-  margin-bottom: 30px;
-  margin-top: -80%;
+  top: 0;
+  margin: 120px 2% 0% 0%;
   transition: 1s;
+}
+
+.ed_title {
+  margin-right: 15% !important;
 }
 
 .ed_view_box.style_3 {
@@ -1131,46 +1136,15 @@ a {
     margin-bottom: 30px;
     margin-top: 0%;
     transition: 1s;
+    width: 100%;
+  }
+
+  .ed_title {
+    margin-right: 0% !important;
   }
 
   .player-container {
     width: 100%;
-  }
-}
-
-@media only screen and (min-width: 800px) {
-  .ed_view_box {
-    display: block;
-    position: relative;
-    border-radius: 0.5rem;
-    background: #fff;
-    padding: 12px;
-    margin-bottom: 30px;
-    margin-top: -40vh;
-    transition: 1s;
-  }
-
-  .property_video.sm .thumb .pro_img {
-    min-height: 120px;
-    max-height: 120px;
-  }
-}
-
-@media only screen and (min-width: 1024px) {
-  .ed_view_box {
-    display: block;
-    position: relative;
-    border-radius: 0.5rem;
-    background: #fff;
-    padding: 12px;
-    margin-bottom: 30px;
-    margin-top: -40vh;
-    transition: 1s;
-  }
-
-  .property_video.sm .thumb .pro_img {
-    min-height: 220px;
-    max-height: 220px;
   }
 }
 </style>
