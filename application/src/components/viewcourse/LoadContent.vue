@@ -190,7 +190,7 @@
             allowfullscreen
             webkitallowfullscreen
             :src="
-              'https://demo1.sabiorealm.com/ViewerJS/index.html#' +
+              'https://sbrfiles.s3.amazonaws.com/ViewerJS/index.html#' +
               this.$getUrlToContents() +
               'content/' +
               path
