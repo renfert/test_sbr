@@ -190,8 +190,7 @@
             allowfullscreen
             webkitallowfullscreen
             :src="
-              $getCurrentDomainName() +
-              'ViewerJS/index.html#' +
+              'https://demo1.sabiorealm.com/ViewerJS/index.html#' +
               this.$getUrlToContents() +
               'content/' +
               path
