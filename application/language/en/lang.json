@@ -610,6 +610,9 @@
   "next-lesson": "Next lesson",
   "previous-lesson": "Previous lesson",
 
+  "next-question": "Next question",
+  "previous-question": "Previous question",
+
   "create-new-lesson": "Create a new lesson",
   "lesson-created-success": "Lesson created successfully",
 

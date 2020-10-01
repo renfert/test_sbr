@@ -571,6 +571,9 @@
   "default-category": "Sem categoria",
   "your-certificate": "Seu certificado",
 
+  "next-question": "Próxima pergunta",
+  "previous-question": "Pergunta anterior",
+
   "certificate-of-completition": "Certificado de conclusão",
 
   "number-of-re-tests": "Número de novas tentativas",
