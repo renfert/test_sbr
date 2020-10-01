@@ -22,6 +22,7 @@
         <br />
         <!-- Email -->
         <input
+          v-model="email"
           type="email"
           name="email"
           class="form-control mb-4"
@@ -29,6 +30,7 @@
         />
         <!-- Password -->
         <input
+          v-model="password"
           type="password"
           name="password"
           class="form-control mb-4"
@@ -101,6 +103,8 @@ export default {
         loading: false,
         wrongPasswordOrUserMessage: false
       },
+      email: '',
+      password: '',
       color: ''
     };
   },
@@ -121,12 +125,15 @@ export default {
       );
       this.$request.post(urlToBeUsedInTheRequest, formData).then(
         (response) => {
+          this.email = '';
+          this.password = '';
+          this.login.loading = false;
+
           if (response.data === true) {
             router.push('/home');
           } else {
             this.login.wrongPasswordOrUserMessage = true;
           }
-          this.login.loading = false;
         },
         () => {
           this.$errorMessage();
