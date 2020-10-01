@@ -72,24 +72,18 @@
         </div>
       </form>
     </el-dialog>
-    <login></login>
   </div>
 </template>
 
 <script>
 import Vue from 'vue';
-/* eslint-disable */
 import { eventLogin } from '@/components/login/Login';
-import Login from '@/components/login/Login';
 
 import { mapState } from 'vuex';
 
 export const eventLead = new Vue();
 
 export default {
-  components: {
-    Login
-  },
   props: ['course-id'],
   data: () => {
     return {
