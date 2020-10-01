@@ -117,6 +117,7 @@ export default {
   },
   methods: {
     login() {
+      this.modal = false;
       eventLogin.$emit('open-login-modal');
     },
     getColor() {
