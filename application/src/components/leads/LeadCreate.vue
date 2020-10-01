@@ -67,9 +67,7 @@
         <div class="options text-center">
           <p class="pt-1">
             {{ lang['already-have-account'] }}
-            <a @click.prevent="login()" href="javascript:void(0)">{{
-              lang['go-to-platform']
-            }}</a>
+            <a @click.prevent="login()">{{ lang['go-to-platform'] }}</a>
           </p>
         </div>
       </form>
