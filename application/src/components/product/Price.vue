@@ -784,10 +784,6 @@ export default {
   transition: 1s;
 }
 
-.ed_title {
-  margin-right: 15% !important;
-}
-
 .ed_view_box.style_3 {
   padding: 0px 0px 10px 0px;
   border-radius: 0.5rem;
@@ -1138,10 +1134,6 @@ a {
     margin-top: 0%;
     transition: 1s;
     width: 100%;
-  }
-
-  .ed_title {
-    margin-right: 0% !important;
   }
 
   .player-container {
