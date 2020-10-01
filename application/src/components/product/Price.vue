@@ -779,6 +779,7 @@ export default {
   background: #fff;
   padding: 12px;
   top: 0;
+  z-index: 9999 !important;
   margin: 120px 2% 0% 0%;
   transition: 1s;
 }
