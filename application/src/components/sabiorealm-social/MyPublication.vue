@@ -1,7 +1,7 @@
 <template>
   <div>
     <aside>
-      <div class="card-box">
+      <div class="card-box" style="position: fixed; max-width: 30%">
         <div>
           <h3 class="center">
             <i class="el-icon-edit sbr-text-primary"></i> Criar nova publicacao
@@ -49,12 +49,6 @@
               src="@/assets/img/social/photo.png"
               @click="uploadImage()"
             />
-            <img
-              class="widget_publication"
-              style="width: 25px"
-              src="@/assets/img/social/emoticon.png"
-              @click="uploadImage()"
-            />
           </div>
           <fieldset>
             <textarea
@@ -69,10 +63,17 @@
               :gutter="50"
             >
               <center>
-                <img
-                  class="preview_img"
-                  :src="$getUrlToContents() + 'social/' + newFileName"
-                />
+                <div class="img_wrp">
+                  <img
+                    class="preview_img"
+                    :src="$getUrlToContents() + 'social/' + newFileName"
+                  />
+                  <img
+                    @click.prevent="newFileName = ''"
+                    class="close_icon"
+                    src="@/assets/img/social/close.png"
+                  />
+                </div>
               </center>
             </el-row>
           </fieldset>
@@ -374,5 +375,23 @@ export default {
   width: 90%;
   object-fit: cover;
   border-radius: 20px;
+}
+
+.img_wrp {
+  display: inline-block;
+  position: relative;
+}
+.close_icon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+  opacity: 0.8;
+  width: 10%;
+  right: 5%;
+}
+
+.close_icon:hover {
+  opacity: 1;
 }
 </style>

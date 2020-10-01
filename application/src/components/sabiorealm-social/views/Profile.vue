@@ -1,33 +1,47 @@
 <template>
   <div ref="content" class="content-page">
-    <el-row :gutter="40" style="display: flex">
+    <el-row class="m-t-40" :gutter="40" style="display: flex">
+      <div
+        style="
+          width: 100%;
+          background-color: rgb(55, 58, 67);
+          position: fixed;
+          top: 0;
+          z-index: 99999;
+          color: #fff;
+          text-align: center;
+          left: 230px;
+          display: flex;
+          align-items: baseline;
+          justify-content: center;
+        "
+      >
+        <div>
+          <h3 style="color: white; margin-right: 230px">
+            Voce esta conectado ao canal <i class="el-icon-arrow-right"></i>
+            <b class="sbr-text-primary"> General </b>
+            &nbsp;
+            <img
+              class="test"
+              style="width: 30px"
+              src="@/assets/img/social/world.png"
+            />
+          </h3>
+        </div>
+        <div>
+          <a href="#">
+            <h3 style="color: white" class="fw-600">
+              Mudar canal <i class="el-icon-chat-dot-round"></i>
+            </h3>
+          </a>
+        </div>
+      </div>
       <el-col :md="11" :sm="24" :xs="24">
-        <my-publication style="position: fixed"></my-publication>
+        <my-publication></my-publication>
       </el-col>
 
       <el-col :md="13">
         <div>
-          <h3 class="center">
-            <i class="el-icon-chat-dot-square sbr-text-primary"></i> Feed
-            <i class="el-icon-arrow-right"></i> Public
-            <img
-              style="width: 18px"
-              src="@/assets/img/social/world.png"
-              alt=""
-            />
-          </h3>
-          <el-button
-            style="padding: 0px; font-size: 0.8rem"
-            class="sbr-text-primary m-b-40"
-            type="text"
-          >
-            &nbsp;
-            <a
-              >Exibir em
-              <i class="fas fa-angle-right" style="font-size: 12px"></i>
-              Public
-            </a>
-          </el-button>
           <post-list type="all"></post-list>
         </div>
       </el-col>
@@ -105,5 +119,31 @@ export default {
   transition: 1.2s;
   color: #009cd8;
   cursor: pointer;
+}
+
+.test {
+  border-radius: 50%;
+  margin: 10px;
+  position: relative;
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 1);
+  transform: scale(1);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 #009cd8;
+  }
+
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+  }
+
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+  }
 }
 </style>

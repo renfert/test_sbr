@@ -12,7 +12,7 @@ class Social_Network_Model extends CI_Model
   public function getPublications()
   {
 
-    $this->db->select("T0.id,T0.myuser_id,T1.name username,T0.mygroup_id,T0.mycourse_id, T3.title course_name,T0.pub_url,T0.description,
+    $this->db->select("T0.id,T0.myuser_id,T1.name username,T1.avatar,T0.mygroup_id,T0.mycourse_id, T3.title course_name,T0.pub_url,T0.description,
     T0.media_path,T0.media_realname,T0.media_type,T2.name group_name,T0.created,T0.modified");
     $this->db->from("social_publications T0");
     $this->db->join("myuser T1", "T1.id=T0.myuser_id");

@@ -8,27 +8,24 @@
     </a>
     <div v-if="viewComments">
       <div
+        style="background-color: #f8f8ff; padding: 20px; border-radius: 20px"
+        class="m-t-30"
         v-for="(comment, index) in comments"
         :key="index"
-        style="
-          margin-bottom: 4px;
-          background-color: rgba(92, 99, 216, 0.1);
-          border-radius: 10px;
-          padding: 10px;
-        "
       >
-        <div style="font-size: 12px; color: #009cd8">
-          <el-row :gutter="2">
+        <div>
+          <el-row style="display: flex; align-items: center" :gutter="40">
             <el-col :md="2" :sm="3" :xs="3">
               <el-avatar
                 size="small"
                 :src="$getUrlToContents() + 'avatar/' + comment.avatar + ''"
               />
             </el-col>
-            <el-col :md="12" :sm="10" :xs="10" style="margin-top: 8px">
+            <el-col :md="18" :sm="10" :xs="10" style="margin-top: 8px">
               <router-link :to="'user/' + user.id">
                 {{ comment.username }}
               </router-link>
+              <br />
               <div
                 style="
                   color: #909399;
@@ -49,26 +46,13 @@
                 {{ new Date(comment.created).toLocaleTimeString() }}
               </div>
             </el-col>
-          </el-row>
-        </div>
-        <el-row justify="start">
-          <el-col :md="20" :sm="10">
-            <div v-html="comment.comment" style="overflow-wrap: anywhere"></div>
-          </el-col>
-          <div v-if="user.id === comment.myuser_id">
-            <el-col :md="2" :sm="1" :xs="3">
-              <el-button
-                type="primary"
-                icon="el-icon-edit"
-                circle
+            <div v-if="user.id === comment.myuser_id" class="m-r-10">
+              <i
                 @click="editComment(comment.id, comment.comment)"
-                size="small"
-              ></el-button>
-            </el-col>
-          </div>
-
-          <div v-if="user.role === 1 || user.id === comment.myuser_id">
-            <el-col :md="1" :sm="1" :xs="2">
+                class="el-icon-edit-outline table-icon table-icon-primary"
+              ></i>
+            </div>
+            <div v-if="user.role === 1 || user.id === comment.myuser_id">
               <el-popconfirm
                 confirmButtonText="Ok"
                 cancelButtonText="No, Thanks"
@@ -76,31 +60,21 @@
                 :title="lang['delete'] + ' ?'"
                 @onConfirm="deleteComment(comment.id)"
               >
-                <el-button
-                  size="small"
-                  class="sbr-danger ml-1"
+                <i
                   slot="reference"
-                  icon="el-icon-delete"
-                  circle
-                ></el-button>
+                  class="el-icon-delete table-icon table-icon-danger"
+                ></i>
               </el-popconfirm>
-            </el-col>
-          </div>
-        </el-row>
+            </div>
+          </el-row>
+        </div>
         <br />
-        <el-row justify="center">
-          <el-col :md="4" :sm="4" :xs="4">
-            <el-button
-              :type="comment.i_like_it ? 'primary' : ''"
-              @click="doCommentaryLike(comment.id)"
-              circle
-              ><i
-                class="fas fa-thumbs-up"
-                :style="comment.i_like_it ? 'color:white' : 'color:#4a5568'"
-              ></i>
-            </el-button>
-
-            {{ comment.likes > 0 ? comment.likes + ' likes' : '' }}
+        <el-row justify="start">
+          <el-col :md="20" :sm="10">
+            <div
+              v-html="comment.comment"
+              style="overflow-wrap: anywhere; margin-left: 11%; font-size: 1em"
+            ></div>
           </el-col>
         </el-row>
       </div>

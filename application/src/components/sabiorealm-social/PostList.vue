@@ -16,7 +16,7 @@
           >
             <el-col :md="2" :sm="4" :xs="4">
               <img
-                :src="$getUrlToContents() + 'avatar/' + user.avatar + ''"
+                :src="$getUrlToContents() + 'avatar/' + publication.avatar + ''"
                 class="avatar-md"
               />
             </el-col>
