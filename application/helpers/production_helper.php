@@ -22,7 +22,7 @@ function activeSession()
 {
   $CI = &get_instance();
   if (production() == false) {
-    return true;
+    return false;
   } else {
     $sess_id = $CI->session->userdata('id');
     if ($sess_id) {

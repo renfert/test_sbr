@@ -356,6 +356,10 @@
 
   "all": "Todos",
 
+  "checkout": "Finalizar pagamento",
+
+  "total": "Total",
+
   "create-certificate": "Criar um novo certificado",
   "list-certificate": "Lista de certificados",
   "certificate-teplate": "Template",

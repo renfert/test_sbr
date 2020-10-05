@@ -116,34 +116,20 @@
           </div>
 
           <!-- Unregistered user -->
-          <div v-else>
-            <!-- Mercado pago -->
-            <div v-if="paymentPlatform == 'mercadopago'">
-              <form
-                :action="this.$getCurrentDomainName() + 'payment/process'"
-                method="POST"
-                v-if="preferenceId != null"
-              >
-                <script
-                  v-if="link != null"
-                  :src="link"
-                  :data-preference-id="preferenceId"
-                  type="application/javascript"
-                ></script>
-              </form>
-            </div>
-            <!-- Paypal -->
-            <div v-else>
-              <div id="pbutton1">
-                <paypal-button
-                  name="pbutton1"
-                  v-if="courseId"
-                  :currency="currency"
-                  :price="price"
-                  :course-id="this.courseId"
-                ></paypal-button>
-              </div>
-            </div>
+          <div v-else class="center">
+            <!-- Pay button -->
+            <button
+              @click.prevent="openPayment()"
+              :style="primaryColorBg"
+              class="btn account-btn"
+              type="submit"
+            >
+              <i
+                class="el-icon-sell"
+                style="font-size: 1.5em; margin-right: 5%"
+              ></i>
+              {{ lang['checkout'] }}
+            </button>
           </div>
         </div>
 
@@ -161,6 +147,60 @@
         </div>
       </div>
     </div>
+
+    <!----------------------
+      Payment modal
+    ----------------------->
+    <el-dialog center top="5vh" :visible.sync="paymentModal">
+      <div slot="title">
+        <h3>{{ lang['checkout'] }}</h3>
+      </div>
+      <div class="center payment">
+        <!-- Mercadopago -->
+        <div v-if="paymentPlatform == 'mercadopago'">
+          <h2 class="fw-700">{{ courseTitle }}</h2>
+          <h3 class="fw-700">
+            {{ lang['total'] }}: {{ price }} {{ currency }}
+          </h3>
+          <form
+            v-if="preferenceId != null"
+            :action="this.$getCurrentDomainName() + 'payment/process'"
+            method="POST"
+          >
+            <script
+              v-if="link != null"
+              :src="link"
+              :data-preference-id="preferenceId"
+              type="application/javascript"
+            ></script>
+          </form>
+        </div>
+
+        <!-- Paypal -->
+        <div v-else>
+          <h2 class="fw-700">{{ courseTitle }}</h2>
+          <hr />
+          <h3 class="fw-700">
+            {{ lang['total'] }}: {{ price }} {{ currency }}
+          </h3>
+          <div class="paypal_container">
+            <paypal-button
+              v-if="courseId"
+              :currency="currency"
+              :price="price"
+              :course-id="this.courseId"
+            ></paypal-button>
+          </div>
+        </div>
+      </div>
+      <div slot="footer">
+        <img
+          style="width: 150px"
+          src="@/assets/img/general/ux/secure.png"
+          alt=""
+        />
+      </div>
+    </el-dialog>
 
     <!----------------------
       Create account modal
@@ -321,34 +361,6 @@
               {{ lang['congratulations'] }}
             </h2>
             <h5 class="fw-600">{{ lang['you-are-logged-in-now'] }}</h5>
-            <!-- Mercadopago -->
-            <div v-if="paymentPlatform == 'mercadopago'">
-              <form
-                v-if="preferenceId != null"
-                :action="this.$getCurrentDomainName() + 'payment/process'"
-                method="POST"
-              >
-                <script
-                  v-if="link != null"
-                  :src="link"
-                  :data-preference-id="preferenceId"
-                  type="application/javascript"
-                ></script>
-              </form>
-            </div>
-
-            <!-- Paypal -->
-            <div v-else>
-              <div id="pbutton2">
-                <paypal-button
-                  name="pbutton2"
-                  v-if="courseId"
-                  :currency="currency"
-                  :price="price"
-                  :course-id="this.courseId"
-                ></paypal-button>
-              </div>
-            </div>
           </div>
 
           <div class="col-4">
@@ -394,6 +406,7 @@ export default {
       registeredUser: false,
       userId: '',
       modal: false,
+      paymentModal: false,
       createAnAccount: true,
       login: false,
       loading: false,
@@ -602,9 +615,8 @@ export default {
       this.$request.post(urlToBeUsedInTheRequest, formData).then(
         (response) => {
           if (response.data === true) {
-            this.login = false;
-            this.createAnAccount = false;
-            this.proceedToPayment = true;
+            this.modal = false;
+            this.paymentModal = true;
             this.checkActiveSession();
             eventLogin.$emit('new-login');
           } else {
@@ -633,9 +645,8 @@ export default {
       this.$request.post(urlToBeUsedInTheRequest, formData).then(
         (response) => {
           if (response.data === true) {
-            this.login = false;
-            this.createAnAccount = false;
-            this.proceedToPayment = true;
+            this.modal = false;
+            this.paymentModal = true;
             this.checkActiveSession();
             eventLogin.$emit('new-login');
           } else {
@@ -647,6 +658,9 @@ export default {
           this.$errorMessage();
         }
       );
+    },
+    openPayment() {
+      this.paymentModal = true;
     },
     openAccountModal() {
       this.modal = true;
@@ -1096,7 +1110,6 @@ a {
 @media only screen and (max-width: 600px) {
   .ed_view_box {
     display: block;
-    position: relative;
     border-radius: 0.5rem;
     background: #fff;
     padding: 12px;
@@ -1109,5 +1122,21 @@ a {
   .player-container {
     width: 100%;
   }
+}
+
+.paypal_container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.payment h3 {
+  font-size: 1.5em;
+}
+.payment h2 {
+  font-size: 1.7em;
+  padding: 0% 5%;
 }
 </style>
