@@ -26,10 +26,10 @@
                 <i class="fas fa-caret-right" style="font-size: 15px"></i>
               </router-link>
               <b>
-                <a v-if="publication.group_id > 1">
+                <a v-if="parseInt(publication.mygroup_id) > 1">
                   {{ publication.group_name }}
                 </a>
-                <a v-else-if="publication.course_id > 1">
+                <a v-else-if="parseInt(publication.mycourse_id) > 1">
                   {{ publication.course_name }}
                 </a>
                 <a v-else>
@@ -37,14 +37,7 @@
                 </a>
               </b>
               <h5 class="no-margin">
-                {{
-                  new Date(publication.created).toLocaleString(
-                    new Date().getTimezoneOffset(),
-                    {
-                      dateStyle: 'full'
-                    }
-                  )
-                }}
+                {{ processDateTime(publication.created) }}
               </h5>
             </el-col>
             <el-col
@@ -107,23 +100,30 @@
           ></div>
         </el-row>
         <br />
-        <el-row
-          v-if="publication.media_path"
-          justify="center"
-          align="start"
-          :gutter="50"
-        >
-          <center>
+        <el-row v-if="publication.media_path">
+          <!-- Publication image -->
+          <center v-if="verifyMediaType(publication.media_type) == 'image'">
             <img
               class="preview_img"
               :src="$getUrlToContents() + 'social/' + publication.media_path"
             />
           </center>
+          <!-- Publication content button  -->
+          <el-button v-else class="sbr-secondary" type="primary">
+            <a
+              class="sbr-text-white"
+              :download="publication.media_realname"
+              :href="$getUrlToContents() + 'social/' + publication.media_path"
+            >
+              <i class="el-icon-download"></i>
+              <span id="contentName"> {{ publication.media_realname }} </span>
+            </a>
+          </el-button>
         </el-row>
         <br />
         <el-row>
           <el-button
-            class="m-r-10"
+            :class="publication.i_like_it ? 'm-r-10 sbr-primary' : 'm-r-10'"
             :type="publication.i_like_it ? 'primary' : ''"
             @click="doPublicationLike(publication.id, $event)"
             circle
@@ -219,11 +219,13 @@ export default {
       editText: '',
       publication_id: null,
       publications: [],
-      showButtons: false
+      showButtons: false,
+      currentDate: ''
     };
   },
   components: { SubCommentary },
   created() {
+    this.getCurrentDate();
     switch (this.type) {
       case 'all': {
         this.getPublications();
@@ -263,6 +265,57 @@ export default {
     // eslint-disable-next-line vue/no-async-in-computed-properties
   },
   methods: {
+    processDateTime(date) {
+      const dt1 = new Date(this.currentDate);
+      const dt2 = new Date(date);
+      const diffTime = Math.abs(dt2 - dt1);
+      const diffinMinutes = diffTime / (1000 * 60);
+      const diffInHours = diffTime / (1000 * 60 * 60);
+
+      const day = dt2.getDate();
+      const month = dt2.getMonth() + 1;
+      const year = dt2.getFullYear();
+
+      if (diffinMinutes > 60) {
+        if (diffInHours < 24) {
+          return (
+            this.lang['activity-about-time-hour'] +
+            Math.round(diffInHours) +
+            this.lang['activity-time-hour-ago']
+          );
+        } else {
+          return day + '/' + month + '/' + year;
+        }
+      } else {
+        return this.lang['activity-few-minutes-ago'];
+      }
+    },
+    getCurrentDate() {
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'verify',
+        'getCurrentDate'
+      );
+      this.$request.get(urlToBeUsedInTheRequest).then(
+        (response) => {
+          this.currentDate = response.data;
+        },
+        () => {
+          this.$errorMessage();
+        }
+      );
+    },
+    verifyMediaType(extension) {
+      if (
+        extension === 'png' ||
+        extension === 'jpeg' ||
+        extension === 'jpg' ||
+        extension === 'gif'
+      ) {
+        return 'image';
+      } else {
+        return 'file';
+      }
+    },
     getPublicationByGroup() {
       const form = new FormData();
       form.append('myuser_id', this.user.id);
@@ -325,9 +378,7 @@ export default {
       form.append('myuser_id', this.user.id);
       this.$request
         .post(this.$getUrlToMakeRequest('SocialNetwork', 'checkIfLike'))
-        .then((response) => {
-          // console.log(response);
-        });
+        .then((response) => {});
       return true;
     },
     // eslint-disable-next-line camelcase
@@ -433,7 +484,7 @@ export default {
 .preview_img {
   border-style: none;
   height: auto;
-  width: 90%;
+  width: 100%;
   object-fit: cover;
   border-radius: 20px;
 }

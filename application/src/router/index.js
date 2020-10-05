@@ -220,19 +220,9 @@ const routes = [
       )
   },
   {
-    name: 'groups-social',
-    path: '/groups-social/:group_id',
-    component: () => import('@/components/sabiorealm-social/views/Group')
-  },
-  {
-    name: 'courses-social',
-    path: '/courses-social/:course_id',
-    component: () => import('@/components/sabiorealm-social/views/Course')
-  },
-  {
     name: 'social',
     path: '/social',
-    component: () => import('@/components/sabiorealm-social/views/Profile')
+    component: () => import('@/components/sabiorealm-social/App')
   },
   {
     name: '404',

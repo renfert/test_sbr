@@ -1,7 +1,14 @@
 <template>
   <div>
     <aside>
-      <div class="card-box" style="position: fixed; max-width: 30%">
+      <div
+        class="card-box"
+        style="
+          position: fixed;
+          max-width: 30%;
+          box-shadow: 10px 0px 13px -15px #aca9a9;
+        "
+      >
         <div>
           <h3 class="center">
             <i class="el-icon-edit sbr-text-primary"></i> Criar nova publicacao
@@ -49,21 +56,45 @@
               src="@/assets/img/social/photo.png"
               @click="uploadImage()"
             />
+            <img
+              class="widget_publication m-r-10"
+              style="width: 23px"
+              src="@/assets/img/social/content.png"
+              @click="uploadContent()"
+            />
           </div>
-          <fieldset>
+          <fieldset class="m-t-20">
+            <!-- Publication textarea -->
             <textarea
+              ref="publication"
+              :keyup="doResize()"
               placeholder="Escreva alguma coisa..."
               v-model="publication"
-              rows="2"
+              rows="1"
             ></textarea>
+            <!-- Publication content button  -->
+            <center
+              v-if="newFileName.length > 0 && showContentToDownload == true"
+            >
+              <el-button class="sbr-secondary m-t-20" type="primary">
+                <i class="el-icon-download"></i>
+                <span id="contentName">{{ realFileName }} </span>
+                <img
+                  style="width: 20%; margin-right: 0px"
+                  @click.prevent="newFileName = ''"
+                  src="@/assets/img/social/close.png"
+                />
+              </el-button>
+            </center>
+            <!-- Publication image -->
             <el-row
-              v-if="newFileName.length > 0"
+              v-if="newFileName.length > 0 && showImg == true"
               justify="center"
               align="start"
               :gutter="50"
             >
               <center>
-                <div class="img_wrp">
+                <div class="img_wrp m-t-20">
                   <img
                     class="preview_img"
                     :src="$getUrlToContents() + 'social/' + newFileName"
@@ -90,85 +121,16 @@
           type="file"
           hidden
         />
+        <input
+          class="upload"
+          ref="inputFile"
+          @change.prevent="uploadToServer($event)"
+          accept="*"
+          type="file"
+          hidden
+        />
       </div>
     </aside>
-
-    <el-dialog
-      top="5vh"
-      :title="lang['select-an-element']"
-      :visible.sync="dialogVisible"
-      width="30%"
-    >
-      <h4>Onde voce gostaria de realizar a publicacao?</h4>
-      <!-- Public -->
-      <el-row @click="selectPublic()" class="publish-location">
-        <el-col :sm="4">
-          <img style="width: 50px" src="@/assets/img/social/world.png" alt="" />
-        </el-col>
-        <el-col :sm="20">
-          <h3 style="margin: 0px">Publico</h3>
-          <h4 style="margin: 0px">Qualquer pessoa pode ver</h4>
-        </el-col>
-      </el-row>
-
-      <!-- Specific group -->
-      <el-row class="publish-location">
-        <el-col :sm="4">
-          <img
-            style="width: 50px"
-            src="@/assets/img/general/ux/join_persons.png"
-            alt=""
-          />
-        </el-col>
-        <el-col :sm="14">
-          <h3 class="m-b-20" style="margin: 0px">Grupo especifico</h3>
-          <el-select
-            @change="selectSection('group')"
-            v-model="select"
-            class="m-b-20"
-            filterable
-            placeholder="Select"
-          >
-            <el-option
-              v-for="(group, index) in groups"
-              :key="index"
-              :label="group.name"
-              :value="{ id: group.id, name: group.name }"
-            >
-            </el-option>
-          </el-select>
-        </el-col>
-      </el-row>
-
-      <!-- Specific course -->
-      <el-row class="publish-location">
-        <el-col :sm="4">
-          <img
-            style="width: 50px"
-            src="@/assets/img/general/ux/view_course.png"
-            alt=""
-          />
-        </el-col>
-        <el-col :sm="14">
-          <h3 class="m-b-20" style="margin: 0px">Curso especifico</h3>
-          <el-select
-            @change="selectSection('course')"
-            v-model="select"
-            class="m-b-20"
-            filterable
-            placeholder="Select"
-          >
-            <el-option
-              v-for="(course, index) in courses"
-              :key="index"
-              :label="course.title"
-              :value="{ id: course.id, name: course.title }"
-            >
-            </el-option>
-          </el-select>
-        </el-col>
-      </el-row>
-    </el-dialog>
 
     <Progress />
   </div>
@@ -184,6 +146,23 @@ export default {
   components: { Progress },
   props: ['to', 'myid'],
   created() {
+    // Connect to public channel
+    eventBus.$on('connect-to-public-channel', () => {
+      this.channel.type = 'public';
+    });
+
+    // Connect to group channel
+    eventBus.$on('connect-to-group-channel', (response) => {
+      this.channel.type = response.type;
+      this.channel.id = response.id;
+    });
+
+    // Connect to course channel
+    eventBus.$on('connect-to-course-channel', (response) => {
+      this.channel.type = response.type;
+      this.channel.id = response.id;
+    });
+
     switch (this.to) {
       case 'group': {
         this.selectSection(this.myid, '', this.to);
@@ -205,20 +184,44 @@ export default {
       groups: [],
       courses: [],
       select: '',
-      section_id: 1,
-      section_name: 'default',
       section_type: '',
       subDomainName: '',
       uploadFile: new UploadFile(),
       realFileName: '',
       newFileName: '',
-      loading: false
+      showImg: false,
+      showContentToDownload: false,
+      loading: false,
+      channel: {
+        id: 1,
+        type: 'public'
+      }
     };
   },
   computed: {
     ...mapState(['lang', 'user'])
   },
   methods: {
+    doResize() {
+      const textbox = this.$refs.publication;
+      if (textbox !== undefined) {
+        const maxrows = 5;
+        const txt = textbox.value;
+        const cols = textbox.cols;
+
+        const arraytxt = txt.split('\n');
+        let rows = arraytxt.length;
+
+        for (let i = 0; i < arraytxt.length; i++) {
+          rows += parseInt(arraytxt[i].length / cols);
+          if (rows > maxrows) {
+            textbox.rows = maxrows;
+          } else {
+            textbox.rows = rows;
+          }
+        }
+      }
+    },
     showSections() {
       this.$request
         .get(this.$getUrlToMakeRequest('group', 'listing'))
@@ -232,22 +235,16 @@ export default {
         });
       this.dialogVisible = true;
     },
-    selectSection(type) {
-      this.section_type = type;
-      this.section_id = this.select.id;
-      this.section_name = this.select.name;
-      this.dialogVisible = false;
-    },
     async publish() {
       this.loading = true;
       const form = new FormData();
       form.append('myuser_id', this.user.id);
-      if (this.section_type === 'group') {
-        form.append('mygroup_id', this.section_id);
+      if (this.channel.type === 'group') {
+        form.append('mygroup_id', this.channel.id);
         form.append('mycourse_id', 1);
-      } else if (this.section_type === 'course') {
+      } else if (this.channel.type === 'course') {
         form.append('mygroup_id', 1);
-        form.append('mycourse_id', this.section_id);
+        form.append('mycourse_id', this.channel.id);
       } else {
         form.append('mygroup_id', 1);
         form.append('mycourse_id', 1);
@@ -303,12 +300,31 @@ export default {
     uploadImage() {
       this.$refs.inputImage.click();
     },
+    uploadContent() {
+      this.$refs.inputFile.click();
+    },
     uploadToServer(event) {
       this.uploadFile
         .upload(event, this.subDomainName, 'social')
         .then((response) => {
           this.newFileName = response.newFileName;
           this.realFileName = response.fileName;
+          const fileExtension = response.fileName
+            .split('.')
+            .pop()
+            .toLowerCase();
+          if (
+            fileExtension === 'png' ||
+            fileExtension === 'jpeg' ||
+            fileExtension === 'gif' ||
+            fileExtension === 'jpg'
+          ) {
+            this.showImg = true;
+            this.showContentToDownload = false;
+          } else {
+            this.showContentToDownload = true;
+            this.showImg = false;
+          }
         });
     }
   }
