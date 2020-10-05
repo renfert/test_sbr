@@ -771,16 +771,15 @@ export default {
 }
 
 .ed_view_box {
-  width: 25%;
+  width: 100%;
   border: 4px solid #f4f8fa;
   display: block;
-  position: fixed;
   border-radius: 0.5rem;
   background: #fff;
   padding: 12px;
   top: 0;
-  z-index: 9999 !important;
-  margin: 120px 2% 0% 0%;
+  z-index: 1 !important;
+  margin: -80% 2% 0% 0%;
   transition: 1s;
 }
 
@@ -790,10 +789,9 @@ export default {
 }
 
 .ed_view_box.sticky {
-  position: fixed !important;
   animation: smoothScroll 1.5s forwards;
   top: 0;
-  margin: 75px 2% 0% 0%;
+  margin: -80% 2% 0% 0%;
   z-index: 20000;
 }
 
@@ -820,15 +818,6 @@ export default {
 .property_video .thumb .pro_img {
   width: 100%;
   object-fit: cover;
-}
-
-@keyframes smoothScroll {
-  0% {
-    transform: translateY(100%);
-  }
-  100% {
-    transform: translateY(0%);
-  }
 }
 
 .ed_view_box .property_video.sm {
@@ -859,7 +848,6 @@ ed_view_box.style_3 .property_video .thumb,
 .ed_view_link {
   display: block;
   margin-bottom: 1rem;
-  padding-left: 10px;
 }
 
 .ed_view_price span {
@@ -871,7 +859,6 @@ ed_view_box.style_3 .property_video .thumb,
 .ed_view_link {
   display: block;
   margin-bottom: 1rem;
-  padding-left: 10px;
 }
 
 .ed_view_link .enroll-btn {
