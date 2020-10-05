@@ -428,7 +428,6 @@ export default {
     this.checkEnrolledUser();
     this.checkActiveSession();
     this.getUserProfile();
-    this.priceCardSticky();
   },
   methods: {
     enrollFreeCourse() {
@@ -447,22 +446,6 @@ export default {
           this.$errorMessage();
         }
       );
-    },
-    priceCardSticky() {
-      window.addEventListener('scroll', () => {
-        const header = document.getElementById('price-card');
-        const playerContainer = document.getElementById('player-container');
-        const h = document.documentElement;
-        const b = document.body;
-        const st = 'scrollTop';
-        const sh = 'scrollHeight';
-        const percent =
-          ((h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight)) * 100;
-        header.classList.toggle('sticky', percent > 20);
-        if (playerContainer) {
-          playerContainer.classList.toggle('sticky', percent > 20);
-        }
-      });
     },
     getMpAccessToken() {
       this.loadingPayment = true;
