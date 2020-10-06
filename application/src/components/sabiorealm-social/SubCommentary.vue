@@ -126,18 +126,7 @@ export default {
       commentUpdateHandle: null
     };
   },
-  components: {},
-  async mounted() {
-    // while (true) {
-    //   this.loadCommentaries();
-    //
-    //   await this.sleep(5000);
-    // }
-    /* eslint-disable */
-    this.commentUpdateHandle = await setInterval(async () => {
-      await this.loadCommentaries();
-    }, 5000);
-    // eslint-disable-next-line no-unreachable
+  mounted() {
     eventBus.$on('social-load-commentaries', () => {
       this.loadCommentaries();
     });
@@ -149,9 +138,6 @@ export default {
     ...mapState(['lang', 'user'])
   },
   methods: {
-    sleep(ms) {
-      return new Promise((resolve) => setTimeout(resolve, ms));
-    },
     async loadCommentaries() {
       const form = new FormData();
       form.append('social_publication_id', this.publication_id);
@@ -200,7 +186,7 @@ export default {
       const form = new FormData();
       form.append('id', this.comment_id);
       form.append('comment', this.editText);
-      const { data } = await this.$request.post(
+      this.$request.post(
         this.$getUrlToMakeRequest('SocialNetwork', 'saveComment'),
         form
       );

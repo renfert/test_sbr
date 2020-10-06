@@ -63,6 +63,8 @@
 
   "edit-program": "Editar programa",
 
+  "edit-post": "Editar publicación",
+
   "invalid-access-token": "Credenciales no válidas, revise su información.",
 
   "mercado-pago-success": "¡Su cuenta de mercado pago se ha configurado correctamente!",
@@ -785,11 +787,10 @@
   "second-step-course": "Paso 2",
   "third-step-course": "Paso 3",
 
-
   "publication-comment": "Ingresar tu comentario",
 
   "message-published": "Publicado",
-  "view-more":  "Ver más",
+  "view-more": "Ver más",
   "users-status": "Estados de usuarios",
   "enter-text": "Ingresar texto",
 

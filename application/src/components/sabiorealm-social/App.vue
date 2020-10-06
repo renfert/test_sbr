@@ -63,11 +63,12 @@
 
       <el-col :md="13">
         <div>
-          <post-list type="all"></post-list>
+          <post-list></post-list>
         </div>
       </el-col>
     </el-row>
     <select-channel></select-channel>
+    <edit-post></edit-post>
   </div>
 </template>
 
@@ -78,6 +79,7 @@ import { mapState } from 'vuex';
 import PostList from '@/components/sabiorealm-social/PostList';
 import MyPublication from '@/components/sabiorealm-social/MyPublication';
 import SelectChannel from '@/components/sabiorealm-social/SelectChannel';
+import EditPost from '@/components/sabiorealm-social/EditPost';
 
 Vue.use(VueHead);
 
@@ -108,7 +110,7 @@ export default {
   computed: {
     ...mapState(['lang', 'user'])
   },
-  components: { MyPublication, PostList, SelectChannel },
+  components: { MyPublication, PostList, SelectChannel, EditPost },
   created() {
     // Connect to public channel
     eventBus.$on('connect-to-public-channel', () => {
@@ -127,33 +129,10 @@ export default {
       this.channel.name = response.name;
       this.channel.type = response.type;
     });
-
-    window.addEventListener('scroll', () => {
-      if (window.pageYOffset + window.innerHeight >= this.$el.clientHeight) {
-        console.log('Actualizar!');
-        eventBus.$emit('social-update-post');
-      } else {
-        console.log('sigue bajando');
-      }
-    });
   },
   methods: {
     changeChannel() {
       eventBus.$emit('open-channel-modal');
-    },
-    detectBottom(event) {
-      console.log(event.touches[0]);
-      if (window.pageYOffset + window.innerHeight >= this.$el.clientHeight) {
-        console.log('Actualizar!');
-        eventBus.$emit('social-update-post');
-      } else {
-        console.log();
-        console.log('sigue bajando');
-      }
-    },
-    handleClick(tab, event) {
-      console.log(this.activeName);
-      console.log(tab, event);
     }
   }
 };

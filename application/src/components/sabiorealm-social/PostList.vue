@@ -50,7 +50,15 @@
                 <!-- Edit button -->
                 <div>
                   <div
-                    @click="editPost(publication.id, publication.description)"
+                    @click="
+                      editPost(
+                        publication.id,
+                        publication.description,
+                        publication.media_path,
+                        publication.media_realname,
+                        publication.media_type
+                      )
+                    "
                     class="icon-border"
                   >
                     <i
@@ -166,23 +174,6 @@
         </el-row>
         <SubCommentary :publication_id="publication.id" />
       </div>
-      <el-dialog :title="lang['edit']" :visible.sync="editDialog" width="50%">
-        <el-row :md="24" justify="center">
-          <el-input
-            type="textarea"
-            :rows="3"
-            :placeholder="lang['enter-text']"
-            v-model="editText"
-          >
-          </el-input>
-          <br />
-          <br />
-          <el-button @click="publish()" type="primary" round>
-            <i class="el-icon-loading" style="color: white" v-if="loading"></i>
-            <i class="far fa-paper-plane" v-else></i> {{ lang['publish'] }}
-          </el-button>
-        </el-row>
-      </el-dialog>
     </div>
     <div class="center" style="margin-top: 15%; padding: 0px 10%" v-else>
       <img
@@ -209,7 +200,6 @@ import { eventBus } from '@/components/sabiorealm-social/App';
 Vue.use(VueHead);
 Vue.use(wysiwyg, {});
 export default {
-  props: ['type', 'typeid'],
   data: () => {
     return {
       comment: [],
@@ -220,49 +210,25 @@ export default {
       publication_id: null,
       publications: [],
       showButtons: false,
-      currentDate: ''
+      currentDate: '',
+      channel: {
+        name: 'public',
+        id: ''
+      }
     };
   },
   components: { SubCommentary },
   created() {
     this.getCurrentDate();
-    switch (this.type) {
-      case 'all': {
-        this.getPublications();
-        break;
-      }
-      case 'group': {
-        this.getPublicationByGroup();
-        break;
-      }
-      case 'course': {
-        this.getPublicationByCourse();
-        break;
-      }
-    }
+    this.getPublications();
   },
   mounted() {
-    eventBus.$on('social-update-post', () => {
-      switch (this.type) {
-        case 'all': {
-          this.getPublications();
-          break;
-        }
-        case 'group': {
-          this.getPublicationByGroup();
-          break;
-        }
-
-        case 'course': {
-          this.getPublicationByCourse();
-          break;
-        }
-      }
+    eventBus.$on('edited-publication', () => {
+      this.getPublications();
     });
   },
   computed: {
     ...mapState(['lang', 'user'])
-    // eslint-disable-next-line vue/no-async-in-computed-properties
   },
   methods: {
     processDateTime(date) {
@@ -316,35 +282,11 @@ export default {
         return 'file';
       }
     },
-    getPublicationByGroup() {
-      const form = new FormData();
-      form.append('myuser_id', this.user.id);
-      form.append('group_id', this.typeid);
-      this.$request
-        .post(
-          this.$getUrlToMakeRequest('SocialNetwork', 'getPublicationsByGroup'),
-          form
-        )
-        .then((response) => {
-          this.publications = response.data;
-        });
-    },
-    getPublicationByCourse() {
-      const form = new FormData();
-      form.append('myuser_id', this.user.id);
-      form.append('course_id', this.typeid);
-      this.$request
-        .post(
-          this.$getUrlToMakeRequest('SocialNetwork', 'getPublicationsByCourse'),
-          form
-        )
-        .then((response) => {
-          this.publications = response.data;
-        });
-    },
     getPublications() {
       const form = new FormData();
       form.append('myuser_id', this.user.id);
+      form.append('channel_name', this.channel.name);
+      form.append('channel_id', this.channel.id);
       this.$request
         .post(
           this.$getUrlToMakeRequest('SocialNetwork', 'getPublications'),
@@ -408,10 +350,15 @@ export default {
           }, 500);
         });
     },
-    editPost(id, description) {
-      this.editDialog = true;
-      this.editText = description;
-      this.publication_id = id;
+    editPost(id, publication, path, realname, mediaExtension) {
+      const obj = {
+        id: id,
+        publication: publication,
+        path: path,
+        realname: realname,
+        mediaExtension: mediaExtension
+      };
+      eventBus.$emit('edit-post', obj);
     },
     async publish() {
       this.loading = true;

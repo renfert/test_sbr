@@ -167,6 +167,14 @@ class Social_Network_Model extends CI_Model
 
   public function deletePostByPublicationId($publication_id)
   {
+    // Delete from social likes
+    $this->db->where("social_publication_id", $publication_id);
+    $this->db->delete("social_likes");
+
+    // Delete from social comments
+    $this->db->where("social_publication_id", $publication_id);
+    $this->db->delete("social_comments");
+
     $this->db->where("id", $publication_id);
     $this->db->delete("social_publications");
     return true;
@@ -177,6 +185,29 @@ class Social_Network_Model extends CI_Model
     $this->db->where("id", $comment_id);
     $this->db->delete("social_comments");
     return true;
+  }
+
+  public function editPublication($publicationEntity)
+  {
+    $now = getCurrentDate("Y-m-d H:i:s");
+    $data = array(
+      'description' => $publicationEntity["publication"],
+      'media_path' => $publicationEntity["media_path"],
+      "media_realname" => $publicationEntity["media_name"],
+      "media_type" => $this->get_file_extension($publicationEntity["media_path"]),
+      "modified" => $now
+    );
+    $this->db->where("id", $publicationEntity["id"]);
+    if ($this->db->update("social_publications", $data)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public function get_file_extension($file_name)
+  {
+    return substr(strrchr($file_name, '.'), 1);
   }
 
   public function getAllGroups()

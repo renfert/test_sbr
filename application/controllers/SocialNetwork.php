@@ -18,7 +18,15 @@ class SocialNetwork extends CI_Controller
 
   public function getPublications()
   {
-    $pubs = $this->Social_Network_Model->getPublications();
+    $data = $this->input->post();
+    if ($data["channel_name"] == "public") {
+      $pubs = $this->Social_Network_Model->getPublications();
+    } elseif ($data["channel_name" == "group"]) {
+      $pubs = $this->Social_Network_Model->getPublicationsByGroupId($data["channel_id"], $data["myuser_id"]);
+    } else {
+      $pubs = $this->Social_Network_Model->getPublications();
+    }
+
     echo json_encode($pubs);
   }
 
@@ -67,6 +75,12 @@ class SocialNetwork extends CI_Controller
     echo json_encode($this->Social_Network_Model->savePublicationLike($data));
   }
 
+  public function editPublication()
+  {
+    $data = $this->input->post();
+    echo json_encode($this->Social_Network_Model->editPublication($data));
+  }
+
   public function doCommentaryLike()
   {
     $data = $this->input->post();
@@ -110,19 +124,5 @@ class SocialNetwork extends CI_Controller
   public function getAllCourses()
   {
     echo json_encode($this->Social_Network_Model->getAllCourses());
-  }
-
-  public function getPublicationsByGroup()
-  {
-
-    $data = $this->input->post();
-    echo json_encode($this->Social_Network_Model->getPublicationsByGroupId($data['group_id'], $data['myuser_id']));
-  }
-
-  public function getPublicationsByCourse()
-  {
-
-    $data = $this->input->post();
-    echo json_encode($this->Social_Network_Model->getPublicationsByCourseId($data['course_id'], $data['myuser_id']));
   }
 }
