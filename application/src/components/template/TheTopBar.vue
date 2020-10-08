@@ -1,16 +1,16 @@
 <template>
   <div class="topbar">
-    <header>
-      <router-link to="/"></router-link>
-      <!-- Icon menu for mobile -->
-      <ul class="ul-mobile">
-        <li>
-          <a @click.prevent="toogleSidebar" href="javascript:void(0)">
-            <i class="ti-menu"></i>
-          </a>
-        </li>
-      </ul>
-    </header>
+<!--    <header>-->
+<!--      <router-link to="/"></router-link>-->
+<!--      &lt;!&ndash; Icon menu for mobile &ndash;&gt;-->
+<!--      <ul class="ul-mobile">-->
+<!--        <li>-->
+<!--          <a @click.prevent="toogleSidebar" href="javascript:void(0)">-->
+<!--            <i class="ti-menu" style="font-weight: bold;margin-right: 10px; "></i>-->
+<!--          </a>-->
+<!--        </li>-->
+<!--      </ul>-->
+<!--    </header>-->
 
     <div
       class="top-trial"
@@ -21,7 +21,7 @@
         company.plan == 'trial'
       "
     >
-      <span>
+      <span class="trial-nav">
         {{ lang['trial-expiration-date-info-pt1'] }}
         <b>{{ daysToExpiration }}</b>
         {{ lang['trial-expiration-date-info-pt2'] }} |
@@ -131,7 +131,7 @@ header {
   justify-content: space-between;
   align-items: center;
   transform: 0.4s;
-  padding: 0px 15%;
+  padding: 0px 0 0 0 ;
   z-index: 2000;
   transition: 0.2s;
 }
@@ -201,7 +201,10 @@ header ul li a {
     line-height: 0px;
   }
   .top-trial {
-    padding-bottom: 40px !important;
+    padding: 12px 12px 12px 12px;
   }
+}
+
+.trial-nav{
 }
 </style>

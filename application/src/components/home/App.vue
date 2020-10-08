@@ -10,7 +10,7 @@
 import Admin from '@/components/home/roles/Admin';
 import Instructor from '@/components/home/roles/Instructor';
 import Student from '@/components/home/roles/Student';
-import { mapState } from 'vuex';
+import {mapState} from 'vuex';
 
 export default {
   components: {

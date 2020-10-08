@@ -95,7 +95,7 @@
         width="40%"
         top="5vh"
       >
-        <el-row :gutter="20">
+        <el-row :gutter="20" style="margin: auto;" justify="center">
           <el-col :sm="12">
             <el-input
               :placeholder="lang['new-name']"
@@ -104,7 +104,7 @@
               v-model="newCategoryName"
             ></el-input>
           </el-col>
-          <el-col :sm="12">
+          <el-col :sm="12" >
             <el-button
               @click.prevent="editCategory(categoryId)"
               class="sbr-primary"
@@ -236,3 +236,13 @@ export default {
   }
 };
 </script>
+<style scoped>
+
+@media only screen and (max-width: 768px) {
+  .sbr-primary{
+    display: block;
+    margin-top:3vh;
+    width: 100%;
+  }
+}
+</style>

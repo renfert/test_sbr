@@ -1,7 +1,7 @@
 <template>
   <div class="card-box">
     <h4 class="fw-700 mb-5">{{ lang['your-settings'] }}</h4>
-    <br />
+    <br/>
     <form id="form-settings" @submit.prevent="editSettings">
       <el-tabs :tab-position="tabPosition">
         <el-tab-pane :label="lang['school-information']">
@@ -89,7 +89,7 @@
             <div class="form-group">
               <!-- lang -->
               <label>{{ lang['language'] }}</label>
-              <br />
+              <br/>
               <el-select
                 v-model="language"
                 name="language"
@@ -98,14 +98,14 @@
                 <el-option label="en" value="en">
                   <span style="float: left">en</span>
                   <span style="float: right; color: #8492a6; font-size: 13px">
-                    <img src="@/assets/img/general/flags/en.png" alt="en" />
+                    <img src="@/assets/img/general/flags/en.png" alt="en"/>
                   </span>
                 </el-option>
 
                 <el-option label="es" value="es">
                   <span style="float: left">es</span>
                   <span style="float: right; color: #8492a6; font-size: 13px">
-                    <img src="@/assets/img/general/flags/es.png" alt="es" />
+                    <img src="@/assets/img/general/flags/es.png" alt="es"/>
                   </span>
                 </el-option>
 
@@ -126,7 +126,7 @@
             <div class="form-group">
               <!-- Time/zone -->
               <label>Time/zone</label>
-              <br />
+              <br/>
               <el-select
                 filterable
                 v-model="timezone"
@@ -149,15 +149,16 @@
             <div class="form-group">
               <!-- marketplace -->
               <label>{{ lang['marketplace'] }}</label>
-              <br />
+              <br/>
               <el-switch name="marketplace" v-model="marketplace"></el-switch>
             </div>
           </div>
         </el-tab-pane>
       </el-tabs>
       <el-button class="sbr-primary mt-5" native-type="submit" type="primary">{{
-        lang['save-button']
-      }}</el-button>
+          lang['save-button']
+        }}
+      </el-button>
     </form>
     <helper-progress></helper-progress>
   </div>
@@ -167,7 +168,7 @@
 import Upload from '@/components/helper/HelperUpload';
 import HelperProgress from '@/components/helper/HelperProgress.vue';
 
-import { mapState } from 'vuex';
+import {mapState} from 'vuex';
 
 export default {
   data: () => {
@@ -192,17 +193,25 @@ export default {
   created() {
     this.getSettings();
     this.getTimeZone();
-    this.verifyScreenWidth();
+
+    setInterval(() => {
+      if (window.innerWidth <= 768) {
+        this.tabPosition = 'top';
+      } else {
+        this.tabPosition = 'left';
+      }
+    }, 500);
+  },
+  watch: {
+    verify() {
+      console.log(screen.width);
+    }
   },
   computed: {
     ...mapState(['lang'])
   },
   methods: {
-    verifyScreenWidth() {
-      if (screen.width <= 512) {
-        this.tabPosition = 'top';
-      }
-    },
+
     getSettings() {
       const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'settings',

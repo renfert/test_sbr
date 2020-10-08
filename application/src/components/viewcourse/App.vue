@@ -1,7 +1,11 @@
 <template>
   <div>
+
+    <button class="kc_fab_main_btn corazon" @click="hamburgerClick" id="fab">
+      <i class="ti-menu" style="font-weight: bold; font-size: 30px"></i>
+    </button>
     <topbar></topbar>
-    <el-container style="height: 100vh; border: 1px solid #eee">
+    <el-container style="height: 100%; border: 1px solid #eee">
       <navigation></navigation>
       <load-content></load-content>
     </el-container>
@@ -15,7 +19,9 @@ import LoadContent from '@/components/viewcourse/LoadContent';
 import VueHead from 'vue-head';
 import Navigation from '@/components/viewcourse/Navigation';
 
-import { mapState } from 'vuex';
+
+
+import {mapState} from 'vuex';
 
 export const eventBus = new Vue();
 
@@ -27,6 +33,7 @@ export default {
     Topbar,
     LoadContent
   },
+
   data: () => {
     return {
       mobile: 'retracted'
@@ -47,9 +54,9 @@ export default {
       inner: 'View course'
     },
     meta: [
-      { name: 'charset', content: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
-      { name: 'author', content: 'Sabiorealm' }
+      {name: 'charset', content: 'utf-8'},
+      {name: 'viewport', content: 'width=device-width, initial-scale=1.0'},
+      {name: 'author', content: 'Sabiorealm'}
     ]
   },
   mounted() {
@@ -108,13 +115,22 @@ export default {
     );
     webodf.async = true;
     document.head.appendChild(webodf);
+  },
+  methods: {
+    hamburgerClick() {
+      eventBus.$emit('change-leftbar-class');
+    }
   }
 };
 </script>
 
-<style>
+<style scoped>
 .el-container {
   border: none !important;
+}
+
+.kc_fab_main_btn {
+  /*display: none;*/
 }
 
 /* Let's get this party started */

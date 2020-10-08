@@ -13,8 +13,8 @@
     <div v-else>
       <div v-if="questionList != null">
         <div class="card-box">
-          <el-row class="mb-5">
-            <el-col :span="4">
+          <el-row class="mb-5" >
+            <el-col :span="12" :xs="24" :sm="24">
               <el-tooltip
                 class="item"
                 effect="dark"
@@ -28,9 +28,7 @@
                   circle
                 ></el-button>
               </el-tooltip>
-            </el-col>
-            <el-col :md="5" :lg="20">
-              <h4>{{ lang['question-list'] }}</h4>
+              {{lang['question-list'] }}
             </el-col>
           </el-row>
 

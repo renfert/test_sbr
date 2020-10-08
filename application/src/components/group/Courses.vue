@@ -70,8 +70,9 @@
             {{ lang['no-results-courses-in-group'] }}
           </h4>
           <el-button class="sbr-primary" @click="addCourse()">{{
-            lang['add-course']
-          }}</el-button>
+              lang['add-course']
+            }}
+          </el-button>
         </el-col>
       </el-row>
     </div>
@@ -104,12 +105,13 @@
               :data="coursesNotBelongingToTheGroup"
             ></el-transfer>
           </template>
-          <br />
+          <br/>
           <el-button
             v-loading="loading"
             class="sbr-primary"
             @click="saveCourses()"
-            >{{ lang['save-button'] }}</el-button
+          >{{ lang['save-button'] }}
+          </el-button
           >
         </div>
         <el-row v-else class="center">
@@ -132,9 +134,9 @@
 <script>
 import Vue from 'vue';
 
-import { FacebookLoader } from 'vue-content-loader';
-import { DataTables, DataTablesServer } from 'vue-data-tables';
-import { mapState } from 'vuex';
+import {FacebookLoader} from 'vue-content-loader';
+import {DataTables, DataTablesServer} from 'vue-data-tables';
+import {mapState} from 'vuex';
 
 Vue.use(DataTables);
 Vue.use(DataTablesServer);
@@ -147,9 +149,9 @@ export default {
   data: () => {
     return {
       table: {
-        titles: [{ prop: 'title', label: 'Title' }],
-        filters: [{ prop: 'title', value: '' }],
-        props: { defaultSort: { prop: 'title', order: 'descending' } }
+        titles: [{prop: 'title', label: 'Title'}],
+        filters: [{prop: 'title', value: ''}],
+        props: {defaultSort: {prop: 'title', order: 'descending'}}
       },
       coursesBelongingToTheGroup: [],
       coursesNotBelongingToTheGroup: [],
@@ -255,3 +257,20 @@ export default {
   }
 };
 </script>
+<style scoped>
+.el-transfer-panel {
+  margin: 5px;
+  width:255px
+}
+
+@media only screen and (max-width: 1315px) {
+  .el-transfer__buttons {
+    display: flow-root;
+  }
+
+  .el-transfer-panel {
+    width: 100%;
+    margin: 5px;
+  }
+}
+</style>

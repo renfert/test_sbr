@@ -1,9 +1,10 @@
 <template>
   <div>
+  <TheHamburger action=""/>
     <!-- Navbar -->
     <div v-if="showMobile" class="sidebar-mobile">
       <span @click.prevent="toogleSidebar" class="sidebar-mobile-close-button"
-        >✕</span
+      >✕</span
       >
       <ul>
         <!-- Products -->
@@ -15,8 +16,8 @@
 
         <li v-for="element in links" :key="element.id">
           <a :href="element.url" :target="element.target">{{
-            element.title
-          }}</a>
+              element.title
+            }}</a>
         </li>
 
         <!-- Login button -->
@@ -29,8 +30,8 @@
         <li class="pt-5" v-else>
           <router-link to="home">
             <span class="link-button" :style="linkButtonMobile">{{
-              lang['go-to-platform']
-            }}</span>
+                lang['go-to-platform']
+              }}</span>
           </router-link>
         </li>
       </ul>
@@ -44,7 +45,7 @@
           :src="logo"
           :width="logoSize"
         />
-        <img v-else class="logo-nav" :src="logoSticky" :width="logoSize" />
+        <img v-else class="logo-nav" :src="logoSticky" :width="logoSize"/>
       </router-link>
 
       <!-- Icon menu for mobile -->
@@ -67,8 +68,8 @@
         <!-- Links -->
         <li v-for="element in links" :key="element.id">
           <a :href="element.url" :target="element.target">{{
-            element.title
-          }}</a>
+              element.title
+            }}</a>
         </li>
 
         <!-- Login button -->
@@ -176,7 +177,7 @@ import Banner from '@/components/site/section/elements/get/Banner';
 import Testimonial from '@/components/site/section/elements/get/Testimonial';
 import ProductList from '@/components/site/section/elements/get/ProductList';
 import TextAndMedia from '@/components/site/section/elements/get/TextAndMedia';
-
+import TheHamburger, { eventHamburger } from '@/components/template/TheHamburger';
 import { eventLogin } from '@/components/login/Login';
 import { eventBus } from '@/components/site/App';
 import { mapState } from 'vuex';
@@ -184,6 +185,7 @@ import { mapState } from 'vuex';
 export default {
   props: ['full-screen-button'],
   components: {
+    TheHamburger,
     Banner,
     Testimonial,
     ProductList,
@@ -215,6 +217,11 @@ export default {
     this.navBarSticky();
     this.getPrimaryColor();
     this.getSession();
+    // Hide hamburger floating button
+    eventHamburger.$emit('hideHamburger');
+  },
+  beforeDestroy() {
+    eventHamburger.$emit('showHamburger');
   },
   mounted() {
     this.getHeader();
@@ -462,6 +469,7 @@ export default {
   cursor: pointer;
   box-shadow: 0px 2px 5px #0e8496;
   padding: 10px;
+  display: block;
 }
 
 .full {
@@ -484,8 +492,9 @@ export default {
   width: 70px;
   height: 70px;
   bottom: 30px;
+  overflow: hidden;
   right: 30px;
-  z-index: 50px;
+  z-index: 2003 !important;
 }
 
 #container-floating:hover {
@@ -653,6 +662,7 @@ Mobile
 }
 
 @media only screen and (max-width: 1024px) {
+
   .logo-nav {
     width: 80px !important;
   }
@@ -668,8 +678,24 @@ Mobile
   header ul li a {
     font-size: 2em;
   }
+
+  #fab {
+    display: none;
+  }
+  .kc_fab_main_btn {
+    display: none;
+  }
 }
 
+.kc_fab_main_btn {
+  display: none;
+}
+
+@media (min-width: 1024px){
+  .sidebar-mobile {
+    display: none;
+  }
+}
 /* =============
 Button
 ============= */
@@ -682,4 +708,5 @@ Button
 .social-icon {
   margin: 0em 1em;
 }
+
 </style>

@@ -1,8 +1,8 @@
 <template>
   <div>
     <el-row :gutter="24">
-      <el-col :sm="8" v-for="element in programList" :key="element.id">
-        <el-card :body-style="{ padding: '0px' }" shadow="hover">
+      <el-col :sm="8" v-for="element in programList" :key="element.id" style="padding-right: 5px;padding-left: 5px">
+        <el-card :body-style="{ padding: '0px' }" shadow="hover" style="margin-top:10px; width: 100%">
           <!-- Card image -->
           <img
             v-if="element.expirationDays < 0 || element.releaseDays > 0"
@@ -156,4 +156,5 @@ export default {
 .el-card {
   border-radius: 20px;
 }
+
 </style>

@@ -618,7 +618,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
+<style lang="css" scoped>
 video {
   max-width: 100%;
 }
@@ -628,5 +628,9 @@ video {
 
 .content-icons {
   width: 50px;
+}
+.content{
+  overflow: hidden;
+  width: 100%;
 }
 </style>

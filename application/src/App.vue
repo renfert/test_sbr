@@ -1,8 +1,9 @@
 <template>
-  <div>
+  <div >
     <!--------
     Template base
     ---------->
+    <TheHamburger />
     <top-bar
       v-if="
         loaded == true &&
@@ -74,11 +75,12 @@ import TheTrialExpired from '@/components/template/TheTrialExpired';
 import AdminLeftBar from '@/components/template/TheLeftBar/Admin';
 import InstructorLeftBar from '@/components/template/TheLeftBar/Instructor';
 import StudentLeftBar from '@/components/template/TheLeftBar/Student';
-import TopBar from '@/components/template/TheTopBar';
+import TopBar, {eventTemplate} from '@/components/template/TheTopBar';
 import headerTags from '@/mixins/headerTags';
 import integrations from '@/mixins/integrations';
+import TheHamburger,{eventHamburger} from './components/template/TheHamburger';
 
-import { mapMutations } from 'vuex';
+import {mapMutations} from 'vuex';
 
 export default {
   mixins: [headerTags, integrations],
@@ -91,7 +93,7 @@ export default {
       userAvatar: '',
       userId: '',
       plan: '',
-      loaded: false
+      loaded: false,
     };
   },
   components: {
@@ -100,7 +102,8 @@ export default {
     AdminLeftBar,
     InstructorLeftBar,
     StudentLeftBar,
-    TopBar
+    TopBar,
+    TheHamburger
   },
   watch: {
     $route() {
@@ -127,6 +130,7 @@ export default {
   mounted() {
     this.loadIntegrations();
     this.createFavicon();
+    eventHamburger.$emit('showHamburger');
   },
   methods: {
     ...mapMutations(['setLang', 'setUser', 'setCompany']),
@@ -184,7 +188,8 @@ export default {
           this.loaded = true;
         }, 2000);
       });
-    }
+    },
+
   }
 };
 </script>
@@ -215,6 +220,7 @@ export default {
   background-repeat: no-repeat;
   background-position: center;
 }
+
 .fade-enter {
   opacity: 0;
 }
