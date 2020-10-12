@@ -1,7 +1,7 @@
 <template>
   <div class="center">
     <h3 class="m-b-40">Agora, de onde gostaria de extrair este relatorio?</h3>
-    <el-row :gutter="20">
+    <el-row :gutter="20" type="flex" justify="center">
       <!-- Specific group -->
       <el-col :xs="24" :md="8">
         <div class="card-box">
@@ -30,7 +30,7 @@
       </el-col>
       <!-- End specific group -->
 
-      <!-- Specific student -->
+      <!-- Specific student
       <el-col :xs="24" :md="8">
         <div class="card-box">
           <h4>Estudante</h4>
@@ -56,9 +56,9 @@
           </el-select>
         </div>
       </el-col>
-      <!-- End specific student -->
+      -->
 
-      <!-- Specific course -->
+      <!-- Specific course
       <el-col :xs="24" :md="8">
         <div class="card-box">
           <h4>Curso</h4>
@@ -84,7 +84,7 @@
           </el-select>
         </div>
       </el-col>
-      <!-- End Specific course -->
+      -->
     </el-row>
   </div>
 </template>

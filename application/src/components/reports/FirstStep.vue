@@ -1,7 +1,7 @@
 <template>
   <div class="center">
     <h3 class="m-b-40">Que tipo de reporte gostaria de fazer?</h3>
-    <el-row :gutter="20">
+    <el-row :gutter="20" type="flex" justify="center">
       <!-- Exams reports -->
       <el-col :xs="24" :md="12">
         <div
@@ -18,7 +18,7 @@
       </el-col>
       <!-- End exams reports -->
 
-      <!-- Courses reports -->
+      <!-- Courses reports
       <el-col :xs="24" :md="12">
         <div
           :class="firstStep == 'general' ? 'active_box' : ''"
@@ -31,8 +31,7 @@
             src="@/assets/img/general/ux/graduation_cap.svg"
           />
         </div>
-      </el-col>
-      <!-- End courses reports -->
+      </el-col> -->
     </el-row>
   </div>
 </template>

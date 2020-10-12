@@ -49,8 +49,13 @@ class Reports_Model extends CI_Model
 
             // Get exam score
             $examInformation = $this->User_Model->getScoreOnExam($student->id, $exam->id);
-            if ($examInformation[0]->status == null) {
+            print_r($examInformation[0]->status);
+            if ($examInformation[0]->score == null) {
               $examInformation[0]->status = 'No iniciado';
+            } elseif ($examInformation[0]->score > 0) {
+              $examInformation[0]->status = 'En progreso';
+            } else {
+              $examInformation[0]->status = 'Finalizado';
             }
             $obj = array('course' => $courseTitle, 'student' => $studentName, 'examTitle' => $exam->title, 'examApproval' => $exam->approval, 'studentScore' => $examInformation[0]->score, 'status' => $examInformation[0]->status, 'studentRetest' => $examInformation[0]->retest);
             array_push($ar, $obj);
