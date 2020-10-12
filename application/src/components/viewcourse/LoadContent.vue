@@ -289,18 +289,27 @@
                 >
 
                 <!-- Start retest button -->
-                <el-button
-                  size="medium"
-                  class="sbr-primary mt-3"
+                <div
                   v-if="
                     parseInt(userRetests) < parseInt(retest) &&
                     parseInt(userRetests) != 0 &&
                     parseInt(overview['yourScore']) < parseInt(approval) &&
                     parseInt(overview['waitingEvaluationQuestions']) == 0
                   "
-                  @click="openExamModal(lessonId)"
-                  >{{ lang['start-retest'] }}</el-button
                 >
+                  <el-button
+                    size="medium"
+                    class="sbr-primary mt-3"
+                    @click="openExamModal(lessonId)"
+                    >{{ lang['start-retest'] }}</el-button
+                  >
+                  <el-button
+                    size="medium"
+                    class="sbr-purple mt-3"
+                    @click="openCorrection(lessonId)"
+                    >{{ lang['see-exam-correction'] }}</el-button
+                  >
+                </div>
 
                 <!-- Correction button -->
                 <el-button
