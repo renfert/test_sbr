@@ -1,20 +1,87 @@
 <template>
   <div>
     <li
+      class="list_lesson"
       :index="'lesson' + moduleIndex + index"
       :id="'lesson' + moduleIndex + index"
       v-for="(element, index) in lessons"
       :key="index"
       @click="
         sendEventToLoadLesson(
+          $event,
           element.id,
           element.type_mylesson_id,
           element.lessonStatus
         )
       "
     >
-      <a href="#" style="display: flex; align-items: center">
-        <i style="font-size: 1.3rem" class="mdi mdi-file-pdf lesson-icon"></i>
+      <a href="javascript:void(0)" style="display: flex; align-items: center">
+        <!-- video -->
+        <i
+          v-if="
+            element.type_mylesson_id == 1 && element.lessonStatus != 'finished'
+          "
+          class="mdi mdi-play-speed lesson_icon"
+        ></i>
+
+        <!-- Audio icon -->
+        <i
+          v-if="
+            element.type_mylesson_id == 2 && element.lessonStatus != 'finished'
+          "
+          class="mdi mdi-volume-high lesson_icon"
+        ></i>
+
+        <!-- Pdf icon -->
+        <i
+          v-if="
+            element.type_mylesson_id == 3 && element.lessonStatus != 'finished'
+          "
+          class="mdi mdi-file-pdf lesson_icon"
+        ></i>
+
+        <!-- Downloadable icon -->
+        <i
+          v-if="
+            element.type_mylesson_id == 4 && element.lessonStatus != 'finished'
+          "
+          class="mdi mdi-cloud-download-outline lesson_icon"
+        ></i>
+
+        <!-- Video conf icon -->
+        <i
+          v-if="
+            element.type_mylesson_id == 5 && element.lessonStatus != 'finished'
+          "
+          class="mdi mdi-microphone lesson_icon"
+        ></i>
+        <!-- Webinar icon -->
+        <i
+          v-if="
+            element.type_mylesson_id == 6 && element.lessonStatus != 'finished'
+          "
+          class="mdi mdi-message-video lesson_icon"
+        ></i>
+        <!-- Html icon -->
+        <i
+          v-if="
+            element.type_mylesson_id == 7 && element.lessonStatus != 'finished'
+          "
+          class="mdi mdi-code-tags lesson_icon"
+        ></i>
+        <!-- Exam icon -->
+        <i
+          v-if="
+            element.type_mylesson_id == 8 && element.lessonStatus != 'finished'
+          "
+          class="mdi mdi-comment-question lesson_icon"
+        ></i>
+
+        <!-- Finished icon -->
+        <i
+          v-if="element.lessonStatus == 'finished'"
+          class="mdi mdi-checkbox-marked-circle-outline lesson_icon lesson_finished"
+        ></i>
         {{ element.title }}</a
       >
     </li>
@@ -24,6 +91,7 @@
 <script>
 import { eventBus } from '@/components/viewcourse/App';
 import { mapState } from 'vuex';
+import $ from 'jquery';
 
 export default {
   data: () => {
@@ -44,7 +112,8 @@ export default {
   },
   props: ['module-id', 'module-index'],
   methods: {
-    sendEventToLoadLesson(lessonId, lessonType, lessonStatus) {
+    sendEventToLoadLesson(event, lessonId, lessonType, lessonStatus) {
+      const el = event.currentTarget.id;
       const data = {
         lessonId: lessonId,
         lessonType: lessonType,
@@ -52,7 +121,11 @@ export default {
       };
       eventBus.$emit('load-lesson', data);
 
-      eventBus.$emit('change-leftbar-class');
+      this.changeLiClass(el);
+    },
+    changeLiClass(el) {
+      $('.list_lesson').removeClass('lesson_active');
+      $('#' + el).addClass('lesson_active');
     },
     openFirstLesson() {
       document.getElementById('lesson00').click();
@@ -91,6 +164,10 @@ export default {
 }
 
 /*----------------------sidebar-menu-------------------------*/
+
+.sidebar-submenu {
+  margin-left: 6% !important;
+}
 
 .sidebar-wrapper .sidebar-menu {
   padding-bottom: 10px;
@@ -190,19 +267,32 @@ export default {
 .chiller-theme .sidebar-wrapper .sidebar-header .user-info,
 .chiller-theme .sidebar-wrapper .sidebar-brand > a:hover,
 .chiller-theme .sidebar-footer > a:hover i {
-  color: #b8bfce;
+  color: white;
 }
 
-.chiller-theme .sidebar-wrapper ul li:hover a i,
-.chiller-theme
-  .sidebar-wrapper
-  .sidebar-dropdown
-  .sidebar-submenu
-  li
-  a:hover:before,
-.chiller-theme .sidebar-wrapper .sidebar-search input.search-menu:focus + span,
-.chiller-theme .sidebar-wrapper .sidebar-menu .sidebar-dropdown.active a i {
+.lesson_finished {
   color: #16c7ff;
   text-shadow: 0px 0px 10px rgba(22, 199, 255, 0.5);
+}
+
+.lesson_active {
+  border-left: 3px solid #16c7ff;
+  padding-left: 35px !important;
+}
+
+.lesson_active a {
+  color: #fff !important;
+}
+
+.lesson_icon {
+  font-size: 1.3rem !important;
+}
+
+.list_lesson {
+  border-bottom: 2px solid #31353d;
+}
+
+.list_lesson:last-child {
+  border-bottom: none;
 }
 </style>

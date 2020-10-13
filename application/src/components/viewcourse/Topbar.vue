@@ -1,7 +1,8 @@
 <template>
   <div class="nav-sticky">
-
-    <nav class="navbar navbar-expand-lg navbar-expand  navbar-dark special-color-dark text-nowrap flex-nowrap d-flex mobile-navbar">
+    <nav
+      class="navbar navbar-expand-lg navbar-expand navbar-dark special-color-dark text-nowrap flex-nowrap d-flex mobile-navbar"
+    >
       <!-------------------
              Mobile topbar
       ----------------->
@@ -79,9 +80,8 @@
                 class="sbr-btn sbr-primary mr-4"
                 @click="prevLesson()"
                 icon="el-icon-arrow-left"
-              >Previous lesson
-              </el-button
-              >
+                >Previous lesson
+              </el-button>
 
               <el-button class="sbr-btn sbr-primary" @click="nextLesson()">
                 Next lesson
@@ -90,24 +90,24 @@
             </el-button-group>
           </li>
         </ul>
-          <li class="nav-item mobile-buttons">
-            <el-button-group>
-              <el-button
-                class="sbr-btn sbr-primary mr-1"
-                @click="prevLesson()"
-                icon="el-icon-arrow-left"
-                size="small"
-              >
-              </el-button
-              >
-              <el-button
-                size="small"
-                class="sbr-btn sbr-primary"
-                         @click="nextLesson()">
-                <i class="el-icon-arrow-right"></i>
-              </el-button>
-            </el-button-group>
-          </li>
+        <li class="nav-item mobile-buttons">
+          <el-button-group>
+            <el-button
+              class="sbr-btn sbr-primary mr-1"
+              @click="prevLesson()"
+              icon="el-icon-arrow-left"
+              size="small"
+            >
+            </el-button>
+            <el-button
+              size="small"
+              class="sbr-btn sbr-primary"
+              @click="nextLesson()"
+            >
+              <i class="el-icon-arrow-right"></i>
+            </el-button>
+          </el-button-group>
+        </li>
 
         <!-------------------
                   Course title
@@ -131,7 +131,6 @@
           aria-valuemin="0"
           aria-valuemax="100"
         ></div>
-
       </div>
 
       <!-------------------
@@ -190,9 +189,8 @@
                 @click.prevent="saveReview()"
                 v-loading="loading"
                 class="sbr-btn sbr-primary"
-              >{{ lang['save-button'] }}
-              </el-button
-              >
+                >{{ lang['save-button'] }}
+              </el-button>
             </div>
           </div>
           <!-------------------
@@ -234,7 +232,6 @@
               End Review modal
       ----------------->
     </nav>
-
   </div>
 </template>
 
@@ -243,8 +240,8 @@ import $ from 'jquery';
 import CertificatePrint, {
   eventCertificate
 } from '@/components/certificates/CertificatePrint';
-import {mapState} from 'vuex';
-import {eventBus} from '@/components/viewcourse/App';
+import { mapState } from 'vuex';
+import { eventBus } from '@/components/viewcourse/App';
 
 export default {
   components: {
@@ -338,31 +335,14 @@ export default {
       eventCertificate.$emit('print-certificate');
     },
     nextLesson() {
-      const currentLesson = $('.el-menu-item.is-active');
-      const nextLesson = currentLesson.next('li.el-menu-item');
-
-      /* verify if the next lesson belongs to another module */
-      if (nextLesson.length === 1) {
-        nextLesson.click();
-      } else {
-        const currentModule = currentLesson.closest('.el-submenu');
-        const nextModule = currentModule.next('li.el-submenu');
-
-        /* Open menu */
-        const nextModuleId = nextModule.attr('id');
-        eventBus.$emit('open-menu', nextModuleId);
-
-        const nextModuleFirstLesson = nextModule
-          .children('.el-menu')
-          .children()
-          .children()
-          .first();
-        nextModuleFirstLesson.click();
-      }
+      const currentLesson = $('.list_lesson.lesson_active');
+      console.log(currentLesson);
+      const nextLesson = currentLesson.next('li.list_lesson');
+      nextLesson.click();
     },
     prevLesson() {
-      const currentLesson = $('.el-menu-item.is-active');
-      const prevLesson = currentLesson.prev('li.el-menu-item');
+      const currentLesson = $('.list_lesson.lesson_active');
+      const prevLesson = currentLesson.prev('li.list_lesson');
 
       /* verify if the next lesson belongs to another module */
       if (prevLesson.length === 1) {
@@ -382,7 +362,6 @@ export default {
           .first();
         prevModuleFirstLesson.click();
       }
-
     },
     getCourseProgress(courseId) {
       const formData = new FormData();
@@ -488,17 +467,17 @@ export default {
     right: 0;
     margin-right: 40px;
   }
-  .web-buttons{
-    display: none ;
+  .web-buttons {
+    display: none;
   }
-  .mobile-buttons{
-    display:initial;
+  .mobile-buttons {
+    display: initial;
   }
 }
 
 @media only screen and (min-width: 768px) {
-  .mobile-buttons{
-    display:none;
+  .mobile-buttons {
+    display: none;
   }
 }
 </style>

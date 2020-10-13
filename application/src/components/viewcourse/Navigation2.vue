@@ -1,36 +1,10 @@
 <template>
   <div class="page-wrapper chiller-theme toggled">
-    <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
+    <a id="show-sidebar" class="btn btn-sm btn-dark" href="javascript:void(0)">
       <i class="fas fa-bars"></i>
     </a>
     <nav id="sidebar" class="sidebar-wrapper">
       <div class="sidebar-content">
-        <div class="sidebar-brand">
-          <div id="close-sidebar">
-            <i class="fas fa-times"></i>
-          </div>
-        </div>
-        <div class="sidebar-header">
-          <div class="user-pic">
-            <img
-              class="img-responsive img-rounded"
-              src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg"
-              alt="User picture"
-            />
-          </div>
-          <div class="user-info">
-            <span class="user-name"
-              >Jhon
-              <strong>Smith</strong>
-            </span>
-            <span class="user-role">Administrator</span>
-            <span class="user-status">
-              <i class="fa fa-circle"></i>
-              <span>Online</span>
-            </span>
-          </div>
-        </div>
-
         <!-- sidebar-search  -->
         <div class="sidebar-menu">
           <ul>
@@ -39,9 +13,17 @@
               :key="index"
               class="sidebar-dropdown"
             >
-              <a href="#">
-                <i class="el-icon-menu"></i>
-                <span>{{ element.title }}</span>
+              <a
+                href="javascript:void(0)"
+                :class="element.disable == true ? 'module_block' : ''"
+              >
+                <i
+                  style="font-size: 1rem"
+                  v-if="element.disable == false"
+                  class="el-icon-menu"
+                ></i>
+                <i style="font-size: 1rem" v-else class="el-icon-lock"></i>
+                <span class="module_title">{{ element.title }}</span>
               </a>
               <div class="sidebar-submenu">
                 <ul>
@@ -59,9 +41,9 @@
       <!-- sidebar-content  -->
     </nav>
     <!-- sidebar-wrapper  -->
-    <main class="page-content">
+    <main class="wrapper-content">
       <div class="row">
-        <div class="form-group col-md-10">
+        <div class="form-group col-md-8">
           <load-content></load-content>
         </div>
       </div>
@@ -245,6 +227,10 @@ body {
 
 /*----------------page-wrapper----------------*/
 
+.module_title {
+  font-size: 1rem;
+}
+
 .page-wrapper {
   height: 100vh;
 }
@@ -287,7 +273,7 @@ body {
 /*----------------sidebar-wrapper----------------*/
 
 .sidebar-wrapper {
-  width: 260px;
+  width: 320px;
   height: 100%;
   max-height: 100%;
   position: fixed;
@@ -319,76 +305,11 @@ body {
   overflow-y: hidden;
 }
 
-/*--------------------sidebar-brand----------------------*/
-
-.sidebar-wrapper .sidebar-brand {
-  padding: 10px 20px;
-  display: flex;
-  align-items: center;
-}
-
-.sidebar-wrapper .sidebar-brand > a {
-  text-transform: uppercase;
-  font-weight: bold;
-  flex-grow: 1;
-}
-
-.sidebar-wrapper .sidebar-brand #close-sidebar {
-  cursor: pointer;
-  font-size: 20px;
-}
-/*--------------------sidebar-header----------------------*/
-
-.sidebar-wrapper .sidebar-header {
-  padding: 20px;
-  overflow: hidden;
-}
-
-.sidebar-wrapper .sidebar-header .user-pic {
-  float: left;
-  width: 60px;
-  padding: 2px;
-  border-radius: 12px;
-  margin-right: 15px;
-  overflow: hidden;
-}
-
-.sidebar-wrapper .sidebar-header .user-pic img {
-  object-fit: cover;
-  height: 100%;
-  width: 100%;
-}
-
-.sidebar-wrapper .sidebar-header .user-info {
-  float: left;
-}
-
-.sidebar-wrapper .sidebar-header .user-info > span {
-  display: block;
-}
-
-.sidebar-wrapper .sidebar-header .user-info .user-role {
-  font-size: 12px;
-}
-
-.sidebar-wrapper .sidebar-header .user-info .user-status {
-  font-size: 11px;
-  margin-top: 4px;
-}
-
-.sidebar-wrapper .sidebar-header .user-info .user-status i {
-  font-size: 8px;
-  margin-right: 4px;
-  color: #5cb85c;
-}
-
-/*-----------------------sidebar-search------------------------*/
-
-.sidebar-wrapper .sidebar-search > div {
-  padding: 10px 20px;
-}
-
 /*----------------------sidebar-menu-------------------------*/
+
+.sidebar-menu {
+  margin-top: 30%;
+}
 
 .sidebar-wrapper .sidebar-menu {
   padding-bottom: 10px;
@@ -487,52 +408,17 @@ body {
   right: 17px;
 }
 
-/*--------------------------side-footer------------------------------*/
-
-.sidebar-footer {
-  position: absolute;
-  width: 100%;
-  bottom: 0;
-  display: flex;
-}
-
-.sidebar-footer > a {
-  flex-grow: 1;
-  text-align: center;
-  height: 30px;
-  line-height: 30px;
-  position: relative;
-}
-
-.sidebar-footer > a .notification {
-  position: absolute;
-  top: 0;
-}
-
-.badge-sonar {
-  display: inline-block;
-  background: #980303;
-  border-radius: 50%;
-  height: 8px;
-  width: 8px;
-  position: absolute;
-  top: 0;
-}
-
-.badge-sonar:after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  border: 2px solid #980303;
-  opacity: 0;
-  border-radius: 50%;
-  width: 100%;
-  height: 100%;
-  animation: sonar 1.5s infinite;
-}
-
 /*--------------------------page-content-----------------------------*/
+
+.wrapper-content {
+  margin-left: 320px;
+}
+
+.wrapper-content .row {
+  display: flex !important;
+  justify-content: center !important;
+  margin-top: 3%;
+}
 
 .page-wrapper .page-content {
   display: inline-block;
@@ -559,11 +445,7 @@ body {
   width: 0px;
   height: 0px;
 }
-::-webkit-scrollbar-thumb {
-  background: #525965;
-  border: 0px none #ffffff;
-  border-radius: 0px;
-}
+
 ::-webkit-scrollbar-thumb:hover {
   background: #525965;
 }
@@ -589,12 +471,6 @@ body {
 
 .chiller-theme .sidebar-wrapper {
   background: #31353d;
-}
-
-.chiller-theme .sidebar-wrapper .sidebar-header,
-.chiller-theme .sidebar-wrapper .sidebar-search,
-.chiller-theme .sidebar-wrapper .sidebar-menu {
-  border-top: 1px solid #3a3f48;
 }
 
 .chiller-theme .sidebar-wrapper .sidebar-search input.search-menu,
@@ -653,17 +529,12 @@ body {
   color: #6c7b88;
 }
 
-.chiller-theme .sidebar-footer {
-  background: #3a3f48;
-  box-shadow: 0px -1px 5px #282c33;
-  border-top: 1px solid #464a52;
+.sidebar-submenu {
+  margin-left: 6%;
 }
 
-.chiller-theme .sidebar-footer > a:first-child {
-  border-left: none;
-}
-
-.chiller-theme .sidebar-footer > a:last-child {
-  border-right: none;
+.module_block {
+  cursor: not-allowed;
+  pointer-events: none;
 }
 </style>
