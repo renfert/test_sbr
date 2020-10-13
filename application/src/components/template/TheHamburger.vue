@@ -1,14 +1,16 @@
 <template>
-
-  <button v-if="isVisible" class="kc_fab_main_btn corazon" @click="hambClick" id="fab">
-    <i class="ti-menu" style="font-weight: bold; font-size: 30px"></i>
+  <button
+    v-if="isVisible"
+    class="kc_fab_main_btn corazon"
+    @click="hambClick"
+    id="fab"
+  >
+    <i class="ti-menu"></i>
   </button>
 </template>
 
-
 <script>
-
-import {eventTemplate} from '@/components/template/TheTopBar';
+import { eventTemplate } from '@/components/template/TheTopBar';
 
 import Vue from 'vue';
 
@@ -33,19 +35,17 @@ export default {
     });
   },
   methods: {
-
     hambClick() {
       eventTemplate.$emit('change-leftbar-class');
       if (this.action) {
         this.action();
       }
     }
-  },
+  }
 };
 </script>
 
 <style type="text/css">
-
 @media only screen and (min-width: 768px) {
   #fab {
     display: none;
@@ -53,7 +53,6 @@ export default {
 }
 
 @media only screen and (max-width: 768px) {
-
   .kc_fab_main_btn {
     display: initial;
     position: absolute;
@@ -61,23 +60,23 @@ export default {
     right: 2vh;
     z-index: 10000;
     background-color: #009cd8;
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     border-radius: 100%;
     background: #009cd8;
     border: none;
     outline: none;
-    color: #FFF;
-    font-size: 36px;
+    color: #fff;
+    font-size: 20px;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-    transition: .3s;
+    transition: 0.3s;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   }
 
   .kc_fab_main_btn:active {
-    box-shadow: 0 0 0 rgba(0, 0, 0, .6);
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0.6);
     transform: scale(1.2);
-    font-size: 45px;
+    font-size: 25px;
   }
 
   .hamb {
@@ -86,8 +85,8 @@ export default {
 
   #fab {
     /*display: none;*/
-    bottom: 85px;
-    right: 30px;
+    bottom: 5%;
+    right: 8%;
   }
 
   @keyframes latidos {
@@ -107,7 +106,5 @@ export default {
     animation: latidos 1.6s infinite;
     transform-origin: center;
   }
-
 }
-
 </style>

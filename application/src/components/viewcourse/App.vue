@@ -1,27 +1,20 @@
 <template>
   <div>
-
     <button class="kc_fab_main_btn corazon" @click="hamburgerClick" id="fab">
       <i class="ti-menu" style="font-weight: bold; font-size: 30px"></i>
     </button>
     <topbar></topbar>
-    <el-container style="height: 100%; border: 1px solid #eee">
-      <navigation></navigation>
-      <load-content></load-content>
-    </el-container>
+    <navigation></navigation>
   </div>
 </template>
 
 <script>
 import Vue from 'vue';
 import Topbar from '@/components/viewcourse/Topbar';
-import LoadContent from '@/components/viewcourse/LoadContent';
 import VueHead from 'vue-head';
-import Navigation from '@/components/viewcourse/Navigation';
+import Navigation from '@/components/viewcourse/Navigation2';
 
-
-
-import {mapState} from 'vuex';
+import { mapState } from 'vuex';
 
 export const eventBus = new Vue();
 
@@ -30,8 +23,7 @@ Vue.use(VueHead);
 export default {
   components: {
     Navigation,
-    Topbar,
-    LoadContent
+    Topbar
   },
 
   data: () => {
@@ -54,9 +46,9 @@ export default {
       inner: 'View course'
     },
     meta: [
-      {name: 'charset', content: 'utf-8'},
-      {name: 'viewport', content: 'width=device-width, initial-scale=1.0'},
-      {name: 'author', content: 'Sabiorealm'}
+      { name: 'charset', content: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
+      { name: 'author', content: 'Sabiorealm' }
     ]
   },
   mounted() {

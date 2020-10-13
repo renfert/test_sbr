@@ -1,5 +1,10 @@
 <template>
-  <div class="left side-menu" :class="mobile" @touchstart="touchMoveStart($event)" @touchmove="touchMoveEnd($event)">
+  <div
+    class="left side-menu"
+    :class="mobile"
+    @touchstart="touchMoveStart($event)"
+    @touchmove="touchMoveEnd($event)"
+  >
     <!--- Sidemenu administrator role -->
     <el-menu
       :collapse="collapse"
@@ -13,7 +18,6 @@
       default-active="2"
       active-text-color="#00C0FD"
       class="el-menu-vertical-demo"
-
     >
       <!-- Logo -->
       <el-menu-item index="1" class="logo">
@@ -25,23 +29,23 @@
         </el-row>
       </el-menu-item>
 
-        <router-link to="/newcourse" style="overflow: hidden" >
-          <el-button
-            @click="hideNavLeft"
-            style="
-              width: 100%;
-              height: 100%;
-              left: 0;
-              border-radius: 5px;
-              overflow: hidden;
-            "
-            class="sbr-primary"
-            type="primary"
-            >{{ lang['new-course'] }}</el-button
-          >
-        </router-link>
+      <router-link to="/newcourse" style="overflow: hidden">
+        <el-button
+          @click="hideNavLeft"
+          style="
+            width: 100%;
+            height: 100%;
+            left: 0;
+            border-radius: 5px;
+            overflow: hidden;
+          "
+          class="sbr-primary"
+          type="primary"
+          >{{ lang['new-course'] }}</el-button
+        >
+      </router-link>
 
-      <router-link to="/home" >
+      <router-link to="/home">
         <el-menu-item index="2" @click="hideNavLeft">
           <i class="dripicons-home"></i>
 
@@ -49,7 +53,7 @@
         </el-menu-item>
       </router-link>
 
-      <router-link to="/dashboard" >
+      <router-link to="/dashboard">
         <el-menu-item index="3" @click="hideNavLeft">
           <i class="dripicons-graph-bar"></i>
           <span class="menuMain">{{ lang['dashboard-nav'] }}</span>
@@ -57,7 +61,7 @@
       </router-link>
 
       <el-submenu index="4">
-        <template slot="title" >
+        <template slot="title">
           <i class="dripicons-graduation"></i>
           <a href="javascript:void(0)" class="waves-effect">
             <span class="menuMain">{{ lang['courses-nav'] }}</span>
@@ -221,7 +225,7 @@ export default {
     return {
       mobile: 'retracted',
       prevMouseX: 0,
-      swipedLeft: false,
+      swipedLeft: false
     };
   },
   mounted() {
@@ -258,14 +262,16 @@ export default {
       this.prevMouseX = event.touches[0].clientX;
     },
     touchMoveEnd(event) {
-      if ((this.prevMouseX > event.touches[0].clientX + 50) && this.swipedLeft === false) {
+      if (
+        this.prevMouseX > event.touches[0].clientX + 50 &&
+        this.swipedLeft === false
+      ) {
         eventTemplate.$emit('change-leftbar-class');
         this.swipedLeft = true;
       }
       this.prevMouseX = 0;
     },
-    hideNavLeft(){
-
+    hideNavLeft() {
       eventTemplate.$emit('change-leftbar-class');
     }
   }
@@ -344,6 +350,6 @@ a {
 
 .side-menu {
   overflow: overlay !important;
-  height:100%;
+  height: 100%;
 }
 </style>

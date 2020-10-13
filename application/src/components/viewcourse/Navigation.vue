@@ -2,7 +2,7 @@
   <el-aside
     class="leftside-viewcourse"
     :class="mobile"
-    style="background-color: #545c64;width: 350px"
+    style="background-color: #545c64; width: 350px"
   >
     <el-menu
       background-color="#545c64"
@@ -10,7 +10,6 @@
       active-text-color="#09dfff"
       default-active="lesson00"
       ref="menu"
-
     >
       <div v-for="(element, index) in modules" :key="index">
         <el-submenu
@@ -45,25 +44,22 @@
           >
             <template slot="title">
               <table>
-                  <i class="el-icon-date"></i>
-                  <span :title="element.title">{{ element.title }}</span>
+                <i class="el-icon-date"></i>
+                <span :title="element.title">{{ element.title }}</span>
               </table>
-
-
             </template>
           </el-submenu>
         </el-tooltip>
       </div>
     </el-menu>
   </el-aside>
-
 </template>
 
 <script>
 import LessonListToViewCourse from '@/components/viewcourse/LessonListToViewCourse';
 
-import {eventBus} from '@/components/viewcourse/App';
-import {mapState} from 'vuex';
+import { eventBus } from '@/components/viewcourse/App';
+import { mapState } from 'vuex';
 
 export default {
   data: () => {
@@ -99,7 +95,6 @@ export default {
     });
 
     eventBus.$on('change-leftbar-class', () => {
-
       this.mobile === 'retracted'
         ? (this.mobile = 'opened')
         : (this.mobile = 'retracted');
@@ -160,7 +155,6 @@ export default {
   text-decoration: none;
   overflow-scrolling: touch;
   z-index: 1111 !important;
-
 }
 
 .progress {
@@ -176,10 +170,9 @@ export default {
   overflow: -moz-scrollbars-vertical;
   overflow-y: auto;
   z-index: 2;
-  position:static;
+  position: static;
 }
 @media only screen and (max-width: 768px) {
-
   .leftside-viewcourse.opened {
     -webkit-animation: slide 2s forwards;
     -webkit-animation-delay: 2s;
@@ -195,7 +188,6 @@ export default {
     animation: hideLeftBar 2s;
     z-index: 1000 !important;
   }
-
 }
 
 @keyframes hideLeftBar {
@@ -207,30 +199,30 @@ export default {
   }
 }
 
-.el-submenu__title{
+.el-submenu__title {
   white-space: initial;
-/*  height: 56px;*/
-/*  line-height: 56px;*/
-/*  position: relative;*/
-/*  -webkit-box-sizing: border-box;*/
-/*  !* white-space: nowrap; *!*/
-/*  list-style: none;*/
-/*  overflow-wrap: break-word;*/
-/*  !* list-style: none; *!*/
-/*  display: inline-table;*/
-/*  !* overflow: hidden; *!*/
-/*  height: 56px;*/
-/*  line-height: 56px;*/
-/*  position: relative;*/
-/*  -webkit-box-sizing: border-box;*/
-/*  !* text-overflow: clip; *!*/
-/*  line-height: 1.2;*/
-/*  width: 100%;*/
-/*  -webkit-line-clamp: 2;*/
-/*  -webkit-box-orient: vertical;*/
-/*  overflow: hidden;*/
-/*  margin-left: auto;*/
-/*  margin-right: auto;*/
-/*  padding: 15px 0px 15px 5px;*/
+  /*  height: 56px;*/
+  /*  line-height: 56px;*/
+  /*  position: relative;*/
+  /*  -webkit-box-sizing: border-box;*/
+  /*  !* white-space: nowrap; *!*/
+  /*  list-style: none;*/
+  /*  overflow-wrap: break-word;*/
+  /*  !* list-style: none; *!*/
+  /*  display: inline-table;*/
+  /*  !* overflow: hidden; *!*/
+  /*  height: 56px;*/
+  /*  line-height: 56px;*/
+  /*  position: relative;*/
+  /*  -webkit-box-sizing: border-box;*/
+  /*  !* text-overflow: clip; *!*/
+  /*  line-height: 1.2;*/
+  /*  width: 100%;*/
+  /*  -webkit-line-clamp: 2;*/
+  /*  -webkit-box-orient: vertical;*/
+  /*  overflow: hidden;*/
+  /*  margin-left: auto;*/
+  /*  margin-right: auto;*/
+  /*  padding: 15px 0px 15px 5px;*/
 }
 </style>

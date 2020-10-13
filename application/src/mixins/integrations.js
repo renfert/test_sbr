@@ -26,6 +26,7 @@ const integrations = {
   },
   methods: {
     loadIntegrations() {
+      const deviceHeight = window.screen.height;
       const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'integrations',
         'getIntegrations'
@@ -49,9 +50,11 @@ const integrations = {
         if (
           this.currentRoute !== '/' &&
           this.currentRoute !== 'marketplace' &&
-          this.currentRoute !== '/site' &&
-          this.currentRoute !== '/products' &&
-          this.currentRoute !== '/product' &&
+          this.currentRoute !== 'site' &&
+          this.currentRoute !== 'products' &&
+          this.currentRoute !== 'product' &&
+          this.currentRoute !== 'viewcourse' &&
+          deviceHeight > 720 &&
           parseInt(this.user.role) === 1
         ) {
           /* eslint-disable */
