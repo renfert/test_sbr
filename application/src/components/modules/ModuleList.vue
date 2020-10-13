@@ -26,7 +26,7 @@
                     class="item"
                     type="primary"
                   >
-                    <el-collapse-item >
+                    <el-collapse-item>
                       <template slot="title">
                         <!-- Add lesson -->
                         <el-tooltip
@@ -112,20 +112,20 @@
                         ></el-button>
 
                         <!--Lock module-->
-                          <el-button
-                            @click.prevent="
-                              changeLockClass($event.target, element.id)
-                            "
-                            class="sbr-secondary mr-1"
-                            type="purple"
-                            size="small"
-                            :icon="
-                              element.required_to_next == 'on'
-                                ? 'el-icon-lock'
-                                : 'el-icon-unlock'
-                            "
-                            circle
-                          ></el-button>
+                        <el-button
+                          @click.prevent="
+                            changeLockClass($event.target, element.id)
+                          "
+                          class="sbr-secondary mr-1"
+                          type="purple"
+                          size="small"
+                          :icon="
+                            element.required_to_next == 'on'
+                              ? 'el-icon-lock'
+                              : 'el-icon-unlock'
+                          "
+                          circle
+                        ></el-button>
 
                         <el-divider direction="vertical"></el-divider>
                         <div class="moduleTitle">{{ element.title }}</div>
@@ -680,8 +680,8 @@ export default {
   display: block;
   overflow: hidden;
   text-overflow: ellipsis;
-  display:-webkit-inline-box;
-  flex:3;
+  display: -webkit-inline-box;
+  flex: 3;
   overflow-wrap: break-word;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
@@ -850,8 +850,8 @@ li {
 .unlocked:after {
   background: #5fadbf;
 }
-.space-mobile{
-  display:none
+.space-mobile {
+  display: none;
 }
 /* =============
    Layout
@@ -862,13 +862,11 @@ li {
   }
   .moduleTitle {
   }
-  .space-mobile{
-    display:none;
+  .space-mobile {
+    display: none;
   }
-  .el-collapse-item__header{
-    display:inline-table !important;
+  .el-collapse-item__header {
+    display: inline-table !important;
   }
-
 }
-
 </style>

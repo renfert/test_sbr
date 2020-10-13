@@ -1,7 +1,7 @@
 <template>
   <div>
     <button class="kc_fab_main_btn corazon" @click="hamburgerClick" id="fab">
-      <i class="ti-menu" style="font-weight: bold; font-size: 30px"></i>
+      <i class="ti-menu"></i>
     </button>
     <topbar></topbar>
     <navigation></navigation>
@@ -119,10 +119,6 @@ export default {
 <style scoped>
 .el-container {
   border: none !important;
-}
-
-.kc_fab_main_btn {
-  /*display: none;*/
 }
 
 /* Let's get this party started */

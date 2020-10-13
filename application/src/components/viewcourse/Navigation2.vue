@@ -3,37 +3,64 @@
     <a id="show-sidebar" class="btn btn-sm btn-dark" href="javascript:void(0)">
       <i class="fas fa-bars"></i>
     </a>
-    <nav id="sidebar" class="sidebar-wrapper">
+    <nav
+      :class="mobile"
+      id="sidebar"
+      class="sidebar-wrapper leftside-viewcourse"
+    >
       <div class="sidebar-content">
         <!-- sidebar-search  -->
         <div class="sidebar-menu">
           <ul>
-            <li
-              v-for="(element, index) in modules"
-              :key="index"
-              class="sidebar-dropdown"
-            >
-              <a
-                href="javascript:void(0)"
-                :class="element.disable == true ? 'module_block' : ''"
+            <div v-for="(element, index) in modules" :key="index">
+              <!-- Module available -->
+              <li v-if="element.daysDiff <= 0" class="sidebar-dropdown">
+                <a
+                  href="javascript:void(0)"
+                  :class="element.disable == true ? 'module_block' : ''"
+                >
+                  <i
+                    style="font-size: 1rem"
+                    v-if="element.disable == false"
+                    class="el-icon-menu"
+                  ></i>
+                  <i style="font-size: 1rem" v-else class="el-icon-lock"></i>
+                  <span class="module_title">{{ element.title }}</span>
+                </a>
+                <div class="sidebar-submenu">
+                  <ul>
+                    <lesson-list-to-view-course
+                      :module-id="element.id"
+                      :module-index="index"
+                    ></lesson-list-to-view-course>
+                  </ul>
+                </div>
+              </li>
+
+              <!-- Module unavailable by date -->
+              <el-tooltip
+                v-else
+                class="item"
+                effect="dark"
+                :content="lang['module-available-in'] + element.release_date"
+                placement="right"
               >
-                <i
-                  style="font-size: 1rem"
-                  v-if="element.disable == false"
-                  class="el-icon-menu"
-                ></i>
-                <i style="font-size: 1rem" v-else class="el-icon-lock"></i>
-                <span class="module_title">{{ element.title }}</span>
-              </a>
-              <div class="sidebar-submenu">
-                <ul>
-                  <lesson-list-to-view-course
-                    :module-id="element.id"
-                    :module-index="index"
-                  ></lesson-list-to-view-course>
-                </ul>
-              </div>
-            </li>
+                <li class="sidebar-dropdown">
+                  <a href="javascript:void(0)" class="module_block">
+                    <i style="font-size: 1rem" class="el-icon-date"></i>
+                    <span class="module_title">{{ element.title }}</span>
+                  </a>
+                  <div class="sidebar-submenu">
+                    <ul>
+                      <lesson-list-to-view-course
+                        :module-id="element.id"
+                        :module-index="index"
+                      ></lesson-list-to-view-course>
+                    </ul>
+                  </div>
+                </li>
+              </el-tooltip>
+            </div>
           </ul>
         </div>
         <!-- sidebar-menu  -->
@@ -60,6 +87,27 @@ import LoadScript from 'vue-plugin-load-script';
 import LoadContent from '@/components/viewcourse/LoadContent';
 import { eventBus } from '@/components/viewcourse/App';
 import { mapState } from 'vuex';
+import $ from 'jquery';
+
+// Toggle menu
+window.addEventListener(
+  'load',
+  () => {
+    /* eslint-disable */
+    $(document).on('click', '.sidebar-dropdown > a', function () {
+      $('.sidebar-submenu').slideUp(200);
+      if ($(this).parent().hasClass('active')) {
+        $('.sidebar-dropdown').removeClass('active');
+        $(this).parent().removeClass('active');
+      } else {
+        $('.sidebar-dropdown').removeClass('active');
+        $(this).next('.sidebar-submenu').slideDown(200);
+        $(this).parent().addClass('active');
+      }
+    });
+  },
+  false
+);
 
 Vue.use(LoadScript);
 
@@ -82,7 +130,6 @@ export default {
   },
   created() {
     this.courseId = this.$route.params.id;
-    this.sidebarMenu();
     this.getCourse(this.courseId);
     this.getModules(this.courseId);
   },
@@ -129,33 +176,6 @@ export default {
       formData.set('courseId', courseId);
       this.$request.post(urlToBeUsedInTheRequest, formData).then((response) => {
         this.modules = response.data;
-      });
-    },
-    sidebarMenu() {
-      Vue.loadScript(
-        'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js'
-      ).then(() => {
-        /* eslint-disable */
-        jQuery(($) => {
-          $(document).on('click', '.sidebar-dropdown > a', function () {
-            $('.sidebar-submenu').slideUp(200);
-            if ($(this).parent().hasClass('active')) {
-              $('.sidebar-dropdown').removeClass('active');
-              $(this).parent().removeClass('active');
-            } else {
-              $('.sidebar-dropdown').removeClass('active');
-              $(this).next('.sidebar-submenu').slideDown(200);
-              $(this).parent().addClass('active');
-            }
-          });
-
-          $('#close-sidebar').click(() => {
-            $('.page-wrapper').removeClass('toggled');
-          });
-          $('#show-sidebar').click(() => {
-            $('.page-wrapper').addClass('toggled');
-          });
-        });
       });
     }
   }
@@ -536,5 +556,35 @@ body {
 .module_block {
   cursor: not-allowed;
   pointer-events: none;
+}
+
+@media only screen and (max-width: 768px) {
+  .leftside-viewcourse.opened {
+    -webkit-animation: slide 2s forwards;
+    -webkit-animation-delay: 2s;
+    animation-delay: 2s;
+    animation: hideLeftBar 2s;
+    z-index: 1000 !important;
+    position: absolute;
+  }
+  .leftside-viewcourse.retracted {
+    -webkit-animation: slide 2s forwards;
+    -webkit-animation-delay: 2s;
+    animation-delay: 2s;
+    animation: hideLeftBar 2s;
+    z-index: 1000 !important;
+  }
+  .wrapper-content {
+    margin-left: 0px;
+  }
+}
+
+@keyframes hideLeftBar {
+  0% {
+    transform: translateX(-100px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
 }
 </style>
