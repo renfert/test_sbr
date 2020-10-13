@@ -38,7 +38,7 @@
         :key="title.label"
       ></el-table-column>
 
-      <el-table-column label="Actions" align="center">
+      <el-table-column :label="lang['actions']" align="center">
         <template slot-scope="scope">
           <el-tooltip
             v-if="scope.row.editPrivilege == 'on' || user.role == 1"
@@ -87,6 +87,7 @@ export default {
     ...mapState(['lang', 'user'])
   },
   created() {
+    this.titles[0].label = this.lang.name;
     this.getCourses();
   },
   methods: {

@@ -40,10 +40,10 @@
             @click="prevQuestion()"
             type="primary"
             icon="el-icon-arrow-left"
-            >Previous question</el-button
+            >{{ lang['previous-question'] }}</el-button
           >
           <el-button class="sbr-primary" @click="nextQuestion()" type="primary">
-            Next question
+            {{ lang['next-question'] }}
             <i class="el-icon-arrow-right"></i>
           </el-button>
 
@@ -81,7 +81,7 @@
             :class="index == questionsControl ? '' : 'hide'"
           >
             <h3 class="text-center">
-              Question {{ index + 1 }} / {{ numberOfQuestions }}
+              {{ lang['question'] }} {{ index + 1 }} / {{ numberOfQuestions }}
             </h3>
             <br />
             <h3 class="text-eadtools">{{ element.question }}</h3>

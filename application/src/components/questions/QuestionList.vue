@@ -35,7 +35,7 @@
           <draggable
             v-model="questionList"
             ghost-class="ghost"
-            @end="finishRepositioning"
+            @end="reorderQuestionPositions()"
           >
             <transition-group type="transition" name="flip-list">
               <div
@@ -169,10 +169,6 @@ export default {
     createNewAnswerEvent() {
       eventBus.$emit('open-answer-modal');
     },
-    finishRepositioning() {
-      this.reorderQuestionPositions();
-    },
-
     createNewQuestionEvent() {
       const formData = new FormData();
       const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
@@ -246,8 +242,8 @@ export default {
 
     reorderQuestionPositions() {
       const ar = [];
-      $('.module').each((index) => {
-        const id = $(this).attr('id');
+      $('.module').each((index, element) => {
+        const id = $(element).attr('id');
         ar.push({ id: id, index: index });
       });
 

@@ -71,6 +71,11 @@ class Group_Model extends CI_Model
 
   public function delete($groupId)
   {
+    // Delete from relationship
+    $this->db->where("mygroup_id", $groupId);
+    $this->db->delete("relationship");
+
+    // Delete from mygroup
     $this->db->where('id', $groupId);
     if ($this->db->delete("mygroup")) {
       return true;
@@ -82,12 +87,24 @@ class Group_Model extends CI_Model
 
   public function listing()
   {
-    $this->db->select("*");
-    $this->db->from("mygroup T0");
-    $this->db->where("T0.id !=", 1);
-    $query = $this->db->get();
-    if ($query->num_rows() > 0) {
-      return $query->result();
+    if (getUserId() == 1) {
+      $this->db->select("*");
+      $this->db->from("mygroup T0");
+      $this->db->where("T0.id !=", 1);
+      $query = $this->db->get();
+      if ($query->num_rows() > 0) {
+        return $query->result();
+      }
+    } else {
+      $this->db->select("*");
+      $this->db->from("relationship T0");
+      $this->db->join("mygroup T1", "T0.mygroup_id = T1.id");
+      $this->db->where("T1.id !=", 1);
+      $this->db->where("T0.myuser_id", getUserId());
+      $query = $this->db->get();
+      if ($query->num_rows() > 0) {
+        return $query->result();
+      }
     }
   }
 
@@ -253,10 +270,11 @@ class Group_Model extends CI_Model
 
   public function getCoursesInsideGroup($groupId)
   {
-    $this->db->select("T1.id,T1.title");
+    $this->db->select("T1.id,T1.title,T2.name as group");
     $this->db->distinct();
     $this->db->from("relationship T0");
     $this->db->join("mycourse T1", "T0.mycourse_id = T1.id");
+    $this->db->join("mygroup T2", "T0.mygroup_id = T2.id");
     $this->db->where("T0.mygroup_id", $groupId);
     $this->db->where("T0.mycourse_id !=",  1);
     $query = $this->db->get();

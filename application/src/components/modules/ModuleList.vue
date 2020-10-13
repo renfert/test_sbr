@@ -313,7 +313,7 @@
                 class="lesson-img img-thumbnail img-responsive"
               />
               <br />
-              <span>Downloadable</span>
+              <span>{{ lang['downloadable'] }}</span>
             </a>
           </div>
         </div>
@@ -400,7 +400,7 @@
                 class="lesson-img img-thumbnail img-responsive"
               />
               <br />
-              <span>Exam</span>
+              <span>{{ lang['exams'] }}</span>
             </a>
           </div>
 
@@ -412,7 +412,7 @@
                 class="lesson-img img-thumbnail img-responsive"
               />
               <br />
-              <span>Exam</span>
+              <span>{{ lang['exams'] }}</span>
             </a>
           </div>
         </div>
@@ -588,7 +588,10 @@ export default {
     },
 
     changeLockClass(el, moduleId) {
-      console.log(el);
+      const elType = el.nodeName;
+      if (elType === 'BUTTON') {
+        el = el.childNodes[1];
+      }
       if (el.className === 'el-icon-lock') {
         el.className = 'el-icon-unlock';
         this.updateModuleRequirement('unlocked', moduleId);

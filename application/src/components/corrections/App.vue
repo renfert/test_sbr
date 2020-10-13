@@ -18,7 +18,7 @@ export default {
     CorrectionsList
   },
   created() {
-    this.$verifyInstructorPrivileges();
+    this.$blockStudentAccess();
   },
   head: {
     title: {

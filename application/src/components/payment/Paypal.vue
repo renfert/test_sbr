@@ -1,5 +1,5 @@
 <template>
-  <div id="main" style="width: 100%"></div>
+  <div id="paypal_payment_button"></div>
 </template>
 
 <script>
@@ -10,7 +10,7 @@ Vue.use(LoadScript);
 const md5 = require('md5');
 
 export default {
-  props: ['currency', 'price', 'course-id', 'name'],
+  props: ['currency', 'price', 'course-id'],
   data: () => {
     return {
       paypalClientId: ''
@@ -116,7 +116,7 @@ export default {
               label: 'buynow'
             }
           })
-          .render('#' + this.name);
+          .render('#paypal_payment_button');
       });
     }
   }

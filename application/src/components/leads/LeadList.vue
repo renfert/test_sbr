@@ -91,6 +91,10 @@ export default {
     };
   },
   mounted() {
+    this.table.titles[0].label = this.lang.name;
+    this.table.titles[1].label = this.lang.email;
+    this.table.titles[2].label = this.lang.date;
+
     this.getLeads();
   },
   computed: {

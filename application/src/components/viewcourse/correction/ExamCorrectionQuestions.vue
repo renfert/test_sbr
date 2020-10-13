@@ -33,26 +33,24 @@
           "
         >
           <div class="float-right">
-            <el-button
-              class="sbr-primary"
+            <i
               @click.prevent="
                 openRateModal(element.feedback, element.score, element.id)
               "
-              icon="el-icon-edit"
-              circle
-            ></el-button>
+              class="el-icon-edit-outline table-icon table-icon-primary blob"
+            ></i>
           </div>
         </el-row>
 
         <div class="col-12">
-          <span>Question weight</span>
+          <h4>{{ lang['question-weight'] }}</h4>
           <el-rate disabled :value="parseInt(element.weight)"></el-rate>
-          <h3 class="sbr-text-primary">{{ element.question }}</h3>
+          <h3 class="fw-500">{{ element.question }}</h3>
           <hr />
 
           <!-- Description answer -->
           <div v-if="element.type_question_id == 1">
-            <h3 class="sbr-text-primary">{{ lang['answer'] }}</h3>
+            <h3 class="sbr-text-primary fw-600">{{ lang['answer'] }}</h3>
             <exam-correction-student-answer
               :student-id="studentId"
               :question-type="1"
@@ -93,8 +91,8 @@
           :visible.sync="modal"
           :title="lang['rate-question']"
           center
-          width="40%"
-          top="5vh"
+          width="30%"
+          top="10vh"
         >
           <form id="form-rate">
             <h3 class="sbr-text-primary">{{ lang['feedback'] }}</h3>
@@ -224,3 +222,33 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.blob {
+  border-radius: 50%;
+  margin: 10px;
+  height: 20px;
+  width: 20px;
+
+  box-shadow: 0 0 0 0 #009cd8;
+  transform: scale(1);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 #009cd8;
+  }
+
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+  }
+}
+</style>

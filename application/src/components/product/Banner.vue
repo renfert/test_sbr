@@ -305,6 +305,7 @@ a {
 
 h2.ed_title {
   color: white !important;
+  margin-right: 15% !important;
 }
 
 /* =============
@@ -313,6 +314,7 @@ h2.ed_title {
 @media (max-width: 575.98px) {
   h2.ed_title {
     font-size: 23px;
+    margin-right: 0% !important;
   }
 
   .ed_detail_wrap {

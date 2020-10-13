@@ -17,6 +17,38 @@ class User_Model extends CI_Model
   /* ---------------------
         Create a new user
     -----------------------*/
+<<<<<<< HEAD
+=======
+  public function create($dataReceiveFromPost)
+  {
+
+    finishStep(1);
+    /*-------------------------------
+			Verify if user already exist
+    --------------------------------*/
+
+
+    $this->db->where("email", $dataReceiveFromPost["email"]);
+    $query = $this->db->get("myuser");
+    if ($query->num_rows() > 0 or $dataReceiveFromPost["role"] == 1) {
+      return false;
+    } else {
+      $params = array(
+        'name' => $dataReceiveFromPost["name"],
+        'email' => $dataReceiveFromPost["email"],
+        'password' => md5($dataReceiveFromPost["password"]),
+        'myrole_id' => $dataReceiveFromPost["role"],
+        'status' => 'off',
+        'mode' => 'enable',
+        'avatar' => 'default.png',
+        'creation_date' => getCurrentDate("Y-m-d")
+      );
+      sendEmail($dataReceiveFromPost);
+      $this->db->insert("myuser", $params);
+      return $this->db->insert_id();
+    }
+  }
+>>>>>>> master
 
   public function massivelyCreateUsers($excelFileWithUsers)
   {
@@ -249,6 +281,18 @@ class User_Model extends CI_Model
     }
   }
 
+  public function getScoreOnExam($studentId, $examId)
+  {
+    $this->db->select("*");
+    $this->db->from("lesson_status");
+    $this->db->where("myuser_id", $studentId);
+    $this->db->where("mylesson_id", $examId);
+    $query = $this->db->get();
+    if ($query->num_rows() > 0) {
+      return $query->result();
+    }
+  }
+
   /* -----------------------------------------
         Get all students from specific instructor
     -------------------------------------------*/
@@ -261,6 +305,7 @@ class User_Model extends CI_Model
         $courseId = $row->id;
         array_push($courses, $courseId);
       }
+
 
       $this->db->select("T0.myuser_id, T1.email, T1.name,T1.avatar");
       $this->db->distinct();

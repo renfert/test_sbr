@@ -63,6 +63,13 @@
           {{ lang['create-account'] }}
           <i class="ti-angle-right"></i>
         </button>
+
+        <div class="options text-center">
+          <p class="pt-1">
+            {{ lang['already-have-account'] }}
+            <a @click.prevent="login()">{{ lang['go-to-platform'] }}</a>
+          </p>
+        </div>
       </form>
     </el-dialog>
   </div>
@@ -70,6 +77,7 @@
 
 <script>
 import Vue from 'vue';
+import { eventLogin } from '@/components/login/Login';
 
 import { mapState } from 'vuex';
 
@@ -108,6 +116,10 @@ export default {
     ...mapState(['lang'])
   },
   methods: {
+    login() {
+      this.modal = false;
+      eventLogin.$emit('open-login-modal');
+    },
     getColor() {
       const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'settings',

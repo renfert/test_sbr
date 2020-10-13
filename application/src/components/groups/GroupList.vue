@@ -33,7 +33,7 @@
             :label="title.label"
             :key="title.label"
           ></el-table-column>
-          <el-table-column label="Actions" align="center">
+          <el-table-column :label="lang['actions']" align="center">
             <template slot-scope="scope">
               <!-- Edit group -->
               <el-tooltip
@@ -171,6 +171,8 @@ export default {
     };
   },
   created() {
+    this.table.titles[0].label = this.lang.name;
+
     this.getGroups();
     eventBus.$on('new-group', () => {
       this.getGroups();

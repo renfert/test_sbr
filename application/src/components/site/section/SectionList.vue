@@ -17,16 +17,20 @@
               >Banner</span
             >
             <!-- Product list -->
-            <span class="sbr-text-primary" v-if="element.product_list_id != 1"
-              >Product list</span
+            <span
+              class="sbr-text-primary"
+              v-if="element.product_list_id != 1"
+              >{{ lang['product-list'] }}</span
             >
             <!-- Testimonial list -->
-            <span class="sbr-text-primary" v-if="element.testimonial_id != 1"
-              >Testimonial</span
-            >
+            <span class="sbr-text-primary" v-if="element.testimonial_id != 1">{{
+              lang['testimonial']
+            }}</span>
             <!-- Text and media list -->
-            <span class="sbr-text-primary" v-if="element.text_and_media_id != 1"
-              >Text and media</span
+            <span
+              class="sbr-text-primary"
+              v-if="element.text_and_media_id != 1"
+              >{{ lang['text-and-media'] }}</span
             >
 
             <div class="action-icons">

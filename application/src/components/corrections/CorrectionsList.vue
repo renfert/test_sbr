@@ -48,17 +48,28 @@
           :label="title.label"
           :key="title.label"
         ></el-table-column>
-        <el-table-column label="Actions" align="center">
+        <el-table-column :label="lang['actions']" align="center">
           <template slot-scope="scope">
-            <el-button
-              @click="openCorrection(scope.row.id, scope.row.studentId)"
-              class="sbr-primary"
-              icon="el-icon-edit"
-              circle
-            ></el-button>
+            <el-tooltip
+              slot="reference"
+              class="item"
+              effect="dark"
+              :content="lang['evaluate-exam']"
+              placement="top"
+            >
+              <i
+                @click="openCorrection(scope.row.id, scope.row.studentId)"
+                class="el-icon-edit table-icon table-icon-primary"
+              ></i>
+            </el-tooltip>
           </template>
         </el-table-column>
-        <el-table-column prop="status" label="Status" align="center" sortable>
+        <el-table-column
+          prop="status"
+          :label="lang['status']"
+          align="center"
+          sortable
+        >
           <template slot-scope="scope">
             <a
               href="#"
@@ -130,6 +141,9 @@ export default {
     };
   },
   created() {
+    this.titles[0].label = this.lang.student;
+    this.titles[1].label = this.lang.course;
+    this.titles[2].label = this.lang.exam;
     this.getCorrections();
   },
   mounted() {

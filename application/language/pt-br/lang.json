@@ -24,6 +24,15 @@
 
   "edit-program": "Editar programa",
 
+  "next-lesson": "Próxima lição",
+  "previous-lesson": "Lição anterior",
+
+  "minimum-for-approval": "Aprovação",
+
+  "no-data-for-this-report": "Sem dados para este relatório",
+
+  "group": "Grupo",
+
   "dates": "Datas",
   "sales": "Vendas",
   "select-payment-platform": "Selecione a plataforma de pagamento para este curso",
@@ -53,6 +62,16 @@
   "user-already-exists": "Este usuário já existe, escolha outro e-mail.",
 
   "course-validity": "Este curso é válido por:",
+
+  "actions": "Ações",
+
+  "others": "Outros",
+
+  "downloadable": "Descarregavel",
+
+  "logo-size": "Tamanho do logotipo",
+
+  "sections": "Seções",
 
   "days": "dias",
 
@@ -341,7 +360,17 @@
   "no-results-module-subtitle-highlight": "módulo",
   "question-delete-module": "Apagar módulo:",
 
+  "please-select-option": "Por favor selecione uma opção",
+
+  "generate-report": "Gerar relatório",
+
+  "report-type": "Que tipo de relatório você gostaria de gerar?",
+
   "all": "Todos",
+
+  "checkout": "Finalizar pagamento",
+
+  "total": "Total",
 
   "create-certificate": "Criar um novo certificado",
   "list-certificate": "Lista de certificados",
@@ -551,13 +580,21 @@
   "school-records": "Registros escolares",
 
   "exams": "Exames",
+  "exam": "Exame",
+
+  "evaluate-exam": "Avaliar exame",
 
   "thanks-for-your-avaliation": "Obrigado pela sua avaliação",
 
   "default-category": "Sem categoria",
   "your-certificate": "Seu certificado",
 
+  "next-question": "Próxima pergunta",
+  "previous-question": "Pergunta anterior",
+
   "certificate-of-completition": "Certificado de conclusão",
+
+  "report-from-where": "Agora, de onde você gostaria de obter este relatório?",
 
   "number-of-re-tests": "Número de novas tentativas",
   "re-rest-info": "Defina como 0 se o aluno tiver apenas uma oportunidade de fazer o exame.",
@@ -644,6 +681,14 @@
   "media-align": "Alinhamento da mídia",
   "content": "Conteúdo",
   "transparent-header": "Header transparente",
+
+  "new-users": "Novos usuários",
+
+  "progress": "Progresso",
+
+  "status": "Status",
+
+  "course": "Curso",
 
   "courses": "Cursos",
 

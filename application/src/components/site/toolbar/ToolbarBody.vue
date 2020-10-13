@@ -4,7 +4,7 @@
       <i class="el-icon-menu sbr-text-primary"></i>
       <span>Body</span>
     </template>
-    <el-menu-item-group title="Sections">
+    <el-menu-item-group :title="lang['sections']">
       <div class="m-l-40 m-r-40">
         <!---------------
           Section list

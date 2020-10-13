@@ -79,6 +79,7 @@ export default {
 
       coursePaymentPlatform: '',
       courseCurrency: '',
+      mpCurrency: '',
 
       totalModules: '',
       totalLessons: '',
@@ -109,11 +110,11 @@ export default {
     NavBar
   },
   mounted() {
+    this.getMpCurrency();
     const title = this.$route.params.title;
     this.courseTitle = title.split('-').join(' ');
     this.getColor();
     this.createMetaTags();
-    this.getCourse();
   },
   head: {
     title: {
@@ -126,6 +127,16 @@ export default {
     ]
   },
   methods: {
+    getMpCurrency() {
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'settings',
+        'getSettingsInformation'
+      );
+      this.$request.get(urlToBeUsedInTheRequest).then((response) => {
+        this.mpCurrency = response.data.currency;
+        this.getCourse();
+      });
+    },
     getCourse() {
       const formData = new FormData();
       const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
@@ -143,7 +154,6 @@ export default {
           this.preview = response.data.preview;
           this.price = response.data.price;
           this.reviews = response.data.reviews;
-          this.courseCurrency = response.data.currency;
           this.coursePaymentPlatform = response.data.payment_platform;
           this.totalModules = response.data.totalModules;
           this.totalLessons = response.data.totalLessons;
@@ -152,6 +162,11 @@ export default {
           this.instructorDescription = response.data.instructorDescription;
           this.totalReviews = response.data.totalReviews;
           this.totalRate = response.data.totalRate;
+          if (response.data.payment_platform === 'mercadopago') {
+            this.courseCurrency = this.mpCurrency;
+          } else {
+            this.courseCurrency = response.data.currency;
+          }
           this.getModules(response.data.id);
         },
         () => {

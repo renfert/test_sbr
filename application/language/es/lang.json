@@ -22,6 +22,9 @@
   "plans-nav": "Planes",
   "help-center-nav": "Centro de Ayuda",
 
+  "next-lesson": "Siguiente",
+  "previous-lesson": "Anterior",
+
   "required-module": "Haga clic en el candado para bloquear o desbloquear este módulo. Al bloquear un módulo, el alumno debe completar todas las actividades relacionadas con él antes de poder pasar al siguiente.",
 
   "upload-a-file": "Cargar un archivo",
@@ -63,7 +66,19 @@
 
   "edit-program": "Editar programa",
 
+<<<<<<< HEAD
   "edit-post": "Editar publicación",
+=======
+  "please-select-option": "Por favor seleccione una opción",
+
+  "generate-report": "Generar informe",
+
+  "report-type": "¿Qué tipo de informe le gustaría generar?",
+
+  "report-from-where": "Ahora bien, ¿de dónde le gustaría obtener este informe?",
+
+  "minimum-for-approval": "Aprobación",
+>>>>>>> master
 
   "invalid-access-token": "Credenciales no válidas, revise su información.",
 
@@ -78,6 +93,8 @@
   "actual-price": "Precio actual",
 
   "average-rating": "Puntuación media",
+
+  "actions": "Acciones",
 
   "lesson": "Lección",
 
@@ -275,6 +292,10 @@
   "programs": "Programas",
   "add-new-course": "Agregar un curso a este grupo",
 
+  "no-data-for-this-report": "No hay datos para este informe",
+
+  "group": "Grupo",
+
   "exam-finished": "Examen finalizado",
 
   "question-delete-lesson": "Lección eliminada: ",
@@ -371,6 +392,10 @@
   "join-students": "Inscribir alumnos en este curso",
   "create-new-course": "Nuevo curso",
   "select-role": "Rol de usuario",
+
+  "others": "Otros",
+
+  "downloadable": "Descargable",
 
   "join-persons": "Agregar personas",
 
@@ -548,7 +573,20 @@
 
   "school-records": "Historial académico",
 
+  "next-question": "Próxima pregunta",
+  "previous-question": "Pregunta anterior",
+
+  "checkout": "Finalizar compra",
+
+  "total": "Total",
+
   "exams": "Exámenes",
+  "exam": "Examen",
+
+  "evaluate-exam": "Evaluar examen",
+
+  "logo-size": "Tamaño del logo",
+  "sections": "Bloques",
 
   "thanks-for-your-avaliation": "Gracias por tu validación",
 
@@ -639,7 +677,7 @@
 
   "name": "Nombre",
   "password": "Contraseña",
-  "email": "Email",
+  "email": "Correo",
   "instructor": "Instructor",
   "student": "Alumno",
   "category": "Categoría",
@@ -671,9 +709,17 @@
   "primary-color": "Color primario",
   "secondary-color": "Color secundario",
   "copyright": "Copyright",
-  "add-new-social": "Agregar social media",
-  "social-medias": "Social medias",
-  "social-media": "Social media",
+  "add-new-social": "Agregar rede social",
+  "social-medias": "Redes Sociales",
+  "social-media": "Rede social",
+
+  "new-users": "Nuevos usuarios",
+
+  "course": "Curso",
+
+  "progress": "Progreso",
+
+  "status": "Estado",
 
   "add-new-lesson": "Agregar nueva lección",
 
@@ -681,7 +727,7 @@
   "comment": "Comentario",
 
   "number-of-courses-to-be-listed": "Número total de cursos que se incluirán en la lista",
-  "text-and-media": "Text and media",
+  "text-and-media": "Texto y medios",
   "media": "Media",
   "media-align": "Media align",
   "content": "Contenido",
