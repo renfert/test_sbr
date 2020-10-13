@@ -69,9 +69,9 @@
           <h4 class="sbr-text-grey">
             {{ lang['no-results-courses-in-group'] }}
           </h4>
-          <el-button class="sbr-primary" @click="addCourse()">{{
-            lang['add-course']
-          }}</el-button>
+          <el-button class="sbr-primary" @click="addCourse()"
+            >{{ lang['add-course'] }}
+          </el-button>
         </el-col>
       </el-row>
     </div>
@@ -109,8 +109,8 @@
             v-loading="loading"
             class="sbr-primary"
             @click="saveCourses()"
-            >{{ lang['save-button'] }}</el-button
-          >
+            >{{ lang['save-button'] }}
+          </el-button>
         </div>
         <el-row v-else class="center">
           <el-col>
@@ -255,3 +255,20 @@ export default {
   }
 };
 </script>
+<style scoped>
+.el-transfer-panel {
+  margin: 5px;
+  width: 255px;
+}
+
+@media only screen and (max-width: 1315px) {
+  .el-transfer__buttons {
+    display: flow-root;
+  }
+
+  .el-transfer-panel {
+    width: 100%;
+    margin: 5px;
+  }
+}
+</style>

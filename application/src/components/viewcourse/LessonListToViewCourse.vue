@@ -12,6 +12,20 @@
           element.lessonStatus
         )
       "
+      style="
+        max-width: 390px;
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -webkit-box-flex: 3;
+        -ms-flex: 3;
+        flex: 3;
+        overflow-wrap: break-word;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        line-height: 1;
+        white-space: pre;
+      "
     >
       <el-divider
         style="color: red !important"
@@ -81,6 +95,7 @@
       ></i>
 
       <span
+        :title="element.title"
         :class="element.lessonStatus == 'finished' ? 'lesson-finished' : ''"
         >{{ element.title }}</span
       >
@@ -118,6 +133,8 @@ export default {
         lessonStatus: lessonStatus
       };
       eventBus.$emit('load-lesson', data);
+
+      eventBus.$emit('change-leftbar-class');
     },
     openFirstLesson() {
       document.getElementById('lesson00').click();
@@ -171,5 +188,8 @@ export default {
 .is-active {
   color: white !important;
   background-color: rgb(67, 74, 80) !important;
+}
+
+@media only screen and (max-width: 600px) {
 }
 </style>

@@ -1,9 +1,9 @@
 <template>
   <el-row>
     <el-col :sm="4" :xs="24" v-if="fullScreen == false">
-      <toolbar></toolbar>
+      <toolbar ></toolbar>
     </el-col>
-    <el-col style="margin-left: 13%" :sm="24" :xs="24">
+    <el-col :sm="24" :xs="24">
       <preview class="preview" :full-screen-button="true"></preview>
     </el-col>
   </el-row>
@@ -39,9 +39,9 @@ export default {
       inner: 'Site'
     },
     meta: [
-      { name: 'charset', content: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
-      { name: 'author', content: 'Sabiorealm' }
+      {name: 'charset', content: 'utf-8'},
+      {name: 'viewport', content: 'width=device-width, initial-scale=1.0'},
+      {name: 'author', content: 'Sabiorealm'}
     ]
   },
   components: {
@@ -59,12 +59,14 @@ export default {
 .el-menu--collapse {
   width: 71px !important;
 }
+
 .col-xl-8,
 .col-xl-4,
 .col-xl-12,
 .col-xl-3 {
   padding: 0px !important;
 }
+
 .content-page .content {
   padding: 0px !important;
 }
@@ -88,7 +90,29 @@ header {
 
 @media only screen and (max-width: 600px) {
   .preview {
+    /*display: none;*/
+  }
+
+  .kc_fab_main_btn .corazon {
     display: none;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+
+  .corazon {
+    display: none !important;
+  }
+  #fab{
+    display: none !important;
+  }
+}
+@media only screen and (max-width: 768px){
+  .corazon {
+    display: none !important;
+  }
+  #fab{
+    display: none !important;
   }
 }
 </style>

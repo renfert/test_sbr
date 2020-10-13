@@ -2,11 +2,9 @@
   <el-aside
     class="leftside-viewcourse"
     :class="mobile"
-    width="350x"
-    style="background-color: #545c64"
+    style="background-color: #545c64; width: 350px"
   >
     <el-menu
-      style="width: 351px"
       background-color="#545c64"
       text-color="#fff"
       active-text-color="#09dfff"
@@ -19,10 +17,11 @@
           v-if="element.daysDiff <= 0"
           :id="'module' + index"
           :index="'module' + index"
+          class="submenu-course"
         >
           <template slot="title">
             <i class="el-icon-menu"></i>
-            <span>{{ element.title }}</span>
+            <span :title="element.title">{{ element.title }}</span>
           </template>
 
           <lesson-list-to-view-course
@@ -44,8 +43,10 @@
             :index="'module' + index"
           >
             <template slot="title">
-              <i class="el-icon-date"></i>
-              <span>{{ element.title }}</span>
+              <table>
+                <i class="el-icon-date"></i>
+                <span :title="element.title">{{ element.title }}</span>
+              </table>
             </template>
           </el-submenu>
         </el-tooltip>
@@ -69,7 +70,8 @@ export default {
       courseId: '',
       currentDate: '',
       mobile: 'retracted',
-      loading: false
+      loading: false,
+      eventBusTemplate: eventBus
     };
   },
   components: {
@@ -130,9 +132,11 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
+<style lang="css" scoped>
 .el-submenu {
   border-bottom: 1px solid rgb(67, 74, 80);
+  word-break: break-word;
+  text-overflow: ellipsis;
 }
 
 .course-title {
@@ -145,12 +149,12 @@ export default {
   font-size: 1.1em;
   border: 0;
   font-weight: normal;
-  line-height: 1;
   list-style: none;
   margin: 0;
-  padding: 0;
-  position: relative;
+  padding: 5px;
   text-decoration: none;
+  overflow-scrolling: touch;
+  z-index: 1111 !important;
 }
 
 .progress {
@@ -159,5 +163,66 @@ export default {
 
 .col-2 {
   padding: 0px !important;
+}
+
+.leftside-viewcourse {
+  height: 100%;
+  overflow: -moz-scrollbars-vertical;
+  overflow-y: auto;
+  z-index: 2;
+  position: static;
+}
+@media only screen and (max-width: 768px) {
+  .leftside-viewcourse.opened {
+    -webkit-animation: slide 2s forwards;
+    -webkit-animation-delay: 2s;
+    animation-delay: 2s;
+    animation: hideLeftBar 2s;
+    z-index: 1000 !important;
+    position: absolute;
+  }
+  .leftside-viewcourse.retracted {
+    -webkit-animation: slide 2s forwards;
+    -webkit-animation-delay: 2s;
+    animation-delay: 2s;
+    animation: hideLeftBar 2s;
+    z-index: 1000 !important;
+  }
+}
+
+@keyframes hideLeftBar {
+  0% {
+    transform: translateX(-100px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+
+.el-submenu__title {
+  white-space: initial;
+  /*  height: 56px;*/
+  /*  line-height: 56px;*/
+  /*  position: relative;*/
+  /*  -webkit-box-sizing: border-box;*/
+  /*  !* white-space: nowrap; *!*/
+  /*  list-style: none;*/
+  /*  overflow-wrap: break-word;*/
+  /*  !* list-style: none; *!*/
+  /*  display: inline-table;*/
+  /*  !* overflow: hidden; *!*/
+  /*  height: 56px;*/
+  /*  line-height: 56px;*/
+  /*  position: relative;*/
+  /*  -webkit-box-sizing: border-box;*/
+  /*  !* text-overflow: clip; *!*/
+  /*  line-height: 1.2;*/
+  /*  width: 100%;*/
+  /*  -webkit-line-clamp: 2;*/
+  /*  -webkit-box-orient: vertical;*/
+  /*  overflow: hidden;*/
+  /*  margin-left: auto;*/
+  /*  margin-right: auto;*/
+  /*  padding: 15px 0px 15px 5px;*/
 }
 </style>

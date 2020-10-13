@@ -67,8 +67,9 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 .fixed-aside {
-  width: 25% !important;
+  width: 30% !important;
   position: fixed;
+  display: block;
   z-index: 2001;
   top: 0;
   bottom: 0;
@@ -134,7 +135,7 @@ export default {
     position: fixed !important;
   }
   .fixed-aside {
-    width: 100% !important;
+    width: 88% !important;
     position: fixed;
     z-index: 2001;
     top: 0;
@@ -143,4 +144,5 @@ export default {
     border-right: 1px solid #dbd3d3;
   }
 }
+
 </style>
