@@ -137,6 +137,20 @@ class Course_Model extends CI_Model
     }
   }
 
+  public function getExams($courseId)
+  {
+    $this->db->select("T1.title,T1.approval,T1.retest, T1.id");
+    $this->db->distinct();
+    $this->db->from("relationship T0");
+    $this->db->join("mylesson T1", "T0.mylesson_id = T1.id");
+    $this->db->where("T0.mycourse_id", $courseId);
+    $this->db->where("T1.type_mylesson_id", 8);
+    $query = $this->db->get();
+    if ($query->num_rows() > 0) {
+      return $query->result();
+    }
+  }
+
   public function getEnrollDate($courseId)
   {
     $this->db->select("*");

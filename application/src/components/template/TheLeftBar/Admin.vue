@@ -71,6 +71,13 @@
           </el-menu-item>
         </router-link>
 
+        <router-link to="/corrections">
+          <el-menu-item index="25" v-if="plan != 'starter'">
+            <i class="dripicons-message"></i>
+            <span class="menuMain">{{ lang['corrections-nav'] }}</span>
+          </el-menu-item>
+        </router-link>
+
         <router-link to="/categories">
           <el-menu-item index="6">
             <i class="dripicons-list"></i>

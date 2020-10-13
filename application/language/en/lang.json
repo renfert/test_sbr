@@ -22,6 +22,10 @@
   "plans-nav": "plans",
   "help-center-nav": "Help center",
 
+  "group": "Group",
+
+  "no-data-for-this-report": "No data for this report",
+
   "course-validity": "This course is valid for:",
 
   "days": "days",
@@ -327,6 +331,10 @@
   "edit-lesson": "Edit lesson",
   "edit-exam": "Edit exam",
 
+  "please-select-option": "Please select an option",
+
+  "generate-report": "Generate report",
+
   "edit-module": "Edit module",
   "delete-module": "Delete module",
   "reposition-module": "Reposition module",
@@ -607,6 +615,10 @@
   "next-step-button": "Next step",
   "previous-step-button": "Previous step",
 
+  "report-type": "What kind of report would you like to generate?",
+
+  "report-from-where": "Now, where would you like to get this report from?",
+
   "checkout": "Checkout",
 
   "total": "Total",
@@ -732,6 +744,8 @@
   "add-new-social": "Add new social media",
   "social-medias": "Social medias",
   "social-media": "Social media",
+
+  "minimum-for-approval": "Approval",
 
   "new-users": "New users",
 

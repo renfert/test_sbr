@@ -66,6 +66,16 @@
 
   "edit-program": "Editar programa",
 
+  "please-select-option": "Por favor seleccione una opción",
+
+  "generate-report": "Generar informe",
+
+  "report-type": "¿Qué tipo de informe le gustaría generar?",
+
+  "report-from-where": "Ahora bien, ¿de dónde le gustaría obtener este informe?",
+
+  "minimum-for-approval": "Aprobación",
+
   "invalid-access-token": "Credenciales no válidas, revise su información.",
 
   "mercado-pago-success": "¡Su cuenta de mercado pago se ha configurado correctamente!",
@@ -277,6 +287,10 @@
   "instructors": "Instructores",
   "programs": "Programas",
   "add-new-course": "Agregar un curso a este grupo",
+
+  "no-data-for-this-report": "No hay datos para este informe",
+
+  "group": "Grupo",
 
   "exam-finished": "Examen finalizado",
 
