@@ -12,10 +12,10 @@
         type="primary"
         class="sbr-primary"
       >
-        Generate report
+        {{ lang['generate-report'] }}
       </el-button>
       <div v-if="data != null" class="card-box m-t-40">
-        <report-table :data="data" :titles="titles"></report-table>
+        <report-table :data="data"></report-table>
       </div>
     </div>
     <!-- End generate report button -->
@@ -23,7 +23,7 @@
     <!-- Generate report modal -->
     <el-dialog width="60%" top="5vh" :visible.sync="modal">
       <div slot="title" class="center">
-        <h3>Generate a new report</h3>
+        <h3>{{ lang['generate-report'] }}</h3>
       </div>
       <div class="center">
         <!-- Steps -->
@@ -36,7 +36,7 @@
           v-if="step == 'first'"
           type="primary"
           class="sbr-primary"
-          >Proximo <i class="el-icon-right"></i
+          >{{ lang['next-step-button'] }} <i class="el-icon-right"></i
         ></el-button>
         <div v-else>
           <!-- Preivous button -->
@@ -44,7 +44,7 @@
             @click.prevent="step = 'first'"
             type="primary"
             class="sbr-primary"
-            ><i class="el-icon-back"></i> Anterior
+            ><i class="el-icon-back"></i> {{ lang['previous-step-button'] }}
           </el-button>
 
           <!-- Generate report button -->
@@ -53,7 +53,7 @@
             @click.prevent="generateReport()"
             type="primary"
             class="sbr-purple"
-            >Gerar reporte <i class="el-icon-data-analysis"></i
+            >{{ lang['generate-report'] }} <i class="el-icon-data-analysis"></i
           ></el-button>
         </div>
       </div>
@@ -83,15 +83,7 @@ export default {
     return {
       modal: false,
       step: 'first',
-      titles: [
-        { prop: 'course', label: 'Curso' },
-        { prop: 'examTitle', label: 'Exame' },
-        { prop: 'examApproval', label: '% de aprovacao' },
-        { prop: 'student', label: 'Student' },
-        { prop: 'studentScore', label: 'Score' },
-        { prop: 'status', label: 'Status' },
-        { prop: 'studentRetest', label: 'Tentativas' }
-      ],
+      firstStepOption: null,
       data: null,
       report: {
         type: '',
@@ -138,6 +130,8 @@ export default {
       if (this.report.type === 'group') {
         const formData = new FormData();
         formData.set('groupId', this.report.id);
+
+        // General exam report
         const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
           'reports',
           'getExamsReportsByGroup'
@@ -146,6 +140,16 @@ export default {
           .post(urlToBeUsedInTheRequest, formData)
           .then((response) => {
             this.data = response.data;
+            if (response.data == null) {
+              const h = this.$createElement;
+              this.$notify({
+                message: h(
+                  'i',
+                  { style: 'color: teal' },
+                  '' + this.lang['no-data-for-this-report'] + ''
+                )
+              });
+            }
           });
       }
     },

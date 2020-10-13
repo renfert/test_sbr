@@ -1,11 +1,11 @@
 <template>
   <div class="center">
-    <h3 class="m-b-40">Agora, de onde gostaria de extrair este relatorio?</h3>
+    <h3 class="m-b-40">{{ lang['report-from-where'] }}</h3>
     <el-row :gutter="20" type="flex" justify="center">
       <!-- Specific group -->
       <el-col :xs="24" :md="8">
         <div class="card-box">
-          <h4>Grupo</h4>
+          <h4>{{ lang['groups-nav'] }}</h4>
           <img
             class="report_type_image m-b-20"
             src="@/assets/img/general/ux/group.svg"
@@ -91,6 +91,7 @@
 
 <script>
 import { eventBus } from '@/components/reports/App';
+import { mapState } from 'vuex';
 
 export default {
   data: () => {
@@ -109,6 +110,7 @@ export default {
     this.getStudents();
   },
   computed: {
+    ...mapState(['lang']),
     checkGroupDisableOption() {
       let result = null;
       if (parseInt(this.courseId) > 0 || parseInt(this.studentId) > 0) {
@@ -137,6 +139,7 @@ export default {
       return result;
     }
   },
+
   methods: {
     emitGroupEvent() {
       eventBus.$emit('select-group-report', this.groupId);

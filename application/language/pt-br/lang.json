@@ -27,6 +27,12 @@
   "next-lesson": "Próxima lição",
   "previous-lesson": "Lição anterior",
 
+  "minimum-for-approval": "Aprovação",
+
+  "no-data-for-this-report": "Sem dados para este relatório",
+
+  "group": "Grupo",
+
   "dates": "Datas",
   "sales": "Vendas",
   "select-payment-platform": "Selecione a plataforma de pagamento para este curso",
@@ -356,6 +362,10 @@
 
   "please-select-option": "Por favor selecione uma opção",
 
+  "generate-report": "Gerar relatório",
+
+  "report-type": "Que tipo de relatório você gostaria de gerar?",
+
   "all": "Todos",
 
   "checkout": "Finalizar pagamento",
@@ -581,6 +591,8 @@
   "previous-question": "Pergunta anterior",
 
   "certificate-of-completition": "Certificado de conclusão",
+
+  "report-from-where": "Agora, de onde você gostaria de obter este relatório?",
 
   "number-of-re-tests": "Número de novas tentativas",
   "re-rest-info": "Defina como 0 se o aluno tiver apenas uma oportunidade de fazer o exame.",

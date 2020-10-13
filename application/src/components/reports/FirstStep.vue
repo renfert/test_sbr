@@ -1,6 +1,6 @@
 <template>
   <div class="center">
-    <h3 class="m-b-40">Que tipo de reporte gostaria de fazer?</h3>
+    <h3 class="m-b-40">{{ lang['report-type'] }}</h3>
     <el-row :gutter="20" type="flex" justify="center">
       <!-- Exams reports -->
       <el-col :xs="24" :md="12">
@@ -9,7 +9,7 @@
           class="card-box"
           :class="firstStep == 'exam' ? 'active_box' : ''"
         >
-          <h4>Exames</h4>
+          <h4>{{ lang['exams'] }}</h4>
           <img
             class="not-found-image"
             src="@/assets/img/general/ux/exams.svg"
@@ -38,12 +38,16 @@
 
 <script>
 import { eventBus } from '@/components/reports/App';
+import { mapState } from 'vuex';
 
 export default {
   data: () => {
     return {
       firstStep: ''
     };
+  },
+  computed: {
+    ...mapState(['lang'])
   },
   methods: {
     selectOption(option) {
