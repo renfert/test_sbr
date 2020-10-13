@@ -21,14 +21,11 @@
   "reports-nav": "reports",
   "plans-nav": "Plans",
   "help-center-nav": "Help center",
-<<<<<<< HEAD
-=======
 
   "group": "Group",
 
   "no-data-for-this-report": "No data for this report",
 
->>>>>>> master
   "course-validity": "This course is valid for:",
   "days": "days",
   "not-started": "Not started",
@@ -131,14 +128,11 @@
   "not-passed": "You have not passed the exam.",
   "passed": "Congratulations! you passed the exam",
   "exam-in-progress": "This exam is in progress",
-<<<<<<< HEAD
-=======
 
   "progress": "Progress",
 
   "status": "Status",
 
->>>>>>> master
   "write-your-question": "Write your question",
   "question-weight": "Question weight",
   "question-edited-success": "Question edited successfully",
@@ -254,14 +248,11 @@
   "no-results-programs-in-group": "You do not have any program in this group",
   "edit-lesson": "Edit lesson",
   "edit-exam": "Edit exam",
-<<<<<<< HEAD
-=======
 
   "please-select-option": "Please select an option",
 
   "generate-report": "Generate report",
 
->>>>>>> master
   "edit-module": "Edit module",
   "delete-module": "Delete module",
   "reposition-module": "Reposition module",
@@ -310,12 +301,9 @@
   "delete": "Delete",
   "edit": "Edit",
   "rate-question": "Rate question",
-<<<<<<< HEAD
-=======
 
   "evaluate-exam": "Evaluate exam",
 
->>>>>>> master
   "feedback": "Feedback",
   "question-in-process-of-evaluation": "This question is still being evaluated",
   "no-feedbacks": "There are no feedbacks available.",
@@ -342,12 +330,9 @@
   "customize-your-page": "Customize your page",
   "last-activities": "Last activities",
   "shortcuts": "Shortcuts",
-<<<<<<< HEAD
-=======
 
   "others": "Others",
 
->>>>>>> master
   "create-user": "Create a new user",
   "list-users": "List of users",
   "user-already-exists": "This user already exists, please choose another email.",
@@ -476,16 +461,12 @@
   "certify-completition": "to certify that the course was completed with satisfaction",
   "print-certificate": "Print certificate",
   "school-records": "School records",
-<<<<<<< HEAD
-  "exams": "Exams",
-=======
 
   "actions": "Actions",
 
   "exams": "Exams",
   "exam": "Exam",
 
->>>>>>> master
   "thanks-for-your-avaliation": "Thank's for your avaliation",
   "default-category": "Without category",
   "your-certificate": "Your certificate",
@@ -494,8 +475,6 @@
   "re-rest-info": "Set to 0 if the student has only one opportunity to take the exam.",
   "next-step-button": "Next step",
   "previous-step-button": "Previous step",
-<<<<<<< HEAD
-=======
 
   "report-type": "What kind of report would you like to generate?",
 
@@ -511,7 +490,6 @@
   "next-question": "Next question",
   "previous-question": "Previous question",
 
->>>>>>> master
   "create-new-lesson": "Create a new lesson",
   "lesson-created-success": "Lesson created successfully",
   "school-name": "School name",
@@ -555,15 +533,12 @@
   "update-plan-button": "UPGRADE YOUR PLAN NOW",
   "download-template": "Download template",
   "invalid-character": "You are using some invalid character",
-<<<<<<< HEAD
-=======
 
   "downloadable": "Downloadable",
 
   "logo-size": "Logo size",
   "sections": "Sections",
 
->>>>>>> master
   "please-wait": "Please wait, this may take a few minutes ...",
   "invalid-access-token": "Invalid credentials, please review your information.",
   "mercado-pago-success": "Your mercado pago account has been successfully set up!",
@@ -607,8 +582,6 @@
   "add-new-social": "Add new social media",
   "social-medias": "Social medias",
   "social-media": "Social media",
-<<<<<<< HEAD
-=======
 
   "minimum-for-approval": "Approval",
 
@@ -616,7 +589,6 @@
 
   "course": "Course",
 
->>>>>>> master
   "how-would-you-rate-this-course": "How would you rate this course?",
   "leave-a-comment": "Leave a comment",
   "please-rate-my-course": "Please rate my course",
