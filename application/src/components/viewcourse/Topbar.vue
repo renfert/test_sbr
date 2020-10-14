@@ -74,43 +74,35 @@
                  Prev and next buttons
         ----------------->
         <ul class="navbar-nav mx-auto web-buttons">
-          <li class="nav-item">
-            <el-button-group>
-              <el-button
-                class="sbr-btn sbr-primary mr-4"
-                @click="prevLesson()"
-                icon="el-icon-arrow-left"
-                >Previous lesson
-              </el-button>
+          <li class="nav-item" style="padding: 3%">
+            <el-button
+              class="sbr-btn sbr-primary mr-4"
+              @click="prevLesson()"
+              icon="el-icon-arrow-left"
+              >Previous lesson
+            </el-button>
 
-              <el-button class="sbr-btn sbr-primary" @click="nextLesson()">
-                Next lesson
-                <i class="el-icon-arrow-right"></i>
-              </el-button>
-            </el-button-group>
+            <el-button class="sbr-btn sbr-primary" @click="nextLesson()">
+              Next lesson
+              <i class="el-icon-arrow-right"></i>
+            </el-button>
           </li>
         </ul>
         <li class="nav-item mobile-buttons">
-          <el-button-group>
-            <el-button
-              class="sbr-btn sbr-primary mr-1"
-              @click="prevLesson()"
-              icon="el-icon-arrow-left"
-              size="small"
-            >
-            </el-button>
-            <el-button
-              size="small"
-              class="sbr-btn sbr-primary"
-              @click="nextLesson()"
-            >
-              >{{ lang['previous-lesson'] }}</el-button
-            >
-            <el-button class="sbr-btn sbr-primary" @click="nextLesson()">
-              {{ lang['next-lesson'] }}
-              <i class="el-icon-arrow-right"></i>
-            </el-button>
-          </el-button-group>
+          <el-button
+            class="sbr-btn sbr-primary mr-1"
+            @click="prevLesson()"
+            icon="el-icon-arrow-left"
+            size="small"
+          >
+          </el-button>
+          <el-button
+            size="small"
+            class="sbr-btn sbr-primary"
+            icon="el-icon-arrow-right"
+            @click="nextLesson()"
+          >
+          </el-button>
         </li>
 
         <!-------------------

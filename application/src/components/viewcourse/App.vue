@@ -12,7 +12,7 @@
 import Vue from 'vue';
 import Topbar from '@/components/viewcourse/Topbar';
 import VueHead from 'vue-head';
-import Navigation from '@/components/viewcourse/Navigation2';
+import Navigation from '@/components/viewcourse/Navigation';
 
 import { mapState } from 'vuex';
 
