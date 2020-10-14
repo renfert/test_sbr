@@ -66,9 +66,6 @@
 
   "edit-program": "Editar programa",
 
-<<<<<<< HEAD
-  "edit-post": "Editar publicación",
-=======
   "please-select-option": "Por favor seleccione una opción",
 
   "generate-report": "Generar informe",
@@ -78,7 +75,6 @@
   "report-from-where": "Ahora bien, ¿de dónde le gustaría obtener este informe?",
 
   "minimum-for-approval": "Aprobación",
->>>>>>> master
 
   "invalid-access-token": "Credenciales no válidas, revise su información.",
 

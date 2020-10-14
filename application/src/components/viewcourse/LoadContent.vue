@@ -309,7 +309,6 @@
                   >{{ lang['see-exam-correction'] }}</el-button
                 >
               </div>
-              >>>>>>> master
 
               <!-- Start retest button -->
               <el-button
