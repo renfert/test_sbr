@@ -271,3 +271,12 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+
+@media only screen and (max-width: 450px) {
+  .sbr-primary{
+    width: 100% !important;
+  }
+}
+</style>

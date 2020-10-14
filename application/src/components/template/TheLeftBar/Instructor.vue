@@ -1,5 +1,6 @@
 <template>
-  <div class="left side-menu" :class="mobile">
+  <div class="left side-menu" :class="mobile"
+       v-click-outside="hideMenu">
     <!--- Sidemenu instructor role -->
     <el-menu
       :collapse="collapse"
@@ -20,49 +21,49 @@
       </el-menu-item>
 
       <router-link to="/home">
-        <el-menu-item index="1">
+        <el-menu-item index="1"  @click="hideNavLeft">
           <i class="dripicons-home"></i>
           <span class="menuMain">{{ lang['home-nav'] }}</span>
         </el-menu-item>
       </router-link>
 
       <router-link to="/dashboard">
-        <el-menu-item index="2">
+        <el-menu-item index="2"  @click="hideNavLeft">
           <i class="dripicons-graph-bar"></i>
           <span class="menuMain">{{ lang['dashboard-nav'] }}</span>
         </el-menu-item>
       </router-link>
 
       <router-link to="/courses">
-        <el-menu-item index="3">
+        <el-menu-item index="3"  @click="hideNavLeft">
           <i class="dripicons-media-next"></i>
           <span class="menuMain">{{ lang['courses-nav'] }}</span>
         </el-menu-item>
       </router-link>
 
       <router-link to="/groups">
-        <el-menu-item index="10">
+        <el-menu-item index="10"  @click="hideNavLeft">
           <i class="dripicons-user-group"></i>
           <span class="menuMain">{{ lang['groups-nav'] }}</span>
         </el-menu-item>
       </router-link>
 
       <router-link to="/programs">
-        <el-menu-item index="4" v-if="plan != 'starter'">
+        <el-menu-item index="4" v-if="plan != 'starter'"  @click="hideNavLeft">
           <i class="dripicons-to-do"></i>
           <span class="menuMain">{{ lang['programs-nav'] }}</span>
         </el-menu-item>
       </router-link>
 
       <router-link to="/corrections">
-        <el-menu-item index="5" v-if="plan != 'starter'">
+        <el-menu-item index="5" v-if="plan != 'starter'"  @click="hideNavLeft">
           <i class="dripicons-message"></i>
           <span class="menuMain">{{ lang['corrections-nav'] }}</span>
         </el-menu-item>
       </router-link>
 
       <router-link to="/categories">
-        <el-menu-item index="6">
+        <el-menu-item index="6"  @click="hideNavLeft">
           <i class="dripicons-list"></i>
           <span class="menuMain">{{ lang['categories-nav'] }}</span>
         </el-menu-item>
@@ -121,6 +122,9 @@ export default {
     });
   },
   methods: {
+    hideMenu() {
+      this.mobile = 'retracted';
+    },
     confirmLogout() {
       this.$confirm(this.lang['wanna-leave'], {
         confirmButtonText: 'OK',
@@ -138,6 +142,9 @@ export default {
       this.$request.get(urlToBeUsedInTheRequest).then(() => {
         router.push('/');
       });
+    },
+    hideNavLeft() {
+      eventTemplate.$emit('change-leftbar-class');
     }
   }
 };
@@ -145,6 +152,11 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
+.el-menu-item.logo,
+.el-submenu__title.logo {
+  line-height: none;
+}
+
 .logo {
   margin: 0 0 2rem 0;
 }
@@ -202,13 +214,14 @@ a {
   background-color: rgb(55, 58, 67);
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 768px) {
   .menu-item-user {
-    position: absolute;
+    position: inherit;
   }
 }
 
 .side-menu {
   overflow: overlay !important;
+  height: 100%;
 }
 </style>

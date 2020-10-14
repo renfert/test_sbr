@@ -24,7 +24,6 @@
         {{ lang['massive-import'] }}
       </el-button>
     </div>
-
     <!----------------------
      Create user form
     ------------------------>
@@ -275,6 +274,15 @@ export default {
 
 @media (max-width: 768px) {
   .el-form--inline .el-form-item__content {
+    width: 100%;
+  }
+  .float-right{
+    float:inherit !important;
+  }
+  .el-button.sbr-purple{
+    width: 100%;
+  }
+  .sbr-primary{
     width: 100%;
   }
 }
