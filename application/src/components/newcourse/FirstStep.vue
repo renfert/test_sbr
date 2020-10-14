@@ -5,10 +5,10 @@
         <el-row :gutter="24" class="m-b-40">
           <el-col :sm="12" :xs="24">
             <!-- Course id -->
-            <input class="hide" type="text" v-model="course.id" name="id" />
+            <input class="hide" type="text" v-model="course.id" name="id"/>
             <!-- Course name -->
-            <label class="col-form-label">{{ lang['name'] }} *</label>
-            <el-input name="title" v-model="course.name"></el-input>
+            <label class="col-form-label">{{ lang['name'] }} <span style="color: red">*</span></label>
+            <el-input name="title" v-model="courseName"></el-input>
             <!-- Course category -->
             <label class="col-form-label">{{ lang['category'] }}</label>
             <el-select class="mb-5" v-model="course.category">
@@ -29,13 +29,14 @@
               class="sbr-purple"
               size="small"
               @click.prevent="modal = true"
-              >{{ lang['advanced-settings'] }}</el-button
+            >{{ lang['advanced-settings'] }}
+            </el-button
             >
           </el-col>
 
           <el-col :sm="12" :xs="24">
             <label class="col-form-label"
-              >{{ lang['image'] }} (1900x1200 px)</label
+            >{{ lang['image'] }} (1900x1200 px)</label
             >
             <upload
               do-upload="true"
@@ -56,7 +57,7 @@
               name="description"
             ></textarea>
             <label class="col-form-label">{{ lang['description'] }}</label>
-            <wysiwyg v-model="course.description" />
+            <wysiwyg v-model="course.description"/>
           </el-col>
 
           <el-col :sm="12" :xs="24">
@@ -125,7 +126,7 @@
                     active-color="#009CD8"
                     inactive-color="#9E9C9C"
                   ></el-switch>
-                  <br />
+                  <br/>
                   <el-input-number
                     v-if="useValidity"
                     :min="1"
@@ -144,14 +145,14 @@
             <label class="col-form-label">
               {{ lang['free-course-question'] }}
             </label>
-            <br />
+            <br/>
             <el-switch
               active-color="#009cd8"
               v-model="freeCourse"
               :active-text="lang['yes']"
               :inactive-text="lang['no']"
             ></el-switch>
-            <hr />
+            <hr/>
             <!-- Price -->
             <div class="form-group" v-if="freeCourse == false">
               <label class="col-form-label">{{ lang['price'] }}</label>
@@ -161,10 +162,11 @@
                   v-model="course.price"
                   class="price"
                   v-bind="money"
-                  >12323</money
+                >12323
+                </money
                 >
               </div>
-              <br />
+              <br/>
               <div class="form-group">
                 <label class="col-form-label">
                   {{ lang['select-payment-platform'] }}
@@ -198,7 +200,7 @@
                 <label class="col-form-label">
                   {{ lang['select-currency'] }}
                 </label>
-                <br />
+                <br/>
 
                 <!------------------------
                   Mercadopago information
@@ -233,9 +235,10 @@
                         target="_blank"
                         class="text-white"
                         to="/integrations"
-                        >{{
+                      >{{
                           lang['click-to-configure-mercadopago']
-                        }}</router-link
+                        }}
+                      </router-link
                       >
                     </p>
                   </el-alert>
@@ -296,8 +299,8 @@
               <!-- Course certificate  -->
               <div class="col-xl-4 col-md-4">
                 <label for="exampleInputEmail1">{{
-                  lang['certificate']
-                }}</label>
+                    lang['certificate']
+                  }}</label>
                 <div class="input-group">
                   <el-switch
                     v-model="useCertificate"
@@ -332,7 +335,7 @@
 
               <div class="col-xl-4 col-md-4">
                 <p class="text-center">Tech</p>
-                <input id="tech" type="radio" name="certificate" value="tech" />
+                <input id="tech" type="radio" name="certificate" value="tech"/>
                 <label for="tech">
                   <img
                     style="max-width: 100%"
@@ -369,7 +372,8 @@
           @click.prevent="modal = false"
           type="primary"
           size="medium"
-          >{{ lang['save-button'] }}</el-button
+        >{{ lang['save-button'] }}
+        </el-button
         >
       </el-dialog>
     </form>
@@ -383,12 +387,14 @@ import wysiwyg from 'vue-wysiwyg';
 import Upload from '@/components/helper/HelperUpload';
 import HelperProgress from '@/components/helper/HelperProgress.vue';
 
-import { Money } from 'v-money';
-import { eventBus } from '@/components/newcourse/App';
-import { mapState } from 'vuex';
+import {Money} from 'v-money';
+import {eventBus} from '@/components/newcourse/App';
+import {mapState} from 'vuex';
+
+export const eventFirstStep = new Vue();
 
 Vue.use(wysiwyg, {
-  hideModules: { image: true, code: true }
+  hideModules: {image: true, code: true}
 });
 
 export default {
@@ -434,9 +440,19 @@ export default {
     };
   },
   computed: {
-    ...mapState(['lang'])
+    ...mapState(['lang']),
+    courseName: {
+      get() {
+        return this.course.name;
+      },
+      set(value) {
+        eventFirstStep.$emit('verifyCourseName', value);
+        this.course.name = value;
+      }
+    }
   },
   watch: {
+
     freeCourse(newVal, oldVal) {
       if (newVal === true) {
         this.course.price = '';
@@ -449,6 +465,7 @@ export default {
     this.getCategories();
     this.getGlobalCurrency();
   },
+
   mounted() {
     eventBus.$on('access-first-step', () => {
       this.displayContentFirstStep = true;

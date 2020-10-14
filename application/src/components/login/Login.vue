@@ -19,7 +19,7 @@
           v-if="login.wrongPasswordOrUserMessage == true"
           show-icon
         ></el-alert>
-        <br />
+        <br/>
         <!-- Email -->
         <input
           v-model="email"
@@ -43,8 +43,8 @@
             <a
               href="javascript:void(0)"
               :style="primaryColor"
-              @click="modalRecover = true"
-              >{{ lang['recover-password'] }}</a
+              @click="recover.modal = true;login.modal=false"
+            >{{ lang['recover-password'] }}</a
             >
           </div>
         </div>
@@ -79,6 +79,9 @@
           name="email"
         ></el-input>
         <button :style="primaryColorBg" class="btn account-btn">Recover</button>
+        <div style="margin:auto;text-align: center">
+          <b>{{ message }}</b>
+        </div>
       </form>
     </el-dialog>
   </div>
@@ -87,7 +90,8 @@
 <script>
 import router from '@/router';
 import Vue from 'vue';
-import { mapState } from 'vuex';
+import {mapState} from 'vuex';
+
 export const eventLogin = new Vue();
 
 export default {
@@ -105,7 +109,8 @@ export default {
       },
       email: '',
       password: '',
-      color: ''
+      color: '',
+      message: ''
     };
   },
   mounted() {
@@ -159,15 +164,18 @@ export default {
       );
       this.$request.post(urlToBeUsedInTheRequest, formData).then(
         (response) => {
-          if (response.data === true) {
-          } else {
-          }
           this.recover.loading = false;
+          if (response.data === false) {
+            this.message = 'User not found, please verify. ';
+          } else {
+            this.message = 'Password has been modified, verify your email.';
+          }
         },
         () => {
           this.$errorMessage();
         }
       );
+      // this.recover.loading = false;
     }
   },
   computed: {

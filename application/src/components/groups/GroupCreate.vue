@@ -17,7 +17,8 @@
           v-loading="loading"
           class="sbr-primary"
           native-type="submit"
-          >{{ lang['save-button'] }}</el-button
+        >{{ lang['save-button'] }}
+        </el-button
         >
       </el-form-item>
     </el-form>
@@ -25,8 +26,8 @@
 </template>
 
 <script>
-import { eventBus } from '@/components/groups/App';
-import { mapState } from 'vuex';
+import {eventBus} from '@/components/groups/App';
+import {mapState} from 'vuex';
 
 export default {
   data: () => {
@@ -40,28 +41,33 @@ export default {
   },
   methods: {
     createGroup() {
-      this.loading = true;
-      const form = document.getElementById('form-group');
-      const formData = new FormData(form);
-      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        'group',
-        'create'
-      );
-      this.$request.post(urlToBeUsedInTheRequest, formData).then(
-        (response) => {
-          if (response.data === false) {
-            this.$groupAlreadyExistsMessage();
-          } else {
-            this.$successMessage();
-            this.loading = false;
-            form.reset();
-            eventBus.$emit('new-group');
+      if (this.groupName.length > 0) {
+        this.loading = true;
+        const form = document.getElementById('form-group');
+        const formData = new FormData(form);
+        const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+          'group',
+          'create'
+        );
+        this.$request.post(urlToBeUsedInTheRequest, formData).then(
+          (response) => {
+            if (response.data === false) {
+              this.$groupAlreadyExistsMessage();
+            } else {
+              this.$successMessage();
+              this.loading = false;
+              form.reset();
+              eventBus.$emit('new-group');
+            }
+          },
+          () => {
+            this.$errorMessage();
           }
-        },
-        () => {
-          this.$errorMessage();
-        }
-      );
+        );
+      } else {
+        this.$errorMessage();
+      }
+
     },
     groupAlreadyExistsMessage() {
       this.$notify({

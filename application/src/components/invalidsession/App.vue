@@ -12,7 +12,8 @@
             <div class="contant_box_404">
               <h3 class="h2">You do not have a valid session</h3>
               <p>Your session has expired or is invalid</p>
-              <a href="javascript:history.back()" class="link_404">Go back</a>
+
+              <a  class="link_404" @click.prevent="$router.replace('/')">Go home</a>
             </div>
           </div>
         </div>
@@ -58,6 +59,7 @@
   margin: 20px 0;
   display: inline-block;
 }
+
 .contant_box_404 {
   margin-top: -50px;
 }

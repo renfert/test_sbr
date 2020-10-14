@@ -1,8 +1,8 @@
-<?php 
+<?php
 
 
 function sendEmail($params){
-    $ci =& get_instance(); 
+    $ci =& get_instance();
     $config = array(
         'protocol' => 'smtp',
         'smtp_host' => 'email-smtp.us-east-1.amazonaws.com',

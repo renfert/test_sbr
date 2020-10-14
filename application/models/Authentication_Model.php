@@ -10,6 +10,7 @@ class Authentication_Model extends CI_Model
     $this->load->library('session');
     $this->load->helper("email");
     $this->load->model('Upload_Model');
+    $this->load->model('User_Model');
   }
 
   /*
@@ -60,15 +61,6 @@ class Authentication_Model extends CI_Model
     return $this->session->userdata;
   }
 
-  private function destroySession()
-  {
-    $this->session->unset_userdata('username');
-    $this->session->unset_userdata('id');
-    $this->session->unset_userdata('email');
-    $this->session->unset_userdata('role');
-    $session->destroy();
-  }
-
   public function recoverPassword($email)
   {
     $this->db->select("*");
@@ -83,9 +75,20 @@ class Authentication_Model extends CI_Model
         'template-email' => 'recover',
         'subject' => 'recover-password'
       );
-      sendEmail($params);
-    } else {
-      return false;
+      if ($this->User_Model->editProfile($query->result()[0]->id, ['password' => md5($string)])) {
+        sendEmail($params);
+        return true;
+      }
     }
+    return false;
+  }
+
+  private function destroySession()
+  {
+    $this->session->unset_userdata('username');
+    $this->session->unset_userdata('id');
+    $this->session->unset_userdata('email');
+    $this->session->unset_userdata('role');
+    $session->destroy();
   }
 }

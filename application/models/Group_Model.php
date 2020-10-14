@@ -72,7 +72,9 @@ class Group_Model extends CI_Model
   public function delete($groupId)
   {
     $this->db->where('id', $groupId);
+    $this->db->error();
     if ($this->db->delete("mygroup")) {
+      $this->db->error();
       return true;
     } else {
       return false;

@@ -12,7 +12,7 @@ function getUserId()
 {
   $CI = &get_instance();
   if (production() == false) {
-    return 2;
+    return 1;
   } else {
     return $CI->session->userdata("id");
   }
