@@ -179,7 +179,7 @@
           </el-menu-item>
         </router-link>
       </el-submenu>
-      <router-link to="/social">
+      <router-link to="/social" v-if="plan != 'basic' && plan != 'free'">
         <el-menu-item index="19">
           <template slot="title">
             <i class="el-icon-share"></i>
