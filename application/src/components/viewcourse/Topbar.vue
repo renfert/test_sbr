@@ -79,11 +79,11 @@
               class="sbr-btn sbr-primary mr-4"
               @click="prevLesson()"
               icon="el-icon-arrow-left"
-              >Previous lesson
+              >{{ lang['previous-lesson'] }}
             </el-button>
 
             <el-button class="sbr-btn sbr-primary" @click="nextLesson()">
-              Next lesson
+              {{ lang['next-lesson'] }}
               <i class="el-icon-arrow-right"></i>
             </el-button>
           </li>
