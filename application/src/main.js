@@ -20,7 +20,6 @@ Vue.mixin(Domains);
 Vue.mixin(Alerts);
 Vue.mixin(Verify);
 Vue.use(ElementUI);
-
 new Vue({
   render: (h) => h(App),
   router,

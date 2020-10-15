@@ -1,227 +1,234 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark special-color-dark">
-    <!-------------------
-           Mobile topbar
-    ----------------->
-    <div class="mobile-topbar">
-      <i @click="changeLeftBarClass()" class="mdi mdi-menu mdi-24px pr-5"></i>
-      <router-link to="/courses">
-        <el-button
-          size="medium"
-          class="sbr-primary"
-          icon="el-icon-back"
-          circle
-        ></el-button>
-      </router-link>
-
-      <el-button
-        class="sbr-btn sbr-primary mr-3"
-        @click="prevLesson()"
-        icon="el-icon-arrow-left"
-      ></el-button>
-      <el-button class="sbr-btn sbr-primary" @click="nextLesson()">
-        <i class="el-icon-arrow-right"></i>
-      </el-button>
-    </div>
-
-    <div class="collapse navbar-collapse" id="basicExampleNav">
-      <ul class="navbar-nav mr-auto">
-        <!-------------------
-                    Back button
-        ----------------->
-        <li class="nav-item mr-2 ml-2">
-          <router-link to="/courses">
-            <el-button
-              size="medium"
-              class="sbr-primary"
-              icon="el-icon-back"
-              circle
-            ></el-button>
-          </router-link>
-        </li>
-
-        <!-------------------
-                    Certificate icon
-        ----------------->
-        <li class="nav-item" v-if="certificate != null">
-          <a
-            @click.prevent="printCertificate"
-            v-if="progress == 100"
-            class="nav-link course-title"
-            href="javascript:void(0)"
-          >
-            <img
-              class="cert"
-              src="@/assets/img/general/ux/certificate.png"
-              alt="certificate"
-            />
-          </a>
-
-          <a
-            v-else
-            style="cursor: not-allowed"
-            class="nav-link course-title"
-            href="javascript:void(0)"
-          >
-            <el-tooltip
-              class="item"
-              effect="dark"
-              :content="lang['certificate-unavailable']"
-              placement="right"
+  <div class="nav-sticky">
+    <nav
+      class="navbar navbar-expand-lg navbar-expand navbar-dark special-color-dark text-nowrap flex-nowrap d-flex mobile-navbar"
+    >
+      <!-------------------
+             Mobile topbar
+      ----------------->
+      <div class="collapse navbar-collapse" id="basicExampleNav">
+        <ul class="navbar-nav mr-auto">
+          <!-------------------
+                      Back button
+          ----------------->
+          <li class="nav-item mr-2 ml-2 web-buttons">
+            <router-link to="/courses">
+              <el-button
+                size="medium"
+                class="sbr-primary"
+                icon="el-icon-back"
+                circle
+              ></el-button>
+            </router-link>
+          </li>
+          <li class="nav-item mr-2 ml-2 mobile-buttons">
+            <router-link to="/courses">
+              <el-button
+                size="small"
+                class="sbr-primary"
+                icon="el-icon-back"
+                circle
+              ></el-button>
+            </router-link>
+          </li>
+          <!-------------------
+                      Certificate icon
+          ----------------->
+          <li class="nav-item" v-if="certificate != null">
+            <a
+              @click.prevent="printCertificate"
+              v-if="progress == 100"
+              class="nav-link course-title"
+              href="javascript:void(0)"
             >
               <img
                 class="cert"
                 src="@/assets/img/general/ux/certificate.png"
                 alt="certificate"
               />
-            </el-tooltip>
-          </a>
-        </li>
-      </ul>
+            </a>
 
-      <!-------------------
-               Prev and next buttons
-      ----------------->
-      <ul class="navbar-nav mr-6">
-        <li class="nav-item">
-          <el-button-group>
+            <a
+              v-else
+              style="cursor: not-allowed"
+              class="nav-link course-title"
+              href="javascript:void(0)"
+            >
+              <el-tooltip
+                class="item"
+                effect="dark"
+                :content="lang['certificate-unavailable']"
+                placement="right"
+              >
+                <img
+                  class="cert"
+                  src="@/assets/img/general/ux/certificate.png"
+                  alt="certificate"
+                />
+              </el-tooltip>
+            </a>
+          </li>
+        </ul>
+
+        <!-------------------
+                 Prev and next buttons
+        ----------------->
+        <ul class="navbar-nav mx-auto web-buttons">
+          <li class="nav-item" style="padding: 3%">
             <el-button
               class="sbr-btn sbr-primary mr-4"
               @click="prevLesson()"
               icon="el-icon-arrow-left"
-              >{{ lang['previous-lesson'] }}</el-button
-            >
+              >Previous lesson
+            </el-button>
+
             <el-button class="sbr-btn sbr-primary" @click="nextLesson()">
-              {{ lang['next-lesson'] }}
+              Next lesson
               <i class="el-icon-arrow-right"></i>
             </el-button>
-          </el-button-group>
+          </li>
+        </ul>
+        <li class="nav-item mobile-buttons">
+          <el-button
+            class="sbr-btn sbr-primary mr-1"
+            @click="prevLesson()"
+            icon="el-icon-arrow-left"
+            size="small"
+          >
+          </el-button>
+          <el-button
+            size="small"
+            class="sbr-btn sbr-primary"
+            icon="el-icon-arrow-right"
+            @click="nextLesson()"
+          >
+          </el-button>
         </li>
-      </ul>
+
+        <!-------------------
+                  Course title
+        ----------------->
+        <ul class="navbar-nav mr-4">
+          <li class="nav-item">
+            <a class="nav-link course-title" href="#"></a>
+          </li>
+        </ul>
+      </div>
 
       <!-------------------
-                Course title
+             Progress bar
       ----------------->
-      <ul class="navbar-nav mr-4">
-        <li class="nav-item">
-          <a class="nav-link course-title" href="#"></a>
-        </li>
-      </ul>
-    </div>
-
-    <!-------------------
-           Progress bar
-    ----------------->
-    <div class="col-2 progress progress-viewcourse">
-      <div
-        class="progress-bar"
-        role="progressbar"
-        :style="style"
-        :aria-valuenow="progress"
-        aria-valuemin="0"
-        aria-valuemax="100"
-      ></div>
-    </div>
-
-    <!-------------------
-           Print certificate
-    ----------------->
-    <certificate-print
-      v-if="courseId != null && certificate != null"
-      :course-id="courseId"
-      :show="showCertificate"
-    ></certificate-print>
-
-    <!-------------------
-            Review modal
-    ----------------->
-    <el-dialog
-      :visible.sync="modalReview"
-      center
-      :title="lang['please-rate-my-course']"
-      width="50%"
-      top="5vh"
-    >
-      <div>
-        <!-------------------
-                    Review card
-        ------------------>
-        <div v-if="showThanksCard == false">
-          <!-- Instructor information -->
-          <div class="block text-center mb-3">
-            <el-avatar
-              :src="$getUrlToContents() + 'avatar/' + userCreatorAvatar + ''"
-            ></el-avatar>
-            <h4>
-              <b>
-                <i>{{ userCreatorName }}</i>
-              </b>
-            </h4>
-          </div>
-          <!-- Rate -->
-          <div class="block text-center mb-5">
-            <h3>{{ lang['how-would-you-rate-this-course'] }}</h3>
-            <el-rate v-model="rate"></el-rate>
-          </div>
-          <!-- Comment -->
-          <div class="block mb-3">
-            <h3 class="text-center">{{ lang['leave-a-comment'] }}</h3>
-            <textarea
-              v-model="comment"
-              class="form-control"
-              cols="30"
-              rows="6"
-            ></textarea>
-          </div>
-          <!-- Save button -->
-          <div class="block text-center">
-            <el-button
-              @click.prevent="saveReview()"
-              v-loading="loading"
-              class="sbr-btn sbr-primary"
-              >{{ lang['save-button'] }}</el-button
-            >
-          </div>
-        </div>
-        <!-------------------
-                    End review card
-        ------------------>
-
-        <!-------------------
-                    Thanks card
-        ------------------>
-        <div v-else>
-          <!-- Instructor information -->
-          <div class="block text-center mb-3">
-            <el-avatar
-              :src="$getUrlToContents() + 'avatar/' + userCreatorAvatar + ''"
-            ></el-avatar>
-            <h4>
-              <b>
-                <i>{{ userCreatorName }}</i>
-              </b>
-            </h4>
-          </div>
-
-          <!-- Thanks message -->
-          <div class="block text-center">
-            <h3 class="sbr-text-primary">
-              {{ lang['thanks-for-your-feedback'] }}
-            </h3>
-            <h2>
-              <i class="far fa-grin-wink"></i>
-            </h2>
-          </div>
-        </div>
-        <!-------------------
-                    End thanks card
-        ------------------>
+      <div class="col-2 progress progress-viewcourse">
+        <div
+          class="progress-bar"
+          role="progressbar"
+          :style="style"
+          :aria-valuenow="progress"
+          aria-valuemin="0"
+          aria-valuemax="100"
+        ></div>
       </div>
-    </el-dialog>
-    <!-------------------
-            End Review modal
-    ----------------->
-  </nav>
+
+      <!-------------------
+             Print certificate
+      ----------------->
+      <certificate-print
+        v-if="courseId != null && certificate != null"
+        :course-id="courseId"
+        :show="showCertificate"
+      ></certificate-print>
+
+      <!-------------------
+              Review modal
+      ----------------->
+      <el-dialog
+        :visible.sync="modalReview"
+        center
+        :title="lang['please-rate-my-course']"
+        width="50%"
+        top="5vh"
+      >
+        <div>
+          <!-------------------
+                      Review card
+          ------------------>
+          <div v-if="showThanksCard == false">
+            <!-- Instructor information -->
+            <div class="block text-center mb-3">
+              <el-avatar
+                :src="$getUrlToContents() + 'avatar/' + userCreatorAvatar + ''"
+              ></el-avatar>
+              <h4>
+                <b>
+                  <i>{{ userCreatorName }}</i>
+                </b>
+              </h4>
+            </div>
+            <!-- Rate -->
+            <div class="block text-center mb-5">
+              <h3>{{ lang['how-would-you-rate-this-course'] }}</h3>
+              <el-rate v-model="rate"></el-rate>
+            </div>
+            <!-- Comment -->
+            <div class="block mb-3">
+              <h3 class="text-center">{{ lang['leave-a-comment'] }}</h3>
+              <textarea
+                v-model="comment"
+                class="form-control"
+                cols="30"
+                rows="6"
+              ></textarea>
+            </div>
+            <!-- Save button -->
+            <div class="block text-center">
+              <el-button
+                @click.prevent="saveReview()"
+                v-loading="loading"
+                class="sbr-btn sbr-primary"
+                >{{ lang['save-button'] }}
+              </el-button>
+            </div>
+          </div>
+          <!-------------------
+                      End review card
+          ------------------>
+
+          <!-------------------
+                      Thanks card
+          ------------------>
+          <div v-else>
+            <!-- Instructor information -->
+            <div class="block text-center mb-3">
+              <el-avatar
+                :src="$getUrlToContents() + 'avatar/' + userCreatorAvatar + ''"
+              ></el-avatar>
+              <h4>
+                <b>
+                  <i>{{ userCreatorName }}</i>
+                </b>
+              </h4>
+            </div>
+
+            <!-- Thanks message -->
+            <div class="block text-center">
+              <h3 class="sbr-text-primary">
+                {{ lang['thanks-for-your-feedback'] }}
+              </h3>
+              <h2>
+                <i class="far fa-grin-wink"></i>
+              </h2>
+            </div>
+          </div>
+          <!-------------------
+                      End thanks card
+          ------------------>
+        </div>
+      </el-dialog>
+      <!-------------------
+              End Review modal
+      ----------------->
+    </nav>
+  </div>
 </template>
 
 <script>
@@ -324,31 +331,14 @@ export default {
       eventCertificate.$emit('print-certificate');
     },
     nextLesson() {
-      const currentLesson = $('.el-menu-item.is-active');
-      const nextLesson = currentLesson.next('li.el-menu-item');
-
-      /* verify if the next lesson belongs to another module */
-      if (nextLesson.length === 1) {
-        nextLesson.click();
-      } else {
-        const currentModule = currentLesson.closest('.el-submenu');
-        const nextModule = currentModule.next('li.el-submenu');
-
-        /* Open menu */
-        const nextModuleId = nextModule.attr('id');
-        eventBus.$emit('open-menu', nextModuleId);
-
-        const nextModuleFirstLesson = nextModule
-          .children('.el-menu')
-          .children()
-          .children()
-          .first();
-        nextModuleFirstLesson.click();
-      }
+      const currentLesson = $('.list_lesson.lesson_active');
+      console.log(currentLesson);
+      const nextLesson = currentLesson.next('li.list_lesson');
+      nextLesson.click();
     },
     prevLesson() {
-      const currentLesson = $('.el-menu-item.is-active');
-      const prevLesson = currentLesson.prev('li.el-menu-item');
+      const currentLesson = $('.list_lesson.lesson_active');
+      const prevLesson = currentLesson.prev('li.list_lesson');
 
       /* verify if the next lesson belongs to another module */
       if (prevLesson.length === 1) {
@@ -462,5 +452,28 @@ export default {
 
 .cert {
   width: 30px;
+}
+@media only screen and (max-width: 768px) {
+  .progress-bar {
+    background-color: #009cd8 !important;
+    float: right;
+    right: 0;
+  }
+  .progress-viewcourse {
+    right: 0;
+    margin-right: 40px;
+  }
+  .web-buttons {
+    display: none;
+  }
+  .mobile-buttons {
+    display: initial;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .mobile-buttons {
+    display: none;
+  }
 }
 </style>

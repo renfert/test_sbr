@@ -19,7 +19,7 @@
           <transition-group type="transition" name="flip-list">
             <div class="sortable" v-for="element in modules" :key="element.id">
               <li class="module" :id="element.id">
-                <el-collapse accordion>
+                <el-collapse accordion class="collapse-display-mobile">
                   <el-badge
                     style="color: red"
                     :value="element.totalLessons"
@@ -112,25 +112,23 @@
                         ></el-button>
 
                         <!--Lock module-->
-                        <div>
-                          <el-button
-                            @click.prevent="
-                              changeLockClass($event.target, element.id)
-                            "
-                            class="sbr-secondary mr-1"
-                            type="purple"
-                            size="small"
-                            :icon="
-                              element.required_to_next == 'on'
-                                ? 'el-icon-lock'
-                                : 'el-icon-unlock'
-                            "
-                            circle
-                          ></el-button>
-                        </div>
+                        <el-button
+                          @click.prevent="
+                            changeLockClass($event.target, element.id)
+                          "
+                          class="sbr-secondary mr-1"
+                          type="purple"
+                          size="small"
+                          :icon="
+                            element.required_to_next == 'on'
+                              ? 'el-icon-lock'
+                              : 'el-icon-unlock'
+                          "
+                          circle
+                        ></el-button>
 
                         <el-divider direction="vertical"></el-divider>
-                        <span class="moduleTitle">{{ element.title }}</span>
+                        <div class="moduleTitle">{{ element.title }}</div>
                       </template>
                       <div>
                         <lesson-list :module-id="element.id"></lesson-list>
@@ -684,8 +682,13 @@ export default {
   margin-left: 20px;
   display: block;
   overflow: hidden;
-  white-space: nowrap;
   text-overflow: ellipsis;
+  display: -webkit-inline-box;
+  flex: 3;
+  overflow-wrap: break-word;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  line-height: 1;
 }
 
 .el-button + .el-button {
@@ -850,16 +853,23 @@ li {
 .unlocked:after {
   background: #5fadbf;
 }
-
+.space-mobile {
+  display: none;
+}
 /* =============
    Layout
 ============= */
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 768px) {
   .lesson-img {
     width: 60%;
   }
   .moduleTitle {
-    width: 100px;
+  }
+  .space-mobile {
+    display: none;
+  }
+  .el-collapse-item__header {
+    display: inline-table !important;
   }
 }
 </style>

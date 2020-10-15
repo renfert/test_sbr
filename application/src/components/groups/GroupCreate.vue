@@ -74,3 +74,10 @@ export default {
   }
 };
 </script>
+<style>
+@media (max-width: 768px){
+  .sbr-primary{
+    width: 100%;
+  }
+}
+</style>

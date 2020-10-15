@@ -8,6 +8,7 @@
     "lint": "npx eslint ./"
   },
   "dependencies": {
+    "@kevinfaguiar/vue-twemoji-picker": "^5.7.4",
     "@toast-ui/vue-editor": "^2.1.2",
     "aws-sdk": "^2.702.0",
     "axios": "^0.19.2",

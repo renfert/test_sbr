@@ -15,48 +15,53 @@
       --------------->
       <el-row>
         <div class="card-box m-t-40">
-          <el-row>
-            <el-avatar
-              class="profile-avatar"
-              :size="100"
-              fit="contain"
-              :src="$getUrlToContents() + 'avatar/' + userAvatar + ''"
-            ></el-avatar>
-            <el-row class="text-left">
-              <el-col
-                class="m-r-40"
-                :sm="8"
-                style="border-right: 2px solid #009cd8"
-              >
-                <h2 class="sbr-text-grey">Information</h2>
-                <br />
-                <h4>
-                  <span class="m-r-5">NAME : </span>
-                  <span>{{ userName }}</span>
-                </h4>
-                <h4 v-if="role == 2">
-                  <span class="m-r-5">ROLE : </span>
-                  <span>{{ lang['instructor'] }}</span>
-                </h4>
-                <h4 v-else class="text-sabiorealm">
-                  <span class="m-r-5">ROLE : </span>
-                  <span>{{ lang['student'] }}</span>
-                </h4>
-                <h4>
-                  <span class="m-r-5">EMAIL : </span>
-                  <span>{{ userEmail }}</span>
-                </h4>
-              </el-col>
-              <!--
-              <el-col :sm="12">
-                <h2 class="sbr-text-white">Data</h2>
-                <br />
-                <h4><i class="el-icon-notebook-1"></i> Courses: 14</h4>
-                <h4><i class="el-icon-document"></i> Programs: 14</h4>
-                <h4><i class="el-icon-user"></i> Groups: 14</h4>
-              </el-col>
-              !-->
-            </el-row>
+          <el-row >
+            <el-col :sm="2" :md="2">
+              <el-avatar
+                class="profile-avatar"
+                :size="120"
+                fit="contain"
+                :src="$getUrlToContents() + 'avatar/' + userAvatar + ''"
+              ></el-avatar>
+            </el-col>
+            <el-col >
+              <el-row class="text-left">
+                <el-col
+                  class="m-r-40"
+                  :sm="12"
+                  :xs="24"
+                  style="border-right: 2px solid #009cd8"
+                >
+                  <h2 class="sbr-text-grey">Information</h2>
+                  <br />
+                  <h4>
+                    <span class="m-r-5">NAME : </span>
+                    <span>{{ userName }}</span>
+                  </h4>
+                  <h4 v-if="role == 2">
+                    <span class="m-r-5">ROLE : </span>
+                    <span>{{ lang['instructor'] }}</span>
+                  </h4>
+                  <h4 v-else class="text-sabiorealm">
+                    <span class="m-r-5">ROLE : </span>
+                    <span>{{ lang['student'] }}</span>
+                  </h4>
+                  <h4>
+                    <span class="m-r-5">EMAIL : </span>
+                    <span>{{ userEmail }}</span>
+                  </h4>
+                </el-col>
+                <!--
+                <el-col :sm="12">
+                  <h2 class="sbr-text-white">Data</h2>
+                  <br />
+                  <h4><i class="el-icon-notebook-1"></i> Courses: 14</h4>
+                  <h4><i class="el-icon-document"></i> Programs: 14</h4>
+                  <h4><i class="el-icon-user"></i> Groups: 14</h4>
+                </el-col>
+                !-->
+              </el-row>
+            </el-col>
           </el-row>
         </div>
       </el-row>
@@ -283,7 +288,7 @@ export default {
 
 .profile-avatar {
   margin-top: -8%;
-  right: 0px !important;
+  right: 0 !important;
   position: absolute;
 }
 
@@ -387,13 +392,19 @@ h4 {
   background-color: rgba(230, 230, 230, 0.4);
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 768px) {
   .img-profile-container {
     color: white;
     position: absolute;
     width: 400px;
     max-width: 92%;
     margin-top: 8%;
+  }
+
+  .profile-avatar {
+    margin-top: initial;
+    right: initial;
+    position: initial;
   }
 }
 </style>

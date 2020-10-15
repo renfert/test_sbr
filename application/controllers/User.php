@@ -43,6 +43,7 @@ class User extends CI_Controller
   }
 
 
+
   /* ---------------------
         Delete a user
     -----------------------*/
@@ -152,6 +153,7 @@ class User extends CI_Controller
 
 
 
+
   /* -------------------------------------------------
         Get all programs that a specific user is enrolled
     --------------------------------------------------*/
@@ -254,9 +256,15 @@ class User extends CI_Controller
     echo json_encode($resultEdit);
   }
 
+  public function updateStatus()
+  {
+    echo json_encode($this->User_Model->statusUpdate(getUserId(), "on"));
+  }
+
+
   /* ------------------------------------------------------------
-        Logoff
-    -------------------------------------------------------------*/
+          Logoff
+      -------------------------------------------------------------*/
   public function logoff()
   {
     $logoff = $this->User_Model->logoff();

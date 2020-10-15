@@ -9,7 +9,8 @@
         v-if="company.plan == 'bussiness'"
         @click.prevent="modal = true"
       >
-        <i class="el-icon-upload2"></i> {{ lang['massive-import'] }}</el-button
+        <i class="el-icon-upload2"></i> {{ lang['massive-import'] }}
+      </el-button
       >
 
       <el-button
@@ -28,7 +29,7 @@
      Create user form
     ------------------------>
     <h4>{{ lang['create-user'] }}</h4>
-    <br />
+    <br/>
     <form
       @submit.prevent="createUser()"
       id="form-user"
@@ -37,7 +38,7 @@
     >
       <el-row class="m-b-10" :gutter="20">
         <!-- Username -->
-        <el-col :sm="8" class="m-b-10">
+        <el-col :md="8" class="m-b-10">
           <el-input
             clearable
             required
@@ -110,7 +111,8 @@
         v-loading="loadingButton"
         class="sbr-primary"
         native-type="submit"
-        >{{ lang['save-button'] }}</el-button
+      >{{ lang['save-button'] }}
+      </el-button
       >
     </form>
 
@@ -159,14 +161,18 @@
               acceptable=".xlsx"
               box-height="200"
             ></upload>
-            <br />
-            <el-button
-              v-loading="loadingButton"
-              class="sbr-primary"
-              native-type="submit"
-              type="primary"
-              >{{ lang['save-button'] }}</el-button
-            >
+            <br/>
+            <el-form-item >
+              <el-button
+                style="width: 100%"
+                v-loading="loadingButton"
+                class="sbr-primary"
+                native-type="submit"
+                type="primary"
+              >{{ lang['save-button'] }}
+              </el-button>
+            </el-form-item>
+
           </form>
         </div>
       </el-dialog>
@@ -177,9 +183,9 @@
 <script>
 import Upload from '@/components/helper/HelperUpload';
 
-import { eventBus } from '@/components/users/App';
-import { eventPlan } from '@/components/plans/UpgradePlan';
-import { mapState } from 'vuex';
+import {eventBus} from '@/components/users/App';
+import {eventPlan} from '@/components/plans/UpgradePlan';
+import {mapState} from 'vuex';
 
 export default {
   data: () => {
@@ -247,7 +253,7 @@ export default {
 
       this.$request
         .post(urlToBeUsedInTheRequest, formData, {
-          headers: { 'Content-Type': 'multipart/form-data' }
+          headers: {'Content-Type': 'multipart/form-data'}
         })
         .then(
           () => {
@@ -265,3 +271,11 @@ export default {
   }
 };
 </script>
+<style scoped>
+
+@media (max-width: 768px) {
+  .el-form--inline .el-form-item__content {
+    width: 100%;
+  }
+}
+</style>

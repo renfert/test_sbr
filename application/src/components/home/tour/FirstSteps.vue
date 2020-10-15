@@ -28,45 +28,51 @@
     <div class="block text-center mb-5 mt-5">
       <div class="row text-center">
         <div class="col-md-4 col-12 mb-5">
-          <img
-            class="img-step"
-            v-if="userStep != null"
-            src="@/assets/img/general/ux/tour/check.png"
-          />
-          <img
-            class="img-step"
-            v-else
-            src="@/assets/img/general/ux/tour/1.png"
-          />
-          <div>
-            <h4>
-              <router-link to="/users" class="mb-3 sbr-text-primary">{{
-                lang['create-user']
-              }}</router-link>
-            </h4>
-          </div>
+          <router-link to="/users" class="mb-3 sbr-text-primary">
+            <img
+              class="img-step"
+              v-if="userStep != null"
+              src="@/assets/img/general/ux/tour/check.png"
+            />
+            <img
+              class="img-step"
+              v-else
+              src="@/assets/img/general/ux/tour/1.png"
+            />
+            <div>
+              <h4>
+                {{
+                  lang['create-user']
+                }}
+              </h4>
+            </div>
+
+          </router-link>
         </div>
         <div class="col-md-4 col-12 mb-5">
-          <img
-            class="img-step"
-            v-if="courseStep != null"
-            src="@/assets/img/general/ux/tour/check.png"
-          />
-          <img
-            class="img-step"
-            v-else
-            src="@/assets/img/general/ux/tour/2.png"
-          />
-          <div>
-            <h4>
-              <router-link to="/newcourse" class="mb-3 sbr-text-primary">{{
-                lang['new-course-button']
-              }}</router-link>
-            </h4>
-          </div>
+          <router-link to="/newcourse" class="mb-3 sbr-text-primary">
+            <img
+              class="img-step"
+              v-if="courseStep != null"
+              src="@/assets/img/general/ux/tour/check.png"
+            />
+            <img
+              class="img-step"
+              v-else
+              src="@/assets/img/general/ux/tour/2.png"
+            />
+            <div>
+              <h4>
+                {{
+                  lang['new-course-button']
+                }}
+              </h4>
+            </div>
+          </router-link>
         </div>
 
         <div class="col-md-4 col-12 mb-5">
+          <router-link to="/settings" class="mb-3 sbr-text-primary">
           <img
             class="img-step"
             v-if="settingsStep != null"
@@ -79,11 +85,13 @@
           />
           <div>
             <h4>
-              <router-link to="/settings" class="mb-3 sbr-text-primary">{{
-                lang['change-settings']
-              }}</router-link>
+             {{
+                  lang['change-settings']
+                }}
+
             </h4>
           </div>
+          </router-link>
         </div>
       </div>
     </div>
@@ -91,7 +99,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import {mapState} from 'vuex';
 
 export default {
   data: () => {

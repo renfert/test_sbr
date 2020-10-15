@@ -47,9 +47,6 @@ class User_Model extends CI_Model
     }
   }
 
-  /* -----------------------
-        Import massively users
-    ------------------------*/
   public function massivelyCreateUsers($excelFileWithUsers)
   {
     $this->load->library('excel/excel');
@@ -72,7 +69,7 @@ class User_Model extends CI_Model
 
 
           /***********************
-						Verify if user exist
+           * Verify if user exist
            ************************/
           $this->db->where("email", $email);
           $query = $this->db->get("myuser");
@@ -96,9 +93,12 @@ class User_Model extends CI_Model
     }
   }
 
+
+
   /* ---------------------
         Listing all users
     -----------------------*/
+
   public function listing()
   {
     $this->db->select("T0.id,T0.name,T0.email,T1.name as role");
@@ -191,7 +191,7 @@ class User_Model extends CI_Model
     -----------------------*/
   public function getUserProfile()
   {
-    $this->db->where("id",  getUserId());
+    $this->db->where("id", getUserId());
     $query = $this->db->get("myuser");
     if ($query->num_rows() > 0) {
       return $query->row();
@@ -205,7 +205,7 @@ class User_Model extends CI_Model
     -----------------------*/
   public function get($userId)
   {
-    $this->db->where("id",  $userId);
+    $this->db->where("id", $userId);
     $query = $this->db->get("myuser");
     if ($query->num_rows() > 0) {
       return $query->row();
@@ -231,7 +231,6 @@ class User_Model extends CI_Model
       return $query->result();
     }
   }
-
 
 
   /* -----------------------------------------
@@ -289,7 +288,6 @@ class User_Model extends CI_Model
   }
 
 
-
   /* -------------------------------------------------
         Get all courses that a specific user is enrolled
     --------------------------------------------------*/
@@ -301,7 +299,7 @@ class User_Model extends CI_Model
     $this->db->join("mycourse T1", "T0.mycourse_id = T1.id");
     $this->db->join("user_privileges T2",  "T1.id = T2.mycourse_id AND T2.myuser_id = {$userId}", "left");
     $this->db->where("T0.myuser_id", $userId);
-    $this->db->where("T0.mycourse_id !=",  1);
+    $this->db->where("T0.mycourse_id !=", 1);
     $query = $this->db->get();
     if ($query->num_rows() > 0) {
       return $query->result();
@@ -318,7 +316,7 @@ class User_Model extends CI_Model
     $this->db->from("relationship T0");
     $this->db->join("program T1", "T0.program_id = T1.id");
     $this->db->where("T0.myuser_id", $userId);
-    $this->db->where("T0.program_id !=",  1);
+    $this->db->where("T0.program_id !=", 1);
     $query = $this->db->get();
     if ($query->num_rows() > 0) {
       return $query->result();
@@ -398,6 +396,18 @@ class User_Model extends CI_Model
     -------------------------------------------------------------*/
   public function editProfile($userId, $data)
   {
+    $this->db->where("id", $userId);
+    if ($this->db->update("myuser", $data)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public function statusUpdate($userId, $status)
+  {
+    $data['status'] = $status;
+    $data['last_activity'] = getCurrentDate("Y-m-d H:i:s");
     $this->db->where("id", $userId);
     if ($this->db->update("myuser", $data)) {
       return true;

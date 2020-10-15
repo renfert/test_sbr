@@ -44,6 +44,8 @@
 
   "free-course-question": "Este curso é gratuito?",
 
+  "file": "Arquivo",
+
   "select-currency": "Selecione sua moeda",
 
   "this-course-will-be-sold": " Este curso será vendido em:",
@@ -387,6 +389,8 @@
 
   "users": "Usuários",
 
+  "edit-post": "Editar publicação",
+
   "storage": "Armazenamento",
 
   "required-name": "Nome é um campo requerido.",
@@ -460,6 +464,18 @@
   "delete-user": "Deletar usuário",
 
   "change-visualization": "Alterar visualização",
+
+  "change-channel": "Mudar de canal",
+  "create-new-publication": "Crie uma nova publicação",
+  "connected-channel": "Você está conectado ao canal",
+  "write-something": "Escreva algo...",
+
+  "connect-to-channel": "A qual canal você gostaria de se conectar?",
+  "anyone-can-see": "Qualquer um pode ver",
+  "specific-group": "Grupo específico",
+  "specific-course": "Curso específico",
+
+  "public": "Público",
 
   "no-students-found": "Você não tem alunos",
 
@@ -786,5 +802,17 @@
 
   "first-step-course": "Etapa 1 ",
   "second-step-course": "Etapa 2",
-  "third-step-course": "Etapa 3"
+  "third-step-course": "Etapa 3",
+  "message-published": "Foi publicado",
+  "view-more": "Ver mais",
+  "enter-text": "Inserir texto",
+
+  "publish-in": "Publicar em",
+
+  "group-default": "Todos",
+
+  "attach-image": "Anexar imagem",
+  "select-group": "Selecione um grupo",
+  "see": "See",
+  "groups": "Grupos"
 }

@@ -9,6 +9,7 @@
         }
     ],
     "require": {
-        "aws/aws-sdk-php": "^3.143"
+        "aws/aws-sdk-php": "^3.143",
+      "ext-json": "*"
     }
 }

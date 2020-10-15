@@ -155,9 +155,9 @@
           </div>
         </el-tab-pane>
       </el-tabs>
-      <el-button class="sbr-primary mt-5" native-type="submit" type="primary">{{
-        lang['save-button']
-      }}</el-button>
+      <el-button class="sbr-primary mt-5" native-type="submit" type="primary"
+        >{{ lang['save-button'] }}
+      </el-button>
     </form>
     <helper-progress></helper-progress>
   </div>
@@ -192,17 +192,24 @@ export default {
   created() {
     this.getSettings();
     this.getTimeZone();
-    this.verifyScreenWidth();
+
+    setInterval(() => {
+      if (window.innerWidth <= 768) {
+        this.tabPosition = 'top';
+      } else {
+        this.tabPosition = 'left';
+      }
+    }, 500);
+  },
+  watch: {
+    verify() {
+      console.log(screen.width);
+    }
   },
   computed: {
     ...mapState(['lang'])
   },
   methods: {
-    verifyScreenWidth() {
-      if (screen.width <= 512) {
-        this.tabPosition = 'top';
-      }
-    },
     getSettings() {
       const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
         'settings',

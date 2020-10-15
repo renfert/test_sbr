@@ -1,5 +1,10 @@
 <template>
-  <div class="left side-menu" :class="mobile">
+  <div
+    class="left side-menu"
+    :class="mobile"
+    @touchstart="touchMoveStart($event)"
+    @touchmove="touchMoveEnd($event)"
+  >
     <!--- Sidemenu administrator role -->
     <el-menu
       :collapse="collapse"
@@ -24,25 +29,24 @@
         </el-row>
       </el-menu-item>
 
-      <el-menu-item>
-        <router-link to="/newcourse">
-          <el-button
-            style="
-              width: 100%;
-              height: 100%;
-              position: absolute;
-              left: 0;
-              border-radius: 5px;
-            "
-            class="sbr-primary"
-            type="primary"
-            >{{ lang['new-course'] }}</el-button
-          >
-        </router-link>
-      </el-menu-item>
+      <router-link to="/newcourse" style="overflow: hidden">
+        <el-button
+          @click="hideNavLeft"
+          style="
+            width: 100%;
+            height: 100%;
+            left: 0;
+            border-radius: 5px;
+            overflow: hidden;
+          "
+          class="sbr-primary"
+          type="primary"
+          >{{ lang['new-course'] }}</el-button
+        >
+      </router-link>
 
       <router-link to="/home">
-        <el-menu-item index="2">
+        <el-menu-item index="2" @click="hideNavLeft">
           <i class="dripicons-home"></i>
 
           <span class="menuMain">{{ lang['home-nav'] }}</span>
@@ -50,7 +54,7 @@
       </router-link>
 
       <router-link to="/dashboard">
-        <el-menu-item index="3">
+        <el-menu-item index="3" @click="hideNavLeft">
           <i class="dripicons-graph-bar"></i>
           <span class="menuMain">{{ lang['dashboard-nav'] }}</span>
         </el-menu-item>
@@ -65,7 +69,7 @@
         </template>
 
         <router-link to="/courses">
-          <el-menu-item index="5">
+          <el-menu-item index="5" @click="hideNavLeft">
             <i class="dripicons-media-next"></i>
             <span class="menuMain">{{ lang['my-courses-nav'] }}</span>
           </el-menu-item>
@@ -79,14 +83,14 @@
         </router-link>
 
         <router-link to="/categories">
-          <el-menu-item index="6">
+          <el-menu-item index="6" @click="hideNavLeft">
             <i class="dripicons-list"></i>
             <span class="menuMain">{{ lang['categories-nav'] }}</span>
           </el-menu-item>
         </router-link>
 
         <router-link to="/programs">
-          <el-menu-item index="7">
+          <el-menu-item index="7" @click="hideNavLeft">
             <i class="dripicons-to-do"></i>
             <span class="menuMain">{{ lang['programs-nav'] }}</span>
           </el-menu-item>
@@ -102,21 +106,21 @@
         </template>
 
         <router-link to="/users">
-          <el-menu-item index="9">
+          <el-menu-item index="9" @click="hideNavLeft">
             <i class="dripicons-user-id"></i>
             <span class="menuMain">{{ lang['users-nav'] }}</span>
           </el-menu-item>
         </router-link>
 
         <router-link to="/groups">
-          <el-menu-item index="10">
+          <el-menu-item index="10" @click="hideNavLeft">
             <i class="dripicons-user-group"></i>
             <span class="menuMain">{{ lang['groups-nav'] }}</span>
           </el-menu-item>
         </router-link>
 
         <router-link to="/leads">
-          <el-menu-item index="11">
+          <el-menu-item index="11" @click="hideNavLeft">
             <i class="dripicons-experiment"></i>
             <span class="menuMain">{{ lang['leads-nav'] }}</span>
           </el-menu-item>
@@ -124,7 +128,7 @@
       </el-submenu>
 
       <router-link to="/site">
-        <el-menu-item index="12">
+        <el-menu-item index="12" @click="hideNavLeft">
           <i class="dripicons-browser"></i>
           <span class="menuMain">{{ lang['site-nav'] }}</span>
         </el-menu-item>
@@ -139,14 +143,14 @@
         </template>
 
         <router-link to="/settings">
-          <el-menu-item index="14">
+          <el-menu-item index="14" @click="hideNavLeft">
             <i class="dripicons-web"></i>
             <span class="menuMain">{{ lang['general-settings-nav'] }}</span>
           </el-menu-item>
         </router-link>
 
         <router-link to="/integrations">
-          <el-menu-item index="15">
+          <el-menu-item index="15" @click="hideNavLeft">
             <i class="dripicons-cart"></i>
             <span class="menuMain">{{ lang['integrations-nav'] }}</span>
           </el-menu-item>
@@ -162,22 +166,31 @@
         </template>
 
         <router-link to="/plans">
-          <el-menu-item index="17">
+          <el-menu-item index="17" @click="hideNavLeft">
             <i class="dripicons-rocket"></i>
             <span class="menuMain">{{ lang['plans-nav'] }}</span>
           </el-menu-item>
         </router-link>
 
         <router-link to="/helpcenter">
-          <el-menu-item index="18">
+          <el-menu-item index="18" @click="hideNavLeft">
             <i class="dripicons-question"></i>
             <span class="menuMain">{{ lang['help-center-nav'] }}</span>
           </el-menu-item>
         </router-link>
       </el-submenu>
-
+      <router-link to="/social">
+        <el-menu-item index="19">
+          <template slot="title">
+            <i class="el-icon-share"></i>
+            <a href="javascript:void(0)" class="waves-effect">
+              <span class="menuMain">Social</span>
+            </a>
+          </template>
+        </el-menu-item>
+      </router-link>
       <!-- User information -->
-      <el-menu-item index="19" class="menu-item-user" v-if="collapse != true">
+      <el-menu-item index="20" class="menu-item-user" v-if="collapse != true">
         <el-row>
           <!-- Profile -->
           <router-link to="/profile" class="pr-4">
@@ -217,7 +230,9 @@ export default {
   props: ['collapse', 'logo', 'user-name', 'user-avatar', 'user-id', 'plan'],
   data: () => {
     return {
-      mobile: 'retracted'
+      mobile: 'retracted',
+      prevMouseX: 0,
+      swipedLeft: false
     };
   },
   mounted() {
@@ -248,6 +263,23 @@ export default {
       this.$request.get(urlToBeUsedInTheRequest).then(() => {
         router.push('/');
       });
+    },
+    touchMoveStart(event) {
+      this.swipedLeft = false;
+      this.prevMouseX = event.touches[0].clientX;
+    },
+    touchMoveEnd(event) {
+      if (
+        this.prevMouseX > event.touches[0].clientX + 50 &&
+        this.swipedLeft === false
+      ) {
+        eventTemplate.$emit('change-leftbar-class');
+        this.swipedLeft = true;
+      }
+      this.prevMouseX = 0;
+    },
+    hideNavLeft() {
+      eventTemplate.$emit('change-leftbar-class');
     }
   }
 };
@@ -317,7 +349,7 @@ a {
   background-color: rgb(55, 58, 67);
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 768px) {
   .menu-item-user {
     position: absolute;
   }
@@ -325,5 +357,6 @@ a {
 
 .side-menu {
   overflow: overlay !important;
+  height: 100%;
 }
 </style>

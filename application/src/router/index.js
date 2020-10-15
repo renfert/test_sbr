@@ -220,11 +220,9 @@ const routes = [
       )
   },
   {
-    name: 'sabiorealm-social',
-    path: '/sabiorealm-social',
-    component: () => {
-      import('@/components/sabiorealm-social/App');
-    }
+    name: 'social',
+    path: '/social',
+    component: () => import('@/components/sabiorealm-social/App')
   },
   {
     name: '404',
@@ -233,7 +231,6 @@ const routes = [
       import(/* webpackChunkName: "404" */ '@/components/404/App')
   }
 ];
-
 const router = new Router({
   routes,
   mode: 'history',
