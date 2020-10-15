@@ -46,6 +46,19 @@
 
   "change-visualization": "Cambiar visualización",
 
+  "change-channel": "Cambia el canal",
+  "create-new-publication": "Crea una nueva publicación",
+  "connected-channel": "Estas conectado al canal",
+  "write-something": "Escribe algo...",
+
+  "connect-to-channel": "¿A qué canal le gustaría conectarse?",
+  "anyone-can-see": "Cualquiera puede ver",
+
+  "specific-group": "Grupo específico",
+  "specific-course": "Curso específico",
+
+  "public": "Público",
+
   "dates": "Fechas",
   "sales": "Ventas",
   "select-payment-platform": "Seleccione la plataforma de pago para este curso",
@@ -131,6 +144,10 @@
   "skip-this-step": "Saltar esta etapa",
 
   "skip-tour": "Omitir este recorrido",
+
+  "edit-post": "Editar publicación",
+
+  "file": "Archivo",
 
   "plan": "plan",
 

@@ -19,6 +19,8 @@ class Social_Network_Model extends CI_Model
     $this->db->join("mygroup T2", "T2.id=T0.mygroup_id");
     $this->db->join("mycourse T3", "T3.id=T0.mycourse_id");
     $this->db->where("T0.id !=", 1);
+    $this->db->where("T0.mycourse_id", 1);
+    $this->db->where("T0.mygroup_id", 1);
     $this->db->order_by("created", "DESC");
     $query = $this->db->get();
     if ($res = $query->result()) {
@@ -225,14 +227,16 @@ class Social_Network_Model extends CI_Model
     return $this->db->get()->result() ?: false;
   }
 
-  public function getPublicationsByGroupId($group_id, $myuser_id)
+  public function getPublicationsByGroupId($group_id)
   {
-    $this->db->select("T0.id,T0.myuser_id,T1.name username,T0.mygroup_id,T0.mycourse_id, T3.title course_name,T0.pub_url,T0.description,
+    $this->db->select("T0.id,T0.myuser_id,T1.name username,T1.avatar,T0.mygroup_id,T0.mycourse_id, T3.title course_name,T0.pub_url,T0.description,
     T0.media_path,T0.media_realname,T0.media_type,T2.name group_name,T0.created,T0.modified");
     $this->db->from("social_publications T0");
     $this->db->join("myuser T1", "T1.id=T0.myuser_id");
     $this->db->join("mygroup T2", "T2.id=T0.mygroup_id");
     $this->db->join("mycourse T3", "T3.id=T0.mycourse_id");
+    $this->db->where("T0.id !=", 1);
+    $this->db->where("T0.mycourse_id", 1);
     $this->db->where("T0.mygroup_id", $group_id);
     $this->db->order_by("created", "DESC");
     $query = $this->db->get();
@@ -245,22 +249,24 @@ class Social_Network_Model extends CI_Model
         $this->db->select("*");
         $this->db->from("social_likes");
         $this->db->where("social_publication_id", $q->id);
-        $this->db->where("myuser_id", $myuser_id);
+        $this->db->where("myuser_id", getUserId());
         $q->i_like_it = $this->db->get()->result() ? true : false;
       }
       return $res;
     } else return null;
   }
 
-  public function getPublicationsByCourseId($course_id, $myuser_id)
+  public function getPublicationsByCourseId($course_id)
   {
-    $this->db->select("SP.id,SP.myuser_id,U.name username,SP.mygroup_id,SP.mycourse_id, C.title course_name,SP.pub_url,SP.description,
-    SP.media_path,SP.media_realname,SP.media_type,G.name group_name,SP.created,SP.modified");
-    $this->db->from("social_publications SP");
-    $this->db->join("myuser U", "U.id=SP.myuser_id");
-    $this->db->join("mygroup G", "G.id=SP.mygroup_id");
-    $this->db->join("mycourse C", "C.id=SP.mycourse_id");
-    $this->db->where("course_id", $course_id);
+    $this->db->select("T0.id,T0.myuser_id,T1.name username,T1.avatar,T0.mygroup_id,T0.mycourse_id, T3.title course_name,T0.pub_url,T0.description,
+    T0.media_path,T0.media_realname,T0.media_type,T2.name group_name,T0.created,T0.modified");
+    $this->db->from("social_publications T0");
+    $this->db->join("myuser T1", "T1.id=T0.myuser_id");
+    $this->db->join("mygroup T2", "T2.id=T0.mygroup_id");
+    $this->db->join("mycourse T3", "T3.id=T0.mycourse_id");
+    $this->db->where("T0.id !=", 1);
+    $this->db->where("T0.mycourse_id", $course_id);
+    $this->db->where("T0.mygroup_id", 1);
     $this->db->order_by("created", "DESC");
     $query = $this->db->get();
     if ($res = $query->result()) {
@@ -272,7 +278,7 @@ class Social_Network_Model extends CI_Model
         $this->db->select("*");
         $this->db->from("social_likes");
         $this->db->where("social_publication_id", $q->id);
-        $this->db->where("myuser_id", $myuser_id);
+        $this->db->where("myuser_id", getUserId());
         $q->i_like_it = $this->db->get()->result() ? true : false;
       }
       return $res;

@@ -45,27 +45,25 @@
             <textarea
               ref="publication"
               :keyup="doResize()"
-              placeholder="Escreva alguma coisa..."
+              :placeholder="lang['write-something']"
               v-model="publication"
               rows="1"
             ></textarea>
             <!-- Publication content button  -->
-            <center
-              v-if="newFileName.length > 0 && showContentToDownload == true"
-            >
+            <center v-if="newFileName != null && showContentToDownload == true">
               <el-button class="sbr-secondary m-t-20" type="primary">
                 <i class="el-icon-download"></i>
                 <span id="contentName">{{ realFileName }} </span>
                 <img
                   style="width: 20%; margin-right: 0px"
-                  @click.prevent="newFileName = ''"
+                  @click.prevent="newFileName = null"
                   src="@/assets/img/social/close.png"
                 />
               </el-button>
             </center>
             <!-- Publication image -->
             <el-row
-              v-if="newFileName.length > 0 && showImg == true"
+              v-if="newFileName != null && showImg == true"
               justify="center"
               align="start"
               :gutter="50"
@@ -77,7 +75,7 @@
                     :src="$getUrlToContents() + 'social/' + newFileName"
                   />
                   <img
-                    @click.prevent="newFileName = ''"
+                    @click.prevent="newFileName = null"
                     class="close_icon"
                     src="@/assets/img/social/close.png"
                   />
@@ -138,7 +136,7 @@ export default {
       uploadFile: new UploadFile(),
       publication: '',
       publicationId: '',
-      newFileName: '',
+      newFileName: null,
       showContentToDownload: false,
       realFileName: '',
       showImg: '',
@@ -156,17 +154,19 @@ export default {
       this.realFileName = response.realname;
       this.publicationId = response.id;
 
-      const extension = response.mediaExtension.toLowerCase();
+      if (response.mediaExtension != null) {
+        const extension = response.mediaExtension.toLowerCase();
 
-      if (
-        extension === 'jpg' ||
-        extension === 'png' ||
-        extension === 'gif' ||
-        extension === 'jpeg'
-      ) {
-        this.showImg = true;
-      } else {
-        this.showContentToDownload = true;
+        if (
+          extension === 'jpg' ||
+          extension === 'png' ||
+          extension === 'gif' ||
+          extension === 'jpeg'
+        ) {
+          this.showImg = true;
+        } else {
+          this.showContentToDownload = true;
+        }
       }
     });
   },

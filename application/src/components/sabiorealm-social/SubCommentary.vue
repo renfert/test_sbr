@@ -22,9 +22,9 @@
               />
             </el-col>
             <el-col :md="18" :sm="10" :xs="10" style="margin-top: 8px">
-              <router-link :to="'user/' + user.id">
+              <a href="javascript:void(0)">
                 {{ comment.username }}
-              </router-link>
+              </a>
               <br />
               <div
                 style="

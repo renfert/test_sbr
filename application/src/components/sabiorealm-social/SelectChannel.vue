@@ -1,11 +1,10 @@
 <template>
-  <el-dialog
-    top="5vh"
-    :title="lang['select-an-element']"
-    :visible.sync="modal"
-    width="30%"
-  >
-    <h4>Em qual canal voce gostaria de se conectar?</h4>
+  <el-dialog top="5vh" :visible.sync="modal" width="30%">
+    <div slot="title" class="center">
+      <h4>
+        {{ lang['connect-to-channel'] }}
+      </h4>
+    </div>
     <!-- Public -->
     <div @click.prevent="changeChannel('public')">
       <el-row class="publish-location">
@@ -13,8 +12,8 @@
           <img style="width: 50px" src="@/assets/img/social/world.png" />
         </el-col>
         <el-col :sm="20">
-          <h3 style="margin: 0px">Publico</h3>
-          <h4 style="margin: 0px">Qualquer pessoa pode ver</h4>
+          <h4 class="fw-700" style="margin: 0px">{{ lang['public'] }}</h4>
+          <h4 style="margin: 0px">{{ lang['anyone-can-see'] }}</h4>
         </el-col>
       </el-row>
     </div>
@@ -29,7 +28,9 @@
         />
       </el-col>
       <el-col :sm="14">
-        <h3 class="m-b-20" style="margin: 0px">Grupo especifico</h3>
+        <h4 class="m-b-20 fw-700" style="margin: 0px">
+          {{ lang['specific-group'] }}
+        </h4>
         <el-select
           @change="changeChannel('group')"
           v-model="select.group"
@@ -54,11 +55,12 @@
         <img
           style="width: 50px"
           src="@/assets/img/general/ux/view_course.png"
-          alt=""
         />
       </el-col>
       <el-col :sm="14">
-        <h3 class="m-b-20" style="margin: 0px">Curso especifico</h3>
+        <h4 class="m-b-20 fw-700" style="margin: 0px">
+          {{ lang['specific-course'] }}
+        </h4>
         <el-select
           @change="changeChannel('course')"
           v-model="select.course"
@@ -124,7 +126,7 @@ export default {
           this.groups = response.data;
         });
       this.$request
-        .get(this.$getUrlToMakeRequest('SocialNetwork', 'getAllCourses'))
+        .get(this.$getUrlToMakeRequest('course', 'listing'))
         .then((response) => {
           this.courses = response.data;
         });

@@ -11,7 +11,6 @@ class SocialNetwork extends CI_Controller
   public function __construct()
   {
     parent::__construct();
-
     $this->load->model("Social_Network_Model");
     $this->load->model("User_Model");
   }
@@ -21,10 +20,10 @@ class SocialNetwork extends CI_Controller
     $data = $this->input->post();
     if ($data["channel_name"] == "public") {
       $pubs = $this->Social_Network_Model->getPublications();
-    } elseif ($data["channel_name" == "group"]) {
-      $pubs = $this->Social_Network_Model->getPublicationsByGroupId($data["channel_id"], $data["myuser_id"]);
+    } elseif ($data["channel_name"] == "group") {
+      $pubs = $this->Social_Network_Model->getPublicationsByGroupId($data["channel_id"]);
     } else {
-      $pubs = $this->Social_Network_Model->getPublications();
+      $pubs = $this->Social_Network_Model->getPublicationsByCourseId($data["channel_id"]);
     }
 
     echo json_encode($pubs);

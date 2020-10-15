@@ -1,17 +1,11 @@
 <template>
   <div>
     <aside>
-      <div
-        class="card-box"
-        style="
-          position: fixed;
-          max-width: 30%;
-          box-shadow: 10px 0px 13px -15px #aca9a9;
-        "
-      >
+      <div class="card-box new_publication_container">
         <div>
           <h3 class="center">
-            <i class="el-icon-edit sbr-text-primary"></i> Criar nova publicacao
+            <i class="el-icon-edit sbr-text-primary"></i>
+            {{ lang['create-new-publication'] }}
           </h3>
           <hr />
           <el-row :gutter="60" style="display: flex; align-items: center">
@@ -30,7 +24,7 @@
 
               <el-button
                 style="padding: 0px; font-size: 0.8rem"
-                class="sbr-text-primary"
+                class="sbr-text-primary channel_name"
                 type="text"
               >
                 &nbsp;
@@ -44,9 +38,6 @@
           </el-row>
         </div>
 
-        <el-row>
-          <el-col v-if="!to" :md="8" :xs="12" :sm="5" class="link"> </el-col>
-        </el-row>
         <br />
         <div class="publication_area m-b-30">
           <div style="width: 100%; text-align: right; padding-top: 3%">
@@ -68,7 +59,7 @@
             <textarea
               ref="publication"
               :keyup="doResize()"
-              placeholder="Escreva alguma coisa..."
+              :placeholder="lang['write-something']"
               v-model="publication"
               rows="1"
             ></textarea>
@@ -78,9 +69,9 @@
             >
               <el-button class="sbr-secondary m-t-20" type="primary">
                 <i class="el-icon-download"></i>
-                <span id="contentName">{{ realFileName }} </span>
+                <span id="contentName">{{ lang['file'] }} </span>
                 <img
-                  style="width: 20%; margin-right: 0px"
+                  style="width: 30px; margin-right: 0px"
                   @click.prevent="newFileName = ''"
                   src="@/assets/img/social/close.png"
                 />
@@ -144,36 +135,28 @@ import Progress from '@/components/helper/HelperProgress';
 
 export default {
   components: { Progress },
-  props: ['to', 'myid'],
   created() {
     // Connect to public channel
     eventBus.$on('connect-to-public-channel', () => {
       this.channel.type = 'public';
+      this.section_name = this.lang.public;
     });
 
     // Connect to group channel
     eventBus.$on('connect-to-group-channel', (response) => {
       this.channel.type = response.type;
       this.channel.id = response.id;
+      this.section_name = response.name;
     });
 
     // Connect to course channel
     eventBus.$on('connect-to-course-channel', (response) => {
       this.channel.type = response.type;
       this.channel.id = response.id;
+      this.section_name = response.name;
     });
 
-    switch (this.to) {
-      case 'group': {
-        this.selectSection(this.myid, '', this.to);
-        break;
-      }
-      case 'course': {
-        this.selectSection(this.myid, '', this.to);
-        break;
-      }
-    }
-    this.section_name = this.lang['group-default'];
+    this.section_name = this.lang.public;
     this.getSubDomainName();
   },
   data: () => {
@@ -185,6 +168,7 @@ export default {
       courses: [],
       select: '',
       section_type: '',
+      section_name: '',
       subDomainName: '',
       uploadFile: new UploadFile(),
       realFileName: '',
@@ -254,15 +238,15 @@ export default {
         form.append('media_realname', this.realFileName);
         form.append('media_type', this.newFileName.split('.').pop());
       }
-      form.append('description', this.urlify(this.publication));
+      form.append('description', this.publication);
       const data = await this.$request.post(
         this.$getUrlToMakeRequest('SocialNetwork', 'savePublication'),
         form
       );
       if (data.status === 200 && this.publication.length > 0) {
         this.$messagePublished();
-        // eslint-disable-next-line eqeqeq
-      } else if (data.data == false) {
+        eventBus.$emit('new-publication');
+      } else if (data.data === false) {
         this.$errorMessage();
       }
       eventBus.$emit('social-update-post');
@@ -273,14 +257,6 @@ export default {
       this.loading = false;
       this.newFileName = '';
       this.realFileName = '';
-    },
-    urlify(text) {
-      const urlRegex = /(https?:\/\/[^\s]+)/g;
-      return text.replace(urlRegex, (url) => {
-        return '<a target="_blank" href="' + url + '">' + url + '</a>';
-      });
-      // or alternatively
-      // return text.replace(urlRegex, '<a href="$1">$1</a>')
     },
 
     getSubDomainName() {
@@ -332,6 +308,15 @@ export default {
 </script>
 
 <style scoped>
+.channel_name {
+  padding: 0px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
 .box-card {
   border-radius: 30px;
   padding: 4%;
@@ -409,5 +394,19 @@ export default {
 
 .close_icon:hover {
   opacity: 1;
+}
+
+.new_publication_container {
+  position: fixed;
+  max-width: 30%;
+  box-shadow: 10px 0px 13px -15px #aca9a9;
+}
+
+@media only screen and (max-width: 600px) {
+  .new_publication_container {
+    position: relative;
+    max-width: 100%;
+    box-shadow: 0px 0px 3px 0px #aca9a9;
+  }
 }
 </style>

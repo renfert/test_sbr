@@ -44,6 +44,8 @@
 
   "free-course-question": "Este curso é gratuito?",
 
+  "file": "Arquivo",
+
   "select-currency": "Selecione sua moeda",
 
   "this-course-will-be-sold": " Este curso será vendido em:",
@@ -462,6 +464,18 @@
   "delete-user": "Deletar usuário",
 
   "change-visualization": "Alterar visualização",
+
+  "change-channel": "Mudar de canal",
+  "create-new-publication": "Crie uma nova publicação",
+  "connected-channel": "Você está conectado ao canal",
+  "write-something": "Escreva algo...",
+
+  "connect-to-channel": "A qual canal você gostaria de se conectar?",
+  "anyone-can-see": "Qualquer um pode ver",
+  "specific-group": "Grupo específico",
+  "specific-course": "Curso específico",
+
+  "public": "Público",
 
   "no-students-found": "Você não tem alunos",
 

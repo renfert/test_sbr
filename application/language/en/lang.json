@@ -412,6 +412,8 @@
 
   "upload-a-file": "Upload a file",
 
+  "file": "File",
+
   "module-information": "You can set a launch date for this module. Students will not be able to access the content related to this module before the established date.",
 
   "manage-user": "Manage user",
@@ -428,6 +430,19 @@
   "delete-course": "Delete course",
 
   "change-visualization": "Change visualization",
+
+  "change-channel": "Change channel",
+  "create-new-publication": "Create a new publication",
+  "connected-channel": "You are connected to the channel",
+  "write-something": "Write something...",
+
+  "connect-to-channel": "Which channel would you like to connect to?",
+  "anyone-can-see": "Anyone can see",
+
+  "specific-group": "Specific group",
+  "specific-course": "Specific course",
+
+  "public": "Public",
 
   "no-students-found": "You don't have students",
 

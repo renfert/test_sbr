@@ -1,59 +1,13 @@
 <template>
   <div ref="content" class="content-page">
-    <el-row class="m-t-40" :gutter="40" style="display: flex">
-      <div
-        style="
-          width: 100%;
-          background-color: rgb(55, 58, 67);
-          position: fixed;
-          top: 0;
-          z-index: 1000;
-          color: #fff;
-          text-align: center;
-          left: 230px;
-          display: flex;
-          align-items: baseline;
-          justify-content: center;
-        "
-      >
-        <div>
-          <h3
-            style="
-              color: white;
-              margin-right: 230px;
-              display: flex;
-              align-items: center;
-            "
-          >
-            Voce esta conectado ao canal <i class="el-icon-arrow-right"></i>
-            <b class="sbr-text-primary"> {{ channel.name }} </b>
-            &nbsp;
-            <img
-              class="blob"
-              v-if="channel.type == 'public'"
-              style="width: 30px"
-              src="@/assets/img/social/world.png"
-            />
-            <img
-              class="blob"
-              v-if="channel.type == 'group'"
-              style="width: 30px"
-              src="@/assets/img/general/ux/join_persons.png"
-            />
-
-            <img
-              class="blob"
-              v-if="channel.type == 'course'"
-              style="width: 30px"
-              src="@/assets/img/general/ux/view_course.png"
-            />
-          </h3>
-        </div>
+    <el-row :gutter="40" class="publication_row m-t-40">
+      <div class="publication_container">
         <div>
           <a @click.prevent="changeChannel()">
-            <h3 style="color: white" class="fw-600">
-              Mudar canal <i class="el-icon-chat-dot-round"></i>
-            </h3>
+            <h4 style="color: white" class="fw-600">
+              {{ lang['change-channel'] }}
+              <i class="el-icon-chat-dot-round"></i>
+            </h4>
           </a>
         </div>
       </div>
@@ -61,7 +15,33 @@
         <my-publication></my-publication>
       </el-col>
 
-      <el-col :md="13">
+      <el-col :md="13" :xs="24">
+        <div>
+          <h4>
+            {{ lang['connected-channel'] }} <i class="el-icon-arrow-right"></i>
+            <b class="sbr-text-primary"> {{ channel.name }} </b>
+            &nbsp;
+            <img
+              class="blob"
+              v-if="channel.type == 'public'"
+              style="width: 20px"
+              src="@/assets/img/social/world.png"
+            />
+            <img
+              class="blob"
+              v-if="channel.type == 'group'"
+              style="width: 20px"
+              src="@/assets/img/general/ux/join_persons.png"
+            />
+
+            <img
+              class="blob"
+              v-if="channel.type == 'course'"
+              style="width: 20px"
+              src="@/assets/img/general/ux/view_course.png"
+            />
+          </h4>
+        </div>
         <div>
           <post-list></post-list>
         </div>
@@ -112,9 +92,10 @@ export default {
   },
   components: { MyPublication, PostList, SelectChannel, EditPost },
   created() {
+    this.channel.name = this.lang.public;
     // Connect to public channel
     eventBus.$on('connect-to-public-channel', () => {
-      this.channel.name = 'public';
+      this.channel.name = this.lang.public;
       this.channel.type = 'public';
     });
 
@@ -137,7 +118,31 @@ export default {
   }
 };
 </script>
-<style type="text/scss">
+<style type="text/scss" scoped>
+.publication_container {
+  width: 100%;
+  background-color: rgb(55, 58, 67);
+  position: fixed;
+  top: 0;
+  z-index: 1;
+  color: #fff;
+  text-align: center;
+  left: 0;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+}
+
+.publication_container h4 {
+  font-size: 1rem;
+  color: #fff;
+  font-weight: 700;
+  padding: 5px 0px 5px 230px;
+}
+
+.publication_row {
+  display: flex;
+}
 .link {
   color: #0c7cd5;
   font-size: medium;
@@ -171,6 +176,12 @@ export default {
   100% {
     transform: scale(0.95);
     box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .publication_row {
+    display: inherit;
   }
 }
 </style>
