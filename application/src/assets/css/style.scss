@@ -90,12 +90,12 @@ div {
   background-color: $primary-color;
 
   background-image: -webkit-gradient(
-      linear,
-      0 0,
-      0 100%,
-      color-stop(0.5, rgba(255, 255, 255, 0.2)),
-      color-stop(0.5, transparent),
-      to(transparent)
+    linear,
+    0 0,
+    0 100%,
+    color-stop(0.5, rgba(255, 255, 255, 0.2)),
+    color-stop(0.5, transparent),
+    to(transparent)
   );
 }
 
@@ -598,7 +598,7 @@ label {
   padding-bottom: 30px;
   position: fixed;
   -webkit-box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.06),
-  0 1px 0 0 rgba(0, 0, 0, 0.02);
+    0 1px 0 0 rgba(0, 0, 0, 0.02);
   box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.06), 0 1px 0 0 rgba(0, 0, 0, 0.02);
 }
 
@@ -607,7 +607,7 @@ label {
   -webkit-transition: all 200ms ease-out;
   background-color: #ffffff;
   -webkit-box-shadow: 0 0px 24px 0 rgba(0, 0, 0, 0.06),
-  0 1px 0px 0 rgba(0, 0, 0, 0.02);
+    0 1px 0px 0 rgba(0, 0, 0, 0.02);
   box-shadow: 0 0px 24px 0 rgba(0, 0, 0, 0.06), 0 1px 0px 0 rgba(0, 0, 0, 0.02);
   display: block;
   float: left;
@@ -787,7 +787,7 @@ Element UI Custom
 .el-dialog__header {
   font-family: 'Poppins', sans-serif;
   -webkit-box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.06),
-  0 1px 0px 0 rgba(0, 0, 0, 0.02);
+    0 1px 0px 0 rgba(0, 0, 0, 0.02);
   box-shadow: 0 0px 10px 0 rgba(0, 0, 0, 0.06), 0 5px 0px 0 rgba(0, 0, 0, 0.02);
   margin-bottom: 20px;
   background-color: #fff;
@@ -887,8 +887,8 @@ Element UI Custom
 }
 
 .el-tabs--border-card
-> .el-tabs__header
-.el-tabs__item:not(.is-disabled):hover {
+  > .el-tabs__header
+  .el-tabs__item:not(.is-disabled):hover {
   color: #3734a9 !important;
 }
 
@@ -1061,7 +1061,6 @@ Element UI Custom
     animation: slide 2s forwards;
     animation-delay: 2s;
   }
-
 }
 
 @media only screen and (max-width: 768px) {
@@ -1101,7 +1100,8 @@ Element UI Custom
   width: 100%;
 }
 
-.el-menu-item, .el-submenu__title {
+.el-menu-item,
+.el-submenu__title {
   list-style: none;
   white-space: pre-wrap;
   display: table;
