@@ -25,11 +25,10 @@
         <el-row>
           <!-- Profile -->
           <router-link to="/">
-            <img :src="$getUrlToContents() + 'settings/' + logo + ''"/>
+            <img :src="$getUrlToContents() + 'settings/' + logo + ''" />
           </router-link>
         </el-row>
       </el-menu-item>
-
 
       <router-link to="/newcourse" style="overflow: hidden">
         <el-button
@@ -43,9 +42,8 @@
           "
           class="sbr-primary"
           type="primary"
-        >{{ lang['new-course'] }}
-        </el-button
-        >
+          >{{ lang['new-course'] }}
+        </el-button>
       </router-link>
 
       <router-link to="/home">
@@ -78,8 +76,12 @@
           </el-menu-item>
         </router-link>
 
-        <router-link to="/corrections" >
-          <el-menu-item index="25" v-if="plan != 'starter'" @click="hideNavLeft">
+        <router-link to="/corrections">
+          <el-menu-item
+            index="25"
+            v-if="plan != 'starter'"
+            @click="hideNavLeft"
+          >
             <i class="dripicons-message"></i>
             <span class="menuMain">{{ lang['corrections-nav'] }}</span>
           </el-menu-item>
@@ -136,6 +138,29 @@
           <span class="menuMain">{{ lang['site-nav'] }}</span>
         </el-menu-item>
       </router-link>
+
+      <el-submenu index="39">
+        <template slot="title">
+          <i class="dripicons-broadcast"></i>
+          <a href="javascript:void(0)" class="waves-effect">
+            <span class="menuMain">Social</span>
+          </a>
+        </template>
+
+        <router-link to="/social">
+          <el-menu-item index="36" @click="hideNavLeft">
+            <i class="dripicons-feed"></i>
+            <span class="menuMain">Feed</span>
+          </el-menu-item>
+        </router-link>
+
+        <router-link to="/integrations">
+          <el-menu-item index="15" @click="hideNavLeft">
+            <i class="dripicons-gear"></i>
+            <span class="menuMain">Ajustes</span>
+          </el-menu-item>
+        </router-link>
+      </el-submenu>
 
       <el-submenu index="13">
         <template slot="title">
@@ -217,10 +242,8 @@
 
 <script>
 import router from '@/router';
-import {eventTemplate} from '@/components/template/TheTopBar';
-import {mapState} from 'vuex';
-import Vue from 'vue';
-
+import { eventTemplate } from '@/components/template/TheTopBar';
+import { mapState } from 'vuex';
 
 export default {
   props: ['collapse', 'logo', 'user-name', 'user-avatar', 'user-id', 'plan'],
@@ -228,7 +251,7 @@ export default {
     return {
       mobile: 'retracted',
       prevMouseX: 0,
-      swipedLeft: false,
+      swipedLeft: false
     };
   },
   mounted() {
