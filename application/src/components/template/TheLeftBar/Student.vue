@@ -1,6 +1,5 @@
 <template>
-  <div class="left side-menu" :class="mobile"
-       v-click-outside="hideMenu">
+  <div class="left side-menu" :class="mobile" v-click-outside="hideMenu">
     <!--- Sidemenu student role -->
     <el-menu
       :collapse="collapse"
@@ -11,53 +10,53 @@
       class="el-menu-vertical-demo"
     >
       <!-- Logo -->
-      <el-menu-item index="0" class="logo"  @click="hideNavLeft">
+      <el-menu-item index="0" class="logo" @click="hideNavLeft">
         <el-row>
           <!-- Profile -->
           <router-link to="/">
-            <img :src="$getUrlToContents() + 'settings/' + logo + ''"/>
+            <img :src="$getUrlToContents() + 'settings/' + logo + ''" />
           </router-link>
         </el-row>
       </el-menu-item>
 
       <router-link to="/home">
-        <el-menu-item index="1"  @click="hideNavLeft">
-          <i class="dripicons-home"/>
+        <el-menu-item index="1" @click="hideNavLeft">
+          <i class="dripicons-home" />
           <span class="menuMain">{{ lang['home-nav'] }}</span>
         </el-menu-item>
       </router-link>
 
       <router-link to="/dashboard">
-        <el-menu-item index="2"  @click="hideNavLeft">
-          <i class="dripicons-graph-bar"/>
+        <el-menu-item index="2" @click="hideNavLeft">
+          <i class="dripicons-graph-bar" />
           <span class="menuMain">{{ lang['dashboard-nav'] }}</span>
         </el-menu-item>
       </router-link>
 
       <router-link to="/courses">
-        <el-menu-item index="3"  @click="hideNavLeft">
-          <i class="dripicons-media-next"/>
+        <el-menu-item index="3" @click="hideNavLeft">
+          <i class="dripicons-media-next" />
           <span class="menuMain">{{ lang['courses-nav'] }}</span>
         </el-menu-item>
       </router-link>
 
       <router-link to="/programs">
-        <el-menu-item v-if="plan != 'starter'" index="4"  @click="hideNavLeft">
-          <i class="dripicons-to-do"/>
+        <el-menu-item v-if="plan != 'starter'" index="4" @click="hideNavLeft">
+          <i class="dripicons-to-do" />
           <span class="menuMain">{{ lang['programs-nav'] }}</span>
         </el-menu-item>
       </router-link>
 
       <router-link to="/records">
-        <el-menu-item v-if="plan != 'starter'" index="5"  @click="hideNavLeft">
-          <i class="dripicons-copy"/>
+        <el-menu-item v-if="plan != 'starter'" index="5" @click="hideNavLeft">
+          <i class="dripicons-copy" />
           <span class="menuMain">{{ lang['school-records'] }}</span>
         </el-menu-item>
       </router-link>
 
       <router-link to="/certificates">
-        <el-menu-item v-if="plan != 'starter'" index="6"  @click="hideNavLeft">
-          <i class="dripicons-star"/>
+        <el-menu-item v-if="plan != 'starter'" index="6" @click="hideNavLeft">
+          <i class="dripicons-star" />
           <span class="menuMain">{{ lang['certificates-nav'] }}</span>
         </el-menu-item>
       </router-link>
@@ -67,21 +66,21 @@
         <el-row>
           <!-- Profile -->
           <router-link class="pr-4" to="/profile">
-            <el-avatar :src="$getUrlToContents() + 'avatar/' + userAvatar"/>
+            <el-avatar :src="$getUrlToContents() + 'avatar/' + userAvatar" />
           </router-link>
 
           <!-- Notification -->
           <a href="#">
-            <i class="mdi mdi-bell mdi-18px pr-3 mr-0"/>
+            <i class="mdi mdi-bell mdi-18px pr-3 mr-0" />
           </a>
 
           <!-- Calendar -->
           <router-link to="/calendar">
-            <i class="mdi mdi-calendar mdi-18px pr-3 mr-0"/>
+            <i class="mdi mdi-calendar mdi-18px pr-3 mr-0" />
           </router-link>
           <!-- Lofoff -->
           <a href="javascript:void(0)" @click="confirmLogout">
-            <i class="mdi mdi-power-settings mdi-18px ml-0 pl-0"/>
+            <i class="mdi mdi-power-settings mdi-18px ml-0 pl-0" />
           </a>
         </el-row>
       </el-menu-item>
@@ -92,8 +91,8 @@
 
 <script>
 import router from '@/router';
-import {mapState} from 'vuex';
-import {eventTemplate} from '@/components/template/TheTopBar';
+import { mapState } from 'vuex';
+import { eventTemplate } from '@/components/template/TheTopBar';
 
 export default {
   props: ['collapse', 'logo', 'user-name', 'user-avatar', 'user-id', 'plan'],
@@ -138,8 +137,7 @@ export default {
       eventTemplate.$emit('change-leftbar-class');
     }
   }
-}
-;
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

@@ -16,11 +16,24 @@ export const eventBus = new Vue();
 Vue.use(VueHead);
 
 export default {
+  data() {
+    return {
+      companyName: 'd'
+    };
+  },
   components: {
     SitePreview,
     Login
   },
+
   created() {
+    this.$request
+      .get(this.$getUrlToMakeRequest('company', 'getCompanyInformation'))
+      .then((response) => {
+        this.title = response.data.name;
+        document.title = response.data.name;
+      });
+
     eventBus.$on('full-screen', () => {
       if (this.fullScreen === true) {
         this.fullScreen = false;
@@ -30,9 +43,6 @@ export default {
     });
   },
   head: {
-    title: {
-      inner: 'Home'
-    },
     meta: [
       { name: 'charset', content: 'utf-8' },
       {
@@ -52,6 +62,7 @@ export default {
 .col-xl-3 {
   padding: 0px !important;
 }
+
 .content-page .content {
   padding: 0px !important;
 }

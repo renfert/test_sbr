@@ -7,8 +7,10 @@
             <!-- Course id -->
             <input class="hide" type="text" v-model="course.id" name="id" />
             <!-- Course name -->
-            <label class="col-form-label">{{ lang['name'] }} *</label>
-            <el-input name="title" v-model="course.name"></el-input>
+            <label class="col-form-label"
+              >{{ lang['name'] }} <span style="color: red">*</span></label
+            >
+            <el-input name="title" v-model="courseName"></el-input>
             <!-- Course category -->
             <label class="col-form-label">{{ lang['category'] }}</label>
             <el-select class="mb-5" v-model="course.category">
@@ -29,8 +31,8 @@
               class="sbr-purple"
               size="small"
               @click.prevent="modal = true"
-              >{{ lang['advanced-settings'] }}</el-button
-            >
+              >{{ lang['advanced-settings'] }}
+            </el-button>
           </el-col>
 
           <el-col :sm="12" :xs="24">
@@ -161,8 +163,8 @@
                   v-model="course.price"
                   class="price"
                   v-bind="money"
-                  >12323</money
-                >
+                  >12323
+                </money>
               </div>
               <br />
               <div class="form-group">
@@ -233,10 +235,8 @@
                         target="_blank"
                         class="text-white"
                         to="/integrations"
-                        >{{
-                          lang['click-to-configure-mercadopago']
-                        }}</router-link
-                      >
+                        >{{ lang['click-to-configure-mercadopago'] }}
+                      </router-link>
                     </p>
                   </el-alert>
                 </div>
@@ -369,8 +369,8 @@
           @click.prevent="modal = false"
           type="primary"
           size="medium"
-          >{{ lang['save-button'] }}</el-button
-        >
+          >{{ lang['save-button'] }}
+        </el-button>
       </el-dialog>
     </form>
     <helper-progress></helper-progress>
@@ -386,6 +386,8 @@ import HelperProgress from '@/components/helper/HelperProgress.vue';
 import { Money } from 'v-money';
 import { eventBus } from '@/components/newcourse/App';
 import { mapState } from 'vuex';
+
+export const eventFirstStep = new Vue();
 
 Vue.use(wysiwyg, {
   hideModules: { image: true, code: true }
@@ -434,7 +436,16 @@ export default {
     };
   },
   computed: {
-    ...mapState(['lang'])
+    ...mapState(['lang']),
+    courseName: {
+      get() {
+        return this.course.name;
+      },
+      set(value) {
+        eventFirstStep.$emit('verifyCourseName', value);
+        this.course.name = value;
+      }
+    }
   },
   watch: {
     freeCourse(newVal, oldVal) {
@@ -449,6 +460,7 @@ export default {
     this.getCategories();
     this.getGlobalCurrency();
   },
+
   mounted() {
     eventBus.$on('access-first-step', () => {
       this.displayContentFirstStep = true;

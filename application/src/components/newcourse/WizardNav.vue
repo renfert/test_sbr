@@ -44,8 +44,8 @@
         type="primary"
       >
         <i class="el-icon-back"></i>
-        {{ lang['previous-step-button'] }}</el-button
-      >
+        {{ lang['previous-step-button'] }}
+      </el-button>
       <el-button
         @click.prevent="nextStep()"
         v-if="currentStep != 3"
@@ -89,30 +89,47 @@
 
 <script>
 import { eventBus } from '@/components/newcourse/App';
+import { eventFirstStep } from '@/components/newcourse/FirstStep';
 import { mapState } from 'vuex';
+import Vue from 'vue';
 
+export const wizardEventBus = new Vue();
 export default {
   data: () => {
     return {
       active1: true,
       active2: false,
       active3: false,
-      currentStep: 1
+      currentStep: 1,
+      hasCourseName: false
     };
+  },
+  mounted() {
+    eventFirstStep.$on('verifyCourseName', (name) => {
+      if (name.length > 0) {
+        this.hasCourseName = true;
+      } else {
+        this.hasCourseName = false;
+      }
+    });
   },
   computed: {
     ...mapState(['lang'])
   },
   methods: {
     nextStep() {
-      if (this.currentStep !== 3) {
-        this.currentStep++;
+      if (this.hasCourseName) {
+        if (this.currentStep !== 3) {
+          this.currentStep++;
 
-        if (this.currentStep === 2) {
-          this.accessSecondStep();
-        } else {
-          this.accessThirdStep();
+          if (this.currentStep === 2) {
+            this.accessSecondStep();
+          } else {
+            this.accessThirdStep();
+          }
         }
+      } else {
+        this.$errorMessage();
       }
     },
     previousStep() {

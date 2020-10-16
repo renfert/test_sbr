@@ -11,7 +11,7 @@
             <div class="contant_box_404">
               <h3 class="h2">Look like you're lost</h3>
               <p>the page you are looking for not avaible!</p>
-              <a href="javascript:history.back()" class="link_404">Go back</a>
+              <a @click.prevent="$router.go(-1)" class="link_404">Go back</a>
             </div>
           </div>
         </div>
@@ -52,6 +52,7 @@
   margin: 20px 0;
   display: inline-block;
 }
+
 .contant_box_404 {
   margin-top: -50px;
 }
