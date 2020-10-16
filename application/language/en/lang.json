@@ -551,6 +551,10 @@
 
   "downloadable": "Downloadable",
 
+  "user-not-found": "User not found, please verify",
+
+  "password-modified": "Password has been modified, verify your email.",
+
   "logo-size": "Logo size",
   "sections": "Sections",
 

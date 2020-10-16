@@ -51,6 +51,10 @@
   "connected-channel": "Estas conectado al canal",
   "write-something": "Escribe algo...",
 
+  "user-not-found": "Usuário não encontrado, verifique ",
+
+  "password-modified": "La contraseña ha sido modificada, verifique su correo electrónico.",
+
   "connect-to-channel": "¿A qué canal le gustaría conectarse?",
   "anyone-can-see": "Cualquiera puede ver",
 

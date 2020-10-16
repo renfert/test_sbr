@@ -81,7 +81,9 @@
           placeholder="Email"
           name="email"
         ></el-input>
-        <button :style="primaryColorBg" class="btn account-btn">Recover</button>
+        <button :style="primaryColorBg" class="btn account-btn">
+          {{ lang['recover-password'] }}
+        </button>
         <div style="margin: auto; text-align: center">
           <b>{{ message }}</b>
         </div>
@@ -169,9 +171,9 @@ export default {
         (response) => {
           this.recover.loading = false;
           if (response.data === false) {
-            this.message = 'User not found, please verify. ';
+            this.message = this.lang['user-not-found'];
           } else {
-            this.message = 'Password has been modified, verify your email.';
+            this.message = this.lang['password-modified'];
           }
         },
         () => {

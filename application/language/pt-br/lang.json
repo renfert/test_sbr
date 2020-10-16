@@ -475,6 +475,10 @@
   "specific-group": "Grupo específico",
   "specific-course": "Curso específico",
 
+  "user-not-found": "Usuário não encontrado, verifique ",
+
+  "password-modified": "A senha foi modificada, verifique seu e-mail.",
+
   "public": "Público",
 
   "no-students-found": "Você não tem alunos",
