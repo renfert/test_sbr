@@ -134,6 +134,9 @@ export default {
               }
             }
           }
+        } else {
+          this.message = fileName;
+          this.realName = fileName;
         }
       } else {
         eventPlan.$emit('upgrade-plan', 'storage');

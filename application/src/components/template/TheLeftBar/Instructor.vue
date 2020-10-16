@@ -68,17 +68,6 @@
         </el-menu-item>
       </router-link>
 
-      <router-link to="/social">
-        <el-menu-item index="19">
-          <template slot="title">
-            <i class="el-icon-share"></i>
-            <a href="javascript:void(0)" class="waves-effect">
-              <span class="menuMain">Social</span>
-            </a>
-          </template>
-        </el-menu-item>
-      </router-link>
-
       <!-- User information -->
       <el-menu-item index="7" class="menu-item-user">
         <el-row>
