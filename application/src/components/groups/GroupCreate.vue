@@ -3,13 +3,18 @@
     <h4>{{ lang['create-group'] }}</h4>
     <el-form id="form-group" :inline="true">
       <el-form-item>
+        <el-row >
+          <!-- Username -->
+          <el-col :md="24" >
         <el-input
           clearable
           required
+          style="width: 100% !important;"
           name="name"
           :placeholder="lang['name']"
           v-model="groupName"
-        ></el-input>
+        ></el-input></el-col>
+        </el-row>
       </el-form-item>
       <el-form-item>
         <el-button

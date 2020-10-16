@@ -4,6 +4,7 @@
     :class="mobile"
     @touchstart="touchMoveStart($event)"
     @touchmove="touchMoveEnd($event)"
+    v-click-outside="hideMenu"
   >
     <!--- Sidemenu administrator role -->
     <el-menu
@@ -24,10 +25,11 @@
         <el-row>
           <!-- Profile -->
           <router-link to="/">
-            <img :src="$getUrlToContents() + 'settings/' + logo + ''" />
+            <img :src="$getUrlToContents() + 'settings/' + logo + ''"/>
           </router-link>
         </el-row>
       </el-menu-item>
+
 
       <router-link to="/newcourse" style="overflow: hidden">
         <el-button
@@ -41,7 +43,8 @@
           "
           class="sbr-primary"
           type="primary"
-          >{{ lang['new-course'] }}</el-button
+        >{{ lang['new-course'] }}
+        </el-button
         >
       </router-link>
 
@@ -75,8 +78,8 @@
           </el-menu-item>
         </router-link>
 
-        <router-link to="/corrections">
-          <el-menu-item index="25" v-if="plan != 'starter'">
+        <router-link to="/corrections" >
+          <el-menu-item index="25" v-if="plan != 'starter'" @click="hideNavLeft">
             <i class="dripicons-message"></i>
             <span class="menuMain">{{ lang['corrections-nav'] }}</span>
           </el-menu-item>
@@ -214,8 +217,10 @@
 
 <script>
 import router from '@/router';
-import { eventTemplate } from '@/components/template/TheTopBar';
-import { mapState } from 'vuex';
+import {eventTemplate} from '@/components/template/TheTopBar';
+import {mapState} from 'vuex';
+import Vue from 'vue';
+
 
 export default {
   props: ['collapse', 'logo', 'user-name', 'user-avatar', 'user-id', 'plan'],
@@ -223,7 +228,7 @@ export default {
     return {
       mobile: 'retracted',
       prevMouseX: 0,
-      swipedLeft: false
+      swipedLeft: false,
     };
   },
   mounted() {
@@ -237,6 +242,9 @@ export default {
     ...mapState(['lang'])
   },
   methods: {
+    hideMenu() {
+      this.mobile = 'retracted';
+    },
     confirmLogout() {
       this.$confirm(this.lang['wanna-leave'], {
         confirmButtonText: 'OK',

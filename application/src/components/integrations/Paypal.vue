@@ -24,14 +24,15 @@
         class="sbr-btn sbr-primary mt-3"
         native-type="submit"
         type="primary"
-        >{{ lang['save-button'] }}</el-button
+      >{{ lang['save-button'] }}
+      </el-button
       >
     </form>
   </el-col>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import {mapState} from 'vuex';
 
 export default {
   data: () => {
@@ -88,3 +89,12 @@ export default {
   }
 };
 </script>
+<style scoped>
+
+@media only screen and (max-width: 450px) {
+  .sbr-primary{
+    width: 100% !important;
+  }
+
+}
+</style>
