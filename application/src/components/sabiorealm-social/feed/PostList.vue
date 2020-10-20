@@ -141,17 +141,16 @@
           </el-row>
           <br />
           <el-row>
-            <el-button
-              :class="publication.i_like_it ? 'm-r-10 sbr-primary' : 'm-r-10'"
-              :type="publication.i_like_it ? 'primary' : ''"
-              @click="doPublicationLike(publication.id, $event)"
-              circle
-              ><i
-                class="fas fa-thumbs-up"
-                :style="publication.i_like_it ? 'color:white' : 'color:#4a5568'"
-              ></i>
-            </el-button>
-            {{ publication.likes > 0 ? publication.likes + ' likes' : '' }}
+            <div class="like_container">
+              <div
+                @click="doPublicationLike(publication.id, $event)"
+                :class="publication.i_like_it ? 'heart-liked' : 'heart-unliked'"
+                class="heart"
+              ></div>
+              <div class="likes_counter">
+                {{ publication.likes > 0 ? publication.likes : '0' }}
+              </div>
+            </div>
           </el-row>
           <hr />
           <el-row class="m-b-30">
@@ -220,13 +219,34 @@
 
 <script>
 import Vue from 'vue';
-
 import wysiwyg from 'vue-wysiwyg';
 import SubCommentary from '@/components/sabiorealm-social/feed/SubCommentary';
 import { FacebookLoader } from 'vue-content-loader';
 import { mapState } from 'vuex';
 import { eventBus } from '@/components/sabiorealm-social/App';
+import $ from 'jquery';
 Vue.use(wysiwyg, {});
+
+// Like and deslike animation
+$(document).on('click touchstart', '.heart-unliked', (event) => {
+  $(event.currentTarget).toggleClass('animating-liked');
+});
+
+$(document).on('animationend', '.heart-unliked', (event) => {
+  $(event.currentTarget).toggleClass('animating-liked');
+  $(event.currentTarget).toggleClass('heart-liked');
+  $(event.currentTarget).toggleClass('heart-unliked');
+});
+
+$(document).on('click touchstart', '.heart-liked', (event) => {
+  $(event.currentTarget).toggleClass('animating-unliked');
+});
+
+$(document).on('animationend', '.heart-liked', (event) => {
+  $(event.currentTarget).toggleClass('animating-unliked');
+  $(event.currentTarget).toggleClass('heart-liked');
+  $(event.currentTarget).toggleClass('heart-unliked');
+});
 
 export default {
   props: ['public-network'],
@@ -423,7 +443,18 @@ export default {
     },
 
     // eslint-disable-next-line camelcase
-    doPublicationLike(publication_id) {
+    doPublicationLike(publication_id, event) {
+      const status = event.target.className;
+      const el = $(event.target).next('.likes_counter');
+      const text = el.text();
+      const likes = parseInt(text);
+
+      if (status === 'heart heart-unliked') {
+        el.html(parseInt(likes) + parseInt(1));
+      } else {
+        el.html(parseInt(likes) - parseInt(1));
+      }
+
       const form = new FormData();
       form.append('social_publication_id', publication_id);
       form.append('myuser_id', this.user.id);
@@ -493,6 +524,15 @@ export default {
 };
 </script>
 <style type="text/scss">
+.like_container {
+  display: flex;
+  align-items: center;
+}
+
+.likes_counter {
+  font-weight: 700;
+}
+
 .image {
   border-radius: 100%;
 }
@@ -546,5 +586,48 @@ export default {
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
   padding-right: 10px;
+}
+
+.heart {
+  cursor: pointer;
+  height: 50px;
+  width: 50px;
+  background-image: url('https://abs.twimg.com/a/1446542199/img/t1/web_heart_animation.png');
+  background-repeat: no-repeat;
+  background-size: 2900%;
+}
+.heart-liked {
+  background-position: right;
+}
+.heart-unliked {
+  background-position: left;
+}
+
+.heart:hover {
+  background-position: right;
+}
+
+.animating-liked {
+  animation: heart-burst-liked 0.8s steps(28) 1;
+}
+.animating-unliked {
+  animation: heart-burst-unliked 0.5s steps(28) 1;
+}
+
+@keyframes heart-burst-liked {
+  from {
+    background-position: left;
+  }
+  to {
+    background-position: right;
+  }
+}
+@keyframes heart-burst-unliked {
+  from {
+    background-position: right;
+  }
+  to {
+    background-position: left;
+  }
 }
 </style>
