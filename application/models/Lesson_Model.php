@@ -228,14 +228,6 @@ class Lesson_Model extends CI_Model
 
   public function delete($lessonId)
   {
-    /* Delete from relationship */
-    $this->db->where('mylesson_id', $lessonId);
-    $this->db->delete("relationship");
-
-    /* Delete from lesson_status */
-    $this->db->where("mylesson_id", $lessonId);
-    $this->db->delete("lesson_status");
-
     /* Delete from mylesson */
     $this->db->where('id', $lessonId);
     $this->db->delete("mylesson");

@@ -71,10 +71,6 @@ class Group_Model extends CI_Model
 
   public function delete($groupId)
   {
-    // Delete from relationship
-    $this->db->where("mygroup_id", $groupId);
-    $this->db->delete("relationship");
-
     // Delete from mygroup
     $this->db->where('id', $groupId);
     $this->db->error();

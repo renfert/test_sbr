@@ -30,22 +30,6 @@
         </el-row>
       </el-menu-item>
 
-      <router-link to="/newcourse" style="overflow: hidden">
-        <el-button
-          @click="hideNavLeft"
-          style="
-            width: 100%;
-            height: 100%;
-            left: 0;
-            border-radius: 5px;
-            overflow: hidden;
-          "
-          class="sbr-primary"
-          type="primary"
-          >{{ lang['new-course'] }}
-        </el-button>
-      </router-link>
-
       <router-link to="/home">
         <el-menu-item index="2" @click="hideNavLeft">
           <i class="dripicons-home"></i>
@@ -156,8 +140,8 @@
 
         <router-link to="/social/settings">
           <el-menu-item index="15" @click="hideNavLeft">
-            <i class="dripicons-gear"></i>
-            <span class="menuMain">Ajustes</span>
+            <i class="dripicons-message"></i>
+            <span class="menuMain">Ajuste</span>
           </el-menu-item>
         </router-link>
       </el-submenu>

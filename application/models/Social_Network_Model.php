@@ -192,14 +192,6 @@ class Social_Network_Model extends CI_Model
   */
   public function deletePostByPublicationId($publication_id)
   {
-    // Delete from social likes
-    $this->db->where("social_publication_id", $publication_id);
-    $this->db->delete("social_likes");
-
-    // Delete from social comments
-    $this->db->where("social_publication_id", $publication_id);
-    $this->db->delete("social_comments");
-
     $this->db->where("id", $publication_id);
     $this->db->delete("social_publications");
     return true;

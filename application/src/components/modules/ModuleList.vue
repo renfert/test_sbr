@@ -318,7 +318,6 @@
           </div>
         </div>
         <br />
-        <hr />
         <br />
         <div class="row">
           <!-- HTML -->
@@ -762,17 +761,18 @@ li {
 .lesson {
   text-align: center;
   text-transform: uppercase;
-  font-size: 10px;
 }
 
 .lesson span {
+  font-weight: 700;
+  color: #647b9c;
   font-family: 'Poppins', sans-serif;
-  margin-top: 3em;
-  font-size: 1em;
+  font-size: 0.8em;
+  margin-top: 10px;
 }
 
 .lesson-img {
-  width: 60%;
+  width: 60px;
 }
 
 .box-no-results {

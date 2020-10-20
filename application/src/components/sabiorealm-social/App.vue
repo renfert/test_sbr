@@ -12,7 +12,10 @@
         </div>
       </div>
       <el-col :md="11" :sm="24" :xs="24">
-        <my-publication></my-publication>
+        <my-publication
+          v-if="publicNetworkStatus != null"
+          :public-network="publicNetworkStatus"
+        ></my-publication>
       </el-col>
 
       <el-col :md="13" :xs="24">

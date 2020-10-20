@@ -122,10 +122,6 @@ class Module_Model extends CI_Model
 
   public function delete($moduleId)
   {
-    /* Delete from relationship */
-    $this->db->where('mymodule_id', $moduleId);
-    $this->db->delete("relationship");
-
     /* Delete from mymodule */
     $this->db->where('id', $moduleId);
     $this->db->delete("mymodule");

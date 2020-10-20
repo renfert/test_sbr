@@ -210,7 +210,7 @@
           alt=""
         />
         <h4 class="sbr-text-grey m-t-30 fw-700">
-          Nao ha publicacoes disponiveis
+          {{ lang['no-publications-found'] }}
         </h4>
       </div>
     </div>

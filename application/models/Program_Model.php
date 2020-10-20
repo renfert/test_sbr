@@ -364,23 +364,6 @@ class Program_Model extends CI_Model
         $this->Course_Model->removeUserFromCourse($user, $course->mycourse_id);
       }
     }
-
-    /* Delete from relationship */
-    $this->db->where("program_id", $programId);
-    $this->db->delete("relationship");
-
-    /* Delete from program_has_mycourse */
-    $this->db->where("program_id", $programId);
-    $this->db->delete("program_has_mycourse");
-
-    /* Delete from activities */
-    $this->db->where("program_id", $programId);
-    $this->db->delete("activities");
-
-    /* Delete user_privileges */
-    $this->db->where("program_id", $programId);
-    $this->db->delete("user_privileges");
-
     /* Delete program */
     $this->db->where("id", $programId);
     $this->db->delete("program");

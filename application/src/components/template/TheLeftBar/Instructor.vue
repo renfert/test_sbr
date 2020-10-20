@@ -1,6 +1,5 @@
 <template>
-  <div class="left side-menu" :class="mobile"
-       v-click-outside="hideMenu">
+  <div class="left side-menu" :class="mobile" v-click-outside="hideMenu">
     <!--- Sidemenu instructor role -->
     <el-menu
       :collapse="collapse"
@@ -21,49 +20,56 @@
       </el-menu-item>
 
       <router-link to="/home">
-        <el-menu-item index="1"  @click="hideNavLeft">
+        <el-menu-item index="1" @click="hideNavLeft">
           <i class="dripicons-home"></i>
           <span class="menuMain">{{ lang['home-nav'] }}</span>
         </el-menu-item>
       </router-link>
 
       <router-link to="/dashboard">
-        <el-menu-item index="2"  @click="hideNavLeft">
+        <el-menu-item index="2" @click="hideNavLeft">
           <i class="dripicons-graph-bar"></i>
           <span class="menuMain">{{ lang['dashboard-nav'] }}</span>
         </el-menu-item>
       </router-link>
 
       <router-link to="/courses">
-        <el-menu-item index="3"  @click="hideNavLeft">
+        <el-menu-item index="3" @click="hideNavLeft">
           <i class="dripicons-media-next"></i>
           <span class="menuMain">{{ lang['courses-nav'] }}</span>
         </el-menu-item>
       </router-link>
 
       <router-link to="/groups">
-        <el-menu-item index="10"  @click="hideNavLeft">
+        <el-menu-item index="10" @click="hideNavLeft">
           <i class="dripicons-user-group"></i>
           <span class="menuMain">{{ lang['groups-nav'] }}</span>
         </el-menu-item>
       </router-link>
 
+      <router-link to="/social">
+        <el-menu-item index="36" @click="hideNavLeft">
+          <i class="dripicons-feed"></i>
+          <span class="menuMain">Social</span>
+        </el-menu-item>
+      </router-link>
+
       <router-link to="/programs">
-        <el-menu-item index="4" v-if="plan != 'starter'"  @click="hideNavLeft">
+        <el-menu-item index="4" v-if="plan != 'starter'" @click="hideNavLeft">
           <i class="dripicons-to-do"></i>
           <span class="menuMain">{{ lang['programs-nav'] }}</span>
         </el-menu-item>
       </router-link>
 
       <router-link to="/corrections">
-        <el-menu-item index="5" v-if="plan != 'starter'"  @click="hideNavLeft">
+        <el-menu-item index="5" v-if="plan != 'starter'" @click="hideNavLeft">
           <i class="dripicons-message"></i>
           <span class="menuMain">{{ lang['corrections-nav'] }}</span>
         </el-menu-item>
       </router-link>
 
       <router-link to="/categories">
-        <el-menu-item index="6"  @click="hideNavLeft">
+        <el-menu-item index="6" @click="hideNavLeft">
           <i class="dripicons-list"></i>
           <span class="menuMain">{{ lang['categories-nav'] }}</span>
         </el-menu-item>

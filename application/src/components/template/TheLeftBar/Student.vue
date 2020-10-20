@@ -47,6 +47,13 @@
         </el-menu-item>
       </router-link>
 
+      <router-link to="/social">
+        <el-menu-item index="36" @click="hideNavLeft">
+          <i class="dripicons-feed"></i>
+          <span class="menuMain">Social</span>
+        </el-menu-item>
+      </router-link>
+
       <router-link to="/records">
         <el-menu-item v-if="plan != 'starter'" index="5" @click="hideNavLeft">
           <i class="dripicons-copy" />

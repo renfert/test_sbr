@@ -134,6 +134,7 @@ import UploadFile from '@/mixins/upload';
 import Progress from '@/components/helper/HelperProgress';
 
 export default {
+  props: ['public-network'],
   components: { Progress },
   created() {
     // Connect to public channel
