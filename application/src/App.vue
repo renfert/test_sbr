@@ -84,6 +84,7 @@ import TheHamburger, {
 
 import { mapMutations } from 'vuex';
 
+
 export default {
   mixins: [headerTags, integrations],
   data: () => {
