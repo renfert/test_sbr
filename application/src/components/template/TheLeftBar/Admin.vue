@@ -154,7 +154,7 @@
           </el-menu-item>
         </router-link>
 
-        <router-link to="/integrations">
+        <router-link to="/social/settings">
           <el-menu-item index="15" @click="hideNavLeft">
             <i class="dripicons-gear"></i>
             <span class="menuMain">Ajustes</span>

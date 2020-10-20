@@ -9,6 +9,11 @@ class Social_Network_Model extends CI_Model
     parent::__construct();
   }
 
+  /*
+  =============================================
+  Get all publications
+  ==============================================
+  */
   public function getPublications()
   {
 
@@ -39,6 +44,12 @@ class Social_Network_Model extends CI_Model
     } else return null;
   }
 
+
+  /*
+  =============================================
+  Get all comments from specific publication
+  ==============================================
+  */
   public function getCommentsByPublicationId($publication_id, $myuser_id)
   {
     $this->db->select("T0.comment, T0.created, T0.modified, T1.name username, T1.avatar,T1.id myuser_id, T1.myrole_id , T0.id");
@@ -64,7 +75,11 @@ class Social_Network_Model extends CI_Model
     return 0;
   }
 
-
+  /*
+  =============================================
+  Get all likes from specific publication
+  ==============================================
+  */
   public function getLikes($publication_id)
   {
     $this->db->select("*");
@@ -74,6 +89,11 @@ class Social_Network_Model extends CI_Model
   }
 
 
+  /*
+  =============================================
+  Save publication
+  ==============================================
+  */
   public function savePublication($publication)
   {
     $now = getCurrentDate("Y-m-d H:i:s");
@@ -89,6 +109,11 @@ class Social_Network_Model extends CI_Model
     }
   }
 
+  /*
+  =============================================
+  Save comment
+  ==============================================
+  */
   public function saveComment($comment)
   {
     $now = getCurrentDate("Y-m-d H:i:s");
@@ -104,6 +129,11 @@ class Social_Network_Model extends CI_Model
     }
   }
 
+  /*
+  =============================================
+  Do publication like
+  ==============================================
+  */
   public function savePublicationLike($socialEntity)
   {
     $now = getCurrentDate("Y-m-d H:i:s");
@@ -130,6 +160,11 @@ class Social_Network_Model extends CI_Model
     return true;
   }
 
+  /*
+  =============================================
+  Do commentary like
+  ==============================================
+  */
   public function saveCommentaryLike($socialEntity)
   {
     if (isset($socialEntity['social_comment_id'])) {
@@ -148,25 +183,13 @@ class Social_Network_Model extends CI_Model
     return $this->db->error();
   }
 
-  public function getLikeByPublicationId($social_publication_id, $myuser_id)
-  {
-    $this->db->select("*");
-    $this->db->from("social_likes");
-    $this->db->where("social_publication_id", $social_publication_id);
-    $this->db->where("myuser_id", $myuser_id);
-    return $this->db->get()->result()[0];
-  }
-
-  public function getUsersWithStatusOn()
-  {
-    $mydate = getCurrentDate("Y-m-d H:i:s");
-    $this->db->select("*");
-    $this->db->from("myuser U");
-    $this->db->where("last_activity > '" . $mydate . "' - INTERVAL 5 MINUTE");
-    return $this->db->get()->result() ?: false;
-  }
 
 
+  /*
+  =============================================
+  Delete publication
+  ==============================================
+  */
   public function deletePostByPublicationId($publication_id)
   {
     // Delete from social likes
@@ -182,6 +205,11 @@ class Social_Network_Model extends CI_Model
     return true;
   }
 
+  /*
+  =============================================
+  Delete commentary
+  ==============================================
+  */
   public function deleteCommentById($comment_id)
   {
     $this->db->where("id", $comment_id);
@@ -189,6 +217,11 @@ class Social_Network_Model extends CI_Model
     return true;
   }
 
+  /*
+  =============================================
+  Edit publication
+  ==============================================
+  */
   public function editPublication($publicationEntity)
   {
     $now = getCurrentDate("Y-m-d H:i:s");
@@ -196,7 +229,7 @@ class Social_Network_Model extends CI_Model
       'description' => $publicationEntity["publication"],
       'media_path' => $publicationEntity["media_path"],
       "media_realname" => $publicationEntity["media_name"],
-      "media_type" => $this->get_file_extension($publicationEntity["media_path"]),
+      "media_type" => $this->getFileExtension($publicationEntity["media_path"]),
       "modified" => $now
     );
     $this->db->where("id", $publicationEntity["id"]);
@@ -207,26 +240,22 @@ class Social_Network_Model extends CI_Model
     }
   }
 
-  public function get_file_extension($file_name)
+
+  /*
+  =============================================
+  Get file extension
+  ==============================================
+  */
+  private function getFileExtension($file_name)
   {
     return substr(strrchr($file_name, '.'), 1);
   }
 
-  public function getAllGroups()
-  {
-    $this->db->select("*");
-    $this->db->from("mygroup");
-    return $this->db->get()->result() ?: false;
-  }
-
-  public function getAllCourses()
-  {
-    $this->db->select("*");
-    $this->db->from("mycourse");
-    $this->db->where("id !=", 1);
-    return $this->db->get()->result() ?: false;
-  }
-
+  /*
+  =============================================
+  Get all publications by group
+  ==============================================
+  */
   public function getPublicationsByGroupId($group_id)
   {
     $this->db->select("T0.id,T0.myuser_id,T1.name username,T1.avatar,T0.mygroup_id,T0.mycourse_id, T3.title course_name,T0.pub_url,T0.description,
@@ -256,6 +285,12 @@ class Social_Network_Model extends CI_Model
     } else return null;
   }
 
+
+  /*
+  =============================================
+  Get all publications by course
+  ==============================================
+  */
   public function getPublicationsByCourseId($course_id)
   {
     $this->db->select("T0.id,T0.myuser_id,T1.name username,T1.avatar,T0.mygroup_id,T0.mycourse_id, T3.title course_name,T0.pub_url,T0.description,
@@ -283,5 +318,227 @@ class Social_Network_Model extends CI_Model
       }
       return $res;
     } else return null;
+  }
+
+
+  /*
+  =============================================
+  Get all courses with social feature
+  ==============================================
+  */
+  public function getCoursesInsideSocial()
+  {
+    $this->db->select("*");
+    $this->db->from("social_settings T0");
+    $this->db->join("mycourse T1", "T0.mycourse_id = T1.id");
+    $this->db->where("mycourse_id !=", 1);
+    $query = $this->db->get();
+    if ($query->num_rows() > 0) {
+      return $query->result();
+    }
+  }
+
+  /*
+  =============================================
+  Get all groups with social feature
+  ==============================================
+  */
+  public function getGroupsInsideSocial()
+  {
+    $this->db->select("*");
+    $this->db->from("social_settings T0");
+    $this->db->join("mygroup T1", "T0.mygroup_id = T1.id");
+    $this->db->where("T1.id !=", 1);
+    $query = $this->db->get();
+    if ($query->num_rows() > 0) {
+      return $query->result();
+    }
+  }
+
+
+  /*
+  =============================================
+  Get courses that is not in social feature
+  ==============================================
+  */
+  public function getCoursesOutsideSocial()
+  {
+    $this->db->select("T0.id as key,T0.title as label");
+    $this->db->distinct();
+    $this->db->from("mycourse T0 ");
+    $this->db->where("T0.id NOT IN (SELECT mycourse_id FROM social_settings) AND T0.id != 1", null, false);
+    $query = $this->db->get();
+    if ($query->num_rows() > 0) {
+      return $query->result();
+    }
+  }
+
+  /*
+  =============================================
+  Get groups that is not in social feature
+  ==============================================
+  */
+  public function getGroupsOutsideSocial()
+  {
+    $this->db->select("T0.id as key,T0.name as label");
+    $this->db->distinct();
+    $this->db->from("mygroup T0 ");
+    $this->db->where("T0.id NOT IN (SELECT mygroup_id FROM social_settings) AND T0.id != 1", null, false);
+    $query = $this->db->get();
+    if ($query->num_rows() > 0) {
+      return $query->result();
+    }
+  }
+
+
+  /*
+  =============================================
+  Save courses into social feature
+  ==============================================
+  */
+  public function saveCoursesIntoSocial($courses)
+  {
+    foreach ($courses as $course) {
+      $data = array(
+        'mycourse_id' => $course,
+        'mygroup_id' => 1,
+        'program_id' => 1,
+      );
+      $this->db->insert("social_settings", $data);
+    }
+  }
+
+  /*
+  =============================================
+  Save groups into social feature
+  ==============================================
+  */
+  public function saveGroupsIntoSocial($groups)
+  {
+    foreach ($groups as $group) {
+      $data = array(
+        'mycourse_id' => 1,
+        'mygroup_id' => $group,
+        'program_id' => 1,
+      );
+      $this->db->insert("social_settings", $data);
+    }
+  }
+
+  /*
+  =============================================
+  Remove specific course from social feature
+  ==============================================
+  */
+  public function removeCourseFromSocial($courseId)
+  {
+    $this->db->where("mycourse_id", $courseId);
+    $this->db->delete("social_settings");
+  }
+
+  /*
+  =============================================
+  Remove specific group from social feature
+  ==============================================
+  */
+  public function removeGroupFromSocial($groupId)
+  {
+    $this->db->where("mygroup_id", $groupId);
+    $this->db->delete("social_settings");
+  }
+
+  /*
+  =============================================
+  Get public network status
+  ==============================================
+  */
+  public function getPublicNetworkStatus()
+  {
+    $this->db->select("*");
+    $this->db->from("social_settings");
+    $query = $this->db->get();
+    if ($query->num_rows() > 0) {
+      $socialPublicNetwork = $query->result()[0];
+      if ($socialPublicNetwork->public == null) {
+        $result = false;
+      } else {
+        $result = true;
+      }
+      return $result;
+    }
+  }
+
+  /*
+  =============================================
+  Update social network status
+  ==============================================
+  */
+  public function updatePublicNetworkStatus($currentStatus)
+  {
+    $this->db->select("*");
+    $this->db->from("social_settings");
+    $this->db->where("mycourse_id", 1);
+    $this->db->where("mygroup_id", 1);
+    $this->db->where("program_id", 1);
+    $query = $this->db->get();
+    if ($query->num_rows() == 0) {
+      $data = array(
+        "mycourse_id" => 1,
+        "mygroup_id" => 1,
+        "program_id" => 1
+      );
+      $this->db->insert("social_settings", $data);
+    }
+
+    if ($currentStatus == "true") {
+      $status = true;
+    } else {
+      $status = null;
+    }
+    echo $status;
+    $data = array(
+      "public" => $status
+    );
+    $this->db->update("social_settings", $data);
+  }
+
+  /*
+  =============================================
+  Listing all courses
+  ==============================================
+  */
+  public function listingCourses()
+  {
+    $this->db->select("T1.id, T1.title");
+    $this->db->distinct();
+    $this->db->from("social_settings T0");
+    $this->db->join("mycourse T1", "T0.mycourse_id = T1.id");
+    $this->db->join("relationship T2", "T1.id = T2.mycourse_id");
+    $this->db->where("T0.mycourse_id !=", 1);
+    $this->db->where("T2.myuser_id", getUserId());
+    $query = $this->db->get();
+    if ($query->num_rows() > 0) {
+      return $query->result();
+    }
+  }
+
+  /*
+  =============================================
+  Listing all groups
+  ==============================================
+  */
+  public function listingGroups()
+  {
+    $this->db->select("T1.id, T1.name");
+    $this->db->distinct();
+    $this->db->from("social_settings T0");
+    $this->db->join("mygroup T1", "T0.mygroup_id = T1.id");
+    $this->db->join("relationship T2", "T1.id = T2.mygroup_id");
+    $this->db->where("T0.mygroup_id !=", 1);
+    $this->db->where("T2.myuser_id", getUserId());
+    $query = $this->db->get();
+    if ($query->num_rows() > 0) {
+      return $query->result();
+    }
   }
 }

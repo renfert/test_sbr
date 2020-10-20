@@ -5,26 +5,24 @@
     <el-tabs type="border-card">
       <el-tab-pane>
         <span slot="label">
+          <i class="mdi mdi-web"></i>
+          {{ lang['public'] }}
+        </span>
+        <public></public>
+      </el-tab-pane>
+      <el-tab-pane>
+        <span slot="label">
           <i class="mdi mdi-book-outline"></i>
           {{ lang['courses'] }}
         </span>
         <courses></courses>
       </el-tab-pane>
-
-      <el-tab-pane v-if="user.role == 1">
+      <el-tab-pane>
         <span slot="label">
-          <i class="mdi mdi-account-multiple-outline"></i>
+          <i class="mdi mdi-account-group"></i>
           {{ lang['groups'] }}
         </span>
         <groups></groups>
-      </el-tab-pane>
-
-      <el-tab-pane v-if="user.role == 1">
-        <span slot="label">
-          <i class="mdi mdi-account-star-outline"></i>
-          {{ lang['programs'] }}
-        </span>
-        <programs></programs>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -34,7 +32,8 @@
 import Vue from 'vue';
 import Courses from '@/components/sabiorealm-social/settings/Courses';
 import Groups from '@/components/sabiorealm-social/settings/Groups';
-import Programs from '@/components/sabiorealm-social/settings/Programs';
+import Public from '@/components/sabiorealm-social/settings/Public';
+
 import VueHead from 'vue-head';
 import { mapState } from 'vuex';
 
@@ -65,7 +64,7 @@ export default {
   components: {
     Courses,
     Groups,
-    Programs
+    Public
   }
 };
 </script>

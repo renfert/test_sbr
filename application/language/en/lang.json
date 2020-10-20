@@ -214,6 +214,7 @@
   "no-results-programs-in-user": "The user is not enrolled in any program.",
   "this-looks-like-a-desert": "This looks like a desert",
   "add-course": "Add course",
+  "add-group": "Add group",
   "add-student": "Add student",
   "add-instructor": "Add instructor",
   "add-program": "Add program",
@@ -234,12 +235,14 @@
   "all-courses-already-added": "There are no courses to add.",
   "all-students-already-added": "There are no students to add.",
   "all-instructors-already-added": "There are no instructors to add.",
+  "all-groups-already-added": "There are no groups to add.",
   "all-programs-already-added": "There are no programs to add.",
   "upgrade-your-plan-to-access": "Upgrade your plan to access",
   "see-result": "See result",
   "module-available-in": "Module available in: ",
   "certificate-unavailable": "You must complete the course to receive the certificate",
   "remove-course-question": "Remove course: ",
+  "remove-group-question": "Remove group: ",
   "remove-student-question": "Remove student: ",
   "remove-instructor-question": "Remove instructor: ",
   "remove-program-question": "Remove program: ",
@@ -248,6 +251,9 @@
   "no-results-programs-in-group": "You do not have any program in this group",
   "edit-lesson": "Edit lesson",
   "edit-exam": "Edit exam",
+
+  "social-public-title": "Would you like to activate the public network?",
+  "social-public-subtitle": "The public network is a space where any student or instructor can share",
 
   "please-select-option": "Please select an option",
 

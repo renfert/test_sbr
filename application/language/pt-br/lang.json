@@ -251,6 +251,7 @@
   "no-results-courses-in-user": "O usuário não está matriculado em nenhum curso.",
   "no-results-programs-in-user": "O usuário não está inscrito em nenhum programa.",
   "add-course": "Adicionar curso",
+  "add-group": "Adicionar grupo",
   "add-student": "Adicionar estudante",
   "add-instructor": "Adicionar instrutor",
   "add-program": "Adicionar programa",
@@ -273,6 +274,7 @@
   "question-delete-answer": "Apagar resposta: ",
 
   "all-courses-already-added": "Não há cursos a serem adicionados.",
+  "all-groups-already-added": "Não há grupos a serem adicionados.",
   "all-students-already-added": "Não há alunos para adicionar.",
   "all-instructors-already-added": "Não há instrutores para adicionar.",
   "all-programs-already-added": "Não há programas para adicionar.",
@@ -285,7 +287,11 @@
 
   "certificate-unavailable": "Você deve concluir o curso para receber o certificado",
 
+  "social-public-title": "Gostaria de ativar a rede pública?",
+  "social-public-subtitle": "A rede pública é um espaço onde qualquer aluno ou instrutor pode compartilhar",
+
   "remove-course-question": "Remover curso: ",
+  "remove-group-question": "Remover group: ",
   "remove-student-question": "Remover estudante: ",
   "remove-instructor-question": "Remover instrutor: ",
   "remove-program-question": "Remover programa: ",

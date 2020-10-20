@@ -342,6 +342,7 @@
   "no-results-programs-in-user": "El usuario no está asignado a ningún programa.",
   "this-looks-like-a-desert": "Al parecer es un desierto",
   "add-course": "Agregar curso",
+  "add-group": "Agregar grupo",
   "add-student": "Agregar alumno",
   "add-instructor": "Agregar instructor",
   "add-program": "Agregar programa",
@@ -367,9 +368,13 @@
   "answer-deleted-success": "Respuesta eliminada",
 
   "all-courses-already-added": "No hay cursos para agregar.",
+  "all-groups-already-added": "No hay grupos para agregar.",
   "all-students-already-added": "No hay estudiantes para agregar.",
   "all-instructors-already-added": "No hay instructores para agregar.",
   "all-programs-already-added": "No hay programas para agregar.",
+
+  "social-public-title": "¿Le gustaría activar la red pública?",
+  "social-public-subtitle": "La red pública es un espacio donde cualquier alumno o instructor puede compartir",
 
   "upgrade-your-plan-to-access": "Actualice su plan para acceder",
 
@@ -378,6 +383,7 @@
   "module-available-in": "Módulo disponible en: ",
 
   "remove-course-question": "Borrar curso: ",
+  "remove-group-question": "Borrar group: ",
   "remove-student-question": "Borrar alumno: ",
   "remove-instructor-question": "Borrar instructor: ",
   "remove-program-question": "Borrar program: ",

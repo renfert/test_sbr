@@ -6,7 +6,7 @@
       </h4>
     </div>
     <!-- Public -->
-    <div @click.prevent="changeChannel('public')">
+    <div v-if="publicNetwork != false" @click.prevent="changeChannel('public')">
       <el-row class="publish-location">
         <el-col :sm="4">
           <img style="width: 50px" src="@/assets/img/social/world.png" />
@@ -86,6 +86,7 @@ import { mapState } from 'vuex';
 import { eventBus } from '@/components/sabiorealm-social/App';
 
 export default {
+  props: ['public-network'],
   created() {
     this.showSections();
     eventBus.$on('open-channel-modal', () => {
@@ -97,6 +98,7 @@ export default {
       modal: false,
       groups: [],
       courses: [],
+      publicNetworkStatus: null,
       select: {
         course: '',
         gorup: ''
@@ -121,12 +123,12 @@ export default {
     },
     showSections() {
       this.$request
-        .get(this.$getUrlToMakeRequest('group', 'listing'))
+        .get(this.$getUrlToMakeRequest('SocialNetwork', 'listingGroups'))
         .then((response) => {
           this.groups = response.data;
         });
       this.$request
-        .get(this.$getUrlToMakeRequest('course', 'listing'))
+        .get(this.$getUrlToMakeRequest('SocialNetwork', 'listingCourses'))
         .then((response) => {
           this.courses = response.data;
         });

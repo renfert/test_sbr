@@ -222,13 +222,14 @@
 import Vue from 'vue';
 
 import wysiwyg from 'vue-wysiwyg';
-import SubCommentary from '@/components/sabiorealm-social/SubCommentary';
+import SubCommentary from '@/components/sabiorealm-social/feed/SubCommentary';
 import { FacebookLoader } from 'vue-content-loader';
 import { mapState } from 'vuex';
 import { eventBus } from '@/components/sabiorealm-social/App';
 Vue.use(wysiwyg, {});
 
 export default {
+  props: ['public-network'],
   data: () => {
     return {
       comment: [],
@@ -249,17 +250,21 @@ export default {
       showButtons: false,
       currentDate: '',
       channel: {
-        type: 'public',
+        type: '',
         id: ''
       }
     };
   },
   components: { SubCommentary, FacebookLoader },
   created() {
-    this.getCurrentDate();
-    this.getPublications();
+    if (this.publicNetwork !== false) {
+      this.channel.type = 'public';
+    }
   },
   mounted() {
+    this.getCurrentDate();
+    this.getPublications();
+
     eventBus.$on('edited-publication', () => {
       this.getPublications();
     });

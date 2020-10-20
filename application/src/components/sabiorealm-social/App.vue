@@ -43,11 +43,17 @@
           </h4>
         </div>
         <div>
-          <post-list></post-list>
+          <post-list
+            v-if="publicNetworkStatus != null"
+            :public-network="publicNetworkStatus"
+          ></post-list>
         </div>
       </el-col>
     </el-row>
-    <select-channel></select-channel>
+    <select-channel
+      v-if="publicNetworkStatus != null"
+      :public-network="publicNetworkStatus"
+    ></select-channel>
     <edit-post></edit-post>
   </div>
 </template>
@@ -56,10 +62,10 @@
 import Vue from 'vue';
 import VueHead from 'vue-head';
 import { mapState } from 'vuex';
-import PostList from '@/components/sabiorealm-social/PostList';
-import MyPublication from '@/components/sabiorealm-social/MyPublication';
-import SelectChannel from '@/components/sabiorealm-social/SelectChannel';
-import EditPost from '@/components/sabiorealm-social/EditPost';
+import PostList from '@/components/sabiorealm-social/feed/PostList';
+import MyPublication from '@/components/sabiorealm-social/feed/MyPublication';
+import SelectChannel from '@/components/sabiorealm-social/feed/SelectChannel';
+import EditPost from '@/components/sabiorealm-social/feed/EditPost';
 
 Vue.use(VueHead);
 
@@ -71,6 +77,7 @@ export default {
       comment: [],
       publications: [],
       activeName: 'first',
+      publicNetworkStatus: null,
       channel: {
         type: 'public',
         name: 'Public'
@@ -92,6 +99,7 @@ export default {
   },
   components: { MyPublication, PostList, SelectChannel, EditPost },
   created() {
+    this.getPublicNetworkStatus();
     this.channel.name = this.lang.public;
     // Connect to public channel
     eventBus.$on('connect-to-public-channel', () => {
@@ -114,6 +122,23 @@ export default {
   methods: {
     changeChannel() {
       eventBus.$emit('open-channel-modal');
+    },
+    getPublicNetworkStatus() {
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'socialNetwork',
+        'getPublicNetworkStatus'
+      );
+      this.$request.get(urlToBeUsedInTheRequest).then(
+        (response) => {
+          this.publicNetworkStatus = response.data;
+          if (response.data === false) {
+            this.channel.name = '';
+          }
+        },
+        () => {
+          this.$errorMessage();
+        }
+      );
     }
   }
 };

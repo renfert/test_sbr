@@ -10,7 +10,7 @@
     ></facebook-loader>
 
     <div v-else>
-      <div v-if="coursesBelongingToTheGroup != null">
+      <div v-if="coursesBelongingToSocial != null">
         <div>
           <el-row :gutter="40">
             <el-col :sm="6" :xs="18">
@@ -31,7 +31,7 @@
         </div>
         <data-tables
           :pagination-props="{ background: true, pageSizes: [5] }"
-          :data="coursesBelongingToTheGroup"
+          :data="coursesBelongingToSocial"
           :filters="table.filters"
         >
           <el-table-column
@@ -48,7 +48,7 @@
                 confirmButtonText="Ok"
                 cancelButtonText="No, Thanks"
                 :title="lang['remove-course-question'] + scope.row.title + '?'"
-                @onConfirm="removeCourseFromGroup(scope.row.id)"
+                @onConfirm="removeCourseFromSocial(scope.row.id)"
               >
                 <i
                   slot="reference"
@@ -63,12 +63,10 @@
       <el-row v-else class="center m-t-40 m-b-40">
         <el-col :md="24">
           <img
-            class="not-found-image"
+            class="not-found-image m-b-20"
             src="@/assets/img/general/ux/no_courses.svg"
           />
-          <h4 class="sbr-text-grey">
-            {{ lang['no-results-courses-in-group'] }}
-          </h4>
+          <br />
           <el-button class="sbr-primary" @click="addCourse()"
             >{{ lang['add-course'] }}
           </el-button>
@@ -95,13 +93,13 @@
       ></facebook-loader>
 
       <div v-else class="center">
-        <div v-if="coursesNotBelongingToTheGroup != null">
+        <div v-if="coursesNotBelongingToSocial != null">
           <template>
             <el-transfer
               filterable
-              :titles="['Courses', 'Group']"
+              :titles="['Courses', 'Social']"
               v-model="courses"
-              :data="coursesNotBelongingToTheGroup"
+              :data="coursesNotBelongingToSocial"
             ></el-transfer>
           </template>
           <br />
@@ -151,8 +149,8 @@ export default {
         filters: [{ prop: 'title', value: '' }],
         props: { defaultSort: { prop: 'title', order: 'descending' } }
       },
-      coursesBelongingToTheGroup: [],
-      coursesNotBelongingToTheGroup: [],
+      coursesBelongingToSocial: [],
+      coursesNotBelongingToSocial: [],
       courses: [],
       loading: false,
       modal: false,
@@ -161,25 +159,24 @@ export default {
     };
   },
   created() {
-    this.getCoursesThatBelongToGroup();
-    this.getCoursesThatNotBelongToGroup();
+    this.getCoursesThatBelongToSocial();
+    this.getCoursesThatNotBelongToSocial();
   },
   computed: {
     ...mapState(['lang'])
   },
   methods: {
-    removeCourseFromGroup(courseId) {
+    removeCourseFromSocial(courseId) {
       const formData = new FormData();
       const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        'group',
-        'removeCourseFromGroup'
+        'socialNetwork',
+        'removeCourseFromSocial'
       );
       formData.set('courseId', courseId);
-      formData.set('groupId', this.groupId);
       this.$request.post(urlToBeUsedInTheRequest, formData).then(
         () => {
-          this.getCoursesThatBelongToGroup();
-          this.getCoursesThatNotBelongToGroup();
+          this.getCoursesThatBelongToSocial();
+          this.getCoursesThatNotBelongToSocial();
           this.$successMessage();
         },
         () => {
@@ -191,8 +188,8 @@ export default {
       this.loading = true;
       const formData = new FormData();
       const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        'group',
-        'saveCoursesIntoGroup'
+        'SocialNetwork',
+        'saveCoursesIntoSocial'
       );
       formData.set('groupId', this.groupId);
       formData.set('courses', this.courses);
@@ -200,8 +197,8 @@ export default {
         () => {
           this.loading = false;
           this.modal = false;
-          this.getCoursesThatBelongToGroup();
-          this.getCoursesThatNotBelongToGroup();
+          this.getCoursesThatBelongToSocial();
+          this.getCoursesThatNotBelongToSocial();
           this.courses = [];
         },
         () => {
@@ -212,17 +209,15 @@ export default {
     addCourse() {
       this.modal = true;
     },
-    getCoursesThatBelongToGroup() {
+    getCoursesThatBelongToSocial() {
       this.content = false;
-      const formData = new FormData();
       const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        'group',
-        'getCoursesInsideGroup'
+        'SocialNetwork',
+        'getCoursesInsideSocial'
       );
-      formData.set('groupId', this.groupId);
-      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+      this.$request.get(urlToBeUsedInTheRequest).then(
         (response) => {
-          this.coursesBelongingToTheGroup = response.data;
+          this.coursesBelongingToSocial = response.data;
           setTimeout(() => {
             this.content = true;
           }, 1000);
@@ -232,17 +227,15 @@ export default {
         }
       );
     },
-    getCoursesThatNotBelongToGroup() {
+    getCoursesThatNotBelongToSocial() {
       this.contentModal = false;
-      const formData = new FormData();
       const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        'group',
-        'getCoursesOutsideGroup'
+        'SocialNetwork',
+        'getCoursesOutsideSocial'
       );
-      formData.set('groupId', this.groupId);
-      this.$request.post(urlToBeUsedInTheRequest, formData).then(
+      this.$request.get(urlToBeUsedInTheRequest).then(
         (response) => {
-          this.coursesNotBelongingToTheGroup = response.data;
+          this.coursesNotBelongingToSocial = response.data;
           setTimeout(() => {
             this.contentModal = true;
           }, 1000);
