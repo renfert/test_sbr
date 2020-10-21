@@ -80,7 +80,10 @@
       </div>
     </div>
 
-    <el-dialog :title="lang['edit']" :visible.sync="editDialog" width="50%">
+    <el-dialog :visible.sync="editDialog" width="50%">
+      <div class="center" slot="title">
+        <h3>{{ lang['edit'] }}</h3>
+      </div>
       <el-row :md="24" justify="center">
         <el-input
           type="textarea"
@@ -91,7 +94,7 @@
         </el-input>
         <br />
         <br />
-        <el-button @click="saveComment()" type="primary" round>
+        <el-button @click="saveComment()" type="primary" class="sbr-primary">
           <i class="el-icon-loading" style="color: white" v-if="loading"></i>
           <i class="far fa-paper-plane" v-else></i> {{ lang['publish'] }}
         </el-button>

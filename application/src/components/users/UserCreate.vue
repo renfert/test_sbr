@@ -128,7 +128,7 @@
           <b>
             <a
               download
-              href="https://cdn.eadtools.com/files/import_user.xlsx"
+              href="https://sbrfiles.s3.amazonaws.com/sbr/import_user.xlsx"
               class="sbr-text-primary"
             >
               <i class="el-icon-download"></i>
@@ -270,13 +270,13 @@ export default {
   .el-form--inline .el-form-item__content {
     width: 100%;
   }
-  .float-right{
-    float:inherit !important;
+  .float-right {
+    float: inherit !important;
   }
-  .el-button.sbr-purple{
+  .el-button.sbr-purple {
     width: 100%;
   }
-  .sbr-primary{
+  .sbr-primary {
     width: 100%;
   }
 }

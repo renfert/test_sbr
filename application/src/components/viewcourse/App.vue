@@ -121,6 +121,10 @@ export default {
   border: none !important;
 }
 
+.v-model {
+  z-index: 300 !important;
+}
+
 /* Let's get this party started */
 ::-webkit-scrollbar {
   display: none;

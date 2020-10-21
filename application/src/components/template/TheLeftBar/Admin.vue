@@ -141,7 +141,7 @@
         <router-link to="/social/settings">
           <el-menu-item index="15" @click="hideNavLeft">
             <i class="dripicons-message"></i>
-            <span class="menuMain">Ajuste</span>
+            <span class="menuMain">{{ lang['networks'] }}</span>
           </el-menu-item>
         </router-link>
       </el-submenu>

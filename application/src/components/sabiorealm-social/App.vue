@@ -11,14 +11,19 @@
           </a>
         </div>
       </div>
-      <el-col :md="11" :sm="24" :xs="24">
+      <el-col
+        :class="channel.type == null ? 'hide' : ''"
+        :md="11"
+        :sm="24"
+        :xs="24"
+      >
         <my-publication
           v-if="publicNetworkStatus != null"
           :public-network="publicNetworkStatus"
         ></my-publication>
       </el-col>
 
-      <el-col :md="13" :xs="24">
+      <el-col :class="channel.type == null ? 'hide' : ''" :md="13" :xs="24">
         <div>
           <h4>
             {{ lang['connected-channel'] }} <i class="el-icon-arrow-right"></i>
@@ -53,6 +58,20 @@
         </div>
       </el-col>
     </el-row>
+    <div :class="channel.type != null ? 'hide' : ''" class="center m-t-40">
+      <img
+        src="@/assets/img/social/no_publications.svg"
+        class="not-found-image"
+      />
+      <h3>Voce nao esta conectado a nenhum canal</h3>
+      <el-button
+        type="primary"
+        class="sbr-primary"
+        @click.prevent="changeChannel()"
+      >
+        {{ lang['change-channel'] }}
+      </el-button>
+    </div>
     <select-channel
       v-if="publicNetworkStatus != null"
       :public-network="publicNetworkStatus"
@@ -79,11 +98,10 @@ export default {
       publication: '',
       comment: [],
       publications: [],
-      activeName: 'first',
       publicNetworkStatus: null,
       channel: {
-        type: 'public',
-        name: 'Public'
+        type: null,
+        name: null
       }
     };
   },
@@ -134,8 +152,9 @@ export default {
       this.$request.get(urlToBeUsedInTheRequest).then(
         (response) => {
           this.publicNetworkStatus = response.data;
-          if (response.data === false) {
-            this.channel.name = '';
+          if (response.data !== false) {
+            this.channel.name = this.lang.public;
+            this.channel.type = 'public';
           }
         },
         () => {
