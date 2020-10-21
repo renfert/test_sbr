@@ -6,7 +6,10 @@
       </h4>
     </div>
     <!-- Public -->
-    <div v-if="publicNetwork != false" @click.prevent="changeChannel('public')">
+    <div
+      v-if="publicNetwork != false && publicNetwork != null"
+      @click.prevent="changeChannel('public')"
+    >
       <el-row class="publish-location">
         <el-col :sm="4">
           <img style="width: 50px" src="@/assets/img/social/world.png" />

@@ -291,6 +291,8 @@
 
   "networks": "Redes",
 
+  "you-are-not-connected-to-any-network": "você não está conectado a nenhuma rede",
+
   "social-public-title": "Gostaria de ativar a rede pública?",
   "social-public-subtitle": "A rede pública é um espaço onde qualquer aluno ou instrutor pode compartilhar",
 

@@ -50,11 +50,8 @@
             />
           </h4>
         </div>
-        <div>
-          <post-list
-            v-if="publicNetworkStatus != null"
-            :public-network="publicNetworkStatus"
-          ></post-list>
+        <div :class="channel.type == null ? 'hide' : ''">
+          <post-list :public-network="publicNetworkStatus"></post-list>
         </div>
       </el-col>
     </el-row>
@@ -63,7 +60,7 @@
         src="@/assets/img/social/no_publications.svg"
         class="not-found-image"
       />
-      <h3>Voce nao esta conectado a nenhum canal</h3>
+      <h3>{{ lang['you-are-not-connected-to-any-network'] }}</h3>
       <el-button
         type="primary"
         class="sbr-primary"
@@ -72,10 +69,7 @@
         {{ lang['change-channel'] }}
       </el-button>
     </div>
-    <select-channel
-      v-if="publicNetworkStatus != null"
-      :public-network="publicNetworkStatus"
-    ></select-channel>
+    <select-channel :public-network="publicNetworkStatus"></select-channel>
     <edit-post></edit-post>
   </div>
 </template>
@@ -152,7 +146,7 @@ export default {
       this.$request.get(urlToBeUsedInTheRequest).then(
         (response) => {
           this.publicNetworkStatus = response.data;
-          if (response.data !== false) {
+          if (response.data !== false && response.data !== null) {
             this.channel.name = this.lang.public;
             this.channel.type = 'public';
           }
