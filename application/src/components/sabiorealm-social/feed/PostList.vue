@@ -391,7 +391,6 @@ export default {
     getPublications() {
       this.position.start = 0;
       this.position.end = 4;
-      console.log(this.position.start);
       this.loadingContent = true;
       const formData = new FormData();
       formData.set('myuser_id', this.user.id);
