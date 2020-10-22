@@ -173,11 +173,14 @@
         <h2 class="card-title h2 text-center">{{ title }}</h2>
         <hr class="my-4 rgba-white-light"/>
         <iframe
-          id="htmlFrame"
-          style="width: 100%; height: 500px"
-          :src="htmlContent"
+          width="100%"
+          id="htmlPreview"
+          allowfullscreen
+          frameborder="0"
+          style="width: 100%; height: 500px;border-width: 0"
         >
         </iframe>
+        <div v-if="this.drawHtmlFrame()"></div>
       </div>
 
       <!--------------
@@ -405,6 +408,8 @@ import ExamCorrection, {
 import {eventBus} from '@/components/viewcourse/App';
 import {FacebookLoader} from 'vue-content-loader';
 import {mapState} from 'vuex';
+import S3 from 'aws-sdk/clients/s3';
+import AWS from 'aws-sdk/global';
 
 Vue.use(VuePlyr, {
   plyr: {
@@ -455,6 +460,7 @@ export default {
     FacebookLoader
   },
   created() {
+
     this.courseId = this.$route.params.id;
     this.$verifyCourseReleased(this.courseId);
     this.$verifyCourseExpiration(this.courseId);
@@ -477,21 +483,12 @@ export default {
       this.getExamOverview();
     });
 
-    setTimeout(this.loadHtmlContent, 10000);
   },
   computed: {
     ...mapState(['lang'])
   },
   methods: {
-    loadHtmlContent() {
-      this.$request.get('https://sabiorealm.s3.amazonaws.com/demo1/uploads/html/fbTFSG6Z7iLCBRA3wIEC69/index.html', {
-        headers: {
-          'Content-Type': 'text/html'
-        }
-      }).then((response) => {
-        this.drawHtmlFrame(response.data);
-      });
-    },
+
     finishLesson() {
       if (this.lessonStatus !== 'finished') {
         const formData = new FormData();
@@ -567,7 +564,22 @@ export default {
         this.studentId = response.data.id;
       });
     },
-
+    getSubDomainName() {
+      return new Promise((resolve) => {
+        const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+          'verify',
+          'getSubDomainName'
+        );
+        this.$request.get(urlToBeUsedInTheRequest).then(
+          (response) => {
+            resolve(this.subDomainName = response.data);
+          },
+          () => {
+            this.$errorMessage();
+          }
+        );
+      });
+    },
     getLesson(lessonId) {
       const formData = new FormData();
       const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
@@ -577,7 +589,6 @@ export default {
       formData.set('lessonId', lessonId);
       this.$request.post(urlToBeUsedInTheRequest, formData).then(
         (response) => {
-          console.log(response);
           this.title = response.data.title;
           this.description = response.data.description;
           this.path = response.data.path;
@@ -593,14 +604,24 @@ export default {
         }
       );
     },
-    drawHtmlFrame(html) {
-      const myScript = '';
-      const x = document.getElementById('myframe');
+    async drawHtmlFrame() {
+      const fileRoute = this.$getUrlToContents() + 'html/' + this.path + '/';
+      /* Get Html Content -> index.html */
+      const response = await this.$request.get(fileRoute + 'index.html');
+      const myHtml = response.data;
+      /* Get Javascript Content -> script.js */
+      const response1 = await this.$request.get(fileRoute + 'script.js');
+      const myScript = '<script>' + response1.data + '<' + '/script>';
+      /* Get Css Content -> style.css */
+      const response2 = await this.$request.get(fileRoute + 'style.css');
+      const myCss = '<style>' + response2.data + '</style>';
+      const x = document.getElementById('htmlPreview');
       const y = x.contentWindow.document;
       y.open();
       y.writeln(
-        html +
-        myScript
+        myHtml +
+        myScript +
+        myCss
       );
       y.close();
     },

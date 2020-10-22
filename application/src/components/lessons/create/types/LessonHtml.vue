@@ -21,63 +21,8 @@
         <div class="form-row">
           <div class="form-group col-xl-12 col-md-12">
             <!-- Html editor -->
-
-            <upload
-              do-upload="true"
-              box-height="200"
-              return-name="path"
-              input-name="file"
-              bucket-key="uploads/html"
-              :random-folder="true"
-              acceptable=".zip"
-            ></upload>
-
-            <el-tabs v-model="activeName" @tab-click="handleClick" type="border-card">
-              <el-tab-pane label="Html" name="first">
-                <MonacoEditor
-                  height="300"
-                  style="z-index: 999999"
-                  language="html"
-                  :code="htmlCode"
-                  :editorOptions="options"
-                  theme="vs"
-                >
-                </MonacoEditor>
-                <MonacoEditor
-                  height="300"
-                  language="typescript"
-                  style="z-index: 999999"
-                  :code="javascriptCode"
-                  :editorOptions="options"
-                  theme="vs"
-                >
-                </MonacoEditor>
-              </el-tab-pane>
-              <el-tab-pane label="Javascript" name="second">
-                dwddw
-                <MonacoEditor
-                  height="300"
-                  language="typescript"
-                  style="z-index: 999999"
-                  :code="javascriptCode"
-                  :editorOptions="options"
-                  theme="vs"
-                >
-                </MonacoEditor>
-              </el-tab-pane>
-              <el-tab-pane label="Css" name="third">
-                <MonacoEditor
-                  height="300"
-                  language="css"
-                  style="z-index: 999999"
-                  :code="htmlCode"
-                  :editorOptions="options"
-                  theme="vs"
-                >
-                </MonacoEditor>
-              </el-tab-pane>
-            </el-tabs>
-
+            <input class="hide" name="path" id="path"/>
+            <HtmlEditor @htmlCode="htmlCode=$event " @javascriptCode="jsCode=$event" @cssCode="cssCode=$event "/>
           </div>
         </div>
         <div class="form-row">
@@ -98,34 +43,28 @@
 </template>
 
 <script>
-import Upload from '@/components/helper/HelperUpload';
 import {eventBus} from '@/components/newcourse/App';
 import {mapState} from 'vuex';
+import HtmlEditor from '@/components/viewcourse/HtmlEditor';
+import UploadFile from '@/mixins/upload';
 
-import MonacoEditor from 'vue-monaco-editor';
 
 export default {
   props: ['module-id'],
-  components: {
-    Upload,
-    MonacoEditor
-  },
-  data: () => {
+  data() {
     return {
-      activeName: 'first',
-      name: '',
-      previewImg: '',
-      realName: '',
-      modalCreateHtml: false,
       loading: false,
-      htmlCode: '<MonacoEditor language="typescript" :code="code" :editorOptions="options" @mounted="onMounted" @codeChange="onCodeChange"></MonacoEditor>',
-      javascriptCode: 'dwdw',
-      options: {
-        selectOnLineNumbers: false,
-
-      }
+      name: '',
+      modalCreateHtml: false,
+      htmlCode: '',
+      jsCode: '',
+      cssCode: ''
     };
   },
+  components: {
+    HtmlEditor
+  },
+
   mounted() {
     eventBus.$on('new-html', () => {
       this.modalCreateHtml = true;
@@ -135,14 +74,31 @@ export default {
     ...mapState(['lang'])
   },
   methods: {
-    handleClick(tab, event) {
-      this.activeName = tab.name;
+    getSubDomainName() {
+      return new Promise((resolve) => {
+        const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+          'verify',
+          'getSubDomainName'
+        );
+        this.$request.get(urlToBeUsedInTheRequest).then(
+          (response) => {
+            resolve(this.subDomainName = response.data);
+          },
+          () => {
+            this.$errorMessage();
+          }
+        );
+      });
     },
-    onChange(value) {
-      console.log(this.code);
-    },
-    create() {
+    async create() {
       this.loading = true;
+      const up = new UploadFile();
+      const myFolder = up.generateFileName();
+      document.getElementById('path').value = myFolder;
+      const subdomain = await this.getSubDomainName();
+      await up.uploadTextFile(subdomain, 'html/' + myFolder, 'index.html', this.htmlCode);
+      await up.uploadTextFile(subdomain, 'html/' + myFolder, 'script.js', this.jsCode);
+      await up.uploadTextFile(subdomain, 'html/' + myFolder, 'style.css', this.cssCode);
       const form = document.getElementById('form-lesson-html');
       const formData = new FormData(form);
       const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
@@ -159,6 +115,10 @@ export default {
           this.$errorMessage();
         }
       );
+      this.htmlCode = '';
+      this.jsCode = '';
+      this.cssCode = '';
+      this.loading = false;
     },
     actionsToBePerformedAfterRegistration() {
       this.name = '';
@@ -166,5 +126,5 @@ export default {
       eventBus.$emit('new-lesson');
     }
   }
-};
+}
 </script>

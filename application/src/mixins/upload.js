@@ -1,10 +1,10 @@
-import { eventProgress } from '@/components/helper/HelperProgress';
+import {eventProgress} from '@/components/helper/HelperProgress';
 import AWS from 'aws-sdk/global';
 import S3 from 'aws-sdk/clients/s3';
-import { eventUpload } from '@/components/helper/HelperUpload';
+import {eventUpload} from '@/components/helper/HelperUpload';
 
 export default class UploadFile {
-  generateFileName(length) {
+  generateFileName(length = 20) {
     const today = new Date();
     const time = today.getHours() + today.getMinutes() + today.getSeconds();
 
@@ -50,7 +50,7 @@ export default class UploadFile {
       secretAccessKey: 'VJTml654pPJDeeh2bneSf36nU22xyqxODdh+XN13',
       region: 'us-east-1'
     });
-    const bucket = new S3({ params: { Bucket: 'sabiorealm' } });
+    const bucket = new S3({params: {Bucket: 'sabiorealm'}});
     const params = {
       Key: '' + subdomain + '/' + 'uploads/' + folder + '/' + newFileName + '',
       ContentType: file.type,
@@ -71,7 +71,43 @@ export default class UploadFile {
           el.value = newFileName;
           eventProgress.$emit('finish-progress');
           eventUpload.$emit('finish-upload');
-          resolve({ fileName, newFileName });
+          resolve({fileName, newFileName});
+        });
+    });
+  }
+
+  uploadTextFile(subdomain, folder, fileName, fileContent) {
+
+    console.log(fileContent)
+    const file = new File([fileContent], fileName, {type: 'text/plain'});
+    eventProgress.$emit('new-progress');
+
+    AWS.config.update({
+      accessKeyId: 'AKIA5AQZS5JMAWUELDG7',
+      secretAccessKey: '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',
+      region: 'us-east-1'
+    });
+    const myFolder = subdomain + '/' + 'uploads/' + folder + '/' + fileName;
+    console.log( myFolder)
+    const bucket = new S3({params: {Bucket: 'sabiorealm'}});
+    const params = {
+      Key: myFolder,
+      ContentType: file.type,
+      Body: file
+    };
+    return new Promise((resolve, reject) => {
+      bucket
+        .upload(params)
+        .on('httpUploadProgress', (evt) => {
+          const percentCompleted = Math.round(
+            parseInt((evt.loaded * 100) / evt.total)
+          );
+          eventProgress.$emit('new-percent', percentCompleted);
+        })
+        .send(() => {
+          eventProgress.$emit('finish-progress');
+          eventUpload.$emit('finish-upload');
+          resolve({myFolder, fileName});
         });
     });
   }

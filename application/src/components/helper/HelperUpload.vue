@@ -234,14 +234,6 @@ export default {
           eventProgress.$emit('finish-progress');
           eventUpload.$emit('finish-upload');
         });
-      const param = {
-        Prefix: fileRoute
-      };
-      setTimeout(() => {
-        bucket.listObjectsV2(param, (err, data) => {
-          console.log(data);
-        });
-      }, 5000);
     },
     formatExtension(ext) {
       if (

@@ -9,8 +9,6 @@
       </div>
     </div>
 
-
-    <el-button type="round" @click="doFrame">click</el-button>
   </div>
 </template>
 <script>
@@ -34,9 +32,6 @@ export default {
   created() {
     this.$blockStudentAccess();
   },
-  mounted() {
-    alert(document.getElementById('example').innerText);
-  },
   head: {
     title: {
       inner: 'Edit course'
@@ -54,18 +49,6 @@ export default {
     ThirdStep
   },
   methods: {
-    doFrame() {
-      const myHtml = '<b id="example">hello world</b>';
-      const myScript = '<script>alert(document.getElementById("example").innerText)<' + '/script>';
-      const x = document.getElementById('myframe');
-      const y = x.contentWindow.document;
-      y.open();
-      y.writeln(
-        myHtml +
-        myScript
-      );
-      y.close();
-    }
   }
 };
 </script>
