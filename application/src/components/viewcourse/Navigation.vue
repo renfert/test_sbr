@@ -17,14 +17,22 @@
               <li v-if="element.daysDiff <= 0" class="sidebar-dropdown">
                 <a
                   href="javascript:void(0)"
-                  :class="element.disable == true ? 'module_block' : ''"
+                  :class="
+                    element.disable == true && user.role == 3
+                      ? 'module_block'
+                      : ''
+                  "
                 >
                   <i
                     style="font-size: 1rem"
                     v-if="element.disable == false"
                     class="el-icon-menu"
                   ></i>
-                  <i style="font-size: 1rem" v-else class="el-icon-lock"></i>
+                  <i
+                    style="font-size: 1rem"
+                    v-if="element.disable"
+                    class="el-icon-lock"
+                  ></i>
                   <span class="module_title">{{ element.title }}</span>
                 </a>
                 <div class="sidebar-submenu">
