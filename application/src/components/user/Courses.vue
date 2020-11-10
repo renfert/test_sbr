@@ -179,7 +179,10 @@ export default {
   props: ['user-id', 'user-role'],
   data: () => {
     return {
-      titles: [{ prop: 'title', label: 'Title' }],
+      titles: [
+        { prop: 'title', label: 'Title' },
+        { prop: 'progress', label: 'Progress (%)' }
+      ],
       enrolledCourses: [],
       notEnrolledCourses: [],
       filters: [{ prop: 'title', value: '' }],

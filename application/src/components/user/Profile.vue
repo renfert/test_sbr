@@ -15,7 +15,7 @@
       --------------->
       <el-row>
         <div class="card-box m-t-40">
-          <el-row >
+          <el-row>
             <el-col :sm="2" :md="2">
               <el-avatar
                 class="profile-avatar"
@@ -24,7 +24,7 @@
                 :src="$getUrlToContents() + 'avatar/' + userAvatar + ''"
               ></el-avatar>
             </el-col>
-            <el-col >
+            <el-col>
               <el-row class="text-left">
                 <el-col
                   class="m-r-40"
@@ -72,40 +72,9 @@
       <div class="profile-charts mt-5">
         <el-row :gutter="20" class="m-b-40">
           <!--------------
-          Courses chart
-          --------------->
-          <el-col :sm="12" :xs="24">
-            <div class="card-widget" style="height: 250px">
-              <GChart
-                v-if="
-                  coursesData[1][1] !== 0 &&
-                  coursesData[2][1] !== 0 &&
-                  coursesData[3][1] !== 0
-                "
-                type="PieChart"
-                :data="coursesData"
-                :options="coursesChartOptions"
-              />
-              <!--------------
-              Courses not found
-              --------------->
-              <el-row v-else>
-                <div class="text-center">
-                  <img
-                    class="not-found-image"
-                    src="@/assets/img/general/ux/data_not_found.svg"
-                  />
-                  <br />
-                  <h4 class="sbr-text-grey">{{ lang['no-courses-found'] }}</h4>
-                </div>
-              </el-row>
-            </div>
-          </el-col>
-
-          <!--------------
           Exams
           --------------->
-          <el-col :sm="12" :xs="24">
+          <el-col :sm="24" :xs="24">
             <div class="card-widget" style="overflow-y: scroll; height: 250px">
               <div v-if="exams != null">
                 <h3 class="exams-title">{{ lang['exams'] }}</h3>
@@ -208,7 +177,6 @@ export default {
     };
   },
   mounted() {
-    this.getCourses(this.userId);
     this.getUser();
     this.getUserExams();
   },
@@ -246,22 +214,6 @@ export default {
       this.$request.post(urlToBeUsedInTheRequest, formData).then(
         (response) => {
           this.exams = response.data;
-        },
-        () => {
-          this.$errorMessage();
-        }
-      );
-    },
-    getCourses(studentId) {
-      const formData = new FormData();
-      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        'chart',
-        'getStudentCourses'
-      );
-      formData.set('studentId', studentId);
-      this.$request.post(urlToBeUsedInTheRequest, formData).then(
-        (response) => {
-          this.coursesData = response.data;
         },
         () => {
           this.$errorMessage();

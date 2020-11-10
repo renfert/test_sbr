@@ -208,7 +208,7 @@ class User_Model extends CI_Model
     $instructorCourses = $this->getEnrolledCourses($instructorId);
     if ($instructorCourses != null) {
       foreach ($instructorCourses as $row) {
-        $courseId = $row->id;
+        $courseId = $row["id"];
         array_push($courses, $courseId);
       }
 
@@ -228,8 +228,8 @@ class User_Model extends CI_Model
 
 
   /* -------------------------------------------------
-        Get all courses that a specific user is enrolled
-    --------------------------------------------------*/
+  Get all courses that a specific user is enrolled
+  --------------------------------------------------*/
   public function getEnrolledCourses($userId)
   {
     $this->db->select("T1.id,T1.title, T2.edit, T2.delete");
@@ -240,8 +240,20 @@ class User_Model extends CI_Model
     $this->db->where("T0.myuser_id", $userId);
     $this->db->where("T0.mycourse_id !=", 1);
     $query = $this->db->get();
+    $newArray = array();
     if ($query->num_rows() > 0) {
-      return $query->result();
+      foreach ($query->result() as $row) {
+        $progress = $this->Course_Model->userProgress($row->id, $userId);
+        $ar = array(
+          'id' => $row->id,
+          'title' => $row->title,
+          'edit' => $row->edit,
+          'delete' => $row->delete,
+          'progress' => $progress
+        );
+        array_push($newArray, $ar);
+      }
+      return $newArray;
     }
   }
 

@@ -85,6 +85,8 @@ class Verify_Model extends CI_Model
     $usedStorage = $this->Widgets_Model->getStorage();
     $plan = $this->getPlan();
 
+
+
     /*------------
         Basic plan
         ------------*/
@@ -297,7 +299,7 @@ class Verify_Model extends CI_Model
     $this->db->from("jwt");
     $query = $this->db->get();
     if ($query->num_rows() > 0) {
-      $secret = $query->result()[0]->secret;
+      $secret = $query->result()[0]->signature;
       return $secret;
     }
   }
