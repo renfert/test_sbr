@@ -8,9 +8,9 @@
         <third-step></third-step>
       </div>
     </div>
+
   </div>
 </template>
-
 <script>
 import WizardNav from '@/components/newcourse/WizardNav';
 import FirstStep from '@/components/editcourse/FirstStep';
@@ -24,6 +24,11 @@ export const eventBus = new Vue();
 Vue.use(VueHead);
 
 export default {
+  data() {
+    return {
+
+    };
+  },
   created() {
     this.$blockStudentAccess();
   },
@@ -32,9 +37,9 @@ export default {
       inner: 'Edit course'
     },
     meta: [
-      { name: 'charset', content: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
-      { name: 'author', content: 'Sabiorealm' }
+      {name: 'charset', content: 'utf-8'},
+      {name: 'viewport', content: 'width=device-width, initial-scale=1.0'},
+      {name: 'author', content: 'Sabiorealm'}
     ]
   },
   components: {
@@ -42,6 +47,8 @@ export default {
     FirstStep,
     SecondStep,
     ThirdStep
+  },
+  methods: {
   }
 };
 </script>

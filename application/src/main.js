@@ -14,23 +14,32 @@ import '@/assets/css/style.scss';
 import '@/assets/fontawesome/css/all.css';
 import 'mdbvue/lib/css/mdb.min.css';
 import '@/assets/css/vueWysiwyg.css';
+import { PrismEditor } from 'vue-prism-editor';
+import 'vue-prism-editor/dist/prismeditor.min.css'; // import the styles
 
 Vue.directive('click-outside', {
-  bind: function (el, binding, vnode) {
-    el.clickOutsideEvent = function (event) {
+  bind: (el, binding, vnode) => {
+    el.clickOutsideEvent = (event) => {
       // here I check that click was outside the el and his children
-      if (!(el === event.target || el.contains(event.target) || document.getElementById('fab').contains(event.target))) {
+      if (
+        !(
+          el === event.target ||
+          el.contains(event.target) ||
+          document.getElementById('fab').contains(event.target)
+        )
+      ) {
         // and if it did, call method provided in attribute value
         vnode.context[binding.expression](event);
       }
     };
-    document.body.addEventListener('click', el.clickOutsideEvent)
+    document.body.addEventListener('click', el.clickOutsideEvent);
   },
-  unbind: function (el) {
-    document.body.removeEventListener('click', el.clickOutsideEvent)
-  },
+  unbind: (el) => {
+    document.body.removeEventListener('click', el.clickOutsideEvent);
+  }
 });
 
+Vue.component('PrismEditor', PrismEditor);
 Vue.prototype.$request = axios;
 Vue.mixin(Domains);
 Vue.mixin(Alerts);

@@ -1,5 +1,4 @@
 <template>
-  <!--  Modal new lesson -->
   <div>
     <el-dialog
       :visible.sync="modalCreateHtml"
@@ -20,16 +19,13 @@
         </div>
         <div class="form-row">
           <div class="form-group col-xl-12 col-md-12">
-            <!-- Video upload -->
-            <label class="col-form-label">Zip file *</label>
-            <upload
-              do-upload="true"
-              box-height="200"
-              return-name="path"
-              input-name="file"
-              bucket-key="uploads/html"
-              acceptable=".zip"
-            ></upload>
+            <!-- Html editor -->
+            <input class="hide" name="path" id="path" />
+            <HtmlEditor
+              @htmlCode="htmlCode = $event"
+              @javascriptCode="jsCode = $event"
+              @cssCode="cssCode = $event"
+            />
           </div>
         </div>
         <div class="form-row">
@@ -38,35 +34,37 @@
               class="sbr-primary"
               v-loading="loading"
               native-type="submit"
-              >{{ lang['save-button'] }}</el-button
-            >
+              >{{ lang['save-button'] }}
+            </el-button>
           </div>
         </div>
       </form>
     </el-dialog>
   </div>
-  <!-- End  modal new lesson -->
 </template>
 
 <script>
-import Upload from '@/components/helper/HelperUpload';
 import { eventBus } from '@/components/newcourse/App';
 import { mapState } from 'vuex';
+import HtmlEditor from '@/components/viewcourse/HtmlEditor';
+import UploadFile from '@/mixins/upload';
 
 export default {
   props: ['module-id'],
-  components: {
-    Upload
-  },
-  data: () => {
+  data() {
     return {
+      loading: false,
       name: '',
-      previewImg: '',
-      realName: '',
       modalCreateHtml: false,
-      loading: false
+      htmlCode: '',
+      jsCode: '',
+      cssCode: ''
     };
   },
+  components: {
+    HtmlEditor
+  },
+
   mounted() {
     eventBus.$on('new-html', () => {
       this.modalCreateHtml = true;
@@ -76,8 +74,46 @@ export default {
     ...mapState(['lang'])
   },
   methods: {
-    create() {
+    getSubDomainName() {
+      return new Promise((resolve) => {
+        const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+          'verify',
+          'getSubDomainName'
+        );
+        this.$request.get(urlToBeUsedInTheRequest).then(
+          (response) => {
+            resolve((this.subDomainName = response.data));
+          },
+          () => {
+            this.$errorMessage();
+          }
+        );
+      });
+    },
+    async create() {
       this.loading = true;
+      const up = new UploadFile();
+      const myFolder = up.generateFileName();
+      document.getElementById('path').value = myFolder;
+      const subdomain = await this.getSubDomainName();
+      await up.uploadTextFile(
+        subdomain,
+        'html/' + myFolder,
+        'index.html',
+        this.htmlCode
+      );
+      await up.uploadTextFile(
+        subdomain,
+        'html/' + myFolder,
+        'script.js',
+        this.jsCode
+      );
+      await up.uploadTextFile(
+        subdomain,
+        'html/' + myFolder,
+        'style.css',
+        this.cssCode
+      );
       const form = document.getElementById('form-lesson-html');
       const formData = new FormData(form);
       const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
@@ -94,6 +130,10 @@ export default {
           this.$errorMessage();
         }
       );
+      this.htmlCode = '';
+      this.jsCode = '';
+      this.cssCode = '';
+      this.loading = false;
     },
     actionsToBePerformedAfterRegistration() {
       this.name = '';
