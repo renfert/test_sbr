@@ -202,7 +202,6 @@ export default {
   data: () => {
     return {
       usersData: [],
-      coursesData: [],
       usersChartOptions: {
         title: 'New users',
         colors: ['#00A9B4', '#29277F']
@@ -231,7 +230,6 @@ export default {
     this.getTotalNumberOfUsers();
     this.getTotalNumberOfCourses();
     this.getRegisteredUsersPerMonth();
-    this.getCourses();
   },
   computed: {
     ...mapState(['lang'])
@@ -262,20 +260,6 @@ export default {
         this.customizeStep = response.data[2].status;
         this.settingsStep = response.data[3].status;
       });
-    },
-    getCourses() {
-      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
-        'chart',
-        'getCourses'
-      );
-      this.$request.get(urlToBeUsedInTheRequest).then(
-        (response) => {
-          this.coursesData = response.data;
-        },
-        () => {
-          this.$errorMessage();
-        }
-      );
     },
     getTotalNumberOfUsers() {
       const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
