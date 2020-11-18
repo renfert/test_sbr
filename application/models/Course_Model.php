@@ -271,18 +271,7 @@ class Course_Model extends CI_Model
   private function getLessonsCompletedByTheUserToCorrection($responseLessons, $studentId)
   {
     $where = array();
-    foreach ($responseLessons as $value) {
-      array_push($where, $value->mylesson_id);
-    };
-    $this->db->select("*");
-    $this->db->from("lesson_status");
-    $this->db->where("myuser_id", $studentId);
-    $this->db->where("status", "finished");
-    $this->db->where_in("mylesson_id", $where);
-    $query = $this->db->get();
-    if ($query->num_rows() >= 0) {
-      return $query->num_rows();
-    }
+    var_dump($responseLessons);
   }
 
   private function getLessonsListFromCourse($courseId)
