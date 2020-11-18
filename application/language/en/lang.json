@@ -22,6 +22,10 @@
   "plans-nav": "Plans",
   "help-center-nav": "Help center",
 
+  "user-account": "User account",
+
+  "registration-message": "Before starting any activity within the platform, it is necessary that you create your administrator user that will be used to enter the platform.",
+
   "no-publications-found": "There are no posts on this channel",
 
   "you-are-not-connected-to-any-network": "You are not connected to any network",

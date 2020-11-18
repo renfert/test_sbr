@@ -261,6 +261,16 @@ class User extends CI_Controller
     echo json_encode($this->User_Model->statusUpdate(getUserId(), "on"));
   }
 
+  public function updateAdminUser()
+  {
+    $data = array(
+      "name" => $this->input->post("name"),
+      "email" => $this->input->post("email"),
+      "password" => md5($this->input->post("password"))
+    );
+    echo json_encode($this->User_Model->updateAdminUser($data));
+  }
+
 
   /* ------------------------------------------------------------
           Logoff

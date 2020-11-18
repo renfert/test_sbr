@@ -49,7 +49,6 @@
 <script>
 import Vue from 'vue';
 import VueGoogleCharts from 'vue-google-charts';
-
 import { mapState } from 'vuex';
 
 Vue.use(VueGoogleCharts);

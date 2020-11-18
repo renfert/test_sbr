@@ -9,8 +9,9 @@ class User_Model extends CI_Model
   {
     parent::__construct();
     $this->load->helper("email");
-    $this->load->model('Course_Model');
-    $this->load->model('Program_Model');
+    $this->load->model("Course_Model");
+    $this->load->model("Program_Model");
+    $this->load->model("Company_Model");
   }
 
 
@@ -225,6 +226,18 @@ class User_Model extends CI_Model
       }
     }
   }
+
+  public function updateAdminUser($data)
+  {
+    $this->db->where("id", 1);
+    if ($this->db->update("myuser", $data)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
 
 
   /* -------------------------------------------------

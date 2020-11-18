@@ -225,6 +225,11 @@ const routes = [
     component: () => import('@/components/sabiorealm-social/App')
   },
   {
+    name: 'registration',
+    path: '/registration',
+    component: () => import('@/components/registration/App')
+  },
+  {
     name: 'social-settings',
     path: '/social/settings',
     component: () => import('@/components/sabiorealm-social/settings/App')
