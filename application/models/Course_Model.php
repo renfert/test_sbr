@@ -194,7 +194,7 @@ class Course_Model extends CI_Model
     $this->db->from("mycourse T0");
     $this->db->join("myuser T1", "T0.creation_user = T1.id");
     $this->db->join("mycategory T3", "T0.mycategory_id = T3.id");
-    $this->db->like("T0.title", $courseTitle);
+    $this->db->where("T0.title", $courseTitle);
     $query = $this->db->get();
     if ($query->num_rows() > 0) {
       return $query->row();
