@@ -1,6 +1,6 @@
 <template>
   <div class="content-page">
-    <div class="card-box">
+    <div class="card-box" style="box-shadow: none">
       <div class="row">
         <div class="col-6" style="padding: 5%">
           <!-- User registration form -->
@@ -35,6 +35,70 @@
               lang['create-user']
             }}</el-button>
           </form>
+
+          <!-- Form aditional information -->
+          <form v-else>
+            <span>Seleccione un paso</span>
+            <el-select v-model="step" placeholder="Select">
+              <el-option
+                label="Trabajo con curso y / o formación en persona."
+                value="Trabajo con curso y / o formación en persona."
+              >
+              </el-option>
+              <el-option
+                label="Empezaré mis cursos online y / o proyecto formativo."
+                value="Empezaré mis cursos online y / o proyecto formativo."
+              >
+              </el-option>
+              <el-option
+                label="Estoy desarrollando mis cursos online y / o proyecto formativo."
+                value="Estoy desarrollando mis cursos online y / o proyecto formativo."
+              >
+              </el-option>
+              <el-option
+                label="Ya trabajo con cursos y / o formaciones online."
+                value="Ya trabajo con cursos y / o formaciones online."
+              >
+              </el-option>
+              <el-option
+                label="Todavía no trabajo con ningún proyecto educativo."
+                value="Todavía no trabajo con ningún proyecto educativo."
+              >
+              </el-option>
+            </el-select>
+            <br /><br />
+            <span>Seleccione una meta</span>
+            <el-select v-model="goal" placeholder="Select">
+              <el-option
+                label="Trabajo con curso y / o formación en persona."
+                value="Trabajo con curso y / o formación en persona."
+              >
+              </el-option>
+              <el-option
+                label="Empezaré mis cursos online y / o proyecto formativo."
+                value="Empezaré mis cursos online y / o proyecto formativo."
+              >
+              </el-option>
+              <el-option
+                label="Estoy desarrollando mis cursos online y / o proyecto formativo."
+                value="Estoy desarrollando mis cursos online y / o proyecto formativo."
+              >
+              </el-option>
+              <el-option
+                label="Ya trabajo con cursos y / o formaciones online."
+                value="Ya trabajo con cursos y / o formaciones online."
+              >
+              </el-option>
+              <el-option
+                label="Todavía no trabajo con ningún proyecto educativo."
+                value="Todavía no trabajo con ningún proyecto educativo."
+              >
+              </el-option>
+            </el-select>
+            <br /><br />
+            <span>{{ lang['phone'] }}</span>
+            <el-input v-model="phone" type="text"></el-input>
+          </form>
         </div>
         <div class="col-6 colored-side">
           <!-- First step text -->
@@ -43,6 +107,14 @@
             <hr />
             <h4>
               {{ lang['registration-message'] }}
+            </h4>
+          </div>
+          <!-- Second step text -->
+          <div class="text" v-else>
+            <h3>Informacoes adicionais</h3>
+            <h4>
+              Estamos quase la! Agora precisamos de mais algumas informacoes
+              para melhorar sua experiencia dentro da plataforma
             </h4>
           </div>
           <robot></robot>
@@ -65,7 +137,10 @@ export default {
       email: '',
       password: '',
       firstStep: true,
-      seePassword: false
+      seePassword: false,
+      step: '',
+      goal: '',
+      phone: ''
     };
   },
   computed: {
@@ -94,7 +169,12 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
+body {
+  opacity: 1;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
 .colored-side {
   background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
   background-size: 400% 400%;
