@@ -19,6 +19,7 @@ class Corrections_Model extends CI_Model
     if ($courses == null) {
       return null;
     } else {
+
       foreach ($courses as $row) {
         $courseId = $row["id"];
         array_push($coursesArray, $courseId);
