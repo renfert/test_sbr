@@ -174,7 +174,7 @@ class Exam_Model extends CI_Model
     $newScore = $currentExamScore + $questionScore;
 
     /* Bug fix */
-    if ($newScore >= 99.5) {
+    if ($newScore >= 99) {
       $newScore = 100;
     }
 
