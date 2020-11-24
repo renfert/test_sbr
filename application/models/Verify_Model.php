@@ -85,33 +85,30 @@ class Verify_Model extends CI_Model
     $usedStorage = $this->Widgets_Model->getStorage();
     $plan = $this->getPlan();
 
-
+    /*------------
+    Free plan
+    ------------*/
+    if ($plan == "free") {
+      $availableStorage = 5;
+    }
 
     /*------------
-        Basic plan
-        ------------*/
+    Basic plan
+    ------------*/
     if ($plan == "basic") {
       $availableStorage = 32;
     }
 
     /*------------
-        Pro plan
-        ------------*/
+    Pro plan
+    ------------*/
     if ($plan == "pro") {
       $availableStorage = 64;
     }
 
-
     /*------------
-        Growt plan
-        ------------*/
-    if ($plan == "growt") {
-      $availableStorage = 128;
-    }
-
-    /*------------
-        Bussiness plan
-        ------------*/
+    Bussiness plan
+    ------------*/
     if ($plan == "bussiness") {
       $availableStorage = 512;
     }
@@ -190,87 +187,38 @@ class Verify_Model extends CI_Model
     $plan = $this->getPlan();
 
     /* Total students and instructors */
-    $this->db->select("(SELECT COUNT(*) FROM myuser WHERE myrole_id = 2 ) as instructors, (SELECT COUNT(*) FROM myuser WHERE myrole_id = 3 ) as students");
+    $this->db->select("SELECT COUNT(*) FROM myuser");
     $query = $this->db->get();
-    $totalInstructors = $query->result()[0]->instructors;
-    $totalStudents = $query->result()[0]->students;
+    $totalUsers = $query->result()[0];
+  
+
+    /* Free plan */
+    if ($plan == "free") {
+      if ($totalUsers >= 5) {
+        return false;
+      }
+    }
 
     /* Basic plan */
     if ($plan == "basic") {
-      if ($role == "Instructor") {
-        if ($totalInstructors >= 1) {
-          return false;
-        }
-      }
-
-      if ($role == "Student") {
-        if ($totalStudents >= 50) {
-          return false;
-        }
+      if ($totalUsers >= 50) {
+        return false;
       }
     }
 
 
     /* Pro plan */
-    if ($plan == "basic") {
-      if ($role == "Instructor") {
-        if ($totalInstructors >= 3) {
-          return false;
-        }
-      }
-
-      if ($role == "Student") {
-        if ($totalStudents >= 100) {
-          return false;
-        }
+    if ($plan == "pro") {
+      if ($totalUsers >= 300) {
+        return false;
       }
     }
 
-    /* Growt plan */
-    if ($plan == "growt") {
-
-      if ($role == "Instructor") {
-        if ($totalInstructors >= 5) {
-          return false;
-        }
-      }
-
-      if ($role == "Student") {
-        if ($totalStudents >= 300) {
-          return false;
-        }
-      }
-    }
 
     /* Bussiness plan */
     if ($plan == "bussiness") {
-
-      if ($role == "Instructor") {
-        if ($totalInstructors >= 100) {
-          return false;
-        }
-      }
-
-      if ($role == "Student") {
-        if ($totalStudents >= 5000) {
-          return false;
-        }
-      }
-    }
-
-    /* Trial plan */
-    if ($plan == "trial") {
-
-      if ($role == "Instructor") {
-        if ($totalInstructors >= 1) {
-          return false;
-        }
-      }
-
-      if ($role == "Student") {
-        if ($totalStudents >= 50) {
-          return false;
-        }
+      if ($totalUsers >= 5000) {
+        return false;
       }
     }
 

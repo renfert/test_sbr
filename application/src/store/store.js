@@ -18,7 +18,8 @@ export default new Vuex.Store({
       plan: '',
       country: '',
       expiration: '',
-      subdomain: ''
+      subdomain: '',
+      trial: ''
     }
   },
   mutations: {

@@ -316,6 +316,10 @@ export default {
         (response) => {
           this.plan = response.data.plan;
 
+          if (response.data.plan === 'free') {
+            this.totalStorageAvaiable = 5;
+          }
+
           if (response.data.plan === 'basic') {
             this.totalStorageAvaiable = 32;
           }
@@ -324,16 +328,8 @@ export default {
             this.totalStorageAvaiable = 64;
           }
 
-          if (response.data.plan === 'growth') {
-            this.totalStorageAvaiable = 128;
-          }
-
           if (response.data.plan === 'bussiness') {
             this.totalStorageAvaiable = 512;
-          }
-
-          if (response.data.plan === 'trial') {
-            this.totalStorageAvaiable = 64;
           }
 
           this.getStorage(this.totalStorageAvaiable);

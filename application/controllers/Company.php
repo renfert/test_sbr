@@ -18,4 +18,13 @@ class Company extends CI_Controller {
         $result = $this->Company_Model->getCompanyInformation();
         echo json_encode($result);
     }
+
+    public function updateCompanyInformation(){
+        $step = $this->input->post("step");
+        $goal = $this->input->post("goal");
+        $phone = $this->input->post("phone");
+
+        $result = $this->Company_Model->updateCompanyInformation($step,$goal,$phone);
+        echo json_encode($result);
+    }
 }

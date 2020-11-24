@@ -63,7 +63,7 @@
         <router-link to="/corrections">
           <el-menu-item
             index="25"
-            v-if="plan != 'starter'"
+            v-if="plan != 'free' && plan != 'basic'"
             @click="hideNavLeft"
           >
             <i class="dripicons-message"></i>
@@ -79,7 +79,11 @@
         </router-link>
 
         <router-link to="/programs">
-          <el-menu-item index="7" @click="hideNavLeft">
+          <el-menu-item
+            v-if="plan != 'free' && plan != 'basic'"
+            index="7"
+            @click="hideNavLeft"
+          >
             <i class="dripicons-to-do"></i>
             <span class="menuMain">{{ lang['programs-nav'] }}</span>
           </el-menu-item>
@@ -102,7 +106,11 @@
         </router-link>
 
         <router-link to="/groups">
-          <el-menu-item index="10" @click="hideNavLeft">
+          <el-menu-item
+            v-if="plan != 'free' && plan != 'basic'"
+            index="10"
+            @click="hideNavLeft"
+          >
             <i class="dripicons-user-group"></i>
             <span class="menuMain">{{ lang['groups-nav'] }}</span>
           </el-menu-item>
@@ -123,7 +131,7 @@
         </el-menu-item>
       </router-link>
 
-      <el-submenu index="39">
+      <el-submenu v-if="plan != 'free' && plan != 'basic'" index="39">
         <template slot="title">
           <i class="dripicons-broadcast"></i>
           <a href="javascript:void(0)" class="waves-effect">

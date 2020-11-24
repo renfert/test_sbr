@@ -6,7 +6,7 @@
     <div class="float-right">
       <el-button
         class="sbr-purple"
-        v-if="company.plan == 'bussiness'"
+        v-if="company.plan == 'bussiness' || company.plan == 'pro'"
         @click.prevent="modal = true"
       >
         <i class="el-icon-upload2"></i> {{ lang['massive-import'] }}

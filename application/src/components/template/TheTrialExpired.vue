@@ -2,7 +2,7 @@
   <div
     v-if="
       daysToExpiration < 0 &&
-      plan == 'trial' &&
+      trial == 0 &&
       currentRouteName != 'marketplace' &&
       currentRouteName != 'products' &&
       currentRouteName != 'product'
@@ -132,6 +132,7 @@ export default {
     return {
       plan: '',
       email: '',
+      trial: '',
       name: '',
       type: '',
       step: '',
@@ -158,6 +159,7 @@ export default {
         'getCompanyInformation'
       );
       this.$request.get(urlToBeUsedInTheRequest).then((response) => {
+        this.trial = response.data.trial;
         this.plan = response.data.plan;
         this.country = response.data.country;
         this.email = response.data.email;

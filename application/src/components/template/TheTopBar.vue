@@ -1,16 +1,16 @@
 <template>
   <div class="topbar">
-<!--    <header>-->
-<!--      <router-link to="/"></router-link>-->
-<!--      &lt;!&ndash; Icon menu for mobile &ndash;&gt;-->
-<!--      <ul class="ul-mobile">-->
-<!--        <li>-->
-<!--          <a @click.prevent="toogleSidebar" href="javascript:void(0)">-->
-<!--            <i class="ti-menu" style="font-weight: bold;margin-right: 10px; "></i>-->
-<!--          </a>-->
-<!--        </li>-->
-<!--      </ul>-->
-<!--    </header>-->
+    <!--    <header>-->
+    <!--      <router-link to="/"></router-link>-->
+    <!--      &lt;!&ndash; Icon menu for mobile &ndash;&gt;-->
+    <!--      <ul class="ul-mobile">-->
+    <!--        <li>-->
+    <!--          <a @click.prevent="toogleSidebar" href="javascript:void(0)">-->
+    <!--            <i class="ti-menu" style="font-weight: bold;margin-right: 10px; "></i>-->
+    <!--          </a>-->
+    <!--        </li>-->
+    <!--      </ul>-->
+    <!--    </header>-->
 
     <div
       class="top-trial"
@@ -18,7 +18,7 @@
         trialBar != false &&
         user.role == 1 &&
         daysToExpiration >= 0 &&
-        company.plan == 'trial'
+        trial == 0
       "
     >
       <span class="trial-nav">
@@ -48,6 +48,7 @@ export default {
     return {
       role: 1,
       logo: '',
+      trial: '',
       daysToExpiration: 0,
       currentDate: ''
     };
@@ -56,10 +57,20 @@ export default {
     ...mapState(['lang', 'company', 'user'])
   },
   created() {
+    this.getCompanyInformation();
     this.getCurrentDate();
     this.getCompanyLogo();
   },
   methods: {
+    getCompanyInformation() {
+      const urlToBeUsedInTheRequest = this.$getUrlToMakeRequest(
+        'company',
+        'getCompanyInformation'
+      );
+      this.$request.get(urlToBeUsedInTheRequest).then((response) => {
+        this.trial = response.data.trial;
+      });
+    },
     toogleSidebar() {
       eventTemplate.$emit('change-leftbar-class');
     },
@@ -131,7 +142,7 @@ header {
   justify-content: space-between;
   align-items: center;
   transform: 0.4s;
-  padding: 0px 0 0 0 ;
+  padding: 0px 0 0 0;
   z-index: 2000;
   transition: 0.2s;
 }
@@ -205,6 +216,6 @@ header ul li a {
   }
 }
 
-.trial-nav{
+.trial-nav {
 }
 </style>

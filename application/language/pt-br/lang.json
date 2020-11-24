@@ -63,6 +63,10 @@
 
   "user-already-exists": "Este usuário já existe, escolha outro e-mail.",
 
+  "user-account": "Conta de usuário",
+
+  "registration-message": "Antes de iniciar qualquer atividade dentro da plataforma, é necessário que você crie o seu usuário administrador que será utilizado para entrar na plataforma.",
+
   "course-validity": "Este curso é válido por:",
 
   "actions": "Ações",

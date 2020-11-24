@@ -75,6 +75,7 @@ import TheTrialExpired from '@/components/template/TheTrialExpired';
 import AdminLeftBar from '@/components/template/TheLeftBar/Admin';
 import InstructorLeftBar from '@/components/template/TheLeftBar/Instructor';
 import StudentLeftBar from '@/components/template/TheLeftBar/Student';
+/* eslint-disable */
 import TopBar, { eventTemplate } from '@/components/template/TheTopBar';
 import headerTags from '@/mixins/headerTags';
 import integrations from '@/mixins/integrations';
@@ -83,7 +84,6 @@ import TheHamburger, {
 } from './components/template/TheHamburger';
 
 import { mapMutations } from 'vuex';
-
 
 export default {
   mixins: [headerTags, integrations],
@@ -131,8 +131,6 @@ export default {
     this.createFavicon();
   },
   mounted() {
-    this.loadIntegrations();
-    this.createFavicon();
     eventHamburger.$emit('showHamburger');
   },
   methods: {
@@ -163,7 +161,8 @@ export default {
           country: response.data.country,
           name: response.data.name,
           subdomain: response.data.subdomain,
-          expiration: response.data.expiration
+          expiration: response.data.expiration,
+          trial: response.data.trial
         };
         this.setCompany(companyObj);
         this.getUserProfile();
@@ -187,6 +186,9 @@ export default {
           avatar: response.data.avatar
         };
         this.setUser(userObj);
+        if (this.userName == 'default') {
+          this.$router.push('/registration').catch(() => {});
+        }
         setTimeout(() => {
           this.loaded = true;
         }, 2000);
