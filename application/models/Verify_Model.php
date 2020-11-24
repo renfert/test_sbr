@@ -187,9 +187,9 @@ class Verify_Model extends CI_Model
     $plan = $this->getPlan();
 
     /* Total students and instructors */
-    $this->db->select("SELECT COUNT(*) FROM myuser");
+    $this->db->select("COUNT(*) FROM myuser as total");
     $query = $this->db->get();
-    $totalUsers = $query->result()[0];
+    $totalUsers = $query->result()[0]->total;
   
 
     /* Free plan */
