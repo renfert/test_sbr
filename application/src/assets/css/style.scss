@@ -75,6 +75,11 @@ body {
   height: 100%;
 }
 
+.modal_bg {
+  opacity: 1;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
 div {
   font-family: 'Poppins', sans-serif;
   word-break: break-word !important;

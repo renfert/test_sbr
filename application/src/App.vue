@@ -161,7 +161,8 @@ export default {
           country: response.data.country,
           name: response.data.name,
           subdomain: response.data.subdomain,
-          expiration: response.data.expiration
+          expiration: response.data.expiration,
+          trial: response.data.trial
         };
         this.setCompany(companyObj);
         this.getUserProfile();

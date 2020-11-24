@@ -1,7 +1,7 @@
 <template>
   <div>
     <div :style="style" class="drop-area">
-      <input v-if="returnName" :value="name" :name="returnName" type="text"/>
+      <input v-if="returnName" :value="name" :name="returnName" type="text" />
       <input
         :name="inputName"
         class="upload"
@@ -10,16 +10,16 @@
         type="file"
       />
       <div class="drop-message" :class="messageClass">
-        <img v-if="icon != ''" style="width: 40px" :src="icon"/>
+        <img v-if="icon != ''" style="width: 40px" :src="icon" />
         <p>{{ message }}</p>
       </div>
       <div class="drop-preview on" style="text-align: center">
         <div :style="style" class="drop-img">
-          <img class="preview" :src="previewImg" alt/>
+          <img class="preview" :src="previewImg" alt />
         </div>
       </div>
     </div>
-    <input class="hide" type="text" name="real_name" :value="realName"/>
+    <input class="hide" type="text" name="real_name" :value="realName" />
   </div>
 </template>
 
@@ -29,9 +29,9 @@ import toastr from 'toastr';
 import AWS from 'aws-sdk/global';
 import S3 from 'aws-sdk/clients/s3';
 
-import {eventProgress} from '@/components/helper/HelperProgress';
-import {eventPlan} from '@/components/plans/UpgradePlan.vue';
-import {mapState} from 'vuex';
+import { eventProgress } from '@/components/helper/HelperProgress';
+import { eventPlan } from '@/components/plans/UpgradePlan.vue';
+import { mapState } from 'vuex';
 
 Vue.use(toastr);
 
@@ -212,7 +212,7 @@ export default {
 
       const fileRoute = this.subDomainName + '/' + this.bucketKey + '/';
       const valueKey = fileRoute + newFileName;
-      const bucket = new S3({params: {Bucket: 'sabiorealm'}});
+      const bucket = new S3({ params: { Bucket: 'sabiorealm' } });
       const params = {
         Key: valueKey,
         ContentType: file.type,
@@ -267,7 +267,8 @@ export default {
         if (folderName.length === 0) {
           folderName = this.generateFileName(20);
         }
-        const keyName = this.subDomainName + '/uploads/html/' + folderName + '/';
+        const keyName =
+          this.subDomainName + '/uploads/html/' + folderName + '/';
 
         const bucket = new S3({
           params: {
@@ -287,7 +288,6 @@ export default {
             resolve(folderName);
           }
         });
-
       });
     },
     getSubDomainName() {
@@ -298,7 +298,7 @@ export default {
         );
         this.$request.get(urlToBeUsedInTheRequest).then(
           (response) => {
-            resolve(this.subDomainName = response.data);
+            resolve((this.subDomainName = response.data));
           },
           () => {
             this.$errorMessage();
@@ -362,14 +362,14 @@ export default {
 .drop-area:hover {
   background-size: 30px 30px;
   background-image: linear-gradient(
-      -45deg,
-      #f6f6f6 25%,
-      transparent 0,
-      transparent 50%,
-      #f6f6f6 0,
-      #f6f6f6 75%,
-      transparent 0,
-      transparent
+    -45deg,
+    #f6f6f6 25%,
+    transparent 0,
+    transparent 50%,
+    #f6f6f6 0,
+    #f6f6f6 75%,
+    transparent 0,
+    transparent
   );
   -webkit-animation: stripes 2s linear infinite;
   animation: stripes 2s linear infinite;

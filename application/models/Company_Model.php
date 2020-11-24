@@ -25,16 +25,34 @@ class Company_Model extends CI_Model
     }
   }
 
-  public function updateSbrAdminInformation($data)
-  {
+
+
+  public function updateCompanyInformation($step,$goal,$phone){
+
     $this->db->select("*");
     $this->db->from("mycompany");
-
     $query = $this->db->get();
-    if ($query->num_rows() > 0) {
-      $result = $this->db->result();
-      print_r($result);
-    }
+    $result = $query->result()[0];
+    $subdomain = $result->subdomain;
+   
+    // Update mycompany
+    $data = array(
+      "type_project" => $goal,
+      "step_project" => $step,
+    );
+    $this->db->update("mycompany", $data);
+
+    // Update on sbr_admin
+    $con = $this->openDataBaseConnection("admin");
+    $stmt = $con->prepare('UPDATE trials SET  step_project = :step, type_project = :goal, phone = :userphone WHERE domain = :subdomain');
+    $stmt->execute(array(
+      ':subdomain'   => $subdomain,
+      ':step' => $step,
+      ':goal' => $goal,
+      ':userphone' => $phone,
+    ));
+ 
+    return $stmt->rowCount();   
   }
 
 
@@ -56,4 +74,7 @@ class Company_Model extends CI_Model
 
     return $conn;
   }
+  
+
+  
 }

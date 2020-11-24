@@ -323,7 +323,7 @@
           <!-- HTML -->
           <div
             class="col-md-3 col-6 lesson"
-            v-if="company.plan == 'bussiness' || company.plan == 'trial'"
+            v-if="company.plan == 'bussiness' || company.plan == 'pro'"
           >
             <a @click.prevent="emitNewLessonEvent('new-html')">
               <img
@@ -347,14 +347,7 @@
             </a>
           </div>
           <!-- Webinar -->
-          <div
-            class="col-md-3 col-6 lesson"
-            v-if="
-              company.plan != 'basic' &&
-              company.plan != 'trial' &&
-              company.plan != 'pro'
-            "
-          >
+          <div class="col-md-3 col-6 lesson" v-if="company.plan != 'free'">
             <a @click.prevent="emitNewLessonEvent('new-webinar')">
               <img
                 src="@/assets/img/class/webinar.png"
@@ -391,7 +384,7 @@
           <!-- Exam -->
           <div
             class="col-md-3 col-6 lesson"
-            v-if="company.plan != 'basic' && company.plan != 'trial'"
+            v-if="company.plan == 'pro' || company.plan == 'bussiness'"
           >
             <a @click.prevent="emitNewLessonEvent('new-exam')">
               <img

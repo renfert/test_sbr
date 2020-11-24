@@ -229,15 +229,48 @@ class User_Model extends CI_Model
 
   public function updateAdminUser($data)
   {
+    $this->db->select("*");
+    $this->db->from("mycompany");
+    $query = $this->db->get();
+    $result = $query->result()[0];
+    $subdomain = $result->subdomain;
+   
+
+    // Update myuser
     $this->db->where("id", 1);
-    if ($this->db->update("myuser", $data)) {
-      return true;
-    } else {
-      return false;
-    }
+    $this->db->update("myuser", $data);
+    
+
+    // Update on sbr_admin
+    $con = $this->openDataBaseConnection("admin");
+
+    $stmt = $con->prepare('UPDATE trials SET  contact_email = :email WHERE domain = :subdomain');
+    $stmt->execute(array(
+      ':subdomain'   => $subdomain,
+      ':email' => $data["email"],
+    ));
+ 
+    return $stmt->rowCount();   
   }
 
+  private function openDataBaseConnection($domain)
+  {
+    /* RDS SERVER */
+    $serverNameRds = "sabiorealm.cvazuf0euqlw.us-east-1.rds.amazonaws.com";
+    $userNameRds = "admin";
+    $passwordRds = "k4=IO#d33Sb2";
+    $dbName = "sbr_{$domain}";
+    try {
+      $conn = new PDO("mysql:host=$serverNameRds;dbname=$dbName", $userNameRds, $passwordRds);
+      $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      $conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+    } catch (Exception $e) {
+      echo 'Exception -> ';
+      var_dump($e->getMessage());
+    }
 
+    return $conn;
+  }
 
 
   /* -------------------------------------------------
