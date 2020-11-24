@@ -204,14 +204,17 @@ class Course_Model extends CI_Model
   public function userProgress($courseId, $studentId)
   {
     $lessons = $this->getLessonsListFromCourse($courseId);
-    $lessonList = $lessons["lessons"];
+    if ($lessons){
 
+    $lessonList = $lessons["lessons"];
     $numberOfLessons = $lessons["numberOfLessons"];
     $completedLessons = $this->getLessonsCompletedByTheUserToCorrection($lessonList, $studentId);
 
     $percentageOfCourseCompleted = (($completedLessons * 100) / $numberOfLessons);
 
     return $percentageOfCourseCompleted;
+    }
+
   }
 
 

@@ -289,13 +289,12 @@ class User_Model extends CI_Model
     $newArray = array();
     if ($query->num_rows() > 0) {
       foreach ($query->result() as $row) {
-        $progress = $this->Course_Model->userProgress($row->id, $userId);
         $ar = array(
           'id' => $row->id,
           'title' => $row->title,
           'edit' => $row->edit,
           'delete' => $row->delete,
-          'progress' => $progress
+          'progress' => $this->Course_Model->userProgress($row->id, $userId)
         );
         array_push($newArray, $ar);
       }
