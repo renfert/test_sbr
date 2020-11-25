@@ -180,7 +180,6 @@ export default {
 
     if (this.user.name !== 'default') {
       this.firstStep = false;
-      alert('teste');
     }
   },
   beforeDestroy() {
