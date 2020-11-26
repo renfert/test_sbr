@@ -34,6 +34,7 @@ class Company_Model extends CI_Model
     $query = $this->db->get();
     $result = $query->result()[0];
     $subdomain = $result->subdomain;
+    $country = $result->country;
    
     // Update mycompany
     $data = array(
@@ -51,6 +52,34 @@ class Company_Model extends CI_Model
       ':goal' => $goal,
       ':userphone' => $phone,
     ));
+
+    // Send trial email
+    $this->db->select("*");
+    $this->db->from("myuser");
+    $this->db->where("id",1);
+    $query = $this->db->get();
+    if($query->num_rows() > 0){
+      $result= $query->result()[0];
+      $userName = $result->name;
+      $userEmail = $result->email;
+    }
+
+  
+
+    $params = array(
+      'email' => 'trial@sabiorealm.com',
+      'userName' => $userName,
+      'userEmail' => $userEmail,
+      'userPhone' => $phone,
+      'subdomainName' => $subdomain,
+      'country' => $country,
+      'step' => $step,
+      'goal' => $goal,
+      'date' => getCurrentDate("Y-m-d"),
+      'template-email' => 'new_trial',
+      'subject' => 'new-trial'
+    );
+    sendEmail($params);
  
     return $stmt->rowCount();   
   }
