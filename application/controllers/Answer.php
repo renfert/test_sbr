@@ -59,7 +59,7 @@ class Answer extends CI_Controller {
 
     public function changeStatus(){
         $answerId = $this->input->post("answerId");
-        $status = $this->input->post("status");
+        $this->input->post("status") == "null" ? $status = null : $status = $this->input->post("status"); 
         $result = $this->Answer_Model->changeStatus($answerId, $status);
         echo json_encode($result);
     }

@@ -113,7 +113,7 @@ export default {
           if (input.files && input.files[0]) {
             const acceptable = ins.acceptable;
             if (
-              acceptable.indexOf(fileExtension) === -1 &&
+              acceptable.indexOf(fileExtension.toLowerCase()) === -1 &&
               acceptable !== '.*'
             ) {
               ins.message = 'Invalid extension: ' + fileExtension + '';

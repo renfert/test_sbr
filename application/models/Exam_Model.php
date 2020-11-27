@@ -171,14 +171,8 @@ class Exam_Model extends CI_Model
   public function updateExamScore($questionScore, $examId, $studentId)
   {
     $currentExamScore = $this->getCurrentExamScore($examId, $studentId);
-    $newScore = $currentExamScore + $questionScore;
-
-    /* Bug fix */
-    if ($newScore >= 99) {
-      $newScore = 100;
-    }
-
-
+    $newScore = ceil($currentExamScore) + ceil($questionScore);
+    $newScore > 100 ? $newScore = 100 : $newScore = $newScore;
 
     $data = array(
       'score' => $newScore,

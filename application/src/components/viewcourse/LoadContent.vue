@@ -41,7 +41,7 @@
         <!-- Title -->
         <h2 class="card-title text-center mt-5">{{ title }}</h2>
         <h3 class="card-title h6 pl-5 pr-5 text-center">{{ description }}</h3>
-        <hr class="my-4 rgba-white-light"/>
+        <hr class="my-4 rgba-white-light" />
 
         <div class="row gap-10">
           <div class="col-12 col-md-4 text-center">
@@ -60,15 +60,15 @@
                 src="@/assets/img/general/ux/webinar.png"
                 class="content-icons"
               />
-              <br/>
-              <br/>
+              <br />
+              <br />
               <el-button class="sbr-primary" size="medium">
                 <a
                   @click="finishLesson()"
                   :href="url"
                   target="_blank"
                   class="text-white"
-                >{{ lang['enter'] }}</a
+                  >{{ lang['enter'] }}</a
                 >
               </el-button>
             </div>
@@ -93,7 +93,7 @@
         <!-- Title -->
         <h2 class="card-title text-center mt-5">{{ title }}</h2>
         <h3 class="card-title h6 pl-5 pr-5 text-center">{{ description }}</h3>
-        <hr class="my-4 rgba-white-light"/>
+        <hr class="my-4 rgba-white-light" />
 
         <div class="row gap-10">
           <div class="col-12 col-md-4 text-center">
@@ -113,15 +113,15 @@
                 class="content-icons"
                 alt="clock"
               />
-              <br/>
-              <br/>
+              <br />
+              <br />
               <el-button class="sbr-primary" size="medium">
                 <a
                   class="text-white"
                   @click="finishLesson()"
                   :href="url"
                   target="_blank"
-                >{{ lang['enter'] }}</a
+                  >{{ lang['enter'] }}</a
                 >
               </el-button>
             </div>
@@ -145,21 +145,21 @@
       <div class="webinar-container" v-if="showDownloadable">
         <!-- Title -->
         <h2 class="card-title text-center mt-5">{{ title }}</h2>
-        <hr class="my-4 rgba-white-light"/>
+        <hr class="my-4 rgba-white-light" />
 
         <div class="text-center gap-10">
           <img
             src="@/assets/img/general/ux/download.png"
             class="content-icons mb-3"
           />
-          <br/>
+          <br />
           <el-button class="sbr-primary" size="medium">
             <a
               @click="finishLesson()"
               :href="this.$getUrlToContents() + 'content/' + path + ''"
               download
               class="text-white"
-            >{{ lang['download'] }}</a
+              >{{ lang['download'] }}</a
             >
           </el-button>
         </div>
@@ -171,13 +171,13 @@
       <div class="html-container" v-if="showHtml">
         <!-- Title -->
         <h2 class="card-title h2 text-center">{{ title }}</h2>
-        <hr class="my-4 rgba-white-light"/>
+        <hr class="my-4 rgba-white-light" />
         <iframe
           width="100%"
           id="htmlPreview"
           allowfullscreen
           frameborder="0"
-          style="width: 100%; height: 500px;border-width: 0"
+          style="width: 100%; height: 500px; border-width: 0"
         >
         </iframe>
         <div v-if="this.drawHtmlFrame()"></div>
@@ -217,9 +217,8 @@
                 parseInt(overview['yourScore']) < parseInt(approval) &&
                 overview['waitingEvaluationQuestions'] == 0
               "
-            >{{ lang['not-passed'] }}
-            </el-tag
-            >
+              >{{ lang['not-passed'] }}
+            </el-tag>
 
             <el-tag
               type="success"
@@ -227,19 +226,17 @@
                 parseInt(overview['yourScore']) >= parseInt(approval) &&
                 overview['waitingEvaluationQuestions'] == 0
               "
-            >{{ lang['passed'] }}
-            </el-tag
-            >
+              >{{ lang['passed'] }}
+            </el-tag>
 
             <el-tag
               type="warning"
               v-if="overview['waitingEvaluationQuestions'] != 0"
-            >{{ lang['exam-in-progress'] }}
-            </el-tag
-            >
+              >{{ lang['exam-in-progress'] }}
+            </el-tag>
           </div>
         </div>
-        <hr class="my-4 rgba-white-light"/>
+        <hr class="my-4 rgba-white-light" />
 
         <div class="row gap-10">
           <div class="col-12 col-md-4 text-center">
@@ -283,7 +280,7 @@
                 "
               />
 
-              <br/>
+              <br />
 
               <!-- Start exam button -->
               <el-button
@@ -291,9 +288,8 @@
                 class="sbr-primary mt-3"
                 v-if="parseInt(userRetests) == 0"
                 @click="openExamModal(lessonId)"
-              >{{ lang['start-exam'] }}
-              </el-button
-              >
+                >{{ lang['start-exam'] }}
+              </el-button>
 
               <!-- Start retest button -->
               <div
@@ -308,32 +304,15 @@
                   size="medium"
                   class="sbr-primary mt-3"
                   @click="openExamModal(lessonId)"
-                >{{ lang['start-retest'] }}
-                </el-button
-                >
+                  >{{ lang['start-retest'] }}
+                </el-button>
                 <el-button
                   size="medium"
                   class="sbr-purple mt-3"
                   @click="openCorrection(lessonId)"
-                >{{ lang['see-exam-correction'] }}
-                </el-button
-                >
+                  >{{ lang['see-exam-correction'] }}
+                </el-button>
               </div>
-
-              <!-- Start retest button -->
-              <el-button
-                size="medium"
-                class="sbr-primary mt-3"
-                v-if="
-                  parseInt(userRetests) < parseInt(retest) &&
-                  parseInt(userRetests) != 0 &&
-                  parseInt(overview['yourScore']) < parseInt(approval) &&
-                  parseInt(overview['waitingEvaluationQuestions']) == 0
-                "
-                @click="openExamModal(lessonId)"
-              >{{ lang['start-retest'] }}
-              </el-button
-              >
 
               <!-- Correction button -->
               <el-button
@@ -345,9 +324,8 @@
                   overview['waitingEvaluationQuestions'] != 0
                 "
                 @click="openCorrection(lessonId)"
-              >{{ lang['see-exam-correction'] }}
-              </el-button
-              >
+                >{{ lang['see-exam-correction'] }}
+              </el-button>
             </div>
           </div>
 
@@ -382,14 +360,13 @@
               src="@/assets/img/general/ux/correction.png"
               alt="download"
             />
-            <br/>
+            <br />
             <el-button
               @click.prevent="openCorrection(lessonId)"
               href="javascript:void(0)"
               class="sbr-primary"
-            >{{ lang['see-result'] }}
-            </el-button
-            >
+              >{{ lang['see-result'] }}
+            </el-button>
           </div>
         </el-dialog>
       </div>
@@ -405,15 +382,13 @@ import ExamCorrection, {
   eventCorrection
 } from '@/components/viewcourse/correction/ExamCorrection';
 
-import {eventBus} from '@/components/viewcourse/App';
-import {FacebookLoader} from 'vue-content-loader';
-import {mapState} from 'vuex';
-import S3 from 'aws-sdk/clients/s3';
-import AWS from 'aws-sdk/global';
+import { eventBus } from '@/components/viewcourse/App';
+import { FacebookLoader } from 'vue-content-loader';
+import { mapState } from 'vuex';
 
 Vue.use(VuePlyr, {
   plyr: {
-    fullscreen: {enabled: true}
+    fullscreen: { enabled: true }
   },
   emit: ['ended']
 });
@@ -460,7 +435,6 @@ export default {
     FacebookLoader
   },
   created() {
-
     this.courseId = this.$route.params.id;
     this.$verifyCourseReleased(this.courseId);
     this.$verifyCourseExpiration(this.courseId);
@@ -482,13 +456,11 @@ export default {
       this.modal = true;
       this.getExamOverview();
     });
-
   },
   computed: {
     ...mapState(['lang'])
   },
   methods: {
-
     finishLesson() {
       if (this.lessonStatus !== 'finished') {
         const formData = new FormData();
@@ -572,7 +544,7 @@ export default {
         );
         this.$request.get(urlToBeUsedInTheRequest).then(
           (response) => {
-            resolve(this.subDomainName = response.data);
+            resolve((this.subDomainName = response.data));
           },
           () => {
             this.$errorMessage();
@@ -618,11 +590,7 @@ export default {
       const x = document.getElementById('htmlPreview');
       const y = x.contentWindow.document;
       y.open();
-      y.writeln(
-        myHtml +
-        myScript +
-        myCss
-      );
+      y.writeln(myHtml + myScript + myCss);
       y.close();
     },
     openExamModal(examId) {

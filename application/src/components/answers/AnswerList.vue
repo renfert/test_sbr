@@ -238,8 +238,8 @@ export default {
       const ar = [];
       const formData = new FormData();
 
-      $('.answer').each((index) => {
-        const id = $(this).attr('id');
+      $('.answer').each((index, element) => {
+        const id = $(element).attr('id');
         ar.push({ id: id, index: index });
       });
 
