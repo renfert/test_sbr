@@ -56,6 +56,7 @@
         </div>
       </div>
     </section>
+    <the-footer class="top-10"></the-footer>
   </div>
   <!-- End of wrapper -->
 </template>
@@ -68,6 +69,7 @@ import Banner from '@/components/product/Banner';
 import Thumb from '@/components/product/Thumb';
 import Tabs from '@/components/product/Tabs';
 import Price from '@/components/product/Price';
+import TheFooter from '@/components/template/TheFooter';
 
 Vue.use(VueHead);
 
@@ -107,7 +109,8 @@ export default {
     Thumb,
     Tabs,
     Price,
-    NavBar
+    NavBar,
+    TheFooter
   },
   mounted() {
     this.getMpCurrency();
