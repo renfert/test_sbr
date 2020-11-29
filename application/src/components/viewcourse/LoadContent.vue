@@ -157,10 +157,10 @@
             <a
               @click="finishLesson()"
               :href="this.$getUrlToContents() + 'content/' + path + ''"
-              download
+              download="content.xlxs"
               class="text-white"
-              >{{ lang['download'] }}</a
-            >
+              >{{ lang['download'] }}
+            </a>
           </el-button>
         </div>
       </div>
@@ -407,6 +407,7 @@ export default {
       userRetests: '',
       lessonId: '',
       lessonStatus: '',
+      realName: '',
 
       componentKey: 0,
 
@@ -569,6 +570,7 @@ export default {
           this.url = response.data.url;
           this.approval = response.data.approval;
           this.retest = response.data.retest;
+          this.realName = response.data.real_name;
           this.renderLesson(response.data.type_mylesson_id);
         },
         () => {

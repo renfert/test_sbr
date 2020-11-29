@@ -212,6 +212,10 @@ export default {
   max-width: 100% !important;
 }
 
+.card-title {
+  height: 60px;
+}
+
 .card-title a {
   font-family: 'Poppins', sans-serif;
   word-break: break-word !important;
