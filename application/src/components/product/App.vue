@@ -115,7 +115,7 @@ export default {
   mounted() {
     this.getMpCurrency();
     const title = this.$route.params.title;
-    this.courseTitle = title.split('-').join(' ');
+    this.courseTitle = title.split('-').join(' ').split('&').join('-');
     this.getColor();
     this.createMetaTags();
   },

@@ -337,7 +337,7 @@ export default {
   },
   methods: {
     formatTitleParameter(title) {
-      const newTitle = title.split(' ').join('-');
+      const newTitle = title.split('-').join('&').split(' ').join('-');
       return newTitle.toLowerCase();
     },
     rateAverage(totalRate, totalReviews) {
